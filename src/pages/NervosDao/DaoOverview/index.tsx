@@ -1,5 +1,4 @@
 import { ReactNode, useCallback, FC } from 'react'
-import { useQuery } from 'react-query'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
@@ -8,7 +7,6 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/legendScroll'
 import { Tooltip } from 'antd'
 import { useAppState } from '../../../contexts/providers'
-import { fetchStatisticNewDaoDeposit } from '../../../service/http/fetcher'
 import {
   DaoOverviewPanel,
   DaoOverviewLeftPanel,
@@ -136,18 +134,7 @@ const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; fi
 const NervosDaoOverviewLeftComp: FC<{ nervosDao: State.NervosDao }> = ({ nervosDao }) => {
   const isMobile = useIsMobile()
 
-  /*
-   * FIXME: this is only a patch, should be removed when data from API is correct
-   */
-  const { data: patchNervosDao } = useQuery(['nervos-dao-daily-patch'], () =>
-    fetchStatisticNewDaoDeposit().then(res => res.data?.[res.data?.length - 1]?.attributes),
-  )
-
-  const leftItems = nervosDaoItemContents({
-    ...nervosDao,
-    depositChanges: patchNervosDao?.dailyDaoDeposit ?? nervosDao.depositChanges,
-    depositorChanges: patchNervosDao?.dailyDaoDepositorsCount ?? nervosDao.depositorChanges,
-  })
+  const leftItems = nervosDaoItemContents(nervosDao)
 
   if (isMobile) {
     return (

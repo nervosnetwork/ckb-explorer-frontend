@@ -8,12 +8,12 @@ import { AddressTransactions, AddressOverview } from './AddressComp'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultAddressInfo } from './state'
-import { usePaginationParamsInPage } from '../../utils/hook'
+import { usePaginationParamsInListPage } from '../../utils/hook'
 import { isAxiosError } from '../../utils/error'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
-  const { currentPage, pageSize } = usePaginationParamsInPage()
+  const { currentPage, pageSize } = usePaginationParamsInListPage()
 
   const addressInfoQuery = useQuery(['address_info', address], async () => {
     const wrapper = await fetchAddressInfo(address)

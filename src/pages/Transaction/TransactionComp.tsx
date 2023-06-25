@@ -35,7 +35,7 @@ import { fetchTransactionLiteDetailsByHash } from '../../service/http/fetcher'
 import { WithdrawPopoverInfo } from '../../components/TransactionItem/TransactionItemCell'
 import { LayoutLiteProfessional } from '../../constants/common'
 
-const showTxStatus = (txStatus: string) => txStatus.replace(/^\S/, s => s.toUpperCase())
+const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
   <TransactionBlockHeightPanel>

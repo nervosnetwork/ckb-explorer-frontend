@@ -88,6 +88,7 @@
       "new_dao_withdraw": "每日新增解锁",
       "circulation_ratio": "锁定量占当前流通量比率",
       "live_cell": "未花费 Cell",
+      "dead_cell": "已消费 Cell",
       "archived_cell": "已花费 Cell",
       "all_cells": "所有的 Cell",
       "cell_count": "Cell 数量",
@@ -234,7 +235,8 @@
       "view-new-address": "查看新地址",
       "visit-deprecated-address": "查看废弃地址格式",
       "view-deprecated-address": "展示旧地址格式",
-      "displaying-deprecated-address": "正在以旧格式地址展示"
+      "displaying-deprecated-address": "正在以旧格式地址展示",
+      "currentAddress":"当前地址"
     },
     "transaction": {
       "transaction": "交易",

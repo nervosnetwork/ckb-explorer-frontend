@@ -260,7 +260,7 @@ export const FeeRateTransactionCountChartCore = ({
           axisLine: {
             show: false,
           },
-          data: feeRateCountList.map(([feeRate]) => new BigNumber(+feeRate * 1000).toFormat()),
+          data: feeRateCountList.map(([feeRate]) => new BigNumber(+feeRate * 1000).toFormat(0)),
         },
         yAxis: {
           position: 'left',

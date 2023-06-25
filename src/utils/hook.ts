@@ -10,9 +10,10 @@ import {
 import { useHistory, useLocation } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { useResizeDetector } from 'react-resize-detector'
+import { interval, share } from 'rxjs'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
-import { parsePageNumber, startEndEllipsis } from './string'
+import { startEndEllipsis } from './string'
 import { ListPageParams, PageParams } from '../constants/common'
 import {
   fetchCachedData,
@@ -22,6 +23,7 @@ import {
   storeDateChartCache,
   storeEpochChartCache,
 } from './cache'
+import { parseDate } from './date'
 
 /**
  * Returns the value of the argument from the previous render
@@ -212,8 +214,8 @@ export function usePaginationParamsFromSearch(opts: {
   const { defaultPage = 1, maxPage = Infinity, defaultPageSize = 10, maxPageSize = 100 } = opts
   const updateSearchParams = useUpdateSearchParams<'page' | 'size'>()
   const params = useSearchParams('page', 'size')
-  const currentPage = parsePageNumber(params.page, defaultPage)
-  const pageSize = parsePageNumber(params.size, defaultPageSize)
+  const currentPage = Number.isNaN(Number(params.page)) ? defaultPage : Number(params.page)
+  const pageSize = Number.isNaN(Number(params.size)) ? defaultPageSize : Number(params.size)
 
   useEffect(() => {
     const pageSizeOversized = pageSize > maxPageSize
@@ -499,6 +501,24 @@ export const useAnimationFrame = (callback: () => void, running: boolean = true)
 
     return () => window.cancelAnimationFrame(requestId)
   }, [running])
+}
+
+const secondSignal$ = interval(1000).pipe(share())
+
+export function useTimestamp(): number {
+  const [timestamp, setTimestamp] = useState(Date.now())
+
+  useEffect(() => {
+    const sub = secondSignal$.subscribe(() => setTimestamp(Date.now()))
+    return () => sub.unsubscribe()
+  }, [])
+
+  return timestamp
+}
+
+export function useParsedDate(timestamp: number): string {
+  const now = useTimestamp()
+  return parseDate(timestamp, now)
 }
 
 export default {

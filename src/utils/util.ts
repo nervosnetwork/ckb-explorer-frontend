@@ -4,7 +4,12 @@ import JSBI from 'jsbi'
 import BigNumber from 'bignumber.js'
 import { scriptToAddress, addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { MAX_CONFIRMATION, TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY, TOKEN_EMAIL_ADDRESS } from '../constants/common'
-import { ContractHashTag, MainnetContractHashTags, TestnetContractHashTags } from '../constants/scripts'
+import {
+  ContractHashTag,
+  MainnetContractHashTags,
+  ScriptTagExtraRules,
+  TestnetContractHashTags,
+} from '../constants/scripts'
 import i18n from './i18n'
 import { isMainnet } from './chain'
 
@@ -84,6 +89,18 @@ export const isValidReactNode = (node: ReactNode) => {
     return node.findIndex(item => !!item) > -1
   }
   return !!node
+}
+
+export const getContractHashTag = (script: State.Script): ContractHashTag | undefined => {
+  if (!script.codeHash || !script.hashType) return undefined
+  const contractHashTag = matchScript(script.codeHash, script.hashType)
+  if (!!contractHashTag && ScriptTagExtraRules.has(contractHashTag.tag)) {
+    return {
+      ...contractHashTag,
+      tag: ScriptTagExtraRules.get(contractHashTag.tag)?.(script as State.Script) || contractHashTag.tag,
+    }
+  }
+  return contractHashTag
 }
 
 export const matchScript = (contractHash: string, hashType: string): ContractHashTag | undefined => {

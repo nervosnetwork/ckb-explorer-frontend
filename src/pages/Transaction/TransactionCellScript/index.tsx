@@ -22,7 +22,7 @@ import { AppActions } from '../../../contexts/actions'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { useDispatch } from '../../../contexts/providers'
 import CloseIcon from '../../../assets/modal_close.png'
-import { matchScript } from '../../../utils/util'
+import { getContractHashTag } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import HashTag from '../../../components/HashTag'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
@@ -69,7 +69,7 @@ const handleFetchCellInfo = async (
       const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('lock_scripts', `${cell.id}`)
       return wrapper ? wrapper.attributes : initScriptContent.lock
     }
-    return cell.cellInfo.lock || initScriptContent.lock
+    return initScriptContent.lock
   }
 
   const fetchType = async () => {
@@ -77,7 +77,7 @@ const handleFetchCellInfo = async (
       const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('type_scripts', `${cell.id}`)
       return wrapper ? wrapper.attributes : initScriptContent.type
     }
-    return cell.cellInfo.type || initScriptContent.type
+    return initScriptContent.type
   }
 
   const fetchData = async () => {
@@ -107,14 +107,7 @@ const handleFetchCellInfo = async (
           return null
         })
     }
-    let dataValue: State.Data
-    if (cell.cellInfo.data !== '0x') {
-      dataValue = {
-        data: cell.cellInfo.data,
-      }
-    } else {
-      dataValue = initScriptContent.data
-    }
+    const dataValue: State.Data = initScriptContent.data
     return dataValue
   }
 
@@ -188,9 +181,7 @@ const ScriptContent = ({
   content: State.Script | State.Data | CapacityUsage | undefined
   state: CellState
 }) => {
-  const hashTag = (content as State.Script).codeHash
-    ? matchScript((content as State.Script).codeHash, (content as State.Script).hashType)
-    : undefined
+  const hashTag = getContractHashTag(content as State.Script)
   const data = content as State.Data
   const script = content as State.Script
 

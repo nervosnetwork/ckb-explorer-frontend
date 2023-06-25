@@ -4,6 +4,7 @@ import { Popover, Tooltip } from 'antd'
 import classNames from 'classnames'
 import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
+import CurrentAddressIcon from '../../../assets/current_address.svg'
 import UDTTokenIcon from '../../../assets/udt_token.png'
 import i18n from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
@@ -214,11 +215,13 @@ const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellTy
   )
 }
 
-const TransactionCellUDT = ({ cell }: { cell: State.Cell }) => {
+const TransactionCellUDT = ({ cell }: { cell: State.Cell$UDT }) => {
   const isMobile = useIsMobile()
+  const { extraInfo } = cell
+
   return (
     <TransactionCellUDTPanel>
-      <span>{udtAmount(cell.udtInfo)}</span>
+      <span>{udtAmount(extraInfo)}</span>
       <Tooltip
         placement={isMobile ? 'topRight' : 'top'}
         title={`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
@@ -237,9 +240,11 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: State.Cell; cellTyp
   if (isDaoCell(cell.cellType)) {
     return <TransactionCellNervosDao cell={cell} cellType={cellType} />
   }
-  if (cell.udtInfo && cell.udtInfo.typeHash) {
+
+  if (cell.cellType === 'udt') {
     return <TransactionCellUDT cell={cell} />
   }
+
   return (
     <div className="transaction__cell__without__icon">
       <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
@@ -248,6 +253,7 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: State.Cell; cellTyp
 }
 
 const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
+  const isMobile = useIsMobile()
   if (cell.fromCellbase) {
     return <Cellbase cell={cell} cellType={cellType} />
   }
@@ -265,8 +271,18 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
         {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         <AddressTextWithAlias address={addressText} to={highLight ? `/address/${cell.addressHash}` : undefined} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
+        {!highLight && !isMobile && (
+          <Tooltip placement="top" title={`${i18n.t('address.currentAddress')} `}>
+            <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
+          </Tooltip>
+        )}
       </div>
       <TransactionCellCapacityPanel>
+        {!highLight && isMobile && (
+          <Tooltip placement="top" title={`${i18n.t('address.currentAddress')} `}>
+            <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
+          </Tooltip>
+        )}
         <TransactionCellCapacity cell={cell} cellType={cellType} />
       </TransactionCellCapacityPanel>
     </TransactionCellPanel>

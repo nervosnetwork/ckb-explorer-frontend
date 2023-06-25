@@ -209,6 +209,10 @@ export const OverviewItemPanel = styled.div`
       margin-top: 2px;
     }
 
+    svg {
+      cursor: pointer;
+    }
+
     a {
       color: ${props => props.theme.primary};
     }

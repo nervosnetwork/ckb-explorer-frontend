@@ -25,20 +25,7 @@ declare namespace State {
     message: string[]
   }
 
-  type CellTypes =
-    | 'normal'
-    | 'nervos_dao_deposit'
-    | 'nervos_dao_withdrawing'
-    | 'udt'
-    | 'm_nft_issuer'
-    | 'm_nft_class'
-    | 'm_nft_token'
-    | 'nrc_721_token'
-    | 'cota_registry'
-    | 'cota_regular'
-    | 'nft_transfer'
-    | 'simple_transfer'
-    | 'nft_mint'
+  type CellTypes = Cell['cellType']
 
   interface UDTInfo {
     symbol: string
@@ -47,6 +34,11 @@ declare namespace State {
     typeHash: string
     published: boolean
     uan?: string
+  }
+
+  interface Nrc721TokenInfo {
+    amount: string
+    symbol: string
   }
 
   interface NftIssuer {
@@ -64,7 +56,13 @@ declare namespace State {
     total: string
   }
 
-  interface Cell {
+  interface CellInfo {
+    lock: Script
+    type: Script
+    data: string
+  }
+
+  interface Cell$Base {
     id: number
     addressHash: string
     capacity: string
@@ -78,7 +76,6 @@ declare namespace State {
     consumedTxHash: string
     status: 'live' | 'dead'
     isGenesisOutput: boolean
-    cellType: CellTypes
     cellIndex: string
     compensationStartedBlockNumber: number
     compensationEndedBlockNumber: number
@@ -88,39 +85,70 @@ declare namespace State {
     lockedUntilBlockTimestamp: number
     interest: string
     daoTypeHash: string
-    udtInfo: UDTInfo
     cellInfo: CellInfo
-    mNftInfo: NftIssuer | NftClass | NftToken
-    nrc721TokenInfo: Record<'amount' | 'symbol', string>
     since?: {
       raw: string
       median_timestamp?: string
     }
   }
 
+  interface Cell$NoExtra extends Cell$Base {
+    cellType:
+      | 'normal'
+      | 'nervos_dao_deposit'
+      | 'nervos_dao_withdrawing'
+      | 'cota_registry'
+      | 'cota_regular'
+      | 'nft_transfer'
+      | 'simple_transfer'
+      | 'nft_mint'
+    extraInfo?: never
+  }
+
+  interface Cell$UDT extends Cell$Base {
+    cellType: 'udt'
+    extraInfo: UDTInfo
+  }
+
+  interface Cell$NftIssuer extends Cell$Base {
+    cellType: 'm_nft_issuer'
+    extraInfo: NftIssuer
+  }
+
+  interface Cell$NftClass extends Cell$Base {
+    cellType: 'm_nft_class'
+    extraInfo: NftClass
+  }
+
+  interface Cell$NftToken extends Cell$Base {
+    cellType: 'm_nft_token'
+    extraInfo: NftToken
+  }
+
+  interface Cell$Nrc721Token extends Cell$Base {
+    cellType: 'nrc_721_token'
+    extraInfo: Nrc721TokenInfo
+  }
+
+  type Cell = Cell$NoExtra | Cell$UDT | Cell$NftIssuer | Cell$NftClass | Cell$NftToken | Cell$Nrc721Token
+
   export interface TransactionLiteDetails {
-    address: string;
-    transfers: Transfer[];
+    address: string
+    transfers: Transfer[]
   }
 
   interface Transfer {
-    tokenName: string;
-    capacity: number;
-    transferType: CellTypes;
-    compensationStartedBlockNumber: number;
-    compensationEndedBlockNumber: number;
-    compensationStartedTimestamp: number;
-    compensationEndedTimestamp: number;
-    interest: number;
-    lockedUntilBlockNumber: number;
-    lockedUntilBlockTimestamp: number;
-    nftId: number | string;
-  }
-
-  export interface CellInfo {
-    lock: Script
-    type: Script
-    data: string
+    tokenName: string
+    capacity: number
+    transferType: CellTypes
+    compensationStartedBlockNumber: number
+    compensationEndedBlockNumber: number
+    compensationStartedTimestamp: number
+    compensationEndedTimestamp: number
+    interest: number
+    lockedUntilBlockNumber: number
+    lockedUntilBlockTimestamp: number
+    nftId: number | string
   }
 
   export interface LockInfo {
@@ -569,7 +597,7 @@ declare namespace State {
     statistics: Statistics
   }
 
-  export interface PagePayload extends PageState { }
+  export interface PagePayload extends PageState {}
 
   export interface App {
     toast: ToastMessage | null
