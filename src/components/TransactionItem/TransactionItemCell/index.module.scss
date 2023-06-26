@@ -34,3 +34,12 @@
     width: 460px;
   }
 }
+
+.currentAddressIcon {
+  margin-left: 6px;
+  width: 14px;
+
+  @media (max-width: 750px) {
+    margin-bottom: 2px;
+  }
+}

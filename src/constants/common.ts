@@ -95,7 +95,7 @@ export enum ListPageParams {
 
 export const ChartColor = {
   areaColor: '#31EEB3',
-  colors: ['#5824FB', '#66CC99'],
+  colors: ['#5824FB', '#31EEB3', '#484E4E'],
   moreColors: ['#5824FB', '#66CC99', '#FBB04C', '#525860'],
   totalSupplyColors: ['#5824FB', '#31EEB3', '#484E4E'],
   daoColors: ['#5824FB', '#31EEB3', '#484E4E'],
