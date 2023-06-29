@@ -1,21 +1,3 @@
-.container {
-  &[data-is-fallback='true'] {
-    & > div:last-child {
-      opacity: 0;
-      position: absolute;
-      width: 0;
-      height: 0;
-    }
-  }
-  &[data-is-fallback='false'] {
-    & > div:first-child {
-      opacity: 0;
-      position: absolute;
-      width: 0;
-      height: 0;
-    }
-  }
-}
 .banner {
   background: #000;
   --rendererWidth: 1200px;
