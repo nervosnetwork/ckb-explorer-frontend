@@ -250,11 +250,24 @@ export function usePaginationParamsFromSearch(opts: {
     [maxPageSize, updateSearchParams],
   )
 
+  const watchServerPageSize = useCallback(
+    (newPageSize?: number) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useEffect(() => {
+        if (newPageSize && newPageSize !== pageSize) {
+          setPageSize(newPageSize)
+        }
+      }, [newPageSize])
+    },
+    [pageSize, setPageSize],
+  )
+
   return {
     currentPage: Math.min(currentPage, maxPage),
     pageSize: Math.min(pageSize, maxPageSize),
     setPage,
     setPageSize,
+    watchServerPageSize,
   }
 }
 

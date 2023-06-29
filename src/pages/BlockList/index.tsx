@@ -153,7 +153,7 @@ export default () => {
     [t],
   )
 
-  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { currentPage, pageSize, setPage, watchServerPageSize } = usePaginationParamsInListPage()
   const { state } = useLocation<RouteState>()
   const stateStaleTime = 3000
 
@@ -164,6 +164,7 @@ export default () => {
       return {
         blocks: data.map(wrapper => wrapper.attributes),
         total: meta?.total ?? 0,
+        pageSize: meta?.pageSize,
       }
     },
     {
@@ -181,6 +182,8 @@ export default () => {
     ...b,
     minerHash: deprecatedAddrToNewAddr(b.minerHash),
   }))
+
+  watchServerPageSize(query.data?.pageSize)
 
   return (
     <Content>

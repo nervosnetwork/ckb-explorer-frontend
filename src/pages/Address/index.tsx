@@ -13,7 +13,7 @@ import { isAxiosError } from '../../utils/error'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
-  const { currentPage, pageSize } = usePaginationParamsInListPage()
+  const { currentPage, pageSize, watchServerPageSize } = usePaginationParamsInListPage()
 
   const addressInfoQuery = useQuery(['address_info', address], async () => {
     const wrapper = await fetchAddressInfo(address)
@@ -30,6 +30,7 @@ export const Address = () => {
       return {
         transactions: data.map(wrapper => wrapper.attributes),
         total: meta ? meta.total : 0,
+        pageSize: meta?.pageSize,
       }
     } catch (err) {
       const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
@@ -42,6 +43,8 @@ export const Address = () => {
       throw err
     }
   })
+
+  watchServerPageSize(addressTransactionsQuery.data?.pageSize)
 
   return (
     <Content>

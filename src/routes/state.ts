@@ -4,6 +4,7 @@ export interface RouteState$BlockListPage {
   blocksDataWithFirstPage: {
     blocks: State.Block[]
     total: number
+    pageSize?: number
   }
 }
 
