@@ -29,8 +29,7 @@ export const Address = () => {
       const { data, meta } = await fetchTransactionsByAddress(address, currentPage, pageSize)
       return {
         transactions: data.map(wrapper => wrapper.attributes),
-        total: meta?.total ?? 0,
-        pageSize: meta?.pageSize,
+        total: meta ? meta.total : 0,
       }
     } catch (err) {
       const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
@@ -64,7 +63,6 @@ export const Address = () => {
               address={address}
               transactions={data.transactions}
               transactionsTotal={data.total}
-              transactionsPageSize={data.pageSize}
               addressInfo={addressInfoQuery.data ?? defaultAddressInfo}
             />
           )}
