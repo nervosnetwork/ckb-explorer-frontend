@@ -300,19 +300,24 @@ export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => 
   )
 }
 
+type AddressTransactionsProps = {
+  address: string
+  transactions: State.Transaction[]
+  transactionsPageSize?: number
+  transactionsTotal: number
+  addressInfo: State.Address
+}
+
 export const AddressTransactions = ({
   address,
   transactions,
   transactionsTotal: total,
+  transactionsPageSize: realPageSize,
   addressInfo: { addressHash },
-}: {
-  address: string
-  transactions: State.Transaction[]
-  transactionsTotal: number
-  addressInfo: State.Address
-}) => {
+}: AddressTransactionsProps) => {
   const isMobile = useIsMobile()
-  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { currentPage, pageSize: defaultPageSize, setPage } = usePaginationParamsInListPage()
+  const pageSize = realPageSize ?? defaultPageSize
   const searchParams = useSearchParams('layout')
   const defaultLayout = 'professional'
   const updateSearchParams = useUpdateSearchParams<'layout'>()
