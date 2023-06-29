@@ -399,7 +399,8 @@
     },
     "error": {
       "maintain": "网络维护中，请稍后再试",
-      "page_crashed_tip": "遇到了一些错误"
+      "page_crashed_tip": "遇到了一些错误",
+      "back_home": "前往首页"
     },
     "pagination": {
       "first": "首页",
