@@ -9,8 +9,7 @@ $backgroudColor: #232323;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: auto 100%;
-  @media(max-width: 750px) {
+  @media (max-width: 750px) {
     background-image: url('../../assets/ckb_explorer_banner_phone.svg');
   }
-  
 }

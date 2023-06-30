@@ -237,7 +237,7 @@
       "visit-deprecated-address": "View in deprecated address format",
       "view-deprecated-address": "Display deprecated addresses",
       "displaying-deprecated-address": "Displaying in deprecated address format",
-      "currentAddress":"Current Address"
+      "currentAddress": "Current Address"
     },
     "transaction": {
       "transaction": "Transaction",
