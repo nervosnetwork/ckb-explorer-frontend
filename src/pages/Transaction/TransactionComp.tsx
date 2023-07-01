@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { useState, ReactNode, FC } from 'react'
 import { useQuery } from 'react-query'
-import { Popover } from 'antd'
+import { Tooltip } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -32,7 +32,6 @@ import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import styles from './styles.module.scss'
 import { defaultTransactionLiteDetails } from './state'
 import { fetchTransactionLiteDetailsByHash } from '../../service/http/fetcher'
-import { WithdrawPopoverInfo } from '../../components/TransactionItem/TransactionItemCell'
 import { LayoutLiteProfessional } from '../../constants/common'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
@@ -359,7 +358,7 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
 
 export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ transaction }) => {
   const { hash: txHash } = useParams<{ hash: string }>()
-  const { displayInputs, isCellbase } = transaction
+  const { isCellbase } = transaction
 
   const query = useQuery(['ckb_transaction_details', txHash], async () => {
     const ckbTransactionDetails = await fetchTransactionLiteDetailsByHash(txHash)
@@ -388,28 +387,30 @@ export const TransactionCompLite: FC<{ transaction: State.Transaction }> = ({ tr
                         <div>
                           {(items.transferType && items.transferType === 'nervos_dao_deposit') ||
                           items.transferType === 'nervos_dao_withdrawing' ? (
-                            <Popover
-                              placement="right"
-                              title=""
-                              content={<WithdrawPopoverInfo cell={displayInputs[0]} cellV2={items} />}
-                              trigger="click"
+                            <Tooltip
+                              placement="top"
+                              title={
+                                <div>
+                                  {items.transferType === 'nervos_dao_deposit'
+                                    ? i18n.t('transaction.nervos_dao_deposit')
+                                    : i18n.t('transaction.nervos_dao_withdraw')}
+                                </div>
+                              }
                             >
                               <span className={styles.tag}>
                                 {isDaoWithdrawCell(items.transferType)
                                   ? i18n.t('nervos_dao.withdraw_tooltip')
                                   : i18n.t('nervos_dao.withdraw_request_tooltip')}
                               </span>
-                            </Popover>
+                            </Tooltip>
                           ) : null}
                           {items.transferType === 'nft_transfer' ? (
                             <span className={styles.nftId}>-ID : {items.nftId}</span>
                           ) : (
                             <>
-                              {items.capacity > 0 ? (
-                                <span className={styles.add}>+</span>
-                              ) : (
-                                <span className={styles.subtraction}>-</span>
-                              )}
+                              <span className={items.capacity > 0 ? styles.add : styles.subtraction}>
+                                {items.capacity > 0 ? '+' : ''}
+                              </span>
                               <DecimalCapacity
                                 color={items.capacity > 0 ? '#00CC9B' : '#FA504F'}
                                 value={localeNumberString(shannonToCkb(items.capacity))}

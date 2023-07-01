@@ -321,11 +321,11 @@ export const AddressTransactions = ({
   const layout = searchParams.layout === Lite ? Lite : defaultLayout
   const totalPages = Math.ceil(total / pageSize)
 
-  const onChangeLayout = (lo: LayoutLiteProfessional.Professional | LayoutLiteProfessional.Lite) => {
+  const onChangeLayout = (layoutType: LayoutLiteProfessional.Professional | LayoutLiteProfessional.Lite) => {
     updateSearchParams(params =>
-      lo === defaultLayout
+      layoutType === defaultLayout
         ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
-        : { ...params, layout: lo },
+        : { ...params, layout: layoutType },
     )
   }
 
