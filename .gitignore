@@ -18,3 +18,4 @@ coverage/
 !/.env.*.example
 .secrets
 !.secrets.example
+.eslintcache

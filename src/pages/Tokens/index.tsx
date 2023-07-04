@@ -94,19 +94,21 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
 
 export default () => {
   const isMobile = useIsMobile()
-  const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
+  const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
 
-  const query = useQuery(['tokens', currentPage, pageSize], async () => {
-    const { data, meta } = await fetchTokens(currentPage, pageSize)
+  const query = useQuery(['tokens', currentPage, _pageSize], async () => {
+    const { data, meta } = await fetchTokens(currentPage, _pageSize)
     if (data == null || data.length === 0) {
       throw new Error('Tokens empty')
     }
     return {
       total: meta?.total ?? 0,
       tokens: data.map(wrapper => wrapper.attributes),
+      pageSize: meta?.pageSize,
     }
   })
   const total = query.data?.total ?? 0
+  const pageSize = query.data?.pageSize ?? _pageSize
   const totalPages = Math.ceil(total / pageSize)
 
   return (
