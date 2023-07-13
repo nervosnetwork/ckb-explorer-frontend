@@ -95,6 +95,8 @@ export const TransactionCellWithdraw = styled.div`
 `
 
 export const TransactionCellUDTPanel = styled.div`
+  display: flex;
+  align-items: center;
   span {
     margin-left: 6px;
   }
