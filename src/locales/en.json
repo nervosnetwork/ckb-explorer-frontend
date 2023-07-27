@@ -237,7 +237,7 @@
       "visit-deprecated-address": "View in deprecated address format",
       "view-deprecated-address": "Display deprecated addresses",
       "displaying-deprecated-address": "Displaying in deprecated address format",
-      "currentAddress":"Current Address"
+      "currentAddress": "Current Address"
     },
     "transaction": {
       "transaction": "Transaction",
@@ -399,7 +399,8 @@
     },
     "error": {
       "maintain": "The site is temporarily down for maintenance. Please check back soon.",
-      "page_crashed_tip": "Opps! Some errors were encountered."
+      "page_crashed_tip": "Opps! Some errors were encountered.",
+      "back_home": "BACK HOME"
     },
     "pagination": {
       "first": "First",
