@@ -1,9 +1,16 @@
-.pageCrashedTip {
-  margin-top: -64px;
-  text-align: center;
+.container {
+  margin-top: 120px;
+  margin-bottom: 140px;
 }
 
-.pageCrashedError {
-  width: 800px;
-  margin: 16px auto 0 auto;
+.notFoundImage {
+  width: 1038px;
+  height: 480px;
+  margin: 0 auto;
+  display: block;
+
+  @media (max-width: 750px) {
+    width: 282px;
+    height: 130px;
+  }
 }

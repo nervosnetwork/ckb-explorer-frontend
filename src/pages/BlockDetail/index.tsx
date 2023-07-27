@@ -13,7 +13,7 @@ import { defaultBlockInfo } from './state'
 
 export default () => {
   const { param: blockHeightOrHash } = useParams<{ param: string }>()
-  const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
+  const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
 
   const queryBlock = useQuery(['block', blockHeightOrHash], async () => {
     const wrapper = await fetchBlock(blockHeightOrHash)
@@ -24,19 +24,22 @@ export default () => {
   const block = queryBlock.data ?? defaultBlockInfo
 
   const queryBlockTransactions = useQuery(
-    ['block-transactions', blockHash, currentPage, pageSize],
+    ['block-transactions', blockHash, currentPage, _pageSize],
     async () => {
       assert(blockHash != null)
-      const { data, meta } = await fetchTransactionsByBlockHash(blockHash, currentPage, pageSize)
+      const { data, meta } = await fetchTransactionsByBlockHash(blockHash, currentPage, _pageSize)
       return {
         transactions: data.map(wrapper => wrapper.attributes),
         total: meta?.total ?? 0,
+        pageSize: meta?.pageSize,
       }
     },
     {
       enabled: blockHash != null,
     },
   )
+
+  const pageSize = queryBlockTransactions.data?.pageSize ?? _pageSize
 
   return (
     <Content>
