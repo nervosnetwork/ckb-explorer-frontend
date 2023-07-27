@@ -236,7 +236,7 @@
       "visit-deprecated-address": "查看废弃地址格式",
       "view-deprecated-address": "展示旧地址格式",
       "displaying-deprecated-address": "正在以旧格式地址展示",
-      "currentAddress":"当前地址"
+      "currentAddress": "当前地址"
     },
     "transaction": {
       "transaction": "交易",
@@ -399,7 +399,8 @@
     },
     "error": {
       "maintain": "网络维护中，请稍后再试",
-      "page_crashed_tip": "遇到了一些错误"
+      "page_crashed_tip": "遇到了一些错误",
+      "back_home": "前往首页"
     },
     "pagination": {
       "first": "首页",

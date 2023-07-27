@@ -1,0 +1,51 @@
+.container {
+  margin-top: 120px;
+  margin-bottom: 140px;
+}
+
+.pageCrashedTip {
+  margin-top: -64px;
+  text-align: center;
+}
+
+.pageCrashedError {
+  width: 800px;
+  margin: 16px auto 0 auto;
+}
+
+.backHome {
+  width: 152px;
+  height: 48px;
+  display: block;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 48px;
+  text-align: center;
+  text-transform: capitalize;
+  color: #fff;
+  background: #333333;
+  border-radius: 4px;
+  margin: 40px auto;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.notErrorImage {
+  width: 602px;
+  height: 273px;
+  margin: 90px auto;
+  display: block;
+  border: 1px dashed #9c9c9c;
+  padding: 6px;
+
+  @media (max-width: 750px) {
+    width: 228px;
+    height: 108px;
+  }
+}

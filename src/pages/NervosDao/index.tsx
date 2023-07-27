@@ -25,7 +25,7 @@ export const NervosDao = () => {
   const { push } = useHistory()
   const [t] = useTranslation()
 
-  const { currentPage, pageSize, setPage } = usePaginationParamsInPage()
+  const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
   const params = useSearchParams('tab')
   const tab = params.tab as 'transactions' | 'depositors'
   const daoTab = tab || 'transactions'
@@ -41,7 +41,7 @@ export const NervosDao = () => {
   const isInvalidFilter = filtering && containSpecialChar(filterText)
 
   const queryNervosDaoTransactions = useQuery(
-    ['nervos-dao-transactions', currentPage, pageSize, filterText, isInvalidFilter],
+    ['nervos-dao-transactions', currentPage, _pageSize, filterText, isInvalidFilter],
     async () => {
       if (filterText != null) {
         if (isInvalidFilter) {
@@ -50,7 +50,7 @@ export const NervosDao = () => {
 
         // search address
         if (filterText.startsWith('ckt') || filterText.startsWith('ckb')) {
-          const { data, meta } = await fetchNervosDaoTransactionsByAddress(filterText, currentPage, pageSize)
+          const { data, meta } = await fetchNervosDaoTransactionsByAddress(filterText, currentPage, _pageSize)
           const transactions = data.map(wrapper => wrapper.attributes)
           return {
             transactions,
@@ -67,11 +67,12 @@ export const NervosDao = () => {
         }
       }
 
-      const { data, meta } = await fetchNervosDaoTransactions(currentPage, pageSize)
+      const { data, meta } = await fetchNervosDaoTransactions(currentPage, _pageSize)
       const transactions = data.map(wrapper => wrapper.attributes)
       return {
         transactions,
         total: meta?.total ?? transactions.length,
+        pageSize: meta?.pageSize,
       }
     },
   )
@@ -81,6 +82,8 @@ export const NervosDao = () => {
     const { data } = await fetchNervosDaoDepositors()
     return { depositors: data.map(wrapper => wrapper.attributes) }
   })
+
+  const pageSize = queryNervosDaoTransactions.data?.pageSize ?? _pageSize
 
   return (
     <Content>
