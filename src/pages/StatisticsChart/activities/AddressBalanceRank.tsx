@@ -80,7 +80,7 @@ const getOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${handleAxis(value)}B`,
+          formatter: (value: string) => `${handleAxis(value)}`,
         },
       },
     ],
