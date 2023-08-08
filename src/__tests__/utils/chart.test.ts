@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { handleAxis, parseInterval, handleLogGroupAxis, handleStepGroupAxis } from '../../utils/chart'
+import { handleAxis, parseInterval, handleLogGroupAxis, handleStepGroupAxis, parseNumericAbbr } from '../../utils/chart'
 
 describe('Chart tests', () => {
   it('handleAxis', async () => {
@@ -31,5 +31,17 @@ describe('Chart tests', () => {
     expect(parseInterval(123454, 10)).toBe(6300)
     expect(parseInterval(239, 1)).toBe(13)
     expect(parseInterval(23289, 0)).toBe(1300)
+  })
+
+  it('parseNumericAbbr', async () => {
+    expect(parseNumericAbbr(new BigNumber(102300))).toBe('102.3K')
+    expect(parseNumericAbbr(new BigNumber(12233435))).toBe('12.233435M')
+    expect(parseNumericAbbr(new BigNumber(102300), 2)).toBe('102.30K')
+    expect(parseNumericAbbr(new BigNumber(12233435), 3)).toBe('12.233M')
+    expect(parseNumericAbbr(new BigNumber(122), 2)).toBe('122.00')
+    expect(parseNumericAbbr(new BigNumber(122), 2, true)).toBe('122')
+    expect(parseNumericAbbr(new BigNumber(12233435), 0)).toBe('12M')
+    expect(parseNumericAbbr(new BigNumber(1223343500), 0)).toBe('1B')
+    expect(parseNumericAbbr(new BigNumber(1223343500), 2)).toBe('1.22B')
   })
 })

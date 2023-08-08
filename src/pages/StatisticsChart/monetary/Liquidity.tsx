@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
-import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { fetchStatisticLiquidity } from '../../../service/http/fetcher'
@@ -36,16 +36,22 @@ const getOption = (
     color,
   }: SeriesItem & { data: [string, string, string, string] }): string => {
     if (seriesName === i18n.t('statistic.circulating_supply')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.circulating_supply'))} ${parseNumericAbbr(
         data[3],
         2,
       )}</div>`
     }
     if (seriesName === i18n.t('statistic.dao_deposit')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.dao_deposit'))} ${handleAxis(data[2], 2)}</div>`
+      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.dao_deposit'))} ${parseNumericAbbr(
+        data[2],
+        2,
+      )}</div>`
     }
     if (seriesName === i18n.t('statistic.tradable')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.tradable'))} ${handleAxis(data[1], 2)}</div>`
+      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.tradable'))} ${parseNumericAbbr(
+        data[1],
+        2,
+      )}</div>`
     }
     return ''
   }
@@ -102,7 +108,7 @@ const getOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(value),
+          formatter: (value: string) => parseNumericAbbr(value),
         },
       },
     ],
