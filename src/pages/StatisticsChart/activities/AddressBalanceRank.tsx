@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
@@ -80,7 +80,7 @@ const getOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${handleAxis(value)}B`,
+          formatter: (value: string) => `${parseNumericAbbr(value)}`,
         },
       },
     ],
