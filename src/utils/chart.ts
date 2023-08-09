@@ -17,6 +17,29 @@ export const DATA_ZOOM_CONFIG = [
   },
 ]
 
+export const parseNumericAbbr = (value: BigNumber | string | number, decimal?: number, hideZero?: boolean) => {
+  const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
+  if (bigValue.isNaN() || bigValue.isZero()) return '0'
+  const kv = bigValue.dividedBy(1000)
+  const mv = kv.dividedBy(1000)
+  const bv = mv.dividedBy(1000)
+  const tv = bv.dividedBy(1000)
+
+  if (tv.isGreaterThanOrEqualTo(1)) {
+    return `${decimal !== undefined ? tv.toFixed(decimal) : tv.toFixed()}T`
+  }
+  if (bv.isGreaterThanOrEqualTo(1)) {
+    return `${decimal !== undefined ? bv.toFixed(decimal) : bv.toFixed()}B`
+  }
+  if (mv.isGreaterThanOrEqualTo(1)) {
+    return `${decimal !== undefined ? mv.toFixed(decimal) : mv.toFixed()}M`
+  }
+  if (kv.isGreaterThanOrEqualTo(1)) {
+    return `${decimal !== undefined ? kv.toFixed(decimal) : kv.toFixed()}K`
+  }
+  return `${decimal && !hideZero ? bigValue.toFixed(decimal) : bigValue.toFixed()}`
+}
+
 export const handleAxis = (value: BigNumber | string | number, decimal?: number, hideZero?: boolean) => {
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
   if (bigValue.isNaN() || bigValue.isZero()) return '0'
