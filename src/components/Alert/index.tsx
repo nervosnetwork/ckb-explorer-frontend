@@ -6,8 +6,8 @@ import { dayjs, parseSimpleDateNoSecond } from '../../utils/date'
 import SimpleButton from '../SimpleButton'
 import { ComponentActions } from '../../contexts/actions'
 import { AppCachedKeys } from '../../constants/cache'
+import { IS_MAINTAINING } from '../../constants/common'
 import styles from './styles.module.scss'
-import { isMainnet } from '../../utils/chain'
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000
 
@@ -52,7 +52,7 @@ const Alert = () => {
     )
   }
 
-  if (!isMainnet()) {
+  if (IS_MAINTAINING) {
     return <div className={styles.container}>{i18n.t('error.maintain')}</div>
   }
 
