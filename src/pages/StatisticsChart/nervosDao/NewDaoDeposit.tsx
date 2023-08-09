@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
@@ -13,13 +13,13 @@ const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === '
 
 const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.new_dao_deposit')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.new_dao_deposit'))} ${handleAxis(
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.new_dao_deposit'))} ${parseNumericAbbr(
       data[1],
       2,
     )}</div>`
   }
   if (seriesName === i18n.t('statistic.new_dao_depositor')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.new_dao_depositor'))} ${handleAxis(
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.new_dao_depositor'))} ${parseNumericAbbr(
       data[2],
       2,
       true,
@@ -103,7 +103,7 @@ const getOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${handleAxis(value)}B`,
+          formatter: (value: string) => `${parseNumericAbbr(value)}`,
         },
       },
       {
@@ -120,7 +120,7 @@ const getOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${handleAxis(new BigNumber(value))}`,
+          formatter: (value: string) => `${parseNumericAbbr(new BigNumber(value))}`,
         },
       },
     ],

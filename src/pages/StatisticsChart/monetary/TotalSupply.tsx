@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
-import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
@@ -12,13 +12,13 @@ const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === '
 
 const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
   if (seriesName === i18n.t('statistic.burnt')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.burnt'))} ${handleAxis(data[3], 2)}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.burnt'))} ${parseNumericAbbr(data[3], 2)}</div>`
   }
   if (seriesName === i18n.t('statistic.locked')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.locked'))} ${handleAxis(data[2], 2)}</div>`
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.locked'))} ${parseNumericAbbr(data[2], 2)}</div>`
   }
   if (seriesName === i18n.t('statistic.circulating_supply')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.circulating_supply'))} ${handleAxis(
+    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.circulating_supply'))} ${parseNumericAbbr(
       data[1],
       2,
     )}</div>`
@@ -99,7 +99,7 @@ const getOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: string) => parseNumericAbbr(new BigNumber(value)),
         },
       },
     ],
