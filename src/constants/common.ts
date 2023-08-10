@@ -14,6 +14,7 @@ export const EPOCH_HOURS = 4
 export const ONE_DAY_SECOND = 24 * 60 * 60
 export const ONE_HOUR_SECOND = 60 * 60
 export const ONE_MINUTE_SECOND = 60
+export const IS_MAINTAINING = process.env.REACT_APP_IS_MAINTAINING === 'true'
 
 export function getPrimaryColor() {
   return isMainnet() ? '#00CC9B' : '#9A2CEC'
