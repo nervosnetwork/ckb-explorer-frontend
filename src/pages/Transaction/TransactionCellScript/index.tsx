@@ -60,12 +60,11 @@ const handleFetchCellInfo = async (
   setScriptFetchStatus: (val: boolean) => void,
   setContent: Function,
   dispatch: AppDispatch,
-  txStatus: string,
 ) => {
   setScriptFetchStatus(false)
 
   const fetchLock = async () => {
-    if (txStatus === 'committed') {
+    if (cell.id) {
       const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('lock_scripts', `${cell.id}`)
       return wrapper ? wrapper.attributes : initScriptContent.lock
     }
@@ -73,7 +72,7 @@ const handleFetchCellInfo = async (
   }
 
   const fetchType = async () => {
-    if (txStatus === 'committed') {
+    if (cell.id) {
       const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('type_scripts', `${cell.id}`)
       return wrapper ? wrapper.attributes : initScriptContent.type
     }
@@ -81,7 +80,7 @@ const handleFetchCellInfo = async (
   }
 
   const fetchData = async () => {
-    if (txStatus === 'committed') {
+    if (cell.id) {
       return fetchCellData(`${cell.id}`)
         .then((wrapper: Response.Wrapper<State.Data> | null) => {
           const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
@@ -243,7 +242,7 @@ const ScriptContentJson = ({
   </TransactionCellScriptContentPanel>
 )
 
-export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Function; txStatus: string }) => {
+export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
   const dispatch = useDispatch()
   const [scriptFetched, setScriptFetched] = useState(false)
   const [content, setContent] = useState(null as State.Script | State.Data | CapacityUsage | null)
@@ -254,8 +253,8 @@ export default ({ cell, onClose, txStatus }: { cell: State.Cell; onClose: Functi
   }
 
   useEffect(() => {
-    handleFetchCellInfo(cell, state, setScriptFetched, setContent, dispatch, txStatus)
-  }, [cell, state, dispatch, txStatus])
+    handleFetchCellInfo(cell, state, setScriptFetched, setContent, dispatch)
+  }, [cell, state, dispatch])
 
   const onClickCopy = () => {
     navigator.clipboard.writeText(updateJsonFormat(content)).then(
