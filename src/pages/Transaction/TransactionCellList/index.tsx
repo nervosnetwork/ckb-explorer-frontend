@@ -18,14 +18,12 @@ export default ({
   outputs,
   txHash,
   showReward,
-  txStatus,
   addrToggle: { isAddrNew, setIsAddrNew },
 }: {
   inputs?: State.Cell[]
   outputs?: State.Cell[]
   txHash?: string
   showReward?: boolean
-  txStatus: string
   addrToggle: {
     isAddrNew: boolean
     setIsAddrNew: (is: boolean) => void
@@ -107,7 +105,6 @@ export default ({
                   index={index}
                   txHash={txHash}
                   showReward={showReward}
-                  txStatus={txStatus}
                   isAddrNew={isAddrNew}
                 />
               ))}
