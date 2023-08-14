@@ -105,7 +105,7 @@ export const CellInfo = ({ cell }: { cell: State.Cell }) => {
       </SimpleButton>
       <SimpleModal isShow={showModal} setIsShow={setShowModal}>
         <TransactionCellDetailModal>
-          <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} txStatus="committed" />
+          <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
         </TransactionCellDetailModal>
       </SimpleModal>
     </TransactionCellInfoPanel>

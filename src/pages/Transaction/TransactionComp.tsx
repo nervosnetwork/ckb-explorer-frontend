@@ -328,7 +328,7 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
 }
 
 export default ({ transaction }: { transaction: State.Transaction }) => {
-  const { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase, txStatus } = transaction
+  const { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase } = transaction
 
   const { isNew: isAddrNew, setIsNew: setIsAddrNew } = useAddrFormatToggle()
   const inputs = handleCellbaseInputs(displayInputs, displayOutputs)
@@ -341,7 +341,6 @@ export default ({ transaction }: { transaction: State.Transaction }) => {
           <TransactionCellList
             inputs={inputs}
             showReward={blockNumber > 0 && isCellbase}
-            txStatus={txStatus}
             addrToggle={{
               isAddrNew,
               setIsAddrNew,
@@ -354,7 +353,6 @@ export default ({ transaction }: { transaction: State.Transaction }) => {
           <TransactionCellList
             outputs={displayOutputs}
             txHash={transactionHash}
-            txStatus={txStatus}
             addrToggle={{
               isAddrNew,
               setIsAddrNew,
