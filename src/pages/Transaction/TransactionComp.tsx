@@ -136,6 +136,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction; layout: s
   if (txStatus === 'committed') {
     if (confirmation >= 0) {
       if (isLite) {
+        // TODO: many similar code, refactor this
         OverviewItems.push(
           {
             title: i18n.t('block.timestamp'),
