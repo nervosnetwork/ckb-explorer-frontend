@@ -50,7 +50,7 @@ export const SearchInputPanel = styled.input`
   border: 0px solid white;
   border-radius: 4px;
 
-  &: focus {
+  &:focus {
     color: #333333;
     outline: none;
   }

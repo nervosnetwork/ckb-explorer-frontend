@@ -188,11 +188,11 @@ export const TransactionCellCardPanel = styled.div`
     transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 
-  >div: nth-child(2) {
+  > div:nth-child(2) {
     margin-bottom: 15px;
   }
 
-  >div: nth-child(4) {
+  > div:nth-child(4) {
     margin-bottom: 12px;
   }
 `

@@ -61,7 +61,7 @@ export const FilterInputPanel = styled.input`
   color: #666666;
   border-radius: 4px;
   background-color: #f4f4f4;
-  &: focus {
+  &:focus {
     color: #666666;
     outline: none;
   }
@@ -93,7 +93,7 @@ export const ResetButtonPanel = styled.div`
   line-height: 38px;
   cursor: pointer;
 
-  &: hover {
+  &:hover {
     background: #dddddd;
   }
 

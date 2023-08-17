@@ -93,7 +93,7 @@ export const ChartNoDataPanel = styled.div`
 
 export const ChartNotePanel = styled.div`
   font-size: 12px;
-  with: 100%;
+  width: 100%;
   color: rgba(0, 0, 0, 0.6);
   padding: 6px 3%;
   text-align: left;

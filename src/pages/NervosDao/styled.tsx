@@ -77,7 +77,7 @@ export const DaoTabBarPanel = styled.div`
       }
     }
 
-    div: nth-child(2) {
+    div:nth-child(2) {
       margin-left: 50px;
 
       @media (max-width: 1200px) {

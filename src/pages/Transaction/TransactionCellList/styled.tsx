@@ -20,22 +20,22 @@ export const TransactionCellListTitlePanel = styled.div`
       height: 24px;
     }
 
-    >div: nth-child(1) {
+    > div:nth-child(1) {
       flex: 0.4;
     }
 
-    >div: nth-child(2) {
+    > div:nth-child(2) {
       flex: 0.22;
       display: flex;
     }
 
-    >div: nth-child(3) {
+    > div:nth-child(3) {
       flex: 0.3;
       display: flex;
       justify-content: flex-end;
     }
 
-    >div: nth-child(4) {
+    > div:nth-child(4) {
       flex: 0.08;
       display: flex;
       justify-content: flex-end;

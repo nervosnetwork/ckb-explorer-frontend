@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
 export const BlockCardPanel = styled.div`
+  /* stylelint-disable no-descending-specificity */
+
   display: flex;
   flex-direction: row;
   align-items: center;

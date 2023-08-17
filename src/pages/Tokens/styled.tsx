@@ -46,21 +46,21 @@ export const TokensTableTitle = styled.div`
   letter-spacing: 0.2px;
   color: #000000;
 
-  >span: nth-child(1) {
+  > span:nth-child(1) {
     flex: 4.6;
   }
 
-  >span: nth-child(2) {
+  > span:nth-child(2) {
     flex: 1.8;
     text-align: right;
   }
 
-  >span: nth-child(3) {
+  > span:nth-child(3) {
     flex: 1.8;
     text-align: right;
   }
 
-  >span: nth-child(4) {
+  > span:nth-child(4) {
     flex: 1.8;
     text-align: right;
   }
@@ -232,7 +232,7 @@ export const TokensLoadingPanel = styled.div`
 export const TokensTitlePanel = styled.div`
   display: flex;
 
-  >span: nth-child(1) {
+  > span:nth-child(1) {
     width: 125px;
     text-align: left;
   }

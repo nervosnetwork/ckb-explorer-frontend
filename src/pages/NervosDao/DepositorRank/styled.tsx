@@ -24,16 +24,16 @@ export const DepositorRankTitle = styled.div`
     text-align: center;
   }
 
-  >div: nth-child(1) {
+  > div:nth-child(1) {
     width: 10%;
   }
-  >div: nth-child(2) {
+  > div:nth-child(2) {
     width: 48%;
   }
-  >div: nth-child(3) {
+  > div:nth-child(3) {
     width: 22%;
   }
-  >div: nth-child(4) {
+  > div:nth-child(4) {
     width: 20%;
   }
 `
@@ -59,16 +59,16 @@ export const DepositorRankItem = styled.div`
     text-align: center;
   }
 
-  >div: nth-child(1) {
+  > div:nth-child(1) {
     width: 10%;
   }
-  >div: nth-child(2) {
+  > div:nth-child(2) {
     width: 48%;
   }
-  >div: nth-child(3) {
+  > div:nth-child(3) {
     width: 22%;
   }
-  >div: nth-child(4) {
+  > div:nth-child(4) {
     width: 20%;
   }
 `

@@ -132,16 +132,6 @@ export const FooterImageItemPanel = styled.a`
   padding: 12px;
   color: #acacac;
 
-  &:hover {
-    color: ${props => props.theme.primary};
-
-    & > svg {
-      .app-icon {
-        fill: ${props => props.theme.primary};
-      }
-    }
-  }
-
   > svg {
     width: 35px;
     height: 35px;
@@ -151,5 +141,15 @@ export const FooterImageItemPanel = styled.a`
     height: 15px;
     font-size: 12px;
     margin-top: 5px;
+  }
+
+  &:hover {
+    color: ${props => props.theme.primary};
+
+    & > svg {
+      .app-icon {
+        fill: ${props => props.theme.primary};
+      }
+    }
   }
 `

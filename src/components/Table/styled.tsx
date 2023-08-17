@@ -84,7 +84,7 @@ export const TableMinerContentPanel = styled.div`
   }
 
   .table__miner__text {
-    width: 100%
+    width: 100%;
     justify-content: center;
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     font-weight: 500;
@@ -108,6 +108,6 @@ export const TableMinerContentPanel = styled.div`
 `
 
 export const HighlightLink = styled(props => <Link {...props} />)`
-  color: ${props => props.theme.primary}
+  color: ${props => props.theme.primary};
   text-decoration: none;
 `
