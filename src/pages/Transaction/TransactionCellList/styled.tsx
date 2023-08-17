@@ -4,7 +4,7 @@ export const TransactionCellListTitlePanel = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     display: none;
   }
 
@@ -14,7 +14,7 @@ export const TransactionCellListTitlePanel = styled.div`
     align-items: center;
     font-size: 20px;
     font-weight: 600;
-    color: #000000;
+    color: #000;
 
     > div {
       height: 24px;
@@ -42,7 +42,7 @@ export const TransactionCellListTitlePanel = styled.div`
     }
   }
 
-  &:after {
+  &::after {
     content: '';
     background: #e2e2e2;
     height: 1px;
@@ -55,11 +55,11 @@ export const TransactionCellListPanel = styled.div`
   width: 100%;
   border-radius: 6px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 12px 20px 12px 40px;
 
-  @media (max-width: 750px) {
-    padding: 12px 10px 3px 10px;
+  @media (width <= 750px) {
+    padding: 12px 10px 3px;
   }
 `
 
@@ -73,19 +73,19 @@ export const TransactionCellsPanel = styled.div`
         max-height: 600px;
         overflow-y: scroll;
 
-        @media (min-width: 750px) {
+        @media (width >= 750px) {
           max-height: 400px;
         }
       }
     `};
 
   .transaction__cell__title {
-    color: #000000;
+    color: #000;
     font-weight: 600;
     font-size: 20px;
     margin-left: 10px;
 
-    @media (min-width: 750px) {
+    @media (width >= 750px) {
       display: none;
     }
   }

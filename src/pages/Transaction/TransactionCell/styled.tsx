@@ -12,7 +12,7 @@ export const TransactionCellContentPanel = styled.div`
   align-items: ${(props: { isCellbase: boolean }) => (props.isCellbase ? 'flex-start' : 'center')};
   margin: 10px 0;
   font-size: 16px;
-  color: #000000;
+  color: #000;
   text-align: center;
 
   .transaction__cell__address {
@@ -42,27 +42,28 @@ export const TransactionCellContentPanel = styled.div`
   a {
     color: ${props => props.theme.primary};
   }
+
   a:hover {
     color: ${props => props.theme.primary};
   }
 `
 export const TransactionCellInfoPanel = styled.div`
   .transaction__cell__info__content {
-    color: rgba(0, 0, 0, 0.6);
+    color: rgb(0 0 0 / 60%);
     cursor: pointer;
     width: 45px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       width: auto;
     }
 
     .transaction__cell__info__separate {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgb(0 0 0 / 60%);
       width: 45px;
       height: 1px;
       transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         width: auto;
       }
     }
@@ -84,13 +85,13 @@ export const TransactionCellAddressPanel = styled.div`
 
   .transaction__cell_index {
     margin-right: 3px;
-    color: #666666;
+    color: #666;
 
     > div {
       width: 70px;
       text-align: start;
 
-      @media (max-width: 1440px) {
+      @media (width <= 1440px) {
         width: 50px;
       }
     }
@@ -108,14 +109,15 @@ export const TransactionCellHashPanel = styled.div`
   align-items: center;
   font-size: 16px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     text-align: left;
+
     > a {
       font-weight: 500;
     }
   }
 
-  @media (min-width: 750px) {
+  @media (width >= 750px) {
     font-weight: 500;
   }
 
@@ -126,13 +128,13 @@ export const TransactionCellHashPanel = styled.div`
   .transaction__cell_address_link {
     max-width: 70%;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       max-width: unset;
     }
   }
 
   .transaction__cell_address_no_link {
-    color: #000000;
+    color: #000;
   }
 `
 
@@ -153,6 +155,7 @@ export const TransactionCellDetailPanel = styled.div`
       font-size: 15px;
       text-align: left;
     }
+
     > img {
       margin-right: 5px;
       width: ${(props: { isWithdraw: boolean }) => (props.isWithdraw ? '16px' : '18px')};
@@ -166,13 +169,13 @@ export const TransactionCellNftInfo = styled.div`
 `
 
 export const TransactionCellDetailModal = styled.div`
-  background-color: #ffffff;
+  background-color: #fff;
   margin: 15% auto;
   padding: 20px 40px;
   border: 1px solid #888;
   width: 75%;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     width: 90%;
     margin-top: 40%;
     padding: 10px;
@@ -183,7 +186,7 @@ export const TransactionCellCardPanel = styled.div`
   .transaction__cell__card__separate {
     width: 100%;
     height: 1px;
-    background: #cccccc;
+    background: #ccc;
     margin: 8px 0;
     transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
@@ -207,14 +210,14 @@ export const TransactionCellCardContent = styled.div`
     flex: 1;
     min-width: 0;
     font-size: 16px;
-    color: #666666;
+    color: #666;
     margin-top: 3px;
   }
 
   .transaction__cell__card__value {
     display: flex;
     font-size: 16px;
-    color: #000000;
+    color: #000;
   }
 
   a {

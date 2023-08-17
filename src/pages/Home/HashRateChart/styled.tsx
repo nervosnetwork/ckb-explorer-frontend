@@ -17,7 +17,7 @@ export const ChartLoadingPanel = styled.div`
     width: 105px;
     height: auto;
 
-    @media (max-width: 1200px) {
+    @media (width <= 1200px) {
       width: 90px;
     }
   }

@@ -14,7 +14,7 @@ export const AddressContentPanel = styled.div`
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     margin: 0;
     padding: 20px;
   }
@@ -29,7 +29,7 @@ export const AddressPendingRewardTitlePanel = styled.div`
     width: 20px;
     height: 20px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin-left: 10px;
       width: 16px;
       height: 16px;
@@ -39,6 +39,7 @@ export const AddressPendingRewardTitlePanel = styled.div`
       width: 100%;
       height: 100%;
     }
+
     &:focus {
       outline: 0;
     }
@@ -60,7 +61,7 @@ export const AddressLockScriptController = styled(SimpleButton)`
     margin: 2px 0 0 5px;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     font-size: 14px;
     margin-top: 10px;
 
@@ -73,7 +74,7 @@ export const AddressLockScriptController = styled(SimpleButton)`
 export const AddressTransactionsPanel = styled.div`
   width: 100%;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     ${TransactionPanel}:first-child {
       margin-top: 0;
       box-shadow: none;
@@ -95,7 +96,7 @@ export const AddressUDTAssetsPanel = styled.div`
   > span {
     font-size: 14px;
     font-weight: 600;
-    color: #000000;
+    color: #000;
   }
 
   .address__udt__assets__grid {
@@ -104,15 +105,14 @@ export const AddressUDTAssetsPanel = styled.div`
     padding: 6px 25px;
     width: 100%;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     overflow-y: scroll;
 
-    @media (min-width: 1200px) {
+    @media (width >= 1200px) {
       max-height: 220px;
     }
 
-    @media (max-width: 1200px) {
+    @media (width <= 1200px) {
       max-height: 310px;
     }
   }
@@ -122,10 +122,10 @@ export const AddressUDTItemPanel = styled.a`
   display: flex;
   flex-direction: column;
   margin: 6px 15px;
-  background: #ffffff;
+  background: #fff;
   width: 260px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     width: calc(100% - 30px);
   }
 
@@ -137,6 +137,7 @@ export const AddressUDTItemPanel = styled.a`
     padding: 2px 8px;
     background: ${props => props.theme.primary};
     color: #fff;
+
     span {
       text-transform: uppercase;
     }
@@ -166,13 +167,13 @@ export const AddressUDTItemPanel = styled.a`
 
     > span {
       font-size: 14px;
-      color: #000000;
+      color: #000;
       white-space: nowrap;
       overflow-x: hidden;
       text-overflow: ellipsis;
       max-width: 196px;
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         max-width: calc(100% - 42px);
       }
     }

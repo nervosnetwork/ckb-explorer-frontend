@@ -10,8 +10,9 @@ export const LoadingPanel = styled.div`
     width: 270px;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     margin: 60px 0;
+
     > img {
       width: 135px;
     }

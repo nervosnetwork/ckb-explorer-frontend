@@ -3,15 +3,14 @@ import styled from 'styled-components'
 
 export const SheetPanel = styled.div`
   position: sticky;
-  position: -webkit-sticky;
   top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '112px' : '64px')};
   z-index: 9000;
 
-  @media (max-width: 1200px) {
+  @media (width <= 1200px) {
     top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '128px' : '64px')};
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     top: ${(props: { isNotTop?: boolean; isEn: boolean }) =>
       props.isNotTop ? (props.isEn ? '184px' : '164px') : '64px'};
   }
@@ -23,10 +22,10 @@ export const SheetPanel = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 15px 0 20px 0;
+    padding: 15px 0 20px;
 
-    @media (max-width: 750px) {
-      padding: 6px 0 10px 0;
+    @media (width <= 750px) {
+      padding: 6px 0 10px;
     }
   }
 `
@@ -39,7 +38,7 @@ export const SheetItem = styled.div`
   justify-content: left;
   margin-top: 5px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     font-size: 14px;
   }
 `
@@ -56,7 +55,7 @@ export const SheetPointPanel = styled.div`
     color: white;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     width: 86%;
 
     > span {

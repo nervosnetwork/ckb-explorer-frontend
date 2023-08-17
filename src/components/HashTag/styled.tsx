@@ -12,7 +12,7 @@ export const TagPanel = styled.div`
   justify-content: center;
   font-size: 12px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     height: 16px;
     width: ${({ length }: { length: number; isLock?: boolean }) => `${length * 7.5}px`};
   }

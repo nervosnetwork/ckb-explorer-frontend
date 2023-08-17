@@ -4,7 +4,7 @@ export const TokensPanel = styled.div`
   margin-top: 40px;
   margin-bottom: 60px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     margin-top: 20px;
     margin-bottom: 30px;
   }
@@ -15,12 +15,12 @@ export const TokensPanel = styled.div`
     align-items: center;
     margin-bottom: 20px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin-bottom: 10px;
     }
 
     > span {
-      color: #000000;
+      color: #000;
       font-size: 24px;
       font-weight: bold;
     }
@@ -38,13 +38,13 @@ export const TokensTableTitle = styled.div`
   width: 100%;
   height: 46px;
   border-radius: 6px 6px 0 0;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
+  background-color: #fff;
   padding: 0 40px;
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 0.2px;
-  color: #000000;
+  color: #000;
 
   > span:nth-child(1) {
     flex: 4.6;
@@ -68,11 +68,11 @@ export const TokensTableTitle = styled.div`
 
 export const TokensTableContent = styled.div`
   padding-bottom: 5px;
-  background: #ffffff;
-  color: #000000;
+  background: #fff;
+  color: #000;
   margin-top: 4px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     border-radius: 6px;
     padding: 5px 0;
   }
@@ -91,7 +91,7 @@ export const TokensTableItem = styled.div`
     width: 100%;
     padding: 15px 25px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       flex-direction: column;
       align-items: flex-start;
       padding: 10px 20px;
@@ -107,7 +107,7 @@ export const TokensTableItem = styled.div`
       width: 30px;
       height: 30px;
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         width: 20px;
         height: 20px;
       }
@@ -120,7 +120,7 @@ export const TokensTableItem = styled.div`
         font-size: 12px;
         letter-spacing: 0.17px;
         line-height: normal;
-        color: #666666;
+        color: #666;
         margin-top: 2px;
       }
     }
@@ -128,12 +128,11 @@ export const TokensTableItem = styled.div`
 
   .tokens__item__transactions {
     flex: 1.8;
-    text-align: center;
     font-size: 14px;
     text-align: right;
-    color: #000000;
+    color: #000;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin-left: 30px;
       margin-top: 3px;
     }
@@ -141,12 +140,11 @@ export const TokensTableItem = styled.div`
 
   .tokens__item__address__count {
     flex: 1.8;
-    text-align: center;
     font-size: 14px;
     text-align: right;
-    color: #000000;
+    color: #000;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin-left: 30px;
       margin-top: 3px;
     }
@@ -154,10 +152,9 @@ export const TokensTableItem = styled.div`
 
   .tokens__item__created__time {
     flex: 1.8;
-    text-align: center;
     font-size: 12px;
     text-align: right;
-    color: #000000;
+    color: #000;
   }
 
   .tokens__item__separate {
@@ -183,7 +180,7 @@ export const TokensItemNamePanel = styled.div`
   }
 
   > span {
-    color: #000000;
+    color: #000;
   }
 
   > img {
@@ -198,14 +195,14 @@ export const TokensContentEmpty = styled.div`
   line-height: 100px;
   width: 100%;
   border-radius: 0 0 6px 6px;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
+  background-color: #fff;
   text-align: center;
   font-size: 16px;
   margin-top: 4px;
   margin-bottom: 180px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     font-size: 14px;
     border-radius: 6px;
     margin-bottom: 160px;
@@ -216,7 +213,7 @@ export const TokensLoadingPanel = styled.div`
   width: 100%;
   text-align: center;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     height: 100px;
     line-height: 100px;
     margin-bottom: 160px;
@@ -224,8 +221,8 @@ export const TokensLoadingPanel = styled.div`
     text-align: center;
     margin-top: 4px;
     border-radius: 0 0 6px 6px;
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
+    background-color: #fff;
   }
 `
 

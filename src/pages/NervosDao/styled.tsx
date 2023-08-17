@@ -7,8 +7,8 @@ export const DaoContentPanel = styled.div`
   margin-top: 30px;
   margin-bottom: 40px;
 
-  @media (max-width: 750px) {
-    margin: 0px;
+  @media (width <= 750px) {
+    margin: 0;
     padding: 20px;
   }
 
@@ -16,7 +16,7 @@ export const DaoContentPanel = styled.div`
     width: 100%;
     border-radius: 6px;
     box-shadow: 2px 2px 6px 0 #dfdfdf;
-    background-color: #ffffff;
+    background-color: #fff;
     height: 80px;
     display: flex;
     flex-direction: row;
@@ -24,9 +24,9 @@ export const DaoContentPanel = styled.div`
     padding-left: 40px;
     font-size: 30px;
     font-weight: 500;
-    color: #000000;
+    color: #000;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       height: 50px;
       box-shadow: 1px 1px 3px 0 #dfdfdf;
       font-size: 15px;
@@ -48,11 +48,11 @@ export const DaoTabBarPanel = styled.div`
   font-size: 18px;
   border-radius: 6px 6px 0 0;
 
-  @media (max-width: 1200px) {
+  @media (width <= 1200px) {
     font-size: 16px;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     height: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '100px' : '50px')};
     flex-direction: column;
     justify-content: center;
@@ -65,14 +65,14 @@ export const DaoTabBarPanel = styled.div`
     cursor: pointer;
     margin-right: 15px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin-bottom: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '15px' : '0px')};
     }
 
     .div {
       font-size: 20px;
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         font-size: 13px;
       }
     }
@@ -80,7 +80,7 @@ export const DaoTabBarPanel = styled.div`
     div:nth-child(2) {
       margin-left: 50px;
 
-      @media (max-width: 1200px) {
+      @media (width <= 1200px) {
         margin-left: 30px;
       }
     }
@@ -88,11 +88,11 @@ export const DaoTabBarPanel = styled.div`
     .tab_bar_normal {
       width: 140px;
       text-align: center;
-      color: #000000;
+      color: #000;
       font-weight: normal;
       font-size: 18px;
 
-      @media (max-width: 1200px) {
+      @media (width <= 1200px) {
         width: 110px;
       }
     }
@@ -101,11 +101,11 @@ export const DaoTabBarPanel = styled.div`
       width: 140px;
       text-align: center;
       font-size: 18px;
-      color: #000000;
+      color: #000;
       font-weight: bold;
       border-bottom: 3px solid ${props => props.theme.primary};
 
-      @media (max-width: 1200px) {
+      @media (width <= 1200px) {
         width: 110px;
       }
     }

@@ -6,7 +6,7 @@ export const TransactionIncomePanel = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     justify-content: center;
   }
 `
@@ -28,8 +28,9 @@ export const TransactionCapacityValuePanel = styled.div`
     margin-bottom: 2px;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     font-size: 14px;
+
     img {
       width: 13px;
       margin-right: 6px;
