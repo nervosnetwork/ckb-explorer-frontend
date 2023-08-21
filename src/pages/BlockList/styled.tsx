@@ -21,12 +21,6 @@ export const BlockListPanel = styled.div`
       z-index: 1;
     }
   }
-
-  .block_list__pagination {
-    @media (width <= 750px) {
-      margin-top: 5px;
-    }
-  }
 `
 
 export const ContentTitle = styled.div`

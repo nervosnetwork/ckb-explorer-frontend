@@ -2,7 +2,6 @@ import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import Content from '../../components/Content'
-import Pagination from '../../components/Pagination'
 import {
   TokensPanel,
   TokensTableTitle,
@@ -12,7 +11,6 @@ import {
   TokensLoadingPanel,
   TokensTitlePanel,
   TokensItemNamePanel,
-  TokensPagination,
 } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import { parseDateNoTime } from '../../utils/date'
@@ -26,6 +24,7 @@ import styles from './styles.module.scss'
 import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
 import { fetchTokens } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
+import Pagination from '../../components/Pagination'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
@@ -145,11 +144,7 @@ export default () => {
           )}
         </QueryResult>
 
-        {totalPages > 1 && (
-          <TokensPagination>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
-          </TokensPagination>
-        )}
+        <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
       </TokensPanel>
     </Content>
   )

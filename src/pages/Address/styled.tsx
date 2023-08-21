@@ -82,11 +82,6 @@ export const AddressTransactionsPanel = styled.div`
   }
 `
 
-export const AddressTransactionsPagination = styled.div`
-  margin-top: 4px;
-  width: 100%;
-`
-
 export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;

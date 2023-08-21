@@ -9,7 +9,6 @@ export const PaginationPanel = styled.div`
   justify-content: center;
   border-radius: 0 0 6px 6px;
   box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
-  background-color: #fff;
 
   @media (width <= 750px) {
     margin-bottom: 30px;
@@ -204,8 +203,8 @@ export const PaginationRightItem = styled.div`
       background: #ddd;
     }
 
-    @media (width <= 750px) {
-      margin: 0 10px;
+    @media (max-width <= 750px) {
+      margin-left: 10px;
       font-size: 12px;
     }
   }

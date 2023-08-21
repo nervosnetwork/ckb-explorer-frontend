@@ -4,10 +4,15 @@ import updateLocale from 'dayjs/plugin/updateLocale'
 import 'dayjs/locale/zh-cn'
 import 'dayjs/locale/en'
 import BigNumber from 'bignumber.js'
+import weekday from 'dayjs/plugin/weekday'
+import localeData from 'dayjs/plugin/localeData'
 import i18n from './i18n'
 
 dayjs.extend(relativeTime)
 dayjs.extend(updateLocale)
+
+dayjs.extend(weekday)
+dayjs.extend(localeData)
 
 export { dayjs }
 

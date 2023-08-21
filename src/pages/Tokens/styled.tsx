@@ -234,8 +234,3 @@ export const TokensTitlePanel = styled.div`
     text-align: left;
   }
 `
-
-export const TokensPagination = styled.div`
-  margin-top: 4px;
-  width: 100%;
-`

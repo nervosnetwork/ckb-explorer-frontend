@@ -572,6 +572,8 @@ declare namespace State {
 
   export interface PagePayload extends PageState {}
 
+  export type TransactionCsvExportType = 'address_transactions' | 'blocks' | 'udts' | 'nft'
+
   export interface App {
     toast: ToastMessage | null
     appErrors: [
