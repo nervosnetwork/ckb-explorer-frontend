@@ -13,7 +13,7 @@
     "camelcase": "7.0.0",
     "camelcase-keys": "7.0.2",
     "classnames": "2.3.2",
-    "dayjs": "1.11.5",
+    "dayjs": "1.11.9",
     "default-passive-events": "2.0.0",
     "detect-gpu": "5.0.29",
     "echarts": "4.8.0",
