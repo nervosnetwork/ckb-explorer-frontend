@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const AlertPanel = styled.div`
   position: sticky;
-  position: -webkit-sticky;
   top: 0;
   z-index: 9000;
 
@@ -19,16 +18,16 @@ export const AlertPanel = styled.div`
     font-size: 14px;
     font-weight: 450;
 
-    @media (max-width: 1440px) {
+    @media (width <= 1440px) {
       padding: 0 100px;
     }
 
-    @media (max-width: 1200px) {
+    @media (width <= 1200px) {
       padding: 0 45px;
       height: 64px;
     }
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       padding: 8px 18px;
       height: ${(props: { isEn: boolean }) => (props.isEn ? '120px' : '100px')};
       flex-direction: column;
@@ -37,7 +36,7 @@ export const AlertPanel = styled.div`
   }
 
   .alert__dismiss__panel {
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       width: 100%;
       display: flex;
       justify-content: flex-end;
@@ -49,10 +48,10 @@ export const AlertPanel = styled.div`
     height: 30px;
     line-height: 30px;
     border-radius: 2px;
-    border: solid 1px #ffffff;
+    border: solid 1px #fff;
     text-align: center;
 
-    @media (max-width: 1200px) {
+    @media (width <= 1200px) {
       margin-left: 30px;
     }
   }

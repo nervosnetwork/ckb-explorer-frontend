@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from 'axios'
 import { useState, useEffect, FC } from 'react'
 import { useQuery } from 'react-query'
 import { Radio } from 'antd'
-import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { v2AxiosIns } from '../../service/http/fetcher'
@@ -12,7 +11,6 @@ import { shannonToCkb, deprecatedAddrToNewAddr, handleNftImgError, patchMibaoImg
 import {
   AddressLockScriptController,
   AddressLockScriptPanel,
-  AddressTransactionsPagination,
   AddressTransactionsPanel,
   AddressUDTAssetsPanel,
   AddressUDTItemPanel,
@@ -40,6 +38,8 @@ import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
+import { CsvExport } from '../../components/CsvExport'
+import PaginationWithRear from '../../components/PaginationWithRear'
 
 const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
   const items = [
@@ -392,11 +392,12 @@ export const AddressTransactions = ({
           ))
         )}
       </AddressTransactionsPanel>
-      {totalPages > 1 && (
-        <AddressTransactionsPagination>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
-        </AddressTransactionsPagination>
-      )}
+      <PaginationWithRear
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onChange={setPage}
+        rear={<CsvExport type="address_transactions" id={addressHash} />}
+      />
     </>
   )
 }

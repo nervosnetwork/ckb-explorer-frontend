@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import BigNumber from 'bignumber.js'
+import { Dayjs } from 'dayjs'
 import CONFIG from '../../config'
 import { pick } from '../../utils/object'
 import { toCamelcase } from '../../utils/util'
@@ -431,3 +432,30 @@ export const fetchMaintenanceInfo = () =>
   axiosIns(`/statistics/maintenance_info`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.MaintenanceInfo>>(res.data.data),
   )
+
+export const exportTransactions = ({
+  type,
+  id,
+  date,
+  block,
+}: {
+  type: State.TransactionCsvExportType
+  id?: string
+  date?: Record<'start' | 'end', Dayjs | undefined>
+  block?: Record<'from' | 'to', number>
+}) => {
+  const rangeParams = {
+    start_date: date?.start?.valueOf(),
+    end_date: date?.end?.valueOf(),
+    start_number: block?.from,
+    end_number: block?.to,
+  }
+  if (type === 'nft') {
+    return v2AxiosIns
+      .get(`/nft/transfers/download_csv`, { params: { ...rangeParams, collection_id: id } })
+      .then(res => toCamelcase<string>(res.data))
+  }
+  return axiosIns
+    .get(`/${type}/download_csv`, { params: { ...rangeParams, id } })
+    .then(res => toCamelcase<string>(res.data))
+}

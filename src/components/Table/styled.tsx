@@ -5,7 +5,7 @@ export const TableTitleRow = styled.div`
   background: ${props => props.theme.primary};
   display: flex;
   min-height: 65px;
-  border-radius: 6px 6px 0px 0px;
+  border-radius: 6px 6px 0 0;
   padding: 0 20px;
 `
 
@@ -23,7 +23,7 @@ export const TableTitleRowItem = styled.div`
     font-weight: 450;
     text-align: center;
 
-    @media (max-width: 1000px) {
+    @media (width <= 1000px) {
       font-size: 16px;
     }
   }
@@ -56,7 +56,7 @@ export const TableContentRow = styled.div`
 
 export const TableContentRowItem = styled.div`
   width: ${({ width }: { width: string }) => width};
-  color: #000000;
+  color: #000;
   align-items: center;
   text-align: center;
   justify-content: center;
@@ -78,18 +78,19 @@ export const TableMinerContentPanel = styled.div`
   line-height: 20px;
   text-align: center;
   margin: auto 0;
+
   .table__miner__content {
     color: ${(props: { theme: any }) => props.theme.primary};
     text-decoration: none;
   }
 
   .table__miner__text {
-    width: 100%
+    width: 100%;
     justify-content: center;
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     font-weight: 500;
 
-    @media(max-width: 750px) {
+    @media (width <= 750px) {
       font-size: 13px;
     }
   }
@@ -99,15 +100,15 @@ export const TableMinerContentPanel = styled.div`
     align-items: center;
     justify-content: center;
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
-    color: #000000;
+    color: #000;
 
-    @media(max-width: 750px) {
+    @media (width <= 750px) {
       font-size: 13px;
     }
   }
 `
 
 export const HighlightLink = styled(props => <Link {...props} />)`
-  color: ${props => props.theme.primary}
+  color: ${props => props.theme.primary};
   text-decoration: none;
 `

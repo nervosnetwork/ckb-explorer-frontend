@@ -7,14 +7,14 @@ export const TransactionPanel = styled.div`
   border-radius: ${(props: { circleCorner: CircleCorner }) =>
     `${props.circleCorner.top ? '6px 6px' : '0 0'}${props.circleCorner.bottom ? ' 6px 6px' : ' 0 0'}`};
   box-shadow: 2px 2px 6px 0 #dfdfdf;
-  background-color: #ffffff;
-  padding: 10px 40px 15px 40px;
+  background-color: #fff;
+  padding: 10px 40px 15px;
   display: flex;
   flex-direction: column;
   font-size: 16px;
 
-  @media (max-width: 750px) {
-    padding: 15px 20px 15px 20px;
+  @media (width <= 750px) {
+    padding: 15px 20px;
     font-size: 13px;
   }
 `
@@ -24,15 +24,17 @@ export const TransactionsReward = styled.div`
   align-items: center;
   height: 35px;
   justify-content: space-between;
+
   .transaction__cell {
     display: flex;
     align-items: center;
     justify-content: left;
-    color: rgb(136, 136, 136);
+    color: rgb(136 136 136);
   }
+
   .transaction__cell__capacity {
     font-size: 16px;
-    color: rgb(136, 136, 136);
+    color: rgb(136 136 136);
     margin-left: 15px;
   }
 `
@@ -50,7 +52,7 @@ export const TransactionHashBlockPanel = styled.div`
     justify-content: space-between;
     margin-bottom: 10px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       flex-direction: column;
       justify-content: normal;
       margin-bottom: 10px;
@@ -63,15 +65,15 @@ export const TransactionHashBlockPanel = styled.div`
     }
 
     .transaction_item__block {
-      color: #000000;
+      color: #000;
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         font-weight: normal;
       }
     }
   }
 
-  &:after {
+  &::after {
     content: '';
     background: #e2e2e2;
     height: 1px;
@@ -86,7 +88,7 @@ export const TransactionCellPanel = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  @media (max-width: 1200px) {
+  @media (width <= 1200px) {
     flex-direction: column;
     align-items: center;
   }
@@ -102,8 +104,8 @@ export const TransactionCellPanel = styled.div`
     flex: 1;
     min-width: 0;
 
-    @media (max-width: 1200px) {
-      margin: 0px;
+    @media (width <= 1200px) {
+      margin: 0;
       flex: none;
       width: 100%;
     }
@@ -117,8 +119,8 @@ export const TransactionCellPanel = styled.div`
     align-items: flex-start;
     margin-left: 40px;
 
-    @media (max-width: 1200px) {
-      margin: 0px;
+    @media (width <= 1200px) {
+      margin: 0;
       flex: none;
       width: 100%;
     }
@@ -126,10 +128,10 @@ export const TransactionCellPanel = styled.div`
 
   .transaction_item__output__empty {
     font-size: 16px;
-    color: #666666;
+    color: #666;
     margin-top: 18px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       font-size: 13px;
     }
   }

@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
-import Pagination from '../../components/Pagination'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import i18n from '../../utils/i18n'
@@ -11,6 +10,8 @@ import { ReactComponent as OpenInNew } from '../../assets/open_in_new.svg'
 import { deprecatedAddrToNewAddr } from '../../utils/util'
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
+import PaginationWithRear from '../../components/PaginationWithRear'
+import { CsvExport } from '../../components/CsvExport'
 
 const addressContent = (address: string) => {
   if (!address) {
@@ -85,6 +86,7 @@ export const SimpleUDTComp = ({
   total,
   onPageChange,
   filterNoResult,
+  id,
 }: {
   currentPage: number
   pageSize: number
@@ -92,6 +94,7 @@ export const SimpleUDTComp = ({
   total: number
   onPageChange: (page: number) => void
   filterNoResult?: boolean
+  id: string
 }) => {
   const totalPages = Math.ceil(total / pageSize)
 
@@ -120,7 +123,12 @@ export const SimpleUDTComp = ({
       </SimpleUDTTransactionsPanel>
       {totalPages > 1 && (
         <SimpleUDTTransactionsPagination>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onPageChange} />
+          <PaginationWithRear
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onChange={onPageChange}
+            rear={<CsvExport type="udts" id={id} />}
+          />
         </SimpleUDTTransactionsPagination>
       )}
     </>

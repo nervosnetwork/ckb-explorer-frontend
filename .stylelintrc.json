@@ -1,7 +1,9 @@
 {
-  "processors": ["stylelint-processor-styled-components"],
+  "customSyntax": "postcss-styled-syntax",
   "extends": ["stylelint-config-recommended", "stylelint-config-styled-components", "stylelint-config-standard"],
   "rules": {
-    "no-empty-source": null
+    "no-empty-source": null,
+    "selector-class-pattern": null,
+    "selector-id-pattern": null
   }
 }

@@ -8,10 +8,9 @@ export const PaginationPanel = styled.div`
   flex-direction: row;
   justify-content: center;
   border-radius: 0 0 6px 6px;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     margin-bottom: 30px;
   }
 `
@@ -23,11 +22,11 @@ export const PaginationLeftItem = styled.div`
   flex: 3;
   font-size: 14px;
   text-align: center;
-  color: #000000;
+  color: #000;
   padding-left: 20px;
 
-  @media (max-width: 750px) {
-    padding-left: 0px;
+  @media (width <= 750px) {
+    padding-left: 0;
     justify-content: flex-start;
   }
 
@@ -45,10 +44,10 @@ export const PaginationLeftItem = styled.div`
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
 
     &:hover {
-      background: #dddddd;
+      background: #ddd;
     }
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       display: none;
     }
   }
@@ -63,10 +62,10 @@ export const PaginationLeftItem = styled.div`
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isFirstPage ? 'none' : 'auto')};
 
     &:hover {
-      background: #dddddd;
+      background: #ddd;
     }
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin-left: 10px;
     }
 
@@ -87,9 +86,9 @@ export const PaginationLeftItem = styled.div`
     padding: 0 12px;
     margin-left: 20px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       background: white;
-      border-radius: 0px;
+      border-radius: 0;
       margin-left: 10px;
       padding: 0;
     }
@@ -110,12 +109,12 @@ export const PaginationLeftItem = styled.div`
     border-radius: 6px;
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'none' : 'auto')};
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin-left: 10px;
     }
 
     &:hover {
-      background: #dddddd;
+      background: #ddd;
     }
 
     > img {
@@ -139,10 +138,10 @@ export const PaginationLeftItem = styled.div`
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'none' : 'auto')};
 
     &:hover {
-      background: #dddddd;
+      background: #ddd;
     }
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       display: none;
     }
   }
@@ -153,11 +152,11 @@ export const PaginationRightItem = styled.div`
   align-items: center;
   flex: 2;
   font-size: 14px;
-  color: #000000;
+  color: #000;
   padding-right: 20px;
 
-  @media (max-width: 750px) {
-    padding-right: 0px;
+  @media (width <= 750px) {
+    padding-right: 0;
     justify-content: flex-end;
   }
 
@@ -172,9 +171,9 @@ export const PaginationRightItem = styled.div`
     margin-right: 20px;
     padding-left: 10px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       width: 60px;
-      margin-right: 0px;
+      margin-right: 0;
       padding-left: 8px;
       font-size: 12px;
     }
@@ -183,7 +182,7 @@ export const PaginationRightItem = styled.div`
   .pagination__page__label {
     margin-right: 20px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       display: none;
     }
   }
@@ -201,11 +200,11 @@ export const PaginationRightItem = styled.div`
     margin-left: 20px;
 
     &:hover {
-      background: #dddddd;
+      background: #ddd;
     }
 
-    @media (max-width: 750px) {
-      margin: 0 10px;
+    @media (max-width <= 750px) {
+      margin-left: 10px;
       font-size: 12px;
     }
   }

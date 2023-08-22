@@ -5,14 +5,13 @@ export const TransactionCellPanel = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 16px;
-
   background: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '' : '#f5f5f5')};
 
-  @media (min-width: 750px) {
+  @media (width >= 750px) {
     height: 20px;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     justify-content: normal;
     align-items: flex-start;
     flex-direction: column;
@@ -21,7 +20,6 @@ export const TransactionCellPanel = styled.div`
   .transaction__cell_address {
     color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
       highLight ? `${theme.primary}` : '#000000'};
-
     font-weight: 500;
     min-width: 0;
     width: 100%;
@@ -29,7 +27,7 @@ export const TransactionCellPanel = styled.div`
     display: flex;
     align-items: center;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       height: 16px;
       font-size: 14px;
     }
@@ -46,7 +44,7 @@ export const TransactionCellPanel = styled.div`
 
 export const TransactionCellCapacityPanel = styled.div`
   flex-shrink: 0;
-  color: #000000;
+  color: #000;
   margin-left: 15px;
   display: flex;
   max-height: 40px;
@@ -56,12 +54,13 @@ export const TransactionCellCapacityPanel = styled.div`
     margin-right: 21px;
   }
 
-  @media (max-width: 750px) {
-    margin-left: 0px;
+  @media (width <= 750px) {
+    margin-left: 0;
     margin-top: 5px;
     height: 16px;
     width: 100%;
     justify-content: flex-end;
+
     .transaction__cell__without__icon {
       margin: 0 6px;
     }
@@ -87,7 +86,7 @@ export const TransactionCellWithdraw = styled.div`
     height: auto;
     cursor: pointer;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       width: 12px;
       height: auto;
     }
@@ -97,6 +96,7 @@ export const TransactionCellWithdraw = styled.div`
 export const TransactionCellUDTPanel = styled.div`
   display: flex;
   align-items: center;
+
   span {
     margin-left: 6px;
   }
@@ -107,7 +107,7 @@ export const TransactionCellUDTPanel = styled.div`
     height: auto;
     cursor: pointer;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       width: 12px;
       height: auto;
       margin-bottom: 3px;
@@ -123,7 +123,7 @@ export const WithdrawInfoPanel = styled.div`
     text-align: center;
     margin-bottom: 16px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       font-size: 11px;
       margin-bottom: 8px;
     }
@@ -134,7 +134,7 @@ export const WithdrawItemPanel = styled.div`
   margin: 10px;
   display: flex;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     margin: 5px;
   }
 
@@ -152,7 +152,7 @@ export const WithdrawItemPanel = styled.div`
       }
     }};
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       font-size: 10px;
       width: ${({ width }: { width: string }) => {
         switch (width) {
@@ -166,7 +166,7 @@ export const WithdrawItemPanel = styled.div`
       }};
     }
 
-    @media (max-width: 375px) {
+    @media (width <= 375px) {
       font-size: 9px;
       width: ${({ width }: { width: string }) => {
         switch (width) {
@@ -184,11 +184,11 @@ export const WithdrawItemPanel = styled.div`
   .withdraw__info_content {
     font-size: 14px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       font-size: 10px;
     }
 
-    @media (max-width: 375px) {
+    @media (width <= 375px) {
       font-size: 9px;
     }
   }

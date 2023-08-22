@@ -12,7 +12,7 @@ export default styled.div`
     margin-top: 20px;
     height: 20px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       font-size: 14px;
       margin-top: 15px;
       height: 16px;

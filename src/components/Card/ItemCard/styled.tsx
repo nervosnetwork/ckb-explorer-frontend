@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const ItemCardPanel = styled.div`
   width: 100%;
-  background-color: #ffffff;
+  background-color: #fff;
   color: #333;
   font-size: 16px;
   margin-top: 4px;
@@ -12,12 +12,11 @@ export const ItemCardPanel = styled.div`
 `
 
 export const ItemContentPanel = styled.div`
-  margin-right: 45px;
   display: flex;
   flex: 1;
   flex-direction: column;
   width: 100%;
-  margin-right: 0px;
+  margin-right: 0;
 `
 
 export const ItemDetailPanel = styled.div`
@@ -33,14 +32,14 @@ export const ItemDetailPanel = styled.div`
   .item__detail__title {
     color: #666;
     width: 100%;
-    margin-left: 0px;
+    margin-left: 0;
     line-height: 1;
   }
 
   .item__detail__value {
     display: flex;
     width: 100%;
-    margin-left: 0px;
+    margin-left: 0;
     margin-top: 8px;
     line-height: 1;
     word-wrap: break-word;

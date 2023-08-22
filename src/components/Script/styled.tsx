@@ -7,7 +7,7 @@ export const ScriptPanel = styled.div`
   padding: 12px 24px;
   overflow: auto;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     margin-top: 5px;
     padding: 6px 12px;
   }
@@ -20,20 +20,20 @@ export const ScriptItemPanel = styled.div`
   margin-bottom: 10px;
   font-size: 16px;
 
-  @media (min-width: 750px) {
+  @media (width >= 750px) {
     min-height: 20px;
     max-height: 120px;
   }
 
-  @media (max-width: 1200px) {
+  @media (width <= 1200px) {
     font-size: 14px;
   }
 
-  @media (max-width: 900px) {
+  @media (width <= 900px) {
     font-size: 12px;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     flex-direction: column;
     font-size: 14px;
   }
@@ -47,9 +47,9 @@ export const ScriptItemPanel = styled.div`
     > span {
       margin-left: 10px;
       font-weight: 500;
-      color: rgba(0, 0, 0, 0.6);
+      color: rgb(0 0 0 / 60%);
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         margin-left: 5px;
       }
     }
@@ -63,11 +63,11 @@ export const ScriptItemPanel = styled.div`
     transform: translateY(2px);
     word-wrap: break-word;
     word-break: break-all;
-    color: #000000;
+    color: #000;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin-left: 5px;
-      transform: translateY(0px);
+      transform: translateY(0);
     }
   }
 
@@ -78,15 +78,15 @@ export const ScriptItemPanel = styled.div`
 
     > span {
       margin-right: 12px;
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
 
-    @media (max-width: 1440px) {
+    @media (width <= 1440px) {
       flex-direction: column;
       align-items: flex-start;
 
       > span {
-        margin-right: 0px;
+        margin-right: 0;
         margin-bottom: 6px;
       }
     }

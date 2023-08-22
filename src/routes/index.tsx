@@ -56,6 +56,7 @@ const InflationRateChart = lazy(() => import('../pages/StatisticsChart/monetary/
 const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liquidity'))
 const ScriptList = lazy(() => import('../pages/ScriptList'))
 const FeeRateTracker = lazy(() => import('../pages/FeeRateTracker'))
+const ExportTransactions = lazy(() => import('../pages/ExportTransactions'))
 
 const Containers: CustomRouter.Route[] = [
   {
@@ -315,6 +316,12 @@ const Containers: CustomRouter.Route[] = [
     path: '/error',
     exact: true,
     comp: ErrorPage,
+  },
+  {
+    name: 'ExportTransactions',
+    path: '/export-transactions',
+    exact: true,
+    comp: ExportTransactions,
   },
 ]
 
