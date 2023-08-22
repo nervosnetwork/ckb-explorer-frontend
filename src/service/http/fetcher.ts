@@ -446,7 +446,7 @@ export const exportTransactions = ({
 }) => {
   const rangeParams = {
     start_date: date?.start?.valueOf(),
-    end_date: date?.end?.valueOf(),
+    end_date: date?.end?.add(1, 'day').subtract(1, 'millisecond').valueOf(),
     start_number: block?.from,
     end_number: block?.to,
   }
