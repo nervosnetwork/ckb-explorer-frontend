@@ -7,7 +7,6 @@ import { AddressContentPanel } from './styled'
 import { AddressTransactions, AddressOverview } from './AddressComp'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
-import { defaultAddressInfo } from './state'
 import { usePaginationParamsInListPage } from '../../utils/hook'
 import { isAxiosError } from '../../utils/error'
 
@@ -59,12 +58,7 @@ export const Address = () => {
 
         <QueryResult query={addressTransactionsQuery} delayLoading>
           {data => (
-            <AddressTransactions
-              address={address}
-              transactions={data.transactions}
-              transactionsTotal={data.total}
-              addressInfo={addressInfoQuery.data ?? defaultAddressInfo}
-            />
+            <AddressTransactions address={address} transactions={data.transactions} transactionsTotal={data.total} />
           )}
         </QueryResult>
       </AddressContentPanel>
