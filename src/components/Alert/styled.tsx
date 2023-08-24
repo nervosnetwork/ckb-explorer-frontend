@@ -18,16 +18,16 @@ export const AlertPanel = styled.div`
     font-size: 14px;
     font-weight: 450;
 
-    @media (width <= 1440px) {
+    @media (max-width: 1440px) {
       padding: 0 100px;
     }
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       padding: 0 45px;
       height: 64px;
     }
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       padding: 8px 18px;
       height: ${(props: { isEn: boolean }) => (props.isEn ? '120px' : '100px')};
       flex-direction: column;
@@ -36,7 +36,7 @@ export const AlertPanel = styled.div`
   }
 
   .alert__dismiss__panel {
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       width: 100%;
       display: flex;
       justify-content: flex-end;
@@ -51,7 +51,7 @@ export const AlertPanel = styled.div`
     border: solid 1px #fff;
     text-align: center;
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       margin-left: 30px;
     }
   }

@@ -13,7 +13,7 @@ export const ChartDetailTitle = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-top: 20px;
   }
 
@@ -29,7 +29,7 @@ export const ChartDetailTitle = styled.div`
       font-size: 24px;
       margin-left: 100px;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 16px;
         margin-left: 0;
       }
@@ -52,7 +52,7 @@ export const ChartDetailTitle = styled.div`
     color: #666;
     margin-right: 3.6%;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       display: none;
     }
   }

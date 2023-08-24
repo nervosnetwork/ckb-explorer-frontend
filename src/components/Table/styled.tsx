@@ -34,7 +34,7 @@ export const TableTitleRowItem = styled.div`
     font-weight: 450;
     text-align: center;
 
-    @media (width <= 1000px) {
+    @media (max-width: 1000px) {
       font-size: 16px;
     }
   }
@@ -106,7 +106,7 @@ export const TableMinerContentPanel = styled.div`
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     font-weight: 500;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 13px;
     }
   }
@@ -118,7 +118,7 @@ export const TableMinerContentPanel = styled.div`
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     color: #000;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 13px;
     }
   }

@@ -4,7 +4,7 @@ export const SearchPanel = styled.div`
   margin-top: 200px;
   margin-bottom: 240px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-top: 120px;
     margin-bottom: 150px;
   }
@@ -13,7 +13,7 @@ export const SearchPanel = styled.div`
     width: 600px;
     margin: 0 auto;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       width: 340px;
     }
   }
@@ -28,7 +28,7 @@ export const SearchContent = styled.div`
   white-space: pre-wrap;
   width: 600px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     width: 340px;
   }
 
@@ -41,11 +41,11 @@ export const SearchContent = styled.div`
     color: ${props => props.theme.primary};
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     font-size: 12px;
   }
 
-  @media (width <= 375px) {
+  @media (max-width: 375px) {
     font-size: 11px;
   }
 
@@ -53,11 +53,11 @@ export const SearchContent = styled.div`
     font-weight: bold;
     font-size: 16px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 12px;
     }
 
-    @media (width <= 375px) {
+    @media (max-width: 375px) {
       font-size: 11px;
     }
   }

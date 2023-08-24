@@ -7,11 +7,11 @@ export const TransactionCellPanel = styled.div`
   margin-top: 16px;
   background: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '' : '#f5f5f5')};
 
-  @media (width >= 750px) {
+  @media (min-width: 750px) {
     height: 20px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     justify-content: normal;
     align-items: flex-start;
     flex-direction: column;
@@ -27,7 +27,7 @@ export const TransactionCellPanel = styled.div`
     display: flex;
     align-items: center;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       height: 16px;
       font-size: 14px;
     }
@@ -54,7 +54,7 @@ export const TransactionCellCapacityPanel = styled.div`
     margin-right: 21px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-left: 0;
     margin-top: 5px;
     height: 16px;
@@ -86,7 +86,7 @@ export const TransactionCellWithdraw = styled.div`
     height: auto;
     cursor: pointer;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       width: 12px;
       height: auto;
     }
@@ -107,7 +107,7 @@ export const TransactionCellUDTPanel = styled.div`
     height: auto;
     cursor: pointer;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       width: 12px;
       height: auto;
       margin-bottom: 3px;
@@ -123,7 +123,7 @@ export const WithdrawInfoPanel = styled.div`
     text-align: center;
     margin-bottom: 16px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 11px;
       margin-bottom: 8px;
     }
@@ -134,7 +134,7 @@ export const WithdrawItemPanel = styled.div`
   margin: 10px;
   display: flex;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin: 5px;
   }
 
@@ -152,7 +152,7 @@ export const WithdrawItemPanel = styled.div`
       }
     }};
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 10px;
       width: ${({ width }: { width: string }) => {
         switch (width) {
@@ -166,7 +166,7 @@ export const WithdrawItemPanel = styled.div`
       }};
     }
 
-    @media (width <= 375px) {
+    @media (max-width: 375px) {
       font-size: 9px;
       width: ${({ width }: { width: string }) => {
         switch (width) {
@@ -184,11 +184,11 @@ export const WithdrawItemPanel = styled.div`
   .withdraw__info_content {
     font-size: 14px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 10px;
     }
 
-    @media (width <= 375px) {
+    @media (max-width: 375px) {
       font-size: 9px;
     }
   }

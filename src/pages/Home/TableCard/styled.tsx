@@ -9,7 +9,7 @@ export const BlockCardPanel = styled.div`
   padding: 15px;
   background: #fff;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
@@ -22,7 +22,7 @@ export const BlockCardPanel = styled.div`
     font-size: 14px;
     flex: 2;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
@@ -54,7 +54,7 @@ export const BlockCardPanel = styled.div`
       white-space: nowrap;
       text-overflow: ellipsis;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 12px;
         margin-top: 2px;
         margin-left: 10px;
@@ -70,7 +70,7 @@ export const BlockCardPanel = styled.div`
     align-items: flex-start;
     flex: 4;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-top: 15px;
     }
 
@@ -79,7 +79,7 @@ export const BlockCardPanel = styled.div`
       font-weight: 500;
       width: 100%;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         align-items: center;
       }
 
@@ -89,7 +89,7 @@ export const BlockCardPanel = styled.div`
         margin-right: 10px;
         white-space: nowrap;
 
-        @media (width <= 750px) {
+        @media (max-width: 750px) {
           font-size: 13px;
         }
       }
@@ -100,7 +100,7 @@ export const BlockCardPanel = styled.div`
       color: #888;
       font-weight: 500;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 13px;
       }
 
@@ -108,7 +108,7 @@ export const BlockCardPanel = styled.div`
         margin-top: 9px;
         margin-right: 10px;
 
-        @media (width <= 750px) {
+        @media (max-width: 750px) {
           margin-top: 0;
         }
       }
@@ -121,7 +121,7 @@ export const BlockCardPanel = styled.div`
     align-items: flex-end;
     flex: 1.3;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       flex-direction: row;
       margin-top: 15px;
       align-items: center;
@@ -141,11 +141,11 @@ export const BlockCardPanel = styled.div`
       color: #888;
       font-weight: 500;
 
-      @media (width <= 900px) {
+      @media (max-width: 900px) {
         font-size: 10px;
       }
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 12px;
         margin-top: 2px;
       }
@@ -162,11 +162,11 @@ export const TransactionCardPanel = styled.div`
   font-weight: 500;
   max-height: 83px;
 
-  @media screen and (width <= 790px) {
+  @media screen and (max-width: 790px) {
     max-height: unset;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
@@ -179,9 +179,10 @@ export const TransactionCardPanel = styled.div`
     font-size: 14px;
     flex: 1.4;
     min-width: 0;
+    max-width: 100%;
     font-weight: 500;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 13px;
     }
 
@@ -194,7 +195,7 @@ export const TransactionCardPanel = styled.div`
       white-space: nowrap;
       text-overflow: ellipsis;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         margin-top: 0;
       }
     }
@@ -206,7 +207,7 @@ export const TransactionCardPanel = styled.div`
     align-items: flex-start;
     flex: 1;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-top: 15px;
     }
 
@@ -216,7 +217,7 @@ export const TransactionCardPanel = styled.div`
       font-size: 14px;
       font-weight: 500;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 13px;
       }
 
@@ -244,7 +245,7 @@ export const TransactionCardPanel = styled.div`
       margin-right: 10px;
       font-weight: 500;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 12px;
         margin-top: 0;
       }
@@ -260,7 +261,7 @@ export const TransactionCardPanel = styled.div`
     font-weight: 500;
     color: #000;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       flex-direction: row;
       margin-top: 15px;
       font-size: 13px;
@@ -274,11 +275,11 @@ export const TransactionCardPanel = styled.div`
       color: #888;
       font-weight: 500;
 
-      @media (width <= 900px) {
+      @media (max-width: 900px) {
         margin-left: 10px;
       }
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 12px;
         margin-top: 2px;
         margin-left: 10px;
@@ -292,7 +293,7 @@ export const BlockRewardPlusPanel = styled.div`
   align-items: flex-end;
   justify-content: center;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     align-items: flex-end;
     justify-content: flex-start;
   }

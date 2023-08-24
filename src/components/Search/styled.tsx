@@ -20,7 +20,7 @@ export const SearchPanel = styled.div`
   border-radius: ${(props: { hasButton?: boolean }) => (props.hasButton ? '4px 0 0 4px' : '4px')};
   padding-right: 5px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     border-radius: 4px;
   }
 `
@@ -59,7 +59,7 @@ export const SearchInputPanel = styled.input`
     color: #888;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     font-size: 12px;
     width: 100%;
     padding-left: 6px;
@@ -80,7 +80,7 @@ export const SearchButton = styled.div`
   font-size: 14px;
   cursor: pointer;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     display: none;
   }
 `

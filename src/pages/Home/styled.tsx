@@ -15,7 +15,7 @@ export const HomeHeaderItemPanel = styled.div`
     width: 100%;
     margin: 0 30px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin: 0 20px;
     }
 
@@ -23,7 +23,7 @@ export const HomeHeaderItemPanel = styled.div`
       color: #555;
       font-size: 14px;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 12px;
       }
     }
@@ -38,7 +38,7 @@ export const HomeHeaderItemPanel = styled.div`
       .blockchain__item__left__value {
         font-size: 20px;
 
-        @media (width <= 750px) {
+        @media (max-width: 750px) {
           font-size: 16px;
         }
       }
@@ -46,7 +46,7 @@ export const HomeHeaderItemPanel = styled.div`
       .blockchain__item__right__value {
         font-size: 14px;
 
-        @media (width <= 750px) {
+        @media (max-width: 750px) {
           font-size: 12px;
         }
       }
@@ -66,14 +66,14 @@ export const HomeHeaderItemPanel = styled.div`
     background: #eaeaea;
     width: 1px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       display: none;
     }
   }
 `
 
 export const HomeStatisticItemPanel = styled.div`
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     flex: 1;
     margin-left: ${(props: { isFirst?: boolean }) => (props.isFirst ? '0px' : '40px')};
   }
@@ -82,7 +82,7 @@ export const HomeStatisticItemPanel = styled.div`
     font-size: 14px;
     color: #fff;
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       font-size: 12px;
     }
   }
@@ -92,7 +92,7 @@ export const HomeStatisticItemPanel = styled.div`
     color: #fff;
     font-weight: bold;
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       font-size: 18px;
     }
   }
@@ -102,7 +102,7 @@ export const HomeTablePanel = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     flex-direction: column;
   }
 `
@@ -162,7 +162,7 @@ export const ContentTitle = styled.div`
     margin: 0 auto;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     font-size: 30px;
     color: #141414;
     font-weight: bold;
@@ -249,7 +249,7 @@ export const BlockRewardContainer = styled.div`
   align-items: flex-end;
   justify-content: center;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     align-items: flex-end;
     justify-content: flex-start;
   }

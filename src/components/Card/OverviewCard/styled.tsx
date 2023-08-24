@@ -27,11 +27,11 @@ export const OverviewCardPanel = styled.div`
     transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
   }
 
-  @media (width <= 1000px) {
+  @media (max-width: 1000px) {
     font-size: 13px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     font-size: 13px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     padding: 8px 20px;
@@ -50,7 +50,7 @@ export const OverviewContentPanel = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  @media (width <= 1200px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
   }
 
@@ -61,7 +61,7 @@ export const OverviewContentPanel = styled.div`
     margin: 14px 0 0;
     transform: ${() => `scaleX(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       display: none;
     }
   }
@@ -73,7 +73,7 @@ export const OverviewContentPanel = styled.div`
     min-width: 0;
     flex-direction: column;
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       width: 100%;
       margin-right: 0;
     }
@@ -86,7 +86,7 @@ export const OverviewContentPanel = styled.div`
     min-width: 0;
     flex-direction: column;
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       width: 100%;
       margin-left: 0;
     }
@@ -100,18 +100,18 @@ export const OverviewItemPanel = styled.div`
   justify-content: space-between;
   position: relative;
 
-  @media (width >= 750px) {
+  @media (min-width: 750px) {
     height: 20px;
     margin-top: 14px;
     margin-bottom: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '16px' : '0px')};
   }
 
-  @media (width >= 1200px) {
+  @media (min-width: 1200px) {
     height: 20px;
     margin-top: 14px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-top: 12px;
     justify-content: normal;
     flex-direction: column;
@@ -134,12 +134,12 @@ export const OverviewItemPanel = styled.div`
     align-items: center;
     flex-shrink: 0;
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       margin-left: ${({ hasIcon, isAsset }: { hasIcon: boolean; isAsset?: boolean }) =>
         !hasIcon && isAsset ? '60px' : '0px'};
     }
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 0;
     }
   }
@@ -149,7 +149,7 @@ export const OverviewItemPanel = styled.div`
     height: 48px;
     margin-right: 10px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-bottom: 10px;
     }
 
@@ -165,7 +165,7 @@ export const OverviewItemPanel = styled.div`
     margin-left: 0;
     font-weight: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '600' : '400')};
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       width: 100%;
       margin-left: 0;
     }
@@ -190,7 +190,7 @@ export const OverviewItemPanel = styled.div`
       flex-direction: row-reverse;
     }
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 0;
       word-wrap: break-word;
       word-break: break-all;

@@ -53,7 +53,7 @@ export const TransactionCellInfoPanel = styled.div`
     cursor: pointer;
     width: 45px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       width: auto;
     }
 
@@ -63,7 +63,7 @@ export const TransactionCellInfoPanel = styled.div`
       height: 1px;
       transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         width: auto;
       }
     }
@@ -91,7 +91,7 @@ export const TransactionCellAddressPanel = styled.div`
       width: 70px;
       text-align: start;
 
-      @media (width <= 1440px) {
+      @media (max-width: 1440px) {
         width: 50px;
       }
     }
@@ -109,7 +109,7 @@ export const TransactionCellHashPanel = styled.div`
   align-items: center;
   font-size: 16px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     text-align: left;
 
     > a {
@@ -117,7 +117,7 @@ export const TransactionCellHashPanel = styled.div`
     }
   }
 
-  @media (width >= 750px) {
+  @media (min-width: 750px) {
     font-weight: 500;
   }
 
@@ -128,7 +128,7 @@ export const TransactionCellHashPanel = styled.div`
   .transaction__cell_address_link {
     max-width: 70%;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       max-width: unset;
     }
   }
@@ -175,7 +175,7 @@ export const TransactionCellDetailModal = styled.div`
   border: 1px solid #888;
   width: 75%;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     width: 90%;
     margin-top: 40%;
     padding: 10px;

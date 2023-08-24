@@ -7,7 +7,7 @@ export const DaoContentPanel = styled.div`
   margin-top: 30px;
   margin-bottom: 40px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin: 0;
     padding: 20px;
   }
@@ -26,7 +26,7 @@ export const DaoContentPanel = styled.div`
     font-weight: 500;
     color: #000;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       height: 50px;
       box-shadow: 1px 1px 3px 0 #dfdfdf;
       font-size: 15px;
@@ -49,11 +49,12 @@ export const DaoTabBarPanel = styled.div`
   font-size: 18px;
   border-radius: 6px 6px 0 0;
 
-  @media (width <= 1200px) {
+  @media (max-width: 1200px) {
     font-size: 16px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
+    height: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '100px' : '50px')};
     padding: 10px 0px;
     flex-direction: column;
     justify-content: center;
@@ -72,7 +73,7 @@ export const DaoTabBarPanel = styled.div`
     cursor: pointer;
     margin-right: 15px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       display: flex;
       justify-content: space-between;
       margin-bottom: 25px;
@@ -83,7 +84,7 @@ export const DaoTabBarPanel = styled.div`
     .div {
       font-size: 20px;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 13px;
       }
     }
@@ -91,7 +92,7 @@ export const DaoTabBarPanel = styled.div`
     div:nth-child(2) {
       margin-left: 50px;
 
-      @media (width <= 1200px) {
+      @media (max-width: 1200px) {
         margin-left: 30px;
       }
     }
@@ -103,7 +104,7 @@ export const DaoTabBarPanel = styled.div`
       font-weight: normal;
       font-size: 18px;
 
-      @media (width <= 1200px) {
+      @media (max-width: 1200px) {
         width: 110px;
       }
     }
@@ -116,7 +117,7 @@ export const DaoTabBarPanel = styled.div`
       font-weight: bold;
       border-bottom: 3px solid ${props => props.theme.primary};
 
-      @media (width <= 1200px) {
+      @media (max-width: 1200px) {
         width: 110px;
       }
     }

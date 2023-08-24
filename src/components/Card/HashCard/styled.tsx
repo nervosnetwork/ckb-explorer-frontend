@@ -12,7 +12,7 @@ export const HashCardPanel = styled.div`
   padding: 0 40px;
   margin-bottom: 18px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     padding: 0 16px;
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
@@ -26,7 +26,7 @@ export const HashCardPanel = styled.div`
     overflow: hidden;
     position: relative;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       height: auto;
       flex-direction: ${(props: { isColumn: boolean }) => (props.isColumn ? 'column' : 'row')};
       align-items: ${(props: { isColumn: boolean }) => (props.isColumn ? 'flex-start' : 'center')};
@@ -46,7 +46,7 @@ export const HashCardPanel = styled.div`
     color: #000;
     white-space: nowrap;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 20px;
     }
   }
@@ -66,7 +66,7 @@ export const HashCardPanel = styled.div`
     color: #000;
     transform: translateY(3px);
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 13px;
       margin-left: ${(props: { isColumn: boolean }) => (props.isColumn ? '0px' : '10px')};
       font-weight: 500;
@@ -80,7 +80,7 @@ export const HashCardPanel = styled.div`
     display: flex;
     align-items: center;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 10px;
       transform: translateY(3px);
     }
@@ -89,7 +89,7 @@ export const HashCardPanel = styled.div`
       width: 21px;
       height: 24px;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         width: 16px;
         height: 18px;
         margin-bottom: 3px;
@@ -112,7 +112,7 @@ export const HashCardPanel = styled.div`
       color: ${props => props.theme.primary};
     }
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-top: 3px;
       margin-left: 6px;
     }

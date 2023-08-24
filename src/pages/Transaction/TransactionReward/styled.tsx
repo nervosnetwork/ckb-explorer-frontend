@@ -8,7 +8,7 @@ export const RewardItemPenal = styled.div`
   margin-bottom: 15px;
   color: #000;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin: 5px 10px;
     justify-content: space-between;
   }
@@ -27,7 +27,7 @@ export const RewardItemPenal = styled.div`
 `
 
 export const RewardPenal = styled.div`
-  @media (width >= 750px) {
+  @media (min-width: 750px) {
     margin-bottom: -20px;
   }
 
@@ -36,7 +36,7 @@ export const RewardPenal = styled.div`
     margin-top: 12px;
     color: #666;
 
-    @media (width >= 750px) {
+    @media (min-width: 750px) {
       display: none;
     }
   }

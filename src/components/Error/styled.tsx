@@ -5,7 +5,7 @@ export const ErrorPanel = styled.div`
   margin: 112px 0 203px;
   text-align: center;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin: 120px 0 130px;
   }
 
@@ -14,7 +14,7 @@ export const ErrorPanel = styled.div`
     max-width: 100%;
     margin: 0 auto;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       width: 282px;
       height: 130px;
     }

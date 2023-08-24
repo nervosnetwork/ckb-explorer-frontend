@@ -14,7 +14,7 @@ export const AddressContentPanel = styled.div`
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin: 0;
     padding: 20px;
   }
@@ -29,7 +29,7 @@ export const AddressPendingRewardTitlePanel = styled.div`
     width: 20px;
     height: 20px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 10px;
       width: 16px;
       height: 16px;
@@ -61,7 +61,7 @@ export const AddressLockScriptController = styled(SimpleButton)`
     margin: 2px 0 0 5px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     font-size: 14px;
     margin-top: 10px;
 
@@ -74,7 +74,7 @@ export const AddressLockScriptController = styled(SimpleButton)`
 export const AddressTransactionsPanel = styled.div`
   width: 100%;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     ${TransactionPanel}:first-child {
       margin-top: 0;
       box-shadow: none;
@@ -103,11 +103,11 @@ export const AddressUDTAssetsPanel = styled.div`
     flex-flow: row wrap;
     overflow-y: scroll;
 
-    @media (width >= 1200px) {
+    @media (min-width: 1200px) {
       max-height: 220px;
     }
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       max-height: 310px;
     }
   }
@@ -120,7 +120,7 @@ export const AddressUDTItemPanel = styled.a`
   background: #fff;
   width: 260px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     width: calc(100% - 30px);
   }
 
@@ -168,7 +168,7 @@ export const AddressUDTItemPanel = styled.a`
       text-overflow: ellipsis;
       max-width: 196px;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         max-width: calc(100% - 42px);
       }
     }
