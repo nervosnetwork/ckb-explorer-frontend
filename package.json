@@ -40,7 +40,7 @@
     "@sentry/webpack-plugin": "1.20.1",
     "@testing-library/react": "12.1.5",
     "@types/echarts": "4.9.9",
-    "@types/eslint": "7.28.0",
+    "@types/eslint": "7.29.0",
     "@types/jest": "26.0.24",
     "@types/node": "16.18.44",
     "@types/react": "17.0.64",
