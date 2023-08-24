@@ -4,7 +4,7 @@ export const TransactionCellListTitlePanel = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     display: none;
   }
 
@@ -85,7 +85,7 @@ export const TransactionCellsPanel = styled.div`
     font-size: 20px;
     margin-left: 10px;
 
-    @media (width >= 750px) {
+    @media (min-width: 750px) {
       display: none;
     }
   }
