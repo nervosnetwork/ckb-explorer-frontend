@@ -1,5 +1,5 @@
 import { useState, ReactNode, FC } from 'react'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
 import Pagination from '../../components/Pagination'
@@ -13,7 +13,7 @@ import { useAppState } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
-import { useIsMobile } from '../../utils/hook'
+import { useIsMobile, useSearchParams } from '../../utils/hook'
 import { hexToUtf8 } from '../../utils/string'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import {
@@ -36,6 +36,7 @@ import TitleCard from '../../components/Card/TitleCard'
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
+import Filter from '../../components/Search/Filter'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -296,11 +297,32 @@ export const BlockComp = ({
   total: number
 }) => {
   const totalPages = Math.ceil(total / pageSize)
+  const { push } = useHistory()
   const { hash } = useLocation()
+  const { param: blockId } = useParams<{ param: string }>()
+
+  const { filter } = useSearchParams('filter')
 
   return (
     <>
-      <TitleCard title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`} isSingle />
+      <TitleCard
+        title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
+        className={styles.transactionTitleCard}
+        isSingle
+        rear={
+          <Filter
+            showReset={!!filter}
+            defaultValue={filter ?? ''}
+            placeholder={i18n.t('block.address_or_hash')}
+            onFilter={filter => {
+              push(`/block/${blockId}?${new URLSearchParams({ filter })}`)
+            }}
+            onReset={() => {
+              push(`/block/${blockId}`)
+            }}
+          />
+        }
+      />
       {transactions.map(
         (transaction, index) =>
           transaction && (

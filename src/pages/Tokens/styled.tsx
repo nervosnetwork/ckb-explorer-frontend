@@ -64,6 +64,37 @@ export const TokensTableTitle = styled.div`
     flex: 1.8;
     text-align: right;
   }
+
+  @media (max-width: 1000px) {
+    >span: nth-child(1) {
+      flex: 3.4;
+    }
+
+    >span: nth-child(2) {
+      flex: 2.5;
+    }
+
+    >span: nth-child(3) {
+      flex: 2.1;
+    }
+
+    >span: nth-child(4) {
+      flex: 2;
+    }
+  }
+
+  @media (max-width: 750px) {
+    flex-flow: row wrap;
+    height: fit-content;
+    padding: 5px 20px;
+
+    > span {
+      display: inline-block;
+      white-space: nowrap;
+      margin: 10px 0;
+      flex: 0 !important;
+    }
+  }
 `
 
 export const TokensTableContent = styled.div`
@@ -124,6 +155,10 @@ export const TokensTableItem = styled.div`
         margin-top: 2px;
       }
     }
+
+    @media (max-width: 1000px) {
+      flex: 3.4;
+    }
   }
 
   .tokens__item__transactions {
@@ -132,7 +167,11 @@ export const TokensTableItem = styled.div`
     text-align: right;
     color: #000;
 
-    @media (width <= 750px) {
+    @media (max-width <= 1000px) {
+      flex: 2.5;
+    }
+
+    @media (max-width <= 750px) {
       margin-left: 30px;
       margin-top: 3px;
     }
@@ -144,7 +183,11 @@ export const TokensTableItem = styled.div`
     text-align: right;
     color: #000;
 
-    @media (width <= 750px) {
+    @media (max-width <= 1000px) {
+      flex: 2.1;
+    }
+
+    @media (max-width <= 750px) {
       margin-left: 30px;
       margin-top: 3px;
     }
@@ -154,7 +197,11 @@ export const TokensTableItem = styled.div`
     flex: 1.8;
     font-size: 12px;
     text-align: right;
-    color: #000;
+    color: #000000;
+
+    @media (max-width <= 1000px) {
+      flex: 2;
+    }
   }
 
   .tokens__item__separate {

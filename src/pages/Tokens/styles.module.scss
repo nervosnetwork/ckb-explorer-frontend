@@ -3,3 +3,26 @@
   font-size: smaller;
   color: #aaa;
 }
+
+.sortIcon {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  display: inline-block;
+  vertical-align: text-top;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.sortAsc {
+  svg > path:first-child {
+    fill: var(--primary-color);
+  }
+}
+
+.sortDesc {
+  svg > path:last-child {
+    fill: var(--primary-color);
+  }
+}
+

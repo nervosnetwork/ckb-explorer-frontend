@@ -255,14 +255,14 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
         <AddressTextWithAlias address={addressText} to={highLight ? `/address/${cell.addressHash}` : undefined} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {!highLight && !isMobile && (
-          <Tooltip placement="top" title={`${i18n.t('address.currentAddress')} `}>
+          <Tooltip placement="top" title={`${i18n.t('address.current-address')} `}>
             <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}
       </div>
       <TransactionCellCapacityPanel>
         {!highLight && isMobile && (
-          <Tooltip placement="top" title={`${i18n.t('address.currentAddress')} `}>
+          <Tooltip placement="top" title={`${i18n.t('address.current-address')} `}>
             <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}

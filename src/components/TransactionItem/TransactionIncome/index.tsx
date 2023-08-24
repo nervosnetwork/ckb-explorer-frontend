@@ -18,7 +18,7 @@ export default ({ income }: { income: string }) => {
     <TransactionIncomePanel>
       <TransactionCapacityValuePanel increased={bigIncome.isGreaterThanOrEqualTo(0)}>
         {isMobile && (
-          <Tooltip placement="top" title={`${i18n.t('address.currentAddress')} `}>
+          <Tooltip placement="top" title={`${i18n.t('address.current-address')} `}>
             <img src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}
@@ -27,7 +27,7 @@ export default ({ income }: { income: string }) => {
           color="inherit"
         />
         {!isMobile && (
-          <Tooltip placement="top" title={`${i18n.t('address.currentAddress')} `}>
+          <Tooltip placement="top" title={`${i18n.t('address.current-address')} `}>
             <img src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}
