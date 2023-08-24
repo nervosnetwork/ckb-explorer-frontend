@@ -1,15 +1,17 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import SearchFilter from '../../../assets/search_filter.png'
+import SearchBlack from '../../../assets/search_black.png'
 import ClearLogo from '../../../assets/clear.png'
 import { FilterImage, FilterPanel, ResetButtonPanel, FilterInputPanel } from './styled'
 
 const Filter = ({
+  defaultValue = '',
   placeholder,
   onFilter,
   onReset,
   showReset,
 }: {
+  defaultValue?: string
   placeholder?: string
   onFilter: (query: string) => void
   onReset: () => void
@@ -17,9 +19,13 @@ const Filter = ({
 }) => {
   const [t] = useTranslation()
 
-  const [filterValue, setFilterValue] = useState('')
+  const [filterValue, setFilterValue] = useState(defaultValue)
   const showClear = !!filterValue
   const inputElement = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    setFilterValue(defaultValue)
+  }, [defaultValue])
 
   const FilterIcon = ({ isClear }: { isClear?: boolean }) => (
     <FilterImage
@@ -30,7 +36,7 @@ const Filter = ({
         }
       }}
     >
-      <img src={isClear ? ClearLogo : SearchFilter} alt="search logo" />
+      <img src={isClear ? ClearLogo : SearchBlack} alt="search logo" />
     </FilterImage>
   )
 
@@ -42,7 +48,7 @@ const Filter = ({
           onReset()
         }}
       >
-        {t('nervos_dao.dao_search_reset')}
+        {t('search.reset')}
       </ResetButtonPanel>
     )
   }

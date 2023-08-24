@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
@@ -12,8 +12,11 @@ import { QueryResult } from '../../components/QueryResult'
 import { defaultBlockInfo } from './state'
 
 export default () => {
+  const { search } = useLocation()
   const { param: blockHeightOrHash } = useParams<{ param: string }>()
-  const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
+  const { currentPage, pageSize: pageSizeParam, setPage } = usePaginationParamsInPage()
+
+  const filter = new URLSearchParams(search).get('filter')
 
   const queryBlock = useQuery(['block', blockHeightOrHash], async () => {
     const wrapper = await fetchBlock(blockHeightOrHash)
@@ -24,14 +27,26 @@ export default () => {
   const block = queryBlock.data ?? defaultBlockInfo
 
   const queryBlockTransactions = useQuery(
-    ['block-transactions', blockHash, currentPage, _pageSize],
+    ['block-transactions', blockHash, currentPage, pageSizeParam, filter],
     async () => {
       assert(blockHash != null)
-      const { data, meta } = await fetchTransactionsByBlockHash(blockHash, currentPage, _pageSize)
-      return {
-        transactions: data.map(wrapper => wrapper.attributes),
-        total: meta?.total ?? 0,
-        pageSize: meta?.pageSize,
+      try {
+        const { data, meta } = await fetchTransactionsByBlockHash(blockHash, {
+          page: currentPage,
+          size: pageSizeParam,
+          filter,
+        })
+        return {
+          transactions: data.map(wrapper => wrapper.attributes),
+          total: meta?.total ?? 0,
+          pageSize: meta?.pageSize,
+        }
+      } catch (e) {
+        console.error(e)
+        return {
+          transactions: [],
+          total: 0,
+        }
       }
     },
     {
@@ -39,7 +54,7 @@ export default () => {
     },
   )
 
-  const pageSize = queryBlockTransactions.data?.pageSize ?? _pageSize
+  const pageSize = queryBlockTransactions.data?.pageSize ?? pageSizeParam
 
   return (
     <Content>

@@ -1,12 +1,9 @@
 .list {
   background: #fff;
-  border-top-right-radius: 6px;
-  padding: 0 15px;
 
   table {
     position: relative;
     width: 100%;
-    margin-bottom: 4px;
   }
 
   thead {
@@ -20,16 +17,6 @@
       text-transform: capitalize;
       white-space: nowrap;
     }
-    &:after {
-      position: absolute;
-      left: -15px;
-      top: 44px;
-      width: calc(100% + 30px);
-      height: 4px;
-      content: '';
-      display: block;
-      background-color: #ededed;
-    }
   }
 
   tbody {
@@ -40,8 +27,8 @@
       white-space: nowrap;
     }
 
-    tr:not(:last-child) {
-      border-bottom: 1px solid #d8d8d8;
+    tr {
+      border-top: 1px solid var(--table-separator-color);
     }
   }
 
@@ -53,8 +40,8 @@
 
     &:first-child,
     &:last-child {
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-left: 40px;
+      padding-right: 40px;
     }
   }
 

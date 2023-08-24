@@ -205,7 +205,10 @@
       "address_type_mainnet_url": "mainnet explorer",
       "search": "Search",
       "dao_filter_no_result": "Filter result not found.\nPlease enter only complete Transaction Hash or Address",
-      "udt_filter_no_result": "Filter result not found.\nPlease enter only complete Address"
+      "udt_filter_no_result": "Filter result not found.\nPlease enter only complete Address",
+      "tx": "Transaction",
+      "addr": "Address",
+      "reset": "Reset"
     },
     "address": {
       "address": "Address",
@@ -237,7 +240,7 @@
       "visit-deprecated-address": "View in deprecated address format",
       "view-deprecated-address": "Display deprecated addresses",
       "displaying-deprecated-address": "Displaying in deprecated address format",
-      "currentAddress": "Current Address"
+      "current-address": "Current Address"
     },
     "transaction": {
       "transaction": "Transaction",
@@ -357,7 +360,8 @@
       "compared_to_the_max_size_in_chain": "Compared to the max size in chain",
       "cycles": "Cycles",
       "compared_to_the_max_cycles_in_epoch": "Compared to the max cycles in epoch",
-      "compared_to_the_max_cycles_in_chain": "Compared to the max cycles in chain"
+      "compared_to_the_max_cycles_in_chain": "Compared to the max cycles in chain",
+      "address_or_hash": "Address/Hash"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",
@@ -370,8 +374,6 @@
       "locked_period": "Locked Period",
       "locked_time": "Locked Time",
       "deposit_capacity": "Deposit Capacity",
-      "dao_search_placeholder": "Transaction / Address",
-      "dao_search_reset": "Reset",
       "dao_tab_transactions": "Transactions",
       "dao_tab_depositors": "Depositors",
       "dao_title_rank": "Rank",
@@ -423,7 +425,7 @@
       "type_script": "Type Script",
       "holder_addresses": "Holder Addresses",
       "decimal": "Decimal",
-      "search_placeholder": "Address",
+      "search_placeholder": "Transaction / Address",
       "unknown_token": "Unknown Token",
       "submit_token_info": "Submit Token Info",
       "unknown_token_description": "The token’s information is incomplete. If you are the owner of this token, please submit token info.",
@@ -434,13 +436,17 @@
       "created_time": "Created Time",
       "tokens_empty": "There are no tokens at this time.",
       "unverified": "Unverified",
-      "view-deprecated-address": "View deprecated address"
+      "view-deprecated-address": "View deprecated address",
+      "view-mint-txns": "View Mint Txns",
+      "view-transfer-txns": "View Transfer Txns",
+      "view-burn-txns": "View Burn Txns",
+      "address-or-hash": "Transaction Hash / Address",
+      "address": "Address"
     },
     "nft": {
       "nft_collection": "NFT Collection",
       "collection_name": "Collection Name",
       "standard": "Type",
-      "holder_and_mint_count": "Holder/Minted",
       "minter_address": "Creator",
       "no_record": "No records",
       "mnft": "M-NFT",
@@ -456,7 +462,9 @@
       "to": "To",
       "transfer-list": "Transfers",
       "holder-list": "Holders",
+      "transactions": "24hr Transactions",
       "holder": "Holder",
+      "minted": "Minted",
       "owner": "Owner",
       "quantity": "Quantity",
       "inventory": "Inventory",
@@ -467,7 +475,8 @@
         "destruction": "Burn"
       },
       "activity": "Activity",
-      "toggle-age": "Switch time format"
+      "toggle-age": "Switch time format",
+      "all-type": "All Type"
     },
     "script_list": {
       "title": "Scripts",

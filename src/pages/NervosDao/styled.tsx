@@ -37,14 +37,15 @@ export const DaoContentPanel = styled.div`
 
 export const DaoTabBarPanel = styled.div`
   width: 100%;
-  height: 58px;
+  /* height: 58px; */
+
   background: white;
   display: flex;
   margin-top: 20px;
   align-items: center;
   justify-content: space-between;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
-  padding: 0 40px;
+  padding: 10px 40px;
   font-size: 18px;
   border-radius: 6px 6px 0 0;
 
@@ -53,10 +54,16 @@ export const DaoTabBarPanel = styled.div`
   }
 
   @media (width <= 750px) {
-    height: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '100px' : '50px')};
+    padding: 10px 0px;
     flex-direction: column;
     justify-content: center;
     font-size: 14px;
+    align-items: stretch;
+    > div {
+      padding-left: 10px;
+      padding-right: 10px;
+      width: auto;
+    }
   }
 
   .nervos_dao_tab_bar {
@@ -66,7 +73,11 @@ export const DaoTabBarPanel = styled.div`
     margin-right: 15px;
 
     @media (width <= 750px) {
-      margin-bottom: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '15px' : '0px')};
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      margin-right: 0;
+      /* margin-bottom: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '15px' : '25px')}; */
     }
 
     .div {

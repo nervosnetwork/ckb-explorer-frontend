@@ -19,6 +19,8 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
+import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
+import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { sliceNftName } from '../../utils/string'
 import {
   useIsLGScreen,
@@ -38,6 +40,7 @@ import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
+import { omit } from '../../utils/object'
 import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
 
@@ -304,24 +307,31 @@ export const AddressTransactions = ({
   address,
   transactions,
   transactionsTotal: total,
+  timeOrderBy,
 }: {
   address: string
   transactions: State.Transaction[]
   transactionsTotal: number
+  timeOrderBy: State.SortOrderTypes
 }) => {
   const isMobile = useIsMobile()
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const searchParams = useSearchParams('layout')
   const defaultLayout = 'professional'
-  const updateSearchParams = useUpdateSearchParams<'layout'>()
+  const updateSearchParams = useUpdateSearchParams<'layout' | 'sort' | 'tx_type'>()
   const layout = searchParams.layout === 'lite' ? 'lite' : defaultLayout
   const totalPages = Math.ceil(total / pageSize)
 
   const onChangeLayout = (lo: 'professional' | 'lite') => {
-    updateSearchParams(params =>
-      lo === defaultLayout
-        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
-        : { ...params, layout: lo },
+    updateSearchParams(params => (lo === defaultLayout ? omit(params, ['layout']) : { ...params, layout: lo }))
+  }
+
+  // REFACTOR: could be an independent component
+  const handleTimeSort = () => {
+    updateSearchParams(
+      params =>
+        timeOrderBy === 'asc' ? omit(params, ['sort', 'tx_type']) : omit({ ...params, sort: 'time' }, ['tx_type']),
+      true,
     )
   }
 
@@ -348,17 +358,26 @@ export const AddressTransactions = ({
         className={styles.transactionTitleCard}
         isSingle
         rear={
-          <Radio.Group
-            className={styles.layoutButtons}
-            options={[
-              { label: i18n.t('transaction.professional'), value: 'professional' },
-              { label: i18n.t('transaction.lite'), value: 'lite' },
-            ]}
-            onChange={({ target: { value } }) => onChangeLayout(value)}
-            value={layout}
-            optionType="button"
-            buttonStyle="solid"
-          />
+          <>
+            <div className={styles.sortAndFilter} data-is-active={timeOrderBy === 'asc'}>
+              {timeOrderBy === 'asc' ? (
+                <TimeDownIcon onClick={handleTimeSort} />
+              ) : (
+                <TimeUpIcon onClick={handleTimeSort} />
+              )}
+            </div>
+            <Radio.Group
+              className={styles.layoutButtons}
+              options={[
+                { label: i18n.t('transaction.professional'), value: 'professional' },
+                { label: i18n.t('transaction.lite'), value: 'lite' },
+              ]}
+              onChange={({ target: { value } }) => onChangeLayout(value)}
+              value={layout}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </>
         }
       />
       <AddressTransactionsPanel>

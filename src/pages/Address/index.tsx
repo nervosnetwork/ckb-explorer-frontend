@@ -7,12 +7,15 @@ import { AddressContentPanel } from './styled'
 import { AddressTransactions, AddressOverview } from './AddressComp'
 import { fetchAddressInfo, fetchTransactionsByAddress } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
-import { usePaginationParamsInListPage } from '../../utils/hook'
+import { usePaginationParamsInListPage, useSortParam } from '../../utils/hook'
 import { isAxiosError } from '../../utils/error'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
   const { currentPage, pageSize } = usePaginationParamsInListPage()
+
+  // REFACTOR: avoid using useSortParam
+  const { sortBy, orderBy, sort } = useSortParam<'time'>(s => s === 'time')
 
   const addressInfoQuery = useQuery(['address_info', address], async () => {
     const wrapper = await fetchAddressInfo(address)
@@ -23,24 +26,27 @@ export const Address = () => {
     return result
   })
 
-  const addressTransactionsQuery = useQuery(['address_transactions', address, currentPage, pageSize], async () => {
-    try {
-      const { data, meta } = await fetchTransactionsByAddress(address, currentPage, pageSize)
-      return {
-        transactions: data.map(wrapper => wrapper.attributes),
-        total: meta ? meta.total : 0,
-      }
-    } catch (err) {
-      const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
-      if (isEmptyAddress) {
+  const addressTransactionsQuery = useQuery(
+    ['address_transactions', address, currentPage, pageSize, sort],
+    async () => {
+      try {
+        const { data, meta } = await fetchTransactionsByAddress(address, currentPage, pageSize, sort)
         return {
-          transactions: [],
-          total: 0,
+          transactions: data.map(wrapper => wrapper.attributes),
+          total: meta ? meta.total : 0,
         }
+      } catch (err) {
+        const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
+        if (isEmptyAddress) {
+          return {
+            transactions: [],
+            total: 0,
+          }
+        }
+        throw err
       }
-      throw err
-    }
-  })
+    },
+  )
 
   return (
     <Content>
@@ -58,7 +64,12 @@ export const Address = () => {
 
         <QueryResult query={addressTransactionsQuery} delayLoading>
           {data => (
-            <AddressTransactions address={address} transactions={data.transactions} transactionsTotal={data.total} />
+            <AddressTransactions
+              address={address}
+              transactions={data.transactions}
+              transactionsTotal={data.total}
+              timeOrderBy={sortBy === 'time' ? orderBy : 'desc'}
+            />
           )}
         </QueryResult>
       </AddressContentPanel>

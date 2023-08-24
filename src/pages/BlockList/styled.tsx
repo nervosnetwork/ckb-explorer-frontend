@@ -17,7 +17,6 @@ export const BlockListPanel = styled.div`
       margin-left: -20px;
       height: 61px;
       width: calc(100% + 40px);
-      background-color: ${props => props.theme.primary};
       z-index: 1;
     }
   }

@@ -25,7 +25,7 @@ export const FilterPanel = styled.div`
 export const FilterImage = styled(SimpleButton)`
   margin-left: ${(props: { isClear?: boolean }) => (props.isClear ? '-40px' : '0')};
   margin-right: ${(props: { isClear?: boolean }) => (props.isClear ? '0' : '-40px')};
-  width: 30px;
+  width: 34px;
   z-index: 2;
   display: flex;
   justify-content: center;
@@ -52,7 +52,7 @@ export const FilterInputPanel = styled.input`
   width: ${(props: { showReset: boolean }) => (props.showReset ? '530px' : '100%')};
   height: 100%;
   font-size: 16px;
-  padding-left: 26px;
+  padding-left: 36px;
   padding-right: 30px;
   background: rgb(255 255 255 / 0%);
   opacity: 1;

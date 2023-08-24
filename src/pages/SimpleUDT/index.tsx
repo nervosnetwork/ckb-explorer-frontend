@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
+import { Popover } from 'antd'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import { useDispatch } from '../../contexts/providers/index'
@@ -9,7 +10,7 @@ import { getTipBlockNumber } from '../../service/app/address'
 import i18n from '../../utils/i18n'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
-import { usePaginationParamsInPage } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
@@ -19,18 +20,13 @@ import { isMainnet } from '../../utils/chain'
 import Filter from '../../components/Search/Filter'
 import { localeNumberString } from '../../utils/number'
 import Script from '../../components/Script'
-import { containSpecialChar } from '../../utils/string'
-import {
-  fetchSimpleUDT,
-  fetchSimpleUDTTransactions,
-  fetchSimpleUDTTransactionsWithAddress,
-} from '../../service/http/fetcher'
+import { fetchSimpleUDT, fetchSimpleUDTTransactions } from '../../service/http/fetcher'
 import { deprecatedAddrToNewAddr } from '../../utils/util'
 import { QueryResult } from '../../components/QueryResult'
-import { PageParams } from '../../constants/common'
 import { defaultUDTInfo } from './state'
-
-const FILTER_COUNT = 100
+import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
+import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
+import styles from './styles.module.scss'
 
 const typeScriptIcon = (show: boolean) => {
   if (show) {
@@ -39,12 +35,25 @@ const typeScriptIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
+enum TransactionType {
+  Mint = 'mint',
+  Transfer = 'normal',
+  Burn = 'destruction',
+}
+
 export const SimpleUDT = () => {
+  const isMobile = useIsMobile()
   const dispatch = useDispatch()
+  const { push } = useHistory()
+  const { search } = useLocation()
   const [t] = useTranslation()
   const [showType, setShowType] = useState(false)
   const { hash: typeHash } = useParams<{ hash: string }>()
-  const { currentPage, pageSize: _pageSize, setPage, setPageSize } = usePaginationParamsInPage()
+  const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
+
+  const query = new URLSearchParams(search)
+  const filter = query.get('filter')
+  const type = query.get('type')
 
   useEffect(() => {
     getTipBlockNumber(dispatch)
@@ -58,27 +67,16 @@ export const SimpleUDT = () => {
   const udt = querySimpleUDT.data ?? defaultUDTInfo
   const { iconFile, typeScript, symbol, uan } = udt
 
-  const [filterText, setFilterText] = useState<string>()
-  const filtering = filterText != null
-  const isInvalidFilter = filtering && containSpecialChar(filterText)
-
   const querySimpleUDTTransactions = useQuery(
-    ['simple-udt-transactions', typeHash, currentPage, _pageSize, filterText, isInvalidFilter],
+    ['simple-udt-transactions', typeHash, currentPage, _pageSize, filter, type],
     async () => {
-      if (filterText != null) {
-        if (isInvalidFilter) {
-          return { transactions: [], total: 0 }
-        }
-
-        const { data, meta } = await fetchSimpleUDTTransactionsWithAddress(filterText, typeHash, currentPage, pageSize)
-        return {
-          transactions: data.map(wrapper => wrapper.attributes),
-          total: meta?.total ?? 0,
-          pageSize: meta?.pageSize,
-        }
-      }
-
-      const { data, meta } = await fetchSimpleUDTTransactions(typeHash, currentPage, pageSize)
+      const { data, meta } = await fetchSimpleUDTTransactions({
+        typeHash,
+        page: currentPage,
+        size: pageSize,
+        filter,
+        type,
+      })
       return {
         transactions:
           data.map(wrapper => ({
@@ -93,12 +91,30 @@ export const SimpleUDT = () => {
             })),
           })) || [],
         total: meta?.total ?? 0,
+        pageSize: meta?.pageSize,
       }
     },
   )
   const total = querySimpleUDTTransactions.data?.total ?? 0
-  const filterNoResult = filtering && (isInvalidFilter || querySimpleUDTTransactions.isError)
+  const filterNoResult = !!filter && querySimpleUDTTransactions.isError
   const pageSize: number = querySimpleUDTTransactions.data?.pageSize ?? _pageSize
+
+  const filterList: { value: TransactionType; title: string }[] = [
+    {
+      value: TransactionType.Mint,
+      title: i18n.t('udt.view-mint-txns'),
+    },
+    {
+      value: TransactionType.Transfer,
+      title: i18n.t('udt.view-transfer-txns'),
+    },
+    {
+      value: TransactionType.Burn,
+      title: i18n.t('udt.view-burn-txns'),
+    },
+  ]
+
+  const isFilteredByType = filterList.some(f => f.value === type)
 
   return (
     <Content>
@@ -122,20 +138,42 @@ export const SimpleUDT = () => {
             <div className="udt__transaction__title">
               {`${t('transaction.transactions')} (${localeNumberString(total)})`}
             </div>
-            <Filter
-              showReset={filtering}
-              placeholder={t('udt.search_placeholder')}
-              onFilter={query => {
-                setPage(1)
-                setPageSize(FILTER_COUNT)
-                setFilterText(query)
-              }}
-              onReset={() => {
-                setPage(1)
-                setPageSize(PageParams.PageSize)
-                setFilterText(undefined)
-              }}
-            />
+            <div className={styles.searchAndfilter}>
+              <Filter
+                defaultValue={filter ?? ''}
+                showReset={!!filter}
+                placeholder={t('udt.search_placeholder')}
+                onFilter={filter => {
+                  push(`/sudt/${typeHash}?${new URLSearchParams({ filter })}`)
+                }}
+                onReset={() => {
+                  push(`/sudt/${typeHash}`)
+                }}
+              />
+              <div className={styles.typeFilter} data-is-active={isFilteredByType}>
+                <Popover
+                  placement="bottomRight"
+                  trigger={isMobile ? 'click' : 'hover'}
+                  overlayClassName={styles.antPopover}
+                  content={
+                    <div className={styles.filterItems}>
+                      {filterList.map(f => (
+                        <Link
+                          key={f.value}
+                          to={`/sudt/${typeHash}?${new URLSearchParams({ type: f.value })}`}
+                          data-is-active={f.value === type}
+                        >
+                          {f.title}
+                          <SelectedCheckIcon />
+                        </Link>
+                      ))}
+                    </div>
+                  }
+                >
+                  <FilterIcon />
+                </Popover>
+              </div>
+            </div>
           </div>
         </UDTTransactionTitlePanel>
 

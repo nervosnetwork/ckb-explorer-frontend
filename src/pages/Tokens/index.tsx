@@ -1,7 +1,9 @@
 import { Tooltip } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import Content from '../../components/Content'
+import Pagination from '../../components/Pagination'
+import SortButton from '../../components/SortButton'
 import {
   TokensPanel,
   TokensTableTitle,
@@ -24,7 +26,6 @@ import styles from './styles.module.scss'
 import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
 import { fetchTokens } from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
-import Pagination from '../../components/Pagination'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
@@ -95,8 +96,11 @@ export default () => {
   const isMobile = useIsMobile()
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
 
-  const query = useQuery(['tokens', currentPage, _pageSize], async () => {
-    const { data, meta } = await fetchTokens(currentPage, _pageSize)
+  const { location } = useHistory()
+  const sort = new URLSearchParams(location.search).get('sort')
+
+  const query = useQuery(['tokens', currentPage, _pageSize, sort], async () => {
+    const { data, meta } = await fetchTokens(currentPage, _pageSize, sort ?? undefined)
     if (data == null || data.length === 0) {
       throw new Error('Tokens empty')
     }
@@ -119,14 +123,21 @@ export default () => {
             {i18n.t('udt.submit_token_info')}
           </a>
         </div>
-        {!isMobile && (
-          <TokensTableTitle>
-            <span>{i18n.t('udt.uan_name')}</span>
-            <span>{i18n.t('udt.transactions')}</span>
-            <span>{i18n.t('udt.address_count')}</span>
-            <span>{i18n.t('udt.created_time')}</span>
-          </TokensTableTitle>
-        )}
+        <TokensTableTitle>
+          {!isMobile && <span>{i18n.t('udt.uan_name')}</span>}
+          <span>
+            {i18n.t('udt.transactions')}
+            <SortButton field="transactions" />
+          </span>
+          <span>
+            {i18n.t('udt.address_count')}
+            <SortButton field="addresses_count" />
+          </span>
+          <span>
+            {i18n.t('udt.created_time')}
+            <SortButton field="created_time" />
+          </span>
+        </TokensTableTitle>
 
         <QueryResult
           query={query}
