@@ -2,10 +2,13 @@ import axios, { AxiosResponse } from 'axios'
 import { useState, useEffect, FC } from 'react'
 import { useQuery } from 'react-query'
 import { Radio } from 'antd'
+import { Base64 } from 'js-base64'
+import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
+import { parseSporeCellData } from '../../utils/spore'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, deprecatedAddrToNewAddr, handleNftImgError, patchMibaoImg } from '../../utils/util'
 import {
@@ -90,17 +93,29 @@ const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
   m_nft_token: 'm nft',
   nrc_721_token: 'nrc 721',
   cota: 'CoTA',
+  spore_cell: 'Spore',
 }
 
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   const { symbol, uan, amount, udtIconFile, typeHash, udtType, collection, cota } = udtAccount
   const isSudt = udtType === 'sudt'
-  const isNft = ['m_nft_token', 'nrc_721_token', 'cota'].includes(udtType)
+  const isSpore = udtType === 'spore_cell'
+  const isNft = ['m_nft_token', 'nrc_721_token', 'cota', 'spore_cell'].includes(udtType)
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
   const showDefaultIcon = () => setIcon(SUDTTokenIcon)
 
   useEffect(() => {
-    if (udtIconFile && udtType !== 'sudt') {
+    if (udtIconFile && udtType === 'spore_cell') {
+      const sporeData = parseSporeCellData(udtIconFile)
+      if (sporeData.contentType.slice(0, 5) === 'image') {
+        const base64data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
+
+        setIcon(`data:${sporeData.contentType};base64,${base64data}`)
+      }
+      return
+    }
+
+    if (udtIconFile && udtType !== 'sudt' && udtType !== 'spore_cell') {
       axios
         .get(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
         .then((res: AxiosResponse) => {
@@ -139,12 +154,13 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
       href = `/nft-collections/${collection?.typeHash}`
     }
   }
-  const coverQuery = isSudt
-    ? ''
-    : `?${new URLSearchParams({
-        size: 'small',
-        tid: cota?.cotaId?.toString() ?? amount,
-      })}`
+  const coverQuery =
+    isSudt || isSpore
+      ? ''
+      : `?${new URLSearchParams({
+          size: 'small',
+          tid: cota?.cotaId?.toString() ?? amount,
+        })}`
 
   return (
     <AddressUDTItemPanel href={href} isLink={isSudt || isNft}>

@@ -149,9 +149,10 @@ export const AddressUDTItemPanel = styled.a`
     display: flex;
     align-items: center;
     width: 40px;
+    min-width: 40px;
     height: 40px;
     margin-right: 8px;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .address__udt__item__info {
