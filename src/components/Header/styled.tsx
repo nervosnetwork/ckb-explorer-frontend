@@ -17,16 +17,16 @@ export const HeaderPanel = styled.div`
   flex-wrap: wrap;
   padding: 0 120px;
 
-  @media (width <= 1440px) {
+  @media (max-width: 1440px) {
     padding: 0 100px;
   }
 
-  @media (width <= 1200px) {
+  @media (max-width: 1200px) {
     padding: 0 45px;
     top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? 'var(--navbar-height)' : '0')};
   }
 
-  @media (width <= 780px) {
+  @media (max-width: 780px) {
     padding: 0 18px;
     top: ${(props: { isNotTop?: boolean; isEn: boolean }) => (props.isNotTop ? (props.isEn ? '120px' : '100px') : '0')};
   }

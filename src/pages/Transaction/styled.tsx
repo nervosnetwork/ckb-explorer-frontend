@@ -9,7 +9,7 @@ export const TransactionDiv = styled.div.attrs({
   margin-top: 40px;
   margin-bottom: 40px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin: 0;
     padding: 20px;
   }
@@ -47,7 +47,7 @@ export const TransactionOverviewPanel = styled.div`
         margin: 2px 0 0 5px;
       }
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         font-size: 14px;
         margin-top: 15px;
 
@@ -75,7 +75,7 @@ export const TransactionBlockHeightPanel = styled.div`
 export const TransactionInfoItemPanel = styled.div`
   flex: 1;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-top: 3px;
   }
 
@@ -83,7 +83,7 @@ export const TransactionInfoItemPanel = styled.div`
     margin-top: 10px;
     font-weight: 500;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-top: 5px;
     }
   }
@@ -95,7 +95,7 @@ export const TransactionInfoItemPanel = styled.div`
     font-size: 16px;
     overflow-y: scroll;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 0;
       margin-top: 2px;
     }
@@ -125,7 +125,7 @@ export const TransactionInfoContentItem = styled.div`
     color: #333;
     font-size: 14px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 12px;
     }
   }
@@ -141,7 +141,7 @@ export const TransactionInfoContentItem = styled.div`
     flex-wrap: wrap;
     gap: 0 12px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 12px;
     }
 

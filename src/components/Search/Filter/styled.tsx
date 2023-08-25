@@ -9,15 +9,15 @@ export const FilterPanel = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  @media (width <= 1200px) {
+  @media (max-width: 1200px) {
     width: 450px;
   }
 
-  @media (width <= 1000px) {
+  @media (max-width: 1000px) {
     width: 320px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     width: 80vw;
   }
 `
@@ -31,7 +31,7 @@ export const FilterImage = styled(SimpleButton)`
   justify-content: center;
   cursor: ${(props: { isClear?: boolean }) => (props.isClear ? 'pointer' : 'default !important')};
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-left: ${(props: { isClear?: boolean }) => (props.isClear ? '-14%' : '0')};
     margin-right: ${(props: { isClear?: boolean }) => (props.isClear ? '0' : '-14%')};
   }
@@ -41,7 +41,7 @@ export const FilterImage = styled(SimpleButton)`
     width: ${(props: { isClear?: boolean }) => (props.isClear ? '12px' : '18px')};
     height: ${(props: { isClear?: boolean }) => (props.isClear ? '12px' : '18px')};
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-top: 0;
     }
   }
@@ -70,15 +70,15 @@ export const FilterInputPanel = styled.input`
     color: #bababa;
   }
 
-  @media (width <= 1200px) {
+  @media (max-width: 1200px) {
     width: ${(props: { showReset: boolean }) => (props.showReset ? '380px' : '100%')};
   }
 
-  @media (width <= 1000px) {
+  @media (max-width: 1000px) {
     width: ${(props: { showReset: boolean }) => (props.showReset ? '250px' : '100%')};
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     width: ${(props: { showReset: boolean }) => (props.showReset ? '82%' : '100%')};
     font-size: 12px;
   }
@@ -98,7 +98,7 @@ export const ResetButtonPanel = styled.div`
     background: #ddd;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     width: 50px;
   }
 `

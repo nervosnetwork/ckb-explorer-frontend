@@ -29,7 +29,7 @@ export const ToastItemPanel = styled.div`
     text-align: center;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     top: 42px;
     height: 36px;
 
@@ -39,7 +39,7 @@ export const ToastItemPanel = styled.div`
     }
   }
 
-  @media (width <= 320px) {
+  @media (max-width: 320px) {
     top: 42px;
     height: 36px;
 

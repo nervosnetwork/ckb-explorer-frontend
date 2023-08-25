@@ -6,7 +6,7 @@ export const FooterPanel = styled.div`
   flex-direction: column;
   align-items: center;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     align-items: flex-start;
   }
 
@@ -19,7 +19,7 @@ export const FooterPanel = styled.div`
     flex-direction: row;
     justify-content: center;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 30px;
       flex-direction: column;
       justify-content: center;
@@ -38,7 +38,7 @@ export const FooterMenuPanel = styled.div`
   flex-direction: row;
   justify-content: center;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     flex-direction: column;
     align-items: flex-start;
     margin-left: 30px;
@@ -54,19 +54,19 @@ export const FooterMenuPanel = styled.div`
     flex-direction: column;
     margin-left: 280px;
 
-    @media (width <= 1980px) {
+    @media (max-width: 1980px) {
       margin-left: 178px;
     }
 
-    @media (width <= 1440px) {
+    @media (max-width: 1440px) {
       margin-left: 138px;
     }
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       margin-left: 78px;
     }
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 0;
       margin-top: 30px;
     }
@@ -77,19 +77,19 @@ export const FooterMenuPanel = styled.div`
     flex-direction: column;
     margin-left: 280px;
 
-    @media (width <= 1980px) {
+    @media (max-width: 1980px) {
       margin-left: 178px;
     }
 
-    @media (width <= 1440px) {
+    @media (max-width: 1440px) {
       margin-left: 138px;
     }
 
-    @media (width <= 1200px) {
+    @media (max-width: 1200px) {
       margin-left: 78px;
     }
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 0;
       margin-top: 30px;
     }
@@ -98,7 +98,7 @@ export const FooterMenuPanel = styled.div`
       display: flex;
       flex-direction: row;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         flex-wrap: wrap;
         margin-right: 100px;
       }
@@ -110,7 +110,7 @@ export const FooterMenuPanel = styled.div`
     font-weight: bold;
     color: #fff;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 26px;
     }
   }

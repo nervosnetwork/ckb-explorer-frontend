@@ -18,7 +18,7 @@ export const TransactionDetailItem = styled.div`
   font-size: 16px;
   align-items: center;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-top: 5px;
   }
 
@@ -37,11 +37,11 @@ export const TransactionDetailLock = styled(TransactionDetailItem)``
 export const TransactionDetailType = styled(TransactionDetailItem)`
   margin-left: 90px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-left: 12px;
   }
 
-  @media screen and (width >= 751px) and (width <= 1300px) {
+  @media screen and (min-width: 751px) and (max-width: 1300px) {
     margin-left: 50px;
   }
 `
@@ -49,11 +49,11 @@ export const TransactionDetailType = styled(TransactionDetailItem)`
 export const TransactionDetailData = styled(TransactionDetailItem)`
   margin-left: 90px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-left: 12px;
   }
 
-  @media screen and (width >= 751px) and (width <= 1300px) {
+  @media screen and (min-width: 751px) and (max-width: 1300px) {
     margin-left: 50px;
   }
 `
@@ -61,11 +61,11 @@ export const TransactionDetailData = styled(TransactionDetailItem)`
 export const TransactionDetailCapacityUsage = styled(TransactionDetailItem)`
   margin-left: 90px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-left: 12px;
   }
 
-  @media screen and (width >= 751px) and (width <= 1300px) {
+  @media screen and (min-width: 751px) and (max-width: 1300px) {
     margin-left: 50px;
   }
 `
@@ -76,13 +76,13 @@ export const TransactionCellDetailPanel = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     div {
       font-size: 13px;
     }
   }
 
-  @media (width <= 1300px) {
+  @media (max-width: 1300px) {
     div {
       font-size: 15px;
     }
@@ -101,7 +101,7 @@ export const TransactionCellDetailPanel = styled.div`
       height: 16px;
     }
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       padding-bottom: 15px;
 
       > img {
@@ -116,7 +116,7 @@ export const TransactionDetailPanel = styled.div`
   width: 100%;
   margin-top: 20px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-top: 10px;
   }
 
@@ -138,7 +138,7 @@ export const TransactionDetailPanel = styled.div`
     background-color: #f9f9f9;
     border-radius: 6px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       font-size: 10px;
       padding: 10px;
     }
@@ -152,7 +152,7 @@ export const TransactionDetailPanel = styled.div`
     margin-top: 20px;
     width: 100%;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-top: 10px;
 
       svg {
@@ -166,7 +166,7 @@ export const TransactionDetailPanel = styled.div`
   .transaction__detail_loading {
     padding: 20px 0;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       padding: 10px 0;
     }
   }
@@ -200,7 +200,7 @@ export const TransactionDetailCopyButton = styled.div`
     height: 24px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     width: 75px;
     height: 20px;
     padding: 0 10px;
@@ -237,7 +237,7 @@ export const TransactionDetailScriptButton = styled.a`
     height: 24px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     width: 75px;
     height: 20px;
     padding: 0 10px;
@@ -258,14 +258,14 @@ export const TransactionCellScriptContentPanel = styled.div`
     display: flex;
     margin: 2px 0 2px 30px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin: 2px 0 2px 12px;
     }
 
     > div:nth-child(1) {
       min-width: ${(props: { isData: boolean }) => (props.isData ? '80px' : '120px')};
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         min-width: ${(props: { isData: boolean }) => (props.isData ? '40px' : '70px')};
       }
     }

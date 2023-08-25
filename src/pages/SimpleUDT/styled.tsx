@@ -9,7 +9,7 @@ export const SUDTContentPanel = styled.div`
   margin-bottom: 40px;
   width: 100%;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin: 0;
     padding: 20px;
   }
@@ -21,7 +21,7 @@ export const SimpleUDTContentPanel = styled.div`
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin: 0;
     padding: 20px;
   }
@@ -36,7 +36,7 @@ export const SimpleUDTPendingRewardTitlePanel = styled.div`
     width: 20px;
     height: 20px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 10px;
       width: 16px;
       height: 16px;
@@ -68,7 +68,7 @@ export const SimpleUDTLockScriptController = styled.div`
     margin: 2px 0 0 5px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     font-size: 14px;
     margin-top: 10px;
 
@@ -82,7 +82,7 @@ export const SimpleUDTLockScriptPanel = styled.div`
   width: 100%;
   margin-top: 20px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-top: 10px;
   }
 
@@ -91,7 +91,7 @@ export const SimpleUDTLockScriptPanel = styled.div`
     height: 25px;
     padding: 0 0 5px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       height: 16px;
       padding: 0;
     }
@@ -105,11 +105,11 @@ export const SimpleUDTLockScriptItemPanel = styled.div`
   align-items: flex-start;
   margin-top: 10px;
 
-  @media (width >= 750px) {
+  @media (min-width: 750px) {
     height: 20px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     flex-direction: column;
   }
 
@@ -126,7 +126,7 @@ export const SimpleUDTLockScriptItemPanel = styled.div`
       border-radius: 50%;
       background: ${prop => prop.theme.primary};
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         width: 5px;
         height: 5px;
       }
@@ -136,7 +136,7 @@ export const SimpleUDTLockScriptItemPanel = styled.div`
       margin-left: 10px;
       font-weight: 500;
 
-      @media (width <= 750px) {
+      @media (max-width: 750px) {
         margin-left: 5px;
       }
     }
@@ -149,7 +149,7 @@ export const SimpleUDTLockScriptItemPanel = styled.div`
     flex-direction: column;
     transform: translateY(2px);
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       margin-left: 10px;
       word-wrap: break-word;
       word-break: break-all;
@@ -173,7 +173,7 @@ export const TypeScriptController = styled(SimpleButton)`
     margin: 2px 0 0 5px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     font-size: 14px;
 
     > img {
@@ -199,7 +199,7 @@ export const UDTTransactionTitlePanel = styled.div`
   border-radius: 6px 6px 0 0;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     height: 108px;
     padding: 16px;
   }
@@ -213,7 +213,7 @@ export const UDTTransactionTitlePanel = styled.div`
     font-size: 18px;
     margin-bottom: 5px;
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       flex-direction: column;
       align-items: flex-start;
     }

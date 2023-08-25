@@ -54,7 +54,7 @@ export const DepositorRankItem = styled.div`
   font-size: 16px;
   height: 40px;
 
-  @media (width <= 1000px) {
+  @media (max-width: 1000px) {
     font-size: 14px;
   }
 

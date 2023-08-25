@@ -58,7 +58,7 @@ export const TransactionCellListPanel = styled.div`
   background-color: #fff;
   padding: 12px 20px 12px 40px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     padding: 12px 10px 3px;
   }
 `
@@ -73,7 +73,7 @@ export const TransactionCellsPanel = styled.div`
         max-height: 600px;
         overflow-y: scroll;
 
-        @media (width >= 750px) {
+        @media (min-width: 750px) {
           max-height: 400px;
         }
       }

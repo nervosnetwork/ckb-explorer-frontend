@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ChartsContent = styled.div`
   margin-top: 40px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-top: 20px;
   }
 `
@@ -21,7 +21,7 @@ export const ChartsPanel = styled.div`
   border-radius: 6px;
   box-shadow: 2px 2px 6px 0 rgb(0 0 0 / 12%);
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     padding: 20px 10px;
   }
 
@@ -47,7 +47,7 @@ export const ChartCardPanel = styled.div`
   margin: 20px 7px;
   cursor: pointer;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     width: 100%;
   }
 

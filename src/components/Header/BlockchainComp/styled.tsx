@@ -8,15 +8,15 @@ export const HeaderBlockchainPanel = styled.div`
   margin-right: 60px;
   padding: 10px 0;
 
-  @media (width <= 1920px) {
+  @media (max-width: 1920px) {
     margin-right: 40px;
   }
 
-  @media (width <= 1440px) {
+  @media (max-width: 1440px) {
     margin-right: 24px;
   }
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin-right: 0;
   }
 

@@ -33,27 +33,27 @@ export const HeaderMenuPanel = styled.div`
     font-size: 14px;
     font-weight: regular;
 
-    @media (width <= 1920px) {
+    @media (max-width: 1920px) {
       padding-left: 40px;
     }
 
-    @media (width <= 1440px) {
+    @media (max-width: 1440px) {
       padding-left: 24px;
     }
 
-    @media (width <= 960px) {
+    @media (max-width: 960px) {
       padding-left: 16px;
     }
 
-    @media (width <= 900px) {
+    @media (max-width: 900px) {
       padding-left: 10px;
     }
 
-    @media (width <= 840px) {
+    @media (max-width: 840px) {
       padding-left: 4px;
     }
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       padding-left: 0;
     }
 

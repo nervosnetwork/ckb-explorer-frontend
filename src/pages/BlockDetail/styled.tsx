@@ -7,7 +7,7 @@ export const BlockDetailPanel = styled.div`
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     margin: 0;
     padding: 20px;
   }
@@ -31,7 +31,7 @@ export const BlockRootInfoItemPanel = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  @media (width >= 750px) {
+  @media (min-width: 750px) {
     height: 20px;
     margin-top: 14px;
   }
@@ -74,7 +74,7 @@ export const BlockMinerRewardPanel = styled.div`
     margin: ${(props: { sent: boolean }) => (props.sent ? '0 0 3px 5px' : '3px 0 0 5px')};
     cursor: ${(props: { sent: boolean }) => (props.sent ? 'pointer' : 'default')};
 
-    @media (width <= 750px) {
+    @media (max-width: 750px) {
       width: ${(props: { sent: boolean }) => (props.sent ? '27px' : '15px')};
       height: 15px;
       margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '1px' : '0')};
@@ -104,7 +104,7 @@ export const BlockOverviewDisplayControlPanel = styled.div`
   height: 36px;
   transform: translateY(10px);
 
-  @media (width <= 750px) {
+  @media (max-width: 750px) {
     transform: translateY(7.5px);
   }
 
