@@ -1,6 +1,9 @@
 import type { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { Base64 } from 'js-base64'
+import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
+import { parseSporeCellData } from '../../utils/spore'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
@@ -10,13 +13,22 @@ import { handleNftImgError, patchMibaoImg } from '../../utils/util'
 
 const primaryColor = getPrimaryColor()
 
+type NftCollectionInventoryItem = {
+  icon_url: string | null
+  id: number
+  token_id: string
+  owner?: string
+  standard: string
+  cell: {
+    cell_index: number
+    data: string
+    status: string
+    tx_hash: string
+  } | null
+}
+
 const NftCollectionInventory: React.FC<{
-  list: Array<{
-    icon_url: string | null
-    id: number
-    token_id: string
-    owner?: string
-  }>
+  list: Array<NftCollectionInventoryItem>
   collection: string
   isLoading: boolean
 }> = ({ list, collection, isLoading }) => {
@@ -40,26 +52,49 @@ const NftCollectionInventory: React.FC<{
     )
   }
 
+  const renderCover = (item: NftCollectionInventoryItem) => {
+    const coverUrl = item.icon_url ?? info?.data.icon_url
+    const cell = item?.cell
+    const standard = item?.standard
+
+    if (standard === 'spore' && cell && cell.data) {
+      const sporeData = parseSporeCellData(cell.data)
+      if (sporeData.contentType.slice(0, 5) === 'image') {
+        const base64data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
+
+        return (
+          <img
+            src={`data:${sporeData.contentType};base64,${base64data}`}
+            alt="cover"
+            loading="lazy"
+            className={styles.cover}
+          />
+        )
+      }
+    }
+
+    if (coverUrl) {
+      return (
+        <img
+          src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.token_id}`}
+          alt="cover"
+          loading="lazy"
+          className={styles.cover}
+          onError={handleNftImgError}
+        />
+      )
+    }
+
+    return <Cover className={styles.cover} />
+  }
+
   return (
     <div className={styles.list}>
       {list.map(item => {
         const itemLink = `/nft-info/${collection}/${item.token_id}`
-        const coverUrl = item.icon_url ?? info?.data.icon_url
         return (
           <div key={item.id} className={styles.item}>
-            <Link to={itemLink}>
-              {coverUrl ? (
-                <img
-                  src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.token_id}`}
-                  alt="cover"
-                  loading="lazy"
-                  className={styles.cover}
-                  onError={handleNftImgError}
-                />
-              ) : (
-                <Cover className={styles.cover} />
-              )}
-            </Link>
+            <Link to={itemLink}>{renderCover(item)}</Link>
             <div className={styles.tokenId}>
               <span>Token ID</span>
               <Link

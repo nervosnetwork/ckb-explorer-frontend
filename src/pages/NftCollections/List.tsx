@@ -30,10 +30,14 @@ const filterList: Array<Record<'title' | 'value', string>> = [
     value: 'cota',
     title: i18n.t('nft.cota'),
   },
+  {
+    value: 'spore',
+    title: i18n.t('nft.spore'),
+  },
 ]
 
 export const isTxFilterType = (s?: string): boolean => {
-  return s ? ['all', 'm_nft', 'nrc721', 'cota'].includes(s) : false
+  return s ? ['all', 'm_nft', 'nrc721', 'cota', 'spore'].includes(s) : false
 }
 
 export interface NFTCollection {

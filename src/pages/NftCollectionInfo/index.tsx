@@ -25,6 +25,13 @@ export interface InventoryRes {
     icon_url: string | null
     owner_id: number
     token_id: string
+    standard: string
+    cell: {
+      cell_index: number
+      data: string
+      status: string
+      tx_hash: string
+    } | null
   }>
   pagination: {
     count: number
@@ -48,6 +55,13 @@ export interface TransferRes {
     owner_id: number
     metadata_url: string | null
     cell_id: number | null
+    standard: string | null
+    cell: {
+      cell_index: number
+      data: string
+      status: string
+      tx_hash: string
+    } | null
     type_script: {
       script_hash: string
     }
