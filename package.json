@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "4.8.1",
-    "@nervosnetwork/ckb-sdk-utils": "0.103.1",
+    "@nervosnetwork/ckb-sdk-utils": "0.109.0",
     "@sentry/react": "7.38.0",
     "@sentry/tracing": "7.38.0",
     "@spore-sdk/core": "^0.1.0-beta.10",
