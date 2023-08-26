@@ -53,7 +53,7 @@
     "@types/styled-components": "5.1.11",
     "@types/three": "0.149.0",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
-    "@typescript-eslint/parser": "5.48.1",
+    "@typescript-eslint/parser": "5.62.0",
     "antd-dayjs-webpack-plugin": "^1.0.6",
     "create-react-app": "^4.0.3",
     "eslint": "7.32.0",
