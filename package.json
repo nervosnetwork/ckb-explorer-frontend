@@ -18,7 +18,7 @@
     "default-passive-events": "2.0.0",
     "detect-gpu": "5.0.37",
     "echarts": "4.8.0",
-    "gsap": "3.11.4",
+    "gsap": "3.12.2",
     "history": "5.0.0",
     "i18next": "20.6.1",
     "js-base64": "^3.7.5",
