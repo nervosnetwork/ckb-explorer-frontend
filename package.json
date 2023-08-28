@@ -17,7 +17,7 @@
     "dayjs": "1.11.9",
     "default-passive-events": "2.0.0",
     "detect-gpu": "5.0.37",
-    "echarts": "4.8.0",
+    "echarts": "4.9.0",
     "gsap": "3.12.2",
     "history": "5.0.0",
     "i18next": "20.6.1",
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@sentry/webpack-plugin": "1.20.1",
     "@testing-library/react": "12.1.5",
-    "@types/echarts": "4.9.9",
+    "@types/echarts": "4.9.18",
     "@types/eslint": "7.29.0",
     "@types/jest": "26.0.24",
     "@types/node": "16.18.46",
