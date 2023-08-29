@@ -83,6 +83,8 @@ const ExportTransactions = () => {
     )
   }
 
+  // disable download button when downloading
+  const [isDownloading, setIsDownloading] = useState(false)
   const handleDownload = () => {
     if (tab === 'date') {
       if (!startDate || !endDate) {
@@ -113,6 +115,7 @@ const ExportTransactions = () => {
       }
     }
     setHint({ type: 'success', msg: 'download_processed' })
+    setIsDownloading(true)
     exportTransactions({
       type,
       id,
@@ -120,6 +123,7 @@ const ExportTransactions = () => {
       block: tab === 'height' ? { from: fromHeight!, to: toHeight! } : undefined,
     })
       .then((resp: string | null) => {
+        setIsDownloading(false)
         if (!resp) {
           setHint({
             type: 'error',
@@ -140,6 +144,7 @@ const ExportTransactions = () => {
         document.body.removeChild(a)
       })
       .catch(reason => {
+        setIsDownloading(false)
         setHint({
           type: 'error',
           msg: 'fetch_processed_export_link_error',
@@ -154,6 +159,7 @@ const ExportTransactions = () => {
   }
 
   const disableDownload =
+    isDownloading ||
     (tab === 'date' && (!startDate || !endDate)) ||
     (tab === 'height' && (fromHeight === undefined || toHeight === undefined))
 

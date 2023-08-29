@@ -1,0 +1,33 @@
+name: Sync updates from external repos
+
+on:
+  schedule:
+    - cron: '* */1 * * *'
+
+jobs:
+  default:
+    name: Open PR from forked/develop to origin/develop
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # for opening PR
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Open PR from forked repo to origin one
+        if: vars.EXTERNAL_REPO != ''
+        uses: actions/script@v6
+        with:
+          script: |
+            github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              base: 'develop',
+              head_repo: process.env.REPO,
+              head: `develop`,
+              title: `Merge ${process.env.REPO}:develop to develop`,
+              body: `Ready to deploy`,
+            })
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ vars.EXTERNAL_REPO }}
