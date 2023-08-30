@@ -67,7 +67,7 @@ export const NervosDao = () => {
     <Content>
       <DaoContentPanel className="container">
         <DaoOverview nervosDao={queryNervosDao.data ?? defaultNervosDaoInfo} />
-        <DaoTabBarPanel containSearchBar={tab === 'transactions'}>
+        <DaoTabBarPanel>
           <div className="nervos_dao_tab_bar">
             <SimpleButton
               className={tab === 'transactions' ? 'tab_bar_selected' : 'tab_bar_normal'}
