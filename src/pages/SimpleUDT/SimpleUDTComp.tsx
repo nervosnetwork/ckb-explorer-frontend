@@ -121,16 +121,14 @@ export const SimpleUDTComp = ({
             ),
         )}
       </SimpleUDTTransactionsPanel>
-      {totalPages > 1 && (
-        <SimpleUDTTransactionsPagination>
-          <PaginationWithRear
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onChange={onPageChange}
-            rear={<CsvExport type="udts" id={id} />}
-          />
-        </SimpleUDTTransactionsPagination>
-      )}
+      <SimpleUDTTransactionsPagination>
+        <PaginationWithRear
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChange={onPageChange}
+          rear={<CsvExport type="udts" id={id} />}
+        />
+      </SimpleUDTTransactionsPagination>
     </>
   )
 }

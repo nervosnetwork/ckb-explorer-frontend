@@ -23,8 +23,7 @@ export const NervosDao = () => {
 
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
   const params = useSearchParams('tab', 'filter')
-  const tab = params.tab as 'transactions' | 'depositors'
-  const daoTab = tab || 'transactions'
+  const tab = (params.tab as 'transactions' | 'depositors') || 'transactions'
 
   const queryNervosDao = useQuery(['nervos-dao'], async () => {
     const wrapper = await fetchNervosDao()
@@ -68,16 +67,16 @@ export const NervosDao = () => {
     <Content>
       <DaoContentPanel className="container">
         <DaoOverview nervosDao={queryNervosDao.data ?? defaultNervosDaoInfo} />
-        <DaoTabBarPanel containSearchBar={daoTab === 'transactions'}>
+        <DaoTabBarPanel>
           <div className="nervos_dao_tab_bar">
             <SimpleButton
-              className={daoTab === 'transactions' ? 'tab_bar_selected' : 'tab_bar_normal'}
+              className={tab === 'transactions' ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => push('/nervosdao?tab=transactions')}
             >
               {t('nervos_dao.dao_tab_transactions')}
             </SimpleButton>
             <SimpleButton
-              className={daoTab === 'depositors' ? 'tab_bar_selected' : 'tab_bar_normal'}
+              className={tab === 'depositors' ? 'tab_bar_selected' : 'tab_bar_normal'}
               onClick={() => push('/nervosdao?tab=depositors')}
             >
               {t('nervos_dao.dao_tab_depositors')}
@@ -87,7 +86,7 @@ export const NervosDao = () => {
           <Filter
             defaultValue={params.filter}
             showReset={!!params.filter}
-            placeholder={daoTab === 'depositors' ? t('search.addr') : `${t('search.tx')} / ${t('search.addr')}`}
+            placeholder={tab === 'depositors' ? t('search.addr') : `${t('search.tx')} / ${t('search.addr')}`}
             onFilter={filter => {
               push(`/nervosdao?${new URLSearchParams({ filter, tab })}`)
             }}
@@ -97,7 +96,7 @@ export const NervosDao = () => {
           />
         </DaoTabBarPanel>
 
-        {daoTab === 'transactions' ? (
+        {tab === 'transactions' ? (
           <QueryResult query={queryNervosDaoTransactions} delayLoading>
             {data => (
               <DaoTransactions
