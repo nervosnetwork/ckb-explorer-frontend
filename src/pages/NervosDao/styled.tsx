@@ -37,7 +37,6 @@ export const DaoContentPanel = styled.div`
 
 export const DaoTabBarPanel = styled.div`
   width: 100%;
-  /* height: 58px; */
 
   background: white;
   display: flex;
@@ -54,7 +53,6 @@ export const DaoTabBarPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    height: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '100px' : '50px')};
     padding: 10px 0px;
     flex-direction: column;
     justify-content: center;
@@ -78,7 +76,6 @@ export const DaoTabBarPanel = styled.div`
       justify-content: space-between;
       margin-bottom: 25px;
       margin-right: 0;
-      /* margin-bottom: ${(props: { containSearchBar: boolean }) => (props.containSearchBar ? '15px' : '25px')}; */
     }
 
     .div {

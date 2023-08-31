@@ -27,6 +27,12 @@ jobs:
               head: `develop`,
               title: `Merge ${process.env.REPO}:develop to develop`,
               body: `Ready to deploy`,
+            }).catch(async res => {
+              const content = await res.json()
+              if (content.message.includes('No commits between')) {
+                return
+              }
+              throw new Error(content.message)
             })
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
