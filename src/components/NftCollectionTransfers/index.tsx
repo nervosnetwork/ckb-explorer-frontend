@@ -3,6 +3,9 @@ import { FC, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { Tooltip } from 'antd'
+import { Base64 } from 'js-base64'
+import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
+import { parseSporeCellData } from '../../utils/spore'
 import type { TransferListRes, TransferRes } from '../../pages/NftCollectionInfo'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
@@ -101,21 +104,46 @@ const TransferTableRow: FC<{
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const timeRelativeBlockCreate = useMemo(() => dayjs(item.transaction.block_timestamp).fromNow(), [now])
 
+  const renderCover = () => {
+    const cell = item.item?.cell
+    const standard = item.item?.standard
+
+    if (standard === 'spore' && cell && cell.data) {
+      const sporeData = parseSporeCellData(cell.data)
+      if (sporeData.contentType.slice(0, 5) === 'image') {
+        const base64data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
+
+        return (
+          <img
+            src={`data:${sporeData.contentType};base64,${base64data}`}
+            alt="cover"
+            loading="lazy"
+            className={styles.icon}
+          />
+        )
+      }
+    }
+
+    if (coverUrl) {
+      return (
+        <img
+          src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.item.token_id}`}
+          alt="cover"
+          loading="lazy"
+          className={styles.icon}
+          onError={handleNftImgError}
+        />
+      )
+    }
+
+    return <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
+  }
+
   return (
     <tr>
       <td>
         <div className={styles.item}>
-          {coverUrl ? (
-            <img
-              src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.item.token_id}`}
-              alt="cover"
-              loading="lazy"
-              className={styles.icon}
-              onError={handleNftImgError}
-            />
-          ) : (
-            <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
-          )}
+          {renderCover()}
           <Link
             to={`/nft-info/${collection}/${item.item.token_id}`}
             style={{
@@ -203,20 +231,45 @@ const TransferCard: FC<{
   const coverUrl = item.item.icon_url ?? iconURL
   const parsedBlockCreateAt = useParsedDate(item.transaction.block_timestamp)
 
-  return (
-    <li>
-      <div className={styles.item}>
-        {coverUrl ? (
+  const renderCover = () => {
+    const cell = item.item?.cell
+    const standard = item.item?.standard
+
+    if (standard === 'spore' && cell && cell.data) {
+      const sporeData = parseSporeCellData(cell.data)
+      if (sporeData.contentType.slice(0, 5) === 'image') {
+        const base64data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
+
+        return (
           <img
-            src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.item.token_id}`}
+            src={`data:${sporeData.contentType};base64,${base64data}`}
             alt="cover"
             loading="lazy"
             className={styles.icon}
-            onError={handleNftImgError}
           />
-        ) : (
-          <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
-        )}
+        )
+      }
+    }
+
+    if (coverUrl) {
+      return (
+        <img
+          src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.item.token_id}`}
+          alt="cover"
+          loading="lazy"
+          className={styles.icon}
+          onError={handleNftImgError}
+        />
+      )
+    }
+
+    return <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
+  }
+
+  return (
+    <li>
+      <div className={styles.item}>
+        {renderCover()}
         <Link
           to={`/nft-info/${collection}/${item.item.token_id}`}
           style={{

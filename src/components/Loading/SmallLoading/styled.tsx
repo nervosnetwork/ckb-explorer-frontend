@@ -15,6 +15,7 @@ export const SmallLoadingPanel = styled.div`
 
   @media (max-width: 750px) {
     margin: 8px 0;
+
     > img {
       width: 68px;
       height: 20px;

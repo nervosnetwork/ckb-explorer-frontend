@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import BigNumber from 'bignumber.js'
+import { Dayjs } from 'dayjs'
 import CONFIG from '../../config'
 import { pick } from '../../utils/object'
 import { toCamelcase } from '../../utils/util'
@@ -24,12 +25,13 @@ export const v2AxiosIns = axios.create({
   data: null,
 })
 
-export const fetchBlocks = (page: number, size: number) =>
+export const fetchBlocks = (page: number, size: number, sort?: string) =>
   axiosIns
     .get('blocks', {
       params: {
         page,
         page_size: size,
+        sort,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Block>[]>>(res.data))
@@ -41,12 +43,20 @@ export const fetchAddressInfo = (address: string) =>
     .get(`addresses/${address}`)
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Address>>(res.data.data))
 
-export const fetchTransactionsByAddress = (address: string, page: number, size: number) =>
+export const fetchTransactionsByAddress = (
+  address: string,
+  page: number,
+  size: number,
+  sort?: string,
+  txTypeFilter?: string,
+) =>
   axiosIns
     .get(`address_transactions/${address}`, {
       params: {
         page,
         page_size: size,
+        sort,
+        tx_type: txTypeFilter,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
@@ -56,36 +66,51 @@ export const fetchTransactionByHash = (hash: string) =>
     .get(`transactions/${hash}`)
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Transaction>>(res.data.data))
 
-export const fetchTransactions = (page: number, size: number) =>
+export const fetchTransactions = (page: number, size: number, sort?: string) =>
   axiosIns
     .get('transactions', {
       params: {
         page,
         page_size: size,
+        sort,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
 export const fetchLatestTransactions = (size: number) => fetchTransactions(1, size)
 
-export const fetchPendingTransactions = (page: number, size: number) =>
+export const fetchPendingTransactions = (page: number, size: number, sort?: string) =>
   v2AxiosIns
     .get('pending_transactions', {
       params: {
         page,
         page_size: size,
+        sort,
       },
     })
     .then(res => toCamelcase<Response.Response<State.Transaction[]>>(res.data))
 
 export const fetchPendingTransactionsCount = () => fetchPendingTransactions(1, 1).then(resp => resp.meta?.total)
 
-export const fetchTransactionsByBlockHash = (blockHash: string, page: number, size: number) =>
+export const fetchTransactionsByBlockHash = (
+  blockHash: string,
+  {
+    page,
+    size: page_size,
+    filter,
+  }: Partial<{
+    page: number
+    size: number
+    filter: string | null
+  }>,
+) =>
   axiosIns
     .get(`/block_transactions/${blockHash}`, {
       params: {
         page,
-        page_size: size,
+        page_size,
+        address_hash: filter?.startsWith('ck') ? filter : null,
+        tx_hash: filter?.startsWith('0x') ? filter : null,
       },
     })
     .then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
@@ -158,6 +183,24 @@ export const fetchNervosDaoTransactionsByAddress = (address: string, page: numbe
     params: {
       page,
       page_size: size,
+    },
+  }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
+
+export const fetchNervosDaoTransactionsByFilter = ({
+  page,
+  size,
+  filter,
+}: {
+  page: number
+  size: number
+  filter?: string
+}) =>
+  axiosIns(`/contract_transactions/nervos_dao`, {
+    params: {
+      page,
+      page_size: size,
+      tx_hash: filter?.startsWith('0x') ? filter : null,
+      address_hash: filter?.startsWith('0x') ? null : filter,
     },
   }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
@@ -402,28 +445,35 @@ export const fetchFlushChartCache = () =>
 export const fetchSimpleUDT = (typeHash: string) =>
   axiosIns(`/udts/${typeHash}`).then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.UDT>>(res.data.data))
 
-export const fetchSimpleUDTTransactions = (typeHash: string, page: number, size: number) =>
+export const fetchSimpleUDTTransactions = ({
+  typeHash,
+  page,
+  size,
+  filter,
+  type,
+}: {
+  typeHash: string
+  page: number
+  size: number
+  filter?: string | null
+  type?: string | null
+}) =>
   axiosIns(`/udt_transactions/${typeHash}`, {
     params: {
       page,
       page_size: size,
+      address_hash: filter?.startsWith('0x') ? undefined : filter,
+      tx_hash: filter?.startsWith('0x') ? filter : undefined,
+      transfer_action: type,
     },
   }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
 
-export const fetchSimpleUDTTransactionsWithAddress = (address: string, typeHash: string, page: number, size: number) =>
-  axiosIns(`/address_udt_transactions/${address}`, {
-    params: {
-      type_hash: typeHash,
-      page,
-      page_size: size,
-    },
-  }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.Transaction>[]>>(res.data))
-
-export const fetchTokens = (page: number, size: number) =>
+export const fetchTokens = (page: number, size: number, sort?: string) =>
   axiosIns(`/udts`, {
     params: {
       page,
       page_size: size,
+      sort,
     },
   }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.UDT>[]>>(res.data))
 
@@ -431,3 +481,30 @@ export const fetchMaintenanceInfo = () =>
   axiosIns(`/statistics/maintenance_info`).then((res: AxiosResponse) =>
     toCamelcase<Response.Wrapper<State.MaintenanceInfo>>(res.data.data),
   )
+
+export const exportTransactions = ({
+  type,
+  id,
+  date,
+  block,
+}: {
+  type: State.TransactionCsvExportType
+  id?: string
+  date?: Record<'start' | 'end', Dayjs | undefined>
+  block?: Record<'from' | 'to', number>
+}) => {
+  const rangeParams = {
+    start_date: date?.start?.valueOf(),
+    end_date: date?.end?.add(1, 'day').subtract(1, 'millisecond').valueOf(),
+    start_number: block?.from,
+    end_number: block?.to,
+  }
+  if (type === 'nft') {
+    return v2AxiosIns
+      .get(`/nft/transfers/download_csv`, { params: { ...rangeParams, collection_id: id } })
+      .then(res => toCamelcase<string>(res.data))
+  }
+  return axiosIns
+    .get(`/${type}/download_csv`, { params: { ...rangeParams, id } })
+    .then(res => toCamelcase<string>(res.data))
+}

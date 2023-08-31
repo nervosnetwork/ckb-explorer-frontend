@@ -14,7 +14,7 @@ export const CellbasePanel = styled.div`
   }
 
   .cellbase__content {
-    color: #000000;
+    color: #000;
   }
 
   a {
@@ -38,6 +38,6 @@ export const CellbasePanel = styled.div`
   .cellbase__help__icon {
     width: 16px;
     height: 16px;
-    margin: 2px 8px 0 8px;
+    margin: 2px 8px 0;
   }
 `

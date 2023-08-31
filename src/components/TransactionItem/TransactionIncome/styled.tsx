@@ -30,6 +30,7 @@ export const TransactionCapacityValuePanel = styled.div`
 
   @media (max-width: 750px) {
     font-size: 14px;
+
     img {
       width: 13px;
       margin-right: 6px;

@@ -29,6 +29,7 @@ import NFTClassIcon from '../../../assets/m_nft_class.svg'
 import NFTTokenIcon from '../../../assets/m_nft.svg'
 import CoTACellIcon from '../../../assets/cota_cell.svg'
 import CoTARegCellIcon from '../../../assets/cota_reg_cell.svg'
+import SporeCellIcon from '../../../assets/spore.svg'
 import { ReactComponent as LockTimeIcon } from '../../../assets/clock.svg'
 import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
 import TransactionCellScript from '../TransactionCellScript'
@@ -215,6 +216,18 @@ const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
     case 'cota_regular': {
       detailTitle = i18n.t('transaction.cota')
       detailIcon = CoTACellIcon
+      tooltip = detailTitle
+      break
+    }
+    case 'spore_cluster': {
+      detailTitle = i18n.t('transaction.spore_cluster')
+      detailIcon = SporeCellIcon
+      tooltip = detailTitle
+      break
+    }
+    case 'spore_cell': {
+      detailTitle = i18n.t('transaction.spore')
+      detailIcon = SporeCellIcon
       tooltip = detailTitle
       break
     }

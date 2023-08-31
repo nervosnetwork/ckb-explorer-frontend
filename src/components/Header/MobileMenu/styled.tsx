@@ -10,6 +10,6 @@ export const MobileMenusPanel = styled.div`
   z-index: 2;
   color: white;
   top: var(--navbar-height);
-  bottom: 0px;
+  bottom: 0;
   overflow: hidden;
 `

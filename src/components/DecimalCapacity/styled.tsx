@@ -13,7 +13,7 @@ export const DecimalPanel = styled.div`
     margin-left: 5px;
 
     @media (max-width: 750px) {
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
   }
 `
@@ -29,7 +29,7 @@ export const DecimalPartPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 `
 
@@ -44,6 +44,6 @@ export const DecimalZerosPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 `

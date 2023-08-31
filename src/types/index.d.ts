@@ -93,7 +93,14 @@ declare namespace State {
   }
 
   interface Cell$NoExtra extends Cell$Base {
-    cellType: 'normal' | 'nervos_dao_deposit' | 'nervos_dao_withdrawing' | 'cota_registry' | 'cota_regular'
+    cellType:
+      | 'normal'
+      | 'nervos_dao_deposit'
+      | 'nervos_dao_withdrawing'
+      | 'cota_registry'
+      | 'cota_regular'
+      | 'spore_cluster'
+      | 'spore_cell'
     extraInfo?: never
   }
 
@@ -184,7 +191,20 @@ declare namespace State {
     }
   }
 
-  export type UDTAccount = SUDT | MNFT | NRC721 | CoTA
+  interface Spore {
+    symbol?: string
+    amount: string
+    typeHash: string
+    udtIconFile: string
+    udtType: 'spore_cell'
+    collection: {
+      typeHash: string | null
+    }
+    uan: undefined
+    cota: undefined
+  }
+
+  export type UDTAccount = SUDT | MNFT | NRC721 | CoTA | Spore
 
   export interface Address {
     addressHash: string
@@ -572,6 +592,8 @@ declare namespace State {
 
   export interface PagePayload extends PageState {}
 
+  export type TransactionCsvExportType = 'address_transactions' | 'blocks' | 'udts' | 'nft'
+
   export interface App {
     toast: ToastMessage | null
     appErrors: [
@@ -616,6 +638,8 @@ declare namespace State {
       endAt: string
     }
   }
+
+  type SortOrderTypes = 'asc' | 'desc'
 }
 
 declare namespace CustomRouter {

@@ -2,17 +2,18 @@ import axios, { AxiosResponse } from 'axios'
 import { useState, useEffect, FC } from 'react'
 import { useQuery } from 'react-query'
 import { Radio } from 'antd'
-import Pagination from '../../components/Pagination'
+import { Base64 } from 'js-base64'
+import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { v2AxiosIns } from '../../service/http/fetcher'
 import i18n from '../../utils/i18n'
+import { parseSporeCellData } from '../../utils/spore'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, deprecatedAddrToNewAddr, handleNftImgError, patchMibaoImg } from '../../utils/util'
 import {
   AddressLockScriptController,
   AddressLockScriptPanel,
-  AddressTransactionsPagination,
   AddressTransactionsPanel,
   AddressUDTAssetsPanel,
   AddressUDTItemPanel,
@@ -21,6 +22,8 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from '../../assets/ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
+import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
+import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { sliceNftName } from '../../utils/string'
 import {
   useIsLGScreen,
@@ -40,6 +43,9 @@ import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
+import { omit } from '../../utils/object'
+import { CsvExport } from '../../components/CsvExport'
+import PaginationWithRear from '../../components/PaginationWithRear'
 
 const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
   const items = [
@@ -87,17 +93,29 @@ const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
   m_nft_token: 'm nft',
   nrc_721_token: 'nrc 721',
   cota: 'CoTA',
+  spore_cell: 'Spore',
 }
 
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   const { symbol, uan, amount, udtIconFile, typeHash, udtType, collection, cota } = udtAccount
   const isSudt = udtType === 'sudt'
-  const isNft = ['m_nft_token', 'nrc_721_token', 'cota'].includes(udtType)
+  const isSpore = udtType === 'spore_cell'
+  const isNft = ['m_nft_token', 'nrc_721_token', 'cota', 'spore_cell'].includes(udtType)
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
   const showDefaultIcon = () => setIcon(SUDTTokenIcon)
 
   useEffect(() => {
-    if (udtIconFile && udtType !== 'sudt') {
+    if (udtIconFile && udtType === 'spore_cell') {
+      const sporeData = parseSporeCellData(udtIconFile)
+      if (sporeData.contentType.slice(0, 5) === 'image') {
+        const base64data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
+
+        setIcon(`data:${sporeData.contentType};base64,${base64data}`)
+      }
+      return
+    }
+
+    if (udtIconFile && udtType !== 'sudt' && udtType !== 'spore_cell') {
       axios
         .get(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
         .then((res: AxiosResponse) => {
@@ -136,12 +154,13 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
       href = `/nft-collections/${collection?.typeHash}`
     }
   }
-  const coverQuery = isSudt
-    ? ''
-    : `?${new URLSearchParams({
-        size: 'small',
-        tid: cota?.cotaId?.toString() ?? amount,
-      })}`
+  const coverQuery =
+    isSudt || isSpore
+      ? ''
+      : `?${new URLSearchParams({
+          size: 'small',
+          tid: cota?.cotaId?.toString() ?? amount,
+        })}`
 
   return (
     <AddressUDTItemPanel href={href} isLink={isSudt || isNft}>
@@ -304,26 +323,31 @@ export const AddressTransactions = ({
   address,
   transactions,
   transactionsTotal: total,
-  addressInfo: { addressHash },
+  timeOrderBy,
 }: {
   address: string
   transactions: State.Transaction[]
   transactionsTotal: number
-  addressInfo: State.Address
+  timeOrderBy: State.SortOrderTypes
 }) => {
   const isMobile = useIsMobile()
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const searchParams = useSearchParams('layout')
   const defaultLayout = 'professional'
-  const updateSearchParams = useUpdateSearchParams<'layout'>()
+  const updateSearchParams = useUpdateSearchParams<'layout' | 'sort' | 'tx_type'>()
   const layout = searchParams.layout === 'lite' ? 'lite' : defaultLayout
   const totalPages = Math.ceil(total / pageSize)
 
   const onChangeLayout = (lo: 'professional' | 'lite') => {
-    updateSearchParams(params =>
-      lo === defaultLayout
-        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
-        : { ...params, layout: lo },
+    updateSearchParams(params => (lo === defaultLayout ? omit(params, ['layout']) : { ...params, layout: lo }))
+  }
+
+  // REFACTOR: could be an independent component
+  const handleTimeSort = () => {
+    updateSearchParams(
+      params =>
+        timeOrderBy === 'asc' ? omit(params, ['sort', 'tx_type']) : omit({ ...params, sort: 'time' }, ['tx_type']),
+      true,
     )
   }
 
@@ -350,17 +374,26 @@ export const AddressTransactions = ({
         className={styles.transactionTitleCard}
         isSingle
         rear={
-          <Radio.Group
-            className={styles.layoutButtons}
-            options={[
-              { label: i18n.t('transaction.professional'), value: 'professional' },
-              { label: i18n.t('transaction.lite'), value: 'lite' },
-            ]}
-            onChange={({ target: { value } }) => onChangeLayout(value)}
-            value={layout}
-            optionType="button"
-            buttonStyle="solid"
-          />
+          <>
+            <div className={styles.sortAndFilter} data-is-active={timeOrderBy === 'asc'}>
+              {timeOrderBy === 'asc' ? (
+                <TimeDownIcon onClick={handleTimeSort} />
+              ) : (
+                <TimeUpIcon onClick={handleTimeSort} />
+              )}
+            </div>
+            <Radio.Group
+              className={styles.layoutButtons}
+              options={[
+                { label: i18n.t('transaction.professional'), value: 'professional' },
+                { label: i18n.t('transaction.lite'), value: 'lite' },
+              ]}
+              onChange={({ target: { value } }) => onChangeLayout(value)}
+              value={layout}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </>
         }
       />
       <AddressTransactionsPanel>
@@ -376,13 +409,13 @@ export const AddressTransactions = ({
               </div>
             )}
             {txList.map((transaction: State.Transaction) => (
-              <TransactionLiteItem address={addressHash} transaction={transaction} key={transaction.transactionHash} />
+              <TransactionLiteItem address={address} transaction={transaction} key={transaction.transactionHash} />
             ))}
           </>
         ) : (
           txList.map((transaction: State.Transaction, index: number) => (
             <TransactionItem
-              address={addressHash}
+              address={address}
               transaction={transaction}
               key={transaction.transactionHash}
               circleCorner={{
@@ -392,11 +425,12 @@ export const AddressTransactions = ({
           ))
         )}
       </AddressTransactionsPanel>
-      {totalPages > 1 && (
-        <AddressTransactionsPagination>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} />
-        </AddressTransactionsPagination>
-      )}
+      <PaginationWithRear
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onChange={setPage}
+        rear={<CsvExport type="address_transactions" id={address} />}
+      />
     </>
   )
 }

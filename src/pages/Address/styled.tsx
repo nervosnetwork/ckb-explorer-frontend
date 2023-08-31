@@ -39,6 +39,7 @@ export const AddressPendingRewardTitlePanel = styled.div`
       width: 100%;
       height: 100%;
     }
+
     &:focus {
       outline: 0;
     }
@@ -81,11 +82,6 @@ export const AddressTransactionsPanel = styled.div`
   }
 `
 
-export const AddressTransactionsPagination = styled.div`
-  margin-top: 4px;
-  width: 100%;
-`
-
 export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;
@@ -95,7 +91,7 @@ export const AddressUDTAssetsPanel = styled.div`
   > span {
     font-size: 14px;
     font-weight: 600;
-    color: #000000;
+    color: #000;
   }
 
   .address__udt__assets__grid {
@@ -104,8 +100,7 @@ export const AddressUDTAssetsPanel = styled.div`
     padding: 6px 25px;
     width: 100%;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     overflow-y: scroll;
 
     @media (min-width: 1200px) {
@@ -122,7 +117,7 @@ export const AddressUDTItemPanel = styled.a`
   display: flex;
   flex-direction: column;
   margin: 6px 15px;
-  background: #ffffff;
+  background: #fff;
   width: 260px;
 
   @media (max-width: 750px) {
@@ -137,6 +132,7 @@ export const AddressUDTItemPanel = styled.a`
     padding: 2px 8px;
     background: ${props => props.theme.primary};
     color: #fff;
+
     span {
       text-transform: uppercase;
     }
@@ -153,9 +149,10 @@ export const AddressUDTItemPanel = styled.a`
     display: flex;
     align-items: center;
     width: 40px;
+    min-width: 40px;
     height: 40px;
     margin-right: 8px;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .address__udt__item__info {
@@ -166,7 +163,7 @@ export const AddressUDTItemPanel = styled.a`
 
     > span {
       font-size: 14px;
-      color: #000000;
+      color: #000;
       white-space: nowrap;
       overflow-x: hidden;
       text-overflow: ellipsis;

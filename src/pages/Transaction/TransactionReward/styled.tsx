@@ -6,7 +6,7 @@ export const RewardItemPenal = styled.div`
   height: 20px;
   justify-content: space-between;
   margin-bottom: 15px;
-  color: #000000;
+  color: #000;
 
   @media (max-width: 750px) {
     margin: 5px 10px;
@@ -34,7 +34,7 @@ export const RewardPenal = styled.div`
   .transaction__reward__title {
     margin-left: 10px;
     margin-top: 12px;
-    color: #666666;
+    color: #666;
 
     @media (min-width: 750px) {
       display: none;

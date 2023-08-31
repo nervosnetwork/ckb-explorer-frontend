@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const FooterPanel = styled.div`
-  background-color: #000000;
+  background-color: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,7 +33,7 @@ export const FooterPanel = styled.div`
 
 export const FooterMenuPanel = styled.div`
   overflow: hidden;
-  margin: 38px auto 34px auto;
+  margin: 38px auto 34px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -67,7 +67,7 @@ export const FooterMenuPanel = styled.div`
     }
 
     @media (max-width: 750px) {
-      margin-left: 0px;
+      margin-left: 0;
       margin-top: 30px;
     }
   }
@@ -90,7 +90,7 @@ export const FooterMenuPanel = styled.div`
     }
 
     @media (max-width: 750px) {
-      margin-left: 0px;
+      margin-left: 0;
       margin-top: 30px;
     }
 
@@ -108,7 +108,7 @@ export const FooterMenuPanel = styled.div`
   .footer__title {
     font-size: 28px;
     font-weight: bold;
-    color: #ffffff;
+    color: #fff;
 
     @media (max-width: 750px) {
       font-size: 26px;
@@ -132,16 +132,6 @@ export const FooterImageItemPanel = styled.a`
   padding: 12px;
   color: #acacac;
 
-  &:hover {
-    color: ${props => props.theme.primary};
-
-    & > svg {
-      .app-icon {
-        fill: ${props => props.theme.primary};
-      }
-    }
-  }
-
   > svg {
     width: 35px;
     height: 35px;
@@ -151,5 +141,15 @@ export const FooterImageItemPanel = styled.a`
     height: 15px;
     font-size: 12px;
     margin-top: 5px;
+  }
+
+  &:hover {
+    color: ${props => props.theme.primary};
+
+    & > svg {
+      .app-icon {
+        fill: ${props => props.theme.primary};
+      }
+    }
   }
 `

@@ -2,6 +2,8 @@ import type { AxiosResponse } from 'axios'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { Tooltip } from 'antd'
+import { Base64 } from 'js-base64'
+import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import i18n from '../../utils/i18n'
 import NftItemTransfers, { TransferListRes } from '../../components/NftItemTransfers'
 import Pagination from '../../components/Pagination'
@@ -10,6 +12,7 @@ import { v2AxiosIns } from '../../service/http/fetcher'
 import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
 import { patchMibaoImg, handleNftImgError } from '../../utils/util'
+import { parseSporeCellData } from '../../utils/spore'
 import { useSearchParams } from '../../utils/hook'
 
 const primaryColor = getPrimaryColor()
@@ -27,6 +30,13 @@ const NftInfo = () => {
       icon_url: string | null
       owner: string | null
       metadata_url: string | null
+      standard: string | null
+      cell: {
+        status: string
+        tx_hash: string
+        cell_index: number
+        data: string | null
+      } | null
       collection: {
         id: number
         standard: string
@@ -57,20 +67,45 @@ const NftInfo = () => {
   }
   const coverUrl = data?.data.icon_url || data?.data.collection.icon_url
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.overview}>
-        {coverUrl ? (
+  const renderCover = () => {
+    const cell = data?.data.cell
+    const standard = data?.data.standard
+
+    if (standard === 'spore' && cell && cell.data) {
+      const sporeData = parseSporeCellData(cell.data)
+      if (sporeData.contentType.slice(0, 5) === 'image') {
+        const base64data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
+
+        return (
           <img
-            src={`${patchMibaoImg(coverUrl)}?size=medium&tid=${data?.data.token_id}`}
+            src={`data:${sporeData.contentType};base64,${base64data}`}
             alt="cover"
             loading="lazy"
             className={styles.cover}
-            onError={handleNftImgError}
           />
-        ) : (
-          <Cover className={styles.cover} />
-        )}
+        )
+      }
+    }
+
+    if (coverUrl) {
+      return (
+        <img
+          src={`${patchMibaoImg(coverUrl)}?size=medium&tid=${data?.data.token_id}`}
+          alt="cover"
+          loading="lazy"
+          className={styles.cover}
+          onError={handleNftImgError}
+        />
+      )
+    }
+
+    return <Cover className={styles.cover} />
+  }
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.overview}>
+        {renderCover()}
         <div className={styles.info}>
           <div className={styles.name}>{data ? `${data.data.collection.name} #${data.data.token_id}` : '-'}</div>
           <div className={styles.items}>

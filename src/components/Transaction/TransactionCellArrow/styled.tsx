@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const LeftArrowImage = styled.img`
   width: 16px;
   height: auto;
-  margin: 0px 5px 3px 0;
+  margin: 0 5px 3px 0;
 
   @media (max-width: 750px) {
     width: 12px;

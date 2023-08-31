@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -11,7 +11,7 @@ import Pagination from '../../components/Pagination'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
-import { useIsMobile, usePaginationParamsInListPage, useSearchParams } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInListPage, useSearchParams, useSortParam } from '../../utils/hook'
 import { fetchPendingTransactions, fetchPendingTransactionsCount, fetchTransactions } from '../../service/http/fetcher'
 import { Tabs } from './Tabs'
 import styles from './index.module.scss'
@@ -19,11 +19,24 @@ import { QueryResult } from '../../components/QueryResult'
 import { Column, Table } from './Table'
 import { RouteState } from '../../routes/state'
 import { assert } from '../../utils/error'
+import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
+import { TableTitleRowItem } from '../../components/Table/styled'
 
 type TxStatus = 'confirmed' | 'pending'
 
-const TransactionCardGroup: FC<{ transactions: State.Transaction[]; type: TxStatus }> = ({ transactions, type }) => {
-  const itemHash: ItemCardData<State.Transaction> = {
+type ConfirmedSortByType = 'height' | 'capacity'
+type PendingSortByType = 'capacity' | 'time' | 'fee'
+
+interface SortItemCardData<T> extends ItemCardData<T> {
+  sortRule?: ConfirmedSortByType | PendingSortByType
+}
+
+const TransactionCardGroup: FC<{
+  transactions: State.Transaction[]
+  type: TxStatus
+  sortButton: (sortRule?: ConfirmedSortByType | PendingSortByType) => ReactNode
+}> = ({ transactions, type, sortButton }) => {
+  const itemHash: SortItemCardData<State.Transaction> = {
     title: i18n.t('transaction.transaction_hash'),
     render: transaction => (
       <AddressText
@@ -38,17 +51,19 @@ const TransactionCardGroup: FC<{ transactions: State.Transaction[]; type: TxStat
       </AddressText>
     ),
   }
-  const itemCapacity: ItemCardData<State.Transaction> = {
+  const itemCapacity: SortItemCardData<State.Transaction> = {
     title: i18n.t('transaction.capacity'),
+    sortRule: 'capacity',
     render: transaction => (
       <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
     ),
   }
 
-  const confirmedItems: ItemCardData<State.Transaction>[] = [
+  const confirmedItems: SortItemCardData<State.Transaction>[] = [
     itemHash,
     {
       title: i18n.t('transaction.height'),
+      sortRule: 'height',
       render: transaction => (
         <Link to={`/block/${transaction.blockNumber}`}>
           <span>{localeNumberString(transaction.blockNumber)}</span>
@@ -62,11 +77,12 @@ const TransactionCardGroup: FC<{ transactions: State.Transaction[]; type: TxStat
     },
   ]
 
-  const pendingItems: ItemCardData<State.Transaction>[] = [
+  const pendingItems: SortItemCardData<State.Transaction>[] = [
     itemHash,
     itemCapacity,
     {
       title: i18n.t('transaction.time'),
+      sortRule: 'time',
       render: transaction => {
         assert(transaction.createTimestamp != null)
         return parseSimpleDate(transaction.createTimestamp)
@@ -74,6 +90,7 @@ const TransactionCardGroup: FC<{ transactions: State.Transaction[]; type: TxStat
     },
     {
       title: i18n.t('transaction.transaction_fee'),
+      sortRule: 'fee',
       render: transaction => <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
     },
   ]
@@ -81,19 +98,36 @@ const TransactionCardGroup: FC<{ transactions: State.Transaction[]; type: TxStat
   const items = type === 'confirmed' ? confirmedItems : pendingItems
 
   return (
-    <ItemCardGroup
-      cardClassName={styles.transactionCard}
-      items={items}
-      dataSource={transactions}
-      getDataKey={transaction => transaction.transactionHash}
-    />
+    <>
+      <div className={styles.transactionCardHeader}>
+        {items
+          .filter(data => data.sortRule)
+          .map((data: SortItemCardData<State.Transaction>) => (
+            <TableTitleRowItem width="fit-content" key={data.title}>
+              <div>{data.title}</div>
+              {sortButton(data.sortRule)}
+            </TableTitleRowItem>
+          ))}
+      </div>
+      <ItemCardGroup
+        cardClassName={styles.transactionCard}
+        items={items}
+        dataSource={transactions}
+        getDataKey={transaction => transaction.transactionHash}
+      />
+    </>
   )
 }
 
-const TransactionTable: FC<{ transactions: State.Transaction[]; type: TxStatus }> = ({ transactions, type }) => {
+const TransactionTable: FC<{
+  transactions: State.Transaction[]
+  type: TxStatus
+  sortButton: (sortRule: ConfirmedSortByType | PendingSortByType) => ReactNode
+}> = ({ transactions, type, sortButton }) => {
   const [t] = useTranslation()
 
   const colHash: Column<State.Transaction> = {
+    key: 'hash',
     title: t('transaction.transaction_hash'),
     className: styles.colHash,
     width: '40%',
@@ -104,19 +138,32 @@ const TransactionTable: FC<{ transactions: State.Transaction[]; type: TxStatus }
   const confirmedColumns: Column<State.Transaction>[] = [
     colHash,
     {
-      title: t('transaction.height'),
+      key: 'height',
+      title: (
+        <>
+          <div>{t('transaction.height')}</div>
+          {sortButton('height')}
+        </>
+      ),
       width: '15%',
       getLinkProps: transaction => ({ to: `/block/${transaction.blockNumber}` }),
       render: transaction => localeNumberString(transaction.blockNumber),
     },
     {
-      title: t('transaction.capacity'),
+      key: 'capacity',
+      title: (
+        <>
+          <div>{t('transaction.capacity')}</div>
+          {sortButton('capacity')}
+        </>
+      ),
       width: '30%',
       render: transaction => (
         <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
       ),
     },
     {
+      key: 'time',
       title: t('transaction.time'),
       width: '15%',
       render: transaction => parseSimpleDate(transaction.blockTimestamp),
@@ -126,14 +173,26 @@ const TransactionTable: FC<{ transactions: State.Transaction[]; type: TxStatus }
   const pendingColumns: Column<State.Transaction>[] = [
     colHash,
     {
-      title: t('transaction.capacity'),
+      key: 'capacity',
+      title: (
+        <>
+          <div>{t('transaction.capacity')}</div>
+          {sortButton('capacity')}
+        </>
+      ),
       width: '22%',
       render: transaction => (
         <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
       ),
     },
     {
-      title: t('transaction.time'),
+      key: 'time',
+      title: (
+        <>
+          <div>{t('transaction.time')}</div>
+          {sortButton('time')}
+        </>
+      ),
       width: '16%',
       render: transaction => {
         assert(transaction.createTimestamp != null)
@@ -141,7 +200,13 @@ const TransactionTable: FC<{ transactions: State.Transaction[]; type: TxStatus }
       },
     },
     {
-      title: t('transaction.transaction_fee'),
+      key: 'fee',
+      title: (
+        <>
+          <div>{t('transaction.transaction_fee')}</div>
+          {sortButton('fee')}
+        </>
+      ),
       width: '22%',
       render: transaction => <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
     },
@@ -166,13 +231,17 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
   const stateStaleTime = 3000
   const MAX_PAGE_NUMBER = 5000
 
+  const { sortBy, orderBy, sort, handleSortClick } = useSortParam<ConfirmedSortByType | PendingSortByType>(s =>
+    type === 'confirmed' ? s === 'height' || s === 'capacity' : s === 'capacity' || s === 'time' || s === 'fee',
+  )
+
   const query = useQuery(
-    [`${type}-transactions`, type, currentPage, pageSize] as const,
+    [`${type}-transactions`, type, currentPage, pageSize, sortBy, orderBy] as const,
     async ({ queryKey }) => {
       const [, type] = queryKey
       switch (type) {
         case 'pending': {
-          const resp = await fetchPendingTransactions(currentPage, pageSize)
+          const resp = await fetchPendingTransactions(currentPage, pageSize, sort)
           return {
             transactions: resp.data,
             total: resp.meta?.total ?? 0,
@@ -180,7 +249,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
         }
         case 'confirmed':
         default: {
-          const resp = await fetchTransactions(currentPage, pageSize)
+          const resp = await fetchTransactions(currentPage, pageSize, sort)
           return {
             transactions: resp.data.map(wrapper => wrapper.attributes) ?? [],
             total: resp.meta?.total ?? 0,
@@ -189,12 +258,22 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
       }
     },
     {
-      keepPreviousData: true,
       initialData:
         state?.type === 'TransactionListPage' && state.createTime + stateStaleTime > Date.now()
           ? state.transactionsDataWithFirstPage
           : undefined,
     },
+  )
+
+  const sortButton = (sortRule?: ConfirmedSortByType | PendingSortByType) => (
+    <button
+      type="button"
+      className={styles.sortIcon}
+      data-order={sortRule === sortBy ? orderBy : undefined}
+      onClick={() => handleSortClick(sortRule)}
+    >
+      <SortIcon />
+    </button>
   )
 
   return (
@@ -204,9 +283,9 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
         return (
           <>
             {isMobile ? (
-              <TransactionCardGroup type={type} transactions={data.transactions} />
+              <TransactionCardGroup type={type} transactions={data.transactions} sortButton={sortButton} />
             ) : (
-              <TransactionTable type={type} transactions={data.transactions} />
+              <TransactionTable type={type} transactions={data.transactions} sortButton={sortButton} />
             )}
 
             <Pagination

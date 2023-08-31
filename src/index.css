@@ -2,7 +2,10 @@
 
 body {
   --primary-color: #00cc9b;
+  --primary-hover-bg-color: #e8fff1;
+  --primary-chiffon-color: #e6fcf7;
   --navbar-height: 64px;
+  --table-separator-color: #f5f5f5;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
@@ -13,6 +16,8 @@ body {
 
 body[data-chain-type='testnet'] {
   --primary-color: #9a2cec;
+  --primary-hover-bg-color: #eeeafc;
+  --primary-chiffon-color: #eeeafc;
 }
 
 * {

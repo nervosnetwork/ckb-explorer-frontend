@@ -24,14 +24,14 @@ export const ChartDetailTitle = styled.div`
     flex: 1;
 
     > span {
-      color: #000000;
+      color: #000;
       text-align: center;
       font-size: 24px;
       margin-left: 100px;
 
       @media (max-width: 750px) {
         font-size: 16px;
-        margin-left: 0px;
+        margin-left: 0;
       }
     }
 
@@ -46,10 +46,10 @@ export const ChartDetailTitle = styled.div`
     width: 100px;
     padding: 5px 0;
     border-radius: 2px;
-    border: solid 1px #666666;
+    border: solid 1px #666;
     font-size: 12px;
     text-align: center;
-    color: #666666;
+    color: #666;
     margin-right: 3.6%;
 
     @media (max-width: 750px) {
@@ -74,9 +74,9 @@ export const ChartNoDataPanel = styled.div`
   width: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '92px' : '184px')};
   height: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '56px' : '112px')};
   border-radius: 6px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%);
   border: solid 0.5px ${props => props.theme.primary};
-  background-color: #ffffff;
+  background-color: #fff;
 
   > img {
     width: ${(props: { isThumbnail?: boolean }) => (props.isThumbnail ? '18.5px' : '37px')};
@@ -93,8 +93,8 @@ export const ChartNoDataPanel = styled.div`
 
 export const ChartNotePanel = styled.div`
   font-size: 12px;
-  with: 100%;
-  color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  color: rgb(0 0 0 / 60%);
   padding: 6px 3%;
   text-align: left;
 `

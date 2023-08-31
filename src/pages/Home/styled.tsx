@@ -20,7 +20,7 @@ export const HomeHeaderItemPanel = styled.div`
     }
 
     .blockchain__item__name {
-      color: #555555;
+      color: #555;
       font-size: 14px;
 
       @media (max-width: 750px) {
@@ -29,7 +29,7 @@ export const HomeHeaderItemPanel = styled.div`
     }
 
     .blockchain__item__value {
-      color: #000000;
+      color: #000;
       font-weight: 600;
       display: flex;
       justify-content: space-between;
@@ -53,7 +53,7 @@ export const HomeHeaderItemPanel = styled.div`
     }
 
     .blockchain__item__separate {
-      margin: 10px 0 20px 0;
+      margin: 10px 0 20px;
       height: 1px;
       background: #eaeaea;
       width: 100%;
@@ -80,7 +80,7 @@ export const HomeStatisticItemPanel = styled.div`
 
   .home__statistic__item__name {
     font-size: 14px;
-    color: #ffffff;
+    color: #fff;
 
     @media (max-width: 1200px) {
       font-size: 12px;
@@ -89,7 +89,7 @@ export const HomeStatisticItemPanel = styled.div`
 
   .home__statistic__item__value {
     font-size: ${(props: { isFirst?: boolean }) => (props.isFirst ? '26px' : '20px')};
-    color: #ffffff;
+    color: #fff;
     font-weight: bold;
 
     @media (max-width: 1200px) {
@@ -114,9 +114,9 @@ export const BlockPanel = styled.div`
   background: white;
   flex: 1;
   min-width: 0;
-  border: 0px solid white;
+  border: 0 solid white;
   border-radius: 6px;
-  box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
+  box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
 
   .block__card__separate {
     background: #eaeaea;
@@ -133,9 +133,9 @@ export const TransactionPanel = styled.div`
   background: white;
   flex: 1;
   min-width: 0;
-  border: 0px solid white;
+  border: 0 solid white;
   border-radius: 6px;
-  box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
+  box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
 
   .transaction__card__separate {
     background: #eaeaea;
@@ -153,7 +153,7 @@ export const ContentTitle = styled.div`
   text-align: center;
   margin-bottom: 58px;
 
-  &:after {
+  &::after {
     content: '';
     display: block;
     background: ${props => props.theme.primary};
@@ -169,7 +169,7 @@ export const ContentTitle = styled.div`
     text-align: center;
     margin-bottom: 20px;
 
-    &:after {
+    &::after {
       content: '';
       display: block;
       background: ${props => props.theme.primary};
@@ -204,7 +204,7 @@ export const TableHeaderPanel = styled.div`
   display: flex;
   align-items: center;
   background: ${props => props.theme.primary};
-  border: 0px solid #f9f9f9;
+  border: 0 solid #f9f9f9;
   border-radius: 6px 6px 0 0;
 
   > img {
@@ -254,7 +254,7 @@ export const BlockRewardContainer = styled.div`
     justify-content: flex-start;
   }
 
-  :after {
+  ::after {
     display: inline;
     content: '+';
     color: #7f7d7d;

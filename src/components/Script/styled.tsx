@@ -47,7 +47,7 @@ export const ScriptItemPanel = styled.div`
     > span {
       margin-left: 10px;
       font-weight: 500;
-      color: rgba(0, 0, 0, 0.6);
+      color: rgb(0 0 0 / 60%);
 
       @media (max-width: 750px) {
         margin-left: 5px;
@@ -63,11 +63,11 @@ export const ScriptItemPanel = styled.div`
     transform: translateY(2px);
     word-wrap: break-word;
     word-break: break-all;
-    color: #000000;
+    color: #000;
 
     @media (max-width: 750px) {
       margin-left: 5px;
-      transform: translateY(0px);
+      transform: translateY(0);
     }
   }
 
@@ -78,7 +78,7 @@ export const ScriptItemPanel = styled.div`
 
     > span {
       margin-right: 12px;
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
 
     @media (max-width: 1440px) {
@@ -86,7 +86,7 @@ export const ScriptItemPanel = styled.div`
       align-items: flex-start;
 
       > span {
-        margin-right: 0px;
+        margin-right: 0;
         margin-bottom: 6px;
       }
     }

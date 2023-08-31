@@ -7,7 +7,7 @@ interface TitleCardPanelProps {
 
 export const TitleCardPanel = styled.div`
   width: 100%;
-  background-color: #ffffff;
+  background-color: #fff;
   height: ${(props: TitleCardPanelProps) => (props.isSingle ? '58px' : '50px')};
   padding: ${(props: TitleCardPanelProps) => (props.isSingle ? '0 40px' : '0')};
   display: flex;
@@ -23,7 +23,7 @@ export const TitleCardPanel = styled.div`
   }
 
   .title__card__content {
-    color: #000000;
+    color: #000;
     font-size: 20px;
     font-weight: 600;
     margin-bottom: ${(props: TitleCardPanelProps) => (props.isSingle ? '0px' : '12px')};
@@ -31,6 +31,20 @@ export const TitleCardPanel = styled.div`
     @media (max-width: 750px) {
       font-size: 20px;
       margin-bottom: 8px;
+    }
+  }
+
+  .title__card__rear {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    @media (max-width: 750px) {
+      flex-direction: column-reverse;
+      > div:first-child {
+        padding: 16px 0 0 0;
+        justify-content: flex-end;
+      }
     }
   }
 `

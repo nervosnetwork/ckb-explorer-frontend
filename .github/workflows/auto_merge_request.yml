@@ -8,7 +8,7 @@ jobs:
     name: Merge develop into testnet
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: repo-sync/pull-request@v2
         with:
           source_branch: 'develop'
@@ -23,7 +23,7 @@ jobs:
     name: Merge testnet into mainnet
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: repo-sync/pull-request@v2
         with:
           source_branch: 'testnet'
@@ -38,7 +38,7 @@ jobs:
     name: Merge mainnet back to develop
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: repo-sync/pull-request@v2
         with:
           source_branch: 'master'

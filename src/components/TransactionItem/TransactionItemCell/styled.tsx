@@ -5,7 +5,6 @@ export const TransactionCellPanel = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 16px;
-
   background: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '' : '#f5f5f5')};
 
   @media (min-width: 750px) {
@@ -21,7 +20,6 @@ export const TransactionCellPanel = styled.div`
   .transaction__cell_address {
     color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
       highLight ? `${theme.primary}` : '#000000'};
-
     font-weight: 500;
     min-width: 0;
     width: 100%;
@@ -46,7 +44,7 @@ export const TransactionCellPanel = styled.div`
 
 export const TransactionCellCapacityPanel = styled.div`
   flex-shrink: 0;
-  color: #000000;
+  color: #000;
   margin-left: 15px;
   display: flex;
   max-height: 40px;
@@ -57,11 +55,12 @@ export const TransactionCellCapacityPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    margin-left: 0px;
+    margin-left: 0;
     margin-top: 5px;
     height: 16px;
     width: 100%;
     justify-content: flex-end;
+
     .transaction__cell__without__icon {
       margin: 0 6px;
     }
@@ -97,6 +96,7 @@ export const TransactionCellWithdraw = styled.div`
 export const TransactionCellUDTPanel = styled.div`
   display: flex;
   align-items: center;
+
   span {
     margin-left: 6px;
   }

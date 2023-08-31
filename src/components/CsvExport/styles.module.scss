@@ -1,0 +1,12 @@
+.exportLink {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+  cursor: pointer;
+
+  > div:first-child {
+    margin-right: 8px;
+    white-space: nowrap;
+  }
+}

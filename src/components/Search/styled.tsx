@@ -16,7 +16,7 @@ export const SearchPanel = styled.div`
   align-items: center;
   justify-content: center;
   background: white;
-  border: 0px solid white;
+  border: 0 solid white;
   border-radius: ${(props: { hasButton?: boolean }) => (props.hasButton ? '4px 0 0 4px' : '4px')};
   padding-right: 5px;
 
@@ -46,17 +46,17 @@ export const SearchInputPanel = styled.input`
   padding-left: 10px;
   padding-right: 20px;
   background: white;
-  color: #333333;
-  border: 0px solid white;
+  color: #333;
+  border: 0 solid white;
   border-radius: 4px;
 
-  &: focus {
-    color: #333333;
+  &:focus {
+    color: #333;
     outline: none;
   }
 
   &::placeholder {
-    color: #888888;
+    color: #888;
   }
 
   @media (max-width: 750px) {
@@ -71,11 +71,11 @@ export const SearchButton = styled.div`
   width: 80px;
   height: 38px;
   border-radius: 0 4px 4px 0;
-  border: solid 1px #ffffff;
+  border: solid 1px #fff;
   background-color: #121212;
   text-align: center;
   line-height: 34px;
-  color: #ffffff;
+  color: #fff;
   letter-spacing: 0.2px;
   font-size: 14px;
   cursor: pointer;

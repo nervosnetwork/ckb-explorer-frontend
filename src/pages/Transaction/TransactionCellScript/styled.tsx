@@ -17,10 +17,12 @@ export const TransactionDetailItem = styled.div`
   font-weight: 600;
   font-size: 16px;
   align-items: center;
+
   @media (max-width: 750px) {
     margin-top: 5px;
   }
-  &:after {
+
+  &::after {
     content: '';
     background: ${(props: { theme: any }) => `${props.theme.primary}`};
     width: calc(100% - 4px);
@@ -34,9 +36,11 @@ export const TransactionDetailLock = styled(TransactionDetailItem)``
 
 export const TransactionDetailType = styled(TransactionDetailItem)`
   margin-left: 90px;
+
   @media (max-width: 750px) {
     margin-left: 12px;
   }
+
   @media screen and (min-width: 751px) and (max-width: 1300px) {
     margin-left: 50px;
   }
@@ -44,9 +48,11 @@ export const TransactionDetailType = styled(TransactionDetailItem)`
 
 export const TransactionDetailData = styled(TransactionDetailItem)`
   margin-left: 90px;
+
   @media (max-width: 750px) {
     margin-left: 12px;
   }
+
   @media screen and (min-width: 751px) and (max-width: 1300px) {
     margin-left: 50px;
   }
@@ -54,9 +60,11 @@ export const TransactionDetailData = styled(TransactionDetailItem)`
 
 export const TransactionDetailCapacityUsage = styled(TransactionDetailItem)`
   margin-left: 90px;
+
   @media (max-width: 750px) {
     margin-left: 12px;
   }
+
   @media screen and (min-width: 751px) and (max-width: 1300px) {
     margin-left: 50px;
   }
@@ -86,6 +94,7 @@ export const TransactionCellDetailPanel = styled.div`
     justify-content: flex-end;
     align-items: center;
     padding-bottom: 17px;
+
     > img {
       cursor: pointer;
       width: 16px;
@@ -94,6 +103,7 @@ export const TransactionCellDetailPanel = styled.div`
 
     @media (max-width: 750px) {
       padding-bottom: 15px;
+
       > img {
         width: 12px;
         height: 12px;
@@ -105,9 +115,11 @@ export const TransactionCellDetailPanel = styled.div`
 export const TransactionDetailPanel = styled.div`
   width: 100%;
   margin-top: 20px;
+
   @media (max-width: 750px) {
     margin-top: 10px;
   }
+
   .transaction__detail_content {
     border: none;
     width: 100%;
@@ -121,7 +133,7 @@ export const TransactionDetailPanel = styled.div`
     padding: 20px 6px;
     margin-top: 5px;
     font-size: 16px;
-    color: #888888;
+    color: #888;
     font-weight: bold;
     background-color: #f9f9f9;
     border-radius: 6px;
@@ -131,6 +143,7 @@ export const TransactionDetailPanel = styled.div`
       padding: 10px;
     }
   }
+
   .transaction__detail_copy {
     display: flex;
     flex-direction: row;
@@ -138,8 +151,10 @@ export const TransactionDetailPanel = styled.div`
     justify-content: center;
     margin-top: 20px;
     width: 100%;
+
     @media (max-width: 750px) {
       margin-top: 10px;
+
       svg {
         width: 12px;
         height: 12px;
@@ -147,8 +162,10 @@ export const TransactionDetailPanel = styled.div`
       }
     }
   }
+
   .transaction__detail_loading {
     padding: 20px 0;
+
     @media (max-width: 750px) {
       padding: 10px 0;
     }
@@ -177,6 +194,7 @@ export const TransactionDetailCopyButton = styled.div`
       fill: ${props => props.theme.primary};
     }
   }
+
   > img {
     width: 24px;
     height: 24px;
@@ -186,6 +204,7 @@ export const TransactionDetailCopyButton = styled.div`
     width: 75px;
     height: 20px;
     padding: 0 10px;
+
     > div {
       font-size: 12px;
     }
@@ -212,17 +231,21 @@ export const TransactionDetailScriptButton = styled.a`
     color: white;
     font-size: 20px;
   }
+
   > img {
     width: 24px;
     height: 24px;
   }
+
   @media (max-width: 750px) {
     width: 75px;
     height: 20px;
     padding: 0 10px;
+
     > div {
       font-size: 12px;
     }
+
     > img {
       width: 14px;
       height: 14px;
@@ -233,10 +256,10 @@ export const TransactionDetailScriptButton = styled.a`
 export const TransactionCellScriptContentPanel = styled.div`
   > div {
     display: flex;
-    margin: 2px 0px 2px 30px;
+    margin: 2px 0 2px 30px;
 
     @media (max-width: 750px) {
-      margin: 2px 0px 2px 12px;
+      margin: 2px 0 2px 12px;
     }
 
     > div:nth-child(1) {

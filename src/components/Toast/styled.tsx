@@ -21,6 +21,7 @@ export const ToastItemPanel = styled.div`
   opacity: 0.96;
   z-index: 9999;
   height: 60px;
+
   .toast__text {
     color: white;
     font-size: 20px;
@@ -41,6 +42,7 @@ export const ToastItemPanel = styled.div`
   @media (max-width: 320px) {
     top: 42px;
     height: 36px;
+
     .toast__text {
       font-size: 12px;
       line-height: 36px;

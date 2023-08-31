@@ -1,5 +1,6 @@
 /* config-overrides.js */
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
 
 module.exports = function override(config) {
   if (config.ignoreWarnings == null) {
@@ -26,6 +27,7 @@ module.exports = function override(config) {
         project:
           process.env.SENTRY_PROJECT || (isMainnet ? 'ckb-explorer-frontend-mainnet' : 'ckb-explorer-frontend-testnet'),
       }),
+      new AntdDayjsWebpackPlugin(),
     )
   }
 

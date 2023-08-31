@@ -204,7 +204,10 @@
       "address_type_mainnet_url": "主网浏览器查询",
       "search": "搜索",
       "dao_filter_no_result": "搜索结果为空。\n请输入完整的交易哈希或地址",
-      "udt_filter_no_result": "搜索结果为空。\n请输入完整的地址"
+      "udt_filter_no_result": "搜索结果为空。\n请输入完整的地址",
+      "tx": "交易",
+      "addr": "地址",
+      "reset": "复位"
     },
     "address": {
       "address": "地址",
@@ -236,7 +239,7 @@
       "visit-deprecated-address": "查看废弃地址格式",
       "view-deprecated-address": "展示旧地址格式",
       "displaying-deprecated-address": "正在以旧格式地址展示",
-      "currentAddress": "当前地址"
+      "current-address": "当前地址"
     },
     "transaction": {
       "transaction": "交易",
@@ -287,6 +290,8 @@
       "nrc_721_token": "NRC 721",
       "cota_registry": "CoTA Registry",
       "cota": "CoTA",
+      "spore_cluster": "Spore Cluster",
+      "spore": "Spore",
       "unknown_nft": "匿名",
       "nft_limited": "限量",
       "nft_unlimited": "不限量",
@@ -357,7 +362,8 @@
       "compared_to_the_max_size_in_chain": "相较链上最大交易体积块的占比",
       "cycles": "Cycles",
       "compared_to_the_max_cycles_in_epoch": "相较Epoch中最大Cycles的占比",
-      "compared_to_the_max_cycles_in_chain": "相较链上最大Cycles的占比"
+      "compared_to_the_max_cycles_in_chain": "相较链上最大Cycles的占比",
+      "address_or_hash": "地址/哈希"
     },
     "nervos_dao": {
       "nervos_dao": "Nervos DAO",
@@ -370,8 +376,6 @@
       "locked_period": "锁定周期",
       "locked_time": "锁定时间",
       "deposit_capacity": "锁定金额",
-      "dao_search_placeholder": "交易 / 地址",
-      "dao_search_reset": "复位",
       "dao_tab_transactions": "交易列表",
       "dao_tab_depositors": "锁定地址",
       "dao_title_rank": "排名",
@@ -434,13 +438,17 @@
       "created_time": "创建时间",
       "tokens_empty": "目前没有代币。",
       "unverified": "未验证",
-      "view-deprecated-address": "查看旧地址"
+      "view-deprecated-address": "查看旧地址",
+      "view-mint-txns": "查看铸造交易",
+      "view-transfer-txns": "查看转帐交易",
+      "view-burn-txns": "查看销毁交易",
+      "address-or-hash": "交易哈希 / 地址",
+      "address": "地址"
     },
     "nft": {
       "nft_collection": "NFT 藏品",
       "collection_name": "藏品名称",
       "standard": "类型",
-      "holder_and_mint_count": "持有人/发行数",
       "minter_address": "发行人",
       "no_record": "没有记录",
       "mnft": "M-NFT",
@@ -448,6 +456,7 @@
       "nrc721": "NRC 721",
       "nrc_721": "NRC 721",
       "cota": "CoTA",
+      "spore": "Spore",
       "loading": "加载中...",
       "nft": "NFT",
       "tx_hash": "交易",
@@ -456,7 +465,9 @@
       "to": "接收方",
       "transfer-list": "转让记录",
       "holder-list": "持有人列表",
+      "transactions": "24小时交易数",
       "holder": "持有人",
+      "minted": "发行数",
       "quantity": "数量",
       "inventory": "目录",
       "action": "操作",
@@ -467,7 +478,8 @@
       },
       "owner": "持有人",
       "activity": "活动",
-      "toggle-age": "切换时间格式"
+      "toggle-age": "切换时间格式",
+      "all-type": "所有类型"
     },
     "script_list": {
       "title": "脚本",
@@ -518,6 +530,29 @@
       "transaction_count": "交易数量",
       "n_days_historical_fee_rate": " 平均费率 (最近 {{n}} 天)",
       "count": "数量"
+    },
+    "export_transactions": {
+      "csv_export": "CSV导出",
+      "download_data": "下载数据",
+      "transactions": "交易",
+      "description_str": "您请求的信息可以从该页面下载。 在继续之前，请通过填写下面的验证码来验证您不是机器人。",
+      "select_download_options": "选择下载选项",
+      "date": "日期",
+      "start_date": "开始日期",
+      "end_date": "结束日期",
+      "from_block": "起始块高",
+      "to_block": "目标块高",
+      "note_str": "这将导出所选范围内最早的 5,000 条记录",
+      "download": "下载",
+      "block_number": "块高",
+      "please_pick_date": "请选择开始日期和结束日期!",
+      "error_date_order": "结束日期应该比开始日期晚!",
+      "download_processed": "您的下载请求已被处理!",
+      "please_input_block_number": "请输入起始块高和目标块高!",
+      "error_block_number_order": "目标块高不应该小于起始块高!",
+      "block_number_should_be_positive": "块高应该输入正数!",
+      "too_many_blocks": "选择的范围超过了 5,000 个区块, 请重新输入区块高度!",
+      "fetch_processed_export_link_empty": "获取已处理的导出链接为空"
     }
   }
 }

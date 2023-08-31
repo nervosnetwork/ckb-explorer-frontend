@@ -8,7 +8,7 @@ export const BlockDetailPanel = styled.div`
   margin-bottom: 40px;
 
   @media (max-width: 750px) {
-    margin: 0px;
+    margin: 0;
     padding: 20px;
   }
 `
@@ -38,9 +38,11 @@ export const BlockRootInfoItemPanel = styled.div`
 
   .block__root_info_title {
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgb(0 0 0 / 60%);
   }
+
   .block__root_info_value {
+    /* spare class */
   }
 `
 
@@ -68,13 +70,13 @@ export const BlockMinerRewardPanel = styled.div`
 
   img {
     width: ${(props: { sent: boolean }) => (props.sent ? '30px' : '15px')};
-    height： 15px;
+    height: 15px;
     margin: ${(props: { sent: boolean }) => (props.sent ? '0 0 3px 5px' : '3px 0 0 5px')};
     cursor: ${(props: { sent: boolean }) => (props.sent ? 'pointer' : 'default')};
 
-    @media(max-width: 750px) {
+    @media (max-width: 750px) {
       width: ${(props: { sent: boolean }) => (props.sent ? '27px' : '15px')};
-      height： 15px;
+      height: 15px;
       margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '1px' : '0')};
     }
   }

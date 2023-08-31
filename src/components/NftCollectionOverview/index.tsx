@@ -52,7 +52,9 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
         </dd>
       </dl>
       <dl>
-        <dt>{i18n.t(`nft.holder_and_mint_count`)}</dt>
+        <dt>
+          {i18n.t('nft.holder')}/{i18n.t('nft.minted')}
+        </dt>
         <dd>
           {isLoading
             ? i18n.t(`nft.loading`)

@@ -8,7 +8,6 @@ export const MobileMenuItem = styled.div`
 `
 
 export const MobileMenuLink = styled.a`
-  font-weight: normal;
   color: white;
   display: flex;
   align-items: center;
@@ -16,6 +15,7 @@ export const MobileMenuLink = styled.a`
   font-weight: regular;
   margin-top: 22px;
   height: 21px;
+
   &:hover {
     font-weight: medium;
     color: ${props => props.theme.primary};
@@ -26,7 +26,6 @@ export const HeaderMenuPanel = styled.div`
   align-items: center;
 
   .header__menus__item {
-    font-weight: normal;
     color: white;
     display: flex;
     align-items: center;
@@ -55,7 +54,7 @@ export const HeaderMenuPanel = styled.div`
     }
 
     @media (max-width: 750px) {
-      padding-left: 0px;
+      padding-left: 0;
     }
 
     &:hover {

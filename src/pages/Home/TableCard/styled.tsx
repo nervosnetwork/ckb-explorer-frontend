@@ -1,11 +1,13 @@
 import styled from 'styled-components'
 
 export const BlockCardPanel = styled.div`
+  /* stylelint-disable no-descending-specificity */
+
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 15px;
-  background: #ffffff;
+  background: #fff;
 
   @media (max-width: 750px) {
     flex-direction: column;
@@ -33,7 +35,7 @@ export const BlockCardPanel = styled.div`
       font-weight: 500;
 
       > span {
-        color: #000000;
+        color: #000;
         margin-right: 3px;
       }
 
@@ -45,7 +47,7 @@ export const BlockCardPanel = styled.div`
 
     .block__card__timestamp {
       font-size: 12px;
-      color: #888888;
+      color: #888;
       margin-top: 9px;
       font-weight: 500;
       overflow: hidden;
@@ -83,7 +85,7 @@ export const BlockCardPanel = styled.div`
 
       .block__card__miner__hash {
         font-size: 14px;
-        color: #000000;
+        color: #000;
         margin-right: 10px;
         white-space: nowrap;
 
@@ -95,7 +97,7 @@ export const BlockCardPanel = styled.div`
 
     .block__card__reward {
       font-size: 14px;
-      color: #888888;
+      color: #888;
       font-weight: 500;
 
       @media (max-width: 750px) {
@@ -127,7 +129,7 @@ export const BlockCardPanel = styled.div`
 
     .block__card__transaction__count {
       font-size: 13px;
-      color: #000000;
+      color: #000;
       font-weight: 500;
     }
 
@@ -136,7 +138,7 @@ export const BlockCardPanel = styled.div`
       font-size: 12px;
       margin-top: 9px;
       margin-left: 10px;
-      color: #888888;
+      color: #888;
       font-weight: 500;
 
       @media (max-width: 900px) {
@@ -156,7 +158,7 @@ export const TransactionCardPanel = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 15px;
-  background: #ffffff;
+  background: #fff;
   font-weight: 500;
   max-height: 83px;
 
@@ -177,6 +179,7 @@ export const TransactionCardPanel = styled.div`
     font-size: 14px;
     flex: 1.4;
     min-width: 0;
+    max-width: 100%;
     font-weight: 500;
 
     @media (max-width: 750px) {
@@ -185,7 +188,7 @@ export const TransactionCardPanel = styled.div`
 
     .transaction__card__confirmation {
       font-size: 12px;
-      color: #888888;
+      color: #888;
       margin-top: 10px;
       font-weight: 500;
       overflow: hidden;
@@ -219,13 +222,13 @@ export const TransactionCardPanel = styled.div`
       }
 
       .transaction__card__block__height {
-        color: #000000;
+        color: #000;
         margin-right: 5px;
         white-space: nowrap;
       }
 
       .transaction__card__block__height__prefix {
-        color: #000000;
+        color: #000;
         margin-right: 3px;
       }
 
@@ -237,7 +240,7 @@ export const TransactionCardPanel = styled.div`
 
     .transaction__card__timestamp {
       font-size: 12px;
-      color: #888888;
+      color: #888;
       margin-top: 10px;
       margin-right: 10px;
       font-weight: 500;
@@ -256,7 +259,7 @@ export const TransactionCardPanel = styled.div`
     flex: 1;
     font-size: 14px;
     font-weight: 500;
-    color: #000000;
+    color: #000;
 
     @media (max-width: 750px) {
       flex-direction: row;
@@ -269,7 +272,7 @@ export const TransactionCardPanel = styled.div`
       justify-content: flex-end;
       font-size: 12px;
       margin-top: 10px;
-      color: #888888;
+      color: #888;
       font-weight: 500;
 
       @media (max-width: 900px) {

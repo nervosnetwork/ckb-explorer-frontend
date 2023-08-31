@@ -1,7 +1,5 @@
 .list {
   background: #fff;
-  border-top-right-radius: 6px;
-  padding: 0 15px;
 
   table {
     position: relative;
@@ -19,16 +17,15 @@
       padding-bottom: 12px;
       text-transform: capitalize;
       white-space: nowrap;
-    }
-    &:after {
-      position: absolute;
-      left: -15px;
-      top: 44px;
-      width: calc(100% + 30px);
-      height: 4px;
-      content: '';
-      display: block;
-      background-color: #ededed;
+
+      @media (max-width: 750px) {
+        &:first-child {
+          padding-right: 0;
+        }
+        &:last-child {
+          padding-left: 0;
+        }
+      }
     }
   }
 
@@ -39,8 +36,8 @@
       font-size: 14px;
     }
 
-    tr:not(:last-child) {
-      border-bottom: 1px solid #d8d8d8;
+    tr {
+      border-top: 1px solid var(--table-separator-color);
     }
   }
 
@@ -52,13 +49,19 @@
     max-width: 0.25vw;
 
     &:last-child {
-      text-align: right;
+      @media screen and (max-width: 750px) {
+        text-align: right;
+      }
     }
 
     &:first-child,
     &:last-child {
-      padding-left: 25px;
-      padding-right: 25px;
+      padding-left: 40px;
+      padding-right: 40px;
+      @media screen and (max-width: 750px) {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
     }
   }
 

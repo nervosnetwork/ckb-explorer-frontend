@@ -20,7 +20,7 @@ export const TokensPanel = styled.div`
     }
 
     > span {
-      color: #000000;
+      color: #000;
       font-size: 24px;
       font-weight: bold;
     }
@@ -38,38 +38,69 @@ export const TokensTableTitle = styled.div`
   width: 100%;
   height: 46px;
   border-radius: 6px 6px 0 0;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
+  background-color: #fff;
   padding: 0 40px;
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 0.2px;
-  color: #000000;
+  color: #000;
 
-  >span: nth-child(1) {
+  > span:nth-child(1) {
     flex: 4.6;
   }
 
-  >span: nth-child(2) {
+  > span:nth-child(2) {
     flex: 1.8;
     text-align: right;
   }
 
-  >span: nth-child(3) {
+  > span:nth-child(3) {
     flex: 1.8;
     text-align: right;
   }
 
-  >span: nth-child(4) {
+  > span:nth-child(4) {
     flex: 1.8;
     text-align: right;
+  }
+
+  @media (max-width: 1000px) {
+    >span: nth-child(1) {
+      flex: 3.4;
+    }
+
+    >span: nth-child(2) {
+      flex: 2.5;
+    }
+
+    >span: nth-child(3) {
+      flex: 2.1;
+    }
+
+    >span: nth-child(4) {
+      flex: 2;
+    }
+  }
+
+  @media (max-width: 750px) {
+    flex-flow: row wrap;
+    height: fit-content;
+    padding: 5px 20px;
+
+    > span {
+      display: inline-block;
+      white-space: nowrap;
+      margin: 10px 0;
+      flex: 0 !important;
+    }
   }
 `
 
 export const TokensTableContent = styled.div`
   padding-bottom: 5px;
-  background: #ffffff;
-  color: #000000;
+  background: #fff;
+  color: #000;
   margin-top: 4px;
 
   @media (max-width: 750px) {
@@ -120,18 +151,25 @@ export const TokensTableItem = styled.div`
         font-size: 12px;
         letter-spacing: 0.17px;
         line-height: normal;
-        color: #666666;
+        color: #666;
         margin-top: 2px;
       }
+    }
+
+    @media (max-width: 1000px) {
+      flex: 3.4;
     }
   }
 
   .tokens__item__transactions {
     flex: 1.8;
-    text-align: center;
     font-size: 14px;
     text-align: right;
-    color: #000000;
+    color: #000;
+
+    @media (max-width: 1000px) {
+      flex: 2.5;
+    }
 
     @media (max-width: 750px) {
       margin-left: 30px;
@@ -141,10 +179,13 @@ export const TokensTableItem = styled.div`
 
   .tokens__item__address__count {
     flex: 1.8;
-    text-align: center;
     font-size: 14px;
     text-align: right;
-    color: #000000;
+    color: #000;
+
+    @media (max-width: 1000px) {
+      flex: 2.1;
+    }
 
     @media (max-width: 750px) {
       margin-left: 30px;
@@ -154,10 +195,13 @@ export const TokensTableItem = styled.div`
 
   .tokens__item__created__time {
     flex: 1.8;
-    text-align: center;
     font-size: 12px;
     text-align: right;
     color: #000000;
+
+    @media (max-width: 1000px) {
+      flex: 2;
+    }
   }
 
   .tokens__item__separate {
@@ -183,7 +227,7 @@ export const TokensItemNamePanel = styled.div`
   }
 
   > span {
-    color: #000000;
+    color: #000;
   }
 
   > img {
@@ -198,8 +242,8 @@ export const TokensContentEmpty = styled.div`
   line-height: 100px;
   width: 100%;
   border-radius: 0 0 6px 6px;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
+  background-color: #fff;
   text-align: center;
   font-size: 16px;
   margin-top: 4px;
@@ -224,21 +268,16 @@ export const TokensLoadingPanel = styled.div`
     text-align: center;
     margin-top: 4px;
     border-radius: 0 0 6px 6px;
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
+    background-color: #fff;
   }
 `
 
 export const TokensTitlePanel = styled.div`
   display: flex;
 
-  >span: nth-child(1) {
+  > span:nth-child(1) {
     width: 125px;
     text-align: left;
   }
-`
-
-export const TokensPagination = styled.div`
-  margin-top: 4px;
-  width: 100%;
 `

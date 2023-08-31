@@ -10,7 +10,7 @@ export const SUDTContentPanel = styled.div`
   width: 100%;
 
   @media (max-width: 750px) {
-    margin: 0px;
+    margin: 0;
     padding: 20px;
   }
 `
@@ -22,7 +22,7 @@ export const SimpleUDTContentPanel = styled.div`
   margin-bottom: 40px;
 
   @media (max-width: 750px) {
-    margin: 0px;
+    margin: 0;
     padding: 20px;
   }
 `
@@ -46,6 +46,7 @@ export const SimpleUDTPendingRewardTitlePanel = styled.div`
       width: 100%;
       height: 100%;
     }
+
     &:focus {
       outline: 0;
     }
@@ -72,7 +73,7 @@ export const SimpleUDTLockScriptController = styled.div`
     margin-top: 10px;
 
     > img {
-      margin: 0px 0 0 5px;
+      margin: 0 0 0 5px;
     }
   }
 `
@@ -88,11 +89,11 @@ export const SimpleUDTLockScriptPanel = styled.div`
   .address__lock_script_title {
     font-weight: 500;
     height: 25px;
-    padding: 0px 0px 5px 0px;
+    padding: 0 0 5px;
 
     @media (max-width: 750px) {
       height: 16px;
-      padding: 0px;
+      padding: 0;
     }
   }
 `
@@ -118,11 +119,11 @@ export const SimpleUDTLockScriptItemPanel = styled.div`
     align-items: center;
     width: 130px;
 
-    &:before {
+    &::before {
       content: ' ';
       width: 9px;
       height: 9px;
-      border-radius: 50% 50%;
+      border-radius: 50%;
       background: ${prop => prop.theme.primary};
 
       @media (max-width: 750px) {
@@ -152,7 +153,7 @@ export const SimpleUDTLockScriptItemPanel = styled.div`
       margin-left: 10px;
       word-wrap: break-word;
       word-break: break-all;
-      transform: translateY(0px);
+      transform: translateY(0);
     }
   }
 `
@@ -176,7 +177,7 @@ export const TypeScriptController = styled(SimpleButton)`
     font-size: 14px;
 
     > img {
-      margin: 0px 0 0 5px;
+      margin: 0 0 0 5px;
     }
   }
 `
@@ -230,8 +231,8 @@ export const UDTNoResultPanel = styled.div`
   width: 100%;
   height: 94px;
   border-radius: 0 0 6px 6px;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
+  background-color: #fff;
   margin-top: 4px;
   display: flex;
   justify-content: center;
@@ -241,7 +242,7 @@ export const UDTNoResultPanel = styled.div`
     white-space: pre-wrap;
     font-size: 14px;
     letter-spacing: 0.2px;
-    color: #666666;
+    color: #666;
     text-align: center;
   }
 `

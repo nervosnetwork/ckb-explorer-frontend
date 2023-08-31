@@ -15,19 +15,19 @@ export const HeaderPanel = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding: 0px 120px;
+  padding: 0 120px;
 
   @media (max-width: 1440px) {
-    padding: 0px 100px;
+    padding: 0 100px;
   }
 
   @media (max-width: 1200px) {
-    padding: 0px 45px;
+    padding: 0 45px;
     top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? 'var(--navbar-height)' : '0')};
   }
 
   @media (max-width: 780px) {
-    padding: 0px 18px;
+    padding: 0 18px;
     top: ${(props: { isNotTop?: boolean; isEn: boolean }) => (props.isNotTop ? (props.isEn ? '120px' : '100px') : '0')};
   }
 `
@@ -64,7 +64,6 @@ export const HeaderMobileMenuPanel = styled(SimpleButton)`
   }
 
   .close .menu__icon__first {
-    -webkit-transform: rotate(-45deg) translate(-4px, 5px);
     transform: rotate(-45deg) translate(-4px, 5px);
   }
 
@@ -73,7 +72,6 @@ export const HeaderMobileMenuPanel = styled(SimpleButton)`
   }
 
   .close .menu__icon__third {
-    -webkit-transform: rotate(45deg) translate(-4px, -6px);
     transform: rotate(45deg) translate(-4px, -6px);
   }
 `

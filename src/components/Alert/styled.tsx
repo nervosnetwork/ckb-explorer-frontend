@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const AlertPanel = styled.div`
   position: sticky;
-  position: -webkit-sticky;
   top: 0;
   z-index: 9000;
 
@@ -49,7 +48,7 @@ export const AlertPanel = styled.div`
     height: 30px;
     line-height: 30px;
     border-radius: 2px;
-    border: solid 1px #ffffff;
+    border: solid 1px #fff;
     text-align: center;
 
     @media (max-width: 1200px) {

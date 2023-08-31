@@ -2,8 +2,8 @@ import styled, { css } from 'styled-components'
 
 export const OverviewCardPanel = styled.div`
   width: 100%;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #fff;
+  color: #000;
   font-size: 16px;
   margin-bottom: 16px;
   border-radius: 6px;
@@ -13,11 +13,11 @@ export const OverviewCardPanel = styled.div`
   ${(props: { hideShadow?: boolean }) =>
     props.hideShadow &&
     css`
-      margin-top: 0px;
+      margin-top: 0;
       margin-bottom: 20px;
-      border-radius: 0px;
-      box-shadow: 0px 0px 0px 0 #dfdfdf;
-      padding: 0px;
+      border-radius: 0;
+      box-shadow: 0 0 0 0 #dfdfdf;
+      padding: 0;
     `};
 
   .overview__separate {
@@ -38,9 +38,9 @@ export const OverviewCardPanel = styled.div`
     ${(props: { hideShadow?: boolean }) =>
       props.hideShadow &&
       css`
-        border-radius: 0px;
-        box-shadow: 0px 0px 0px 0 #dfdfdf;
-        padding: 0px;
+        border-radius: 0;
+        box-shadow: 0 0 0 0 #dfdfdf;
+        padding: 0;
       `};
   }
 `
@@ -58,7 +58,7 @@ export const OverviewContentPanel = styled.div`
     width: 1px;
     height: ${({ length }: { length: number }) => `${length * 32}px`};
     background: #e2e2e2;
-    margin: 14px 0px 0px 0px;
+    margin: 14px 0 0;
     transform: ${() => `scaleX(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
     @media (max-width: 750px) {
@@ -75,7 +75,7 @@ export const OverviewContentPanel = styled.div`
 
     @media (max-width: 1200px) {
       width: 100%;
-      margin-right: 0px;
+      margin-right: 0;
     }
   }
 
@@ -88,7 +88,7 @@ export const OverviewContentPanel = styled.div`
 
     @media (max-width: 1200px) {
       width: 100%;
-      margin-left: 0px;
+      margin-left: 0;
     }
   }
 `
@@ -117,15 +117,14 @@ export const OverviewItemPanel = styled.div`
     flex-direction: column;
     align-items: flex-start;
 
-    &:after {
+    &::after {
       content: '';
       background: #e2e2e2;
       height: 1px;
       width: 100%;
       display: ${({ hideLine }: { hideLine: boolean; hasIcon: boolean; isAsset?: boolean }) =>
         hideLine ? 'none' : 'block'};
-      margin: 10px 0px 0px 0px;
-
+      margin: 10px 0 0;
       transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
     }
   }
@@ -141,7 +140,7 @@ export const OverviewItemPanel = styled.div`
     }
 
     @media (max-width: 750px) {
-      margin-left: 0px;
+      margin-left: 0;
     }
   }
 
@@ -162,13 +161,13 @@ export const OverviewItemPanel = styled.div`
 
   .overview_item__title {
     font-size: 16px;
-    color: rgba(0, 0, 0, 0.6);
-    margin-left: 0px;
+    color: rgb(0 0 0 / 60%);
+    margin-left: 0;
     font-weight: ${({ hasIcon }: { hasIcon: boolean }) => (hasIcon ? '600' : '400')};
 
     @media (max-width: 750px) {
       width: 100%;
-      margin-left: 0px;
+      margin-left: 0;
     }
 
     > img {
@@ -183,7 +182,7 @@ export const OverviewItemPanel = styled.div`
     display: flex;
     align-items: center;
     font-size: 16px;
-    color: #000000;
+    color: #000;
     min-width: 0;
 
     &.filled {
@@ -192,7 +191,7 @@ export const OverviewItemPanel = styled.div`
     }
 
     @media (max-width: 750px) {
-      margin-left: 0px;
+      margin-left: 0;
       word-wrap: break-word;
       word-break: break-all;
       width: 100%;
