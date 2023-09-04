@@ -427,7 +427,7 @@
       "total_amount": "总量",
       "holder_addresses": "持币用户数",
       "decimal": "小数位",
-      "search_placeholder": "地址",
+      "search_placeholder": "交易/地址",
       "unknown_token": "未知资产",
       "submit_token_info": "提交代币信息",
       "unknown_token_description": "此代币信息暂时不完整，如果你是此代币的拥有者，请提交代币信息",
