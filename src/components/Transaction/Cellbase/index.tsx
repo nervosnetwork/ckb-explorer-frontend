@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
+import { Trans } from 'react-i18next'
 import { CellbasePanel } from './styled'
 import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../TransactionCellArrow'
 import { localeNumberString } from '../../../utils/number'
 import HelpIcon from '../../../assets/qa_help.png'
-import i18n from '../../../utils/i18n'
 import styles from './index.module.scss'
 
 const Cellbase = ({ cell, cellType, isDetail }: { cell: State.Cell; cellType: CellType; isDetail?: boolean }) => {
@@ -17,13 +17,15 @@ const Cellbase = ({ cell, cellType, isDetail }: { cell: State.Cell; cellType: Ce
     )
   }
 
-  const tooltipHtml = i18n.t('transaction.cellbase_help_tooltip', {
-    consensus: `<a href="https://docs.nervos.org/docs/basics/concepts/consensus/" target="_blank">${i18n.t(
-      'transaction.consensus_protocol',
-    )}</a>`,
-  })
-  // eslint-disable-next-line react/no-danger
-  const tooltipContent = <div dangerouslySetInnerHTML={{ __html: tooltipHtml }} />
+  const tooltipContent = (
+    <Trans
+      i18nKey="glossary.cellbase_for_block"
+      components={{
+        // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
+        link1: <a href="https://docs.nervos.org/docs/basics/concepts/consensus/" target="_blank" rel="noreferrer" />,
+      }}
+    />
+  )
 
   return (
     <CellbasePanel isDetail={isDetail}>

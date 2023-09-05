@@ -55,6 +55,7 @@ const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
     },
     {
       title: i18n.t('address.occupied'),
+      tooltip: i18n.t('glossary.occupied'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balanceOccupied))} />,
       isAsset: true,
     },
@@ -65,6 +66,7 @@ const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
     },
     {
       title: i18n.t('address.dao_deposit'),
+      tooltip: i18n.t('glossary.nervos_dao_deposit'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
       isAsset: true,
     },
@@ -75,7 +77,7 @@ const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
     {
       title: i18n.t('address.compensation'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
-      tooltip: i18n.t('address.compensation_tooltip'),
+      tooltip: i18n.t('glossary.nervos_dao_compensation'),
       isAsset: true,
     },
   ] as OverviewItemData[]
@@ -212,10 +214,12 @@ const getAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, l
   const items: OverviewItemData[] = [
     {
       title: i18n.t('address.live_cells'),
+      tooltip: i18n.t('glossary.live_cells'),
       content: localeNumberString(liveCellsCount),
     },
     {
       title: i18n.t('address.block_mined'),
+      tooltip: i18n.t('glossary.block_mined'),
       content: localeNumberString(minedBlocksCount),
     },
   ]

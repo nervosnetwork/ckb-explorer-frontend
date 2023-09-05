@@ -11,13 +11,11 @@ import 'echarts/lib/component/markLine'
 import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/brush'
 import echarts from 'echarts/lib/echarts'
-import { Tooltip } from 'antd'
 import { EChartOption, ECharts } from 'echarts'
 import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel, ChartNotePanel } from './styled'
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from '../../../assets/chart_no_data.png'
 import ChartNoDataAggronImage from '../../../assets/chart_no_data_aggron.png'
-import HelpIcon from '../../../assets/qa_help.png'
 import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import i18n from '../../../utils/i18n'
@@ -25,6 +23,7 @@ import Content from '../../../components/Content'
 import { useChartQueryWithCache, useIsMobile, usePrevious, useWindowResize } from '../../../utils/hook'
 import { useAppState } from '../../../contexts/providers'
 import { isDeepEqual } from '../../../utils/util'
+import { HelpTip } from '../../../components/HelpTip'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
@@ -132,11 +131,7 @@ const ChartPage = ({
       <ChartDetailTitle className="container">
         <div className="chart__detail__title__panel">
           <span>{title}</span>
-          {description && (
-            <Tooltip placement="bottom" title={description}>
-              <img src={HelpIcon} alt="chart help" />
-            </Tooltip>
-          )}
+          {description && <HelpTip placement="bottom" title={description} iconProps={{ alt: 'chart help' }} />}
         </div>
         {csv && (
           <a

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import { Popover, Tooltip } from 'antd'
 import classNames from 'classnames'
+import { Trans } from 'react-i18next'
 import SortButton from '../../components/SortButton'
 import i18n from '../../utils/i18n'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
@@ -116,6 +117,38 @@ const HolderMinterSort = () => {
   )
 }
 
+const TypeInfo: React.FC<{ nft: NFTCollection }> = ({ nft: item }) => {
+  return i18n.t(`glossary.${item.standard}`) ? (
+    <Tooltip
+      placement="top"
+      overlayClassName={styles.nftTooltip}
+      title={
+        <Trans
+          i18nKey={`glossary.${item.standard}`}
+          components={{
+            cota_link: (
+              // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
+              <a
+                href="https://talk.nervos.org/t/rfc-cota-a-compact-token-aggregator-standard-for-extremely-low-cost-nfts-and-fts/6338"
+                target="_blank"
+                rel="noreferrer"
+              />
+            ),
+            m_nft_link: (
+              // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
+              <a href="https://github.com/nervina-labs/ckb-nft-scripts" target="_blank" rel="noreferrer" />
+            ),
+          }}
+        />
+      }
+    >
+      {i18n.t(`nft.${item.standard}`)}
+    </Tooltip>
+  ) : (
+    i18n.t(`nft.${item.standard}`)
+  )
+}
+
 export const ListOnDesktop: React.FC<{ isLoading: boolean; list: Array<NFTCollection> }> = ({ list, isLoading }) => {
   return (
     <table data-role="desktop-list">
@@ -178,7 +211,9 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: Array<NFTCollec
                     </Link>
                   </div>
                 </td>
-                <td>{i18n.t(`nft.${item.standard}`)}</td>
+                <td>
+                  <TypeInfo nft={item} />
+                </td>
                 <td>{item.h24_ckb_transactions_count}</td>
                 <td>{`${(item.holders_count ?? 0).toLocaleString('en')}/${(item.items_count ?? 0).toLocaleString(
                   'en',
@@ -266,7 +301,9 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: Array<NFTCollect
                 </div>
                 <dl>
                   <dt>{i18n.t(`nft.standard`)}</dt>
-                  <dd>{i18n.t(`nft.${item.standard}`)}</dd>
+                  <dd>
+                    <TypeInfo nft={item} />
+                  </dd>
                 </dl>
                 <dl>
                   <dt>{`${i18n.t('nft.holder')}/${i18n.t('nft.minted')}`}</dt>

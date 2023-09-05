@@ -80,6 +80,8 @@ export const TransactionInfoItemPanel = styled.div`
   }
 
   .transaction__info_title {
+    display: flex;
+    align-items: center;
     margin-top: 10px;
     font-weight: 500;
 
@@ -121,7 +123,9 @@ export const TransactionInfoContentItem = styled.div`
   }
 
   .transaction__info__content_title {
-    width: 140px;
+    display: flex;
+    align-items: center;
+    width: 160px;
     color: #333;
     font-size: 14px;
 
@@ -146,6 +150,8 @@ export const TransactionInfoContentItem = styled.div`
     }
 
     .transaction__info__content_value {
+      display: flex;
+      align-items: center;
       flex-shrink: 0;
     }
 

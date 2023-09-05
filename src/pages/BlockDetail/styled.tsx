@@ -37,6 +37,8 @@ export const BlockRootInfoItemPanel = styled.div`
   }
 
   .block__root_info_title {
+    display: flex;
+    align-items: center;
     font-weight: 500;
     color: rgb(0 0 0 / 60%);
   }

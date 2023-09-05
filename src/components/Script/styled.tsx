@@ -45,12 +45,15 @@ export const ScriptItemPanel = styled.div`
     width: 130px;
 
     > span {
-      margin-left: 10px;
       font-weight: 500;
       color: rgb(0 0 0 / 60%);
 
-      @media (max-width: 750px) {
-        margin-left: 5px;
+      &:first-child {
+        margin-left: 10px;
+
+        @media (max-width: 750px) {
+          margin-left: 5px;
+        }
       }
     }
   }
