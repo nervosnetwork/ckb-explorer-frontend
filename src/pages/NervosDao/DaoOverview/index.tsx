@@ -95,6 +95,7 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
   },
   {
     title: i18n.t('nervos_dao.estimated_apc'),
+    titleTooltip: i18n.t('glossary.estimated_apc'),
     content: `${Number(nervosDao.estimatedApc).toFixed(2)}%`,
   },
   {
@@ -317,7 +318,9 @@ export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
       <span className="dao__overview__separate" />
       <DaoOverviewRightPanel>
         <DaoOverviewPieChartPanel>
-          <span className="nervos__dao__overview_pie_title">{i18n.t('nervos_dao.secondary_issuance')}</span>
+          <Tooltip placement="bottom" title={i18n.t('glossary.secondary_issuance')}>
+            <span className="nervos__dao__overview_pie_title">{i18n.t('nervos_dao.secondary_issuance')}</span>
+          </Tooltip>
           <ReactChartCore
             option={getOption(nervosDao, chartColor.daoColors, isMobile)}
             notMerge

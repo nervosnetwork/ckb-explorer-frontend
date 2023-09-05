@@ -1,10 +1,8 @@
 import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import 'default-passive-events'
-import { Tooltip } from 'antd'
 import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
-import HelpIcon from '../../assets/qa_help.png'
 import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
 import { DifficultyUncleRateEpochChart } from './mining/DifficultyUncleRateEpoch'
 import { TransactionCountChart } from './activities/TransactionCount'
@@ -31,6 +29,7 @@ import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
 import { MinerVersionDistributionChart } from './mining/MinerVersionDistribution'
 import { useIsMobile } from '../../utils/hook'
+import { HelpTip } from '../../components/HelpTip'
 
 interface ChartData {
   title: string
@@ -48,9 +47,7 @@ const ChartTitle = ({ chartData }: { chartData: ChartData }) => (
   <div className="chart__card__title__penal">
     <div className="chart__card_title">{chartData.title}</div>
     {chartData.description && (
-      <Tooltip placement="bottom" title={chartData.description}>
-        <img src={HelpIcon} alt="chart help" />
-      </Tooltip>
+      <HelpTip placement="bottom" title={chartData.description} iconProps={{ alt: 'chart help' }} />
     )}
   </div>
 )
@@ -114,6 +111,7 @@ const chartsData = (): ChartCategory[] => [
         title: `${i18n.t('block.hash_rate')}`,
         chart: <HashRateChart isThumbnail />,
         path: '/charts/hash-rate',
+        description: i18n.t('glossary.hash_rate'),
       },
       {
         title: `${i18n.t('block.uncle_rate')}`,

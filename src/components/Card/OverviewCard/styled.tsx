@@ -160,6 +160,8 @@ export const OverviewItemPanel = styled.div`
   }
 
   .overview_item__title {
+    display: flex;
+    align-items: center;
     font-size: 16px;
     color: rgb(0 0 0 / 60%);
     margin-left: 0;

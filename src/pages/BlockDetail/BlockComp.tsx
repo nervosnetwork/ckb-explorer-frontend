@@ -2,6 +2,7 @@ import { useState, ReactNode, FC } from 'react'
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
+import { Trans } from 'react-i18next'
 import Pagination from '../../components/Pagination'
 import DropDownIcon from '../../assets/content_drop_down.png'
 import PackUpIcon from '../../assets/content_pack_up.png'
@@ -37,6 +38,7 @@ import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import Filter from '../../components/Search/Filter'
+import { HelpTip } from '../../components/HelpTip'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -110,6 +112,7 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
   const rootInfoItems = [
     {
       title: i18n.t('block.transactions_root'),
+      tooltip: i18n.t('glossary.transactions_root'),
       content: `${block.transactionsRoot}`,
     },
   ]
@@ -117,6 +120,7 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
   let overviewItems: OverviewItemData[] = [
     {
       title: i18n.t('block.block_height'),
+      tooltip: i18n.t('glossary.block_height'),
       content: (
         <div className={styles.blockNumber}>
           <Tooltip placement="top" title={i18n.t('block.view_prev_block')}>
@@ -139,20 +143,24 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
     },
     {
       title: i18n.t('block.miner'),
+      tooltip: i18n.t('glossary.miner'),
       contentWrapperClass: styles.addressWidthModify,
       content: <BlockMiner miner={block.minerHash} />,
     },
     {
       title: i18n.t('transaction.transactions'),
+      tooltip: i18n.t('glossary.transactions'),
       content: localeNumberString(block.transactionsCount),
     },
     {
       title: i18n.t('block.miner_message'),
+      tooltip: i18n.t('glossary.miner_message'),
       contentWrapperClass: styles.addressWidthModify,
       content: <BlockMinerMessage minerMessage={block.minerMessage ?? i18n.t('common.none')} />,
     },
     {
       title: i18n.t('block.size'),
+      tooltip: i18n.t('glossary.size'),
       content: block.size ? (
         <div
           style={{
@@ -177,6 +185,7 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
     null,
     {
       title: i18n.t('block.cycles'),
+      tooltip: i18n.t('glossary.cycles'),
       content: block.cycles ? (
         <div
           style={{
@@ -200,14 +209,17 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
     null,
     {
       title: i18n.t('block.proposal_transactions'),
+      tooltip: i18n.t('glossary.proposal_transactions'),
       content: block.proposalsCount ? localeNumberString(block.proposalsCount) : 0,
     },
     {
       title: i18n.t('block.epoch'),
+      tooltip: i18n.t('glossary.epoch'),
       content: localeNumberString(block.epoch),
     },
     {
       title: i18n.t('block.miner_reward'),
+      tooltip: i18n.t('glossary.miner_reward'),
       content: (
         <BlockMinerReward
           value={block.rewardStatus === 'pending' ? i18n.t('block.pending') : minerReward}
@@ -218,6 +230,7 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
     },
     {
       title: i18n.t('block.epoch_start_number'),
+      tooltip: i18n.t('glossary.epoch_start_number'),
       content: (
         <BlockLinkPanel>
           <Link to={`/block/${block.startNumber}`}>{localeNumberString(block.startNumber)}</Link>
@@ -226,22 +239,35 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
     },
     {
       title: i18n.t('block.difficulty'),
+      tooltip: i18n.t('glossary.difficulty'),
       content: handleDifficulty(block.difficulty),
     },
     {
       title: i18n.t('block.block_index'),
+      tooltip: i18n.t('glossary.block_index'),
       content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
     },
     {
       title: i18n.t('block.nonce'),
+      tooltip: i18n.t('glossary.nonce'),
       content: <>{`0x${new BigNumber(block.nonce).toString(16)}`}</>,
     },
     {
       title: i18n.t('block.timestamp'),
+      tooltip: i18n.t('glossary.timestamp'),
       content: `${parseSimpleDate(block.timestamp)}`,
     },
     {
       title: i18n.t('block.uncle_count'),
+      tooltip: (
+        <Trans
+          i18nKey="glossary.uncle_count"
+          components={{
+            // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
+            link1: <a href="https://docs.nervos.org/docs/basics/glossary/#uncle" target="_blank" rel="noreferrer" />,
+          }}
+        />
+      ),
       content: `${block.unclesCount}`,
     },
   ]
@@ -273,7 +299,10 @@ export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
           <span />
           {rootInfoItems.map(item => (
             <BlockRootInfoItemPanel key={item.title}>
-              <div className="block__root_info_title">{item.title}</div>
+              <div className="block__root_info_title">
+                <span>{item.title}</span>
+                {item.tooltip && <HelpTip title={item.tooltip} />}
+              </div>
               <div className="block__root_info_value monospace">{item.content}</div>
             </BlockRootInfoItemPanel>
           ))}

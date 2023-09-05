@@ -1,5 +1,9 @@
 :global(.ant-tooltip) {
   max-width: 320px;
+
+  @media (max-width: 750px) {
+    max-width: 250px;
+  }
 }
 
 .comparedSizeTooltip {
