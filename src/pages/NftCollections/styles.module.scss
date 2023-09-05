@@ -261,6 +261,12 @@ div[data-role='mobile-list'] {
   }
 }
 
+.nftTooltip {
+  a {
+    color: var(--primary-color);
+  }
+}
+
 @media screen and (max-width: 1200px) {
   .container {
     margin: 40px 45px 60px;

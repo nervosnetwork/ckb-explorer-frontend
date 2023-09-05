@@ -44,10 +44,12 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
   const items: OverviewItemData[] = [
     {
       title: i18n.t('scripts.script_name'),
+      tooltip: i18n.t('glossary.script_name'),
       content: scriptName,
     },
     {
       title: i18n.t('scripts.hash_type'),
+      tooltip: i18n.t('glossary.hash_type'),
       content: <span className={styles.hashType}>{hashType}</span>,
     },
     {
@@ -56,14 +58,17 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
     },
     {
       title: i18n.t('scripts.type_id'),
+      tooltip: i18n.t('glossary.type_id'),
       content: typeId || '-',
     },
     {
       title: i18n.t('scripts.code_hash'),
+      tooltip: i18n.t('glossary.code_hash'),
       content: <CodeHashMessage codeHash={codeHash} />,
     },
     {
       title: i18n.t('scripts.capacity_of_deployed_cells'),
+      tooltip: i18n.t('glossary.capacity_of_deployed_cells'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfDeployedCells))} hideZero />,
     },
     {

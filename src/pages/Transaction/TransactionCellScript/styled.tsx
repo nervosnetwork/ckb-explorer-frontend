@@ -11,8 +11,9 @@ export const TransactionDetailContainer = styled.div`
 
 export const TransactionDetailItem = styled.div`
   cursor: pointer;
+  position: relative;
   display: flex;
-  flex-direction: column;
+  padding-bottom: 22px;
   color: ${(props: { selected?: boolean }) => (props.selected ? '#000000' : 'rgba(0, 0, 0, 0.6)')};
   font-weight: 600;
   font-size: 16px;
@@ -21,12 +22,13 @@ export const TransactionDetailItem = styled.div`
   @media (max-width: 750px) {
     margin-top: 5px;
   }
-
   &::after {
+    position: absolute;
+    left: 2px;
+    bottom: 0;
     content: '';
     background: ${(props: { theme: any }) => `${props.theme.primary}`};
     width: calc(100% - 4px);
-    margin-top: 17px;
     height: 5px;
     display: ${(props: { theme: any; selected: boolean }) => (props.selected ? 'block' : 'none')};
   }
