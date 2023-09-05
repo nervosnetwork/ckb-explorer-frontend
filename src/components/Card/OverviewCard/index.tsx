@@ -1,9 +1,9 @@
 import { isValidElement, ReactNode } from 'react'
-import { Tooltip } from 'antd'
+import { TooltipProps } from 'antd'
 import classNames from 'classnames'
 import { OverviewCardPanel, OverviewContentPanel, OverviewItemPanel } from './styled'
-import HelpIcon from '../../../assets/qa_help.png'
 import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
+import { HelpTip } from '../../HelpTip'
 
 export type OverviewItemData = {
   title: ReactNode
@@ -12,7 +12,7 @@ export type OverviewItemData = {
   filled?: boolean
   icon?: any
   isAsset?: boolean
-  tooltip?: string
+  tooltip?: TooltipProps['title']
   valueTooltip?: string
 } | null
 
@@ -32,20 +32,12 @@ export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideL
         )}
         <div className="overview_item__title">
           <span>{item.title}</span>
-          {item.tooltip && (
-            <Tooltip placement="top" title={item.tooltip}>
-              <img src={HelpIcon} alt="help icon" />
-            </Tooltip>
-          )}
+          {item.tooltip && <HelpTip title={item.tooltip} />}
         </div>
       </div>
       <div className={classNames('overview_item__value', { filled: item.filled }, item.contentWrapperClass)}>
         {isValidElement(item.content) ? item.content : <span>{item.content}</span>}
-        {item.valueTooltip && (
-          <Tooltip placement="top" title={item.valueTooltip}>
-            <img src={HelpIcon} alt="help icon" />
-          </Tooltip>
-        )}
+        {item.valueTooltip && <HelpTip title={item.valueTooltip} />}
       </div>
     </OverviewItemPanel>
   ) : null

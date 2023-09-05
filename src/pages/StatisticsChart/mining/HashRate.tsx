@@ -99,6 +99,7 @@ export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }
   return (
     <SmartChartPage
       title={t('block.hash_rate')}
+      description={t('glossary.hash_rate')}
       isThumbnail={isThumbnail}
       fetchData={fetchStatisticHashRate}
       getEChartOption={getOption}

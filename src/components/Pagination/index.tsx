@@ -1,14 +1,13 @@
 import { useState } from 'react'
-import { Tooltip } from 'antd'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import LeftBlack from '../../assets/pagination_black_left.png'
 import RightBlack from '../../assets/pagination_black_right.png'
 import LeftGrey from '../../assets/pagination_grey_left.png'
 import RightGrey from '../../assets/pagination_grey_right.png'
-import HelpIcon from '../../assets/qa_help.png'
 import i18n from '../../utils/i18n'
 import { useIsMobile } from '../../utils/hook'
 import SimpleButton from '../SimpleButton'
+import { HelpTip } from '../HelpTip'
 
 const Pagination = ({
   currentPage,
@@ -36,11 +35,7 @@ const Pagination = ({
     'pagination.of_page',
   )} ${total} ${i18n.t('pagination.end_page')}`
 
-  const annotationComp = annotation ? (
-    <Tooltip placement="top" title={annotation}>
-      <img src={HelpIcon} alt="annotation" />
-    </Tooltip>
-  ) : null
+  const annotationComp = annotation ? <HelpTip title={annotation} iconProps={{ alt: 'annotation' }} /> : null
 
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {
