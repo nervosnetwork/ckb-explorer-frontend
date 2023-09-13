@@ -81,8 +81,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
     },
   ]
 
-  // don't show `referring_cells` temporarily
-  return items.slice(0, 6)
+  return items
 }
 
 const ScriptsTitleOverview = ({ scriptInfo }: { scriptInfo: ScriptInfo }) => {
@@ -198,9 +197,7 @@ export const ScriptPage = () => {
               key: 'referring_cells',
               children: <ScriptCells page={currentPage} size={pageSize} cellType="referring_cells" />,
             },
-          ]
-            // don't show `referring_cells` temporarily
-            .slice(0, 2)}
+          ]}
         />
       </div>
     </Content>
