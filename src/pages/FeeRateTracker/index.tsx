@@ -12,14 +12,18 @@ import {
   LastNDaysTransactionFeeRateChart,
 } from './FeeRateTrackerComp'
 import Loading from '../../components/Loading'
+import { useAppState } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
+import { getFeeRateSamples } from '../../utils/chart'
 
 const FeeRateTracker = () => {
   const lastFetchedTime = useRef(Number.MAX_SAFE_INTEGER)
   const deltaSecond = useRef(0)
   const [secondAfterUpdate, setSecondAfterUpdate] = useState<number>(0)
   const isMobile = useIsMobile()
+
+  const { statistics } = useAppState()
 
   const { data: transactionFeesStatistic } = useQuery<FeeRateTracker.TransactionFeesStatistic>(
     ['statistics-transaction_fees'],
@@ -62,7 +66,12 @@ const FeeRateTracker = () => {
             </div>
             <div className={styles.cards}>
               {transactionFeesStatistic ? (
-                <FeeRateCards transactionFeeRates={transactionFeesStatistic.transactionFeeRates} />
+                <FeeRateCards
+                  transactionFeeRates={getFeeRateSamples(
+                    transactionFeesStatistic.transactionFeeRates,
+                    Number(statistics.transactionsCountPerMinute),
+                  )}
+                />
               ) : (
                 <Loading show />
               )}
