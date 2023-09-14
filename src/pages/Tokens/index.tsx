@@ -52,6 +52,8 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
     localeNumberString(token.addressesCount)
   )
 
+  const isKnown = Boolean(name) && token.published
+
   return (
     <TokensTableItem>
       <div className="tokens__item__content">
@@ -59,7 +61,7 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
           <img src={token.iconFile ? token.iconFile : SUDTTokenIcon} alt="token icon" />
           <div>
             <TokensItemNamePanel>
-              {name ? (
+              {isKnown ? (
                 <Link to={`/sudt/${token.typeHash}`}>
                   {symbol}
                   <span className={styles.name}>{name}</span>
@@ -70,7 +72,7 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
                   <span className={styles.name}>{defaultName}</span>
                 </span>
               )}
-              {!name && (
+              {!isKnown && (
                 <Tooltip placement="bottom" title={i18n.t('udt.unknown_token_description')}>
                   <img src={HelpIcon} alt="token icon" />
                 </Tooltip>

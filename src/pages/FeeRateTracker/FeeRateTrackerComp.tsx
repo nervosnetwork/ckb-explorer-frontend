@@ -41,8 +41,7 @@ const calcFeeRate = (tfrs: FeeRateTracker.TransactionFeeRate[]): string =>
 const colors = ChartColor.moreColors
 
 export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
-  const validFeeRateList = transactionFeeRates.filter(feeRate => feeRate.confirmationTime)
-  const allFrs = validFeeRateList.sort((a, b) => a.confirmationTime - b.confirmationTime)
+  const allFrs = transactionFeeRates.sort((a, b) => a.confirmationTime - b.confirmationTime)
   const avgConfirmationTime = getWeightedMedian(allFrs)
 
   const lowFrs = allFrs.filter(r => r.confirmationTime >= avgConfirmationTime)
