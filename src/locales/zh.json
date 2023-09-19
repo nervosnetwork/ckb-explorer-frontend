@@ -67,7 +67,7 @@
       "block_mined": "该地址已铸造的区块数量",
       "args": "在 CKB 中，公钥信息可以存储在脚本结构的 args 字段中。args 在脚本执行时使用，例如，当脚本用于验证私钥的所有者时，args 可以是公钥哈希。",
       "capacity_change": "该地址在交易前后 CKB 余额的变化值",
-      "estimated_apc": "预估年收益率 XXXX",
+      "estimated_apc": "预估年补贴率",
       "secondary_issuance": "在 CKB 中，二级发行 (Secondary Issuance) 指的是每年固定通胀的计划，即每年新增 134.4 亿 CKBytes，用于激励矿工、Nervos DAO 用户和 Nervos 财政部继续发展。与基础发行不同，二级发行并不分发给网络上的所有人，而是针对那些在 Nervos 上占用空间及没有将 CKBytes 充值到 Nervos DAO 的用户。来自二级发行的 CKBytes 的设计目的是收取状态租金，并分发给维护网络的矿工 (状态租金)、Nervos DAO 用户和 Nervos 财政部。CKBytes 持有者可以将其代币锁定在 Nervos DAO 中，以类似于其他平台上的质押方式获得利息，从而完全抵消了二级发行的长期通胀效应，使得价值不会随时间流逝而减少。",
       "cota": "一种 NFT 协议。一种用于极低成本 NFT 和 FT 的紧凑型代币聚合标准。更多详细信息，请查阅 <cota_link>CoTA RDC</cota_link>",
       "m_nft": "NFT 类型脚本是 RFC——Nervos CKB 上多用途 NFT 草案规范——的实现。更多详细信息，请查阅 <m_nft_link>CKB-NFT-Script</m_nft_link>",
