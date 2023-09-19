@@ -67,7 +67,7 @@
       "block_mined": "The number of block this address has minted",
       "args": "In CKB, the public key information can be stored in the args field in the script structure. The args is used when script executing, e.g. the args can be a public key hash when the script is used to verify the owner of a private key",
       "capacity_change": "The change in CKB balance for this address before and after the transaction.",
-      "estimated_apc": "Estimated Annual Percentage XXXX",
+      "estimated_apc": "Estimated Annual Percentage Compensation",
       "secondary_issuance": "Secondary Issuance in CKB refers to a fixed inflation schedule of 1.344 billion CKBytes per year that is used to incentivize miners, Nervos DAO users, and the Nervos Treasury for continued development. Unlike Base Issuance, Secondary Issuance is not distributed to everyone on the network, but rather targeted at users who occupy space on Nervos or hold their CKBytes outside of Nervos DAO. The CKBytes from Secondary Issuance are used to collect state rent and are distributed to miners who maintain the network (State Rent), Nervos DAO users, and the Nervos Treasury. CKBytes holders can lock their tokens in Nervos DAO to gain interest in a similar manner to staking on other platforms, which offsets the long-term inflationary effects of Secondary Issuance exactly, resulting in no loss of value over time.",
       "cota": "A kind of NFT protocal. A Compact Token Aggregator Standard for Extremely Low Cost NFTs and FTs. For more details, please check the <cota_link>CoTA RDC</cota_link>",
       "m_nft": "The NFT Type Scripts implement of RFC: Multi-purpose NFT Draft Spec on Nervos CKB. For more details, please check the <m_nft_link>CKB-NFT-Script</m_nft_link>",
