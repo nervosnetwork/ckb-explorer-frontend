@@ -27,6 +27,7 @@ import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
 import { ReactChartCore } from '../../StatisticsChart/common'
+import { HelpTip } from '../../../components/HelpTip'
 
 interface NervosDaoItemContent {
   title: string
@@ -111,15 +112,15 @@ const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; fi
   <DaoOverviewLeftItemPanel hasChange={!!item.change} symbol={item.changeSymbol} hasTooltip={!!item.titleTooltip}>
     <div className="dao__overview__item__container">
       <div className="dao__overview__item_top">
-        {item.titleTooltip && (
-          <Tooltip placement="top" title={item.titleTooltip}>
-            <span className="dao__overview__item_title">{item.title}</span>
-          </Tooltip>
-        )}
-        {!item.titleTooltip && <span className="dao__overview__item_title">{item.title}</span>}
+        <span className="dao__overview__item_title">{item.title}</span>
+        {item.titleTooltip && <HelpTip title={item.titleTooltip} />}
         {item.change && (
           <>
-            <img src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
+            <img
+              className="dao__overview__item_change_icon"
+              src={daoIcon(item.changeSymbol)}
+              alt="nervos dao change icon"
+            />
             <Tooltip placement="top" title={item.tooltip}>
               <span className="dao__overview__item_change">{item.change}</span>
             </Tooltip>
@@ -318,9 +319,10 @@ export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
       <span className="dao__overview__separate" />
       <DaoOverviewRightPanel>
         <DaoOverviewPieChartPanel>
-          <Tooltip placement="bottom" title={i18n.t('glossary.secondary_issuance')}>
-            <span className="nervos__dao__overview_pie_title">{i18n.t('nervos_dao.secondary_issuance')}</span>
-          </Tooltip>
+          <div className="nervos__dao__overview_pie_title">
+            <span>{i18n.t('nervos_dao.secondary_issuance')}</span>
+            <HelpTip title={i18n.t('glossary.secondary_issuance')} />
+          </div>
           <ReactChartCore
             option={getOption(nervosDao, chartColor.daoColors, isMobile)}
             notMerge

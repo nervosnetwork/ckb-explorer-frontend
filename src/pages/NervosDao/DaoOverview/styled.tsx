@@ -116,6 +116,8 @@ export const DaoOverviewPieChartPanel = styled.div`
   }
 
   .nervos__dao__overview_pie_title {
+    display: flex;
+    align-items: center;
     font-size: 14px;
     color: #555;
 
@@ -173,7 +175,6 @@ export const DaoOverviewLeftItemPanel = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      cursor: ${(props: { hasTooltip?: boolean }) => (props.hasTooltip ? 'default' : 'text')};
 
       @media (max-width: 1440px) {
         max-width: ${(props: { symbol?: string; hasChange?: boolean; hasTooltip?: boolean }) =>
@@ -190,7 +191,7 @@ export const DaoOverviewLeftItemPanel = styled.div`
       }
     }
 
-    > img {
+    .dao__overview__item_change_icon {
       width: ${(props: { symbol?: string }) => (props.symbol === 'zero' ? '10px' : '7px')};
       height: ${(props: { symbol?: string }) => (props.symbol === 'zero' ? '7px' : '10px')};
       margin-left: 5px;
