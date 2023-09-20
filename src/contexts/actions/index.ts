@@ -2,13 +2,8 @@ export enum AppActions {
   UpdateModal = 'updateModal',
   ShowToastMessage = 'showToastMessage',
   UpdateAppErrors = 'updateAppErrors',
-  UpdateTipBlockNumber = 'updateTipBlockNumber',
   UpdateAppLanguage = 'updateAppLanguage',
   UpdateHardForkStatus = 'updateHardForkStatus',
-}
-
-export enum PageActions {
-  UpdateStatistics = 'updateStatistics',
 }
 
 export enum ComponentActions {
@@ -17,7 +12,7 @@ export enum ComponentActions {
   UpdateMaintenanceAlertVisible = 'updateMaintenanceAlertVisible',
 }
 
-export type StateActions = AppActions | PageActions | ComponentActions
+export type StateActions = AppActions | ComponentActions
 
 // eslint-disable-next-line no-undef
 export default StateActions

@@ -16,7 +16,6 @@ export const initApp: State.App = {
       message: [],
     },
   ],
-  tipBlockNumber: 0,
   language: navigator.language.includes('zh') ? 'zh' : 'en',
   primaryColor: getPrimaryColor(),
   secondaryColor: getSecondaryColor(),

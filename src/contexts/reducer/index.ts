@@ -1,7 +1,6 @@
 import React from 'react'
-import StateActions, { AppActions, PageActions, ComponentActions } from '../actions'
+import StateActions, { AppActions, ComponentActions } from '../actions'
 import appReducer from './app'
-import pageReducer from './page'
 import componentReducer from './component'
 
 export type AppDispatch = React.Dispatch<{ type: StateActions; payload: any }> // TODO: add type of payload
@@ -14,12 +13,6 @@ export const reducer = (
   if (Object.values(AppActions).includes(type as AppActions)) {
     return appReducer(state, {
       type: type as AppActions,
-      payload,
-    })
-  }
-  if (Object.values(PageActions).includes(type as PageActions)) {
-    return pageReducer(state, {
-      type: type as PageActions,
       payload,
     })
   }

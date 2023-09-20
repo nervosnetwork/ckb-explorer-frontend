@@ -39,14 +39,6 @@ export const appReducer = (
           }) as typeof state.app.appErrors,
         },
       }
-    case AppActions.UpdateTipBlockNumber:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          tipBlockNumber: payload.tipBlockNumber,
-        },
-      }
     case AppActions.UpdateAppLanguage:
       return {
         ...state,

@@ -25,6 +25,7 @@
     "jsbi": "3.2.5",
     "lint-staged": "^13.2.3",
     "moment": "2.29.4",
+    "observable-hooks": "^4.2.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-i18next": "11.18.6",

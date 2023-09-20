@@ -8,15 +8,16 @@ import { ComponentActions } from '../../contexts/actions'
 import { AppCachedKeys } from '../../constants/cache'
 import { IS_MAINTAINING } from '../../constants/common'
 import styles from './styles.module.scss'
+import { useStatistics } from '../../services/ExplorerService'
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000
 
 const Alert = () => {
   const dispatch = useDispatch()
+  const { reorgStartedAt } = useStatistics()
   const {
     app: { appErrors },
     components: { maintenanceAlertVisible },
-    statistics: { reorgStartedAt },
   } = useAppState()
   const [startTime, endTime] = appErrors[2].message
 

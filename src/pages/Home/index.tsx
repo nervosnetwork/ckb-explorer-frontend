@@ -22,12 +22,11 @@ import {
 } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
-import { useAppState, useDispatch } from '../../contexts/providers'
+import { useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
-import { getTipBlockNumber } from '../../service/app/address'
 import Loading from '../../components/Loading/SmallLoading'
 import { useElementIntersecting, useInterval, useIsLGScreen, useIsMobile } from '../../utils/hook'
 import { Banner } from './Banner'
@@ -39,6 +38,7 @@ import { ComponentActions } from '../../contexts/actions'
 import styles from './index.module.scss'
 import { fetchLatestBlocks, fetchLatestTransactions } from '../../service/http/fetcher'
 import { RouteState } from '../../routes/state'
+import { useLatestBlockNumber, useStatistics } from '../../services/ExplorerService'
 
 interface BlockchainData {
   name: string
@@ -206,10 +206,8 @@ export default () => {
   const isLG = useIsLGScreen()
   const dispatch = useDispatch()
   const history = useHistory<RouteState>()
-  const {
-    statistics,
-    app: { tipBlockNumber },
-  } = useAppState()
+  const statistics = useStatistics()
+  const tipBlockNumber = useLatestBlockNumber()
   const [t] = useTranslation()
 
   const blocksQuery = useQuery(
@@ -249,10 +247,6 @@ export default () => {
     () => transactionsQuery.data?.transactions.slice(0, maxDisplaysCount) ?? [],
     [transactionsQuery.data?.transactions],
   )
-
-  useInterval(() => {
-    getTipBlockNumber(dispatch)
-  }, BLOCK_POLLING_TIME)
 
   useInterval(() => {
     handleBlockchainAlert(dispatch)

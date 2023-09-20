@@ -586,12 +586,6 @@ declare namespace State {
     transactionsStatus: FetchStatus
   }
 
-  export interface PageState {
-    statistics: Statistics
-  }
-
-  export interface PagePayload extends PageState {}
-
   export type TransactionCsvExportType = 'address_transactions' | 'blocks' | 'udts' | 'nft'
 
   export interface App {
@@ -601,7 +595,6 @@ declare namespace State {
       { type: 'ChainAlert'; message: string[] },
       { type: 'Maintenance'; message: string[] },
     ]
-    tipBlockNumber: number
 
     language: 'en' | 'zh'
     primaryColor: string
@@ -627,7 +620,7 @@ declare namespace State {
     maintenanceAlertVisible: boolean
   }
 
-  export interface AppState extends PageState {
+  export interface AppState {
     app: App
     components: Components
   }
