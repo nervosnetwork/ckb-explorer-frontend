@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect, memo } from 'react'
 import { useIsMobile } from '../../../utils/hook'
-import { useAppState, useDispatch } from '../../../contexts/providers'
+import { useDispatch } from '../../../contexts/providers'
 import i18n, { currentLanguage, changeLanguage } from '../../../utils/i18n'
 import { HeaderLanguagePanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
@@ -12,7 +12,7 @@ import { isMainnet } from '../../../utils/chain'
 import LanDropdown, { languageText } from '../../Dropdown/Language'
 
 import { AppDispatch } from '../../../contexts/reducer'
-import { ComponentActions, AppActions } from '../../../contexts/actions'
+import { ComponentActions } from '../../../contexts/actions'
 
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon
@@ -21,12 +21,6 @@ const getDropdownIcon = (showDropdown: boolean) => {
 
 const languageAction = (dispatch: AppDispatch) => {
   changeLanguage(currentLanguage() === 'en' ? 'zh' : 'en')
-  dispatch({
-    type: AppActions.UpdateAppLanguage,
-    payload: {
-      language: currentLanguage() === 'en' ? 'zh' : 'en',
-    },
-  })
   dispatch({
     type: ComponentActions.UpdateHeaderMobileMenuVisible,
     payload: {
@@ -45,16 +39,12 @@ const hideMobileMenu = (dispatch: AppDispatch) => {
 }
 
 const LanguageDropdown = () => {
-  const {
-    app: { language },
-  } = useAppState()
-
   const [showLanguage, setShowLanguage] = useState(false)
   const [languageLeft, setLanguageLeft] = useState(0)
   const [languageTop, setLanguageTop] = useState(0)
 
   useLayoutEffect(() => {
-    if (showLanguage && language) {
+    if (showLanguage) {
       const languageDropdownComp = document.getElementById('header__language__panel')
       if (languageDropdownComp) {
         const languageDropdownReact = languageDropdownComp.getBoundingClientRect()
@@ -64,7 +54,7 @@ const LanguageDropdown = () => {
         }
       }
     }
-  }, [showLanguage, language])
+  }, [showLanguage])
 
   return (
     <HeaderLanguagePanel

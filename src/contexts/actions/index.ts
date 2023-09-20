@@ -2,7 +2,6 @@ export enum AppActions {
   UpdateModal = 'updateModal',
   ShowToastMessage = 'showToastMessage',
   UpdateAppErrors = 'updateAppErrors',
-  UpdateAppLanguage = 'updateAppLanguage',
 }
 
 export enum ComponentActions {

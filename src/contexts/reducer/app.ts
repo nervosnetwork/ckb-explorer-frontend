@@ -38,14 +38,6 @@ export const appReducer = (
           }) as typeof state.app.appErrors,
         },
       }
-    case AppActions.UpdateAppLanguage:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          language: payload.language,
-        },
-      }
     default:
       return state
   }

@@ -595,8 +595,6 @@ declare namespace State {
       { type: 'ChainAlert'; message: string[] },
       { type: 'Maintenance'; message: string[] },
     ]
-
-    language: 'en' | 'zh'
   }
 
   export interface AppPayload extends App, ToastMessage {

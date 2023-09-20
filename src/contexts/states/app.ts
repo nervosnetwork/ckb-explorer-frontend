@@ -14,7 +14,6 @@ export const initApp: State.App = {
       message: [],
     },
   ],
-  language: navigator.language.includes('zh') ? 'zh' : 'en',
 }
 
 export default initApp
