@@ -11,7 +11,7 @@ import { fetchStatisticTxFeeHistory } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticTxFeeHistories: State.StatisticTransactionFee[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

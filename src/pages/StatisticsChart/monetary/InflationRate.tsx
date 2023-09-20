@@ -7,7 +7,7 @@ import { fetchStatisticInflationRate } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticInflationRates: State.StatisticInflationRate[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

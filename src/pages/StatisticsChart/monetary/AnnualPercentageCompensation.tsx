@@ -7,7 +7,7 @@ import { fetchStatisticAnnualPercentageCompensation } from '../../../service/htt
 
 const getOption = (
   statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

@@ -10,7 +10,7 @@ import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
   statisticHashRates: State.StatisticHashRate[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

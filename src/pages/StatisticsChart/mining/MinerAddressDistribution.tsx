@@ -22,7 +22,7 @@ const Colors = [
 
 const getOption = (
   statisticMinerAddresses: State.StatisticMinerAddress[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
   getAdaptAddressText: (address: string) => string,

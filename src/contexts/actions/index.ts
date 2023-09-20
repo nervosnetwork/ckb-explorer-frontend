@@ -3,7 +3,6 @@ export enum AppActions {
   ShowToastMessage = 'showToastMessage',
   UpdateAppErrors = 'updateAppErrors',
   UpdateAppLanguage = 'updateAppLanguage',
-  UpdateHardForkStatus = 'updateHardForkStatus',
 }
 
 export enum ComponentActions {

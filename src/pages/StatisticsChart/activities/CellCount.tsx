@@ -24,7 +24,7 @@ const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string,
 
 const getOption = (
   statisticCellCounts: State.StatisticCellCount[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

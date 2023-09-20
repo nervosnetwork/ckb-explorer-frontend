@@ -22,7 +22,7 @@ const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }
 
 const getOption = (
   statisticChartData: State.StatisticDifficultyUncleRateEpoch[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

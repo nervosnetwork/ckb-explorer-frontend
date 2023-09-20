@@ -10,7 +10,7 @@ import { fetchStatisticDifficulty } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticDifficulties: State.StatisticDifficulty[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

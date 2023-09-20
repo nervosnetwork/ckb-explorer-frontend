@@ -597,17 +597,6 @@ declare namespace State {
     ]
 
     language: 'en' | 'zh'
-    primaryColor: string
-    secondaryColor: string
-    chartColor: {
-      areaColor: string
-      colors: string[]
-      moreColors: string[]
-      totalSupplyColors: string[]
-      daoColors: string[]
-      secondaryIssuanceColors: string[]
-      liquidityColors: string[]
-    }
   }
 
   export interface AppPayload extends App, ToastMessage {
@@ -623,6 +612,16 @@ declare namespace State {
   export interface AppState {
     app: App
     components: Components
+  }
+
+  export interface ChartColor {
+    areaColor: string
+    colors: string[]
+    moreColors: string[]
+    totalSupplyColors: string[]
+    daoColors: string[]
+    secondaryIssuanceColors: string[]
+    liquidityColors: string[]
   }
 
   export interface MaintenanceInfo {
