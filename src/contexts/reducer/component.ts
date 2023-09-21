@@ -21,14 +21,6 @@ export const componentReducer = (
           headerSearchBarVisible: payload.headerSearchBarVisible,
         },
       }
-    case ComponentActions.UpdateMaintenanceAlertVisible:
-      return {
-        ...state,
-        components: {
-          ...state.components,
-          maintenanceAlertVisible: payload.maintenanceAlertVisible,
-        },
-      }
     default:
       return state
   }

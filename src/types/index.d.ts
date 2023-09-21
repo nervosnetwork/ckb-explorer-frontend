@@ -591,7 +591,6 @@ declare namespace State {
   export interface Components {
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
-    maintenanceAlertVisible: boolean
   }
 
   export interface AppState {

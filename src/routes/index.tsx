@@ -4,12 +4,10 @@ import { createBrowserHistory } from 'history'
 import Page from '../components/Page'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import Sheet from '../components/Sheet'
 import { useDispatch, useAppState } from '../contexts/providers'
 import { ComponentActions } from '../contexts/actions'
 import { useIsMobile } from '../utils/hook'
 import { isChainTypeError } from '../utils/chain'
-import Alert from '../components/Alert'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -442,9 +440,7 @@ export default () => {
       <Route
         render={(props: any) => (
           <Page>
-            <Alert />
             <Header />
-            <Sheet />
             <Suspense fallback={<span />}>
               <PageErrorBoundary>
                 <Switch location={props.location}>

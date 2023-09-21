@@ -1,10 +1,8 @@
-import { useEffect } from 'react'
-import { useAppState, useDispatch } from '../../contexts/providers'
+import { useState } from 'react'
 import { AlertPanel } from './styled'
 import i18n, { currentLanguage } from '../../utils/i18n'
 import { dayjs, parseSimpleDateNoSecond } from '../../utils/date'
 import SimpleButton from '../SimpleButton'
-import { ComponentActions } from '../../contexts/actions'
 import { AppCachedKeys } from '../../constants/cache'
 import { IS_MAINTAINING } from '../../constants/common'
 import styles from './styles.module.scss'
@@ -18,34 +16,16 @@ const globalMaintenanceMsg = createGlobalState<[string, string] | []>([])
 export const setMaintenanceMsg = createGlobalStateSetter(globalMaintenanceMsg)
 
 const Alert = () => {
-  const dispatch = useDispatch()
   const { reorgStartedAt } = useStatistics()
-  const {
-    components: { maintenanceAlertVisible },
-  } = useAppState()
   const [[startTime, endTime]] = useGlobalState(globalMaintenanceMsg)
+  const [isHideMaintenance, setIsHideMaintenance] = useState(
+    () => sessionStorage.getItem(AppCachedKeys.MaintenanceAlert) === 'hide',
+  )
 
   const hideAlert = () => {
     sessionStorage.setItem(AppCachedKeys.MaintenanceAlert, 'hide')
-    dispatch({
-      type: ComponentActions.UpdateMaintenanceAlertVisible,
-      payload: {
-        maintenanceAlertVisible: false,
-      },
-    })
+    setIsHideMaintenance(true)
   }
-
-  useEffect(() => {
-    const hideMaintenance = sessionStorage.getItem(AppCachedKeys.MaintenanceAlert) === 'hide'
-    if (startTime && endTime && !hideMaintenance) {
-      dispatch({
-        type: ComponentActions.UpdateMaintenanceAlertVisible,
-        payload: {
-          maintenanceAlertVisible: true,
-        },
-      })
-    }
-  }, [startTime, endTime, dispatch])
 
   if (reorgStartedAt && new Date(reorgStartedAt).getTime() + FIFTEEN_MINUTES < new Date().getTime()) {
     return (
@@ -61,20 +41,18 @@ const Alert = () => {
     return <div className={styles.container}>{i18n.t('error.maintain')}</div>
   }
 
-  return maintenanceAlertVisible && startTime && endTime ? (
+  return startTime && endTime && !isHideMaintenance ? (
     <AlertPanel isEn={currentLanguage() === 'en'}>
-      <div>
-        <span>
-          {i18n.t('toast.maintenance', {
-            start: parseSimpleDateNoSecond(startTime, '-', false),
-            end: parseSimpleDateNoSecond(endTime, '-', false),
-          })}
-        </span>
-        <div className="alert__dismiss__panel">
-          <SimpleButton className="alert__dismiss" onClick={() => hideAlert()}>
-            {i18n.t('toast.dismiss')}
-          </SimpleButton>
-        </div>
+      <span>
+        {i18n.t('toast.maintenance', {
+          start: parseSimpleDateNoSecond(startTime, '-', false),
+          end: parseSimpleDateNoSecond(endTime, '-', false),
+        })}
+      </span>
+      <div className="alert__dismiss__panel">
+        <SimpleButton className="alert__dismiss" onClick={() => hideAlert()}>
+          {i18n.t('toast.dismiss')}
+        </SimpleButton>
       </div>
     </AlertPanel>
   ) : null

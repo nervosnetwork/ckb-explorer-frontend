@@ -125,6 +125,8 @@ const HomeHeaderTopPanel: FC = memo(() => {
   })
   const height = Math.round(resizedHeight ?? ref.current?.clientHeight ?? 0)
   const selfMarginTop = 20
+  // TODO: This does not take into account the height of the Alert and Search when they appear,
+  // so a dynamic `--headerHeight` variable may be needed.
   const headerHeight = 64
   const intersectingCheckOffset = height + selfMarginTop + headerHeight
 

@@ -1,7 +1,6 @@
 export enum ComponentActions {
   UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
   UpdateHeaderSearchBarVisible = 'updateHeaderSearchBarVisible',
-  UpdateMaintenanceAlertVisible = 'updateMaintenanceAlertVisible',
 }
 
 export type StateActions = ComponentActions

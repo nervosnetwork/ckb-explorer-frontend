@@ -8,9 +8,10 @@ import MenusComp from './MenusComp'
 import { SearchComp } from './SearchComp'
 import LanguageComp from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
-import { currentLanguage } from '../../utils/i18n'
 import { useElementSize, useIsMobile } from '../../utils/hook'
 import styles from './index.module.scss'
+import Alert from '../Alert'
+import Sheet from '../Sheet'
 
 const LogoComp = () => (
   <HeaderLogoPanel to="/">
@@ -70,7 +71,7 @@ export default () => {
   const { pathname } = useLocation()
   const dispatch = useDispatch()
   const {
-    components: { headerSearchBarVisible, maintenanceAlertVisible },
+    components: { headerSearchBarVisible },
   } = useAppState()
 
   useEffect(() => {
@@ -83,27 +84,31 @@ export default () => {
   }, [dispatch, pathname])
 
   return (
-    <HeaderPanel isNotTop={maintenanceAlertVisible} isEn={currentLanguage() === 'en'}>
-      <LogoComp />
-      {!isMobile && (
-        <>
-          <AutoExpand
-            leftContent={<MenusComp />}
-            expandableWidthRange={{ minimum: 320, maximum: 440 }}
-            renderExpandable={(expanded, setExpanded) =>
-              headerSearchBarVisible && <SearchComp expanded={expanded} setExpanded={setExpanded} />
-            }
-          />
-          <BlockchainComp />
-          <LanguageComp />
-        </>
-      )}
-      {isMobile && (
-        <>
-          <HeaderEmptyPanel />
-          <MobileMenuComp />
-        </>
-      )}
-    </HeaderPanel>
+    <div className={styles.StickyContainer}>
+      <Alert />
+      <HeaderPanel>
+        <LogoComp />
+        {!isMobile && (
+          <>
+            <AutoExpand
+              leftContent={<MenusComp />}
+              expandableWidthRange={{ minimum: 320, maximum: 440 }}
+              renderExpandable={(expanded, setExpanded) =>
+                headerSearchBarVisible && <SearchComp expanded={expanded} setExpanded={setExpanded} />
+              }
+            />
+            <BlockchainComp />
+            <LanguageComp />
+          </>
+        )}
+        {isMobile && (
+          <>
+            <HeaderEmptyPanel />
+            <MobileMenuComp />
+          </>
+        )}
+      </HeaderPanel>
+      <Sheet />
+    </div>
   )
 }
