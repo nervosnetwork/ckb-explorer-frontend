@@ -1,5 +1,4 @@
 export const initApp: State.App = {
-  toast: null,
   appErrors: [
     {
       type: 'Network',

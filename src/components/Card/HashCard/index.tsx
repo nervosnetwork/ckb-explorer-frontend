@@ -5,9 +5,7 @@ import CopyIcon from '../../../assets/copy.png'
 import i18n from '../../../utils/i18n'
 import { v2AxiosIns } from '../../../service/http/fetcher'
 import { copyElementValue } from '../../../utils/util'
-import { AppActions } from '../../../contexts/actions'
 import SmallLoading from '../../Loading/SmallLoading'
-import { useDispatch } from '../../../contexts/providers'
 import { useIsMobile, useNewAddr, useDeprecatedAddr } from '../../../utils/hook'
 import SimpleButton from '../../SimpleButton'
 import { ReactComponent as OpenInNew } from '../../../assets/open_in_new.svg'
@@ -16,6 +14,7 @@ import { HashCardPanel, LoadingPanel } from './styled'
 import styles from './styles.module.scss'
 import AddressText from '../../AddressText'
 import { useDASAccount } from '../../../contexts/providers/dasQuery'
+import { useSetToast } from '../../Toast'
 
 const DASInfo: FC<{ address: string }> = ({ address }) => {
   const alias = useDASAccount(address)
@@ -50,7 +49,7 @@ export default ({
   showDASInfoOnHeader?: boolean | string
 }) => {
   const isMobile = useIsMobile()
-  const dispatch = useDispatch()
+  const setToast = useSetToast()
 
   const isTx = i18n.t('transaction.transaction') === title
   const newAddr = useNewAddr(hash)
@@ -59,12 +58,7 @@ export default ({
 
   const handleExportTxClick = async () => {
     const res = await v2AxiosIns(`transactions/${hash}/raw`).catch(error => {
-      dispatch({
-        type: AppActions.ShowToastMessage,
-        payload: {
-          message: error.message,
-        },
-      })
+      setToast({ message: error.message })
     })
     if (!res) return
 
@@ -110,12 +104,7 @@ export default ({
               className="hash__copy_icon"
               onClick={() => {
                 copyElementValue(document.getElementById('hash__value'))
-                dispatch({
-                  type: AppActions.ShowToastMessage,
-                  payload: {
-                    message: i18n.t('common.copied'),
-                  },
-                })
+                setToast({ message: i18n.t('common.copied') })
               }}
             >
               {!loading && <img src={CopyIcon} alt="copy" />}

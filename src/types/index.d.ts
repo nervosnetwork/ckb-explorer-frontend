@@ -589,7 +589,6 @@ declare namespace State {
   export type TransactionCsvExportType = 'address_transactions' | 'blocks' | 'udts' | 'nft'
 
   export interface App {
-    toast: ToastMessage | null
     appErrors: [
       { type: 'Network'; message: string[] },
       { type: 'ChainAlert'; message: string[] },
@@ -597,7 +596,7 @@ declare namespace State {
     ]
   }
 
-  export interface AppPayload extends App, ToastMessage {
+  export interface AppPayload extends App {
     appError: AppError
   }
 

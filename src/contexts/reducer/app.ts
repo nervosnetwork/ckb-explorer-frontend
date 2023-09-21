@@ -12,19 +12,6 @@ export const appReducer = (
           ...state.app,
         },
       }
-    case AppActions.ShowToastMessage:
-      return {
-        ...state,
-        app: {
-          ...state.app,
-          toast: {
-            id: new Date().getTime(),
-            message: payload.message,
-            type: payload.type,
-            duration: payload.duration,
-          },
-        },
-      }
     case AppActions.UpdateAppErrors:
       return {
         ...state,
