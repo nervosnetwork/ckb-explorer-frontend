@@ -590,7 +590,6 @@ declare namespace State {
 
   export interface Components {
     mobileMenuVisible: boolean
-    headerSearchBarVisible: boolean
   }
 
   export interface AppState {

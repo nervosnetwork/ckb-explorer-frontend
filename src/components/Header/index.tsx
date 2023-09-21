@@ -12,6 +12,7 @@ import { useElementSize, useIsMobile } from '../../utils/hook'
 import styles from './index.module.scss'
 import Alert from '../Alert'
 import Sheet from '../Sheet'
+import { createGlobalState, useGlobalState } from '../../utils/state'
 
 const LogoComp = () => (
   <HeaderLogoPanel to="/">
@@ -66,22 +67,31 @@ const AutoExpand: FC<{
   )
 }
 
+const globalShowHeaderSearchBarCounter = createGlobalState<number>(0)
+
+export function useShowSearchBarInHeader(show: boolean) {
+  const [, setCounter] = useGlobalState(globalShowHeaderSearchBarCounter)
+
+  useEffect(() => {
+    if (!show) return
+
+    setCounter(counter => counter + 1)
+    return () => setCounter(counter => counter - 1)
+  }, [show, setCounter])
+}
+
+export function useIsShowSearchBarInHeader() {
+  const [counter] = useGlobalState(globalShowHeaderSearchBarCounter)
+  return counter > 0
+}
+
 export default () => {
   const isMobile = useIsMobile()
   const { pathname } = useLocation()
-  const dispatch = useDispatch()
-  const {
-    components: { headerSearchBarVisible },
-  } = useAppState()
-
-  useEffect(() => {
-    dispatch({
-      type: ComponentActions.UpdateHeaderSearchBarVisible,
-      payload: {
-        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail',
-      },
-    })
-  }, [dispatch, pathname])
+  // TODO: This hard-coded implementation is not ideal, but currently the header is loaded before the page component,
+  // so we can only handle it this way temporarily, otherwise there will be flickering during loading.
+  const defaultSearchBarVisible = pathname !== '/' && pathname !== '/search/fail'
+  const isShowSearchBar = useIsShowSearchBarInHeader()
 
   return (
     <div className={styles.StickyContainer}>
@@ -94,7 +104,9 @@ export default () => {
               leftContent={<MenusComp />}
               expandableWidthRange={{ minimum: 320, maximum: 440 }}
               renderExpandable={(expanded, setExpanded) =>
-                headerSearchBarVisible && <SearchComp expanded={expanded} setExpanded={setExpanded} />
+                (defaultSearchBarVisible || isShowSearchBar) && (
+                  <SearchComp expanded={expanded} setExpanded={setExpanded} />
+                )
               }
             />
             <BlockchainComp />

@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useMemo, useRef } from 'react'
+import { FC, memo, useMemo, useRef } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
@@ -22,7 +22,6 @@ import {
 } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
-import { useDispatch } from '../../contexts/providers'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
@@ -34,11 +33,11 @@ import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
 import HashRateChart from './HashRateChart'
-import { ComponentActions } from '../../contexts/actions'
 import styles from './index.module.scss'
 import { fetchLatestBlocks, fetchLatestTransactions } from '../../service/http/fetcher'
 import { RouteState } from '../../routes/state'
 import { useLatestBlockNumber, useStatistics } from '../../services/ExplorerService'
+import { useShowSearchBarInHeader } from '../../components/Header'
 
 interface BlockchainData {
   name: string
@@ -116,7 +115,6 @@ const getBlockchainDataList = (statistics: State.Statistics, isMobile: boolean, 
 ]
 
 const HomeHeaderTopPanel: FC = memo(() => {
-  const dispatch = useDispatch()
   const ref = useRef<HTMLDivElement>(null)
 
   const { height: resizedHeight } = useResizeDetector({
@@ -142,26 +140,7 @@ const HomeHeaderTopPanel: FC = memo(() => {
     true,
   )
 
-  useEffect(() => {
-    if (ref.current == null) return
-
-    dispatch({
-      type: ComponentActions.UpdateHeaderSearchBarVisible,
-      payload: {
-        headerSearchBarVisible: !isFullDisplayInScreen,
-      },
-    })
-
-    // eslint-disable-next-line consistent-return
-    return () => {
-      dispatch({
-        type: ComponentActions.UpdateHeaderSearchBarVisible,
-        payload: {
-          headerSearchBarVisible: true,
-        },
-      })
-    }
-  }, [dispatch, isFullDisplayInScreen])
+  useShowSearchBarInHeader(!isFullDisplayInScreen)
 
   return (
     <div ref={ref} className={styles.HomeHeaderTopPanel}>

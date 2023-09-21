@@ -5,7 +5,7 @@
  * which supports asynchronous processing, computed properties, and is framework-agnostic.
  */
 import { useObservableState } from 'observable-hooks'
-import { useCallback } from 'react'
+import { Dispatch, SetStateAction, useCallback } from 'react'
 import { BehaviorSubject } from 'rxjs'
 
 export type GlobalState<T> = BehaviorSubject<T>
@@ -26,12 +26,16 @@ export function createGlobalStateSetter<T>(globalState: GlobalState<T>): (value:
   return (value: T) => setGlobalState(globalState, value)
 }
 
-export function useGlobalState<T>(globalState: GlobalState<T>): [T, (state: T) => void] {
+export function useGlobalState<T>(globalState: GlobalState<T>): [T, Dispatch<SetStateAction<T>>] {
   const state = useObservableState(globalState)
 
-  const setState = useCallback(
-    (state: T) => {
-      globalState.next(state)
+  const setState = useCallback<Dispatch<SetStateAction<T>>>(
+    (state: T | ((prevState: T) => T)) => {
+      // TODO: Here, `as` is used because `T` does not have a constraint to prohibit function types of states.
+      // However, implementing this constraint is difficult, so `as` is used for now.
+      const finalState =
+        typeof state === 'function' ? (state as (prevState: T) => T)(getGlobalState(globalState)) : state
+      globalState.next(finalState)
     },
     [globalState],
   )
