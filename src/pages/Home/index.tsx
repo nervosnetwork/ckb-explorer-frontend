@@ -204,7 +204,6 @@ const TransactionList: FC<{ transactions: State.Transaction[]; tipBlockNumber: n
 export default () => {
   const isMobile = useIsMobile()
   const isLG = useIsLGScreen()
-  const dispatch = useDispatch()
   const history = useHistory<RouteState>()
   const statistics = useStatistics()
   const tipBlockNumber = useLatestBlockNumber()
@@ -249,7 +248,7 @@ export default () => {
   )
 
   useInterval(() => {
-    handleBlockchainAlert(dispatch)
+    handleBlockchainAlert()
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
   const blockchainDataList = getBlockchainDataList(statistics, isMobile, isLG)

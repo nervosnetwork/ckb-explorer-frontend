@@ -9,17 +9,21 @@ import { AppCachedKeys } from '../../constants/cache'
 import { IS_MAINTAINING } from '../../constants/common'
 import styles from './styles.module.scss'
 import { useStatistics } from '../../services/ExplorerService'
+import { createGlobalState, createGlobalStateSetter, useGlobalState } from '../../utils/state'
 
 const FIFTEEN_MINUTES = 15 * 60 * 1000
+
+const globalMaintenanceMsg = createGlobalState<[string, string] | []>([])
+
+export const setMaintenanceMsg = createGlobalStateSetter(globalMaintenanceMsg)
 
 const Alert = () => {
   const dispatch = useDispatch()
   const { reorgStartedAt } = useStatistics()
   const {
-    app: { appErrors },
     components: { maintenanceAlertVisible },
   } = useAppState()
-  const [startTime, endTime] = appErrors[2].message
+  const [[startTime, endTime]] = useGlobalState(globalMaintenanceMsg)
 
   const hideAlert = () => {
     sessionStorage.setItem(AppCachedKeys.MaintenanceAlert, 'hide')
@@ -57,7 +61,7 @@ const Alert = () => {
     return <div className={styles.container}>{i18n.t('error.maintain')}</div>
   }
 
-  return maintenanceAlertVisible ? (
+  return maintenanceAlertVisible && startTime && endTime ? (
     <AlertPanel isEn={currentLanguage() === 'en'}>
       <div>
         <span>

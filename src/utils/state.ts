@@ -14,8 +14,16 @@ export function createGlobalState<T>(initState: T): GlobalState<T> {
   return new BehaviorSubject<T>(initState)
 }
 
+export function setGlobalState<T>(globalState: GlobalState<T>, value: T) {
+  globalState.next(value)
+}
+
 export function getGlobalState<T>(globalState: GlobalState<T>): T {
   return globalState.getValue()
+}
+
+export function createGlobalStateSetter<T>(globalState: GlobalState<T>): (value: T) => void {
+  return (value: T) => setGlobalState(globalState, value)
 }
 
 export function useGlobalState<T>(globalState: GlobalState<T>): [T, (state: T) => void] {

@@ -1,15 +1,10 @@
-export enum AppActions {
-  UpdateModal = 'updateModal',
-  UpdateAppErrors = 'updateAppErrors',
-}
-
 export enum ComponentActions {
   UpdateHeaderMobileMenuVisible = 'updateHeaderMobileMenuVisible',
   UpdateHeaderSearchBarVisible = 'updateHeaderSearchBarVisible',
   UpdateMaintenanceAlertVisible = 'updateMaintenanceAlertVisible',
 }
 
-export type StateActions = AppActions | ComponentActions
+export type StateActions = ComponentActions
 
 // eslint-disable-next-line no-undef
 export default StateActions

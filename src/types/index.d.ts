@@ -588,18 +588,6 @@ declare namespace State {
 
   export type TransactionCsvExportType = 'address_transactions' | 'blocks' | 'udts' | 'nft'
 
-  export interface App {
-    appErrors: [
-      { type: 'Network'; message: string[] },
-      { type: 'ChainAlert'; message: string[] },
-      { type: 'Maintenance'; message: string[] },
-    ]
-  }
-
-  export interface AppPayload extends App {
-    appError: AppError
-  }
-
   export interface Components {
     mobileMenuVisible: boolean
     headerSearchBarVisible: boolean
@@ -607,7 +595,6 @@ declare namespace State {
   }
 
   export interface AppState {
-    app: App
     components: Components
   }
 
