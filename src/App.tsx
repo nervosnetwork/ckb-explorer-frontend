@@ -4,7 +4,6 @@ import { ThemeProvider } from 'styled-components'
 import 'antd/dist/antd.css'
 import Routers from './routes'
 import Toast from './components/Toast'
-import withProviders from './contexts/providers'
 import useInitApp from './contexts/providers/hook'
 import { isMainnet } from './utils/chain'
 import { DASQueryContextProvider } from './contexts/providers/dasQuery'
@@ -18,7 +17,7 @@ const appStyle = {
 
 const queryClient = new QueryClient()
 
-const App = withProviders(() => {
+const App = () => {
   useInitApp()
   const theme = useMemo(
     () => ({
@@ -40,6 +39,6 @@ const App = withProviders(() => {
       </div>
     </ThemeProvider>
   )
-})
+}
 
 export default App

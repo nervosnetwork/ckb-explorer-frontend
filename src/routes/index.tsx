@@ -1,12 +1,9 @@
-import { useEffect, useRef, Suspense, lazy, Component } from 'react'
+import { useEffect, Suspense, lazy, Component } from 'react'
 import { BrowserRouter as Router, Route, Redirect, Switch, useLocation } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import Page from '../components/Page'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { useDispatch, useAppState } from '../contexts/providers'
-import { ComponentActions } from '../contexts/actions'
-import { useIsMobile } from '../utils/hook'
 import { isChainTypeError } from '../utils/chain'
 
 const Home = lazy(() => import('../pages/Home'))
@@ -339,25 +336,6 @@ const useRouter = (callback: Function) => {
   }, [callback, history])
 }
 
-const useRouterLocation = (callback: () => void) => {
-  const history = createBrowserHistory()
-  const savedCallback = useRef(() => {})
-  useEffect(() => {
-    savedCallback.current = callback
-  })
-  useEffect(() => {
-    const currentCallback = () => {
-      savedCallback.current()
-    }
-    const listen = history.listen(() => {
-      currentCallback()
-    })
-    return () => {
-      listen()
-    }
-  }, [history])
-}
-
 const RouterComp = ({ container, routeProps }: { container: CustomRouter.Route; routeProps: any }) => {
   const { pathname = '' } = useLocation()
   if (container.name === 'Address' && isChainTypeError(pathname.substring(pathname.lastIndexOf('/') + 1))) {
@@ -415,24 +393,8 @@ class PageErrorBoundary extends Component<PageErrorBoundaryProps, PageErrorBound
 }
 
 export default () => {
-  const isMobile = useIsMobile()
-  const dispatch = useDispatch()
-  const { components } = useAppState()
-  const { mobileMenuVisible } = components
-
   useRouter(() => {
     window.scrollTo(0, 0)
-  })
-
-  useRouterLocation(() => {
-    if (mobileMenuVisible) {
-      dispatch({
-        type: ComponentActions.UpdateHeaderMobileMenuVisible,
-        payload: {
-          mobileMenuVisible: false,
-        },
-      })
-    }
   })
 
   return (
@@ -454,7 +416,7 @@ export default () => {
                   <Redirect from="*" to="/404" />
                 </Switch>
               </PageErrorBoundary>
-              {!(isMobile && mobileMenuVisible) && <Footer />}
+              <Footer />
             </Suspense>
           </Page>
         )}

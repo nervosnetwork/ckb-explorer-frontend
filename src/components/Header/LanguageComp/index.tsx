@@ -1,6 +1,4 @@
-import { useState, useLayoutEffect, memo } from 'react'
-import { useIsMobile } from '../../../utils/hook'
-import { useDispatch } from '../../../contexts/providers'
+import { useState, useLayoutEffect, FC } from 'react'
 import i18n, { currentLanguage, changeLanguage } from '../../../utils/i18n'
 import { HeaderLanguagePanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
@@ -11,34 +9,12 @@ import GreenDropUpIcon from '../../../assets/green_drop_up.png'
 import { isMainnet } from '../../../utils/chain'
 import LanDropdown, { languageText } from '../../Dropdown/Language'
 
-import { AppDispatch } from '../../../contexts/reducer'
-import { ComponentActions } from '../../../contexts/actions'
-
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon
   return isMainnet() ? GreenDropUpIcon : BlueDropUpIcon
 }
 
-const languageAction = (dispatch: AppDispatch) => {
-  changeLanguage(currentLanguage() === 'en' ? 'zh' : 'en')
-  dispatch({
-    type: ComponentActions.UpdateHeaderMobileMenuVisible,
-    payload: {
-      mobileMenuVisible: false,
-    },
-  })
-}
-
-const hideMobileMenu = (dispatch: AppDispatch) => {
-  dispatch({
-    type: ComponentActions.UpdateHeaderMobileMenuVisible,
-    payload: {
-      mobileMenuVisible: false,
-    },
-  })
-}
-
-const LanguageDropdown = () => {
+export const LanguageDropdown = () => {
   const [showLanguage, setShowLanguage] = useState(false)
   const [languageLeft, setLanguageLeft] = useState(0)
   const [languageTop, setLanguageTop] = useState(0)
@@ -80,8 +56,7 @@ const LanguageDropdown = () => {
   )
 }
 
-const LanguageMenu = () => {
-  const dispatch = useDispatch()
+export const LanguageMenu: FC<{ hideMobileMenu: () => void }> = ({ hideMobileMenu }) => {
   const [showSubMenu, setShowSubMenu] = useState(false)
 
   return (
@@ -106,7 +81,7 @@ const LanguageMenu = () => {
           <SimpleButton
             className="mobile__menus__sub__item"
             onClick={() => {
-              hideMobileMenu(dispatch)
+              hideMobileMenu()
             }}
           >
             {currentLanguage() === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')}
@@ -114,7 +89,8 @@ const LanguageMenu = () => {
           <SimpleButton
             className="mobile__menus__sub__item"
             onClick={() => {
-              languageAction(dispatch)
+              changeLanguage(currentLanguage() === 'en' ? 'zh' : 'en')
+              hideMobileMenu()
             }}
           >
             {currentLanguage() === 'en' ? i18n.t('navbar.language_zh') : i18n.t('navbar.language_en')}
@@ -124,5 +100,3 @@ const LanguageMenu = () => {
     </MobileSubMenuPanel>
   )
 }
-
-export default memo(() => (useIsMobile() ? <LanguageMenu /> : <LanguageDropdown />))

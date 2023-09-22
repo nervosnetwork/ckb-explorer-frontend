@@ -4,10 +4,14 @@ import SearchLogo from '../../../assets/search_white.png'
 import { HeaderSearchPanel, HeaderSearchBarPanel } from './styled'
 
 export const SearchComp: FC<{
-  expanded: boolean
-  setExpanded: (expanded: boolean) => void
-}> = memo(({ expanded, setExpanded }) => {
-  const onEditEnd = useCallback(() => setExpanded(false), [setExpanded])
+  expanded?: boolean
+  setExpanded?: (expanded: boolean) => void
+  hideMobileMenu?: () => void
+}> = memo(({ expanded, setExpanded, hideMobileMenu }) => {
+  const onEditEnd = useCallback(() => {
+    setExpanded?.(false)
+    hideMobileMenu?.()
+  }, [hideMobileMenu, setExpanded])
 
   if (!expanded) {
     return (
@@ -16,7 +20,7 @@ export const SearchComp: FC<{
         tabIndex={-1}
         onKeyDown={() => {}}
         onClick={() => {
-          setExpanded(true)
+          setExpanded?.(true)
         }}
       >
         <img alt="header search bar" src={SearchLogo} />

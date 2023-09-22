@@ -588,14 +588,6 @@ declare namespace State {
 
   export type TransactionCsvExportType = 'address_transactions' | 'blocks' | 'udts' | 'nft'
 
-  export interface Components {
-    mobileMenuVisible: boolean
-  }
-
-  export interface AppState {
-    components: Components
-  }
-
   export interface ChartColor {
     areaColor: string
     colors: string[]
