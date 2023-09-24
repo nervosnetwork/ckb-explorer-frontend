@@ -1,0 +1,350 @@
+.twitterShareWrapper {
+  position: fixed;
+  bottom: 10px;
+  right: 18px;
+
+  @media (min-width: 750px) {
+    right: 60px;
+  }
+}
+
+.halvingCountdown {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: row;
+
+  .digtialClockNumber {
+    border: 1px solid rgba(57, 21, 86, 1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 72px;
+    background: linear-gradient(rgba(49, 24, 65, 1), rgba(18, 18, 18, 1), rgba(46, 30, 54, 1));
+    position: relative;
+    margin-bottom: 4px;
+    &::after {
+      content: ' ';
+      width: 100%;
+      height: 1px;
+      background-color: rgba(69, 46, 87, 1);
+      position: absolute;
+      z-index: 0;
+    }
+    span {
+      z-index: 1;
+      font-family: 'digital-clock-font';
+      font-size: 32px;
+      font-weight: 400;
+      padding-top: 5px;
+    }
+  }
+
+  .digtialClockSeparate {
+    width: 8px;
+    height: 100%;
+    &::after {
+      content: ':';
+      font-size: 32px;
+      height: 64px;
+      line-height: 64px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .digtialClockText {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(154, 44, 236, 1);
+    text-align: center;
+  }
+
+  @media (min-width: 750px) {
+    .digtialClockNumber {
+      width: 136px;
+      height: 136px;
+      margin-bottom: 8px;
+      span {
+        font-size: 80px;
+        padding-top: 10px;
+      }
+    }
+
+    .digtialClockSeparate {
+      width: 16px;
+      &::after {
+        font-size: 64px;
+        height: 136px;
+        line-height: 120px;
+      }
+    }
+
+    .digtialClockText {
+      font-size: 14px;
+    }
+  }
+}
+
+.halvingProgress {
+  line-height: 0;
+  :global {
+    .ant-progress-inner {
+      background-color: transparent;
+      border: 1px solid rgba(154, 44, 236, 1);
+    }
+  }
+}
+
+.halvingProgressMarks {
+  color: rgba(154, 44, 236, 1);
+  display: flex;
+  justify-content: space-evenly;
+  span {
+    position: relative;
+    &::after {
+      content: ' ';
+      width: 2px;
+      height: 8px;
+      position: absolute;
+      top: -4px;
+      left: calc(50% - 1px);
+      display: flex;
+      align-items: center;
+      background-color: rgba(154, 44, 236, 1);
+    }
+  }
+}
+
+.twitterIconBg {
+  display: flex;
+  background: rgb(90, 169, 232);
+  box-shadow: rgba(77, 77, 77, 0.2) 0px 2px 6px 0px;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.halvingTable {
+  display: block;
+  width: 100%;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+  border-spacing: 0;
+  border-collapse: collapse;
+  thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+    background-color: rgba(47, 42, 49, 1);
+  }
+  tr {
+    &:nth-child(1n) {
+      background-color: rgba(38, 33, 40, 1);
+    }
+    &:nth-child(2n) {
+      background-color: rgba(47, 42, 49, 1);
+    }
+  }
+  th {
+    padding: 16px 24px;
+    border: 1px solid rgb(34, 27, 40);
+  }
+  td {
+    padding: 16px 24px;
+    border: 1px solid rgb(34, 27, 40);
+  }
+}
+
+.halvingBanner {
+  position: relative;
+  padding-top: 32px;
+  padding-bottom: 128px;
+  color: white;
+  background-color: rgba(32, 32, 32, 1);
+  background-position: bottom;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  .halvingBannerWrapper {
+    display: flex;
+    justify-content: center;
+  }
+  .halvingBannerContent {
+    max-width: 100%;
+
+    @media (min-width: 960px) {
+      max-width: 960px;
+    }
+
+    flex: 1;
+  }
+  .halvingBannerShadow {
+    width: 100%;
+    height: 72px;
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgb(17, 17, 17));
+  }
+}
+
+.halvingPanel {
+  background: rgba(21, 19, 23, 1);
+  background-size: cover;
+  border: 2px solid rgba(51, 41, 69, 0.5);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 24px 16px;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+
+  .halvingSuccessText {
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .halvingSuccessBtn {
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 0;
+    background: linear-gradient(180deg, rgba(172, 54, 244, 1), rgba(138, 25, 207, 1));
+  }
+
+  .halvingPanelTitle {
+    display: flex;
+    align-items: center;
+  }
+
+  @media (min-width: 750px) {
+    padding: 32px 64px;
+    gap: 32px;
+    border-radius: 24px;
+
+    .halvingPanelTitle {
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .halvingSuccessText {
+      font-size: 32px;
+    }
+  }
+}
+
+.halvingDocuments {
+  padding-top: 32px;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: 750px) {
+    gap: 32px;
+  }
+}
+
+.halvingTitle {
+  text-align: center;
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 16px;
+
+  @media (min-width: 750px) {
+    font-size: 32px;
+    margin-bottom: 32px;
+  }
+}
+
+.halvingSubtitle {
+  text-align: center;
+  font-weight: 400;
+  margin-bottom: 24px;
+
+  @media (min-width: 750px) {
+    font-size: 24px;
+    margin-bottom: 48px;
+  }
+}
+
+.panel {
+  color: rgba(240, 240, 240, 1);
+  background: rgba(34, 27, 40, 1);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  padding: 24px 16px;
+  gap: 16px;
+  font-size: 16px;
+
+  @media (min-width: 750px) {
+    border-radius: 24px;
+    padding: 48px;
+    gap: 48px;
+  }
+}
+
+.panelTitle {
+  font-weight: bolder;
+  font-size: 20px;
+  color: white;
+}
+
+.blockquote {
+  background-color: rgba(47, 42, 49, 1);
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.epochInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .epochInfoItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 0%;
+  }
+
+  .epochInfoValue {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+
+  .separate {
+    height: 40px;
+    background: rgba(234, 234, 234, 0.2);
+    width: 1px;
+  }
+
+  @media (min-width: 750px) {
+    .epochInfoItem {
+      gap: 16px;
+      flex: inherit;
+    }
+    .epochInfoValue {
+      font-size: 20px;
+    }
+  }
+}
+
+.textSecondary {
+  color: rgba(240, 240, 240, 0.5);
+}
+
+.textPrimary {
+  color: rgba(154, 44, 236, 1);
+}
+
+.textCenter {
+  text-align: center;
+}

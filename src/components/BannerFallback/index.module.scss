@@ -1,6 +1,6 @@
 $backgroudColor: #232323;
 
-.Root {
+.root {
   width: 100%;
   background-color: $backgroudColor;
   height: 200px;
@@ -12,4 +12,65 @@ $backgroudColor: #232323;
   @media (max-width: 750px) {
     background-image: url('../../assets/ckb_explorer_banner_phone.svg');
   }
+}
+
+.halvingBannerSuccess {
+  @media (max-width: 750px) {
+    background-size: 200% !important;
+  }
+  background-position: center !important;
+}
+
+.halvingBannerWrapper {
+  width: 100%;
+  background-color: $backgroudColor;
+  height: 200px;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+}
+
+.halvingBannerShadow {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100%;
+}
+
+.halvingBanner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.halvingBannerText {
+  align-items: baseline;
+  display: flex;
+  font-size: 24px;
+  font-weight: bold;
+
+  background: linear-gradient(45deg, rgb(183, 129, 219), rgba(133, 69, 178, 1), rgb(183, 129, 219));
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  @media (min-width: 750px) {
+    font-size: 40px;
+  }
+}
+
+.halvingBannerCount {
+  font-size: 36px;
+  margin-left: 24px;
+}
+
+.learnMoreButton {
+  border: 0;
+  border-radius: 8px;
+  color: white;
+  padding: 8px 16px;
+  user-select: none;
+  background: linear-gradient(180deg, rgba(172, 54, 244, 1), rgba(138, 25, 207, 1));
 }

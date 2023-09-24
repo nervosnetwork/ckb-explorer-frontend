@@ -12,6 +12,7 @@ import { useQuery } from 'react-query'
 import { useResizeDetector } from 'react-resize-detector'
 import { interval, share } from 'rxjs'
 import { AppCachedKeys } from '../constants/cache'
+import { useAppState } from '../contexts/providers'
 import { deprecatedAddrToNewAddr } from './util'
 import { startEndEllipsis } from './string'
 import { ListPageParams, PageParams } from '../constants/common'
@@ -576,6 +577,53 @@ export function useTimestamp(): number {
 export function useParsedDate(timestamp: number): string {
   const now = useTimestamp()
   return parseDate(timestamp, now)
+}
+
+export const useCountdown = (targetDate: Date) => {
+  const countdownDate = new Date(targetDate).getTime()
+
+  const [countdown, setCountdown] = useState(countdownDate - new Date().getTime())
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown(countdownDate - new Date().getTime())
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [countdownDate])
+
+  const days = Math.floor(countdown / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  const minutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = Math.floor((countdown % (1000 * 60)) / 1000)
+
+  return [days, hours, minutes, seconds]
+}
+
+export const useHalving = () => {
+  const { statistics } = useAppState()
+
+  const EPOCHS_PER_HALVING = 8760
+  const currentEpoch = Number(statistics.epochInfo.epochNumber)
+  const nextHalvingCount = Math.ceil(currentEpoch / EPOCHS_PER_HALVING)
+  const targetEpoch = EPOCHS_PER_HALVING * nextHalvingCount
+  const singleEpochAverageTime = Number(statistics.estimatedEpochTime)
+  const currentEpochUsedTime =
+    (Number(statistics.epochInfo.index) / Number(statistics.epochInfo.epochLength)) * singleEpochAverageTime
+
+  const estimatedTime = (targetEpoch - currentEpoch) * singleEpochAverageTime - currentEpochUsedTime
+
+  const estimatedDate = useMemo(() => new Date(new Date().getTime() + estimatedTime), [estimatedTime])
+
+  return {
+    EPOCHS_PER_HALVING,
+    currentEpoch,
+    targetEpoch,
+    nextHalvingCount,
+    singleEpochAverageTime,
+    currentEpochUsedTime,
+    estimatedDate,
+  }
 }
 
 export default {

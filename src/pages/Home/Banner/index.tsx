@@ -6,6 +6,7 @@ import styles from './index.module.scss'
 import { useIsMobile, usePrevious } from '../../../utils/hook'
 import { isMainnet as isMainnetFunc } from '../../../utils/chain'
 import BannerFallback from '../../../components/BannerFallback'
+import { HalvingBanner } from '../../../components/BannerFallback/HalvingBanner'
 
 const GPUTier = {
   MIN_TIER: 2,
@@ -81,5 +82,5 @@ const _Banner: FC<{ latestBlock?: State.Block }> = ({ latestBlock }) => {
  */
 const isMainnet = isMainnetFunc()
 export const Banner = isMainnet
-  ? BannerFallback
+  ? HalvingBanner
   : memo(_Banner, (a, b) => a.latestBlock?.number === b.latestBlock?.number)
