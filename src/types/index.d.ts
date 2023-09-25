@@ -598,13 +598,6 @@ declare namespace State {
     liquidityColors: string[]
   }
 
-  export interface MaintenanceInfo {
-    maintenanceInfo: {
-      startAt: string
-      endAt: string
-    }
-  }
-
   type SortOrderTypes = 'asc' | 'desc'
 }
 

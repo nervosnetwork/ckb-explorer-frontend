@@ -79,8 +79,6 @@
       "too_many_request": "Too many requests, please try later",
       "data_too_large": "The data is too large, not available for download",
       "result_not_found": "Search result not found",
-      "maintenance": "Please note that CKB Explorer will be under maintenance from {{start}} to {{end}}. Data update during the period might be delayed.",
-      "dismiss": "Dismiss",
       "handling-reorg": "Reorg detected at {{time}} so CKB Explorer is checking data thoroughly. It may take half an hour, please visit later",
       "migration-notice": "Service of CKB explorer will have a migration on {{time}}, and the server might be unavailable temporarily"
     },

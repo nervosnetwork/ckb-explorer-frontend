@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { initAxiosInterceptors } from '../../service/http/interceptors'
-import { MAINTENANCE_ALERT_POLLING_TIME, FLUSH_CHART_CACHE_POLLING_TIME } from '../../constants/common'
+import { FLUSH_CHART_CACHE_POLLING_TIME } from '../../constants/common'
 import { AppCachedKeys } from '../../constants/cache'
 import { fetchCachedData } from '../../utils/cache'
 import { changeLanguage } from '../../utils/i18n'
 import { useInterval } from '../../utils/hook'
-import { getMaintenanceInfo } from '../../service/app/alert'
 import flushCacheInfo from '../../service/app/charts/cache'
 
 const initAppLanguage = () => {
@@ -22,13 +21,8 @@ export const useInitApp = () => {
     initAxiosInterceptors()
     // TODO: This function may not belong here.
     initAppLanguage()
-    getMaintenanceInfo()
     flushCacheInfo()
   }
-
-  useInterval(() => {
-    getMaintenanceInfo()
-  }, MAINTENANCE_ALERT_POLLING_TIME)
 
   useInterval(() => {
     flushCacheInfo()

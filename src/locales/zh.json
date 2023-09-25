@@ -79,8 +79,6 @@
       "too_many_request": "请求次数过多, 请稍后再试",
       "data_too_large": "数据过大，不支持下载",
       "result_not_found": "没有找到搜索结果",
-      "maintenance": "请注意 CKB 浏览器将于 {{start}} 至 {{end}} 处于维护状态，期间数据更新可能会有延迟。",
-      "dismiss": "知道了",
       "handling-reorg": " 检测到 {{time}} 发生 Reorg, CKB 浏览器正在彻底检查数据。所需时间约为半小时, 请稍后访问",
       "migration-notice": "浏览器服务将于 {{time}} 进行迁移, 可能出现短时不可用状态"
     },
