@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ReactComponent as TwitterIcon } from '../../assets/footer_twitter.svg'
+import { ReactComponent as XIcon } from '../../assets/footer_X.svg'
 import { ReactComponent as MediumIcon } from '../../assets/footer_medium.svg'
 import { ReactComponent as TelegramIcon } from '../../assets/footer_telegram.svg'
 import { ReactComponent as RedditIcon } from '../../assets/footer_reddit.svg'
@@ -90,9 +90,9 @@ export default memo(() => {
             url: 'https://discord.com/invite/FKh8Zzvwqa',
           },
           {
-            label: t('footer.twitter'),
-            icon: TwitterIcon,
-            url: 'https://twitter.com/nervosnetwork',
+            label: t('footer.X'),
+            icon: XIcon,
+            url: 'https://x.com/nervosnetwork',
           },
           {
             label: t('footer.blog'),
