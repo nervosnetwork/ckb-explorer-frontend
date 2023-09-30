@@ -38,7 +38,7 @@
   "devDependencies": {
     "@sentry/webpack-plugin": "2.7.1",
     "@testing-library/react": "12.1.5",
-    "@types/echarts": "4.9.18",
+    "@types/echarts": "4.9.19",
     "@types/eslint": "7.29.0",
     "@types/jest": "26.0.24",
     "@types/node": "16.18.50",
