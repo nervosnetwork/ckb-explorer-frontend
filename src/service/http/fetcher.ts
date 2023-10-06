@@ -210,14 +210,24 @@ export const fetchNervosDaoDepositors = () =>
   )
 
 export const fetchStatisticTransactionCount = () =>
-  axiosIns(`/daily_statistics/transactions_count`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticTransactionCount>[]>>(res.data),
-  )
+  axiosIns(`/daily_statistics/transactions_count`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticTransactionCount>[]>>(res.data)
+    return {
+      ...resp,
+      // filter latest exceptional data out
+      data: resp.data.filter((item, idx) => idx < resp.data.length - 2 || item.attributes.transactionsCount !== '0'),
+    }
+  })
 
 export const fetchStatisticAddressCount = () =>
-  axiosIns(`/daily_statistics/addresses_count`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticAddressCount>[]>>(res.data),
-  )
+  axiosIns(`/daily_statistics/addresses_count`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticAddressCount>[]>>(res.data)
+    return {
+      ...resp,
+      // filter latest exceptional data out
+      data: resp.data.filter((item, idx) => idx < resp.data.length - 2 || item.attributes.addressesCount !== '0'),
+    }
+  })
 
 export const fetchStatisticTotalDaoDeposit = () =>
   axiosIns(`/daily_statistics/total_depositors_count-total_dao_deposit`).then((res: AxiosResponse) =>
@@ -244,35 +254,46 @@ export const fetchStatisticDifficultyHashRate = () =>
     const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficultyHashRate>[]>>(res.data)
     return {
       ...resp,
-      data: resp.data.map(wrapper => ({
-        ...wrapper,
-        attributes: {
-          // Data may enter the cache, so it is purify to reduce volume.
-          ...pick(wrapper.attributes, ['difficulty', 'epochNumber']),
-          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
-          hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toString(),
-        },
-      })),
+      data: resp.data
+        // filter latest exceptional data out
+        .filter((item, idx) => idx < resp.data.length - 2 || item.attributes.hashRate !== '0.0')
+        .map(wrapper => ({
+          ...wrapper,
+          attributes: {
+            // Data may enter the cache, so it is purify to reduce volume.
+            ...pick(wrapper.attributes, ['difficulty', 'epochNumber']),
+            uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+            hashRate: new BigNumber(wrapper.attributes.hashRate).multipliedBy(1000).toString(),
+          },
+        })),
     }
   })
 
 export const fetchStatisticDifficulty = () =>
-  axiosIns(`/daily_statistics/avg_difficulty`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficulty>[]>>(res.data),
-  )
+  axiosIns(`/daily_statistics/avg_difficulty`).then((res: AxiosResponse) => {
+    const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticDifficulty>[]>>(res.data)
+    return {
+      ...resp,
+      // filter latest exceptional data out
+      data: resp.data.filter((item, idx) => idx < resp.data.length - 2 || item.attributes.avgDifficulty !== '0.0'),
+    }
+  })
 
 export const fetchStatisticHashRate = () =>
   axiosIns(`/daily_statistics/avg_hash_rate`).then((res: AxiosResponse) => {
     const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticHashRate>[]>>(res.data)
     return {
       ...resp,
-      data: resp.data.map(wrapper => ({
-        ...wrapper,
-        attributes: {
-          ...wrapper.attributes,
-          avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toString(),
-        },
-      })),
+      data: resp.data
+        // filter latest exceptional data out
+        .filter((item, idx) => idx < resp.data.length - 2 || item.attributes.avgHashRate !== '0.0')
+        .map(wrapper => ({
+          ...wrapper,
+          attributes: {
+            ...wrapper.attributes,
+            avgHashRate: new BigNumber(wrapper.attributes.avgHashRate).multipliedBy(1000).toString(),
+          },
+        })),
     }
   })
 
@@ -281,13 +302,16 @@ export const fetchStatisticUncleRate = () =>
     const resp = toCamelcase<Response.Response<Response.Wrapper<State.StatisticUncleRate>[]>>(res.data)
     return {
       ...resp,
-      data: resp.data.map(wrapper => ({
-        ...wrapper,
-        attributes: {
-          ...wrapper.attributes,
-          uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
-        },
-      })),
+      data: resp.data
+        // filter latest exceptional data out
+        .filter((item, idx) => idx < resp.data.length - 2 || item.attributes.uncleRate !== '0')
+        .map(wrapper => ({
+          ...wrapper,
+          attributes: {
+            ...wrapper.attributes,
+            uncleRate: new BigNumber(wrapper.attributes.uncleRate).toFixed(4),
+          },
+        })),
     }
   })
 
