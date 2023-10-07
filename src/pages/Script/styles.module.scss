@@ -143,3 +143,8 @@
 .hashType {
   text-transform: capitalize;
 }
+
+.typeId {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

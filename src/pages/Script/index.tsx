@@ -39,7 +39,7 @@ const scriptHashNameMap = new Map<string, string>(
 )
 
 const getScriptInfo = (scriptInfo: ScriptInfo) => {
-  const { scriptName, scriptType, typeId, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
+  const { scriptName, scriptType, id, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
     scriptInfo
   const items: OverviewItemData[] = [
     {
@@ -58,8 +58,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
     },
     {
       title: i18n.t('scripts.type_id'),
-      tooltip: i18n.t('glossary.type_id'),
-      content: typeId || '-',
+      content: id ? <CodeHashMessage codeHash={id} /> : '-',
     },
     {
       title: i18n.t('scripts.code_hash'),
@@ -123,10 +122,9 @@ export const ScriptPage = () => {
     status === 'success' && resp
       ? toCamelcase<Response.Response<ScriptInfo>>(resp?.data)!.data
       : ({
-          id: 0,
+          id: '-',
           scriptName: '',
           scriptType: '',
-          typeId: '',
           codeHash,
           hashType,
           capacityOfDeployedCells: '0',
