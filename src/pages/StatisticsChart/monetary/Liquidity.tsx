@@ -9,7 +9,7 @@ import { fetchStatisticLiquidity } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticLiquidity: State.StatisticLiquidity[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

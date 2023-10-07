@@ -9,7 +9,7 @@ import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
   statisticAverageBlockTimes: State.StatisticAverageBlockTime[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

@@ -2,31 +2,16 @@
 import styled from 'styled-components'
 
 export const SheetPanel = styled.div`
-  position: sticky;
-  top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '112px' : '64px')};
-  z-index: 9000;
-
-  @media (max-width: 1200px) {
-    top: ${(props: { isNotTop?: boolean }) => (props.isNotTop ? '128px' : '64px')};
-  }
+  width: 100%;
+  background: #d03a3a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 0 20px;
 
   @media (max-width: 750px) {
-    top: ${(props: { isNotTop?: boolean; isEn: boolean }) =>
-      props.isNotTop ? (props.isEn ? '184px' : '164px') : '64px'};
-  }
-
-  > div {
-    width: 100%;
-    background: #d03a3a;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 0 20px;
-
-    @media (max-width: 750px) {
-      padding: 6px 0 10px;
-    }
+    padding: 6px 0 10px;
   }
 `
 

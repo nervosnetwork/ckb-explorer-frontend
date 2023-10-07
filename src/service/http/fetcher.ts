@@ -477,11 +477,6 @@ export const fetchTokens = (page: number, size: number, sort?: string) =>
     },
   }).then((res: AxiosResponse) => toCamelcase<Response.Response<Response.Wrapper<State.UDT>[]>>(res.data))
 
-export const fetchMaintenanceInfo = () =>
-  axiosIns(`/statistics/maintenance_info`).then((res: AxiosResponse) =>
-    toCamelcase<Response.Wrapper<State.MaintenanceInfo>>(res.data.data),
-  )
-
 export const exportTransactions = ({
   type,
   id,

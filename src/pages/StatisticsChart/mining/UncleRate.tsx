@@ -13,7 +13,7 @@ const max = (statisticUncleRates: State.StatisticUncleRate[]) => {
 
 const getOption = (
   statisticUncleRates: State.StatisticUncleRate[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

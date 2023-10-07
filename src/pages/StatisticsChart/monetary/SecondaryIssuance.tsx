@@ -23,7 +23,7 @@ const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string,
 
 const getOption = (
   statisticSecondaryIssuance: State.StatisticSecondaryIssuance[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

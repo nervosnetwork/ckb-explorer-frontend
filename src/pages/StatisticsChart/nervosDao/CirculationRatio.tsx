@@ -8,7 +8,7 @@ import { fetchStatisticCirculationRatio } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticCirculationRatios: State.StatisticCirculationRatio[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

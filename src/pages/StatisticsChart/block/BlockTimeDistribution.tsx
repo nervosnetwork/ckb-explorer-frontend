@@ -7,7 +7,7 @@ import { fetchStatisticBlockTimeDistribution } from '../../../service/http/fetch
 
 const getOption = (
   statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

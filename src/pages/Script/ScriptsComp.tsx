@@ -19,10 +19,9 @@ import { CellInScript, CkbTransactionInScript } from './types'
 import styles from './styles.module.scss'
 import { QueryResult } from '../../components/QueryResult'
 import AddressText from '../../components/AddressText'
-import { AppActions } from '../../contexts/actions'
-import { useDispatch } from '../../contexts/providers'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import { ReactComponent as InfoMoreIcon } from '../../assets/info_more_icon.svg'
+import { useSetToast } from '../../components/Toast'
 
 export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
   const history = useHistory()
@@ -213,7 +212,7 @@ export const ScriptCells = ({
 }
 
 export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
-  const dispatch = useDispatch()
+  const setToast = useSetToast()
   return (
     <div className={styles.codeHashMessagePanel}>
       <AddressText className={styles.codeHash}>{codeHash}</AddressText>
@@ -222,12 +221,7 @@ export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
         onClick={() => {
           navigator.clipboard.writeText(codeHash).then(
             () => {
-              dispatch({
-                type: AppActions.ShowToastMessage,
-                payload: {
-                  message: i18n.t('common.copied'),
-                },
-              })
+              setToast({ message: i18n.t('common.copied') })
             },
             error => {
               console.error(error)

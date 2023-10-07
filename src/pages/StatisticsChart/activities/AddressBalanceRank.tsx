@@ -17,7 +17,7 @@ const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddr
 
 const getOption = (
   statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
   getAdaptAddressText: (address: string) => string,

@@ -10,7 +10,6 @@ import DropDownBlueIcon from '../../assets/content_blue_drop_down.png'
 import PackUpBlueIcon from '../../assets/content_blue_pack_up.png'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
-import { useAppState } from '../../contexts/providers'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
@@ -39,6 +38,7 @@ import AddressText from '../../components/AddressText'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import Filter from '../../components/Search/Filter'
 import { HelpTip } from '../../components/HelpTip'
+import { useLatestBlockNumber } from '../../services/ExplorerService'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -104,9 +104,7 @@ const BlockMinerReward = ({
 
 export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
   const isMobile = useIsMobile()
-  const {
-    statistics: { tipBlockNumber },
-  } = useAppState()
+  const tipBlockNumber = useLatestBlockNumber()
   const [showAllOverview, setShowAllOverview] = useState(false)
   const minerReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.minerReward))} />
   const rootInfoItems = [

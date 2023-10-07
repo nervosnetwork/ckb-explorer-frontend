@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Trans } from 'react-i18next'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import { useAppState } from '../../contexts/providers/index'
 import { parseSimpleDate } from '../../utils/date'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
@@ -28,6 +27,7 @@ import HashTag from '../../components/HashTag'
 import { useAddrFormatToggle } from '../../utils/hook'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import { HelpTip } from '../../components/HelpTip'
+import { useLatestBlockNumber } from '../../services/ExplorerService'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 
@@ -109,9 +109,7 @@ const TransactionInfoItemWrapper = ({
 
 export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ transaction }) => {
   const [showParams, setShowParams] = useState<boolean>(false)
-  const {
-    app: { tipBlockNumber },
-  } = useAppState()
+  const tipBlockNumber = useLatestBlockNumber()
   const {
     blockNumber,
     cellDeps,

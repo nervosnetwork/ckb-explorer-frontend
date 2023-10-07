@@ -9,7 +9,7 @@ import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
   statisticAddressCounts: State.StatisticAddressCount[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

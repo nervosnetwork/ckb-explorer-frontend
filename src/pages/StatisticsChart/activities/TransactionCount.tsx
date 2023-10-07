@@ -9,7 +9,7 @@ import { fetchStatisticTransactionCount } from '../../../service/http/fetcher'
 
 const getOption = (
   statisticTransactionCounts: State.StatisticTransactionCount[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

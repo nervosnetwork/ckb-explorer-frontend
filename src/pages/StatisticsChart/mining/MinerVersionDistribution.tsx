@@ -25,7 +25,7 @@ interface VersionRecord {
 
 const getOption = (
   list: Array<VersionRecord>,
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {

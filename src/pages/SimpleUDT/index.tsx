@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Popover } from 'antd'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
-import { useDispatch } from '../../contexts/providers/index'
-import { getTipBlockNumber } from '../../service/app/address'
 import i18n from '../../utils/i18n'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
@@ -43,7 +41,6 @@ enum TransactionType {
 
 export const SimpleUDT = () => {
   const isMobile = useIsMobile()
-  const dispatch = useDispatch()
   const { push } = useHistory()
   const { search } = useLocation()
   const [t] = useTranslation()
@@ -54,10 +51,6 @@ export const SimpleUDT = () => {
   const query = new URLSearchParams(search)
   const filter = query.get('filter')
   const type = query.get('type')
-
-  useEffect(() => {
-    getTipBlockNumber(dispatch)
-  }, [dispatch])
 
   const querySimpleUDT = useQuery(['simple-udt'], async () => {
     const wrapper = await fetchSimpleUDT(typeHash)
