@@ -12,7 +12,7 @@
   background-color: #fa8f00;
   z-index: 9;
 
-  @media screen and (max-width: 800px) {
+  @media screen and (width <= 800px) {
     text-align: left;
   }
 }

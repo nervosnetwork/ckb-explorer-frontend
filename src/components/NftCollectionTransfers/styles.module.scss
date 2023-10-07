@@ -10,6 +10,7 @@
     position: relative;
     font-size: 14px;
     font-weight: 700;
+
     th {
       vertical-align: middle;
       padding-top: 12px;
@@ -81,32 +82,39 @@
   ul,
   dl {
     list-style: none;
+
     .item {
       padding-bottom: 16px;
     }
   }
+
   li {
     padding: 16px;
+
     &:not(:last-child) {
       border-bottom: 1px solid #d8d8d8;
     }
   }
+
   dl > div {
     display: flex;
     width: 100%;
   }
+
   dt {
     width: 100px;
   }
+
   dd {
     text-align: right;
     flex: 1;
   }
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (width <= 1200px) {
     table {
       display: none;
     }
+
     ul {
       display: block;
     }
@@ -120,13 +128,16 @@
 .tokenId {
   overflow: hidden;
   text-overflow: ellipsis;
-  @media screen and (max-width: 1800px) {
+
+  @media screen and (width <= 1800px) {
     max-width: 200px;
   }
-  @media screen and (max-width: 1400px) {
+
+  @media screen and (width <= 1400px) {
     max-width: 120px;
   }
-  @media screen and (max-width: 1200px) {
+
+  @media screen and (width <= 1200px) {
     max-width: 80px;
   }
 }

@@ -10,14 +10,14 @@
 
 .pageCrashedError {
   width: 800px;
-  margin: 16px auto 0 auto;
+  margin: 16px auto 0;
 }
 
 .backHome {
   width: 152px;
   height: 48px;
   display: block;
-  font-family: 'Roboto';
+  font-family: Roboto, inherit, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -25,7 +25,7 @@
   text-align: center;
   text-transform: capitalize;
   color: #fff;
-  background: #333333;
+  background: #333;
   border-radius: 4px;
   margin: 40px auto;
   border: none;
@@ -44,7 +44,7 @@
   border: 1px dashed #9c9c9c;
   padding: 6px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     width: 228px;
     height: 108px;
   }

@@ -64,15 +64,17 @@
     "husky": "^7.0.1",
     "jest-styled-components": "^7.0.5",
     "mockdate": "^2.0.5",
+    "postcss-scss": "4.0.8",
     "postcss-styled-syntax": "^0.4.0",
     "prettier": "^2.8.8",
     "react-app-rewired": "2.2.1",
     "react-test-renderer": "^17.0.2",
     "rxjs": "7.8.1",
     "stylelint": "^15.10.1",
-    "stylelint-config-recommended": "^13.0.0",
     "stylelint-config-standard": "^34.0.0",
+    "stylelint-config-standard-scss": "^11.0.0",
     "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-no-unsupported-browser-features": "7.0.0",
     "stylelint-processor-styled-components": "^1.10.0",
     "timezone-mock": "^1.1.4",
     "ts-jest": "27.1.5",
@@ -80,8 +82,6 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "lint": "eslint src/**/*.{ts,tsx} --fix",
-    "lint:css": "stylelint src/**/*.tsx",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --watchAll=false",
     "eject": "react-app-rewired eject",
@@ -105,6 +105,7 @@
   ],
   "lint-staged": {
     "*.{ts,tsx}": "eslint --cache --fix",
-    "*.{ts,tsx,json,html,scss}": "prettier --write"
+    "*.{ts,tsx,json,html,scss}": "prettier --write",
+    "*.{scss,css,tsx}": "stylelint --fix"
   }
 }

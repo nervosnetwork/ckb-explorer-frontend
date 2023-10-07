@@ -1,13 +1,12 @@
 .paginationWithRear {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   justify-content: flex-end;
   width: 100%;
   margin-top: 4px;
   background-color: white;
   border-radius: 0 0 6px 6px;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
   padding: 0 40px;
 
   .pagination {
@@ -15,7 +14,8 @@
     box-shadow: none;
     flex: 1 0.8 auto;
     min-width: 650px;
-    @media (max-width: 750px) {
+
+    @media (width <= 750px) {
       min-width: auto;
       border-radius: 0;
     }
@@ -26,6 +26,7 @@
       max-width: 120px;
     }
   }
+
   :global(.pagination__goto__page) {
     min-width: 42px;
   }
@@ -34,7 +35,7 @@
     display: flex;
     justify-content: flex-end;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       height: 50px;
       border-radius: 0 0 6px 6px;
       border-top: 1px solid #f0f0f0;
@@ -42,7 +43,7 @@
     }
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     justify-content: flex-end;
     margin-top: 5px;
     padding: 0 20px;

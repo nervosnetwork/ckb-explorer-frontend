@@ -7,6 +7,7 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 20px;
+
   h5 {
     font-size: 24px;
     font-weight: bold;
@@ -25,6 +26,7 @@
     position: relative;
     width: 100%;
     margin-bottom: 4px;
+
     .typeFilter,
     .holderMinted {
       justify-content: end;
@@ -35,6 +37,7 @@
     position: relative;
     font-size: 14px;
     font-weight: 700;
+
     th {
       vertical-align: middle;
       padding-top: 12px;
@@ -42,7 +45,8 @@
       text-transform: capitalize;
       white-space: nowrap;
     }
-    &:after {
+
+    &::after {
       position: absolute;
       left: -15px;
       top: 44px;
@@ -76,6 +80,7 @@
     &:not(:first-of-type) {
       text-align: right;
     }
+
     &:first-child,
     &:last-child {
       padding-left: 25px;
@@ -115,9 +120,11 @@
   .typeFilter {
     display: flex;
     align-items: center;
+
     svg {
       cursor: pointer;
     }
+
     &[data-is-active='true'] {
       svg path {
         fill: var(--primary-color);
@@ -127,12 +134,14 @@
 
   .activeIcon {
     color: var(--primary-color);
+
     svg {
       path {
         fill: var(--primary-color);
       }
     }
   }
+
   .filter {
     height: 1rem;
   }
@@ -142,25 +151,30 @@
   display: flex;
   flex-direction: column;
   width: 200px;
+
   a {
     display: flex;
     justify-content: space-between;
     color: var(--primary-color);
-    padding: 10px 0px 10px 10px;
+    padding: 10px 0 10px 10px;
     margin-right: 8px;
     border-radius: 8px;
+
     &:hover {
       background: var(--primary-hover-bg-color);
       color: var(--primary-color);
       cursor: pointer;
     }
+
     &[data-is-active='false'] {
       color: #000;
+
       svg {
         display: none;
       }
     }
   }
+
   svg path {
     fill: var(--primary-color);
   }
@@ -170,7 +184,7 @@
   :global {
     .ant-popover-inner {
       border-radius: 8px;
-      box-shadow: 0px 2px 10px 0px #eeeeee;
+      box-shadow: 0 2px 10px 0 #eee;
     }
   }
 }
@@ -181,6 +195,7 @@
       color: var(--primary-color);
     }
   }
+
   svg {
     cursor: pointer;
   }
@@ -190,6 +205,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+
   .sortActive {
     color: var(--primary-color);
   }
@@ -203,10 +219,12 @@ div[data-role='mobile-list'] {
     display: flex;
     height: 3rem;
     background: #fff;
+
     & > div {
       white-space: nowrap;
       flex: 1;
     }
+
     padding: 0 1rem;
     border-radius: 8px;
     overflow: hidden;
@@ -217,10 +235,12 @@ div[data-role='mobile-list'] {
     margin-left: 36px;
     margin-bottom: 10px;
     display: flex;
+
     dt {
       flex: 1;
       min-width: 105px;
     }
+
     dd {
       flex: 1;
       margin: 0;
@@ -229,7 +249,8 @@ div[data-role='mobile-list'] {
 
   .listHeader + div {
     position: relative;
-    &:before {
+
+    &::before {
       position: absolute;
       left: -15px;
       top: -10px;
@@ -240,22 +261,27 @@ div[data-role='mobile-list'] {
       background-color: #ededed;
     }
   }
+
   .listItem {
     border-bottom: 1px solid #f0f0f0;
     padding: 1rem 1rem 0;
     background: #fff;
+
     dt::after {
       content: ':';
     }
+
     dd {
       a {
         font-weight: 500 !important;
       }
     }
   }
+
   .holderMinted {
     padding-left: 36px;
   }
+
   .loading {
     text-align: center;
   }
@@ -267,22 +293,25 @@ div[data-role='mobile-list'] {
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (width <= 1200px) {
   .container {
     margin: 40px 45px 60px;
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (width <= 1000px) {
   .container {
     margin: 40px 8px 60px;
+
     table[data-role='desktop-list'] {
       display: none;
     }
+
     div[data-role='mobile-list'] {
       display: block;
     }
   }
+
   .antPopover {
     :global {
       .ant-popover-inner-content {
@@ -291,7 +320,8 @@ div[data-role='mobile-list'] {
     }
   }
 }
-@media screen and (max-width: 350px) {
+
+@media screen and (width <= 350px) {
   div[data-role='mobile-list'] {
     font-size: 0.8rem;
   }
