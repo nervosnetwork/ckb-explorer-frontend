@@ -24,14 +24,17 @@
   background-color: #fff;
   border-radius: 6px 6px 0 0;
 
+  /* stylelint-disable-next-line selector-class-pattern */
   :global(.ant-tabs-nav::before) {
     border-bottom-width: 4px;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   :global(.ant-tabs-nav-list) {
     margin-left: 40px;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   :global(.ant-tabs-tab-btn) {
     color: #333 !important;
     font-weight: 400;
@@ -40,10 +43,12 @@
     margin-bottom: 0;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   :global(.ant-tabs-tab-btn[aria-selected='true']) {
     font-weight: 500;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   :global(.ant-tabs-ink-bar) {
     background: linear-gradient(
       to right,
@@ -122,7 +127,7 @@
     float: right;
   }
 
-  :global(.transaction__cell__info__content) {
+  :global(.transactionCellInfoContent) {
     width: fit-content !important;
     padding: 0 20px;
     line-height: 0;

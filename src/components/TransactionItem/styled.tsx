@@ -19,33 +19,13 @@ export const TransactionPanel = styled.div`
   }
 `
 
-export const TransactionsReward = styled.div`
-  display: flex;
-  align-items: center;
-  height: 35px;
-  justify-content: space-between;
-
-  .transaction__cell {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    color: rgb(136 136 136);
-  }
-
-  .transaction__cell__capacity {
-    font-size: 16px;
-    color: rgb(136 136 136);
-    margin-left: 15px;
-  }
-`
-
 export const TransactionHashBlockPanel = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 10px;
 
-  .transaction_item__content {
+  .transactionItemContent {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -58,13 +38,13 @@ export const TransactionHashBlockPanel = styled.div`
       margin-bottom: 10px;
     }
 
-    .transaction_item__hash {
+    .transactionItemHash {
       font-size: 14px;
       color: ${props => props.theme.primary};
       font-weight: 500;
     }
 
-    .transaction_item__block {
+    .transactionItemBlock {
       color: #000;
 
       @media (max-width: 750px) {
@@ -99,7 +79,7 @@ export const TransactionCellPanel = styled.div`
     height: 16px;
   }
 
-  .transaction_item__input {
+  .transactionItemInput {
     margin-right: 40px;
     flex: 1;
     min-width: 0;
@@ -111,7 +91,7 @@ export const TransactionCellPanel = styled.div`
     }
   }
 
-  .transaction_item__output {
+  .transactionItemOutput {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -126,7 +106,7 @@ export const TransactionCellPanel = styled.div`
     }
   }
 
-  .transaction_item__output__empty {
+  .transactionItemOutputEmpty {
     font-size: 16px;
     color: #666;
     margin-top: 18px;

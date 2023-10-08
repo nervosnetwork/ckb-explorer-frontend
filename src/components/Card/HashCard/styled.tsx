@@ -17,7 +17,7 @@ export const HashCardPanel = styled.div`
     box-shadow: 1px 1px 3px 0 #dfdfdf;
   }
 
-  .hash__card__content__panel {
+  .hashCardContentPanel {
     width: 100%;
     height: 80px;
     display: flex;
@@ -34,13 +34,13 @@ export const HashCardPanel = styled.div`
     }
   }
 
-  .hash__icon {
+  .hashIcon {
     width: 40px;
     height: 40px;
     margin-right: 8px;
   }
 
-  .hash__title {
+  .hashTitle {
     font-size: 24px;
     font-weight: 600;
     color: #000;
@@ -51,7 +51,7 @@ export const HashCardPanel = styled.div`
     }
   }
 
-  .hash__card__hash__content {
+  .hashCardHashContent {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -59,7 +59,7 @@ export const HashCardPanel = styled.div`
     min-width: 0;
   }
 
-  #hash__text {
+  #hashText {
     min-width: 0;
     margin-left: 20px;
     font-size: 18px;
@@ -74,7 +74,7 @@ export const HashCardPanel = styled.div`
     }
   }
 
-  .hash__copy_icon {
+  .hashCopyIcon {
     cursor: pointer;
     margin-left: 20px;
     display: flex;
@@ -97,13 +97,13 @@ export const HashCardPanel = styled.div`
     }
   }
 
-  #hash__value {
+  #hashValue {
     color: #fff;
     position: absolute;
     bottom: -30px;
   }
 
-  .hash__vesting {
+  .hashVesting {
     color: ${props => props.theme.primary};
     margin-left: 12px;
     margin-top: 6px;

@@ -19,11 +19,11 @@ export default ({ setShow, left, top }: { setShow: Function; left: number; top: 
   }
   return (
     <LanguagePanel left={left} top={top} onMouseLeave={hideDropdown}>
-      <SimpleButton className="language__selected" onClick={hideDropdown}>
+      <SimpleButton className="languageSelected" onClick={hideDropdown}>
         {languageText(currentLanguage())}
       </SimpleButton>
-      <div className="language__separate" />
-      <SimpleButton className="language__normal" onClick={handleLanguage}>
+      <div className="languageSeparate" />
+      <SimpleButton className="languageNormal" onClick={handleLanguage}>
         {languageText(currentLanguage(), true)}
       </SimpleButton>
     </LanguagePanel>

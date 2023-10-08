@@ -8,19 +8,19 @@ export const HeaderLanguagePanel = styled.div`
   padding: 10px 0;
   margin-bottom: 4px;
 
-  .header__language__flag {
+  .headerLanguageFlag {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .header__language__content_panel {
+  .headerLanguageContentPanel {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
 
-    .header__language__content {
+    .headerLanguageContent {
       font-size: 14px;
       letter-spacing: 1px;
     }
@@ -40,33 +40,33 @@ export const MobileSubMenuPanel = styled.div`
   align-items: flex-start;
   margin: 22px 56px 0;
 
-  .mobile__menus__main__item {
+  .mobileMenusMainItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
   }
 
-  .mobile__menus__main__item__content {
+  .mobileMenusMainItemContent {
     color: ${(props: { showSubMenu: boolean; theme: any }) => (props.showSubMenu ? props.theme.primary : 'white')};
   }
 
-  .mobile__menus__main__item__content__highlight {
+  .mobileMenusMainItemContentHighlight {
     color: ${props => props.theme.primary};
   }
 
-  .mobile__menus__main__item__icon {
+  .mobileMenusMainItemIcon {
     width: 7.9px;
     height: 4.8px;
   }
 
-  .blockchain__mobile__node__version {
+  .blockchainMobileNodeVersion {
     font-size: 8px;
     margin-top: -5px;
     color: ${props => props.theme.primary};
   }
 
-  .mobile__menus__sub__item {
+  .mobileMenusSubItem {
     width: 300px;
     padding: 12px 24px;
     font-size: 12px;
@@ -83,18 +83,18 @@ export const MobileSubMenuPanel = styled.div`
     color: white;
   }
 
-  .mobile__menus__sub__icon {
+  .mobileMenusSubIcon {
     width: 20px;
     height: 20px;
   }
 
-  .mobile__menus__sub__title {
+  .mobileMenusSubTitle {
     font-size: 12px;
     margin-left: 8px;
     margin-right: 16px;
   }
 
-  .mobile__menus__sub__tag {
+  .mobileMenusSubTag {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,7 +106,7 @@ export const MobileSubMenuPanel = styled.div`
     }
   }
 
-  .mobile__menus__sub__memo {
+  .mobileMenusSubMemo {
     font-size: 12px;
     color: #888;
     width: 100%;

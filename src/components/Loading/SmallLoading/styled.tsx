@@ -4,7 +4,7 @@ export const SmallLoadingPanel = styled.div`
   margin: 15px 0;
   text-align: center;
 
-  .loading__white {
+  .loadingWhite {
     opacity: 0.8;
   }
 

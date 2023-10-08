@@ -54,7 +54,7 @@ const ToastItem = ({ data, willLeave }: { data: State.ToastMessage; willLeave: F
         background: getColor(data.type),
       }}
     >
-      <div className="toast__text">{data.message}</div>
+      <div className="toastText">{data.message}</div>
     </ToastItemPanel>
   )
 }

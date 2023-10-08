@@ -25,7 +25,7 @@ export const HeaderMenuPanel = styled.div`
   display: flex;
   align-items: center;
 
-  .header__menus__item {
+  .headerMenusItem {
     color: white;
     display: flex;
     align-items: center;

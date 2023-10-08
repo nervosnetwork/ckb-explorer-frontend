@@ -92,6 +92,7 @@
 
 .antPopover {
   :global {
+    /* stylelint-disable-next-line selector-class-pattern */
     .ant-popover-inner {
       border-radius: 8px;
       box-shadow: 0 2px 10px 0 #eee;

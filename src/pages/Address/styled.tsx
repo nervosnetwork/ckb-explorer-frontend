@@ -24,7 +24,7 @@ export const AddressPendingRewardTitlePanel = styled.div`
   display: flex;
   flex-direction: row;
 
-  #address__pending_reward_help {
+  #addressPendingRewardHelp {
     margin-left: 20px;
     width: 20px;
     height: 20px;
@@ -94,7 +94,7 @@ export const AddressUDTAssetsPanel = styled.div`
     color: #000;
   }
 
-  .address__udt__assets__grid {
+  .addressUdtAssetsGrid {
     margin-top: 10px;
     background-color: #f1f1f1;
     padding: 6px 25px;
@@ -126,7 +126,7 @@ export const AddressUDTItemPanel = styled.a`
 
   pointer-events: ${(props: { isLink: boolean }) => (props.isLink ? 'auto' : 'none')};
 
-  .address__udt__label {
+  .addressUdtLabel {
     text-align: left;
     font-size: 12px;
     padding: 2px 8px;
@@ -138,14 +138,14 @@ export const AddressUDTItemPanel = styled.a`
     }
   }
 
-  .address__udt__detail {
+  .addressUdtDetail {
     display: flex;
     padding: 8px;
     align-items: center;
     line-height: 20px;
   }
 
-  .address__udt__item__icon {
+  .addressUdtItemIcon {
     display: flex;
     align-items: center;
     width: 40px;
@@ -155,7 +155,7 @@ export const AddressUDTItemPanel = styled.a`
     object-fit: cover;
   }
 
-  .address__udt__item__info {
+  .addressUdtItemInfo {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

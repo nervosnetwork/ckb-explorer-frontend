@@ -64,7 +64,7 @@ const TransactionInfoItem = ({
   tag?: ReactNode
 }) => (
   <TransactionInfoContentItem>
-    <div className="transaction__info__content_title">
+    <div className="transactionInfoContentTitle">
       {title ? (
         <>
           <span>{title}</span>
@@ -75,8 +75,8 @@ const TransactionInfoItem = ({
         ''
       )}
     </div>
-    <div className="transaction__info__content_container monospace">
-      <div className="transaction__info__content_value">
+    <div className="transactionInfoContentContainer monospace">
+      <div className="transactionInfoContentValue">
         {linkUrl ? (
           <Link to={linkUrl} className="monospace">
             {value}
@@ -86,7 +86,7 @@ const TransactionInfoItem = ({
         )}
         {valueTooltip && <HelpTip title={valueTooltip} />}
       </div>
-      {tag && <div className="transaction__info__content__tag">{tag}</div>}
+      {tag && <div className="transactionInfoContentTag">{tag}</div>}
     </div>
   </TransactionInfoContentItem>
 )
@@ -345,20 +345,20 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
   return (
     <TransactionOverviewPanel>
       <OverviewCard items={OverviewItems} hideShadow>
-        <div className="transaction__overview_info">
-          <SimpleButton className="transaction__overview_parameters" onClick={() => setShowParams(!showParams)}>
+        <div className="transactionOverviewInfo">
+          <SimpleButton className="transactionOverviewParameters" onClick={() => setShowParams(!showParams)}>
             <div>{i18n.t('transaction.transaction_parameters')}</div>
             <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
           </SimpleButton>
           {showParams && (
-            <div className="transaction__overview_params">
+            <div className="transactionOverviewParams">
               {TransactionParams.map(item => (
                 <TransactionInfoItemPanel key={item.title}>
-                  <div className="transaction__info_title">
+                  <div className="transactionInfoTitle">
                     <span>{item.title}</span>
                     {item.tooltip && <HelpTip title={item.tooltip} />}
                   </div>
-                  <div className="transaction__info_value">{item.content}</div>
+                  <div className="transactionInfoValue">{item.content}</div>
                 </TransactionInfoItemPanel>
               ))}
             </div>
@@ -393,7 +393,7 @@ export default ({ transaction }: { transaction: State.Transaction }) => {
   /// [0, 11] block doesn't show block reward and only cellbase show block reward
   return (
     <>
-      <div className="transaction__inputs">
+      <div className="transactionInputs">
         {inputs && (
           <TransactionCellList
             inputs={inputs}
@@ -405,7 +405,7 @@ export default ({ transaction }: { transaction: State.Transaction }) => {
           />
         )}
       </div>
-      <div className="transaction__outputs">
+      <div className="transactionOutputs">
         {displayOutputs && (
           <TransactionCellList
             outputs={displayOutputs}

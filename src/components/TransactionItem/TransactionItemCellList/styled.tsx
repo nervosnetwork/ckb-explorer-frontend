@@ -6,7 +6,7 @@ export default styled.div`
   align-items: space-between;
   width: 100%;
 
-  .transaction_item__view_all {
+  .transactionItemViewAll {
     font-size: 16px;
     color: ${props => props.theme.primary};
     margin-top: 20px;

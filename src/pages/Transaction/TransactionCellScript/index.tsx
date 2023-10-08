@@ -285,23 +285,23 @@ export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
           {i18n.t('transaction.capacity_usage')}
           <HelpTip title={i18n.t('glossary.capacity_usage')} placement="bottom" containerRef={ref} />
         </TransactionDetailCapacityUsage>
-        <div className="transaction__detail__modal__close">
+        <div className="transactionDetailModalClose">
           <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
         </div>
       </TransactionCellDetailPanel>
 
-      <div className="transaction__detail__separate" />
+      <div className="transactionDetailSeparate" />
 
       <TransactionDetailPanel>
         {content && scriptFetched ? (
-          <div className="transaction__detail_content">
+          <div className="transactionDetailContent">
             <ScriptContentJson content={content} state={state} />
           </div>
         ) : (
-          <div className="transaction__detail_loading">{!scriptFetched ? <SmallLoading /> : null}</div>
+          <div className="transactionDetailLoading">{!scriptFetched ? <SmallLoading /> : null}</div>
         )}
         {!content && scriptFetched ? null : (
-          <div className="transaction__detail_copy">
+          <div className="transactionDetailCopy">
             <TransactionDetailCopyButton onClick={onClickCopy}>
               <div>{i18n.t('common.copy')}</div>
               <CopyIcon />

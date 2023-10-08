@@ -9,7 +9,7 @@ export const SearchPanel = styled.div`
     margin-bottom: 150px;
   }
 
-  .search__fail__bar {
+  .searchFailBar {
     width: 600px;
     margin: 0 auto;
 
@@ -49,7 +49,7 @@ export const SearchContent = styled.div`
     font-size: 11px;
   }
 
-  .search__fail__items {
+  .searchFailItems {
     font-weight: bold;
     font-size: 16px;
 

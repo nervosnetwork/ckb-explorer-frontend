@@ -110,25 +110,21 @@ const nervosDaoItemContents = (nervosDao: State.NervosDao): NervosDaoItemContent
 
 const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; firstLine?: boolean }) => (
   <DaoOverviewLeftItemPanel hasChange={!!item.change} symbol={item.changeSymbol} hasTooltip={!!item.titleTooltip}>
-    <div className="dao__overview__item__container">
-      <div className="dao__overview__item_top">
-        <span className="dao__overview__item_title">{item.title}</span>
+    <div className="daoOverviewItemContainer">
+      <div className="daoOverviewItemTop">
+        <span className="daoOverviewItemTitle">{item.title}</span>
         {item.titleTooltip && <HelpTip title={item.titleTooltip} />}
         {item.change && (
           <>
-            <img
-              className="dao__overview__item_change_icon"
-              src={daoIcon(item.changeSymbol)}
-              alt="nervos dao change icon"
-            />
+            <img className="daoOverviewItemChangeIcon" src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
             <Tooltip placement="top" title={item.tooltip}>
-              <span className="dao__overview__item_change">{item.change}</span>
+              <span className="daoOverviewItemChange">{item.change}</span>
             </Tooltip>
           </>
         )}
       </div>
-      <div className="dao__overview__item_content">{item.content}</div>
-      {firstLine && <span className="dao__overview__bottom__line" />}
+      <div className="daoOverviewItemContent">{item.content}</div>
+      {firstLine && <span className="daoOverviewBottomLine" />}
     </div>
   </DaoOverviewLeftItemPanel>
 )
@@ -143,19 +139,19 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: State.NervosDao }> = ({ nervosD
       <DaoOverviewLeftPanel>
         <div>
           <NervosDaoLeftItem item={leftItems[0]} />
-          <span className="dao__overview__left_column_separate" />
+          <span className="daoOverviewLeftColumnSeparate" />
           <NervosDaoLeftItem item={leftItems[1]} />
         </div>
-        <span className="dao__overview__middle__separate" />
+        <span className="daoOverviewMiddleSeparate" />
         <div>
           <NervosDaoLeftItem item={leftItems[3]} />
-          <span className="dao__overview__left_column_separate" />
+          <span className="daoOverviewLeftColumnSeparate" />
           <NervosDaoLeftItem item={leftItems[4]} />
         </div>
-        <span className="dao__overview__middle__separate" />
+        <span className="daoOverviewMiddleSeparate" />
         <div>
           <NervosDaoLeftItem item={leftItems[2]} />
-          <span className="dao__overview__left_column_separate" />
+          <span className="daoOverviewLeftColumnSeparate" />
           <NervosDaoLeftItem item={leftItems[5]} />
         </div>
       </DaoOverviewLeftPanel>
@@ -168,13 +164,13 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: State.NervosDao }> = ({ nervosD
           <NervosDaoLeftItem item={item} key={item.title} firstLine={index === 0} />
         ))}
       </div>
-      <span className="dao__overview__middle__separate" />
+      <span className="daoOverviewMiddleSeparate" />
       <div>
         {leftItems.slice(2, 4).map((item, index) => (
           <NervosDaoLeftItem item={item} key={item.title} firstLine={index === 0} />
         ))}
       </div>
-      <span className="dao__overview__middle__separate" />
+      <span className="daoOverviewMiddleSeparate" />
       <div>
         {leftItems.slice(4).map((item, index) => (
           <NervosDaoLeftItem item={item} key={item.title} firstLine={index === 0} />
@@ -273,7 +269,7 @@ const NervosDaoRightCapacity = ({ reward }: { reward: string }) => {
 const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
   <NervosDaoPieItemPanel>
     <div
-      className="nervos__dao__overview_pie_icon"
+      className="nervosDaoOverviewPieIcon"
       style={{
         backgroundColor: item.color,
       }}
@@ -313,10 +309,10 @@ export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   return (
     <DaoOverviewPanel>
       <NervosDaoOverviewLeftComp nervosDao={nervosDao} />
-      <span className="dao__overview__separate" />
+      <span className="daoOverviewSeparate" />
       <DaoOverviewRightPanel>
         <DaoOverviewPieChartPanel>
-          <div className="nervos__dao__overview_pie_title">
+          <div className="nervosDaoOverviewPieTitle">
             <span>{i18n.t('nervos_dao.secondary_issuance')}</span>
             <HelpTip title={i18n.t('glossary.secondary_issuance')} />
           </div>

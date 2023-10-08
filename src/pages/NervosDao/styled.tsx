@@ -11,28 +11,6 @@ export const DaoContentPanel = styled.div`
     margin: 0;
     padding: 20px;
   }
-
-  .nervos_dao_title {
-    width: 100%;
-    border-radius: 6px;
-    box-shadow: 2px 2px 6px 0 #dfdfdf;
-    background-color: #fff;
-    height: 80px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 40px;
-    font-size: 30px;
-    font-weight: 500;
-    color: #000;
-
-    @media (max-width: 750px) {
-      height: 50px;
-      box-shadow: 1px 1px 3px 0 #dfdfdf;
-      font-size: 15px;
-      padding-left: 20px;
-    }
-  }
 `
 
 export const DaoTabBarPanel = styled.div`
@@ -65,7 +43,7 @@ export const DaoTabBarPanel = styled.div`
     }
   }
 
-  .nervos_dao_tab_bar {
+  .nervosDaoTabBar {
     display: flex;
     height: 30px;
     cursor: pointer;
@@ -94,7 +72,7 @@ export const DaoTabBarPanel = styled.div`
       }
     }
 
-    .tab_bar_normal {
+    .tabBarNormal {
       width: 140px;
       text-align: center;
       color: #000;
@@ -106,7 +84,7 @@ export const DaoTabBarPanel = styled.div`
       }
     }
 
-    .tab_bar_selected {
+    .tabBarSelected {
       width: 140px;
       text-align: center;
       font-size: 18px;

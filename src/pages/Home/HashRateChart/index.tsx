@@ -114,7 +114,7 @@ export default memo(() => {
         {query.isLoading ? (
           <SmallLoading isWhite />
         ) : (
-          <img className="chart__no__data" src={ChartNoDataImage} alt="chart no data" />
+          <img className="chartNoData" src={ChartNoDataImage} alt="chart no data" />
         )}
       </ChartLoadingPanel>
     )

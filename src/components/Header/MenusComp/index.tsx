@@ -74,17 +74,11 @@ export default memo(() =>
         .filter(menu => menu.name !== undefined)
         .map(menu =>
           menu.type === LinkType.Inner ? (
-            <Link className="header__menus__item" to={menu.url} key={menu.name}>
+            <Link className="headerMenusItem" to={menu.url} key={menu.name}>
               {menu.name}
             </Link>
           ) : (
-            <a
-              className="header__menus__item"
-              href={menu.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              key={menu.name}
-            >
+            <a className="headerMenusItem" href={menu.url} target="_blank" rel="noopener noreferrer" key={menu.name}>
               {menu.name}
             </a>
           ),

@@ -5,9 +5,8 @@ module.exports = {
   extends: ['stylelint-config-standard'],
   rules: {
     'no-empty-source': null,
-    // Due to the large number of non-standard names previously used, it is not possible to quickly correct all names,
-    // so these rules have been temporarily disabled.
-    'selector-class-pattern': null,
+    // camelcase
+    'selector-class-pattern': "^[a-z][a-zA-Z0-9]+$",
     'selector-id-pattern': null,
     'custom-property-pattern': null,
     // This rule provides little benefit relative to the cost of implementing it, so it has been disabled.

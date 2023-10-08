@@ -12,7 +12,7 @@ export default ({
   rear?: React.ReactNode
 }) => (
   <TitleCardPanel isSingle={isSingle} className={className} hasRear={!!rear}>
-    <div className="title__card__content">{title}</div>
-    {rear ? <div className="title__card__rear">{rear}</div> : null}
+    <div className="titleCardContent">{title}</div>
+    {rear ? <div className="titleCardRear">{rear}</div> : null}
   </TitleCardPanel>
 )

@@ -85,8 +85,8 @@ const WithdrawPopoverItem = ({
   content: ReactNode | string
 }) => (
   <WithdrawItemPanel width={width}>
-    <div className="withdraw__info_title">{title}</div>
-    <div className="withdraw__info_content">{content}</div>
+    <div className="withdrawInfoTitle">{title}</div>
+    <div className="withdrawInfoContent">{content}</div>
   </WithdrawItemPanel>
 )
 
@@ -211,7 +211,7 @@ const TransactionCellUDT = ({ cell }: { cell: State.Cell$UDT }) => {
           fontSize: '14px',
         }}
       >
-        <img src={UDTTokenIcon} className="transaction__cell__udt__icon" alt="udt token" />
+        <img src={UDTTokenIcon} className="transactionCellUdtIcon" alt="udt token" />
       </Tooltip>
     </TransactionCellUDTPanel>
   )
@@ -227,7 +227,7 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: State.Cell; cellTyp
   }
 
   return (
-    <div className="transaction__cell__without__icon">
+    <div className="transactionCellWithoutIcon">
       <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
     </div>
   )
@@ -248,7 +248,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
 
   return (
     <TransactionCellPanel highLight={highLight}>
-      <div className="transaction__cell_address">
+      <div className="transactionCellAddress">
         {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
         <AddressTextWithAlias address={addressText} to={highLight ? `/address/${cell.addressHash}` : undefined} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}

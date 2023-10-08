@@ -29,14 +29,14 @@ export const ItemDetailPanel = styled.div`
   border-bottom: solid #f0f0f0;
   border-bottom-width: ${({ hideLine }: { hideLine: boolean }) => (hideLine ? '0' : '1px')};
 
-  .item__detail__title {
+  .itemDetailTitle {
     color: #666;
     width: 100%;
     margin-left: 0;
     line-height: 1;
   }
 
-  .item__detail__value {
+  .itemDetailValue {
     display: flex;
     width: 100%;
     margin-left: 0;
@@ -54,7 +54,7 @@ export const ItemDetailPanel = styled.div`
     }
   }
 
-  .block_pointer {
+  .blockPointer {
     cursor: pointer;
   }
 `

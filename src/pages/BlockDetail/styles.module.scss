@@ -76,7 +76,7 @@
     align-items: flex-start;
     height: 110px;
 
-    :global(.title__card__rear > div) {
+    :global(.titleCardRear > div) {
       // hack default style of TitleCard
       padding: 0 !important;
       justify-content: space-between !important;

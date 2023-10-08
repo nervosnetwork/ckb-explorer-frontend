@@ -38,28 +38,28 @@ const _BlockCardItem: FC<{ block: State.Block; isDelayBlock?: boolean }> = ({ bl
 
   return (
     <BlockCardPanel>
-      <div className="block__card__height">
+      <div className="blockCardHeight">
         <div>
           <span>#</span>
           <HighLightLink value={localeNumberString(block.number)} to={`/block/${block.number}`} />
         </div>
-        <span className="block__card__timestamp">{parsedBlockCreateAt}</span>
+        <span className="blockCardTimestamp">{parsedBlockCreateAt}</span>
       </div>
 
-      <div className="block__card__miner">
+      <div className="blockCardMiner">
         <div>
-          <span className="block__card__miner__hash">{i18n.t('home.miner')}</span>
+          <span className="blockCardMinerHash">{i18n.t('home.miner')}</span>
           <TableMinerContentItem content={deprecatedAddrToNewAddr(block.minerHash)} fontSize="14px" />
         </div>
-        <div className="block__card__reward">
+        <div className="blockCardReward">
           <span>{`${i18n.t('home.reward')}`}</span>
           {blockReward}
         </div>
       </div>
 
-      <div className="block__card__transaction">
-        <span className="block__card__transaction__count">{`${block.transactionsCount} TXs`}</span>
-        <span className="block__card__live__cells">
+      <div className="blockCardTransaction">
+        <span className="blockCardTransactionCount">{`${block.transactionsCount} TXs`}</span>
+        <span className="blockCardLiveCells">
           {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${i18n.t('home.cells')}`}
         </span>
       </div>
@@ -85,7 +85,7 @@ const _TransactionCardItem: FC<{
 
   return (
     <TransactionCardPanel>
-      <div className="transaction__card__hash">
+      <div className="transactionCardHash">
         <AddressText
           disableTooltip
           linkProps={{
@@ -95,25 +95,25 @@ const _TransactionCardItem: FC<{
         >
           {transaction.transactionHash}
         </AddressText>
-        <span className="transaction__card__confirmation">{`${confirmation} ${confirmationUnit}`}</span>
+        <span className="transactionCardConfirmation">{`${confirmation} ${confirmationUnit}`}</span>
       </div>
 
-      <div className="transaction__card__block">
+      <div className="transactionCardBlock">
         <div>
-          <span className="transaction__card__block__height">{i18n.t('block.block')}</span>
-          <span className="transaction__card__block__height__prefix">#</span>
+          <span className="transactionCardBlockHeight">{i18n.t('block.block')}</span>
+          <span className="transactionCardBlockHeightPrefix">#</span>
           <HighLightLink value={localeNumberString(transaction.blockNumber)} to={`/block/${transaction.blockNumber}`} />
         </div>
-        <div className="transaction__card__timestamp">{parsedBlockCreateAt}</div>
+        <div className="transactionCardTimestamp">{parsedBlockCreateAt}</div>
       </div>
 
-      <div className="transaction__card__capacity">
+      <div className="transactionCardCapacity">
         <DecimalCapacity
           value={localeNumberString(shannonToCkbDecimal(transaction.capacityInvolved, 2))}
           fontSize="9px"
           hideZero
         />
-        <span className="transaction__card__live__cells">
+        <span className="transactionCardLiveCells">
           {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${i18n.t('home.cells')}`}
         </span>
       </div>

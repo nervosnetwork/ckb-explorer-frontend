@@ -13,7 +13,7 @@ export const CellbasePanel = styled.div`
     height: 16px;
   }
 
-  .cellbase__content {
+  .cellbaseContent {
     color: #000;
   }
 
@@ -26,7 +26,7 @@ export const CellbasePanel = styled.div`
     color: ${props => props.theme.primary};
   }
 
-  .cellbase__help {
+  .cellbaseHelp {
     margin-left: 10px;
     transform: translateY(2px);
 
@@ -35,7 +35,7 @@ export const CellbasePanel = styled.div`
     }
   }
 
-  .cellbase__help__icon {
+  .cellbaseHelpIcon {
     width: 16px;
     height: 16px;
     margin: 2px 8px 0;

@@ -15,7 +15,7 @@ export const BlockCardPanel = styled.div`
     padding: 10px;
   }
 
-  .block__card__height {
+  .blockCardHeight {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -45,7 +45,7 @@ export const BlockCardPanel = styled.div`
       }
     }
 
-    .block__card__timestamp {
+    .blockCardTimestamp {
       font-size: 12px;
       color: #888;
       margin-top: 9px;
@@ -62,7 +62,7 @@ export const BlockCardPanel = styled.div`
     }
   }
 
-  .block__card__miner {
+  .blockCardMiner {
     min-width: 0;
     width: 100%;
     display: flex;
@@ -83,7 +83,7 @@ export const BlockCardPanel = styled.div`
         align-items: center;
       }
 
-      .block__card__miner__hash {
+      .blockCardMinerHash {
         font-size: 14px;
         color: #000;
         margin-right: 10px;
@@ -95,7 +95,7 @@ export const BlockCardPanel = styled.div`
       }
     }
 
-    .block__card__reward {
+    .blockCardReward {
       font-size: 14px;
       color: #888;
       font-weight: 500;
@@ -115,7 +115,7 @@ export const BlockCardPanel = styled.div`
     }
   }
 
-  .block__card__transaction {
+  .blockCardTransaction {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -127,13 +127,13 @@ export const BlockCardPanel = styled.div`
       align-items: center;
     }
 
-    .block__card__transaction__count {
+    .blockCardTransactionCount {
       font-size: 13px;
       color: #000;
       font-weight: 500;
     }
 
-    .block__card__live__cells {
+    .blockCardLiveCells {
       display: flex;
       font-size: 12px;
       margin-top: 9px;
@@ -172,7 +172,7 @@ export const TransactionCardPanel = styled.div`
     padding: 10px;
   }
 
-  .transaction__card__hash {
+  .transactionCardHash {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -186,7 +186,7 @@ export const TransactionCardPanel = styled.div`
       font-size: 13px;
     }
 
-    .transaction__card__confirmation {
+    .transactionCardConfirmation {
       font-size: 12px;
       color: #888;
       margin-top: 10px;
@@ -201,7 +201,7 @@ export const TransactionCardPanel = styled.div`
     }
   }
 
-  .transaction__card__block {
+  .transactionCardBlock {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -221,13 +221,13 @@ export const TransactionCardPanel = styled.div`
         font-size: 13px;
       }
 
-      .transaction__card__block__height {
+      .transactionCardBlockHeight {
         color: #000;
         margin-right: 5px;
         white-space: nowrap;
       }
 
-      .transaction__card__block__height__prefix {
+      .transactionCardBlockHeightPrefix {
         color: #000;
         margin-right: 3px;
       }
@@ -238,7 +238,7 @@ export const TransactionCardPanel = styled.div`
       }
     }
 
-    .transaction__card__timestamp {
+    .transactionCardTimestamp {
       font-size: 12px;
       color: #888;
       margin-top: 10px;
@@ -252,7 +252,7 @@ export const TransactionCardPanel = styled.div`
     }
   }
 
-  .transaction__card__capacity {
+  .transactionCardCapacity {
     display: flex;
     flex-direction: column;
     align-items: left;
@@ -267,7 +267,7 @@ export const TransactionCardPanel = styled.div`
       font-size: 13px;
     }
 
-    .transaction__card__live__cells {
+    .transactionCardLiveCells {
       display: flex;
       justify-content: flex-end;
       font-size: 12px;

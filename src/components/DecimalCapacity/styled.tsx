@@ -5,11 +5,7 @@ export const DecimalPanel = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
 
-  .decimal__zeros {
-    margin-bottom: 1px;
-  }
-
-  .decimal__unit {
+  .decimalUnit {
     margin-left: 5px;
 
     @media (max-width: 750px) {

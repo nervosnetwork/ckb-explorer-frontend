@@ -98,10 +98,12 @@
       color: #333;
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(div.ant-tabs-nav-wrap) {
       justify-content: center;
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(div.ant-tabs-tab) {
       width: 120px;
       margin-left: 90px;
@@ -118,10 +120,12 @@
       }
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(div.ant-tabs-ink-bar) {
       background: var(--primary-color);
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(.ant-tabs-tab .ant-tabs-tab-btn) {
       font-weight: 400;
       font-size: 14px;
@@ -129,6 +133,7 @@
       color: #333;
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
       font-weight: 500;
       font-size: 14px;
@@ -172,6 +177,7 @@
       width: 40%;
       max-width: 256px;
 
+      /* stylelint-disable-next-line selector-class-pattern */
       :global(.ant-picker:hover) {
         border-radius: 4px;
 
@@ -180,6 +186,7 @@
         }
       }
 
+      /* stylelint-disable-next-line selector-class-pattern */
       :global(.ant-input-number-affix-wrapper) {
         &:hover {
           border-color: var(--primary-color) !important;
@@ -188,6 +195,7 @@
         border-radius: 4px;
       }
 
+      /* stylelint-disable-next-line selector-class-pattern */
       :global(.ant-input-number-handler-wrap) {
         display: none !important;
       }
@@ -214,6 +222,7 @@
       }
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(.ant-picker-input) {
       flex-direction: row-reverse;
 
@@ -331,16 +340,19 @@
 }
 
 .calendar {
+  /* stylelint-disable-next-line selector-class-pattern */
   :global(.ant-picker-cell-selected .ant-picker-cell-inner) {
     background-color: var(--primary-color) !important;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   :global(.ant-picker-cell-today .ant-picker-cell-inner) {
     &::before {
       border: 1px solid var(--primary-color);
     }
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   :global(.ant-picker-today-btn) {
     color: var(--primary-color);
 
@@ -354,6 +366,7 @@
   }
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 :global(.ant-picker-focused) {
   border-color: var(--primary-color) !important;
 }

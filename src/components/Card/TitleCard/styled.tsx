@@ -22,7 +22,7 @@ export const TitleCardPanel = styled.div`
     padding-left: ${(props: TitleCardPanelProps) => (props.isSingle ? '20px' : '0')};
   }
 
-  .title__card__content {
+  .titleCardContent {
     color: #000;
     font-size: 20px;
     font-weight: 600;
@@ -34,7 +34,7 @@ export const TitleCardPanel = styled.div`
     }
   }
 
-  .title__card__rear {
+  .titleCardRear {
     display: flex;
     flex-direction: row;
     align-items: center;

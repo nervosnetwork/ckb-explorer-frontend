@@ -127,8 +127,8 @@ export const SimpleUDT = () => {
         </SimpleUDTHashCard>
 
         <UDTTransactionTitlePanel>
-          <div className="udt__transaction__container">
-            <div className="udt__transaction__title">
+          <div className="udtTransactionContainer">
+            <div className="udtTransactionTitle">
               {`${t('transaction.transactions')} (${localeNumberString(total)})`}
             </div>
             <div className={styles.searchAndfilter}>
