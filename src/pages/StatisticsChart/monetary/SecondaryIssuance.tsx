@@ -4,7 +4,7 @@ import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticSecondaryIssuance } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 70)
 
@@ -168,7 +168,7 @@ export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: 
       title={t('nervos_dao.secondary_issuance')}
       description={t('statistic.secondary_issuance_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticSecondaryIssuance}
+      fetchData={explorerService.api.fetchStatisticSecondaryIssuance}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.SecondaryIssuance}

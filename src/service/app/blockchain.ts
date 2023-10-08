@@ -1,4 +1,4 @@
-import { fetchBlockchainInfo } from '../http/fetcher'
+import { explorerService, Response } from '../../services/ExplorerService'
 import { setChainAlerts } from '../../components/Sheet'
 
 const alertNotEmpty = (wrapper: Response.Wrapper<State.BlockchainInfo> | null): boolean =>
@@ -12,7 +12,7 @@ const alertNotEmpty = (wrapper: Response.Wrapper<State.BlockchainInfo> | null): 
 const ALERT_TO_FILTER_OUT = 'CKB v0.105.* have bugs. Please upgrade to the latest version.'
 
 export const handleBlockchainAlert = () => {
-  fetchBlockchainInfo().then((wrapper: Response.Wrapper<State.BlockchainInfo> | null) => {
+  explorerService.api.fetchBlockchainInfo().then((wrapper: Response.Wrapper<State.BlockchainInfo> | null) => {
     if (alertNotEmpty(wrapper)) {
       setChainAlerts(
         wrapper!.attributes.blockchainInfo.alerts

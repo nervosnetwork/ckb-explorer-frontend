@@ -9,7 +9,7 @@ import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
 import { useIsMobile } from '../../../utils/hook'
 import { ChainName, MAINNET_URL, TESTNET_URL } from '../../../constants/common'
-import { fetchNodeVersion } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { AppCachedKeys } from '../../../constants/cache'
 import { fetchCachedData, storeCachedData } from '../../../utils/cache'
 
@@ -122,7 +122,7 @@ export default memo(() => {
   const query = useQuery(
     ['node_version'],
     async () => {
-      const wrapper = await fetchNodeVersion()
+      const wrapper = await explorerService.api.fetchNodeVersion()
       const nodeVersion = wrapper.attributes.version
       storeCachedData(AppCachedKeys.Version, `${nodeVersion}&${new Date().getTime()}`)
       return nodeVersion

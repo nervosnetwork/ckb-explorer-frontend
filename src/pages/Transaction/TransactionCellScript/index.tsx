@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useEffect, useState, ReactNode, useRef } from 'react'
 import BigNumber from 'bignumber.js'
-import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
+import { explorerService, Response } from '../../../services/ExplorerService'
 import { CellState } from '../../../constants/common'
 import { hexToUtf8 } from '../../../utils/string'
 import {
@@ -64,7 +64,10 @@ const handleFetchCellInfo = async (
 
   const fetchLock = async () => {
     if (cell.id) {
-      const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('lock_scripts', `${cell.id}`)
+      const wrapper: Response.Wrapper<State.Script> | null = await explorerService.api.fetchScript(
+        'lock_scripts',
+        `${cell.id}`,
+      )
       return wrapper ? wrapper.attributes : initScriptContent.lock
     }
     return initScriptContent.lock
@@ -72,7 +75,10 @@ const handleFetchCellInfo = async (
 
   const fetchType = async () => {
     if (cell.id) {
-      const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('type_scripts', `${cell.id}`)
+      const wrapper: Response.Wrapper<State.Script> | null = await explorerService.api.fetchScript(
+        'type_scripts',
+        `${cell.id}`,
+      )
       return wrapper ? wrapper.attributes : initScriptContent.type
     }
     return initScriptContent.type
@@ -80,7 +86,8 @@ const handleFetchCellInfo = async (
 
   const fetchData = async () => {
     if (cell.id) {
-      return fetchCellData(`${cell.id}`)
+      return explorerService.api
+        .fetchCellData(`${cell.id}`)
         .then((wrapper: Response.Wrapper<State.Data> | null) => {
           const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
           if (wrapper && cell.isGenesisOutput) {

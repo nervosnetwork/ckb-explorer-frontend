@@ -3,7 +3,7 @@ import { useHistory } from 'react-router'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import { SearchImage, SearchInputPanel, SearchPanel, SearchButton, SearchContainer } from './styled'
-import { fetchSearchResult } from '../../service/http/fetcher'
+import { explorerService, Response } from '../../services/ExplorerService'
 import SearchLogo from '../../assets/search_black.png'
 import ClearLogo from '../../assets/clear.png'
 import { addPrefixForHash, containSpecialChar } from '../../utils/string'
@@ -57,7 +57,8 @@ const handleSearchResult = (
   }
 
   setSearchLoading(inputElement)
-  fetchSearchResult(addPrefixForHash(query))
+  explorerService.api
+    .fetchSearchResult(addPrefixForHash(query))
     .then((response: any) => {
       const { data } = response
       if (!response || !data.type) {

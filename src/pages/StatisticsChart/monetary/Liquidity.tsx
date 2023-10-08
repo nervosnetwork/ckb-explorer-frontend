@@ -5,7 +5,7 @@ import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../commo
 import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticLiquidity } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const getOption = (
   statisticLiquidity: State.StatisticLiquidity[],
@@ -183,7 +183,7 @@ export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
     <SmartChartPage
       title={t('statistic.liquidity')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticLiquidity}
+      fetchData={explorerService.api.fetchStatisticLiquidity}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.Liquidity}

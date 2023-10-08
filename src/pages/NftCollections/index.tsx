@@ -5,7 +5,7 @@ import Content from '../../components/Content'
 import { NFTCollection, ListOnDesktop, ListOnMobile, isTxFilterType } from './List'
 import Pagination from '../../components/Pagination'
 import { getPrimaryColor } from '../../constants/common'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import i18n from '../../utils/i18n'
 import { udtSubmitEmail } from '../../utils/util'
 import { useSearchParams, useSortParam } from '../../utils/hook'
@@ -38,7 +38,7 @@ const NftCollections = () => {
   const isValidFilter = isTxFilterType(type) && type !== 'all'
 
   const { isLoading, data } = useQuery<AxiosResponse<Res>>(['nft-collections', page, sort, type], () =>
-    v2AxiosIns('nft/collections', {
+    explorerService.api.requesterV2('nft/collections', {
       params: {
         page,
         sort,

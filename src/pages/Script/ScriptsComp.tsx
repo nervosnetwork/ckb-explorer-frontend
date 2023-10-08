@@ -6,7 +6,7 @@ import camelcase from 'camelcase'
 import { useParams } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService, Response } from '../../services/ExplorerService'
 import i18n from '../../utils/i18n'
 import { TransactionCellDetailModal, TransactionCellInfoPanel } from '../Transaction/TransactionCell/styled'
 import SimpleButton from '../../components/SimpleButton'
@@ -28,7 +28,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
   const transactionsQuery = useQuery(['scripts_ckb_transactions', codeHash, hashType, page, size], async () => {
-    const { data, meta } = await v2AxiosIns
+    const { data, meta } = await explorerService.api.requesterV2
       .get(`scripts/ckb_transactions`, {
         params: {
           code_hash: codeHash,
@@ -124,7 +124,7 @@ export const ScriptCells = ({
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
   const cellsQuery = useQuery([`scripts_${cellType}`, codeHash, hashType, page, size], async () => {
-    const { data, meta } = await v2AxiosIns
+    const { data, meta } = await explorerService.api.requesterV2
       .get(`scripts/${cellType}`, {
         params: {
           code_hash: codeHash,

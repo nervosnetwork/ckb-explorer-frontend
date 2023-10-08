@@ -18,7 +18,7 @@ import { shannonToCkb, toCamelcase } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ScriptInfo, ScriptTabType } from './types'
 import styles from './styles.module.scss'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService, Response } from '../../services/ExplorerService'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -110,7 +110,7 @@ export const ScriptPage = () => {
   const [pageOfReferringCells, setPageOfReferringCells] = useState<number>(1)
 
   const { status, data: resp } = useQuery<AxiosResponse>(['scripts_general_info', codeHash, hashType], () =>
-    v2AxiosIns.get(`scripts/general_info`, {
+    explorerService.api.requesterV2.get(`scripts/general_info`, {
       params: {
         code_hash: codeHash,
         hash_type: hashType,

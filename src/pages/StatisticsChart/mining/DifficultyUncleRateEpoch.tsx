@@ -6,7 +6,7 @@ import { handleAxis } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticDifficultyUncleRateEpoch } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
 
@@ -199,7 +199,7 @@ export const DifficultyUncleRateEpochChart: FC<{ isThumbnail?: boolean }> = ({ i
     <SmartChartPage
       title={`${t('block.epoch_time')} & ${t('block.epoch_length')}`}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticDifficultyUncleRateEpoch}
+      fetchData={explorerService.api.fetchStatisticDifficultyUncleRateEpoch}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.DifficultyUncleRateEpoch}

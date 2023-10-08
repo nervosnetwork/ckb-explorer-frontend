@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import CopyIcon from '../../../assets/copy.png'
 import i18n from '../../../utils/i18n'
-import { v2AxiosIns } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { copyElementValue } from '../../../utils/util'
 import SmallLoading from '../../Loading/SmallLoading'
 import { useIsMobile, useNewAddr, useDeprecatedAddr } from '../../../utils/hook'
@@ -57,7 +57,7 @@ export default ({
   const counterpartAddr = newAddr === hash ? deprecatedAddr : newAddr
 
   const handleExportTxClick = async () => {
-    const res = await v2AxiosIns(`transactions/${hash}/raw`).catch(error => {
+    const res = await explorerService.api.requesterV2(`transactions/${hash}/raw`).catch(error => {
       setToast({ message: error.message })
     })
     if (!res) return

@@ -34,9 +34,8 @@ import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
 import HashRateChart from './HashRateChart'
 import styles from './index.module.scss'
-import { fetchLatestBlocks, fetchLatestTransactions } from '../../service/http/fetcher'
 import { RouteState } from '../../routes/state'
-import { useLatestBlockNumber, useStatistics } from '../../services/ExplorerService'
+import { explorerService, useLatestBlockNumber, useStatistics } from '../../services/ExplorerService'
 import { useShowSearchBarInHeader } from '../../components/Header'
 
 interface BlockchainData {
@@ -194,7 +193,7 @@ export default () => {
     'latest_blocks',
     async () => {
       // Using the size of list pages to request will be more friendly to the data reuse of the list pages.
-      const { data, meta } = await fetchLatestBlocks(ListPageParams.PageSize)
+      const { data, meta } = await explorerService.api.fetchLatestBlocks(ListPageParams.PageSize)
       const blocks = data.map(wrapper => wrapper.attributes)
       return {
         blocks,
@@ -209,7 +208,7 @@ export default () => {
   const transactionsQuery = useQuery(
     ['latest_transactions'],
     async () => {
-      const { data, meta } = await fetchLatestTransactions(ListPageParams.PageSize)
+      const { data, meta } = await explorerService.api.fetchLatestTransactions(ListPageParams.PageSize)
       const transactions = data.map(wrapper => wrapper.attributes)
       return {
         transactions,

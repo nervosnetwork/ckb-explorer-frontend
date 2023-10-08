@@ -24,6 +24,7 @@ import { useChartQueryWithCache, useIsMobile, usePrevious, useWindowResize } fro
 import { isDeepEqual } from '../../../utils/util'
 import { HelpTip } from '../../../components/HelpTip'
 import { ChartColor } from '../../../constants/common'
+import { Response } from '../../../services/ExplorerService'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 

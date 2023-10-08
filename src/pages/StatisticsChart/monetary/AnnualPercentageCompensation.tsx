@@ -3,7 +3,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticAnnualPercentageCompensation } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const getOption = (
   statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[],
@@ -93,7 +93,7 @@ const getOption = (
 const fetchStatisticAnnualPercentageCompensations = async () => {
   const {
     attributes: { nominalApc },
-  } = await fetchStatisticAnnualPercentageCompensation()
+  } = await explorerService.api.fetchStatisticAnnualPercentageCompensation()
   const statisticAnnualPercentageCompensations = nominalApc
     .filter((_apc, index) => index % 3 === 0 || index === nominalApc.length - 1)
     .map((apc, index) => ({

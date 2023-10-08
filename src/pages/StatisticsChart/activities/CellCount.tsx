@@ -5,7 +5,7 @@ import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticCellCount } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
 
@@ -165,7 +165,7 @@ export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
     <SmartChartPage
       title={t('statistic.cell_count')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticCellCount}
+      fetchData={explorerService.api.fetchStatisticCellCount}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.CellCount}

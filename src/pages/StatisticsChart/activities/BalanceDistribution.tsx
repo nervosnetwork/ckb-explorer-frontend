@@ -5,7 +5,7 @@ import { DATA_ZOOM_CONFIG, handleAxis, handleLogGroupAxis } from '../../../utils
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticBalanceDistribution } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 270 : 110)
 
@@ -147,7 +147,7 @@ const getOption = (
 }
 
 const fetchStatisticBalanceDistributions = async () => {
-  const wrapper = await fetchStatisticBalanceDistribution()
+  const wrapper = await explorerService.api.fetchStatisticBalanceDistribution()
   const balanceDistributionArray = wrapper.attributes.addressBalanceDistribution
   const balanceDistributions = balanceDistributionArray.map(distribution => {
     const [balance, addresses, sumAddresses] = distribution

@@ -15,7 +15,7 @@ import { ReactComponent as BlockIcon } from '../../assets/block_icon.svg'
 import { ReactComponent as ErrorIcon } from '../../assets/error_icon.svg'
 import { ReactComponent as SuccessIcon } from '../../assets/success_icon.svg'
 import { omit } from '../../utils/object'
-import { exportTransactions } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 
 const ExportTransactions = () => {
   const [t, { language }] = useTranslation()
@@ -116,12 +116,13 @@ const ExportTransactions = () => {
     }
     setHint({ type: 'success', msg: 'download_processed' })
     setIsDownloading(true)
-    exportTransactions({
-      type,
-      id,
-      date: tab === 'date' ? { start: startDate, end: endDate } : undefined,
-      block: tab === 'height' ? { from: fromHeight!, to: toHeight! } : undefined,
-    })
+    explorerService.api
+      .exportTransactions({
+        type,
+        id,
+        date: tab === 'date' ? { start: startDate, end: endDate } : undefined,
+        block: tab === 'height' ? { from: fromHeight!, to: toHeight! } : undefined,
+      })
       .then((resp: string | null) => {
         setIsDownloading(false)
         if (!resp) {

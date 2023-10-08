@@ -3,7 +3,7 @@ import { EChartOption } from 'echarts'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticMinerVersionDistribution } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const Colors = [
   '#069ECD',
@@ -100,7 +100,7 @@ const getOption = (
 }
 
 const fetchData = async () => {
-  const { data: list } = await fetchStatisticMinerVersionDistribution()
+  const { data: list } = await explorerService.api.fetchStatisticMinerVersionDistribution()
   const totalBlocks = list.reduce((acc, cur) => acc + cur.blocksCount, 0)
   return list.map(v => ({
     version: v.version,

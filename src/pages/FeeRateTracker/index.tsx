@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import { useQuery } from 'react-query'
-import { v2AxiosIns } from '../../service/http/fetcher'
 import styles from './styles.module.scss'
 import Content from '../../components/Content'
 import { toCamelcase } from '../../utils/util'
@@ -15,7 +14,7 @@ import Loading from '../../components/Loading'
 import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { getFeeRateSamples } from '../../utils/chart'
-import { useStatistics } from '../../services/ExplorerService'
+import { explorerService, useStatistics } from '../../services/ExplorerService'
 
 const FeeRateTracker = () => {
   const lastFetchedTime = useRef(Number.MAX_SAFE_INTEGER)
@@ -28,7 +27,7 @@ const FeeRateTracker = () => {
   const { data: transactionFeesStatistic } = useQuery<FeeRateTracker.TransactionFeesStatistic>(
     ['statistics-transaction_fees'],
     () =>
-      v2AxiosIns.get(`statistics/transaction_fees`).then(({ status, data }) => {
+      explorerService.api.requesterV2.get(`statistics/transaction_fees`).then(({ status, data }) => {
         if (status === 200 && data) {
           lastFetchedTime.current = Date.now()
           deltaSecond.current = 0

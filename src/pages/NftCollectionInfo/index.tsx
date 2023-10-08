@@ -11,7 +11,7 @@ import NftCollectionInventory from '../../components/NftCollectionInventory'
 import Filter from '../../components/Search/Filter'
 import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
 import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import i18n from '../../utils/i18n'
 import { useSearchParams, useIsMobile } from '../../utils/hook'
 import styles from './styles.module.scss'
@@ -116,7 +116,7 @@ const NftCollectionInfo = () => {
   const { isLoading: isTransferListLoading, data: transferListRes } = useQuery<AxiosResponse<TransferListRes>>(
     ['nft-collection-transfer-list', id, page, filter, type],
     () =>
-      v2AxiosIns(`/nft/transfers`, {
+      explorerService.api.requesterV2(`/nft/transfers`, {
         params: {
           page,
           collection_id: id,
@@ -132,7 +132,7 @@ const NftCollectionInfo = () => {
   const { isLoading: isHolderListLoading, data: rawHolderList } = useQuery<AxiosResponse<HolderListRes>>(
     ['nft-collection-holder-list', id, page, sort, filter],
     () =>
-      v2AxiosIns(`/nft/collections/${id}/holders`, {
+      explorerService.api.requesterV2(`/nft/collections/${id}/holders`, {
         params: {
           page,
           sort,
@@ -147,7 +147,7 @@ const NftCollectionInfo = () => {
   const { isLoading: isInventoryLoading, data: inventoryList } = useQuery<AxiosResponse<InventoryRes>>(
     ['nft-collection-inventory', id, page],
     () =>
-      v2AxiosIns(`/nft/collections/${id}/items`, {
+      explorerService.api.requesterV2(`/nft/collections/${id}/items`, {
         params: {
           page,
         },

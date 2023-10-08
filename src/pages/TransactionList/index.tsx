@@ -12,7 +12,7 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage, useSearchParams, useSortParam } from '../../utils/hook'
-import { fetchPendingTransactions, fetchPendingTransactionsCount, fetchTransactions } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { Tabs } from './Tabs'
 import styles from './index.module.scss'
 import { QueryResult } from '../../components/QueryResult'
@@ -241,7 +241,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
       const [, type] = queryKey
       switch (type) {
         case 'pending': {
-          const resp = await fetchPendingTransactions(currentPage, pageSize, sort)
+          const resp = await explorerService.api.fetchPendingTransactions(currentPage, pageSize, sort)
           return {
             transactions: resp.data,
             total: resp.meta?.total ?? 0,
@@ -249,7 +249,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
         }
         case 'confirmed':
         default: {
-          const resp = await fetchTransactions(currentPage, pageSize, sort)
+          const resp = await explorerService.api.fetchTransactions(currentPage, pageSize, sort)
           return {
             transactions: resp.data.map(wrapper => wrapper.attributes) ?? [],
             total: resp.meta?.total ?? 0,
@@ -309,7 +309,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
 export default () => {
   const { tab } = useSearchParams('tab')
 
-  const { data } = useQuery(['transactions-count'], fetchPendingTransactionsCount)
+  const { data } = useQuery(['transactions-count'], explorerService.api.fetchPendingTransactionsCount)
 
   return (
     <Content>

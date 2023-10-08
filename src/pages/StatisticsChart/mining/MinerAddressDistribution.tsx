@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import i18n, { currentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticMinerAddressDistribution } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { useAdaptMobileEllipsis, useAdaptPCEllipsis, useIsMobile } from '../../../utils/hook'
 
 const Colors = [
@@ -85,7 +85,7 @@ const getOption = (
 const fetchStatisticMinerAddresses = async () => {
   const {
     attributes: { minerAddressDistribution },
-  } = await fetchStatisticMinerAddressDistribution()
+  } = await explorerService.api.fetchStatisticMinerAddressDistribution()
   const blockSum = Object.values(minerAddressDistribution).reduce((sum, val) => sum + Number(val), 0)
   const statisticMinerAddresses: State.StatisticMinerAddress[] = Object.entries(minerAddressDistribution).map(
     ([key, val]) => ({

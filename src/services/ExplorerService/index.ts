@@ -1,6 +1,6 @@
 import { BehaviorSubject, Subscription, map, switchMap, timer } from 'rxjs'
-import { fetchStatistics, fetchTipBlockNumber } from '../../service/http/fetcher'
 import { BLOCK_POLLING_TIME } from '../../constants/common'
+import * as apiFetcher from './fetcher'
 
 const initStatistics: State.Statistics = {
   tipBlockNumber: '0',
@@ -19,6 +19,8 @@ const initStatistics: State.Statistics = {
 }
 
 class ExplorerService {
+  api = apiFetcher
+
   // Here, we can use an `Observable` with `shareReplay` to automatically start the subscription.
   // However, in order to get the value from the Observable, we must subscribe to it.
   // This process usually makes the code asynchronous, and the Observable is a type that may have a null value,
@@ -41,7 +43,7 @@ class ExplorerService {
     this.callbacksAtStop.add(
       timer(0, BLOCK_POLLING_TIME)
         .pipe(
-          switchMap(fetchStatistics),
+          switchMap(this.api.fetchStatistics),
           map(wrapper => wrapper.attributes),
         )
         .subscribe(this.latestStatistics$),
@@ -50,7 +52,7 @@ class ExplorerService {
     this.callbacksAtStop.add(
       timer(0, BLOCK_POLLING_TIME)
         .pipe(
-          switchMap(fetchTipBlockNumber),
+          switchMap(this.api.fetchTipBlockNumber),
           map(wrapper => Number(wrapper.attributes.tipBlockNumber)),
         )
         .subscribe(this.latestBlockNumber$),
@@ -65,3 +67,4 @@ class ExplorerService {
 export const explorerService = new ExplorerService()
 
 export * from './hooks'
+export * from './types'

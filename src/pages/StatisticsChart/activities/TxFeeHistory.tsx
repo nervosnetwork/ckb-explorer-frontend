@@ -7,7 +7,7 @@ import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticTxFeeHistory } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const getOption = (
   statisticTxFeeHistories: State.StatisticTransactionFee[],
@@ -107,7 +107,7 @@ export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boole
       title={t('statistic.tx_fee_history')}
       description={t('statistic.tx_fee_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticTxFeeHistory}
+      fetchData={explorerService.api.fetchStatisticTxFeeHistory}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.TransactionFee}

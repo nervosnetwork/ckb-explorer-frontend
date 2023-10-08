@@ -3,7 +3,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
-import { fetchStatisticUncleRate } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 
 const max = (statisticUncleRates: State.StatisticUncleRate[]) => {
@@ -117,7 +117,7 @@ export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
       title={t('block.uncle_rate')}
       description={t('statistic.uncle_rate_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticUncleRate}
+      fetchData={explorerService.api.fetchStatisticUncleRate}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.UncleRate}

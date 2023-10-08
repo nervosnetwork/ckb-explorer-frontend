@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { initAxiosInterceptors } from '../../service/http/interceptors'
 import { FLUSH_CHART_CACHE_POLLING_TIME } from '../../constants/common'
 import { AppCachedKeys } from '../../constants/cache'
 import { fetchCachedData } from '../../utils/cache'
@@ -18,7 +17,6 @@ export const useInitApp = () => {
 
   if (!init) {
     setInit(true)
-    initAxiosInterceptors()
     // TODO: This function may not belong here.
     initAppLanguage()
     flushCacheInfo()

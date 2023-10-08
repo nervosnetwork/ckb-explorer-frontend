@@ -5,7 +5,7 @@ import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { handleHashRate } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
-import { fetchStatisticHashRate } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
@@ -101,7 +101,7 @@ export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }
       title={t('block.hash_rate')}
       description={t('glossary.hash_rate')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticHashRate}
+      fetchData={explorerService.api.fetchStatisticHashRate}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.HashRate}

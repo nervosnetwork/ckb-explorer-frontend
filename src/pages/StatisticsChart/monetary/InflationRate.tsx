@@ -3,7 +3,7 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticInflationRate } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const getOption = (
   statisticInflationRates: State.StatisticInflationRate[],
@@ -142,7 +142,7 @@ const getOption = (
 const fetchStatisticInflationRates = async () => {
   const {
     attributes: { nominalApc, nominalInflationRate, realInflationRate },
-  } = await fetchStatisticInflationRate()
+  } = await explorerService.api.fetchStatisticInflationRate()
   const statisticInflationRates = []
   for (let i = 0; i < nominalApc.length; i++) {
     if (i % 6 === 0 || i === nominalApc.length - 1) {

@@ -4,7 +4,7 @@ import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { parseHourFromMinute } from '../../../utils/date'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
-import { fetchStatisticEpochTimeDistribution } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
@@ -94,7 +94,7 @@ const getOption = (
 const fetchStatisticEpochTimeDistributions = async () => {
   const {
     attributes: { epochTimeDistribution },
-  } = await fetchStatisticEpochTimeDistribution()
+  } = await explorerService.api.fetchStatisticEpochTimeDistribution()
   const statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[] = epochTimeDistribution.map(data => {
     const [time, epoch] = data
     return {

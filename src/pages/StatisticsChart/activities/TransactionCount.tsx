@@ -5,7 +5,7 @@ import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticTransactionCount } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const getOption = (
   statisticTransactionCounts: State.StatisticTransactionCount[],
@@ -100,7 +100,7 @@ export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: b
     <SmartChartPage
       title={t('statistic.transaction_count')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticTransactionCount}
+      fetchData={explorerService.api.fetchStatisticTransactionCount}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.TransactionCount}
