@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from 'styled-components'
-import 'antd/dist/antd.css'
 import Routers from './routes'
 import Toast from './components/Toast'
 import useInitApp from './contexts/providers/hook'

@@ -161,35 +161,36 @@
     .heightInputPanel {
       margin-left: 24px;
       margin-right: 24px;
+      display: flex;
+      flex-direction: column;
+      width: 40%;
+      max-width: 256px;
 
       @media screen and (width <= 750px) {
         margin-left: 16px;
         margin-right: 16px;
       }
 
-      display: flex;
-      flex-direction: column;
-      width: 40%;
-      max-width: 256px;
+      :global {
+        .ant-picker {
+          border-radius: 4px;
+          box-shadow: none;
 
-      :global(.ant-picker:hover) {
-        border-radius: 4px;
-
-        &:hover {
-          border-color: var(--primary-color) !important;
-        }
-      }
-
-      :global(.ant-input-number-affix-wrapper) {
-        &:hover {
-          border-color: var(--primary-color) !important;
+          &:hover,
+          &.ant-picker-focused {
+            border-color: var(--primary-color);
+          }
         }
 
-        border-radius: 4px;
-      }
+        .ant-input-number-affix-wrapper {
+          border-radius: 4px;
+          box-shadow: none;
 
-      :global(.ant-input-number-handler-wrap) {
-        display: none !important;
+          &:hover,
+          &.ant-input-number-affix-wrapper-focused {
+            border-color: var(--primary-color);
+          }
+        }
       }
 
       @media (width <= 750px) {
@@ -331,29 +332,23 @@
 }
 
 .calendar {
-  :global(.ant-picker-cell-selected .ant-picker-cell-inner) {
-    background-color: var(--primary-color) !important;
-  }
-
-  :global(.ant-picker-cell-today .ant-picker-cell-inner) {
-    &::before {
-      border: 1px solid var(--primary-color);
-    }
-  }
-
-  :global(.ant-picker-today-btn) {
-    color: var(--primary-color);
-
-    &:hover {
-      color: var(--primary-color);
+  :global {
+    .ant-picker-cell-selected .ant-picker-cell-inner {
+      background-color: var(--primary-color);
     }
 
-    &:active {
-      color: var(--primary-color);
+    .ant-picker-cell-today .ant-picker-cell-inner {
+      &::before {
+        border: 1px solid var(--primary-color);
+      }
+    }
+
+    .ant-picker-today-btn {
+      &,
+      &:hover,
+      &:active {
+        color: var(--primary-color);
+      }
     }
   }
-}
-
-:global(.ant-picker-focused) {
-  border-color: var(--primary-color) !important;
 }

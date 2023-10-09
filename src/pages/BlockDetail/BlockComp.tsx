@@ -336,6 +336,7 @@ export const BlockComp = ({
         title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
         className={styles.transactionTitleCard}
         isSingle
+        rearClassName={styles.rear}
         rear={
           <Filter
             showReset={!!filter}

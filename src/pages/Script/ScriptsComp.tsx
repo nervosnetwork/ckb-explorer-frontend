@@ -215,7 +215,9 @@ export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
   const setToast = useSetToast()
   return (
     <div className={styles.codeHashMessagePanel}>
-      <AddressText className={styles.codeHash}>{codeHash}</AddressText>
+      <div className={styles.codeHash}>
+        <AddressText>{codeHash}</AddressText>
+      </div>
 
       <CopyIcon
         onClick={() => {

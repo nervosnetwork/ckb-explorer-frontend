@@ -88,11 +88,12 @@ export const TokensTableTitle = styled.div`
     height: fit-content;
     padding: 5px 20px;
 
-    > span {
+    // This selector is just to increase the specificity.
+    > span:nth-child(n) {
       display: inline-block;
       white-space: nowrap;
       margin: 10px 0;
-      flex: 0 !important;
+      flex: 0;
     }
   }
 `

@@ -239,6 +239,7 @@ const ExportTransactions = () => {
                             value={fromHeight}
                             min={0}
                             parser={heightParser}
+                            controls={false}
                             onChange={h =>
                               updateSearchParams(
                                 params =>
@@ -256,6 +257,7 @@ const ExportTransactions = () => {
                             min={0}
                             parser={heightParser}
                             value={toHeight}
+                            controls={false}
                             onChange={h =>
                               updateSearchParams(
                                 params => (h ? { ...params, 'to-height': h.toString() } : omit(params, ['to-height'])),

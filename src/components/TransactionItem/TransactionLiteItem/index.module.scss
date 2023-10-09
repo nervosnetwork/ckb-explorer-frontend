@@ -78,8 +78,11 @@
       padding: 0;
 
       > div {
-        width: 100% !important;
-        padding: 16px 0 !important;
+        // This selector is just to increase the specificity.
+        &:nth-child(n) {
+          width: 100%;
+          padding: 16px 0;
+        }
 
         > div:first-child {
           color: #666;

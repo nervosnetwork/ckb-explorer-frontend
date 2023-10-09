@@ -77,7 +77,7 @@ a {
 
 @media (width <= 750px) {
   .ant-popover-inner-content {
-    padding: 5px !important;
+    padding: 5px;
   }
 }
 

@@ -154,16 +154,20 @@
 
   a {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     color: var(--primary-color);
     padding: 10px 0 10px 10px;
-    margin-right: 8px;
     border-radius: 8px;
 
     &:hover {
       background: var(--primary-hover-bg-color);
       color: var(--primary-color);
       cursor: pointer;
+    }
+
+    &[data-is-active='true'] {
+      pointer-events: none;
     }
 
     &[data-is-active='false'] {
@@ -185,6 +189,10 @@
     .ant-popover-inner {
       border-radius: 8px;
       box-shadow: 0 2px 10px 0 #eee;
+    }
+
+    .ant-popover-inner-content {
+      padding: 14px 24px 14px 16px;
     }
   }
 }
@@ -270,12 +278,6 @@ div[data-role='mobile-list'] {
     dt::after {
       content: ':';
     }
-
-    dd {
-      a {
-        font-weight: 500 !important;
-      }
-    }
   }
 
   .holderMinted {
@@ -309,14 +311,6 @@ div[data-role='mobile-list'] {
 
     div[data-role='mobile-list'] {
       display: block;
-    }
-  }
-
-  .antPopover {
-    :global {
-      .ant-popover-inner-content {
-        padding: 14px 15px 14px 12px !important;
-      }
     }
   }
 }
