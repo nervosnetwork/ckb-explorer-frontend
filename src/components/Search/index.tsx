@@ -3,15 +3,12 @@ import { useHistory } from 'react-router'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
 import { SearchImage, SearchInputPanel, SearchPanel, SearchButton, SearchContainer } from './styled'
-import { fetchSearchResult } from '../../service/http/fetcher'
+import { explorerService, Response } from '../../services/ExplorerService'
 import SearchLogo from '../../assets/search_black.png'
 import ClearLogo from '../../assets/clear.png'
 import { addPrefixForHash, containSpecialChar } from '../../utils/string'
 import i18n from '../../utils/i18n'
 import { HttpErrorCode, SearchFailType } from '../../constants/common'
-import { AppDispatch } from '../../contexts/reducer'
-import { ComponentActions } from '../../contexts/actions'
-import { useDispatch } from '../../contexts/providers'
 import { useIsMobile } from '../../utils/hook'
 import { isChainTypeError } from '../../utils/chain'
 
@@ -43,24 +40,12 @@ const setSearchContent = (inputElement: any, content: string) => {
   }
 }
 
-const hideMobileMenu = (dispatch: AppDispatch) => {
-  dispatch({
-    type: ComponentActions.UpdateHeaderMobileMenuVisible,
-    payload: {
-      mobileMenuVisible: false,
-    },
-  })
-}
-
 const handleSearchResult = (
   searchValue: string,
   inputElement: any,
-  dispatch: AppDispatch,
   setSearchValue: Function,
   history: ReturnType<typeof useHistory>,
-  isMobile: boolean,
 ) => {
-  if (isMobile) hideMobileMenu(dispatch)
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
   if (!query || containSpecialChar(query)) {
     history.push(`/search/fail?q=${query}`)
@@ -72,7 +57,8 @@ const handleSearchResult = (
   }
 
   setSearchLoading(inputElement)
-  fetchSearchResult(addPrefixForHash(query))
+  explorerService.api
+    .fetchSearchResult(addPrefixForHash(query))
     .then((response: any) => {
       const { data } = response
       if (!response || !data.type) {
@@ -117,7 +103,6 @@ const Search: FC<{
   onEditEnd?: () => void
 }> = memo(({ content, hasButton, onEditEnd }) => {
   const isMobile = useIsMobile()
-  const dispatch = useDispatch()
   const history = useHistory()
   const [t] = useTranslation()
   const SearchPlaceholder = useMemo(() => t('navbar.search_placeholder'), [t])
@@ -153,7 +138,7 @@ const Search: FC<{
 
   const searchKeyAction = (event: any) => {
     if (event.keyCode === 13) {
-      handleSearchResult(searchValue, inputElement, dispatch, setSearchValue, history, isMobile)
+      handleSearchResult(searchValue, inputElement, setSearchValue, history)
       onEditEnd?.()
     }
   }
@@ -180,7 +165,7 @@ const Search: FC<{
       {hasButton && (
         <SearchButton
           onClick={() => {
-            handleSearchResult(searchValue, inputElement, dispatch, setSearchValue, history, isMobile)
+            handleSearchResult(searchValue, inputElement, setSearchValue, history)
             onEditEnd?.()
           }}
         >

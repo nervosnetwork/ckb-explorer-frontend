@@ -7,7 +7,7 @@ import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
 import { tooltipWidth, tooltipColor, SeriesItem, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticNewDaoDeposit } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
 
@@ -30,7 +30,7 @@ const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string,
 
 const getOption = (
   statisticNewDaoDeposits: State.StatisticNewDaoDeposit[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -178,7 +178,7 @@ export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: bool
       title={t('statistic.new_dao_deposit_depositor')}
       note={isMainnet() ? `${t('common.note')}1MB = 1,000,000 CKBytes` : undefined}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticNewDaoDeposit}
+      fetchData={explorerService.api.fetchStatisticNewDaoDeposit}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.DailyDeposit}

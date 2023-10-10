@@ -24,7 +24,7 @@ import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import styles from './styles.module.scss'
 import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
-import { fetchTokens } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
@@ -102,7 +102,7 @@ export default () => {
   const sort = new URLSearchParams(location.search).get('sort')
 
   const query = useQuery(['tokens', currentPage, _pageSize, sort], async () => {
-    const { data, meta } = await fetchTokens(currentPage, _pageSize, sort ?? undefined)
+    const { data, meta } = await explorerService.api.fetchTokens(currentPage, _pageSize, sort ?? undefined)
     if (data == null || data.length === 0) {
       throw new Error('Tokens empty')
     }

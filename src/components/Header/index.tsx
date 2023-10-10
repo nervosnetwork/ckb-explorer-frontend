@@ -1,16 +1,19 @@
 import { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
+import classNames from 'classnames'
+import { createBrowserHistory } from 'history'
 import LogoIcon from '../../assets/ckb_logo.png'
 import { HeaderPanel, HeaderEmptyPanel, HeaderMobileMenuPanel, HeaderLogoPanel } from './styled'
-import { useAppState, useDispatch } from '../../contexts/providers/index'
-import { ComponentActions } from '../../contexts/actions'
 import MenusComp from './MenusComp'
 import { SearchComp } from './SearchComp'
-import LanguageComp from './LanguageComp'
+import { LanguageDropdown } from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
-import { currentLanguage } from '../../utils/i18n'
 import { useElementSize, useIsMobile } from '../../utils/hook'
 import styles from './index.module.scss'
+import MaintainAlert from '../MaintainAlert'
+import Sheet from '../Sheet'
+import { createGlobalState, useGlobalState } from '../../utils/state'
+import MobileMenu from './MobileMenu'
 
 const LogoComp = () => (
   <HeaderLogoPanel to="/">
@@ -18,22 +21,12 @@ const LogoComp = () => (
   </HeaderLogoPanel>
 )
 
-const MobileMenuComp = () => {
-  const dispatch = useDispatch()
-  const {
-    components: { mobileMenuVisible },
-  } = useAppState()
+const MobileMenuComp: FC<{ mobileMenuVisible: boolean; setMobileMenuVisible: (value: boolean) => void }> = ({
+  mobileMenuVisible,
+  setMobileMenuVisible,
+}) => {
   return (
-    <HeaderMobileMenuPanel
-      onClick={() => {
-        dispatch({
-          type: ComponentActions.UpdateHeaderMobileMenuVisible,
-          payload: {
-            mobileMenuVisible: !mobileMenuVisible,
-          },
-        })
-      }}
-    >
+    <HeaderMobileMenuPanel onClick={() => setMobileMenuVisible(!mobileMenuVisible)}>
       <div className={mobileMenuVisible ? 'close' : ''}>
         <div className="menu__icon__first" />
         <div className="menu__icon__second" />
@@ -65,45 +58,87 @@ const AutoExpand: FC<{
   )
 }
 
+const globalShowHeaderSearchBarCounter = createGlobalState<number>(0)
+
+export function useShowSearchBarInHeader(show: boolean) {
+  const [, setCounter] = useGlobalState(globalShowHeaderSearchBarCounter)
+
+  useEffect(() => {
+    if (!show) return
+
+    setCounter(counter => counter + 1)
+    return () => setCounter(counter => counter - 1)
+  }, [show, setCounter])
+}
+
+export function useIsShowSearchBarInHeader() {
+  const [counter] = useGlobalState(globalShowHeaderSearchBarCounter)
+  return counter > 0
+}
+
+const useRouterLocation = (callback: () => void) => {
+  const history = createBrowserHistory()
+  const savedCallback = useRef(() => {})
+  useEffect(() => {
+    savedCallback.current = callback
+  })
+  useEffect(() => {
+    const currentCallback = () => {
+      savedCallback.current()
+    }
+    const listen = history.listen(() => {
+      currentCallback()
+    })
+    return () => {
+      listen()
+    }
+  }, [history])
+}
+
 export default () => {
   const isMobile = useIsMobile()
   const { pathname } = useLocation()
-  const dispatch = useDispatch()
-  const {
-    components: { headerSearchBarVisible, maintenanceAlertVisible },
-  } = useAppState()
+  // TODO: This hard-coded implementation is not ideal, but currently the header is loaded before the page component,
+  // so we can only handle it this way temporarily, otherwise there will be flickering during loading.
+  const defaultSearchBarVisible = pathname !== '/' && pathname !== '/search/fail'
+  const isShowSearchBar = useIsShowSearchBarInHeader()
+  const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
-  useEffect(() => {
-    dispatch({
-      type: ComponentActions.UpdateHeaderSearchBarVisible,
-      payload: {
-        headerSearchBarVisible: pathname !== '/' && pathname !== '/search/fail',
-      },
-    })
-  }, [dispatch, pathname])
+  useRouterLocation(() => setMobileMenuVisible(false))
 
   return (
-    <HeaderPanel isNotTop={maintenanceAlertVisible} isEn={currentLanguage() === 'en'}>
-      <LogoComp />
-      {!isMobile && (
-        <>
-          <AutoExpand
-            leftContent={<MenusComp />}
-            expandableWidthRange={{ minimum: 320, maximum: 440 }}
-            renderExpandable={(expanded, setExpanded) =>
-              headerSearchBarVisible && <SearchComp expanded={expanded} setExpanded={setExpanded} />
-            }
-          />
-          <BlockchainComp />
-          <LanguageComp />
-        </>
-      )}
-      {isMobile && (
-        <>
-          <HeaderEmptyPanel />
-          <MobileMenuComp />
-        </>
-      )}
-    </HeaderPanel>
+    <div
+      className={classNames(styles.StickyContainer, {
+        [styles.expanded]: mobileMenuVisible,
+      })}
+    >
+      <MaintainAlert />
+      <HeaderPanel>
+        <LogoComp />
+        {!isMobile && (
+          <>
+            <AutoExpand
+              leftContent={<MenusComp />}
+              expandableWidthRange={{ minimum: 320, maximum: 440 }}
+              renderExpandable={(expanded, setExpanded) =>
+                (defaultSearchBarVisible || isShowSearchBar) && (
+                  <SearchComp expanded={expanded} setExpanded={setExpanded} />
+                )
+              }
+            />
+            <BlockchainComp />
+            <LanguageDropdown />
+          </>
+        )}
+        {isMobile && (
+          <>
+            <HeaderEmptyPanel />
+            <MobileMenuComp mobileMenuVisible={mobileMenuVisible} setMobileMenuVisible={setMobileMenuVisible} />
+          </>
+        )}
+      </HeaderPanel>
+      <Sheet />
+      {mobileMenuVisible && <MobileMenu hideMobileMenu={() => setMobileMenuVisible(false)} />}
+    </div>
   )
 }

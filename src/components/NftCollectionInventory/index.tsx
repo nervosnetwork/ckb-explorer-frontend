@@ -8,7 +8,7 @@ import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
 
 const primaryColor = getPrimaryColor()
@@ -33,7 +33,7 @@ const NftCollectionInventory: React.FC<{
   isLoading: boolean
 }> = ({ list, collection, isLoading }) => {
   const { data: info } = useQuery<AxiosResponse<{ icon_url: string | null }>>(['collection-info', collection], () =>
-    v2AxiosIns(`nft/collections/${collection}`),
+    explorerService.api.requesterV2(`nft/collections/${collection}`),
   )
 
   if (!list.length) {

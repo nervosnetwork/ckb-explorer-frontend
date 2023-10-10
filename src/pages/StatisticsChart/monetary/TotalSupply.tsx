@@ -6,7 +6,7 @@ import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticTotalSupply } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
 
@@ -28,7 +28,7 @@ const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string,
 
 const getOption = (
   statisticTotalSupplies: State.StatisticTotalSupply[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -179,7 +179,7 @@ export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolea
       title={t('statistic.total_supply')}
       description={t('statistic.total_supply_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticTotalSupply}
+      fetchData={explorerService.api.fetchStatisticTotalSupply}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.TotalSupply}

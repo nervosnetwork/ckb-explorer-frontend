@@ -6,7 +6,7 @@ import i18n from '../../utils/i18n'
 import { BlockDetailPanel } from './styled'
 import { BlockComp, BlockOverview } from './BlockComp'
 import { usePaginationParamsInPage } from '../../utils/hook'
-import { fetchBlock, fetchTransactionsByBlockHash } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { assert } from '../../utils/error'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultBlockInfo } from './state'
@@ -19,7 +19,7 @@ export default () => {
   const filter = new URLSearchParams(search).get('filter')
 
   const queryBlock = useQuery(['block', blockHeightOrHash], async () => {
-    const wrapper = await fetchBlock(blockHeightOrHash)
+    const wrapper = await explorerService.api.fetchBlock(blockHeightOrHash)
     const block = wrapper.attributes
     return block
   })
@@ -31,7 +31,7 @@ export default () => {
     async () => {
       assert(blockHash != null)
       try {
-        const { data, meta } = await fetchTransactionsByBlockHash(blockHash, {
+        const { data, meta } = await explorerService.api.fetchTransactionsByBlockHash(blockHash, {
           page: currentPage,
           size: pageSizeParam,
           filter,

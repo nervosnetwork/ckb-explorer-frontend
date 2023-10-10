@@ -1,8 +1,7 @@
 export interface ScriptInfo {
-  id: number
+  id: string
   scriptName: string
   scriptType: string
-  typeId: string
   codeHash: string
   hashType: 'type' | 'data'
   capacityOfDeployedCells: string

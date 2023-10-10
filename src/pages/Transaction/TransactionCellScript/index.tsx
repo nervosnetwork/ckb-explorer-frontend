@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useEffect, useState, ReactNode, useRef } from 'react'
 import BigNumber from 'bignumber.js'
-import { fetchCellData, fetchScript } from '../../../service/http/fetcher'
+import { explorerService, Response } from '../../../services/ExplorerService'
 import { CellState } from '../../../constants/common'
 import { hexToUtf8 } from '../../../utils/string'
 import {
@@ -17,10 +17,7 @@ import {
   TransactionDetailScriptButton,
 } from './styled'
 import i18n from '../../../utils/i18n'
-import { AppDispatch } from '../../../contexts/reducer'
-import { AppActions } from '../../../contexts/actions'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import { useDispatch } from '../../../contexts/providers'
 import CloseIcon from '../../../assets/modal_close.png'
 import { getContractHashTag } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
@@ -28,6 +25,7 @@ import HashTag from '../../../components/HashTag'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
 import { ReactComponent as OuterLinkIcon } from '../../../assets/outer_link_icon.svg'
 import { HelpTip } from '../../../components/HelpTip'
+import { useSetToast } from '../../../components/Toast'
 
 const initScriptContent = {
   lock: 'null',
@@ -60,13 +58,16 @@ const handleFetchCellInfo = async (
   state: CellState,
   setScriptFetchStatus: (val: boolean) => void,
   setContent: Function,
-  dispatch: AppDispatch,
+  setToast: ReturnType<typeof useSetToast>,
 ) => {
   setScriptFetchStatus(false)
 
   const fetchLock = async () => {
     if (cell.id) {
-      const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('lock_scripts', `${cell.id}`)
+      const wrapper: Response.Wrapper<State.Script> | null = await explorerService.api.fetchScript(
+        'lock_scripts',
+        `${cell.id}`,
+      )
       return wrapper ? wrapper.attributes : initScriptContent.lock
     }
     return initScriptContent.lock
@@ -74,7 +75,10 @@ const handleFetchCellInfo = async (
 
   const fetchType = async () => {
     if (cell.id) {
-      const wrapper: Response.Wrapper<State.Script> | null = await fetchScript('type_scripts', `${cell.id}`)
+      const wrapper: Response.Wrapper<State.Script> | null = await explorerService.api.fetchScript(
+        'type_scripts',
+        `${cell.id}`,
+      )
       return wrapper ? wrapper.attributes : initScriptContent.type
     }
     return initScriptContent.type
@@ -82,7 +86,8 @@ const handleFetchCellInfo = async (
 
   const fetchData = async () => {
     if (cell.id) {
-      return fetchCellData(`${cell.id}`)
+      return explorerService.api
+        .fetchCellData(`${cell.id}`)
         .then((wrapper: Response.Wrapper<State.Data> | null) => {
           const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
           if (wrapper && cell.isGenesisOutput) {
@@ -94,12 +99,9 @@ const handleFetchCellInfo = async (
           if (error.response && error.response.data && error.response.data[0]) {
             const err = error.response.data[0]
             if (err.status === 400 && err.code === 1022) {
-              dispatch({
-                type: AppActions.ShowToastMessage,
-                payload: {
-                  message: i18n.t('toast.data_too_large'),
-                  type: 'warning',
-                },
+              setToast({
+                message: i18n.t('toast.data_too_large'),
+                type: 'warning',
               })
               return null
             }
@@ -244,7 +246,7 @@ const ScriptContentJson = ({
 )
 
 export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
-  const dispatch = useDispatch()
+  const setToast = useSetToast()
   const [scriptFetched, setScriptFetched] = useState(false)
   const [content, setContent] = useState(null as State.Script | State.Data | CapacityUsage | null)
   const [state, setState] = useState(CellState.LOCK as CellState)
@@ -255,18 +257,13 @@ export default ({ cell, onClose }: { cell: State.Cell; onClose: Function }) => {
   }
 
   useEffect(() => {
-    handleFetchCellInfo(cell, state, setScriptFetched, setContent, dispatch)
-  }, [cell, state, dispatch])
+    handleFetchCellInfo(cell, state, setScriptFetched, setContent, setToast)
+  }, [cell, state, setToast])
 
   const onClickCopy = () => {
     navigator.clipboard.writeText(updateJsonFormat(content)).then(
       () => {
-        dispatch({
-          type: AppActions.ShowToastMessage,
-          payload: {
-            message: i18n.t('common.copied'),
-          },
-        })
+        setToast({ message: i18n.t('common.copied') })
       },
       error => {
         console.error(error)

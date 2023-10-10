@@ -4,11 +4,11 @@ import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticCirculationRatio } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const getOption = (
   statisticCirculationRatios: State.StatisticCirculationRatio[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -105,7 +105,7 @@ export const CirculationRatioChart = ({ isThumbnail = false }: { isThumbnail?: b
       title={t('statistic.circulation_ratio')}
       description={t('statistic.deposit_to_circulation_ratio_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticCirculationRatio}
+      fetchData={explorerService.api.fetchStatisticCirculationRatio}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.DepositCirculationRatio}

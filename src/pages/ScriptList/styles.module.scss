@@ -5,9 +5,9 @@ $accent-color: #efefef;
   font-size: 24px;
   font-weight: 700;
   max-width: 1080px;
-  margin: 45px auto 20px auto;
+  margin: 45px auto 20px;
 
-  @media screen and (max-width: 1140px) {
+  @media screen and (width <= 1140px) {
     margin: 45px 15px 20px;
   }
 }
@@ -15,11 +15,11 @@ $accent-color: #efefef;
 .container {
   background: white;
   max-width: 1080px;
-  margin: 0 auto 45px auto;
+  margin: 0 auto 45px;
   padding: 16px;
   border-radius: 6px;
 
-  @media screen and (max-width: 1140px) {
+  @media screen and (width <= 1140px) {
     margin: 20px 15px;
   }
 
@@ -41,6 +41,7 @@ $accent-color: #efefef;
   .links {
     display: flex;
     align-items: center;
+
     a {
       margin-right: 10px;
       margin-bottom: 20px;
@@ -57,7 +58,7 @@ $accent-color: #efefef;
     user-select: none;
     transition: background 0.3s;
 
-    @media screen and (max-width: 400px) {
+    @media screen and (width <= 400px) {
       word-break: break-all;
     }
 
@@ -69,12 +70,12 @@ $accent-color: #efefef;
       text-decoration: line-through;
     }
 
-    &:before {
+    &::before {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       left: 0.75rem;
-      font-family: 'mono';
+      font-family: initial;
       content: '▲';
       width: 1.75rem;
       height: 1.75rem;
@@ -98,7 +99,8 @@ $accent-color: #efefef;
   details[open] {
     summary {
       background: $accent-color;
-      &:before {
+
+      &::before {
         transform: translateY(-50%) rotate(0.5turn);
       }
     }

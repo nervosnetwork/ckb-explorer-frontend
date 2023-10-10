@@ -6,7 +6,7 @@ import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import CurrentAddressIcon from '../../../assets/current_address.svg'
 import UDTTokenIcon from '../../../assets/udt_token.png'
-import i18n from '../../../utils/i18n'
+import i18n, { currentLanguage } from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import {
@@ -20,7 +20,6 @@ import {
 import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../../Transaction/TransactionCellArrow'
 import DecimalCapacity from '../../DecimalCapacity'
-import { useAppState } from '../../../contexts/providers'
 import { parseDiffDate } from '../../../utils/date'
 import Cellbase from '../../Transaction/Cellbase'
 import styles from './index.module.scss'
@@ -93,9 +92,8 @@ const WithdrawPopoverItem = ({
 
 const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
   const isMobile = useIsMobile()
-  const { app } = useAppState()
   let width = 'short'
-  if (app.language === 'en') {
+  if (currentLanguage() === 'en') {
     width = isDaoDepositCell(cell.cellType) ? 'long' : 'medium'
   }
   return (

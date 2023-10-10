@@ -11,6 +11,7 @@
     position: relative;
     font-size: 14px;
     font-weight: 700;
+
     th {
       vertical-align: middle;
       padding-top: 12px;
@@ -18,10 +19,11 @@
       text-transform: capitalize;
       white-space: nowrap;
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         &:first-child {
           padding-right: 0;
         }
+
         &:last-child {
           padding-left: 0;
         }
@@ -49,7 +51,7 @@
     max-width: 0.25vw;
 
     &:last-child {
-      @media screen and (max-width: 750px) {
+      @media screen and (width <= 750px) {
         text-align: right;
       }
     }
@@ -58,7 +60,8 @@
     &:last-child {
       padding-left: 40px;
       padding-right: 40px;
-      @media screen and (max-width: 750px) {
+
+      @media screen and (width <= 750px) {
         padding-left: 16px;
         padding-right: 16px;
       }
@@ -66,7 +69,7 @@
   }
 
   .noRecord {
-    text-align: center !important;
+    text-align: center;
   }
 }
 
@@ -75,13 +78,13 @@
   font-family: inherit;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (width >= 1024px) {
   .addr:last-child {
     display: none;
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (width <= 1024px) {
   .addr:first-child {
     display: none;
   }

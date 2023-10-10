@@ -9,13 +9,9 @@ import DepositorRank from './DepositorRank'
 import { usePaginationParamsInPage, useSearchParams } from '../../utils/hook'
 import DaoOverview from './DaoOverview'
 import SimpleButton from '../../components/SimpleButton'
-import {
-  fetchNervosDao,
-  fetchNervosDaoDepositors,
-  fetchNervosDaoTransactionsByFilter,
-} from '../../service/http/fetcher'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultNervosDaoInfo } from './state'
+import { explorerService } from '../../services/ExplorerService'
 
 export const NervosDao = () => {
   const { push } = useHistory()
@@ -26,7 +22,7 @@ export const NervosDao = () => {
   const tab = (params.tab as 'transactions' | 'depositors') || 'transactions'
 
   const queryNervosDao = useQuery(['nervos-dao'], async () => {
-    const wrapper = await fetchNervosDao()
+    const wrapper = await explorerService.api.fetchNervosDao()
     const nervosDao = wrapper.attributes
     return nervosDao
   })
@@ -34,7 +30,7 @@ export const NervosDao = () => {
   const queryNervosDaoTransactions = useQuery(
     ['nervos-dao-transactions', currentPage, _pageSize, params.filter],
     async () => {
-      const { data, meta } = await fetchNervosDaoTransactionsByFilter({
+      const { data, meta } = await explorerService.api.fetchNervosDaoTransactionsByFilter({
         filter: params.filter,
         page: currentPage,
         size: _pageSize,
@@ -53,7 +49,7 @@ export const NervosDao = () => {
   const queryNervosDaoDepositors = useQuery(
     ['nervos-dao-depositors'],
     async () => {
-      const { data } = await fetchNervosDaoDepositors()
+      const { data } = await explorerService.api.fetchNervosDaoDepositors()
       return { depositors: data.map(wrapper => wrapper.attributes) }
     },
     {

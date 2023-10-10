@@ -10,7 +10,7 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
-import { fetchStatisticHashRate } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { ReactChartCore } from '../../StatisticsChart/common'
 
@@ -100,7 +100,7 @@ const getOption = (statisticHashRates: State.StatisticHashRate[], useMiniStyle: 
 export default memo(() => {
   const isLG = useIsLGScreen()
 
-  const query = useChartQueryWithCache(fetchStatisticHashRate, ChartCachedKeys.HashRate, 'date')
+  const query = useChartQueryWithCache(explorerService.api.fetchStatisticHashRate, ChartCachedKeys.HashRate, 'date')
   const fullStatisticHashRates = useMemo(() => query.data ?? [], [query.data])
 
   const statisticHashRates = useMemo(() => {

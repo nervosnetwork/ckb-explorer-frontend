@@ -1,15 +1,9 @@
-import { useEffect, useRef, Suspense, lazy, Component } from 'react'
-import { BrowserRouter as Router, Route, Redirect, Switch, useLocation } from 'react-router-dom'
-import { createBrowserHistory } from 'history'
+import { Suspense, lazy, Component } from 'react'
+import { BrowserRouter as Router, Route, Redirect, Switch, RouteProps } from 'react-router-dom'
 import Page from '../components/Page'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import Sheet from '../components/Sheet'
-import { useDispatch, useAppState } from '../contexts/providers'
-import { ComponentActions } from '../contexts/actions'
-import { useIsMobile } from '../utils/hook'
 import { isChainTypeError } from '../utils/chain'
-import Alert from '../components/Alert'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -58,315 +52,190 @@ const ScriptList = lazy(() => import('../pages/ScriptList'))
 const FeeRateTracker = lazy(() => import('../pages/FeeRateTracker'))
 const ExportTransactions = lazy(() => import('../pages/ExportTransactions'))
 
-const Containers: CustomRouter.Route[] = [
+const routes: RouteProps[] = [
   {
-    name: 'Home',
     path: '/',
-    exact: true,
-    comp: Home,
+    component: Home,
   },
   {
-    name: 'BlockList',
     path: '/block/list',
-    exact: true,
-    comp: BlockList,
+    component: BlockList,
   },
   {
-    name: 'Address',
     path: '/address/:address',
-    exact: true,
-    comp: Address,
+    render: routeProps => {
+      const { pathname } = routeProps.location
+      if (isChainTypeError(pathname.substring(pathname.lastIndexOf('/') + 1))) {
+        return <SearchFail {...routeProps} address={pathname.substring(pathname.lastIndexOf('/') + 1)} />
+      }
+      return <Address />
+    },
   },
   {
-    name: 'Script',
     path: '/script/:codeHash/:hashType/:tab?',
-    exact: true,
-    comp: ScriptPage,
+    component: ScriptPage,
   },
   {
-    name: 'Block',
     path: '/block/:param',
-    exact: true,
-    comp: Block,
+    component: Block,
   },
   {
-    name: 'TransactionList',
     path: '/transaction/list',
-    exact: true,
-    comp: TransactionList,
+    component: TransactionList,
   },
   {
-    name: 'Transaction',
     path: '/transaction/:hash',
-    exact: true,
-    comp: Transaction,
+    component: Transaction,
   },
   {
-    name: 'SimpleUDT',
     path: '/sudt/:hash',
-    exact: true,
-    comp: SimpleUDT,
+    component: SimpleUDT,
   },
   {
-    name: 'NftCollections',
     path: '/nft-collections',
-    exact: true,
-    comp: NftCollections,
+    component: NftCollections,
   },
   {
-    name: 'NftCollectionInfo',
     path: '/nft-collections/:id',
-    exact: true,
-    comp: NftCollectionInfo,
+    component: NftCollectionInfo,
   },
   {
-    name: 'NftInfo',
     path: '/nft-info/:collection/:id',
-    exact: true,
-    comp: NftInfo,
+    component: NftInfo,
   },
   {
-    name: 'NervosDao',
     path: '/nervosdao',
-    exact: true,
-    comp: NervosDao,
+    component: NervosDao,
   },
   {
-    name: 'Tokens',
     path: '/tokens',
-    exact: true,
-    comp: Tokens,
+    component: Tokens,
   },
   {
-    name: 'Charts',
     path: '/charts',
-    exact: true,
-    comp: StatisticsChart,
+    component: StatisticsChart,
   },
   {
-    name: 'DifficultyHashRateChart',
     path: '/charts/difficulty-hash-rate',
-    exact: true,
-    comp: DifficultyHashRateChart,
+    component: DifficultyHashRateChart,
   },
   {
-    name: 'DifficultyUncleRateEpochChart',
     path: '/charts/epoch-time-length',
-    exact: true,
-    comp: DifficultyUncleRateEpochChart,
+    component: DifficultyUncleRateEpochChart,
   },
   {
-    name: 'DifficultyChart',
     path: '/charts/difficulty',
-    exact: true,
-    comp: DifficultyChart,
+    component: DifficultyChart,
   },
   {
-    name: 'HashRateChart',
     path: '/charts/hash-rate',
-    exact: true,
-    comp: HashRateChart,
+    component: HashRateChart,
   },
   {
-    name: 'UncleRateChart',
     path: '/charts/uncle-rate',
-    exact: true,
-    comp: UncleRateChart,
+    component: UncleRateChart,
   },
   {
-    name: 'MinerAddressDistributionChart',
     path: '/charts/miner-address-distribution',
-    exact: true,
-    comp: MinerAddressDistributionChart,
+    component: MinerAddressDistributionChart,
   },
   {
-    name: 'MinerVersionDistributionChart',
     path: '/charts/miner-version-distribution',
-    exact: true,
-    comp: MinerVersionDistributionChart,
+    component: MinerVersionDistributionChart,
   },
   {
-    name: 'TransactionCountChart',
     path: '/charts/transaction-count',
-    exact: true,
-    comp: TransactionCountChart,
+    component: TransactionCountChart,
   },
   {
-    name: 'AddressCountChart',
     path: '/charts/address-count',
-    exact: true,
-    comp: AddressCountChart,
+    component: AddressCountChart,
   },
   {
-    name: 'TotalDaoDepositChart',
     path: '/charts/total-dao-deposit',
-    exact: true,
-    comp: TotalDaoDepositChart,
+    component: TotalDaoDepositChart,
   },
   {
-    name: 'NewDaoDepositChart',
     path: '/charts/new-dao-deposit',
-    exact: true,
-    comp: NewDaoDepositChart,
+    component: NewDaoDepositChart,
   },
   {
-    name: 'CirculationRatioChart',
     path: '/charts/circulation-ratio',
-    exact: true,
-    comp: CirculationRatioChart,
+    component: CirculationRatioChart,
   },
   {
-    name: 'CellCountChart',
     path: '/charts/cell-count',
-    exact: true,
-    comp: CellCountChart,
+    component: CellCountChart,
   },
   {
-    name: 'AddressBalanceRankChart',
     path: '/charts/address-balance-rank',
-    exact: true,
-    comp: AddressBalanceRankChart,
+    component: AddressBalanceRankChart,
   },
   {
-    name: 'BalanceDistributionChart',
     path: '/charts/balance-distribution',
-    exact: true,
-    comp: BalanceDistributionChart,
+    component: BalanceDistributionChart,
   },
   {
-    name: 'TxFeeHistoryChart',
     path: '/charts/tx-fee-history',
-    exact: true,
-    comp: TxFeeHistoryChart,
+    component: TxFeeHistoryChart,
   },
   {
-    name: 'BlockTimeDistributionChart',
     path: '/charts/block-time-distribution',
-    exact: true,
-    comp: BlockTimeDistributionChart,
+    component: BlockTimeDistributionChart,
   },
   {
-    name: 'AverageBlockTimeChart',
     path: '/charts/average-block-time',
-    exact: true,
-    comp: AverageBlockTimeChart,
+    component: AverageBlockTimeChart,
   },
   {
-    name: 'EpochTimeDistributionChart',
     path: '/charts/epoch-time-distribution',
-    exact: true,
-    comp: EpochTimeDistributionChart,
+    component: EpochTimeDistributionChart,
   },
   {
-    name: 'TotalSupplyChart',
     path: '/charts/total-supply',
-    exact: true,
-    comp: TotalSupplyChart,
+    component: TotalSupplyChart,
   },
   {
-    name: 'AnnualPercentageCompensationChart',
     path: '/charts/nominal-apc',
-    exact: true,
-    comp: AnnualPercentageCompensationChart,
+    component: AnnualPercentageCompensationChart,
   },
   {
-    name: 'SecondaryIssuanceChart',
     path: '/charts/secondary-issuance',
-    exact: true,
-    comp: SecondaryIssuanceChart,
+    component: SecondaryIssuanceChart,
   },
   {
-    name: 'InflationRateChart',
     path: '/charts/inflation-rate',
-    exact: true,
-    comp: InflationRateChart,
+    component: InflationRateChart,
   },
   {
-    name: 'LiquidityChart',
     path: '/charts/liquidity',
-    exact: true,
-    comp: LiquidityChart,
+    component: LiquidityChart,
   },
   {
-    name: 'SearchFail',
     path: '/search/fail',
-    exact: true,
-    comp: SearchFail,
+    component: SearchFail,
   },
   {
-    name: 'ScriptList',
     path: '/scripts',
-    exact: true,
-    comp: ScriptList,
+    component: ScriptList,
   },
   {
-    name: 'FeeRateTracker',
     path: '/fee-rate-tracker',
-    exact: true,
-    comp: FeeRateTracker,
+    component: FeeRateTracker,
   },
   {
-    name: '404',
     path: '/404',
-    exact: true,
-    comp: NotFoundPage,
+    component: NotFoundPage,
   },
   {
-    name: 'Error',
     path: '/error',
-    exact: true,
-    comp: ErrorPage,
+    component: ErrorPage,
   },
   {
-    name: 'ExportTransactions',
     path: '/export-transactions',
-    exact: true,
-    comp: ExportTransactions,
+    component: ExportTransactions,
   },
 ]
-
-const useRouter = (callback: Function) => {
-  const history = createBrowserHistory()
-  useEffect(() => {
-    let currentUrl = `${history.location.pathname}${history.location.search}`
-    const listen = history.listen((location: any) => {
-      if (currentUrl !== `${location.pathname}${location.search}`) {
-        callback()
-      }
-      currentUrl = `${location.pathname}${location.search}`
-    })
-    return () => {
-      listen()
-    }
-  }, [callback, history])
-}
-
-const useRouterLocation = (callback: () => void) => {
-  const history = createBrowserHistory()
-  const savedCallback = useRef(() => {})
-  useEffect(() => {
-    savedCallback.current = callback
-  })
-  useEffect(() => {
-    const currentCallback = () => {
-      savedCallback.current()
-    }
-    const listen = history.listen(() => {
-      currentCallback()
-    })
-    return () => {
-      listen()
-    }
-  }, [history])
-}
-
-const RouterComp = ({ container, routeProps }: { container: CustomRouter.Route; routeProps: any }) => {
-  const { pathname = '' } = useLocation()
-  if (container.name === 'Address' && isChainTypeError(pathname.substring(pathname.lastIndexOf('/') + 1))) {
-    return <SearchFail {...routeProps} address={pathname.substring(pathname.lastIndexOf('/') + 1)} />
-  }
-  return <container.comp {...routeProps} />
-}
 
 type PageErrorBoundaryState = {
   error?: Error | null
@@ -417,52 +286,24 @@ class PageErrorBoundary extends Component<PageErrorBoundaryProps, PageErrorBound
 }
 
 export default () => {
-  const isMobile = useIsMobile()
-  const dispatch = useDispatch()
-  const { components } = useAppState()
-  const { mobileMenuVisible } = components
-
-  useRouter(() => {
-    window.scrollTo(0, 0)
-  })
-
-  useRouterLocation(() => {
-    if (mobileMenuVisible) {
-      dispatch({
-        type: ComponentActions.UpdateHeaderMobileMenuVisible,
-        payload: {
-          mobileMenuVisible: false,
-        },
-      })
-    }
-  })
-
   return (
     <Router>
-      <Route
-        render={(props: any) => (
-          <Page>
-            <Alert />
-            <Header />
-            <Sheet />
-            <Suspense fallback={<span />}>
-              <PageErrorBoundary>
-                <Switch location={props.location}>
-                  {Containers.map(container => (
-                    <Route
-                      {...container}
-                      key={container.name}
-                      render={routeProps => <RouterComp container={container} routeProps={routeProps} />}
-                    />
-                  ))}
-                  <Redirect from="*" to="/404" />
-                </Switch>
-              </PageErrorBoundary>
-              {!(isMobile && mobileMenuVisible) && <Footer />}
-            </Suspense>
-          </Page>
-        )}
-      />
+      <Page>
+        <Header />
+        <Suspense fallback={<span />}>
+          <PageErrorBoundary>
+            <Switch>
+              {routes.map((route, idx) => (
+                // `routes` is immutable, so using idx as the key has no impact.
+                // eslint-disable-next-line react/no-array-index-key
+                <Route key={idx} exact {...route} />
+              ))}
+              <Redirect from="*" to="/404" />
+            </Switch>
+          </PageErrorBoundary>
+          <Footer />
+        </Suspense>
+      </Page>
     </Router>
   )
 }

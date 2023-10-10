@@ -8,7 +8,7 @@ import i18n from '../../utils/i18n'
 import NftItemTransfers, { TransferListRes } from '../../components/NftItemTransfers'
 import Pagination from '../../components/Pagination'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
 import { patchMibaoImg, handleNftImgError } from '../../utils/util'
@@ -45,12 +45,14 @@ const NftInfo = () => {
         icon_url: string
       }
     }>
-  >(['nft-item-info', collection, id], () => v2AxiosIns(`nft/collections/${collection}/items/${id}`))
+  >(['nft-item-info', collection, id], () =>
+    explorerService.api.requesterV2(`nft/collections/${collection}/items/${id}`),
+  )
 
   const { isLoading: isTransferListLoading, data: transferListRes } = useQuery<AxiosResponse<TransferListRes>>(
     ['nft-item-transfer-list', collection, id, page],
     () =>
-      v2AxiosIns(`/nft/transfers`, {
+      explorerService.api.requesterV2(`/nft/transfers`, {
         params: {
           page,
           collection_id: collection,

@@ -22,6 +22,7 @@ export const TransactionDetailItem = styled.div`
   @media (max-width: 750px) {
     margin-top: 5px;
   }
+
   &::after {
     position: absolute;
     left: 2px;

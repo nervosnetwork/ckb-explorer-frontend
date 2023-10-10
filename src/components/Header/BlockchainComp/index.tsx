@@ -4,13 +4,12 @@ import { isMainnet } from '../../../utils/chain'
 import WhiteDropdownIcon from '../../../assets/white_dropdown.png'
 import BlueDropUpIcon from '../../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../../assets/green_drop_up.png'
-import { useAppState } from '../../../contexts/providers'
 import { HeaderBlockchainPanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
 import { useIsMobile } from '../../../utils/hook'
 import { ChainName, MAINNET_URL, TESTNET_URL } from '../../../constants/common'
-import { fetchNodeVersion } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { AppCachedKeys } from '../../../constants/cache'
 import { fetchCachedData, storeCachedData } from '../../../utils/cache'
 
@@ -27,15 +26,12 @@ const handleVersion = (nodeVersion: string) => {
 }
 
 const BlockchainDropdown: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
-  const {
-    app: { language },
-  } = useAppState()
   const [showChainType, setShowChainType] = useState(false)
   const [chainTypeLeft, setChainTypeLeft] = useState(0)
   const [chainTypeTop, setChainTypeTop] = useState(0)
 
   useLayoutEffect(() => {
-    if (showChainType && language) {
+    if (showChainType) {
       const chainDropdownComp = document.getElementById('header__blockchain__panel')
       if (chainDropdownComp) {
         const chainDropdownReact = chainDropdownComp.getBoundingClientRect()
@@ -45,7 +41,7 @@ const BlockchainDropdown: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
         }
       }
     }
-  }, [showChainType, language])
+  }, [showChainType])
   return (
     <HeaderBlockchainPanel
       id="header__blockchain__panel"
@@ -126,7 +122,7 @@ export default memo(() => {
   const query = useQuery(
     ['node_version'],
     async () => {
-      const wrapper = await fetchNodeVersion()
+      const wrapper = await explorerService.api.fetchNodeVersion()
       const nodeVersion = wrapper.attributes.version
       storeCachedData(AppCachedKeys.Version, `${nodeVersion}&${new Date().getTime()}`)
       return nodeVersion

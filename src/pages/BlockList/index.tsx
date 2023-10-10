@@ -15,7 +15,7 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, useMediaQuery, usePaginationParamsInListPage, useSortParam } from '../../utils/hook'
-import { fetchBlocks } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { RouteState } from '../../routes/state'
 import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
 import { CsvExport } from '../../components/CsvExport'
@@ -176,7 +176,7 @@ export default () => {
   const query = useQuery(
     ['blocks', currentPage, pageSize, sort],
     async () => {
-      const { data, meta } = await fetchBlocks(currentPage, pageSize, sort)
+      const { data, meta } = await explorerService.api.fetchBlocks(currentPage, pageSize, sort)
       return {
         blocks: data.map(wrapper => wrapper.attributes),
         total: meta?.total ?? 0,
