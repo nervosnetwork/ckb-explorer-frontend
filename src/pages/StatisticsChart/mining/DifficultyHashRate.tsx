@@ -4,12 +4,12 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
-import { fetchStatisticDifficultyHashRate } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
   statisticDifficultyHashRates: State.StatisticDifficultyHashRate[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -185,7 +185,7 @@ export const DifficultyHashRateChart = ({ isThumbnail = false }: { isThumbnail?:
     <SmartChartPage
       title={`${t('block.difficulty')} & ${t('block.hash_rate')} & ${t('block.uncle_rate')}`}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticDifficultyHashRate}
+      fetchData={explorerService.api.fetchStatisticDifficultyHashRate}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.DifficultyHashRate}

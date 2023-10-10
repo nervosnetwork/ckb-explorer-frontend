@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 import { Popover } from 'antd'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
-import { useDispatch } from '../../contexts/providers/index'
-import { getTipBlockNumber } from '../../service/app/address'
 import i18n from '../../utils/i18n'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
@@ -20,7 +18,7 @@ import { isMainnet } from '../../utils/chain'
 import Filter from '../../components/Search/Filter'
 import { localeNumberString } from '../../utils/number'
 import Script from '../../components/Script'
-import { fetchSimpleUDT, fetchSimpleUDTTransactions } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { deprecatedAddrToNewAddr } from '../../utils/util'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultUDTInfo } from './state'
@@ -43,7 +41,6 @@ enum TransactionType {
 
 export const SimpleUDT = () => {
   const isMobile = useIsMobile()
-  const dispatch = useDispatch()
   const { push } = useHistory()
   const { search } = useLocation()
   const [t] = useTranslation()
@@ -55,12 +52,8 @@ export const SimpleUDT = () => {
   const filter = query.get('filter')
   const type = query.get('type')
 
-  useEffect(() => {
-    getTipBlockNumber(dispatch)
-  }, [dispatch])
-
   const querySimpleUDT = useQuery(['simple-udt'], async () => {
-    const wrapper = await fetchSimpleUDT(typeHash)
+    const wrapper = await explorerService.api.fetchSimpleUDT(typeHash)
     const udt = wrapper.attributes
     return udt
   })
@@ -70,7 +63,7 @@ export const SimpleUDT = () => {
   const querySimpleUDTTransactions = useQuery(
     ['simple-udt-transactions', typeHash, currentPage, _pageSize, filter, type],
     async () => {
-      const { data, meta } = await fetchSimpleUDTTransactions({
+      const { data, meta } = await explorerService.api.fetchSimpleUDTTransactions({
         typeHash,
         page: currentPage,
         size: pageSize,

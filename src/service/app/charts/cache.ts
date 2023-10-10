@@ -1,9 +1,9 @@
-import { fetchFlushChartCache } from '../../http/fetcher'
+import { explorerService, Response } from '../../../services/ExplorerService'
 import { removeCachedData, fetchCachedData } from '../../../utils/cache'
 import { ChartCachedKeys } from '../../../constants/cache'
 
 export const flushCacheInfo = () => {
-  fetchFlushChartCache().then((wrapper: Response.Wrapper<State.StatisticCacheInfo> | null) => {
+  explorerService.api.fetchFlushChartCache().then((wrapper: Response.Wrapper<State.StatisticCacheInfo> | null) => {
     if (wrapper && wrapper.attributes.flushCacheInfo.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
       for (const [, value] of Object.entries(ChartCachedKeys)) {

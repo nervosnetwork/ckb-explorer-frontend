@@ -586,96 +586,17 @@ declare namespace State {
     transactionsStatus: FetchStatus
   }
 
-  export interface PageState {
-    statistics: Statistics
-  }
-
-  export interface PagePayload extends PageState {}
-
   export type TransactionCsvExportType = 'address_transactions' | 'blocks' | 'udts' | 'nft'
 
-  export interface App {
-    toast: ToastMessage | null
-    appErrors: [
-      { type: 'Network'; message: string[] },
-      { type: 'ChainAlert'; message: string[] },
-      { type: 'Maintenance'; message: string[] },
-    ]
-    tipBlockNumber: number
-
-    language: 'en' | 'zh'
-    primaryColor: string
-    secondaryColor: string
-    chartColor: {
-      areaColor: string
-      colors: string[]
-      moreColors: string[]
-      totalSupplyColors: string[]
-      daoColors: string[]
-      secondaryIssuanceColors: string[]
-      liquidityColors: string[]
-    }
-  }
-
-  export interface AppPayload extends App, ToastMessage {
-    appError: AppError
-  }
-
-  export interface Components {
-    mobileMenuVisible: boolean
-    headerSearchBarVisible: boolean
-    maintenanceAlertVisible: boolean
-  }
-
-  export interface AppState extends PageState {
-    app: App
-    components: Components
-  }
-
-  export interface MaintenanceInfo {
-    maintenanceInfo: {
-      startAt: string
-      endAt: string
-    }
+  export interface ChartColor {
+    areaColor: string
+    colors: string[]
+    moreColors: string[]
+    totalSupplyColors: string[]
+    daoColors: string[]
+    secondaryIssuanceColors: string[]
+    liquidityColors: string[]
   }
 
   type SortOrderTypes = 'asc' | 'desc'
-}
-
-declare namespace CustomRouter {
-  interface Route {
-    name: string
-    path: string
-    params?: string
-    exact?: boolean
-    comp: React.FunctionComponent<any>
-  }
-}
-
-declare namespace Response {
-  export interface Response<T> {
-    data: T
-    meta?: Meta
-    error?: Error[]
-  }
-
-  export interface Error {
-    id: string
-    code: number
-    status: number
-    title: string
-    detail: string
-    href: string
-  }
-
-  export interface Meta {
-    total: number
-    pageSize: number
-  }
-
-  export interface Wrapper<T> {
-    id: number
-    type: string
-    attributes: T
-  }
 }

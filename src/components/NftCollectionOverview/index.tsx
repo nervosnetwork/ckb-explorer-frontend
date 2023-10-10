@@ -2,7 +2,7 @@ import type { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { Tooltip } from 'antd'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
@@ -23,7 +23,7 @@ interface InfoRes {
 
 const NftCollectionOverview = ({ id }: { id: string }) => {
   const { isLoading, data } = useQuery<AxiosResponse<InfoRes>>(['collection-info', id], () =>
-    v2AxiosIns(`nft/collections/${id}`),
+    explorerService.api.requesterV2(`nft/collections/${id}`),
   )
   const info = data?.data
 

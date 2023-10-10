@@ -1,6 +1,6 @@
 import { createContext, FC, useCallback, useContext, useMemo, useRef } from 'react'
 import { useQuery } from 'react-query'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { unique } from '../../utils/array'
 import { throttle } from '../../utils/function'
 import { pick } from '../../utils/object'
@@ -26,7 +26,7 @@ interface PendingQuery {
 }
 
 async function fetchDASAccounts(addresses: string[]): Promise<DASAccountMap> {
-  const { data } = await v2AxiosIns.post<Record<string, string>>('das_accounts', {
+  const { data } = await explorerService.api.requesterV2.post<Record<string, string>>('das_accounts', {
     addresses,
   })
   const dataWithNormalizeEmptyValue = Object.fromEntries(

@@ -13,6 +13,7 @@
       fill: var(--primary-color);
     }
   }
+
   &[data-order='asc'] {
     svg > path:last-child {
       fill: var(--primary-color);

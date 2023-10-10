@@ -6,7 +6,7 @@ import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
-import { fetchStatisticAddressBalanceRank } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { useAdaptPCEllipsis } from '../../../utils/hook'
 
@@ -17,7 +17,7 @@ const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddr
 
 const getOption = (
   statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
   getAdaptAddressText: (address: string) => string,
@@ -99,7 +99,7 @@ const getOption = (
 }
 
 const fetchStatisticAddressBalanceRanks = async () => {
-  const resp = await fetchStatisticAddressBalanceRank()
+  const resp = await explorerService.api.fetchStatisticAddressBalanceRank()
   return resp.attributes.addressBalanceRanking
 }
 

@@ -1,13 +1,12 @@
 import { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ThemeProvider } from 'styled-components'
-import 'antd/dist/antd.css'
 import Routers from './routes'
 import Toast from './components/Toast'
-import withProviders, { useAppState } from './contexts/providers'
 import useInitApp from './contexts/providers/hook'
 import { isMainnet } from './utils/chain'
 import { DASQueryContextProvider } from './contexts/providers/dasQuery'
+import { getPrimaryColor, getSecondaryColor } from './constants/common'
 
 const appStyle = {
   width: '100vw',
@@ -17,15 +16,14 @@ const appStyle = {
 
 const queryClient = new QueryClient()
 
-const App = withProviders(() => {
+const App = () => {
   useInitApp()
-  const { app } = useAppState()
   const theme = useMemo(
     () => ({
-      primary: app.primaryColor,
-      secondary: app.secondaryColor,
+      primary: getPrimaryColor(),
+      secondary: getSecondaryColor(),
     }),
-    [app.primaryColor, app.secondaryColor],
+    [],
   )
 
   return (
@@ -40,6 +38,6 @@ const App = withProviders(() => {
       </div>
     </ThemeProvider>
   )
-})
+}
 
 export default App

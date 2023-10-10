@@ -11,7 +11,7 @@ import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { dayjs } from '../../utils/date'
 import { useParsedDate, useTimestamp } from '../../utils/hook'
 
@@ -28,7 +28,7 @@ const NftCollectionTransfers: FC<TransferCollectionProps> = props => {
   const { collection } = props
 
   const { data: info } = useQuery<AxiosResponse<{ icon_url: string | null }>>(['collection-info', collection], () =>
-    v2AxiosIns(`nft/collections/${collection}`),
+    explorerService.api.requesterV2(`nft/collections/${collection}`),
   )
 
   return (

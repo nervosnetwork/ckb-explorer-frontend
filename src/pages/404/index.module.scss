@@ -9,7 +9,7 @@
   margin: 0 auto;
   display: block;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     width: 282px;
     height: 130px;
   }

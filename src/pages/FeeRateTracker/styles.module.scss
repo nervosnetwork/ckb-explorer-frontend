@@ -1,7 +1,6 @@
 .feeRateTrackerPanel {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   align-items: center;
 
   .title {
@@ -9,7 +8,7 @@
     font-weight: 500;
     font-size: 24px;
     line-height: 28px;
-    color: #333333;
+    color: #333;
     margin: 40px 12px 16px;
   }
 
@@ -19,17 +18,19 @@
     flex-wrap: wrap;
     align-items: center;
     margin-bottom: 28px;
+
     > div {
       margin: 12px;
       display: flex;
       width: calc(50% - 24px);
       height: 375px;
-      background-color: #ffffff;
+      background-color: #fff;
       flex-direction: column;
       justify-content: center;
-      box-shadow: 0 4px 4px rgba(16, 16, 16, 0.05);
+      box-shadow: 0 4px 4px rgb(16 16 16 / 5%);
       border-radius: 4px;
     }
+
     .feeRateSection {
       position: relative;
 
@@ -39,7 +40,7 @@
         font-weight: 400;
         font-size: 14px;
         line-height: 16px;
-        color: #666666;
+        color: #666;
         position: absolute;
         top: 0;
         right: 0;
@@ -70,6 +71,7 @@
             width: 32px;
             height: 32px;
           }
+
           > .priority {
             width: 80px;
             height: 30px;
@@ -81,46 +83,55 @@
             margin-top: 20px;
             margin-bottom: 20px;
           }
+
           > .shannonsPerByte {
-            color: #333333;
+            color: #333;
             font-weight: 500;
             font-size: 16px;
             line-height: 18px;
             margin-bottom: 12px;
             text-align: center;
           }
+
           > .secs {
-            color: #666666;
+            color: #666;
             font-weight: 400;
             font-size: 14px;
             line-height: 16px;
           }
         }
+
         .card.low {
           > .icon > svg > path {
             fill: #23bff0;
           }
+
           > .priority {
             color: #23bff0;
             background-color: #e8f9ff;
           }
         }
+
         .card.average {
           border-left: 1px solid;
           border-right: 1px solid;
           border-image: linear-gradient(to bottom, transparent 36%, #e5e5e5 36%, #e5e5e5 64%, transparent 64%) 1;
+
           > .icon > svg > path {
             fill: #00cc9b;
           }
+
           > .priority {
             color: #00cc9b;
             background-color: #e8fff1;
           }
         }
+
         .card.high {
           > .icon > svg > path {
             fill: #ff5656;
           }
+
           > .priority {
             color: #ff5656;
             background-color: #ffe8e8;
@@ -128,11 +139,12 @@
         }
       }
     }
+
     .chartTitle {
       display: flex;
       justify-content: center;
       text-align: center;
-      color: #333333;
+      color: #333;
       width: 100%;
       font-weight: 400;
       font-size: 16px;
@@ -140,18 +152,20 @@
       white-space: pre-line;
       padding: 24px;
     }
+
     .chart {
       height: 100%;
       width: 100%;
       font-size: 13px;
-      background-color: #ffffff;
+      background-color: #fff;
       box-shadow: 2px 2px 0 0 #dfdfdf;
     }
   }
 
-  @media (max-width: 1280px) {
+  @media (width <= 1280px) {
     .charts {
       flex-direction: column;
+
       > div {
         width: 100%;
         margin: 0 0 20px;
@@ -159,29 +173,34 @@
     }
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     .title {
       margin: 20px 0 12px;
       font-size: 20px;
       line-height: 23px;
     }
+
     .charts {
       width: 100%;
       margin: 0;
+
       .feeRateSection {
         height: auto;
 
         .updatedTimeCounter {
           padding: 16px;
         }
+
         .cards {
           margin-top: 48px;
           margin-bottom: 32px;
           flex-direction: column;
           align-items: center;
+
           .card {
             padding: 32px 0;
           }
+
           .card.average {
             border-width: 1px 0;
             border-style: solid;

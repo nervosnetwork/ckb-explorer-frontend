@@ -1,7 +1,7 @@
 .tabs {
-  margin: 24px 0 40px 0;
+  margin: 24px 0 40px;
 
-  @media screen and (max-width: 750px) {
+  @media screen and (width <= 750px) {
     margin: 20px 0;
   }
 
@@ -13,7 +13,7 @@
     overflow: auto;
     background: #fff;
     border-radius: 4px 4px 0 0;
-    box-shadow: 0px 4px 4px rgba(16, 16, 16, 0.05);
+    box-shadow: 0 4px 4px rgb(16 16 16 / 5%);
 
     .tab {
       position: relative;
@@ -99,7 +99,7 @@
   margin-top: 4px;
   padding: 0 40px;
   background: #fff;
-  box-shadow: 0px 4px 4px rgba(16, 16, 16, 0.05);
+  box-shadow: 0 4px 4px rgb(16 16 16 / 5%);
 
   .colHash {
     font-size: 14px;
@@ -113,11 +113,13 @@
   display: flex;
   margin-left: 8px;
   cursor: pointer;
+
   &[data-order='asc'] {
     svg > path:last-child {
       fill: var(--primary-color);
     }
   }
+
   &[data-order='desc'] {
     svg > path:first-child {
       fill: var(--primary-color);

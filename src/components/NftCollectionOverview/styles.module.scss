@@ -3,7 +3,7 @@
   background-color: #fff;
   margin-bottom: 18px;
   padding: 20px 40px;
-  box-shadow: #dfdfdf 2px 2px 6px 0px;
+  box-shadow: #dfdfdf 2px 2px 6px 0;
   border-radius: 6px;
 
   .header {
@@ -11,6 +11,7 @@
     font-size: 20px;
     font-weight: 700;
     line-height: 30px;
+
     img {
       width: 30px;
       height: 30px;
@@ -35,13 +36,13 @@
   color: #494949;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (width <= 1200px) {
   .container {
     margin: 40px 45px 24px;
   }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (width <= 750px) {
   .container {
     margin: 40px 8px 24px;
   }

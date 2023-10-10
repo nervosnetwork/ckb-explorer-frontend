@@ -29,7 +29,7 @@ export const TableTitleRowItem = styled.div`
     border: none;
     outline: none;
     background-color: transparent;
-    color: #333333;
+    color: #333;
     font-size: 18px;
     font-weight: 450;
     text-align: center;

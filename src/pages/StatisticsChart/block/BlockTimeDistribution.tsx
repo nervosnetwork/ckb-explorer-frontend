@@ -3,11 +3,11 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { fetchStatisticBlockTimeDistribution } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 
 const getOption = (
   statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -90,7 +90,7 @@ const getOption = (
 const fetchStatisticBlockTimeDistributions = async () => {
   const {
     attributes: { blockTimeDistribution },
-  } = await fetchStatisticBlockTimeDistribution()
+  } = await explorerService.api.fetchStatisticBlockTimeDistribution()
   const sumBlocks = blockTimeDistribution
     .flatMap(data => Number(data[1]))
     .reduce((previous, current) => previous + current)

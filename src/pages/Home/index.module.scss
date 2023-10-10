@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
 
-  @media (max-width: 1200px) {
+  @media (width <= 1200px) {
     display: block;
   }
 
@@ -18,10 +18,11 @@
       margin-right: 8px;
     }
 
-    @media (max-width: 1200px) {
+    @media (width <= 1200px) {
       margin-bottom: 20px;
     }
-    @media (max-width: 375px) {
+
+    @media (width <= 375px) {
       font-size: 16px;
       margin-bottom: 14px;
     }
@@ -32,7 +33,7 @@
     width: 600px;
     flex-grow: 2;
 
-    @media (max-width: 1200px) {
+    @media (width <= 1200px) {
       width: 100%;
     }
   }
@@ -41,15 +42,15 @@
 .HomeStatisticBottomPanel {
   display: flex;
   padding: 20px 5px;
-  margin: 0px 0px 20px 0px;
-  box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
+  margin: 0 0 20px;
+  box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
   border-radius: 0 0 6px 6px;
-  background: #ffffff;
+  background: #fff;
 
-  @media (max-width: 1200px) {
+  @media (width <= 1200px) {
     flex-direction: column;
-    padding: 10px 5px 0 5px;
-    box-shadow: 0 2px 6px 0 rgb(77, 77, 77, 0.2);
+    padding: 10px 5px 0;
+    box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
     border-radius: 0 0 6px 6px;
   }
 
@@ -65,7 +66,7 @@
     width: auto;
     margin: 0 30px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin: 0 20px;
     }
   }
@@ -77,6 +78,7 @@
       .home__statistic__left__data {
         background: linear-gradient(134deg, #3fb39e, #1ec196 51%, #3cc6b7 100%);
       }
+
       .home__statistic__left__chart {
         background: linear-gradient(134deg, #0bad8e 2%, #20c5a5 48%, #0baab1 99%);
       }
@@ -89,11 +91,11 @@
   width: 100%;
   display: flex;
 
-  @media (max-width: 1200px) {
+  @media (width <= 1200px) {
     height: 213px;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     flex-direction: column;
     height: 150px;
   }
@@ -102,16 +104,16 @@
     flex: 1;
     min-width: 0;
     display: flex;
-    border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0;
     border: 2px solid #6b88cf;
 
-    @media (max-width: 1200px) {
+    @media (width <= 1200px) {
       flex-direction: column;
     }
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       border-radius: 6px 6px 0 0;
-      border: 0px solid;
+      border: 0 solid;
     }
 
     .home__statistic__left__data {
@@ -121,41 +123,42 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border-radius: 6px 0 0 0;
+      border-radius: 6px 0 0;
       background: linear-gradient(314deg, #6093e4, #6b88cf 49%, #7074de 80%);
 
-      @media (min-width: 1440px) {
+      @media (width >= 1440px) {
         flex: 0;
         width: 246px;
         min-width: 246px;
       }
 
-      @media (max-width: 1200px) {
-        padding: 15px 30px 10px 30px;
+      @media (width <= 1200px) {
+        padding: 15px 30px 10px;
         flex-direction: row;
       }
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         border-radius: 6px 6px 0 0;
         padding: 15px 23px 10px 20px;
-        margin: 0px;
+        margin: 0;
       }
     }
+
     .home__statistic__left__chart {
       flex: 2;
       margin: -2px;
-      padding: 5px 5px 0px 10px;
+      padding: 5px 5px 0 10px;
       border-radius: 0;
       background: linear-gradient(304deg, #6e85e0 2%, #577cdb 48%, #486ecc 99%);
 
-      @media (max-width: 1200px) {
+      @media (width <= 1200px) {
         padding: 6px 20px;
       }
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         flex: 0;
         display: none;
-        margin: 0px;
+        margin: 0;
       }
     }
   }
@@ -167,13 +170,13 @@
     border-radius: 0 6px 0 0;
     border: 2px solid #334350;
 
-    @media (max-width: 1200px) {
+    @media (width <= 1200px) {
       flex-direction: column;
       border-radius: 0 6px 0 0;
       border: 2px solid #444c5a;
     }
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       flex-direction: column;
       border-radius: 0;
     }
@@ -187,62 +190,66 @@
       justify-content: space-between;
       background: linear-gradient(134deg, #444b57, #39424a 48%, #444c5a 96%);
 
-      @media (min-width: 1440px) {
+      @media (width >= 1440px) {
         flex: 0;
         width: 246px;
         min-width: 246px;
       }
 
-      @media (max-width: 1200px) {
-        padding: 15px 30px 10px 30px;
+      @media (width <= 1200px) {
+        padding: 15px 30px 10px;
         margin: -2px;
-        border-radius: 0px 6px 0px 0px;
+        border-radius: 0 6px 0 0;
         flex-direction: row;
       }
 
-      @media (max-width: 750px) {
-        padding: 15px 20px 10px 20px;
+      @media (width <= 750px) {
+        padding: 15px 20px 10px;
       }
     }
+
     .home__statistic__right__chart {
       flex: 2;
       margin: -2px;
       padding: 5px 5px 0 10px;
-      border-radius: 0px 6px 0px 0px;
+      border-radius: 0 6px 0 0;
       background: linear-gradient(118deg, #31383e, #35414d 48%, #334350);
 
-      @media (max-width: 1200px) {
-        border-radius: 0px;
+      @media (width <= 1200px) {
+        border-radius: 0;
         padding: 6px 20px;
       }
 
-      @media (max-width: 750px) {
+      @media (width <= 750px) {
         flex: 0;
         display: none;
-        margin: 0px;
+        margin: 0;
       }
     }
   }
-}
 
-.HomeStatisticTopPanel {
   &.AfterHardFork {
     .home__statistic__left__panel {
       border-color: #232323;
       background-color: #232323;
+
       .home__statistic__left__data {
         background: #232323;
       }
+
       .home__statistic__left__chart {
         background: #232323;
       }
     }
+
     .home__statistic__right__panel {
       border-color: #484e4e;
       background-color: #484e4e;
+
       .home__statistic__right__data {
         background: #484e4e;
       }
+
       .home__statistic__right__chart {
         background: #484e4e;
       }
@@ -257,7 +264,7 @@
   align-items: center;
   justify-content: center;
   background: #f8f9fa;
-  border: 0px solid white;
+  border: 0 solid white;
   border-radius: 0 0 6px 6px;
   cursor: pointer;
 

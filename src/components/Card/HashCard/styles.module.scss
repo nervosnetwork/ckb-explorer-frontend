@@ -9,13 +9,16 @@
     width: 22px;
     height: 22px;
     pointer-events: none;
+
     path {
       fill: #999;
     }
   }
-  @media screen and (max-width: 750px) {
+
+  @media screen and (width <= 750px) {
     height: 22px;
     margin-left: 2px;
+
     svg {
       width: 16px;
       height: 16px;
@@ -34,9 +37,11 @@
   cursor: pointer;
   width: 22px;
   height: 22px;
+
   &:hover {
     color: var(--primary-color);
   }
+
   svg {
     pointer-events: none;
   }
@@ -62,7 +67,7 @@
   font-size: 16px;
   font-weight: 500;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     max-width: 90px;
     font-size: 13px;
   }

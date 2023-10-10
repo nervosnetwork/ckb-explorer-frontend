@@ -4,12 +4,12 @@ import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
-import { fetchStatisticAddressCount } from '../../../service/http/fetcher'
+import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 
 const getOption = (
   statisticAddressCounts: State.StatisticAddressCount[],
-  chartColor: State.App['chartColor'],
+  chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -104,7 +104,7 @@ export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boole
       title={t('statistic.address_count')}
       description={t('statistic.address_count_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticAddressCount}
+      fetchData={explorerService.api.fetchStatisticAddressCount}
       getEChartOption={getOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.AddressCount}

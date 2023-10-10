@@ -5,7 +5,7 @@ import Content from '../../components/Content'
 import i18n from '../../utils/i18n'
 import { AddressContentPanel } from './styled'
 import { AddressTransactions, AddressOverview } from './AddressComp'
-import { fetchAddressInfo, fetchTransactionsByAddress } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import { usePaginationParamsInListPage, useSortParam } from '../../utils/hook'
 import { isAxiosError } from '../../utils/error'
@@ -18,7 +18,7 @@ export const Address = () => {
   const { sortBy, orderBy, sort } = useSortParam<'time'>(s => s === 'time')
 
   const addressInfoQuery = useQuery(['address_info', address], async () => {
-    const wrapper = await fetchAddressInfo(address)
+    const wrapper = await explorerService.api.fetchAddressInfo(address)
     const result: State.Address = {
       ...wrapper.attributes,
       type: wrapper.type === 'lock_hash' ? 'LockHash' : 'Address',
@@ -30,7 +30,12 @@ export const Address = () => {
     ['address_transactions', address, currentPage, pageSize, sort],
     async () => {
       try {
-        const { data, meta } = await fetchTransactionsByAddress(address, currentPage, pageSize, sort)
+        const { data, meta } = await explorerService.api.fetchTransactionsByAddress(
+          address,
+          currentPage,
+          pageSize,
+          sort,
+        )
         return {
           transactions: data.map(wrapper => wrapper.attributes),
           total: meta ? meta.total : 0,

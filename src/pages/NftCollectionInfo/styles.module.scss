@@ -1,5 +1,5 @@
 .container {
-  margin: 0px 120px 60px;
+  margin: 0 120px 60px;
 }
 
 .header {
@@ -7,6 +7,7 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 20px;
+
   h5 {
     font-size: 24px;
     font-weight: bold;
@@ -27,7 +28,7 @@
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 
-  @media screen and (max-width: 750px) {
+  @media screen and (width <= 750px) {
     flex-direction: column;
     justify-content: stretch;
     padding: 1rem;
@@ -40,7 +41,7 @@
     font-size: 1.25rem;
     align-self: stretch;
 
-    @media screen and (max-width: 750px) {
+    @media screen and (width <= 750px) {
       justify-content: space-between;
     }
 
@@ -53,14 +54,17 @@
 
       &:not(:last-child) {
         margin-right: 4rem;
-        @media screen and (max-width: 1440px) {
+
+        @media screen and (width <= 1440px) {
           margin-right: 3rem;
         }
-        @media screen and (max-width: 1280px) {
+
+        @media screen and (width <= 1280px) {
           margin-right: 1rem;
         }
       }
-      @media screen and (max-width: 1280px) {
+
+      @media screen and (width <= 1280px) {
         font-size: 0.875rem;
       }
 
@@ -68,23 +72,28 @@
         font-weight: 500;
         border-bottom-color: var(--primary-color);
       }
-      @media screen and (max-width: 750px) {
+
+      @media screen and (width <= 750px) {
         border-width: 2px;
         font-size: 1.125rem;
       }
     }
   }
+
   .filters {
     display: flex;
-    @media screen and (max-width: 750px) {
+
+    @media screen and (width <= 750px) {
       & > div {
         margin-top: 1.5rem;
+
         &:first-child {
           flex: 1;
         }
       }
     }
-    @media screen and (max-width: 750px) {
+
+    @media screen and (width <= 750px) {
       width: 100%;
     }
   }
@@ -93,25 +102,30 @@
     display: flex;
     flex-direction: column;
     width: 200px;
+
     a {
       display: flex;
       justify-content: space-between;
       color: var(--primary-color);
-      padding: 10px 0px 10px 10px;
+      padding: 10px 0 10px 10px;
       margin-right: 8px;
       border-radius: 8px;
+
       &:hover {
         background: var(--primary-hover-bg-color);
         color: var(--primary-color);
         cursor: pointer;
       }
+
       &[data-is-active='false'] {
         color: #000;
+
         svg {
           display: none;
         }
       }
     }
+
     svg path {
       fill: var(--primary-color);
     }
@@ -133,6 +147,7 @@
     position: relative;
     font-size: 14px;
     font-weight: 700;
+
     th {
       vertical-align: middle;
       padding-top: 12px;
@@ -140,7 +155,8 @@
       text-transform: capitalize;
       white-space: nowrap;
     }
-    &:after {
+
+    &::after {
       position: absolute;
       left: -15px;
       bottom: -2px;
@@ -174,6 +190,7 @@
     &:not(:first-of-type) {
       text-align: right;
     }
+
     &:first-child,
     &:last-child {
       padding-left: 25px;
@@ -186,15 +203,15 @@
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (width <= 1200px) {
   .container {
-    margin: 0px 45px 60px;
+    margin: 0 45px 60px;
   }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (width <= 750px) {
   .container {
-    margin: 0px 8px 60px;
+    margin: 0 8px 60px;
   }
 }
 
@@ -225,10 +242,12 @@
   align-items: center;
   cursor: pointer;
   padding-left: 0.8rem;
+
   svg {
     height: 1rem;
     width: 1rem;
   }
+
   &[data-is-active='true'] {
     svg path {
       fill: var(--primary-color);
@@ -240,25 +259,30 @@
   display: flex;
   flex-direction: column;
   width: 200px;
+
   a {
     display: flex;
     justify-content: space-between;
     color: var(--primary-color);
-    padding: 10px 0px 10px 10px;
+    padding: 10px 0 10px 10px;
     margin-right: 8px;
     border-radius: 8px;
+
     &:hover {
       background: var(--primary-hover-bg-color);
       color: var(--primary-color);
       cursor: pointer;
     }
+
     &[data-is-active='false'] {
       color: #000;
+
       svg {
         display: none;
       }
     }
   }
+
   svg path {
     fill: var(--primary-color);
   }
@@ -268,7 +292,7 @@
   :global {
     .ant-popover-inner {
       border-radius: 8px;
-      box-shadow: 0px 2px 10px 0px #eeeeee;
+      box-shadow: 0 2px 10px 0 #eee;
     }
   }
 }

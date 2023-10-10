@@ -6,7 +6,6 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/legendScroll'
 import { Tooltip } from 'antd'
-import { useAppState } from '../../../contexts/providers'
 import {
   DaoOverviewPanel,
   DaoOverviewLeftPanel,
@@ -28,6 +27,7 @@ import DecimalCapacity from '../../../components/DecimalCapacity'
 import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
 import { ReactChartCore } from '../../StatisticsChart/common'
 import { HelpTip } from '../../../components/HelpTip'
+import { ChartColor } from '../../../constants/common'
 
 interface NervosDaoItemContent {
   title: string
@@ -288,29 +288,26 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
 export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
   const isMobile = useIsMobile()
   const isExactLG = useIsLGScreen(true)
-  const {
-    app: { chartColor },
-  } = useAppState()
 
   const nervosDaoPieItemContents = useCallback(
     (nervosDao: State.NervosDao): NervosDaoPieItemContent[] => [
       {
         title: i18n.t('nervos_dao.mining_reward'),
         content: <NervosDaoRightCapacity reward={nervosDao.miningReward} />,
-        color: chartColor.daoColors[0],
+        color: ChartColor.daoColors[0],
       },
       {
         title: i18n.t('nervos_dao.deposit_compensation'),
         content: <NervosDaoRightCapacity reward={nervosDao.depositCompensation} />,
-        color: chartColor.daoColors[1],
+        color: ChartColor.daoColors[1],
       },
       {
         title: i18n.t('nervos_dao.burnt'),
         content: <NervosDaoRightCapacity reward={nervosDao.treasuryAmount} />,
-        color: chartColor.daoColors[2],
+        color: ChartColor.daoColors[2],
       },
     ],
-    [chartColor],
+    [],
   )
 
   return (
@@ -324,7 +321,7 @@ export default ({ nervosDao }: { nervosDao: State.NervosDao }) => {
             <HelpTip title={i18n.t('glossary.secondary_issuance')} />
           </div>
           <ReactChartCore
-            option={getOption(nervosDao, chartColor.daoColors, isMobile)}
+            option={getOption(nervosDao, ChartColor.daoColors, isMobile)}
             notMerge
             lazyUpdate
             style={{

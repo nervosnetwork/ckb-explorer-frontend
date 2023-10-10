@@ -66,19 +66,19 @@ export const TokensTableTitle = styled.div`
   }
 
   @media (max-width: 1000px) {
-    >span: nth-child(1) {
+    > span:nth-child(1) {
       flex: 3.4;
     }
 
-    >span: nth-child(2) {
+    > span:nth-child(2) {
       flex: 2.5;
     }
 
-    >span: nth-child(3) {
+    > span:nth-child(3) {
       flex: 2.1;
     }
 
-    >span: nth-child(4) {
+    > span:nth-child(4) {
       flex: 2;
     }
   }
@@ -88,11 +88,12 @@ export const TokensTableTitle = styled.div`
     height: fit-content;
     padding: 5px 20px;
 
-    > span {
+    /* This selector is just to increase the specificity. */
+    > span:nth-child(n) {
       display: inline-block;
       white-space: nowrap;
       margin: 10px 0;
-      flex: 0 !important;
+      flex: 0;
     }
   }
 `
@@ -197,7 +198,7 @@ export const TokensTableItem = styled.div`
     flex: 1.8;
     font-size: 12px;
     text-align: right;
-    color: #000000;
+    color: #000;
 
     @media (max-width: 1000px) {
       flex: 2;
