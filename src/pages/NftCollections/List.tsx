@@ -323,7 +323,7 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: Array<NFTCollect
                           className="monospace"
                           style={{
                             color: primaryColor,
-                            fontWeight: 700,
+                            fontWeight: 500,
                           }}
                         >{`${item.creator.slice(0, 8)}...${item.creator.slice(-8)}`}</Link>
                       </Tooltip>

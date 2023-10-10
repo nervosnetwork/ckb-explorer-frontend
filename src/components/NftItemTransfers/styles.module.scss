@@ -2,10 +2,6 @@
   background: #fff;
   border-top-right-radius: 6px;
   padding: 0 15px;
-  ul {
-    margin: 0;
-    margin-bottom: 4px;
-  }
 
   table {
     position: relative;
@@ -17,6 +13,7 @@
     position: relative;
     font-size: 14px;
     font-weight: 700;
+
     th {
       vertical-align: middle;
       padding-top: 12px;
@@ -24,7 +21,8 @@
       text-transform: capitalize;
       white-space: nowrap;
     }
-    &:after {
+
+    &::after {
       position: absolute;
       left: -15px;
       top: 44px;
@@ -91,37 +89,46 @@
 
   ul {
     display: none;
+    margin: 0;
+    margin-bottom: 4px;
   }
 
   ul,
   dl {
     list-style: none;
+
     .item {
       padding-bottom: 16px;
     }
   }
+
   li {
     padding: 16px;
+
     &:not(:last-child) {
       border-bottom: 1px solid #d8d8d8;
     }
   }
+
   dl > div {
     display: flex;
     width: 100%;
   }
+
   dt {
     width: 100px;
   }
+
   dd {
     text-align: right;
     flex: 1;
   }
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (width <= 1200px) {
     table {
       display: none;
     }
+
     ul {
       display: block;
     }

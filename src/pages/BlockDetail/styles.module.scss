@@ -1,46 +1,56 @@
 .blockNumber {
   display: flex;
   align-items: center;
+
   .prev,
   .next {
     display: flex;
     align-items: center;
+
     svg {
       rect {
         fill: var(--primary-color);
         opacity: 0.15;
       }
+
       path {
         stroke: var(--primary-color);
       }
     }
+
     &:hover {
       svg {
         rect {
           fill: var(--primary-color);
           opacity: 1;
         }
+
         path {
           stroke: #fff;
         }
       }
     }
+
     &[data-disabled='true'] {
       pointer-events: none;
+
       svg {
         rect {
           fill: #f0f0f0;
           opacity: 1;
         }
+
         path {
           stroke: #999;
         }
       }
     }
   }
+
   .prev {
     margin-right: 8px;
   }
+
   .next {
     margin-left: 8px;
     transform: rotate(0.5turn);
@@ -50,31 +60,34 @@
 .addressWidthModify {
   max-width: 80%;
 
-  @media (max-width: 1200px) {
+  @media (width <= 1200px) {
     max-width: 40%;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     max-width: 100%;
   }
 }
 
 .transactionTitleCard {
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     height: 110px;
-    :global(.title__card__rear > div) {
-      // hack default style of TitleCard
-      padding: 0 !important;
-      justify-content: space-between !important;
+
+    .rear {
+      > div:first-child {
+        padding: 0;
+        justify-content: space-between;
+      }
     }
 
     img {
       height: 12px;
       width: 12px;
     }
+
     input {
       padding-left: 38px;
     }

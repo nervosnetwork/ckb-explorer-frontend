@@ -21,9 +21,10 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
 import { useChartQueryWithCache, useIsMobile, usePrevious, useWindowResize } from '../../../utils/hook'
-import { useAppState } from '../../../contexts/providers'
 import { isDeepEqual } from '../../../utils/util'
 import { HelpTip } from '../../../components/HelpTip'
+import { ChartColor } from '../../../constants/common'
+import { Response } from '../../../services/ExplorerService'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
@@ -160,7 +161,7 @@ export interface SmartChartPageProps<T> {
   onFetched?: (dataList: T[]) => void
   getEChartOption: (
     dataList: T[],
-    chartColor: State.App['chartColor'],
+    chartColor: State.ChartColor,
     isMobile: boolean,
     isThumbnail: boolean,
   ) => echarts.EChartOption
@@ -183,7 +184,6 @@ export function SmartChartPage<T>({
   cacheMode = 'forever',
 }: SmartChartPageProps<T>): ReactElement {
   const isMobile = useIsMobile()
-  const { app } = useAppState()
 
   const query = useChartQueryWithCache(fetchData, cacheKey, cacheMode)
   const dataList = useMemo(() => query.data ?? [], [query.data])
@@ -194,8 +194,8 @@ export function SmartChartPage<T>({
   }, [onFetched, query.data])
 
   const option = useMemo(
-    () => getEChartOption(dataList, app.chartColor, isMobile, isThumbnail),
-    [app.chartColor, dataList, getEChartOption, isMobile, isThumbnail],
+    () => getEChartOption(dataList, ChartColor, isMobile, isThumbnail),
+    [dataList, getEChartOption, isMobile, isThumbnail],
   )
 
   const content = query.isLoading ? (

@@ -37,7 +37,6 @@ export const DaoContentPanel = styled.div`
 
 export const DaoTabBarPanel = styled.div`
   width: 100%;
-
   background: white;
   display: flex;
   margin-top: 20px;
@@ -53,11 +52,12 @@ export const DaoTabBarPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    padding: 10px 0px;
+    padding: 10px 0;
     flex-direction: column;
     justify-content: center;
     font-size: 14px;
     align-items: stretch;
+
     > div {
       padding-left: 10px;
       padding-right: 10px;

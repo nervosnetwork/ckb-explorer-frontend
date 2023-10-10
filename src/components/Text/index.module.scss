@@ -2,7 +2,7 @@
   color: var(--primary-color);
   font-size: 14px;
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     font-size: 13px;
   }
 
@@ -10,7 +10,7 @@
     color: var(--primary-color);
     margin-top: 3px;
 
-    @media (max-width: 750px) {
+    @media (width <= 750px) {
       margin-top: 1px;
     }
   }

@@ -18,7 +18,7 @@ import { shannonToCkb, toCamelcase } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ScriptInfo, ScriptTabType } from './types'
 import styles from './styles.module.scss'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService, Response } from '../../services/ExplorerService'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -39,7 +39,7 @@ const scriptHashNameMap = new Map<string, string>(
 )
 
 const getScriptInfo = (scriptInfo: ScriptInfo) => {
-  const { scriptName, scriptType, typeId, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
+  const { scriptName, scriptType, id, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
     scriptInfo
   const items: OverviewItemData[] = [
     {
@@ -58,8 +58,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
     },
     {
       title: i18n.t('scripts.type_id'),
-      tooltip: i18n.t('glossary.type_id'),
-      content: typeId || '-',
+      content: id ? <CodeHashMessage codeHash={id} /> : '-',
     },
     {
       title: i18n.t('scripts.code_hash'),
@@ -111,7 +110,7 @@ export const ScriptPage = () => {
   const [pageOfReferringCells, setPageOfReferringCells] = useState<number>(1)
 
   const { status, data: resp } = useQuery<AxiosResponse>(['scripts_general_info', codeHash, hashType], () =>
-    v2AxiosIns.get(`scripts/general_info`, {
+    explorerService.api.requesterV2.get(`scripts/general_info`, {
       params: {
         code_hash: codeHash,
         hash_type: hashType,
@@ -123,10 +122,9 @@ export const ScriptPage = () => {
     status === 'success' && resp
       ? toCamelcase<Response.Response<ScriptInfo>>(resp?.data)!.data
       : ({
-          id: 0,
+          id: '-',
           scriptName: '',
           scriptType: '',
-          typeId: '',
           codeHash,
           hashType,
           capacityOfDeployedCells: '0',

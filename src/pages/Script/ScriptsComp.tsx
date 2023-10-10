@@ -6,7 +6,7 @@ import camelcase from 'camelcase'
 import { useParams } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService, Response } from '../../services/ExplorerService'
 import i18n from '../../utils/i18n'
 import { TransactionCellDetailModal, TransactionCellInfoPanel } from '../Transaction/TransactionCell/styled'
 import SimpleButton from '../../components/SimpleButton'
@@ -19,17 +19,16 @@ import { CellInScript, CkbTransactionInScript } from './types'
 import styles from './styles.module.scss'
 import { QueryResult } from '../../components/QueryResult'
 import AddressText from '../../components/AddressText'
-import { AppActions } from '../../contexts/actions'
-import { useDispatch } from '../../contexts/providers'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import { ReactComponent as InfoMoreIcon } from '../../assets/info_more_icon.svg'
+import { useSetToast } from '../../components/Toast'
 
 export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
   const transactionsQuery = useQuery(['scripts_ckb_transactions', codeHash, hashType, page, size], async () => {
-    const { data, meta } = await v2AxiosIns
+    const { data, meta } = await explorerService.api.requesterV2
       .get(`scripts/ckb_transactions`, {
         params: {
           code_hash: codeHash,
@@ -125,7 +124,7 @@ export const ScriptCells = ({
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
   const cellsQuery = useQuery([`scripts_${cellType}`, codeHash, hashType, page, size], async () => {
-    const { data, meta } = await v2AxiosIns
+    const { data, meta } = await explorerService.api.requesterV2
       .get(`scripts/${cellType}`, {
         params: {
           code_hash: codeHash,
@@ -213,21 +212,18 @@ export const ScriptCells = ({
 }
 
 export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
-  const dispatch = useDispatch()
+  const setToast = useSetToast()
   return (
     <div className={styles.codeHashMessagePanel}>
-      <AddressText className={styles.codeHash}>{codeHash}</AddressText>
+      <div className={styles.codeHash}>
+        <AddressText>{codeHash}</AddressText>
+      </div>
 
       <CopyIcon
         onClick={() => {
           navigator.clipboard.writeText(codeHash).then(
             () => {
-              dispatch({
-                type: AppActions.ShowToastMessage,
-                payload: {
-                  message: i18n.t('common.copied'),
-                },
-              })
+              setToast({ message: i18n.t('common.copied') })
             },
             error => {
               console.error(error)

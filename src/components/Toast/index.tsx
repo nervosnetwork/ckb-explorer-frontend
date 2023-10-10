@@ -1,7 +1,7 @@
-import { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect, useReducer, useCallback } from 'react'
 import { useTimeoutWithUnmount } from '../../utils/hook'
-import { useAppState } from '../../contexts/providers'
 import { ToastItemPanel, ToastPanel } from './styled'
+import { createGlobalState, useGlobalState } from '../../utils/state'
 
 const getColor = (type: 'success' | 'warning' | 'danger') => {
   switch (type) {
@@ -81,10 +81,25 @@ const reducer = (state: any, action: any) => {
   }
 }
 
+const globalToast = createGlobalState<State.ToastMessage | null>(null)
+
+export function useSetToast() {
+  const [, setToast] = useGlobalState(globalToast)
+
+  return useCallback(
+    (data: Pick<State.ToastMessage, 'message' | 'duration'> & Partial<Pick<State.ToastMessage, 'type'>>) =>
+      setToast({
+        id: new Date().getTime(),
+        message: data.message,
+        type: data.type ?? 'success',
+        duration: data.duration,
+      }),
+    [setToast],
+  )
+}
+
 export default () => {
-  const {
-    app: { toast },
-  } = useAppState()
+  const [toast] = useGlobalState(globalToast)
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {

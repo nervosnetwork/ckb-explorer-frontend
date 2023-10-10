@@ -9,11 +9,13 @@
   padding: 0 6px;
   opacity: 0.5;
   cursor: pointer;
+
   svg {
     pointer-events: none;
     width: 24px;
     height: 22.5px;
   }
+
   &:hover {
     opacity: 1;
   }

@@ -6,7 +6,7 @@ import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
-import { v2AxiosIns } from '../../service/http/fetcher'
+import { explorerService } from '../../services/ExplorerService'
 import i18n from '../../utils/i18n'
 import { parseSporeCellData } from '../../utils/spore'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
@@ -272,7 +272,7 @@ export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => 
 
   const { data: initList } = useQuery<AxiosResponse<CoTAList>>(
     ['cota-list', address.addressHash],
-    () => v2AxiosIns(`nft/items?owner=${address.addressHash}&standard=cota`),
+    () => explorerService.api.requesterV2(`nft/items?owner=${address.addressHash}&standard=cota`),
     {
       enabled: !!address?.addressHash,
     },
@@ -281,7 +281,7 @@ export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => 
   const { data: cotaList } = useQuery<CoTAList['data']>(['cota-list', initList?.data.pagination.series], () =>
     Promise.all(
       (initList?.data.pagination.series ?? []).map(p =>
-        v2AxiosIns(`nft/items?owner=${address.addressHash}&standard=cota&page=${p}`),
+        explorerService.api.requesterV2(`nft/items?owner=${address.addressHash}&standard=cota&page=${p}`),
       ),
     ).then(list => {
       return list.reduce((total, acc) => [...total, ...acc.data.data], [] as CoTAList['data'])

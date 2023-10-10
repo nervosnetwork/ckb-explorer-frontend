@@ -1,18 +1,19 @@
 .container {
   --margin-top: 104px;
   --margin-bottom: 40px;
+
   width: 1200px;
   margin: var(--margin-top) auto var(--margin-bottom);
   flex: 1;
 
-  @media screen and (max-width: 1232px) {
+  @media screen and (width <= 1232px) {
     box-sizing: border-box;
     width: 100%;
     padding-left: 16px;
     padding-right: 16px;
   }
 
-  @media screen and (max-width: 750px) {
+  @media screen and (width <= 750px) {
     --margin-top: 84px;
     --margin-bottom: 20px;
   }
@@ -22,12 +23,15 @@
   padding: 24px;
   background: #fff;
   display: flex;
+
   & > div {
     overflow: hidden;
   }
+
   .info {
     width: 100%;
   }
+
   .cover {
     width: 440px;
     height: 440px;
@@ -45,6 +49,7 @@
     text-overflow: ellipsis;
     line-height: 1;
   }
+
   .items {
     dl {
       margin: 0;
@@ -52,12 +57,14 @@
       flex-direction: column;
       line-height: 1;
     }
+
     dt {
       font-size: 14px;
       font-weight: 400;
       color: #999;
       margin: 40px 0 20px;
     }
+
     dd {
       margin: 0;
       overflow: hidden;
@@ -65,23 +72,27 @@
     }
   }
 
-  @media screen and (max-width: 800px) {
+  @media screen and (width <= 800px) {
     flex-direction: column;
     align-items: center;
+
     .cover {
       margin-bottom: 16px;
       margin-right: 0;
     }
+
     .name,
     .itmes {
       width: 440px;
     }
   }
-  @media screen and (max-width: 472px) {
+
+  @media screen and (width <= 472px) {
     .cover {
       width: 320px;
       height: 320px;
     }
+
     .name,
     .items {
       width: 100%;
