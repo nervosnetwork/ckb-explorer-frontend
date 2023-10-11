@@ -13,7 +13,7 @@ export const ChartLoadingPanel = styled.div`
   align-items: center;
   justify-content: center;
 
-  .chart__no__data {
+  .chartNoData {
     width: 105px;
     height: auto;
 

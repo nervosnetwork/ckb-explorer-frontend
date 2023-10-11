@@ -15,7 +15,7 @@ export default ({
   rearClassName?: string
 }) => (
   <TitleCardPanel isSingle={isSingle} className={className} hasRear={!!rear}>
-    <div className="title__card__content">{title}</div>
-    {rear ? <div className={classNames('title__card__rear', rearClassName)}>{rear}</div> : null}
+    <div className="titleCardContent">{title}</div>
+    {rear ? <div className={classNames('titleCardRear', rearClassName)}>{rear}</div> : null}
   </TitleCardPanel>
 )

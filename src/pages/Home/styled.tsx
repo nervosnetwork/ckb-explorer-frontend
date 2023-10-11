@@ -9,7 +9,7 @@ export const HomeHeaderItemPanel = styled.div`
   background-color: white;
   flex: 1;
 
-  .blockchain__item__content {
+  .blockchainItemContent {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -19,7 +19,7 @@ export const HomeHeaderItemPanel = styled.div`
       margin: 0 20px;
     }
 
-    .blockchain__item__name {
+    .blockchainItemName {
       color: #555;
       font-size: 14px;
 
@@ -28,14 +28,14 @@ export const HomeHeaderItemPanel = styled.div`
       }
     }
 
-    .blockchain__item__value {
+    .blockchainItemValue {
       color: #000;
       font-weight: 600;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
 
-      .blockchain__item__left__value {
+      .blockchainItemLeftValue {
         font-size: 20px;
 
         @media (max-width: 750px) {
@@ -43,7 +43,7 @@ export const HomeHeaderItemPanel = styled.div`
         }
       }
 
-      .blockchain__item__right__value {
+      .blockchainItemRightValue {
         font-size: 14px;
 
         @media (max-width: 750px) {
@@ -51,17 +51,9 @@ export const HomeHeaderItemPanel = styled.div`
         }
       }
     }
-
-    .blockchain__item__separate {
-      margin: 10px 0 20px;
-      height: 1px;
-      background: #eaeaea;
-      width: 100%;
-      transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
-    }
   }
 
-  .blockchain__item__between_separate {
+  .blockchainItemBetweenSeparate {
     height: 90%;
     background: #eaeaea;
     width: 1px;
@@ -78,7 +70,7 @@ export const HomeStatisticItemPanel = styled.div`
     margin-left: ${(props: { isFirst?: boolean }) => (props.isFirst ? '0px' : '40px')};
   }
 
-  .home__statistic__item__name {
+  .homeStatisticItemName {
     font-size: 14px;
     color: #fff;
 
@@ -87,7 +79,7 @@ export const HomeStatisticItemPanel = styled.div`
     }
   }
 
-  .home__statistic__item__value {
+  .homeStatisticItemValue {
     font-size: ${(props: { isFirst?: boolean }) => (props.isFirst ? '26px' : '20px')};
     color: #fff;
     font-weight: bold;
@@ -118,7 +110,7 @@ export const BlockPanel = styled.div`
   border-radius: 6px;
   box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
 
-  .block__card__separate {
+  .blockCardSeparate {
     background: #eaeaea;
     width: auto;
     margin: 0 16px;
@@ -137,7 +129,7 @@ export const TransactionPanel = styled.div`
   border-radius: 6px;
   box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
 
-  .transaction__card__separate {
+  .transactionCardSeparate {
     background: #eaeaea;
     width: auto;
     margin: 0 16px;
@@ -184,17 +176,12 @@ export const ContentTable = styled.div`
   width: 100%;
   z-index: 2;
 
-  .block__green__background {
+  .blockGreenBackground {
     margin-left: -20px;
     height: 61px;
     width: calc(100% + 40px);
     background-color: ${props => props.theme.primary};
     z-index: 1;
-  }
-
-  .block__panel {
-    margin-top: -41px;
-    z-index: 2;
   }
 `
 
@@ -224,7 +211,7 @@ export const TableHeaderPanel = styled.div`
 export const TableMorePanel: FC<HTMLAttributes<HTMLDivElement>> = props => {
   const { children, className, ...rest } = props
   return (
-    <div className={classNames(styles.TableMorePanel, className)} {...rest}>
+    <div className={classNames(styles.tableMorePanel, className)} {...rest}>
       {children}
     </div>
   )

@@ -44,8 +44,8 @@ interface ChartCategory {
 }
 
 const ChartTitle = ({ chartData }: { chartData: ChartData }) => (
-  <div className="chart__card__title__penal">
-    <div className="chart__card_title">{chartData.title}</div>
+  <div className="chartCardTitlePenal">
+    <div className="chartCardTitle">{chartData.title}</div>
     {chartData.description && (
       <HelpTip placement="bottom" title={chartData.description} iconProps={{ alt: 'chart help' }} />
     )}
@@ -59,7 +59,7 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
       {isMobile && <ChartTitle chartData={chartData} />}
       <Link to={chartData.path}>
         {!isMobile && <ChartTitle chartData={chartData} />}
-        <div className="chart__card_body">{chartData.chart}</div>
+        <div className="chartCardBody">{chartData.chart}</div>
       </Link>
     </ChartCardPanel>
   )
@@ -235,8 +235,8 @@ export default () => {
         <ChartsTitle>{i18n.t('statistic.charts_title')}</ChartsTitle>
         {chartsData().map(chartData => (
           <ChartsPanel key={chartData.category}>
-            <div className="charts__category__title">{chartData.category}</div>
-            <div className="charts__category__panel">
+            <div className="chartsCategoryTitle">{chartData.category}</div>
+            <div className="chartsCategoryPanel">
               {chartData.charts.map(chart => (
                 <ChartCard chartData={chart} key={chart.title} />
               ))}

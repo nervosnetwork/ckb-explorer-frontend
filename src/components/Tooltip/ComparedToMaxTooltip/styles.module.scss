@@ -1,3 +1,4 @@
+/* stylelint-disable-next-line selector-class-pattern */
 :global(.ant-tooltip) {
   max-width: 320px;
 
@@ -7,6 +8,7 @@
 }
 
 .comparedSizeTooltip {
+  /* stylelint-disable-next-line selector-class-pattern */
   :global(.ant-tooltip-inner) {
     border-radius: 8px;
     mix-blend-mode: normal;
@@ -31,13 +33,14 @@
 
     > div.inEpoch {
       margin-bottom: 10px;
-
+      /* stylelint-disable-next-line selector-class-pattern */
       :global(.ant-progress-bg) {
         background-color: var(--primary-color);
       }
     }
 
     > div.inChain {
+      /* stylelint-disable-next-line selector-class-pattern */
       :global(.ant-progress-bg) {
         background-color: #346dff;
       }

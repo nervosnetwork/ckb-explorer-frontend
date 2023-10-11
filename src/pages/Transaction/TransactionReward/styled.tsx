@@ -13,11 +13,11 @@ export const RewardItemPenal = styled.div`
     justify-content: space-between;
   }
 
-  .reward__name {
+  .rewardName {
     font-weight: 500;
   }
 
-  .reward__capacity {
+  .rewardCapacity {
     margin-left: 15px;
 
     > span {
@@ -31,7 +31,7 @@ export const RewardPenal = styled.div`
     margin-bottom: -20px;
   }
 
-  .transaction__reward__title {
+  .transactionRewardTitle {
     margin-left: 10px;
     margin-top: 12px;
     color: #666;

@@ -7,12 +7,12 @@ import { HelpTip } from '../HelpTip'
 
 const ScriptItem = ({ title, tooltip, children }: { title: string; tooltip?: string; children?: ReactNode }) => (
   <ScriptItemPanel>
-    <div className="script__title">
+    <div className="scriptTitle">
       <span>{title}</span>
       {tooltip && <HelpTip title={tooltip} />}
       <span>:</span>
     </div>
-    <div className="script__content">{children}</div>
+    <div className="scriptContent">{children}</div>
   </ScriptItemPanel>
 )
 
@@ -21,7 +21,7 @@ const Script = ({ script }: { script: State.Script }) => {
   return (
     <ScriptPanel>
       <ScriptItem title={i18n.t('address.code_hash')}>
-        <div className="script__code_hash">
+        <div className="scriptCodeHash">
           <span className="monospace">{script.codeHash}</span>
           {contractHashTag && <HashTag content={contractHashTag.tag} />}
         </div>

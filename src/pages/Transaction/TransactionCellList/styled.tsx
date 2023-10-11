@@ -8,7 +8,7 @@ export const TransactionCellListTitlePanel = styled.div`
     display: none;
   }
 
-  .transaction__cell_list_titles {
+  .transactionCellListTitles {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -69,7 +69,7 @@ export const TransactionCellsPanel = styled.div`
     css`
       padding-top: 10px;
 
-      .transaction__cell_list_container {
+      .transactionCellListContainer {
         max-height: 600px;
         overflow-y: scroll;
 
@@ -79,7 +79,7 @@ export const TransactionCellsPanel = styled.div`
       }
     `};
 
-  .transaction__cell__title {
+  .transactionCellTitle {
     color: #000;
     font-weight: 600;
     font-size: 20px;

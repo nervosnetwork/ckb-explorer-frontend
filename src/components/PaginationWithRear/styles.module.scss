@@ -20,14 +20,14 @@
       border-radius: 0;
     }
 
-    :global(.pagination__input__page) {
+    :global(.paginationInputPage) {
       flex: 1;
       width: 60px;
       max-width: 120px;
     }
   }
 
-  :global(.pagination__goto__page) {
+  :global(.paginationGotoPage) {
     min-width: 42px;
   }
 

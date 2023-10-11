@@ -95,12 +95,12 @@ export const TableMinerContentPanel = styled.div`
   text-align: center;
   margin: auto 0;
 
-  .table__miner__content {
+  .tableMinerContent {
     color: ${(props: { theme: any }) => props.theme.primary};
     text-decoration: none;
   }
 
-  .table__miner__text {
+  .tableMinerText {
     width: 100%;
     justify-content: center;
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
@@ -111,7 +111,7 @@ export const TableMinerContentPanel = styled.div`
     }
   }
 
-  .table__miner__text__disable {
+  .tableMinerTextDisable {
     display: flex;
     align-items: center;
     justify-content: center;

@@ -25,14 +25,14 @@ export const ChartsPanel = styled.div`
     padding: 20px 10px;
   }
 
-  .charts__category__title {
+  .chartsCategoryTitle {
     font-size: 20px;
     font-weight: 600;
     color: #000;
     margin-left: 10px;
   }
 
-  .charts__category__panel {
+  .chartsCategoryPanel {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -51,13 +51,14 @@ export const ChartCardPanel = styled.div`
     width: 100%;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   .echarts-for-react {
     canvas {
       cursor: pointer;
     }
   }
 
-  .chart__card__title__penal {
+  .chartCardTitlePenal {
     display: flex;
     align-items: center;
     padding-left: 12px;
@@ -74,7 +75,7 @@ export const ChartCardPanel = styled.div`
     }
   }
 
-  .chart__card_title {
+  .chartCardTitle {
     height: 40px;
     line-height: 40px;
     color: #000;
@@ -82,7 +83,7 @@ export const ChartCardPanel = styled.div`
     font-weight: 600;
   }
 
-  .chart__card_body {
+  .chartCardBody {
     border-radius: 0 0 6px 6px;
     box-shadow: 2px 2px 10px 0 rgb(43 43 43 / 5%);
     border: 1px solid #e2e2e2;

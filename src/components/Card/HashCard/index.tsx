@@ -74,21 +74,21 @@ export default ({
 
   return (
     <HashCardPanel isColumn={!!iconUri}>
-      <div className="hash__card__content__panel" id="hash_content">
+      <div className="hashCardContentPanel" id="hash_content">
         {iconUri && isMobile ? (
           <div>
-            <img className="hash__icon" src={iconUri} alt="hash icon" />
-            <div className="hash__title">{title}</div>
+            <img className="hashIcon" src={iconUri} alt="hash icon" />
+            <div className="hashTitle">{title}</div>
           </div>
         ) : (
           <>
-            {iconUri && <img className="hash__icon" src={iconUri} alt="hash icon" />}
-            <div className="hash__title">{title}</div>
+            {iconUri && <img className="hashIcon" src={iconUri} alt="hash icon" />}
+            <div className="hashTitle">{title}</div>
           </>
         )}
 
         <div className={styles.hashCardHeaderRight}>
-          <div className="hash__card__hash__content">
+          <div className="hashCardHashContent">
             {loading ? (
               <LoadingPanel>
                 <SmallLoading />
@@ -101,9 +101,9 @@ export default ({
               </div>
             )}
             <SimpleButton
-              className="hash__copy_icon"
+              className="hashCopyIcon"
               onClick={() => {
-                copyElementValue(document.getElementById('hash__value'))
+                copyElementValue(document.getElementById('hashValue'))
                 setToast({ message: i18n.t('common.copied') })
               }}
             >
@@ -140,7 +140,7 @@ export default ({
 
         {specialAddress && (
           <Tooltip title={i18n.t('address.vesting_tooltip')} placement={isMobile ? 'bottomRight' : 'bottom'}>
-            <Link to={`/address/${specialAddress}`} className="hash__vesting">
+            <Link to={`/address/${specialAddress}`} className="hashVesting">
               {i18n.t('address.vesting')}
             </Link>
           </Tooltip>

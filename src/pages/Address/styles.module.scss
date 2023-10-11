@@ -74,6 +74,7 @@
 
 .layoutButtons {
   :global {
+    /* stylelint-disable-next-line selector-class-pattern */
     .ant-radio-button-wrapper {
       height: 40px;
       width: 120px;
@@ -102,6 +103,7 @@
         border-radius: 0 4px 4px 0;
       }
 
+      /* stylelint-disable-next-line selector-class-pattern */
       &.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
         background: #333;
         border-color: #333;

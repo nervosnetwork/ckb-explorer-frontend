@@ -7,7 +7,7 @@ import { SmallLoadingPanel } from './styled'
 export default ({ isWhite }: { isWhite?: boolean }) => (
   <SmallLoadingPanel>
     {isWhite ? (
-      <img className="loading__white" src={LoadingWhiteImage} alt="loading" />
+      <img className="loadingWhite" src={LoadingWhiteImage} alt="loading" />
     ) : (
       <img src={isMainnet() ? LoadingImage : LoadingBlueImage} alt="loading" />
     )}
