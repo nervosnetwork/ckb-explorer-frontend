@@ -34,7 +34,7 @@
 
     /* stylelint-disable-next-line selector-class-pattern */
     .ant-tabs-nav-list {
-      margin-left: 40px;
+      padding-left: 40px;
     }
 
     /* stylelint-disable-next-line selector-class-pattern */
@@ -168,7 +168,7 @@
 
   @media screen and (width <= 750px) {
     .codeHash {
-      width: 600px;
+      width: 270px;
     }
   }
 }
