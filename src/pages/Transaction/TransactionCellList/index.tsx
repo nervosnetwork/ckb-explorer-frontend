@@ -85,15 +85,15 @@ export default ({
   return (
     <TransactionCellListPanel>
       <TransactionCellListTitlePanel>
-        <div className="transaction__cell_list_titles">
+        <div className="transactionCellListTitles">
           <div>{cellTitle()}</div>
           <div>{isCellbaseInput ? i18n.t('transaction.reward_info') : i18n.t('transaction.detail')}</div>
           <div>{isCellbaseInput ? '' : i18n.t('transaction.capacity_amount')}</div>
         </div>
       </TransactionCellListTitlePanel>
       <TransactionCellsPanel isScroll={isScroll}>
-        <div className="transaction__cell__title">{cellTitle()}</div>
-        <div className="transaction__cell_list_container" onScroll={(event: any) => handleScroll(event)}>
+        <div className="transactionCellTitle">{cellTitle()}</div>
+        <div className="transactionCellListContainer" onScroll={(event: any) => handleScroll(event)}>
           {cells &&
             cells
               .slice(0, offset)

@@ -41,13 +41,13 @@ export const LanguageDropdown = () => {
       }}
     >
       <SimpleButton
-        className="header__language__flag"
+        className="headerLanguageFlag"
         onMouseOver={() => {
           setShowLanguage(true)
         }}
       >
-        <div className="header__language__content_panel">
-          <div className="header__language__content">{languageText(currentLanguage())}</div>
+        <div className="headerLanguageContentPanel">
+          <div className="headerLanguageContent">{languageText(currentLanguage())}</div>
           <img src={getDropdownIcon(showLanguage)} alt="dropdown icon" />
         </div>
       </SimpleButton>
@@ -62,16 +62,16 @@ export const LanguageMenu: FC<{ hideMobileMenu: () => void }> = ({ hideMobileMen
   return (
     <MobileSubMenuPanel showSubMenu={false}>
       <SimpleButton
-        className="mobile__menus__main__item"
+        className="mobileMenusMainItem"
         onClick={() => {
           setShowSubMenu(!showSubMenu)
         }}
       >
-        <div className="mobile__menus__main__item__content">
+        <div className="mobileMenusMainItemContent">
           {currentLanguage() === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')}
         </div>
         <img
-          className="mobile__menus__main__item__icon"
+          className="mobileMenusMainItemIcon"
           alt="mobile language icon"
           src={showSubMenu ? WhiteDropUpIcon : WhiteDropdownIcon}
         />
@@ -79,7 +79,7 @@ export const LanguageMenu: FC<{ hideMobileMenu: () => void }> = ({ hideMobileMen
       {showSubMenu && (
         <>
           <SimpleButton
-            className="mobile__menus__sub__item"
+            className="mobileMenusSubItem"
             onClick={() => {
               hideMobileMenu()
             }}
@@ -87,7 +87,7 @@ export const LanguageMenu: FC<{ hideMobileMenu: () => void }> = ({ hideMobileMen
             {currentLanguage() === 'en' ? i18n.t('navbar.language_en') : i18n.t('navbar.language_zh')}
           </SimpleButton>
           <SimpleButton
-            className="mobile__menus__sub__item"
+            className="mobileMenusSubItem"
             onClick={() => {
               changeLanguage(currentLanguage() === 'en' ? 'zh' : 'en')
               hideMobileMenu()

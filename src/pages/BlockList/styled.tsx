@@ -13,7 +13,7 @@ export const BlockListPanel = styled.div`
     margin-top: 0;
     padding: 0 20px;
 
-    .block__green__background {
+    .blockGreenBackground {
       margin-left: -20px;
       height: 61px;
       width: calc(100% + 40px);

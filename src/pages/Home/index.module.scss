@@ -1,4 +1,4 @@
-.HomeHeaderTopPanel {
+.homeHeaderTopPanel {
   margin: 20px 0;
   display: flex;
   align-items: center;
@@ -39,7 +39,7 @@
   }
 }
 
-.HomeStatisticBottomPanel {
+.homeStatisticBottomPanel {
   display: flex;
   padding: 20px 5px;
   margin: 0 0 20px;
@@ -54,13 +54,13 @@
     border-radius: 0 0 6px 6px;
   }
 
-  .blockchain__item__row {
+  .blockchainItemRow {
     display: flex;
     width: 100%;
     padding: 12px 0;
   }
 
-  .blockchain__item__row_separate {
+  .blockchainItemRowSeparate {
     height: 1px;
     background: #eaeaea;
     width: auto;
@@ -73,20 +73,20 @@
 }
 
 :global([data-net='mainnet']) {
-  .HomeStatisticTopPanel {
-    .home__statistic__left__panel {
-      .home__statistic__left__data {
+  .homeStatisticTopPanel {
+    .homeStatisticLeftPanel {
+      .homeStatisticLeftData {
         background: linear-gradient(134deg, #3fb39e, #1ec196 51%, #3cc6b7 100%);
       }
 
-      .home__statistic__left__chart {
+      .homeStatisticLeftChart {
         background: linear-gradient(134deg, #0bad8e 2%, #20c5a5 48%, #0baab1 99%);
       }
     }
   }
 }
 
-.HomeStatisticTopPanel {
+.homeStatisticTopPanel {
   height: 207px;
   width: 100%;
   display: flex;
@@ -100,7 +100,7 @@
     height: 150px;
   }
 
-  .home__statistic__left__panel {
+  .homeStatisticLeftPanel {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -116,7 +116,7 @@
       border: 0 solid;
     }
 
-    .home__statistic__left__data {
+    .homeStatisticLeftData {
       flex: 1;
       padding: 32px;
       margin: -2px;
@@ -144,7 +144,7 @@
       }
     }
 
-    .home__statistic__left__chart {
+    .homeStatisticLeftChart {
       flex: 2;
       margin: -2px;
       padding: 5px 5px 0 10px;
@@ -163,7 +163,7 @@
     }
   }
 
-  .home__statistic__right__panel {
+  .homeStatisticRightPanel {
     flex: 1;
     min-width: 0;
     display: flex;
@@ -181,7 +181,7 @@
       border-radius: 0;
     }
 
-    .home__statistic__right__data {
+    .homeStatisticRightData {
       flex: 1;
       padding: 32px;
       margin: -2px;
@@ -208,7 +208,7 @@
       }
     }
 
-    .home__statistic__right__chart {
+    .homeStatisticRightChart {
       flex: 2;
       margin: -2px;
       padding: 5px 5px 0 10px;
@@ -228,36 +228,36 @@
     }
   }
 
-  &.AfterHardFork {
-    .home__statistic__left__panel {
+  &.afterHardFork {
+    .homeStatisticLeftPanel {
       border-color: #232323;
       background-color: #232323;
 
-      .home__statistic__left__data {
+      .homeStatisticLeftData {
         background: #232323;
       }
 
-      .home__statistic__left__chart {
+      .homeStatisticLeftChart {
         background: #232323;
       }
     }
 
-    .home__statistic__right__panel {
+    .homeStatisticRightPanel {
       border-color: #484e4e;
       background-color: #484e4e;
 
-      .home__statistic__right__data {
+      .homeStatisticRightData {
         background: #484e4e;
       }
 
-      .home__statistic__right__chart {
+      .homeStatisticRightChart {
         background: #484e4e;
       }
     }
   }
 }
 
-.TableMorePanel {
+.tableMorePanel {
   height: 44px;
   width: 100%;
   display: flex;

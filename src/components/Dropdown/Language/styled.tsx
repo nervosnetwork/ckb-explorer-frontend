@@ -16,7 +16,7 @@ export const LanguagePanel = styled.div`
   left: ${(props: { left: number; top: number }) => props.left}px;
   top: ${(props: { left: number; top: number }) => props.top}px;
 
-  .language__selected {
+  .languageSelected {
     width: 90%;
     font-size: 12px;
     height: 33px;
@@ -31,7 +31,7 @@ export const LanguagePanel = styled.div`
     }
   }
 
-  .language__normal {
+  .languageNormal {
     width: 90%;
     font-size: 12px;
     height: 33px;
@@ -46,7 +46,7 @@ export const LanguagePanel = styled.div`
     }
   }
 
-  .language__separate {
+  .languageSeparate {
     width: 80%;
     height: 0.5px;
     border: solid 0.5px #c3c3c3;

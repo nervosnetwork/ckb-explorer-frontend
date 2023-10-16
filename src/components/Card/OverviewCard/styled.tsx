@@ -20,7 +20,7 @@ export const OverviewCardPanel = styled.div`
       padding: 0;
     `};
 
-  .overview__separate {
+  .overviewSeparate {
     background: #eaeaea;
     width: 100%;
     height: 1px;
@@ -66,7 +66,7 @@ export const OverviewContentPanel = styled.div`
     }
   }
 
-  .overview_content__left_items {
+  .overviewContentLeftItems {
     margin-right: 45px;
     display: flex;
     flex: 1;
@@ -79,7 +79,7 @@ export const OverviewContentPanel = styled.div`
     }
   }
 
-  .overview_content__right_items {
+  .overviewContentRightItems {
     margin-left: 45px;
     display: flex;
     flex: 1;
@@ -129,7 +129,7 @@ export const OverviewItemPanel = styled.div`
     }
   }
 
-  .overview_item__title__panel {
+  .overviewItemTitlePanel {
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -144,7 +144,7 @@ export const OverviewItemPanel = styled.div`
     }
   }
 
-  .overview_item__icon {
+  .overviewItemIcon {
     width: 48px;
     height: 48px;
     margin-right: 10px;
@@ -159,7 +159,7 @@ export const OverviewItemPanel = styled.div`
     }
   }
 
-  .overview_item__title {
+  .overviewItemTitle {
     display: flex;
     align-items: center;
     font-size: 16px;
@@ -179,7 +179,7 @@ export const OverviewItemPanel = styled.div`
     }
   }
 
-  .overview_item__value {
+  .overviewItemValue {
     margin-left: 15px;
     display: flex;
     align-items: center;
@@ -223,7 +223,7 @@ export const OverviewItemPanel = styled.div`
     }
   }
 
-  .block_pointer {
+  .blockPointer {
     cursor: pointer;
   }
 `

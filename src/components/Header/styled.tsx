@@ -47,9 +47,9 @@ export const HeaderMobileMenuPanel = styled(SimpleButton)`
     height: 18px;
   }
 
-  .menu__icon__first,
-  .menu__icon__second,
-  .menu__icon__third {
+  .menuIconFirst,
+  .menuIconSecond,
+  .menuIconThird {
     width: 18px;
     height: 2px;
     background-color: white;
@@ -57,15 +57,15 @@ export const HeaderMobileMenuPanel = styled(SimpleButton)`
     transition: 0.4s;
   }
 
-  .close .menu__icon__first {
+  .close .menuIconFirst {
     transform: rotate(-45deg) translate(-4px, 5px);
   }
 
-  .close .menu__icon__second {
+  .close .menuIconSecond {
     opacity: 0;
   }
 
-  .close .menu__icon__third {
+  .close .menuIconThird {
     transform: rotate(45deg) translate(-4px, -6px);
   }
 `

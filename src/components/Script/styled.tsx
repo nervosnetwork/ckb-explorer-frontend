@@ -38,7 +38,7 @@ export const ScriptItemPanel = styled.div`
     font-size: 14px;
   }
 
-  .script__title {
+  .scriptTitle {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -58,7 +58,7 @@ export const ScriptItemPanel = styled.div`
     }
   }
 
-  .script__content {
+  .scriptContent {
     flex: 1;
     margin-left: 12px;
     display: flex;
@@ -74,7 +74,7 @@ export const ScriptItemPanel = styled.div`
     }
   }
 
-  .script__code_hash {
+  .scriptCodeHash {
     display: flex;
     flex-direction: row;
     align-items: center;

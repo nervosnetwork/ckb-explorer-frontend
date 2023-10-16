@@ -27,7 +27,7 @@ export const ChainTypePanel = styled.div`
   left: ${(props: { left: number; top: number }) => props.left}px;
   top: ${(props: { left: number; top: number }) => props.top}px;
 
-  .chain__type__selected {
+  .chainTypeSelected {
     width: 94%;
     font-size: 12px;
     height: 33px;
@@ -49,7 +49,7 @@ export const ChainTypePanel = styled.div`
     }
   }
 
-  .chain__type__normal {
+  .chainTypeNormal {
     width: 94%;
     height: 33px;
     font-size: 12px;
@@ -70,7 +70,7 @@ export const ChainTypePanel = styled.div`
     }
   }
 
-  .chain__type__separate {
+  .chainTypeSeparate {
     width: 88%;
     height: 0.5px;
     border: solid 0.5px #c3c3c3;

@@ -17,7 +17,7 @@ export const ChartDetailTitle = styled.div`
     margin-top: 20px;
   }
 
-  .chart__detail__title__panel {
+  .chartDetailTitlePanel {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,7 +42,7 @@ export const ChartDetailTitle = styled.div`
     }
   }
 
-  .chart__detail__title__download {
+  .chartDetailTitleDownload {
     width: 100px;
     padding: 5px 0;
     border-radius: 2px;

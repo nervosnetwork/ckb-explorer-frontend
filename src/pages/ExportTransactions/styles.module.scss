@@ -98,10 +98,12 @@
       color: #333;
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(div.ant-tabs-nav-wrap) {
       justify-content: center;
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(div.ant-tabs-tab) {
       width: 120px;
       margin-left: 90px;
@@ -118,10 +120,12 @@
       }
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(div.ant-tabs-ink-bar) {
       background: var(--primary-color);
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(.ant-tabs-tab .ant-tabs-tab-btn) {
       font-weight: 400;
       font-size: 14px;
@@ -129,6 +133,7 @@
       color: #333;
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
       font-weight: 500;
       font-size: 14px;
@@ -172,22 +177,26 @@
       }
 
       :global {
+        /* stylelint-disable-next-line selector-class-pattern */
         .ant-picker {
           border-radius: 4px;
           box-shadow: none;
 
-          &:hover,
-          &.ant-picker-focused {
+          /* stylelint-disable-next-line selector-class-pattern */
+          &.ant-picker-focused,
+          &:hover {
             border-color: var(--primary-color);
           }
         }
 
+        /* stylelint-disable-next-line selector-class-pattern */
         .ant-input-number-affix-wrapper {
           border-radius: 4px;
           box-shadow: none;
 
-          &:hover,
-          &.ant-input-number-affix-wrapper-focused {
+          /* stylelint-disable-next-line selector-class-pattern */
+          &.ant-input-number-affix-wrapper-focused,
+          &:hover {
             border-color: var(--primary-color);
           }
         }
@@ -215,6 +224,7 @@
       }
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     :global(.ant-picker-input) {
       flex-direction: row-reverse;
 
@@ -333,16 +343,19 @@
 
 .calendar {
   :global {
+    /* stylelint-disable-next-line selector-class-pattern */
     .ant-picker-cell-selected .ant-picker-cell-inner {
       background-color: var(--primary-color);
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     .ant-picker-cell-today .ant-picker-cell-inner {
       &::before {
         border: 1px solid var(--primary-color);
       }
     }
 
+    /* stylelint-disable-next-line selector-class-pattern */
     .ant-picker-today-btn {
       &,
       &:hover,

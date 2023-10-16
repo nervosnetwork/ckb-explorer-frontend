@@ -37,9 +37,9 @@ export const TableMinerContentItem = memo(
           <Row justify={textCenter ? 'center' : 'start'}>
             <Col span={20} xl={16}>
               <AddressText
-                className="table__miner__text"
+                className="tableMinerText"
                 linkProps={{
-                  className: 'table__miner__content',
+                  className: 'tableMinerContent',
                   to: `/address/${content}`,
                 }}
               >
@@ -48,7 +48,7 @@ export const TableMinerContentItem = memo(
             </Col>
           </Row>
         ) : (
-          <div className="table__miner__text__disable">{i18n.t('address.unable_decode_address')}</div>
+          <div className="tableMinerTextDisable">{i18n.t('address.unable_decode_address')}</div>
         )}
       </TableMinerContentPanel>
     )

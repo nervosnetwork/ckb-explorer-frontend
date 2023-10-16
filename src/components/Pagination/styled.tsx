@@ -9,10 +9,6 @@ export const PaginationPanel = styled.div`
   justify-content: center;
   border-radius: 0 0 6px 6px;
   box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
-
-  @media (max-width: 750px) {
-    margin-bottom: 30px;
-  }
 `
 
 export const PaginationLeftItem = styled.div`
@@ -30,7 +26,7 @@ export const PaginationLeftItem = styled.div`
     justify-content: flex-start;
   }
 
-  .pagination__first__button {
+  .paginationFirstButton {
     height: 30px;
     line-height: 30px;
     padding: 0 8px;
@@ -52,7 +48,7 @@ export const PaginationLeftItem = styled.div`
     }
   }
 
-  .pagination__left__button {
+  .paginationLeftButton {
     margin-left: 20px;
     width: 30px;
     height: 30px;
@@ -75,7 +71,7 @@ export const PaginationLeftItem = styled.div`
     }
   }
 
-  .pagination__middle__label {
+  .paginationMiddleLabel {
     height: 30px;
     display: flex;
     align-items: center;
@@ -100,7 +96,7 @@ export const PaginationLeftItem = styled.div`
     }
   }
 
-  .pagination__right__button {
+  .paginationRightButton {
     margin-left: 20px;
     background: #f5f5f5;
     width: 30px;
@@ -123,7 +119,7 @@ export const PaginationLeftItem = styled.div`
     }
   }
 
-  .pagination__last__button {
+  .paginationLastButton {
     height: 30px;
     line-height: 30px;
     padding: 0 8px;
@@ -160,7 +156,7 @@ export const PaginationRightItem = styled.div`
     justify-content: flex-end;
   }
 
-  .pagination__input__page {
+  .paginationInputPage {
     width: 120px;
     height: 30px;
     border: none;
@@ -179,7 +175,7 @@ export const PaginationRightItem = styled.div`
     }
   }
 
-  .pagination__page__label {
+  .paginationPageLabel {
     margin-right: 20px;
 
     @media (max-width: 750px) {
@@ -187,7 +183,7 @@ export const PaginationRightItem = styled.div`
     }
   }
 
-  .pagination__goto__page {
+  .paginationGotoPage {
     height: 30px;
     line-height: 30px;
     padding: 0 8px;
@@ -205,6 +201,7 @@ export const PaginationRightItem = styled.div`
 
     @media (max-width: 750px) {
       margin-left: 10px;
+      margin-right: 10px;
       font-size: 12px;
     }
   }
