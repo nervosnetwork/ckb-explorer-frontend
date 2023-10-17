@@ -14,7 +14,7 @@ import { interval, share } from 'rxjs'
 import { AppCachedKeys } from '../constants/cache'
 import { deprecatedAddrToNewAddr } from './util'
 import { startEndEllipsis } from './string'
-import { ListPageParams, PageParams } from '../constants/common'
+import { ListPageParams, PageParams, THEORETICAL_EPOCH_TIME, EPOCHS_PER_HALVING } from '../constants/common'
 import {
   fetchCachedData,
   fetchDateChartCache,
@@ -26,7 +26,7 @@ import {
 import { parseDate } from './date'
 import { omit } from './object'
 // TODO: This file depends on higher-level abstractions, so it should not be in the utils folder. It should be moved to `src/hooks/index.ts`.
-import { Response } from '../services/ExplorerService'
+import { Response, useStatistics } from '../services/ExplorerService'
 
 /**
  * Returns the value of the argument from the previous render
@@ -578,6 +578,71 @@ export function useTimestamp(): number {
 export function useParsedDate(timestamp: number): string {
   const now = useTimestamp()
   return parseDate(timestamp, now)
+}
+
+export const useCountdown = (targetDate: Date): [number, number, number, number, boolean] => {
+  const countdownDate = new Date(targetDate).getTime()
+
+  const [countdown, setCountdown] = useState(countdownDate - new Date().getTime())
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown(countdownDate - new Date().getTime())
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [countdownDate])
+
+  const expired = countdown <= 0
+  const days = expired ? 0 : Math.floor(countdown / (1000 * 60 * 60 * 24))
+  const hours = expired ? 0 : Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  const minutes = expired ? 0 : Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = expired ? 0 : Math.floor((countdown % (1000 * 60)) / 1000)
+
+  return [days, hours, minutes, seconds, expired]
+}
+
+export const useSingleHalving = (_halvingCount = 1) => {
+  const halvingCount = Math.max(Math.floor(_halvingCount) || 1, 1) // halvingCount should be a positive integer greater than 1.
+  const statistics = useStatistics()
+  const celebrationSkipKey = `having-celebration-${halvingCount}`
+  const celebrationSkipped = fetchCachedData(celebrationSkipKey) !== null
+  function skipCelebration() {
+    storeCachedData(celebrationSkipKey, true)
+  }
+
+  const currentEpoch = Number(statistics.epochInfo.epochNumber)
+  const targetEpoch = EPOCHS_PER_HALVING * halvingCount
+  const currentEpochUsedTime =
+    (Number(statistics.epochInfo.index) / Number(statistics.epochInfo.epochLength)) * THEORETICAL_EPOCH_TIME
+
+  const estimatedTime = (targetEpoch - currentEpoch) * THEORETICAL_EPOCH_TIME - currentEpochUsedTime
+  const estimatedDate = useMemo(() => new Date(new Date().getTime() + estimatedTime), [estimatedTime])
+
+  const haveDone = currentEpoch >= targetEpoch
+  const celebrationOverEpoch = targetEpoch + 30 * 6 // Every 6 epochs is theoretically 1 day.
+  const inCelebration = haveDone && currentEpoch < celebrationOverEpoch && !celebrationSkipped
+
+  return {
+    isLoading: statistics.epochInfo.index === '0',
+    halvingCount,
+    currentEpoch,
+    targetEpoch,
+    inCelebration,
+    skipCelebration,
+    currentEpochUsedTime,
+    estimatedDate,
+  }
+}
+
+export const useHalving = () => {
+  const statistics = useStatistics()
+  const currentEpoch = Number(statistics.epochInfo.epochNumber)
+  const lastedHalvingCount = Math.ceil((currentEpoch + 1) / EPOCHS_PER_HALVING)
+  const lastedHalving = useSingleHalving(lastedHalvingCount)
+  const previousHalving = useSingleHalving(lastedHalvingCount - 1)
+
+  return previousHalving.inCelebration ? previousHalving : lastedHalving
 }
 
 export default {

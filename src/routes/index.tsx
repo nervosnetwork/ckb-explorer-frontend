@@ -22,6 +22,7 @@ const ErrorPage = lazy(() => import('../pages/Error'))
 const SearchFail = lazy(() => import('../pages/SearchFail'))
 const StatisticsChart = lazy(() => import('../pages/StatisticsChart'))
 const Tokens = lazy(() => import('../pages/Tokens'))
+const Halving = lazy(() => import('../pages/Halving'))
 const DifficultyHashRateChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyHashRate'))
 const DifficultyUncleRateEpochChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyUncleRateEpoch'))
 const DifficultyChart = lazy(() => import('../pages/StatisticsChart/mining/Difficulty'))
@@ -56,6 +57,10 @@ const routes: RouteProps[] = [
   {
     path: '/',
     component: Home,
+  },
+  {
+    path: '/halving',
+    component: Halving,
   },
   {
     path: '/block/list',
