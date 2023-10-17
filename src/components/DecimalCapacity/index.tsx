@@ -1,4 +1,4 @@
-import i18n from '../../utils/i18n'
+import { useTranslation } from 'react-i18next'
 import { DecimalPanel, DecimalPartPanel, DecimalZerosPanel } from './styled'
 
 export default ({
@@ -16,6 +16,7 @@ export default ({
   hideZero?: boolean
   marginBottom?: string
 }) => {
+  const { t } = useTranslation()
   const integer = value.split('.')[0] || '0'
   let decimal = value.split('.')[1] || ''
   let zeros = ''
@@ -41,7 +42,7 @@ export default ({
           {zeros}
         </DecimalZerosPanel>
       )}
-      {!hideUnit && <div className="decimalUnit monospace">{i18n.t('common.ckb_unit')}</div>}
+      {!hideUnit && <div className="decimalUnit monospace">{t('common.ckb_unit')}</div>}
     </DecimalPanel>
   )
 }

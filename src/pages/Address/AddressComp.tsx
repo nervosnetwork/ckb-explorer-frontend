@@ -4,10 +4,10 @@ import { useQuery } from 'react-query'
 import { Radio } from 'antd'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
+import { TFunction, useTranslation } from 'react-i18next'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService } from '../../services/ExplorerService'
-import i18n from '../../utils/i18n'
 import { parseSporeCellData } from '../../utils/spore'
 import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { shannonToCkb, deprecatedAddrToNewAddr, handleNftImgError, patchMibaoImg } from '../../utils/util'
@@ -47,26 +47,26 @@ import { omit } from '../../utils/object'
 import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
 
-const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
+const addressAssetInfo = (address: State.Address, useMiniStyle: boolean, t: TFunction) => {
   const items = [
     {
       title: '',
       content: '',
     },
     {
-      title: i18n.t('address.occupied'),
-      tooltip: i18n.t('glossary.occupied'),
+      title: t('address.occupied'),
+      tooltip: t('glossary.occupied'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balanceOccupied))} />,
       isAsset: true,
     },
     {
       icon: CKBTokenIcon,
-      title: i18n.t('common.ckb_unit'),
+      title: t('common.ckb_unit'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
     },
     {
-      title: i18n.t('address.dao_deposit'),
-      tooltip: i18n.t('glossary.nervos_dao_deposit'),
+      title: t('address.dao_deposit'),
+      tooltip: t('glossary.nervos_dao_deposit'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
       isAsset: true,
     },
@@ -75,9 +75,9 @@ const addressAssetInfo = (address: State.Address, useMiniStyle: boolean) => {
       content: '',
     },
     {
-      title: i18n.t('address.compensation'),
+      title: t('address.compensation'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
-      tooltip: i18n.t('glossary.nervos_dao_compensation'),
+      tooltip: t('glossary.nervos_dao_compensation'),
       isAsset: true,
     },
   ] as OverviewItemData[]
@@ -99,6 +99,7 @@ const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
 }
 
 const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
+  const { t } = useTranslation()
   const { symbol, uan, amount, udtIconFile, typeHash, udtType, collection, cota } = udtAccount
   const isSudt = udtType === 'sudt'
   const isSpore = udtType === 'spore_cell'
@@ -167,7 +168,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   return (
     <AddressUDTItemPanel href={href} isLink={isSudt || isNft}>
       <div className="addressUdtLabel">
-        {isUnverified ? `${i18n.t('udt.unverified')}: ` : null}
+        {isUnverified ? `${t('udt.unverified')}: ` : null}
         <span>{UDT_LABEL[udtType] ?? 'unknown'}</span>
       </div>
       <div className="addressUdtDetail">
@@ -210,16 +211,17 @@ const lockScriptIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
-const getAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: State.Address) => {
+const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: State.Address) => {
+  const { t } = useTranslation()
   const items: OverviewItemData[] = [
     {
-      title: i18n.t('address.live_cells'),
-      tooltip: i18n.t('glossary.live_cells'),
+      title: t('address.live_cells'),
+      tooltip: t('glossary.live_cells'),
       content: localeNumberString(liveCellsCount),
     },
     {
-      title: i18n.t('address.block_mined'),
-      tooltip: i18n.t('glossary.block_mined'),
+      title: t('address.block_mined'),
+      tooltip: t('glossary.block_mined'),
       content: localeNumberString(minedBlocksCount),
     },
   ]
@@ -227,22 +229,22 @@ const getAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, l
   if (type === 'LockHash') {
     if (!addressHash) {
       items.push({
-        title: i18n.t('address.address'),
-        content: i18n.t('address.unable_decode_address'),
+        title: t('address.address'),
+        content: t('address.unable_decode_address'),
       })
     } else {
       items.push({
-        title: i18n.t('address.address'),
+        title: t('address.address'),
         contentWrapperClass: styles.addressWidthModify,
         content: <AddressText>{addressHash}</AddressText>,
       })
     }
   }
   if (lockInfo && lockInfo.epochNumber !== '0' && lockInfo.estimatedUnlockTime !== '0') {
-    const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? i18n.t('address.estimated') : ''
+    const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? t('address.estimated') : ''
     items.push({
-      title: i18n.t('address.lock_until'),
-      content: `${lockInfo.epochNumber} ${i18n.t('address.epoch')} (${estimate} ${parseSimpleDateNoSecond(
+      title: t('address.lock_until'),
+      content: `${lockInfo.epochNumber} ${t('address.epoch')} (${estimate} ${parseSimpleDateNoSecond(
         lockInfo.estimatedUnlockTime,
       )})`,
     })
@@ -252,12 +254,13 @@ const getAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, l
 
 const AddressLockScript: FC<{ address: State.Address }> = ({ address }) => {
   const [showLock, setShowLock] = useState<boolean>(false)
+  const { t } = useTranslation()
 
   return (
     <AddressLockScriptPanel>
-      <OverviewCard items={getAddressInfo(address)} hideShadow>
+      <OverviewCard items={useAddressInfo(address)} hideShadow>
         <AddressLockScriptController onClick={() => setShowLock(!showLock)}>
-          <div>{i18n.t('address.lock_script')}</div>
+          <div>{t('address.lock_script')}</div>
           <img alt="lock script" src={lockScriptIcon(showLock)} />
         </AddressLockScriptController>
         {showLock && address.lockScript && <Script script={address.lockScript} />}
@@ -268,6 +271,7 @@ const AddressLockScript: FC<{ address: State.Address }> = ({ address }) => {
 
 export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => {
   const isLG = useIsLGScreen()
+  const { t } = useTranslation()
   const { udtAccounts = [] } = address
 
   const { data: initList } = useQuery<AxiosResponse<CoTAList>>(
@@ -289,10 +293,10 @@ export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => 
   )
 
   return (
-    <OverviewCard items={addressAssetInfo(address, isLG)} titleCard={<TitleCard title={i18n.t('address.overview')} />}>
+    <OverviewCard items={addressAssetInfo(address, isLG, t)} titleCard={<TitleCard title={t('address.overview')} />}>
       {udtAccounts.length || cotaList?.length ? (
         <AddressUDTAssetsPanel>
-          <span>{i18n.t('address.user_defined_token')}</span>
+          <span>{t('address.user_defined_token')}</span>
           <div className="addressUdtAssetsGrid">
             {udtAccounts.map(udt => (
               <AddressUDTItem udtAccount={udt} key={udt.symbol + udt.udtType + udt.amount} />
@@ -335,6 +339,7 @@ export const AddressTransactions = ({
   timeOrderBy: State.SortOrderTypes
 }) => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const searchParams = useSearchParams('layout')
   const defaultLayout = 'professional'
@@ -374,7 +379,7 @@ export const AddressTransactions = ({
   return (
     <>
       <TitleCard
-        title={`${i18n.t('transaction.transactions')} (${localeNumberString(total)})`}
+        title={`${t('transaction.transactions')} (${localeNumberString(total)})`}
         className={styles.transactionTitleCard}
         isSingle
         rear={
@@ -389,8 +394,8 @@ export const AddressTransactions = ({
             <Radio.Group
               className={styles.layoutButtons}
               options={[
-                { label: i18n.t('transaction.professional'), value: 'professional' },
-                { label: i18n.t('transaction.lite'), value: 'lite' },
+                { label: t('transaction.professional'), value: 'professional' },
+                { label: t('transaction.lite'), value: 'lite' },
               ]}
               onChange={({ target: { value } }) => onChangeLayout(value)}
               value={layout}
@@ -405,11 +410,11 @@ export const AddressTransactions = ({
           <>
             {!isMobile && (
               <div className={styles.liteTransactionHeader}>
-                <div>{i18n.t('transaction.transaction_hash')}</div>
-                <div>{i18n.t('transaction.height')}</div>
-                <div>{i18n.t('transaction.time')}</div>
-                <div>{`${i18n.t('transaction.input')} & ${i18n.t('transaction.output')}`}</div>
-                <div>{i18n.t('transaction.capacity_change')}</div>
+                <div>{t('transaction.transaction_hash')}</div>
+                <div>{t('transaction.height')}</div>
+                <div>{t('transaction.time')}</div>
+                <div>{`${t('transaction.input')} & ${t('transaction.output')}`}</div>
+                <div>{t('transaction.capacity_change')}</div>
               </div>
             )}
             {txList.map((transaction: State.Transaction) => (

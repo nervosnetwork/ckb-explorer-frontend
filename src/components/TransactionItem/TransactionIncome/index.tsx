@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
-import i18n from '../../../utils/i18n'
+import { useTranslation } from 'react-i18next'
 import { TransactionIncomePanel, TransactionCapacityValuePanel } from './styled'
 import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
@@ -10,6 +10,7 @@ import CurrentAddressIcon from '../../../assets/current_address.svg'
 
 export default ({ income }: { income: string }) => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   let bigIncome = new BigNumber(income)
   if (bigIncome.isNaN()) {
     bigIncome = new BigNumber(0)
@@ -18,7 +19,7 @@ export default ({ income }: { income: string }) => {
     <TransactionIncomePanel>
       <TransactionCapacityValuePanel increased={bigIncome.isGreaterThanOrEqualTo(0)}>
         {isMobile && (
-          <Tooltip placement="top" title={`${i18n.t('address.current-address')} `}>
+          <Tooltip placement="top" title={`${t('address.current-address')} `}>
             <img src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}
@@ -27,7 +28,7 @@ export default ({ income }: { income: string }) => {
           color="inherit"
         />
         {!isMobile && (
-          <Tooltip placement="top" title={`${i18n.t('address.current-address')} `}>
+          <Tooltip placement="top" title={`${t('address.current-address')} `}>
             <img src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}

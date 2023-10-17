@@ -1,6 +1,7 @@
 import { Tooltip } from 'antd'
 import { Link, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import SortButton from '../../components/SortButton'
@@ -18,7 +19,6 @@ import HelpIcon from '../../assets/qa_help.png'
 import { parseDateNoTime } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
-import i18n from '../../utils/i18n'
 import Loading from '../../components/Loading'
 import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
@@ -29,15 +29,16 @@ import { QueryResult } from '../../components/QueryResult'
 
 const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
+  const { t } = useTranslation()
 
   const name = displayName || fullName
   const symbol = uan || token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
-  const defaultName = i18n.t('udt.unknown_token')
+  const defaultName = t('udt.unknown_token')
   const isMobile = useIsMobile()
 
   const transactions = isMobile ? (
     <TokensTitlePanel>
-      <span>{`${i18n.t('udt.transactions')}:`}</span>
+      <span>{`${t('udt.transactions')}:`}</span>
       <span>{localeNumberString(token.h24CkbTransactionsCount)}</span>
     </TokensTitlePanel>
   ) : (
@@ -45,7 +46,7 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
   )
   const addressCount = isMobile ? (
     <TokensTitlePanel>
-      <span>{`${i18n.t('udt.address_count')}:`}</span>
+      <span>{`${t('udt.address_count')}:`}</span>
       <span>{localeNumberString(token.addressesCount)}</span>
     </TokensTitlePanel>
   ) : (
@@ -73,7 +74,7 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
                 </span>
               )}
               {!isKnown && (
-                <Tooltip placement="bottom" title={i18n.t('udt.unknown_token_description')}>
+                <Tooltip placement="bottom" title={t('udt.unknown_token_description')}>
                   <img src={HelpIcon} alt="token icon" />
                 </Tooltip>
               )}
@@ -94,6 +95,7 @@ const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) =>
 
 export default () => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
 
   const { location } = useHistory()
@@ -118,30 +120,30 @@ export default () => {
     <Content>
       <TokensPanel className="container">
         <div className="tokensTitlePanel">
-          <span>{i18n.t('udt.tokens')}</span>
+          <span>{t('udt.tokens')}</span>
           <a rel="noopener noreferrer" target="_blank" href={udtSubmitEmail()}>
-            {i18n.t('udt.submit_token_info')}
+            {t('udt.submit_token_info')}
           </a>
         </div>
         <TokensTableTitle>
-          {!isMobile && <span>{i18n.t('udt.uan_name')}</span>}
+          {!isMobile && <span>{t('udt.uan_name')}</span>}
           <span>
-            {i18n.t('udt.transactions')}
+            {t('udt.transactions')}
             <SortButton field="transactions" />
           </span>
           <span>
-            {i18n.t('udt.address_count')}
+            {t('udt.address_count')}
             <SortButton field="addresses_count" />
           </span>
           <span>
-            {i18n.t('udt.created_time')}
+            {t('udt.created_time')}
             <SortButton field="created_time" />
           </span>
         </TokensTableTitle>
 
         <QueryResult
           query={query}
-          errorRender={() => <TokensContentEmpty>{i18n.t('udt.tokens_empty')}</TokensContentEmpty>}
+          errorRender={() => <TokensContentEmpty>{t('udt.tokens_empty')}</TokensContentEmpty>}
           loadingRender={() => (
             <TokensLoadingPanel>{isMobile ? <SmallLoading /> : <Loading show />}</TokensLoadingPanel>
           )}

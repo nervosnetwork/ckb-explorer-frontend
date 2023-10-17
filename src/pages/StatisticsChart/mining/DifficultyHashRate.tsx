@@ -1,18 +1,21 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
+import { useCurrentLanguage } from '../../../utils/i18n'
 
-const getOption = (
+const useOption = (
   statisticDifficultyHashRates: State.StatisticDifficultyHashRate[],
   chartColor: State.ChartColor,
   isMobile: boolean,
+
   isThumbnail = false,
 ): echarts.EChartOption => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
     left: '4%',
     right: '4%',
@@ -28,20 +31,23 @@ const getOption = (
     containLabel: true,
   })
 
-  const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 70 : 50)
+  const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 70 : 50)
 
-  const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }): string => {
-    if (seriesName === i18n.t('block.uncle_rate')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.uncle_rate'))} ${data}%</div>`
+  const useTooltip = () => {
+    return ({ seriesName, data, color }: SeriesItem & { data: string }): string => {
+      if (seriesName === t('block.uncle_rate')) {
+        return `<div>${tooltipColor(color)}${widthSpan(t('block.uncle_rate'))} ${data}%</div>`
+      }
+      if (seriesName === t('block.difficulty')) {
+        return `<div>${tooltipColor(color)}${widthSpan(t('block.difficulty'))} ${handleDifficulty(data)}</div>`
+      }
+      if (seriesName.startsWith(t('block.hash_rate'))) {
+        return `<div>${tooltipColor(color)}${widthSpan(t('block.hash_rate'))} ${handleHashRate(data)}</div>`
+      }
+      return ''
     }
-    if (seriesName === i18n.t('block.difficulty')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.difficulty'))} ${handleDifficulty(data)}</div>`
-    }
-    if (seriesName.startsWith(i18n.t('block.hash_rate'))) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.hash_rate'))} ${handleHashRate(data)}</div>`
-    }
-    return ''
   }
+  const parseTooltip = useTooltip()
   return {
     color: chartColor.moreColors,
     tooltip: !isThumbnail
@@ -49,7 +55,7 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any): string => {
             const list = dataList as Array<SeriesItem & { data: string }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${list[0].name}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'))} ${list[0].name}</div>`
             list.forEach(data => {
               result += parseTooltip(data)
             })
@@ -61,13 +67,13 @@ const getOption = (
       ? {
           data: [
             {
-              name: i18n.t('block.difficulty'),
+              name: t('block.difficulty'),
             },
             {
-              name: i18n.t('block.hash_rate_hps'),
+              name: t('block.hash_rate_hps'),
             },
             {
-              name: i18n.t('block.uncle_rate'),
+              name: t('block.uncle_rate'),
             },
           ],
         }
@@ -76,7 +82,7 @@ const getOption = (
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : i18n.t('block.epoch'),
+        name: isMobile || isThumbnail ? '' : t('block.epoch'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -90,7 +96,7 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: isMobile || isThumbnail ? '' : i18n.t('block.difficulty'),
+        name: isMobile || isThumbnail ? '' : t('block.difficulty'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -104,7 +110,7 @@ const getOption = (
       },
       {
         position: 'right',
-        name: isMobile || isThumbnail ? '' : i18n.t('block.hash_rate_hps'),
+        name: isMobile || isThumbnail ? '' : t('block.hash_rate_hps'),
         type: 'value',
         splitLine: {
           show: false,
@@ -131,7 +137,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('block.difficulty'),
+        name: t('block.difficulty'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -139,7 +145,7 @@ const getOption = (
         data: statisticDifficultyHashRates.map(data => new BigNumber(data.difficulty).toNumber()),
       },
       {
-        name: i18n.t('block.hash_rate_hps'),
+        name: t('block.hash_rate_hps'),
         type: 'line',
         yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -147,7 +153,7 @@ const getOption = (
         data: statisticDifficultyHashRates.map(data => new BigNumber(data.hashRate).toNumber()),
       },
       {
-        name: i18n.t('block.uncle_rate'),
+        name: t('block.uncle_rate'),
         type: 'line',
         smooth: true,
         yAxisIndex: 2,
@@ -160,7 +166,7 @@ const getOption = (
               symbol: 'none',
               data: [
                 {
-                  name: i18n.t('block.uncle_rate_target'),
+                  name: t('block.uncle_rate_target'),
                   yAxis: 2.5,
                 },
               ],
@@ -186,7 +192,7 @@ export const DifficultyHashRateChart = ({ isThumbnail = false }: { isThumbnail?:
       title={`${t('block.difficulty')} & ${t('block.hash_rate')} & ${t('block.uncle_rate')}`}
       isThumbnail={isThumbnail}
       fetchData={explorerService.api.fetchStatisticDifficultyHashRate}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.DifficultyHashRate}
       cacheMode="epoch"

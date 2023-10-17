@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { Tooltip } from 'antd'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
-import i18n from '../../utils/i18n'
+import { useTranslation } from 'react-i18next'
 import NftItemTransfers, { TransferListRes } from '../../components/NftItemTransfers'
 import Pagination from '../../components/Pagination'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
@@ -20,6 +20,7 @@ const primaryColor = getPrimaryColor()
 const NftInfo = () => {
   const { id, collection } = useParams<Record<'collection' | 'id', string>>()
   const history = useHistory()
+  const { t } = useTranslation()
   const { page = '1' } = useSearchParams('page')
   const { data } = useQuery<
     AxiosResponse<{
@@ -112,7 +113,7 @@ const NftInfo = () => {
           <div className={styles.name}>{data ? `${data.data.collection.name} #${data.data.token_id}` : '-'}</div>
           <div className={styles.items}>
             <dl>
-              <dt>{i18n.t('nft.owner')}</dt>
+              <dt>{t('nft.owner')}</dt>
               <dd>
                 {data?.data.owner ? (
                   <Link
@@ -134,7 +135,7 @@ const NftInfo = () => {
               </dd>
             </dl>
             <dl>
-              <dt>{i18n.t('nft.minter_address')}</dt>
+              <dt>{t('nft.minter_address')}</dt>
               <dd>
                 {data?.data.collection.creator ? (
                   <Link
@@ -161,14 +162,14 @@ const NftInfo = () => {
               <dd>{`#${data?.data.token_id}`}</dd>
             </dl>
             <dl>
-              <dt>{i18n.t('nft.standard')}</dt>
-              <dd>{data ? i18n.t(`nft.${data.data.collection.standard}`) : '-'}</dd>
+              <dt>{t('nft.standard')}</dt>
+              <dd>{data ? t(`nft.${data.data.collection.standard}`) : '-'}</dd>
             </dl>
           </div>
         </div>
       </div>
       <div>
-        <div className={styles.tab}>{i18n.t(`nft.activity`)}</div>
+        <div className={styles.tab}>{t(`nft.activity`)}</div>
         <NftItemTransfers list={transferListRes?.data.data ?? []} isLoading={isTransferListLoading} />
         <Pagination
           currentPage={transferListRes?.data.pagination.page ?? 1}

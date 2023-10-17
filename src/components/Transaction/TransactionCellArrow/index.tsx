@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { CellType } from '../../../constants/common'
 import RightGreenArrow from '../../../assets/right_green_arrow.png'
 import RightBlueArrow from '../../../assets/right_blue_arrow.png'
 import LiveCellIcon from '../../../assets/live_cell.png'
 import LiveCellBlueIcon from '../../../assets/live_cell_blue.png'
 import { isMainnet } from '../../../utils/chain'
-import i18n from '../../../utils/i18n'
 import { RightArrowImage, LeftArrowImage } from './styled'
 
 const CellInputIcon = ({ cell }: { cell: State.Cell }) =>
@@ -21,6 +21,8 @@ const CellInputIcon = ({ cell }: { cell: State.Cell }) =>
   ) : null
 
 const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
+  const { t } = useTranslation()
+
   if (cell.status === 'dead') {
     return (
       <Link to={`/transaction/${cell.consumedTxHash}`}>
@@ -29,7 +31,7 @@ const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
     )
   }
   return (
-    <Tooltip placement="topRight" title={i18n.t('transaction.unspent_output')} arrowPointAtCenter>
+    <Tooltip placement="topRight" title={t('transaction.unspent_output')} arrowPointAtCenter>
       <RightArrowImage src={isMainnet() ? LiveCellIcon : LiveCellBlueIcon} alt="right arrow" />
     </Tooltip>
   )

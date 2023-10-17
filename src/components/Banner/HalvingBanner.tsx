@@ -1,4 +1,5 @@
 import classnames from 'classnames'
+import { useTranslation } from 'react-i18next'
 import styles from './index.module.scss'
 import halvingBanner from '../../assets/halving_banner.png'
 import halvingBannerSuccess from '../../assets/halving_banner_success.png'
@@ -8,7 +9,6 @@ import LoadingWhiteImage from '../../assets/loading_white.gif'
 import halvingSuccessAni from '../../assets/halving_success_ani.gif'
 import SimpleButton from '../SimpleButton'
 import { useCountdown, useHalving, useIsMobile } from '../../utils/hook'
-import i18n from '../../utils/i18n'
 
 function numberToOrdinal(number: number) {
   switch (number) {
@@ -36,36 +36,37 @@ export const HalvingBanner = () => {
   const { estimatedDate, halvingCount, inCelebration, isLoading } = useHalving()
   const [days, hours, minutes, seconds, expired] = useCountdown(estimatedDate)
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
 
   const shortCountdown = () => {
     if (isLoading || Number.isNaN(seconds)) {
       return <img className={styles.halvingLoading} src={LoadingWhiteImage} alt="loading" />
     }
     if (days > 0) {
-      return `${days}${i18n.t('symbol.char_space')}${i18n.t('unit.days')}`
+      return `${days}${t('symbol.char_space')}${t('unit.days')}`
     }
     if (hours > 0) {
-      return `${hours}${i18n.t('symbol.char_space')}${i18n.t('unit.hours')}`
+      return `${hours}${t('symbol.char_space')}${t('unit.hours')}`
     }
     if (minutes > 0) {
-      return `${minutes}${i18n.t('symbol.char_space')}${i18n.t('unit.minutes')}`
+      return `${minutes}${t('symbol.char_space')}${t('unit.minutes')}`
     }
 
-    return `${seconds}${i18n.t('symbol.char_space')}${i18n.t('unit.seconds')}`
+    return `${seconds}${t('symbol.char_space')}${t('unit.seconds')}`
   }
 
   const learnMoreText = () => {
     if (inCelebration) {
-      return i18n.t('halving.learn_more')
+      return t('halving.learn_more')
     }
 
     if (expired) {
-      return i18n.t('halving.comming_soon')
+      return t('halving.comming_soon')
     }
 
     return (
       <>
-        {i18n.t('halving.halving_countdown')} {shortCountdown()}
+        {t('halving.halving_countdown')} {shortCountdown()}
       </>
     )
   }
@@ -94,15 +95,13 @@ export const HalvingBanner = () => {
           {inCelebration && <img className={styles.halvingBannerAnimation} src={halvingSuccessAni} alt="animation" />}
           {inCelebration ? (
             <div className={classnames(styles.halvingBannerText, styles.success)}>
-              {i18n
-                .t('halving.banner_congratulation', {
-                  times: i18n.t(`ordinal.${numberToOrdinal(halvingCount)}`),
-                })
-                .toUpperCase()}
+              {t('halving.banner_congratulation', {
+                times: t(`ordinal.${numberToOrdinal(halvingCount)}`),
+              }).toUpperCase()}
             </div>
           ) : (
             <div className={classnames(styles.halvingBannerText, styles.linear)}>
-              Nervos CKB Layer 1 {i18n.t('halving.halving')}
+              Nervos CKB Layer 1 {t('halving.halving')}
             </div>
           )}
           <a href="/halving">

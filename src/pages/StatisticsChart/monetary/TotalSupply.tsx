@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
+import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
@@ -8,30 +8,46 @@ import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
 
-const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 125 : 80)
+const widthSpan = (value: string, currentLanguage: LanuageType) =>
+  tooltipWidth(value, currentLanguage === 'en' ? 125 : 80)
 
-const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
-  if (seriesName === i18n.t('statistic.burnt')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.burnt'))} ${parseNumericAbbr(data[3], 2)}</div>`
+const useTooltip = () => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+
+  return ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
+    if (seriesName === t('statistic.burnt')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('statistic.burnt'), currentLanguage)} ${parseNumericAbbr(
+        data[3],
+        2,
+      )}</div>`
+    }
+    if (seriesName === t('statistic.locked')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('statistic.locked'), currentLanguage)} ${parseNumericAbbr(
+        data[2],
+        2,
+      )}</div>`
+    }
+    if (seriesName === t('statistic.circulating_supply')) {
+      return `<div>${tooltipColor(color)}${widthSpan(
+        t('statistic.circulating_supply'),
+        currentLanguage,
+      )} ${parseNumericAbbr(data[1], 2)}</div>`
+    }
+    return ''
   }
-  if (seriesName === i18n.t('statistic.locked')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.locked'))} ${parseNumericAbbr(data[2], 2)}</div>`
-  }
-  if (seriesName === i18n.t('statistic.circulating_supply')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.circulating_supply'))} ${parseNumericAbbr(
-      data[1],
-      2,
-    )}</div>`
-  }
-  return ''
 }
 
-const getOption = (
+const useOption = (
   statisticTotalSupplies: State.StatisticTotalSupply[],
   chartColor: State.ChartColor,
   isMobile: boolean,
+
   isThumbnail = false,
 ): echarts.EChartOption => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -46,6 +62,7 @@ const getOption = (
     bottom: '5%',
     containLabel: true,
   }
+  const parseTooltip = useTooltip()
   return {
     color: chartColor.totalSupplyColors,
     tooltip: !isThumbnail
@@ -53,7 +70,7 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any) => {
             const list = dataList as Array<SeriesItem & { data: [string, string, string, string] }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${
               list[0].data[0]
             }</div>`
             list.forEach(data => {
@@ -68,13 +85,13 @@ const getOption = (
         ? []
         : [
             {
-              name: i18n.t('statistic.circulating_supply'),
+              name: t('statistic.circulating_supply'),
             },
             {
-              name: i18n.t('statistic.locked'),
+              name: t('statistic.locked'),
             },
             {
-              name: i18n.t('statistic.burnt'),
+              name: t('statistic.burnt'),
             },
           ],
     },
@@ -82,7 +99,7 @@ const getOption = (
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.date'),
+        name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -105,7 +122,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.circulating_supply'),
+        name: t('statistic.circulating_supply'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -120,7 +137,7 @@ const getOption = (
         },
       },
       {
-        name: i18n.t('statistic.locked'),
+        name: t('statistic.locked'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -135,7 +152,7 @@ const getOption = (
         },
       },
       {
-        name: i18n.t('statistic.burnt'),
+        name: t('statistic.burnt'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -180,7 +197,7 @@ export const TotalSupplyChart = ({ isThumbnail = false }: { isThumbnail?: boolea
       description={t('statistic.total_supply_description')}
       isThumbnail={isThumbnail}
       fetchData={explorerService.api.fetchStatisticTotalSupply}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.TotalSupply}
       cacheMode="date"

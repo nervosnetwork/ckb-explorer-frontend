@@ -1,10 +1,10 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import LeftBlack from '../../assets/pagination_black_left.png'
 import RightBlack from '../../assets/pagination_black_right.png'
 import LeftGrey from '../../assets/pagination_grey_left.png'
 import RightGrey from '../../assets/pagination_grey_right.png'
-import i18n from '../../utils/i18n'
 import { useIsMobile } from '../../utils/hook'
 import SimpleButton from '../SimpleButton'
 import { HelpTip } from '../HelpTip'
@@ -25,15 +25,16 @@ const Pagination = ({
   annotation?: string
 }) => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   const [inputPage, setInputPage] = useState(gotoPage)
 
   const total = Math.max(totalPages, 1)
   const current = Math.min(Math.max(currentPage, 1), totalPages)
 
-  const mobilePagination = `${i18n.t('pagination.total_page')} ${total} ${i18n.t('pagination.end_page')}`
-  const pcPagination = `${i18n.t('pagination.current_page')} ${current} ${i18n.t(
-    'pagination.of_page',
-  )} ${total} ${i18n.t('pagination.end_page')}`
+  const mobilePagination = `${t('pagination.total_page')} ${total} ${t('pagination.end_page')}`
+  const pcPagination = `${t('pagination.current_page')} ${current} ${t('pagination.of_page')} ${total} ${t(
+    'pagination.end_page',
+  )}`
 
   const annotationComp = annotation ? <HelpTip title={annotation} iconProps={{ alt: 'annotation' }} /> : null
 
@@ -48,7 +49,7 @@ const Pagination = ({
     <PaginationPanel className={className}>
       <PaginationLeftItem isFirstPage={current === 1} isLastPage={current === total}>
         <SimpleButton className="paginationFirstButton" onClick={() => changePage(1)}>
-          {i18n.t('pagination.first')}
+          {t('pagination.first')}
         </SimpleButton>
         <SimpleButton className="paginationLeftButton" onClick={() => changePage(current - 1)}>
           <img src={current === 1 ? LeftGrey : LeftBlack} alt="left button" />
@@ -71,11 +72,11 @@ const Pagination = ({
         )}
 
         <SimpleButton className="paginationLastButton" onClick={() => changePage(total)}>
-          {i18n.t('pagination.last')}
+          {t('pagination.last')}
         </SimpleButton>
       </PaginationLeftItem>
       <PaginationRightItem>
-        <span className="paginationPageLabel">{i18n.t('pagination.page')}</span>
+        <span className="paginationPageLabel">{t('pagination.page')}</span>
         <input
           type="text"
           pattern="[0-9]*"
@@ -92,7 +93,7 @@ const Pagination = ({
           }}
         />
         <SimpleButton className="paginationGotoPage" onClick={() => changePage(inputPage)}>
-          {i18n.t('pagination.goto')}
+          {t('pagination.goto')}
         </SimpleButton>
       </PaginationRightItem>
     </PaginationPanel>

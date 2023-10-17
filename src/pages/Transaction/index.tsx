@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 import TransactionHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
-import i18n from '../../utils/i18n'
 import { TransactionDiv as TransactionPanel } from './styled'
 import TransactionComp, { TransactionOverview } from './TransactionComp'
 import { explorerService } from '../../services/ExplorerService'
@@ -10,6 +10,7 @@ import { QueryResult } from '../../components/QueryResult'
 import { defaultTransactionInfo } from './state'
 
 export default () => {
+  const { t } = useTranslation()
   const { hash: txHash } = useParams<{ hash: string }>()
 
   const query = useQuery(['transaction', txHash], async () => {
@@ -26,7 +27,7 @@ export default () => {
   return (
     <Content>
       <TransactionPanel className="container">
-        <TransactionHashCard title={i18n.t('transaction.transaction')} hash={txHash} loading={query.isLoading}>
+        <TransactionHashCard title={t('transaction.transaction')} hash={txHash} loading={query.isLoading}>
           {txStatus !== 'committed' || blockTimestamp > 0 ? <TransactionOverview transaction={transaction} /> : null}
         </TransactionHashCard>
         <QueryResult query={query} delayLoading>

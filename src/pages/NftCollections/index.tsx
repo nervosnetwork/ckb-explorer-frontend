@@ -1,12 +1,12 @@
 import type { AxiosResponse } from 'axios'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import { NFTCollection, ListOnDesktop, ListOnMobile, isTxFilterType } from './List'
 import Pagination from '../../components/Pagination'
 import { getPrimaryColor } from '../../constants/common'
 import { explorerService } from '../../services/ExplorerService'
-import i18n from '../../utils/i18n'
 import { udtSubmitEmail } from '../../utils/util'
 import { useSearchParams, useSortParam } from '../../utils/hook'
 import styles from './styles.module.scss'
@@ -30,6 +30,7 @@ const submitTokenInfoUrl = udtSubmitEmail()
 
 const NftCollections = () => {
   const history = useHistory()
+  const { t } = useTranslation()
   const { search } = useLocation()
   const { page = '1', type } = useSearchParams('page', 'type')
 
@@ -61,7 +62,7 @@ const NftCollections = () => {
     <Content>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h5>{i18n.t('nft.nft_collection')}</h5>
+          <h5>{t('nft.nft_collection')}</h5>
           <a
             rel="noopener noreferrer"
             target="_blank"
@@ -70,7 +71,7 @@ const NftCollections = () => {
               color: primaryColor,
             }}
           >
-            {i18n.t('udt.submit_token_info')}
+            {t('udt.submit_token_info')}
           </a>
         </div>
         <div className={styles.list}>

@@ -1,8 +1,8 @@
+import { useTranslation } from 'react-i18next'
 import TransactionItem from '../../../components/TransactionItem'
 import { TransactionsPagination, DAONoResultPanel } from './styled'
 import Pagination from '../../../components/Pagination'
 import { PageParams } from '../../../constants/common'
-import i18n from '../../../utils/i18n'
 import { deprecatedAddrToNewAddr } from '../../../utils/util'
 
 export default ({
@@ -20,12 +20,13 @@ export default ({
   onPageChange: (page: number) => void
   filterNoResult?: boolean
 }) => {
+  const { t } = useTranslation()
   const totalPages = Math.ceil(total / pageSize)
 
   if (filterNoResult) {
     return (
       <DAONoResultPanel>
-        <span>{i18n.t('search.dao_filter_no_result')}</span>
+        <span>{t('search.dao_filter_no_result')}</span>
       </DAONoResultPanel>
     )
   }

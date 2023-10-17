@@ -1,6 +1,7 @@
 import { Progress, Tooltip, Popover, Table } from 'antd'
 import BigNumber from 'bignumber.js'
 import classnames from 'classnames'
+import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import baseIssuance from '../../assets/ckb_base_issuance_trend.png'
 import blockRewards from '../../assets/block-rewards.png'
@@ -10,7 +11,6 @@ import halvingSuccessBg from '../../assets/halving_success_bg.png'
 import { ReactComponent as CalendarIcon } from '../../assets/calendar.svg'
 import { ReactComponent as XIcon } from '../../assets/X.svg'
 import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
-import i18n, { currentLanguage } from '../../utils/i18n'
 import { HalvingTable } from './HalvingTable'
 import { HalvingInfo } from './HalvingInfo'
 import SmallLoading from '../../components/Loading/SmallLoading'
@@ -19,6 +19,7 @@ import { HalvingCountdown } from './HalvingCountdown'
 import { useCountdown, useHalving, useIsMobile } from '../../utils/hook'
 import { getPrimaryColor, EPOCHS_PER_HALVING, THEORETICAL_EPOCH_TIME } from '../../constants/common'
 import styles from './index.module.scss'
+import { useCurrentLanguage } from '../../utils/i18n'
 
 function numberToOrdinal(number: number) {
   switch (number) {
@@ -43,6 +44,7 @@ function numberToOrdinal(number: number) {
 }
 
 export const HalvingCountdownPage = () => {
+  const { t } = useTranslation()
   const isMobile = useIsMobile()
   const statistics = useStatistics()
   const { currentEpoch, estimatedDate, currentEpochUsedTime, halvingCount, inCelebration, skipCelebration, isLoading } =
@@ -56,19 +58,19 @@ export const HalvingCountdownPage = () => {
 
   const shortCountdown = () => {
     if (days > 0) {
-      return `${days}${i18n.t('symbol.char_space')}${i18n.t('unit.days')}`
+      return `${days}${t('symbol.char_space')}${t('unit.days')}`
     }
     if (hours > 0) {
-      return `${hours}${i18n.t('symbol.char_space')}${i18n.t('unit.hours')}`
+      return `${hours}${t('symbol.char_space')}${t('unit.hours')}`
     }
     if (minutes > 0) {
-      return `${minutes}${i18n.t('symbol.char_space')}${i18n.t('unit.minutes')}`
+      return `${minutes}${t('symbol.char_space')}${t('unit.minutes')}`
     }
-    return `${seconds}${i18n.t('symbol.char_space')}${i18n.t('unit.seconds')}`
+    return `${seconds}${t('symbol.char_space')}${t('unit.seconds')}`
   }
 
-  const shareText = i18n.t('halving.share_text', {
-    times: i18n.t(`ordinal.${numberToOrdinal(halvingCount)}`),
+  const shareText = t('halving.share_text', {
+    times: t(`ordinal.${numberToOrdinal(halvingCount)}`),
     date: estimatedDate.toUTCString(),
     countdown: shortCountdown(),
   })
@@ -100,15 +102,15 @@ export const HalvingCountdownPage = () => {
             style={{ paddingTop: isMobile ? 64 : 128, paddingBottom: 128, backgroundImage: `url(${halvingSuccessBg})` }}
           >
             <div className={classnames(styles.halvingSuccessText, styles.textCenter)}>
-              {i18n.t('halving.congratulations')}!
+              {t('halving.congratulations')}!
               <div>
-                <span className={styles.textCapitalize}>{i18n.t('halving.the')}</span>
-                {i18n.t('symbol.char_space')}
-                {i18n.t(`ordinal.${numberToOrdinal(halvingCount)}`)}
-                {i18n.t('symbol.char_space')}
-                {i18n.t('halving.halving')}
-                {i18n.t('symbol.char_space')}
-                {i18n.t('halving.actived')}{' '}
+                <span className={styles.textCapitalize}>{t('halving.the')}</span>
+                {t('symbol.char_space')}
+                {t(`ordinal.${numberToOrdinal(halvingCount)}`)}
+                {t('symbol.char_space')}
+                {t('halving.halving')}
+                {t('symbol.char_space')}
+                {t('halving.actived')}{' '}
                 <a className={styles.textPrimary} href={`/block/${getTargetBlockByHavingCount(halvingCount)}`}>
                   {new BigNumber(getTargetBlockByHavingCount(halvingCount)).toFormat()}.
                 </a>
@@ -120,9 +122,9 @@ export const HalvingCountdownPage = () => {
                 type="button"
                 onClick={() => skipCelebration()}
               >
-                {i18n.t('halving.next')}
-                {i18n.t('symbol.char_space')}
-                {i18n.t('halving.halving')}
+                {t('halving.next')}
+                {t('symbol.char_space')}
+                {t('halving.halving')}
               </button>
             </div>
           </div>
@@ -134,7 +136,7 @@ export const HalvingCountdownPage = () => {
       return (
         <div className={styles.halvingPanelWrapper}>
           <div className={classnames(styles.halvingPanel, styles.loadingPanel)}>
-            {i18n.t('halving.comming_soon')}
+            {t('halving.comming_soon')}
             <SmallLoading />
           </div>
         </div>
@@ -145,9 +147,9 @@ export const HalvingCountdownPage = () => {
       <div className={styles.halvingPanelWrapper}>
         <div className={styles.halvingPanel}>
           <div className={classnames(styles.halvingPanelTitle, styles.textCapitalize)}>
-            {i18n.t(`ordinal.${numberToOrdinal(halvingCount)}`)}
-            {i18n.t('symbol.char_space')}
-            {i18n.t('halving.halving')}
+            {t(`ordinal.${numberToOrdinal(halvingCount)}`)}
+            {t('symbol.char_space')}
+            {t('halving.halving')}
 
             {halvingCount > 1 && (
               <Popover
@@ -163,9 +165,9 @@ export const HalvingCountdownPage = () => {
                     pagination={false}
                     dataSource={new Array(halvingCount - 1).fill({}).map((_, index) => ({
                       key: index,
-                      event: `${i18n.t(`ordinal.${numberToOrdinal(index + 1)}`)}
-                  ${i18n.t('symbol.char_space')}
-                  ${i18n.t('halving.halving')}`,
+                      event: `${t(`ordinal.${numberToOrdinal(index + 1)}`)}
+                  ${t('symbol.char_space')}
+                  ${t('halving.halving')}`,
                       epoch: new BigNumber(EPOCHS_PER_HALVING * (index + 1)).toFormat(),
                       height: getTargetBlockByHavingCount(index + 1),
                     }))}
@@ -211,11 +213,11 @@ export const HalvingCountdownPage = () => {
               overlayInnerStyle={{ color: '#333333' }}
               title={
                 <>
-                  <p>{i18n.t('halving.countdown_tooltip_section1')}</p>
+                  <p>{t('halving.countdown_tooltip_section1')}</p>
                   <p>
-                    <strong>{i18n.t('halving.countdown_tooltip_section2')}</strong>
+                    <strong>{t('halving.countdown_tooltip_section2')}</strong>
                   </p>
-                  <p>{i18n.t('halving.countdown_tooltip_section3')}</p>
+                  <p>{t('halving.countdown_tooltip_section3')}</p>
                 </>
               }
             >
@@ -250,10 +252,10 @@ export const HalvingCountdownPage = () => {
       <div className={styles.halvingBanner} style={{ backgroundImage: `url(${halvingBg})` }}>
         <div className={classnames(styles.halvingBannerWrapper, 'container')}>
           <div className={styles.halvingBannerContent}>
-            <div className={styles.halvingTitle}>Nervos CKB Layer 1 {i18n.t('halving.halving_countdown')}</div>
+            <div className={styles.halvingTitle}>Nervos CKB Layer 1 {t('halving.halving_countdown')}</div>
             <div className={styles.halvingSubtitle}>
-              Nervos CKB Layer 1 {i18n.t('halving.halving_desc_prefix')}{' '}
-              <strong>{i18n.t('halving.base_issuance_rewards')}</strong> {i18n.t('halving.halving_desc_suffix')}
+              Nervos CKB Layer 1 {t('halving.halving_desc_prefix')}{' '}
+              <strong>{t('halving.base_issuance_rewards')}</strong> {t('halving.halving_desc_suffix')}
             </div>
             {renderHalvingPanel()}
           </div>
@@ -263,60 +265,60 @@ export const HalvingCountdownPage = () => {
 
       <div className={classnames(styles.halvingDocuments, 'container')}>
         <div className={styles.panel}>
-          <div className={styles.panelTitle}>{i18n.t('halving.halving_event')}</div>
-          <div>{i18n.t('halving.halving_event_section_1')}</div>
-          <div>{i18n.t('halving.halving_event_section_2')}</div>
+          <div className={styles.panelTitle}>{t('halving.halving_event')}</div>
+          <div>{t('halving.halving_event_section_1')}</div>
+          <div>{t('halving.halving_event_section_2')}</div>
         </div>
 
         <div className={styles.panel}>
-          <div className={styles.panelTitle}>{i18n.t('halving.significance')}</div>
-          <div>{i18n.t('halving.significance_section_1')}</div>
-          <div>{i18n.t('halving.significance_section_2')}</div>
+          <div className={styles.panelTitle}>{t('halving.significance')}</div>
+          <div>{t('halving.significance_section_1')}</div>
+          <div>{t('halving.significance_section_2')}</div>
         </div>
 
         <div className={styles.panel}>
-          <div className={styles.panelTitle}>{i18n.t('halving.how_does_work')}</div>
-          <div>{i18n.t('halving.how_does_work_section_1')}</div>
+          <div className={styles.panelTitle}>{t('halving.how_does_work')}</div>
+          <div>{t('halving.how_does_work_section_1')}</div>
           <div className={styles.blockquote}>
-            <div>{i18n.t('halving.how_does_work_section_2')}</div>
-            <div>{i18n.t('halving.how_does_work_section_3')}</div>
+            <div>{t('halving.how_does_work_section_2')}</div>
+            <div>{t('halving.how_does_work_section_3')}</div>
           </div>
           <div>
             <div>
-              {i18n.t('halving.how_does_work_section_4')} <strong>4 * 365 * (24 / 4)</strong> = <strong>8760</strong>,{' '}
-              {i18n.t('halving.how_does_work_section_5')}: <strong>the_Nth_halving_epoch = 8760 * N </strong>.
+              {t('halving.how_does_work_section_4')} <strong>4 * 365 * (24 / 4)</strong> = <strong>8760</strong>,{' '}
+              {t('halving.how_does_work_section_5')}: <strong>the_Nth_halving_epoch = 8760 * N </strong>.
             </div>
-            <div>{i18n.t('halving.how_does_work_section_6')}</div>
+            <div>{t('halving.how_does_work_section_6')}</div>
           </div>
         </div>
 
         <div className={styles.panel}>
-          <div className={styles.panelTitle}>{i18n.t('halving.when')}</div>
+          <div className={styles.panelTitle}>{t('halving.when')}</div>
           <div>
-            {i18n.t('halving.when_section_1')}
+            {t('halving.when_section_1')}
             <HalvingTable />
           </div>
           <img style={{ maxWidth: '100%' }} loading="lazy" src={baseIssuance} alt="ckb base issuance trend" />
           <div>
-            ⚠️ {i18n.t('halving.when_section_2')}
-            <strong>{i18n.t('halving.when_section_3')}</strong>, {i18n.t('halving.and')}{' '}
-            <strong>{i18n.t('halving.when_section_4')}</strong>:
+            ⚠️ {t('halving.when_section_2')}
+            <strong>{t('halving.when_section_3')}</strong>, {t('halving.and')}{' '}
+            <strong>{t('halving.when_section_4')}</strong>:
           </div>
           <img
             style={{ maxWidth: '100%', borderRadius: 8 }}
             loading="lazy"
-            src={currentLanguage() === 'zh' ? blockRewardsCN : blockRewards}
+            src={useCurrentLanguage() === 'zh' ? blockRewardsCN : blockRewards}
             alt="block rewards"
           />
           <div>
-            {i18n.t('halving.when_section_5')}
-            <strong>{i18n.t('halving.base_issuance_rewards')}</strong>
-            {i18n.t('halving.when_section_6')}
+            {t('halving.when_section_5')}
+            <strong>{t('halving.base_issuance_rewards')}</strong>
+            {t('halving.when_section_6')}
           </div>
         </div>
       </div>
 
-      <Tooltip title={i18n.t('halving.share_tooltip')}>
+      <Tooltip title={t('halving.share_tooltip')}>
         <a className={styles.shareWrapper} href={shareUrl} target="_blank" rel="noreferrer">
           <div className={styles.xIconBg}>
             <XIcon fill="white" height={40} width={40} />

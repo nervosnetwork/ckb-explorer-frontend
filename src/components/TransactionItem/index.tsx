@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import RightArrowIcon from '../../assets/input_arrow_output.png'
 import DownArrowIcon from '../../assets/input_arrow_output_down.png'
 import { localeNumberString } from '../../utils/number'
@@ -6,7 +7,6 @@ import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionIncome from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
-import i18n from '../../utils/i18n'
 import { CellType } from '../../constants/common'
 import AddressText from '../AddressText'
 import { useIsLGScreen, useParsedDate } from '../../utils/hook'
@@ -35,6 +35,7 @@ const TransactionItem = ({
   scrollIntoViewOnMount?: boolean
 }) => {
   const isLG = useIsLGScreen()
+  const { t } = useTranslation()
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -67,7 +68,7 @@ const TransactionItem = ({
           </AddressText>
           {!isBlock && (
             <div className="transactionItemBlock">
-              {`(${i18n.t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parsedBlockCreateAt}`}
+              {`(${t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parsedBlockCreateAt}`}
             </div>
           )}
         </div>
@@ -93,7 +94,7 @@ const TransactionItem = ({
               )}
             />
           ) : (
-            <div className="transactionItemOutputEmpty">{i18n.t('transaction.empty_output')}</div>
+            <div className="transactionItemOutputEmpty">{t('transaction.empty_output')}</div>
           )}
         </div>
       </TransactionCellPanel>

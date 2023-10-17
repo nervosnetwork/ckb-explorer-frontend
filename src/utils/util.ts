@@ -3,6 +3,7 @@ import camelcaseKeys from 'camelcase-keys'
 import JSBI from 'jsbi'
 import BigNumber from 'bignumber.js'
 import { scriptToAddress, addressToScript } from '@nervosnetwork/ckb-sdk-utils'
+import { useTranslation } from 'react-i18next'
 import { MAX_CONFIRMATION, TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY, TOKEN_EMAIL_ADDRESS } from '../constants/common'
 import {
   ContractHashTag,
@@ -10,7 +11,6 @@ import {
   ScriptTagExtraRules,
   TestnetContractHashTags,
 } from '../constants/scripts'
-import i18n from './i18n'
 import { isMainnet } from './chain'
 
 export const copyElementValue = (component: any) => {
@@ -74,14 +74,17 @@ export const toCamelcase = <T>(object: any): T => {
   ) as T
 }
 
-export const formatConfirmation = (confirmation: number) => {
-  if (confirmation > MAX_CONFIRMATION) {
-    return `${MAX_CONFIRMATION}+ ${i18n.t('address.confirmations')}`
+export const useFormatConfirmation = () => {
+  const { t } = useTranslation()
+  return (confirmation: number) => {
+    if (confirmation > MAX_CONFIRMATION) {
+      return `${MAX_CONFIRMATION}+ ${t('address.confirmations')}`
+    }
+    if (confirmation > 1) {
+      return `${confirmation} ${t('address.confirmations')}`
+    }
+    return `${confirmation} ${t('address.confirmation')}`
   }
-  if (confirmation > 1) {
-    return `${confirmation} ${i18n.t('address.confirmations')}`
-  }
-  return `${confirmation} ${i18n.t('address.confirmation')}`
 }
 
 export const isValidReactNode = (node: ReactNode) => {
@@ -333,7 +336,7 @@ export default {
   copyElementValue,
   shannonToCkb,
   toCamelcase,
-  formatConfirmation,
+  useFormatConfirmation,
   isValidReactNode,
   deprecatedAddrToNewAddr,
   handleRedirectFromAggron,

@@ -2,12 +2,11 @@
 import { useState, ReactNode, FC } from 'react'
 import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
-import { Trans } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { parseSimpleDate } from '../../utils/date'
-import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
-import { formatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
+import { useFormatConfirmation, shannonToCkb, matchTxHash } from '../../utils/util'
 import {
   TransactionBlockHeightPanel,
   TransactionInfoContentPanel,
@@ -126,7 +125,8 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
     maxCyclesInEpoch,
     maxCycles,
   } = transaction
-
+  const { t } = useTranslation()
+  const parseFormatConfirmation = useFormatConfirmation()
   let confirmation = 0
   if (tipBlockNumber && blockNumber) {
     confirmation = tipBlockNumber - blockNumber
@@ -134,8 +134,8 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
 
   const OverviewItems: Array<OverviewItemData> = [
     {
-      title: i18n.t('block.block_height'),
-      tooltip: i18n.t('glossary.block_height'),
+      title: t('block.block_height'),
+      tooltip: t('glossary.block_height'),
       content: <TransactionBlockHeight blockNumber={blockNumber} txStatus={txStatus} />,
     },
   ]
@@ -143,13 +143,13 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
     if (confirmation >= 0) {
       OverviewItems.push(
         {
-          title: i18n.t('block.timestamp'),
-          tooltip: i18n.t('glossary.timestamp'),
+          title: t('block.timestamp'),
+          tooltip: t('glossary.timestamp'),
           content: parseSimpleDate(blockTimestamp),
         },
         bytes
           ? {
-              title: `${i18n.t('transaction.transaction_fee')} | ${i18n.t('transaction.fee_rate')}`,
+              title: `${t('transaction.transaction_fee')} | ${t('transaction.fee_rate')}`,
               content: (
                 <div
                   style={{
@@ -169,31 +169,31 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
               ),
             }
           : {
-              title: i18n.t('transaction.transaction_fee'),
+              title: t('transaction.transaction_fee'),
               content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
             },
 
         {
-          title: i18n.t('transaction.status'),
-          tooltip: i18n.t('glossary.transaction_status'),
-          content: formatConfirmation(confirmation),
+          title: t('transaction.status'),
+          tooltip: t('glossary.transaction_status'),
+          content: parseFormatConfirmation(confirmation),
         },
       )
     }
   } else {
     OverviewItems.push(
       {
-        title: i18n.t('block.timestamp'),
-        tooltip: i18n.t('glossary.timestamp'),
+        title: t('block.timestamp'),
+        tooltip: t('glossary.timestamp'),
         content: showTxStatus(txStatus),
       },
       {
-        title: i18n.t('transaction.transaction_fee'),
+        title: t('transaction.transaction_fee'),
         content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
       },
       {
-        title: i18n.t('transaction.status'),
-        tooltip: i18n.t('glossary.transaction_status'),
+        title: t('transaction.status'),
+        tooltip: t('glossary.transaction_status'),
         content: showTxStatus(txStatus),
         valueTooltip: txStatus === 'rejected' ? detailedMessage : undefined,
       },
@@ -202,7 +202,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
 
   OverviewItems.push(
     {
-      title: i18n.t('transaction.size'),
+      title: t('transaction.size'),
       content: bytes ? (
         <div
           style={{
@@ -215,11 +215,11 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
             numerator={bytes}
             maxInEpoch={largestTxInEpoch}
             maxInChain={largestTx}
-            titleInEpoch={i18n.t('transaction.compared_to_the_max_size_in_epoch')}
-            titleInChain={i18n.t('transaction.compared_to_the_max_size_in_chain')}
+            titleInEpoch={t('transaction.compared_to_the_max_size_in_epoch')}
+            titleInChain={t('transaction.compared_to_the_max_size_in_chain')}
             unit="Bytes"
           >
-            {i18n.t('transaction.size_in_block', {
+            {t('transaction.size_in_block', {
               bytes: bytes.toLocaleString('en'),
             })}
           </ComparedToMaxTooltip>
@@ -230,7 +230,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
     },
     null,
     {
-      title: i18n.t('transaction.cycles'),
+      title: t('transaction.cycles'),
       content: cycles ? (
         <div
           style={{
@@ -243,8 +243,8 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
             numerator={cycles}
             maxInEpoch={maxCyclesInEpoch}
             maxInChain={maxCycles}
-            titleInEpoch={i18n.t('transaction.compared_to_the_max_cycles_in_epoch')}
-            titleInChain={i18n.t('transaction.compared_to_the_max_cycles_in_chain')}
+            titleInEpoch={t('transaction.compared_to_the_max_cycles_in_epoch')}
+            titleInChain={t('transaction.compared_to_the_max_cycles_in_chain')}
           />
         </div>
       ) : (
@@ -255,7 +255,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
 
   const TransactionParams = [
     {
-      title: i18n.t('transaction.cell_deps'),
+      title: t('transaction.cell_deps'),
       tooltip: (
         <Trans
           i18nKey="glossary.cell_deps"
@@ -282,22 +282,22 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
             return (
               <TransactionInfoContentPanel key={`${txHash}${index}`}>
                 <TransactionInfoItem
-                  title={i18n.t('transaction.out_point_tx_hash')}
-                  tooltip={i18n.t('glossary.out_point_tx_hash')}
+                  title={t('transaction.out_point_tx_hash')}
+                  tooltip={t('glossary.out_point_tx_hash')}
                   value={txHash}
                   linkUrl={`/transaction/${txHash}`}
                   tag={hashTag && <HashTag content={hashTag.tag} category={hashTag.category} />}
                 />
                 <TransactionInfoItem
-                  title={i18n.t('transaction.out_point_index')}
-                  tooltip={i18n.t('glossary.out_point_index')}
+                  title={t('transaction.out_point_index')}
+                  tooltip={t('glossary.out_point_index')}
                   value={index}
                 />
                 <TransactionInfoItem
-                  title={i18n.t('transaction.dep_type')}
-                  tooltip={i18n.t('glossary.dep_type')}
+                  title={t('transaction.dep_type')}
+                  tooltip={t('glossary.dep_type')}
                   value={depType}
-                  valueTooltip={depType === 'dep_group' ? i18n.t('glossary.dep_group') : undefined}
+                  valueTooltip={depType === 'dep_group' ? t('glossary.dep_group') : undefined}
                 />
               </TransactionInfoContentPanel>
             )
@@ -307,37 +307,37 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
         ),
     },
     {
-      title: i18n.t('transaction.header_deps'),
-      tooltip: i18n.t('glossary.header_deps'),
+      title: t('transaction.header_deps'),
+      tooltip: t('glossary.header_deps'),
       content:
         headerDeps && headerDeps.length > 0 ? (
           headerDeps.map(headerDep => (
             <TransactionInfoItemWrapper
               key={headerDep}
-              title={i18n.t('transaction.header_dep')}
+              title={t('transaction.header_dep')}
               value={headerDep}
               linkUrl={`/block/${headerDep}`}
             />
           ))
         ) : (
-          <TransactionInfoItemWrapper title={i18n.t('transaction.header_dep')} value="[ ]" />
+          <TransactionInfoItemWrapper title={t('transaction.header_dep')} value="[ ]" />
         ),
     },
     {
-      title: i18n.t('transaction.witnesses'),
-      tooltip: i18n.t('glossary.witnesses'),
+      title: t('transaction.witnesses'),
+      tooltip: t('glossary.witnesses'),
       content:
         witnesses && witnesses.length > 0 ? (
           witnesses.map((witness, index) => (
             <TransactionInfoItemWrapper
               key={`${witness}-${index}`}
               title="Witness"
-              tooltip={i18n.t('glossary.witness')}
+              tooltip={t('glossary.witness')}
               value={witness}
             />
           ))
         ) : (
-          <TransactionInfoItemWrapper title="Witness" tooltip={i18n.t('glossary.witness')} value="[ ]" />
+          <TransactionInfoItemWrapper title="Witness" tooltip={t('glossary.witness')} value="[ ]" />
         ),
     },
   ]
@@ -347,7 +347,7 @@ export const TransactionOverview: FC<{ transaction: State.Transaction }> = ({ tr
       <OverviewCard items={OverviewItems} hideShadow>
         <div className="transactionOverviewInfo">
           <SimpleButton className="transactionOverviewParameters" onClick={() => setShowParams(!showParams)}>
-            <div>{i18n.t('transaction.transaction_parameters')}</div>
+            <div>{t('transaction.transaction_parameters')}</div>
             <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
           </SimpleButton>
           {showParams && (
