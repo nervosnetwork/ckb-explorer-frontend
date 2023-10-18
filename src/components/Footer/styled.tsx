@@ -10,7 +10,7 @@ export const FooterPanel = styled.div`
     align-items: flex-start;
   }
 
-  .footer__copyright {
+  .footerCopyright {
     height: 15px;
     font-size: 12px;
     color: #acacac;
@@ -44,12 +44,12 @@ export const FooterMenuPanel = styled.div`
     margin-left: 30px;
   }
 
-  .footer__foundation {
+  .footerFoundation {
     display: flex;
     flex-direction: column;
   }
 
-  .footer__developer {
+  .footerDeveloper {
     display: flex;
     flex-direction: column;
     margin-left: 280px;
@@ -72,7 +72,7 @@ export const FooterMenuPanel = styled.div`
     }
   }
 
-  .footer__community {
+  .footerCommunity {
     display: flex;
     flex-direction: column;
     margin-left: 280px;
@@ -105,7 +105,7 @@ export const FooterMenuPanel = styled.div`
     }
   }
 
-  .footer__title {
+  .footerTitle {
     font-size: 28px;
     font-weight: bold;
     color: #fff;
@@ -147,6 +147,7 @@ export const FooterImageItemPanel = styled.a`
     color: ${props => props.theme.primary};
 
     & > svg {
+      /* stylelint-disable-next-line selector-class-pattern */
       .app-icon {
         fill: ${props => props.theme.primary};
       }

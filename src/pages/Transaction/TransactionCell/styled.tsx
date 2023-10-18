@@ -15,23 +15,23 @@ export const TransactionCellContentPanel = styled.div`
   color: #000;
   text-align: center;
 
-  .transaction__cell__address {
+  .transactionCellAddress {
     display: flex;
     flex: 0.4;
     min-width: 0;
   }
 
-  .transaction__cell_detail {
+  .transactionCellDetail {
     flex: ${(props: { isCellbase: boolean }) => (props.isCellbase ? '0.6' : '0.22')};
   }
 
-  .transaction__cell_capacity {
+  .transactionCellCapacity {
     flex: 0.3;
     display: ${(props: { isCellbase: boolean }) => (props.isCellbase ? 'none' : 'flex')};
     justify-content: flex-end;
   }
 
-  .transaction__detail__cell_info {
+  .transactionDetailCellInfo {
     flex: 0.08;
     font-size: 12px;
     display: ${(props: { isCellbase: boolean }) => (props.isCellbase ? 'none' : 'flex')};
@@ -48,7 +48,7 @@ export const TransactionCellContentPanel = styled.div`
   }
 `
 export const TransactionCellInfoPanel = styled.div`
-  .transaction__cell__info__content {
+  .transactionCellInfoContent {
     color: rgb(0 0 0 / 60%);
     cursor: pointer;
     width: 45px;
@@ -57,7 +57,7 @@ export const TransactionCellInfoPanel = styled.div`
       width: auto;
     }
 
-    .transaction__cell__info__separate {
+    .transactionCellInfoSeparate {
       background: rgb(0 0 0 / 60%);
       width: 45px;
       height: 1px;
@@ -71,7 +71,7 @@ export const TransactionCellInfoPanel = styled.div`
     &:hover {
       color: ${props => props.theme.primary};
 
-      .transaction__cell__info__separate {
+      .transactionCellInfoSeparate {
         background: ${props => props.theme.primary};
       }
     }
@@ -83,7 +83,7 @@ export const TransactionCellAddressPanel = styled.div`
   display: flex;
   flex-direction: row;
 
-  .transaction__cell_index {
+  .transactionCellIndex {
     margin-right: 3px;
     color: #666;
 
@@ -125,7 +125,7 @@ export const TransactionCellHashPanel = styled.div`
     margin: 0 3px;
   }
 
-  .transaction__cell_address_link {
+  .transactionCellAddressLink {
     max-width: 70%;
 
     @media (max-width: 750px) {
@@ -133,7 +133,7 @@ export const TransactionCellHashPanel = styled.div`
     }
   }
 
-  .transaction__cell_address_no_link {
+  .transactionCellAddressNoLink {
     color: #000;
   }
 `
@@ -146,7 +146,7 @@ export const TransactionCellDetailPanel = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  .transaction__cell__detail__panel {
+  .transactionCellDetailPanel {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -183,7 +183,7 @@ export const TransactionCellDetailModal = styled.div`
 `
 
 export const TransactionCellCardPanel = styled.div`
-  .transaction__cell__card__separate {
+  .transactionCellCardSeparate {
     width: 100%;
     height: 1px;
     background: #ccc;
@@ -206,7 +206,7 @@ export const TransactionCellCardContent = styled.div`
   justify-content: space-between;
   padding: 0 10px;
 
-  .transaction__cell__card__title {
+  .transactionCellCardTitle {
     flex: 1;
     min-width: 0;
     font-size: 16px;
@@ -214,7 +214,7 @@ export const TransactionCellCardContent = styled.div`
     margin-top: 3px;
   }
 
-  .transaction__cell__card__value {
+  .transactionCellCardValue {
     display: flex;
     font-size: 16px;
     color: #000;

@@ -10,11 +10,11 @@ export default ({ setShow, left, top }: { setShow: Function; left: number; top: 
 
   return (
     <ChainTypePanel left={left} top={top} onMouseLeave={hideDropdown}>
-      <SimpleButton className={`chain__type__${isMainnet() ? 'selected' : 'normal'}`} onClick={hideDropdown}>
+      <SimpleButton className={`chainType${isMainnet() ? 'Selected' : 'Normal'}`} onClick={hideDropdown}>
         <a href={MAINNET_URL}>{`${ChainName.Mainnet} mainnet`}</a>
       </SimpleButton>
-      <div className="chain__type__separate" />
-      <SimpleButton className={`chain__type__${!isMainnet() ? 'selected' : 'normal'}`} onClick={hideDropdown}>
+      <div className="chainTypeSeparate" />
+      <SimpleButton className={`chainType${!isMainnet() ? 'Selected' : 'Normal'}`} onClick={hideDropdown}>
         <a href={TESTNET_URL}>{`${ChainName.Testnet} testnet`}</a>
       </SimpleButton>
     </ChainTypePanel>

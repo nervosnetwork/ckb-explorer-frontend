@@ -64,15 +64,15 @@ export const NervosDao = () => {
       <DaoContentPanel className="container">
         <DaoOverview nervosDao={queryNervosDao.data ?? defaultNervosDaoInfo} />
         <DaoTabBarPanel>
-          <div className="nervos_dao_tab_bar">
+          <div className="nervosDaoTabBar">
             <SimpleButton
-              className={tab === 'transactions' ? 'tab_bar_selected' : 'tab_bar_normal'}
+              className={tab === 'transactions' ? 'tabBarSelected' : 'tabBarNormal'}
               onClick={() => push('/nervosdao?tab=transactions')}
             >
               {t('nervos_dao.dao_tab_transactions')}
             </SimpleButton>
             <SimpleButton
-              className={tab === 'depositors' ? 'tab_bar_selected' : 'tab_bar_normal'}
+              className={tab === 'depositors' ? 'tabBarSelected' : 'tabBarNormal'}
               onClick={() => push('/nervosdao?tab=depositors')}
             >
               {t('nervos_dao.dao_tab_depositors')}

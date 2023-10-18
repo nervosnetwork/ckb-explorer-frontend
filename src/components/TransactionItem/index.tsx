@@ -55,10 +55,10 @@ const TransactionItem = ({
     <TransactionPanel ref={ref} circleCorner={circleCorner}>
       {titleCard}
       <TransactionHashBlockPanel>
-        <div className="transaction_item__content">
+        <div className="transactionItemContent">
           <AddressText
             disableTooltip
-            className="transaction_item__hash"
+            className="transactionItemHash"
             linkProps={{
               to: `/transaction/${transaction.transactionHash}`,
             }}
@@ -66,14 +66,14 @@ const TransactionItem = ({
             {transaction.transactionHash}
           </AddressText>
           {!isBlock && (
-            <div className="transaction_item__block">
+            <div className="transactionItemBlock">
               {`(${i18n.t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parsedBlockCreateAt}`}
             </div>
           )}
         </div>
       </TransactionHashBlockPanel>
       <TransactionCellPanel>
-        <div className="transaction_item__input">
+        <div className="transactionItemInput">
           <TransactionCellList
             cells={transaction.displayInputs}
             transaction={transaction}
@@ -81,7 +81,7 @@ const TransactionItem = ({
           />
         </div>
         <img src={isLG ? DownArrowIcon : RightArrowIcon} alt="input and output" />
-        <div className="transaction_item__output">
+        <div className="transactionItemOutput">
           {transaction.displayOutputs && transaction.displayOutputs.length !== 0 ? (
             <TransactionCellList
               cells={transaction.displayOutputs}
@@ -93,7 +93,7 @@ const TransactionItem = ({
               )}
             />
           ) : (
-            <div className="transaction_item__output__empty">{i18n.t('transaction.empty_output')}</div>
+            <div className="transactionItemOutputEmpty">{i18n.t('transaction.empty_output')}</div>
           )}
         </div>
       </TransactionCellPanel>

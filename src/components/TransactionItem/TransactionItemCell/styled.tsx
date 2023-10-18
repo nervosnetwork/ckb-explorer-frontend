@@ -17,7 +17,7 @@ export const TransactionCellPanel = styled.div`
     flex-direction: column;
   }
 
-  .transaction__cell_address {
+  .transactionCellAddress {
     color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
       highLight ? `${theme.primary}` : '#000000'};
     font-weight: 500;
@@ -50,7 +50,7 @@ export const TransactionCellCapacityPanel = styled.div`
   max-height: 40px;
   align-items: center;
 
-  .transaction__cell__without__icon {
+  .transactionCellWithoutIcon {
     margin-right: 21px;
   }
 
@@ -61,7 +61,7 @@ export const TransactionCellCapacityPanel = styled.div`
     width: 100%;
     justify-content: flex-end;
 
-    .transaction__cell__without__icon {
+    .transactionCellWithoutIcon {
       margin: 0 6px;
     }
   }
@@ -101,7 +101,7 @@ export const TransactionCellUDTPanel = styled.div`
     margin-left: 6px;
   }
 
-  .transaction__cell__udt__icon {
+  .transactionCellUdtIcon {
     margin-left: 5px;
     width: 16px;
     height: auto;
@@ -138,7 +138,7 @@ export const WithdrawItemPanel = styled.div`
     margin: 5px;
   }
 
-  .withdraw__info_title {
+  .withdrawInfoTitle {
     font-size: 14px;
     font-weight: 450;
     width: ${({ width }: { width: string }) => {
@@ -181,7 +181,7 @@ export const WithdrawItemPanel = styled.div`
     }
   }
 
-  .withdraw__info_content {
+  .withdrawInfoContent {
     font-size: 14px;
 
     @media (max-width: 750px) {

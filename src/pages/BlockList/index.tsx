@@ -202,7 +202,7 @@ export default () => {
   return (
     <Content>
       <BlockListPanel className="container">
-        <div className="block__green__background" />
+        <div className="blockGreenBackground" />
         {isMobile ? (
           <ContentTable>
             <TableTitleRow>

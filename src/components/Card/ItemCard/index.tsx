@@ -22,8 +22,8 @@ export function ItemCard<T>({
       <ItemContentPanel>
         {items.map((item, index) => (
           <ItemDetailPanel key={item.title} hideLine={index === items.length - 1}>
-            <div className="item__detail__title">{item.title}</div>
-            <div className="item__detail__value">{item.render(data, index)}</div>
+            <div className="itemDetailTitle">{item.title}</div>
+            <div className="itemDetailValue">{item.render(data, index)}</div>
           </ItemDetailPanel>
         ))}
       </ItemContentPanel>

@@ -41,7 +41,7 @@ export default ({
           {zeros}
         </DecimalZerosPanel>
       )}
-      {!hideUnit && <div className="decimal__unit monospace">{i18n.t('common.ckb_unit')}</div>}
+      {!hideUnit && <div className="decimalUnit monospace">{i18n.t('common.ckb_unit')}</div>}
     </DecimalPanel>
   )
 }

@@ -12,7 +12,7 @@ const Cellbase = ({ cell, cellType, isDetail }: { cell: State.Cell; cellType: Ce
   if (!cell.targetBlockNumber || cell.targetBlockNumber <= 0) {
     return (
       <CellbasePanel>
-        <div className="cellbase__content">Cellbase</div>
+        <div className="cellbaseContent">Cellbase</div>
       </CellbasePanel>
     )
   }
@@ -30,9 +30,9 @@ const Cellbase = ({ cell, cellType, isDetail }: { cell: State.Cell; cellType: Ce
   return (
     <CellbasePanel isDetail={isDetail}>
       {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-      <div className="cellbase__content">Cellbase for Block</div>
+      <div className="cellbaseContent">Cellbase for Block</div>
       <Tooltip overlayClassName={styles.tooltip} placement="top" title={tooltipContent}>
-        <img className="cellbase__help__icon" alt="cellbase help" src={HelpIcon} />
+        <img className="cellbaseHelpIcon" alt="cellbase help" src={HelpIcon} />
       </Tooltip>
       <Link to={`/block/${cell.targetBlockNumber}`}>{localeNumberString(cell.targetBlockNumber)}</Link>
     </CellbasePanel>

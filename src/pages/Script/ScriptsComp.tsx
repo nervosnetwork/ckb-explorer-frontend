@@ -15,7 +15,7 @@ import TransactionCellScript from '../Transaction/TransactionCellScript'
 import { shannonToCkb, toCamelcase } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { CellInScript, CkbTransactionInScript } from './types'
+import { CellInScript, CkbTransactionInScript, PageInfo } from './types'
 import styles from './styles.module.scss'
 import { QueryResult } from '../../components/QueryResult'
 import AddressText from '../../components/AddressText'
@@ -28,7 +28,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
   const transactionsQuery = useQuery(['scripts_ckb_transactions', codeHash, hashType, page, size], async () => {
-    const { data, meta } = await explorerService.api.requesterV2
+    const { data } = await explorerService.api.requesterV2
       .get(`scripts/ckb_transactions`, {
         params: {
           code_hash: codeHash,
@@ -38,14 +38,14 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
         },
       })
       .then((res: AxiosResponse) =>
-        toCamelcase<Response.Response<{ ckbTransactions: CkbTransactionInScript[] }>>(res.data),
+        toCamelcase<Response.Response<{ ckbTransactions: CkbTransactionInScript[]; meta: PageInfo }>>(res.data),
       )
 
     if (data == null || data.ckbTransactions == null || data.ckbTransactions.length === 0) {
       throw new Error('Transactions empty')
     }
     return {
-      total: meta?.total ?? 0,
+      total: data.meta.total,
       ckbTransactions: data.ckbTransactions,
     }
   })
@@ -95,7 +95,7 @@ export const CellInfo = ({ cell }: { cell: State.Cell }) => {
   return (
     <TransactionCellInfoPanel>
       <SimpleButton
-        className="transaction__cell__info__content"
+        className="transactionCellInfoContent"
         onClick={() => {
           setShowModal(true)
         }}
@@ -124,7 +124,7 @@ export const ScriptCells = ({
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
   const cellsQuery = useQuery([`scripts_${cellType}`, codeHash, hashType, page, size], async () => {
-    const { data, meta } = await explorerService.api.requesterV2
+    const { data } = await explorerService.api.requesterV2
       .get(`scripts/${cellType}`, {
         params: {
           code_hash: codeHash,
@@ -134,7 +134,9 @@ export const ScriptCells = ({
         },
       })
       .then((res: AxiosResponse) =>
-        toCamelcase<Response.Response<{ deployedCells?: CellInScript[]; referringCells?: CellInScript[] }>>(res.data),
+        toCamelcase<
+          Response.Response<{ deployedCells?: CellInScript[]; referringCells?: CellInScript[]; meta: PageInfo }>
+        >(res.data),
       )
     const camelCellType = camelcase(cellType) as 'deployedCells' | 'referringCells'
     if (data == null) {
@@ -145,7 +147,7 @@ export const ScriptCells = ({
       throw new Error('Cells empty')
     }
     return {
-      total: meta?.total ?? 0,
+      total: data.meta.total ?? 0,
       cells,
     }
   })
@@ -177,7 +179,7 @@ export const ScriptCells = ({
                       <td align="left">
                         <AddressText
                           disableTooltip
-                          className="transaction_item__hash"
+                          className="transactionItemHash"
                           linkProps={{
                             to: `/transaction/${record.txHash}`,
                           }}

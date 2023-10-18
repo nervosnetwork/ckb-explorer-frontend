@@ -22,7 +22,7 @@ export default ({ address }: { address?: string }) => {
   return (
     <Content>
       <SearchPanel className="container">
-        <div className="search__fail__bar">
+        <div className="searchFailBar">
           <Search content={query as string} hasButton />
         </div>
         <SearchContent>
@@ -36,7 +36,7 @@ export default ({ address }: { address?: string }) => {
           ) : (
             <>
               <span>{i18n.t('search.empty_result')}</span>
-              <span className="search__fail__items">{i18n.t('search.empty_result_items')}</span>
+              <span className="searchFailItems">{i18n.t('search.empty_result_items')}</span>
             </>
           )}
         </SearchContent>

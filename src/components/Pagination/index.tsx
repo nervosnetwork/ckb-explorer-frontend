@@ -47,39 +47,39 @@ const Pagination = ({
   return (
     <PaginationPanel className={className}>
       <PaginationLeftItem isFirstPage={current === 1} isLastPage={current === total}>
-        <SimpleButton className="pagination__first__button" onClick={() => changePage(1)}>
+        <SimpleButton className="paginationFirstButton" onClick={() => changePage(1)}>
           {i18n.t('pagination.first')}
         </SimpleButton>
-        <SimpleButton className="pagination__left__button" onClick={() => changePage(current - 1)}>
+        <SimpleButton className="paginationLeftButton" onClick={() => changePage(current - 1)}>
           <img src={current === 1 ? LeftGrey : LeftBlack} alt="left button" />
         </SimpleButton>
 
         {!isMobile && (
-          <span className="pagination__middle__label">
+          <span className="paginationMiddleLabel">
             {pcPagination}
             {annotationComp}
           </span>
         )}
-        <SimpleButton className="pagination__right__button" onClick={() => changePage(current + 1)}>
+        <SimpleButton className="paginationRightButton" onClick={() => changePage(current + 1)}>
           <img src={current === total ? RightGrey : RightBlack} alt="right button" />
         </SimpleButton>
         {isMobile && (
-          <span className="pagination__middle__label">
+          <span className="paginationMiddleLabel">
             {mobilePagination}
             {annotationComp}
           </span>
         )}
 
-        <SimpleButton className="pagination__last__button" onClick={() => changePage(total)}>
+        <SimpleButton className="paginationLastButton" onClick={() => changePage(total)}>
           {i18n.t('pagination.last')}
         </SimpleButton>
       </PaginationLeftItem>
       <PaginationRightItem>
-        <span className="pagination__page__label">{i18n.t('pagination.page')}</span>
+        <span className="paginationPageLabel">{i18n.t('pagination.page')}</span>
         <input
           type="text"
           pattern="[0-9]*"
-          className="pagination__input__page"
+          className="paginationInputPage"
           value={inputPage}
           onChange={(event: any) => {
             const pageNo = parseInt(event.target.value, 10)
@@ -91,7 +91,7 @@ const Pagination = ({
             }
           }}
         />
-        <SimpleButton className="pagination__goto__page" onClick={() => changePage(inputPage)}>
+        <SimpleButton className="paginationGotoPage" onClick={() => changePage(inputPage)}>
           {i18n.t('pagination.goto')}
         </SimpleButton>
       </PaginationRightItem>

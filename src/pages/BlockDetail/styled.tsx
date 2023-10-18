@@ -36,14 +36,14 @@ export const BlockRootInfoItemPanel = styled.div`
     margin-top: 14px;
   }
 
-  .block__root_info_title {
+  .blockRootInfoTitle {
     display: flex;
     align-items: center;
     font-weight: 500;
     color: rgb(0 0 0 / 60%);
   }
 
-  .block__root_info_value {
+  .blockRootInfoValue {
     /* spare class */
   }
 `
@@ -65,7 +65,7 @@ export const BlockMinerRewardPanel = styled.div`
   display: flex;
   flex-direction: row;
 
-  .block__miner__reward_tip {
+  .blockMinerRewardTip {
     display: flex;
     align-items: center;
   }
@@ -89,7 +89,7 @@ export const BlockMinerMessagePanel = styled.div`
   align-items: center;
   min-width: 0;
 
-  .block__miner__message_utf8 {
+  .blockMinerMessageUtf8 {
     width: 15px;
     height: 15px;
     margin-top: 2px;

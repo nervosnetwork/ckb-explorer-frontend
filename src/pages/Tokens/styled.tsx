@@ -9,7 +9,7 @@ export const TokensPanel = styled.div`
     margin-bottom: 30px;
   }
 
-  .tokens__title__panel {
+  .tokensTitlePanel {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -117,7 +117,7 @@ export const TokensTableItem = styled.div`
   background: white;
   padding: 0 15px;
 
-  .tokens__item__content {
+  .tokensItemContent {
     display: flex;
     align-items: center;
     width: 100%;
@@ -130,7 +130,7 @@ export const TokensTableItem = styled.div`
     }
   }
 
-  .tokens__item__name__panel {
+  .tokensItemNamePanel {
     display: flex;
     flex: 4.6;
     align-items: center;
@@ -148,7 +148,7 @@ export const TokensTableItem = styled.div`
     > div {
       margin-left: 10px;
 
-      .tokens__item__description {
+      .tokensItemDescription {
         font-size: 12px;
         letter-spacing: 0.17px;
         line-height: normal;
@@ -162,7 +162,7 @@ export const TokensTableItem = styled.div`
     }
   }
 
-  .tokens__item__transactions {
+  .tokensItemTransactions {
     flex: 1.8;
     font-size: 14px;
     text-align: right;
@@ -178,7 +178,7 @@ export const TokensTableItem = styled.div`
     }
   }
 
-  .tokens__item__address__count {
+  .tokensItemAddressCount {
     flex: 1.8;
     font-size: 14px;
     text-align: right;
@@ -194,7 +194,7 @@ export const TokensTableItem = styled.div`
     }
   }
 
-  .tokens__item__created__time {
+  .tokensItemCreatedTime {
     flex: 1.8;
     font-size: 12px;
     text-align: right;
@@ -205,7 +205,7 @@ export const TokensTableItem = styled.div`
     }
   }
 
-  .tokens__item__separate {
+  .tokensItemSeparate {
     background: #d8d8d8;
     width: 100%;
     height: 1px;

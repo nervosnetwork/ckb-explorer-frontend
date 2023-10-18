@@ -28,9 +28,9 @@ const MobileMenuComp: FC<{ mobileMenuVisible: boolean; setMobileMenuVisible: (va
   return (
     <HeaderMobileMenuPanel onClick={() => setMobileMenuVisible(!mobileMenuVisible)}>
       <div className={mobileMenuVisible ? 'close' : ''}>
-        <div className="menu__icon__first" />
-        <div className="menu__icon__second" />
-        <div className="menu__icon__third" />
+        <div className="menuIconFirst" />
+        <div className="menuIconSecond" />
+        <div className="menuIconThird" />
       </div>
     </HeaderMobileMenuPanel>
   )
@@ -49,7 +49,7 @@ const AutoExpand: FC<{
   const expanded = canMinimumRender || _expanded
 
   return (
-    <div className={styles.AutoExpand}>
+    <div className={styles.autoExpand}>
       {!_expanded && <div className={styles.content}>{leftContent}</div>}
       <div ref={ref} className={styles.expandable} style={{ width: _expanded ? '100%' : expandableWidthRange.minimum }}>
         {renderExpandable(expanded, setExpanded)}
@@ -108,7 +108,7 @@ export default () => {
 
   return (
     <div
-      className={classNames(styles.StickyContainer, {
+      className={classNames(styles.stickyContainer, {
         [styles.expanded]: mobileMenuVisible,
       })}
     >

@@ -130,13 +130,13 @@ const ChartPage = ({
   return (
     <Content>
       <ChartDetailTitle className="container">
-        <div className="chart__detail__title__panel">
+        <div className="chartDetailTitlePanel">
           <span>{title}</span>
           {description && <HelpTip placement="bottom" title={description} iconProps={{ alt: 'chart help' }} />}
         </div>
         {csv && (
           <a
-            className="chart__detail__title__download"
+            className="chartDetailTitleDownload"
             rel="noopener noreferrer"
             href={`data:text/csv;charset=utf-8,${encodeURI(csv)}`}
             target="_blank"

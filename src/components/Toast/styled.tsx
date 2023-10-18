@@ -22,7 +22,7 @@ export const ToastItemPanel = styled.div`
   z-index: 9999;
   height: 60px;
 
-  .toast__text {
+  .toastText {
     color: white;
     font-size: 20px;
     line-height: 60px;
@@ -33,7 +33,7 @@ export const ToastItemPanel = styled.div`
     top: 42px;
     height: 36px;
 
-    .toast__text {
+    .toastText {
       font-size: 14px;
       line-height: 36px;
     }
@@ -43,7 +43,7 @@ export const ToastItemPanel = styled.div`
     top: 42px;
     height: 36px;
 
-    .toast__text {
+    .toastText {
       font-size: 12px;
       line-height: 36px;
     }

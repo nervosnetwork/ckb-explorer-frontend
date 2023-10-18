@@ -24,18 +24,18 @@ const handleOverviewItems = (items: OverviewItemData[], isMobile: boolean) => ({
 export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideLine: boolean }) =>
   item ? (
     <OverviewItemPanel hideLine={hideLine} hasIcon={item.icon} isAsset={item.isAsset}>
-      <div className="overview_item__title__panel">
+      <div className="overviewItemTitlePanel">
         {item.icon && (
-          <div className="overview_item__icon">
+          <div className="overviewItemIcon">
             <img src={item.icon} alt="item icon" />
           </div>
         )}
-        <div className="overview_item__title">
+        <div className="overviewItemTitle">
           <span>{item.title}</span>
           {item.tooltip && <HelpTip title={item.tooltip} />}
         </div>
       </div>
-      <div className={classNames('overview_item__value', { filled: item.filled }, item.contentWrapperClass)}>
+      <div className={classNames('overviewItemValue', { filled: item.filled }, item.contentWrapperClass)}>
         {isValidElement(item.content) ? item.content : <span>{item.content}</span>}
         {item.valueTooltip && <HelpTip title={item.valueTooltip} />}
       </div>
@@ -60,9 +60,9 @@ export default ({
   return (
     <OverviewCardPanel hideShadow={hideShadow}>
       {titleCard}
-      <div className="overview__separate" />
+      <div className="overviewSeparate" />
       <OverviewContentPanel length={leftItems.length}>
-        <div className="overview_content__left_items">
+        <div className="overviewContentLeftItems">
           {leftItems.map((item, index) =>
             item ? (
               <OverviewItem
@@ -74,7 +74,7 @@ export default ({
           )}
         </div>
         {!isLG && <span />}
-        <div className="overview_content__right_items">
+        <div className="overviewContentRightItems">
           {rightItems.map((item, index) => (
             <OverviewItem key={items.indexOf(item)} item={item} hideLine={index === rightItems.length - 1} />
           ))}

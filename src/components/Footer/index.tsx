@@ -127,21 +127,21 @@ export default memo(() => {
   return (
     <FooterPanel>
       <FooterMenuPanel>
-        <div className="footer__foundation">
-          <div className="footer__title">{Footers[0].name}</div>
+        <div className="footerFoundation">
+          <div className="footerTitle">{Footers[0].name}</div>
           {Footers[0].items.map((item: any) => (
             <FooterItem item={item} key={item.label} />
           ))}
         </div>
-        <div className="footer__developer">
-          <div className="footer__title">{Footers[1].name}</div>
+        <div className="footerDeveloper">
+          <div className="footerTitle">{Footers[1].name}</div>
           {Footers[1].items
             .filter(item => item.label !== undefined)
             .map((item: any) => (
               <FooterItem item={item} key={item.label} />
             ))}
         </div>
-        <div className="footer__community">
+        <div className="footerCommunity">
           {isMobile ? (
             <div>
               {Footers[2].items.map((item: any) => (
@@ -169,7 +169,7 @@ export default memo(() => {
           )}
         </div>
       </FooterMenuPanel>
-      <div className="footer__copyright">
+      <div className="footerCopyright">
         <span>{`Copyright © ${getCurrentYear()} Nervos Foundation. `}</span>
         <span>All Rights Reserved.</span>
       </div>

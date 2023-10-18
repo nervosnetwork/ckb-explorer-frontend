@@ -22,6 +22,7 @@ import {
 } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
+import { isMainnet } from '../../utils/chain'
 import i18n from '../../utils/i18n'
 import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
@@ -29,6 +30,7 @@ import { BlockCardItem, TransactionCardItem } from './TableCard'
 import Loading from '../../components/Loading/SmallLoading'
 import { useElementIntersecting, useInterval, useIsLGScreen, useIsMobile } from '../../utils/hook'
 import Banner from '../../components/Banner'
+import { HalvingBanner } from '../../components/Banner/HalvingBanner'
 import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
@@ -47,21 +49,21 @@ interface BlockchainData {
 
 const StatisticItem = ({ blockchain, isFirst }: { blockchain: BlockchainData; isFirst?: boolean }) => (
   <HomeStatisticItemPanel isFirst={isFirst}>
-    <div className="home__statistic__item__name">{blockchain.name}</div>
-    <div className="home__statistic__item__value">{blockchain.value}</div>
+    <div className="homeStatisticItemName">{blockchain.name}</div>
+    <div className="homeStatisticItemValue">{blockchain.value}</div>
   </HomeStatisticItemPanel>
 )
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => (
   <HomeHeaderItemPanel>
-    <div className="blockchain__item__content">
-      <div className="blockchain__item__name">{blockchain.name}</div>
-      <div className="blockchain__item__value">
-        <div className="blockchain__item__left__value">{blockchain.value}</div>
-        {blockchain.rightValue && <div className="blockchain__item__right__value">{blockchain.rightValue}</div>}
+    <div className="blockchainItemContent">
+      <div className="blockchainItemName">{blockchain.name}</div>
+      <div className="blockchainItemValue">
+        <div className="blockchainItemLeftValue">{blockchain.value}</div>
+        {blockchain.rightValue && <div className="blockchainItemRightValue">{blockchain.rightValue}</div>}
       </div>
     </div>
-    {blockchain.showSeparate && <div className="blockchain__item__between_separate" />}
+    {blockchain.showSeparate && <div className="blockchainItemBetweenSeparate" />}
   </HomeHeaderItemPanel>
 )
 
@@ -142,7 +144,7 @@ const HomeHeaderTopPanel: FC = memo(() => {
   useShowSearchBarInHeader(!isFullDisplayInScreen)
 
   return (
-    <div ref={ref} className={styles.HomeHeaderTopPanel}>
+    <div ref={ref} className={styles.homeHeaderTopPanel}>
       <div className={styles.title}>{i18n.t('common.ckb_explorer')}</div>
       <div className={styles.search}>{isFullDisplayInScreen && <Search hasButton />}</div>
     </div>
@@ -155,7 +157,7 @@ const BlockList: FC<{ blocks: State.Block[] }> = memo(({ blocks }) => {
       {blocks.map((block, index) => (
         <div key={block.number}>
           <BlockCardItem block={block} isDelayBlock={index < DELAY_BLOCK_NUMBER} />
-          {blocks.length - 1 !== index && <div className="block__card__separate" />}
+          {blocks.length - 1 !== index && <div className="blockCardSeparate" />}
         </div>
       ))}
     </>
@@ -171,7 +173,7 @@ const TransactionList: FC<{ transactions: State.Transaction[]; tipBlockNumber: n
         {transactions.map((transaction, index) => (
           <div key={transaction.transactionHash}>
             <TransactionCardItem transaction={transaction} tipBlockNumber={tipBlockNumber} />
-            {transactions.length - 1 !== index && <div className="transaction__card__separate" />}
+            {transactions.length - 1 !== index && <div className="transactionCardSeparate" />}
           </div>
         ))}
       </>
@@ -235,43 +237,43 @@ export default () => {
 
   return (
     <Content>
-      <Banner />
+      {isMainnet() ? <HalvingBanner /> : <Banner />}
       <div className="container">
         <HomeHeaderTopPanel />
-        <div className={`${styles.HomeStatisticTopPanel} ${styles.AfterHardFork}`}>
-          <div className={styles.home__statistic__left__panel}>
-            <div className={styles.home__statistic__left__data}>
+        <div className={`${styles.homeStatisticTopPanel} ${styles.afterHardFork}`}>
+          <div className={styles.homeStatisticLeftPanel}>
+            <div className={styles.homeStatisticLeftData}>
               <StatisticItem blockchain={blockchainDataList[0]} isFirst />
               <StatisticItem blockchain={blockchainDataList[1]} />
             </div>
-            <div className={styles.home__statistic__left__chart}>
+            <div className={styles.homeStatisticLeftChart}>
               <AverageBlockTimeChart />
             </div>
           </div>
-          <div className={styles.home__statistic__right__panel}>
-            <div className={styles.home__statistic__right__data}>
+          <div className={styles.homeStatisticRightPanel}>
+            <div className={styles.homeStatisticRightData}>
               <StatisticItem blockchain={blockchainDataList[2]} isFirst />
               <StatisticItem blockchain={blockchainDataList[3]} />
             </div>
-            <div className={styles.home__statistic__right__chart}>
+            <div className={styles.homeStatisticRightChart}>
               <HashRateChart />
             </div>
           </div>
         </div>
-        <div className={styles.HomeStatisticBottomPanel}>
+        <div className={styles.homeStatisticBottomPanel}>
           {!isLG ? (
             blockchainDataList
               .slice(4)
               .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)
           ) : (
             <>
-              <div className={styles.blockchain__item__row}>
+              <div className={styles.blockchainItemRow}>
                 {blockchainDataList.slice(4, 6).map((data: BlockchainData) => (
                   <BlockchainItem blockchain={data} key={data.name} />
                 ))}
               </div>
-              <div className={styles.blockchain__item__row_separate} />
-              <div className={styles.blockchain__item__row}>
+              <div className={styles.blockchainItemRowSeparate} />
+              <div className={styles.blockchainItemRow}>
                 {blockchainDataList.slice(6).map((data: BlockchainData) => (
                   <BlockchainItem blockchain={data} key={data.name} />
                 ))}

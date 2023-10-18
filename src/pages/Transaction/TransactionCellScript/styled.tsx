@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const TransactionDetailContainer = styled.div`
-  .transaction__detail__separate {
+  .transactionDetailSeparate {
     width: auto;
     height: 1px;
     background: #eaeaea;
@@ -91,7 +91,7 @@ export const TransactionCellDetailPanel = styled.div`
     }
   }
 
-  .transaction__detail__modal__close {
+  .transactionDetailModalClose {
     flex: 1;
     display: flex;
     justify-content: flex-end;
@@ -123,7 +123,7 @@ export const TransactionDetailPanel = styled.div`
     margin-top: 10px;
   }
 
-  .transaction__detail_content {
+  .transactionDetailContent {
     border: none;
     width: 100%;
     text-align: left;
@@ -147,7 +147,7 @@ export const TransactionDetailPanel = styled.div`
     }
   }
 
-  .transaction__detail_copy {
+  .transactionDetailCopy {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -166,7 +166,7 @@ export const TransactionDetailPanel = styled.div`
     }
   }
 
-  .transaction__detail_loading {
+  .transactionDetailLoading {
     padding: 20px 0;
 
     @media (max-width: 750px) {

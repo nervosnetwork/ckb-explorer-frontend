@@ -31,11 +31,11 @@ const TransactionReward = ({ cell, showReward }: { cell: State.Cell; showReward?
 
   return showBlockReward ? (
     <RewardPenal>
-      <div className="transaction__reward__title">{i18n.t('transaction.reward_info')}</div>
+      <div className="transactionRewardTitle">{i18n.t('transaction.reward_info')}</div>
       {Rewards(cell, isMobile).map(reward => (
         <RewardItemPenal key={reward.name}>
-          <div className="reward__name">{reward.name}</div>
-          <div className="reward__capacity">
+          <div className="rewardName">{reward.name}</div>
+          <div className="rewardCapacity">
             <DecimalCapacity value={localeNumberString(shannonToCkb(reward.capacity))} />
           </div>
         </RewardItemPenal>

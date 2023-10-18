@@ -13,6 +13,11 @@ export interface ScriptInfo {
 
 export type ScriptTabType = 'transactions' | 'deployed_cells' | 'referring_cells' | undefined
 
+export type PageInfo = {
+  total: number
+  pageSize: number
+}
+
 export interface CkbTransactionInScript {
   id: number
   txHash: string

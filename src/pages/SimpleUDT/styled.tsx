@@ -78,86 +78,6 @@ export const SimpleUDTLockScriptController = styled.div`
   }
 `
 
-export const SimpleUDTLockScriptPanel = styled.div`
-  width: 100%;
-  margin-top: 20px;
-
-  @media (max-width: 750px) {
-    margin-top: 10px;
-  }
-
-  .address__lock_script_title {
-    font-weight: 500;
-    height: 25px;
-    padding: 0 0 5px;
-
-    @media (max-width: 750px) {
-      height: 16px;
-      padding: 0;
-    }
-  }
-`
-
-export const SimpleUDTLockScriptItemPanel = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  align-items: flex-start;
-  margin-top: 10px;
-
-  @media (min-width: 750px) {
-    height: 20px;
-  }
-
-  @media (max-width: 750px) {
-    flex-direction: column;
-  }
-
-  .address_lock_script__title {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 130px;
-
-    &::before {
-      content: ' ';
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: ${prop => prop.theme.primary};
-
-      @media (max-width: 750px) {
-        width: 5px;
-        height: 5px;
-      }
-    }
-
-    > span {
-      margin-left: 10px;
-      font-weight: 500;
-
-      @media (max-width: 750px) {
-        margin-left: 5px;
-      }
-    }
-  }
-
-  .address_lock_script__content {
-    flex: 1;
-    margin-left: 20px;
-    display: flex;
-    flex-direction: column;
-    transform: translateY(2px);
-
-    @media (max-width: 750px) {
-      margin-left: 10px;
-      word-wrap: break-word;
-      word-break: break-all;
-      transform: translateY(0);
-    }
-  }
-`
-
 export const TypeScriptController = styled(SimpleButton)`
   font-size: 16px;
   font-weight: 600;
@@ -204,7 +124,7 @@ export const UDTTransactionTitlePanel = styled.div`
     padding: 16px;
   }
 
-  .udt__transaction__container {
+  .udtTransactionContainer {
     width: 100%;
     height: 100%;
     display: flex;
@@ -219,7 +139,7 @@ export const UDTTransactionTitlePanel = styled.div`
     }
   }
 
-  .udt__transaction__title {
+  .udtTransactionTitle {
     font-size: 24px;
     font-weight: 600;
     font-style: normal;

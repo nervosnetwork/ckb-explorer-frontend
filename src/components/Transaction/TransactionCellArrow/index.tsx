@@ -13,7 +13,7 @@ const CellInputIcon = ({ cell }: { cell: State.Cell }) =>
   cell.generatedTxHash ? (
     <Link to={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}>
       <LeftArrowImage
-        className="transaction__cell_left_arrow"
+        className="transactionCellLeftArrow"
         src={isMainnet() ? RightGreenArrow : RightBlueArrow}
         alt="left arrow"
       />
