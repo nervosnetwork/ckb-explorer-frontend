@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import styles from './index.module.scss'
 import halvingBanner from '../../assets/halving_banner.png'
@@ -36,6 +37,7 @@ export const HalvingBanner = () => {
   const { estimatedDate, halvingCount, inCelebration, isLoading } = useHalving()
   const [days, hours, minutes, seconds, expired] = useCountdown(estimatedDate)
   const isMobile = useIsMobile()
+  const [, { language }] = useTranslation()
 
   const shortCountdown = () => {
     if (isLoading || Number.isNaN(seconds)) {
@@ -102,7 +104,9 @@ export const HalvingBanner = () => {
             </div>
           ) : (
             <div className={classnames(styles.halvingBannerText, styles.linear)}>
-              Nervos CKB Layer 1 {i18n.t('halving.halving')}
+              {`Nervos CKB ${i18n.t(`ordinal.${numberToOrdinal(halvingCount)}`)}${language === 'en' ? ' ' : ''}${i18n.t(
+                'halving.halving',
+              )}`}
             </div>
           )}
           <a href="/halving">
