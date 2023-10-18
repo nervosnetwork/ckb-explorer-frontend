@@ -13,6 +13,8 @@ export const EPOCH_HOURS = 4
 export const ONE_DAY_SECOND = 24 * 60 * 60
 export const ONE_HOUR_SECOND = 60 * 60
 export const ONE_MINUTE_SECOND = 60
+export const EPOCHS_PER_HALVING = 8760
+export const THEORETICAL_EPOCH_TIME = 1000 * 60 * 60 * 4 // 4 hours
 export const IS_MAINTAINING = process.env.REACT_APP_IS_MAINTAINING === 'true'
 
 export function getPrimaryColor() {
