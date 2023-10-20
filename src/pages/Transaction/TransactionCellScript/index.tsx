@@ -134,35 +134,16 @@ const handleFetchCellInfo = async (
       })
       break
     case CellState.CAPACITY:
-      setContent(null)
-
-      Promise.all([fetchLock(), fetchType(), fetchData()]).then(([lock, type, data]) => {
+      {
         setScriptFetchStatus(true)
         const declared = new BigNumber(cell.capacity)
-
-        if (!data) {
-          setContent({
-            declared: `${localeNumberString(declared.dividedBy(10 ** 8))} CKBytes`,
-            occupied: null,
-          })
-          return
-        }
-
-        const CAPACITY_SIZE = 8
-        const occupied = ([lock, type] as Array<any>)
-          .filter(s => s !== 'null')
-          .map(
-            script => Math.ceil(script.codeHash.slice(2).length / 2) + Math.ceil(script.args.slice(2).length / 2) + 1,
-          )
-          .reduce((acc, cur) => acc.plus(cur), new BigNumber(0))
-          .plus(CAPACITY_SIZE)
-          .plus(Math.ceil(data.data.slice(2).length / 2))
+        const occupied = new BigNumber(cell.occupiedCapacity)
 
         setContent({
           declared: `${localeNumberString(declared.dividedBy(10 ** 8))} CKBytes`,
-          occupied: `${localeNumberString(occupied)} CKBytes`,
+          occupied: `${localeNumberString(occupied.dividedBy(10 ** 8))} CKBytes`,
         })
-      })
+      }
 
       break
     default:
