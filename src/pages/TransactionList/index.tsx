@@ -6,7 +6,6 @@ import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
-import i18n from '../../utils/i18n'
 import Pagination from '../../components/Pagination'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
@@ -36,8 +35,9 @@ const TransactionCardGroup: FC<{
   type: TxStatus
   sortButton: (sortRule?: ConfirmedSortByType | PendingSortByType) => ReactNode
 }> = ({ transactions, type, sortButton }) => {
+  const { t } = useTranslation()
   const itemHash: SortItemCardData<State.Transaction> = {
-    title: i18n.t('transaction.transaction_hash'),
+    title: t('transaction.transaction_hash'),
     render: transaction => (
       <AddressText
         disableTooltip
@@ -52,7 +52,7 @@ const TransactionCardGroup: FC<{
     ),
   }
   const itemCapacity: SortItemCardData<State.Transaction> = {
-    title: i18n.t('transaction.capacity'),
+    title: t('transaction.capacity'),
     sortRule: 'capacity',
     render: transaction => (
       <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
@@ -62,7 +62,7 @@ const TransactionCardGroup: FC<{
   const confirmedItems: SortItemCardData<State.Transaction>[] = [
     itemHash,
     {
-      title: i18n.t('transaction.height'),
+      title: t('transaction.height'),
       sortRule: 'height',
       render: transaction => (
         <Link to={`/block/${transaction.blockNumber}`}>
@@ -72,7 +72,7 @@ const TransactionCardGroup: FC<{
     },
     itemCapacity,
     {
-      title: i18n.t('transaction.time'),
+      title: t('transaction.time'),
       render: transaction => parseSimpleDate(transaction.blockTimestamp),
     },
   ]
@@ -81,7 +81,7 @@ const TransactionCardGroup: FC<{
     itemHash,
     itemCapacity,
     {
-      title: i18n.t('transaction.time'),
+      title: t('transaction.time'),
       sortRule: 'time',
       render: transaction => {
         assert(transaction.createTimestamp != null)
@@ -89,7 +89,7 @@ const TransactionCardGroup: FC<{
       },
     },
     {
-      title: i18n.t('transaction.transaction_fee'),
+      title: t('transaction.transaction_fee'),
       sortRule: 'fee',
       render: transaction => <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
     },
@@ -226,6 +226,7 @@ const TransactionTable: FC<{
 
 const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const { state } = useLocation<RouteState>()
   const stateStaleTime = 3000
@@ -295,7 +296,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
               onChange={setPage}
               annotation={
                 totalPages === MAX_PAGE_NUMBER
-                  ? i18n.t('pagination.only_first_pages_visible', { pages: MAX_PAGE_NUMBER })
+                  ? t('pagination.only_first_pages_visible', { pages: MAX_PAGE_NUMBER })
                   : undefined
               }
             />

@@ -1,23 +1,24 @@
+import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import Search from '../../components/Search'
-import i18n from '../../utils/i18n'
 import { SearchFailType, MAINNET_URL, TESTNET_URL } from '../../constants/common'
 import { isMainnet } from '../../utils/chain'
 import { SearchContent, SearchPanel } from './styled'
 import { useSearchParams } from '../../utils/hook'
 
-const chainErrorMessage = () =>
-  isMainnet() ? i18n.t('search.address_type_testnet_error') : i18n.t('search.address_type_mainnet_error')
-
-const chainUrlMessage = () =>
-  isMainnet() ? i18n.t('search.address_type_testnet_url') : i18n.t('search.address_type_mainnet_url')
-
 const targetUrl = isMainnet() ? TESTNET_URL : MAINNET_URL
 
 export default ({ address }: { address?: string }) => {
+  const { t } = useTranslation()
   const params = useSearchParams('q', 'type')
   const { q, type } = params
   const query = address || q
+
+  const chainErrorMessage = () =>
+    isMainnet() ? t('search.address_type_testnet_error') : t('search.address_type_mainnet_error')
+
+  const chainUrlMessage = () =>
+    isMainnet() ? t('search.address_type_testnet_url') : t('search.address_type_mainnet_url')
 
   return (
     <Content>
@@ -35,8 +36,8 @@ export default ({ address }: { address?: string }) => {
             </div>
           ) : (
             <>
-              <span>{i18n.t('search.empty_result')}</span>
-              <span className="searchFailItems">{i18n.t('search.empty_result_items')}</span>
+              <span>{t('search.empty_result')}</span>
+              <span className="searchFailItems">{t('search.empty_result_items')}</span>
             </>
           )}
         </SearchContent>

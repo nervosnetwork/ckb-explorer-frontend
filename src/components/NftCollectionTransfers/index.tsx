@@ -5,15 +5,16 @@ import { useQuery } from 'react-query'
 import { Tooltip } from 'antd'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
+import { useTranslation } from 'react-i18next'
 import { parseSporeCellData } from '../../utils/spore'
 import type { TransferListRes, TransferRes } from '../../pages/NftCollectionInfo'
-import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
 import { explorerService } from '../../services/ExplorerService'
 import { dayjs } from '../../utils/date'
 import { useParsedDate, useTimestamp } from '../../utils/hook'
+import { useCurrentLanguage } from '../../utils/i18n'
 
 const primaryColor = getPrimaryColor()
 
@@ -42,31 +43,32 @@ NftCollectionTransfers.displayName = 'NftTransfers'
 
 const TransferTable: FC<TransferCollectionProps> = ({ collection, iconURL, list, isLoading }) => {
   const [isShowInAge, setIsShowInAge] = useState(false)
-
-  dayjs.locale(i18n.language === 'zh' ? 'zh-cn' : 'en')
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+  dayjs.locale(currentLanguage === 'zh' ? 'zh-cn' : 'en')
 
   return (
     <table>
       <thead>
         <tr>
-          <th>{i18n.t('nft.nft')}</th>
-          <th>{i18n.t('nft.tx_hash')}</th>
-          <th>{i18n.t('nft.action')}</th>
+          <th>{t('nft.nft')}</th>
+          <th>{t('nft.tx_hash')}</th>
+          <th>{t('nft.action')}</th>
           <th>
             <span
               role="presentation"
               onClick={() => setIsShowInAge(show => !show)}
               className={styles.age}
-              title={i18n.t('nft.toggle-age')}
+              title={t('nft.toggle-age')}
               style={{
                 color: primaryColor,
               }}
             >
-              {i18n.t('nft.age')}
+              {t('nft.age')}
             </span>
           </th>
-          <th>{i18n.t('nft.from')}</th>
-          <th>{i18n.t('nft.to')}</th>
+          <th>{t('nft.from')}</th>
+          <th>{t('nft.to')}</th>
         </tr>
       </thead>
       <tbody>
@@ -83,7 +85,7 @@ const TransferTable: FC<TransferCollectionProps> = ({ collection, iconURL, list,
         ) : (
           <tr>
             <td colSpan={6} className={styles.noRecord}>
-              {isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}
+              {isLoading ? t('nft.loading') : t(`nft.no_record`)}
             </td>
           </tr>
         )}
@@ -98,6 +100,7 @@ const TransferTableRow: FC<{
   iconURL?: string | null
   isShowInAge?: boolean
 }> = ({ collection, item, iconURL, isShowInAge }) => {
+  const { t } = useTranslation()
   const coverUrl = item.item.icon_url ?? iconURL
   const parsedBlockCreateAt = useParsedDate(item.transaction.block_timestamp)
   const now = useTimestamp()
@@ -171,7 +174,7 @@ const TransferTableRow: FC<{
           </Tooltip>
         </Link>
       </td>
-      <td>{i18n.t(`nft.action_type.${item.action}`)}</td>
+      <td>{t(`nft.action_type.${item.action}`)}</td>
       <td>{isShowInAge ? timeRelativeBlockCreate : parsedBlockCreateAt}</td>
       <td>
         {item.from ? (
@@ -212,12 +215,13 @@ const TransferTableRow: FC<{
 }
 
 const TransferCardGroup: FC<TransferCollectionProps> = ({ collection, iconURL, list, isLoading }) => {
+  const { t } = useTranslation()
   return (
     <ul>
       {list.length ? (
         list.map(item => <TransferCard key={item.id} collection={collection} item={item} iconURL={iconURL} />)
       ) : (
-        <li className={styles.noRecord}>{isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}</li>
+        <li className={styles.noRecord}>{isLoading ? t('nft.loading') : t(`nft.no_record`)}</li>
       )}
     </ul>
   )
@@ -228,6 +232,7 @@ const TransferCard: FC<{
   item: TransferRes
   iconURL?: string | null
 }> = ({ collection, item, iconURL }) => {
+  const { t } = useTranslation()
   const coverUrl = item.item.icon_url ?? iconURL
   const parsedBlockCreateAt = useParsedDate(item.transaction.block_timestamp)
 
@@ -284,7 +289,7 @@ const TransferCard: FC<{
       </div>
       <dl>
         <div>
-          <dt>{i18n.t('nft.tx_hash')}</dt>
+          <dt>{t('nft.tx_hash')}</dt>
           <dd>
             <Link
               to={`/transaction/${item.transaction.tx_hash}`}
@@ -303,15 +308,15 @@ const TransferCard: FC<{
           </dd>
         </div>
         <div>
-          <dt>{i18n.t('nft.action')}</dt>
-          <dd>{i18n.t(`nft.action_type.${item.action}`)}</dd>
+          <dt>{t('nft.action')}</dt>
+          <dd>{t(`nft.action_type.${item.action}`)}</dd>
         </div>
         <div>
-          <dt>{i18n.t('nft.age')}</dt>
+          <dt>{t('nft.age')}</dt>
           <dd>{parsedBlockCreateAt}</dd>
         </div>
         <div>
-          <dt>{i18n.t('nft.from')}</dt>
+          <dt>{t('nft.from')}</dt>
           <dd>
             {item.from ? (
               <Link
@@ -331,7 +336,7 @@ const TransferCard: FC<{
           </dd>
         </div>
         <div>
-          <dt>{i18n.t('nft.to')}</dt>
+          <dt>{t('nft.to')}</dt>
           <dd>
             {item.to ? (
               <Link

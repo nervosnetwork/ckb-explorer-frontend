@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useLocation } from 'react-router'
+import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
-import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
 import { isMainnet } from '../../utils/chain'
@@ -191,12 +191,13 @@ export const scripts = new Map<string, ScriptAttributes>([
 const keysWithLinkValueInScript: Array<keyof ScriptAttributes> = ['rfc', 'code', 'deprecated', 'website']
 
 const ScriptList: FC = () => {
+  const { t } = useTranslation()
   const location = useLocation()
   const defaultOpenLabel = decodeURIComponent(location.hash.slice(1))
 
   return (
     <Content>
-      <div className={styles.title}>{i18n.t(`script_list.title`)}</div>
+      <div className={styles.title}>{t(`script_list.title`)}</div>
       <div className={styles.container}>
         {[...scripts].map(([label, meta]) => {
           const script = scriptDataList.find(s => s.tag === label)
@@ -207,12 +208,12 @@ const ScriptList: FC = () => {
                 {meta.description}
               </summary>
               <div>
-                <h3>{`${i18n.t('script_list.links')}:`}</h3>
+                <h3>{`${t('script_list.links')}:`}</h3>
                 <div className={styles.links}>
                   {keysWithLinkValueInScript.map(key =>
                     meta[key] ? (
                       <a key={key} href={meta[key]} target="_blank" rel="noopener noreferrer">
-                        {i18n.t(`script_list.link.${key}`)}
+                        {t(`script_list.link.${key}`)}
                       </a>
                     ) : null,
                   )}
@@ -222,13 +223,13 @@ const ScriptList: FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {i18n.t('script_list.link.detail')}
+                      {t('script_list.link.detail')}
                     </a>
                   ) : null}
                 </div>
                 {script ? (
                   <>
-                    <h3>{`${i18n.t(`script_list.on_chain_data`)}:`}</h3>
+                    <h3>{`${t(`script_list.on_chain_data`)}:`}</h3>
                     {script.codeHashes.map((codeHash: string, idx: number) => (
                       <pre key={codeHash}>
                         {`{

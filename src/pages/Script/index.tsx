@@ -4,9 +4,10 @@ import { useParams } from 'react-router-dom'
 import { Tabs } from 'antd'
 import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
+import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
-import i18n from '../../utils/i18n'
+import { useCurrentLanguage } from '../../utils/i18n'
 import { HashCardPanel } from '../../components/Card/HashCard/styled'
 import { localeNumberString } from '../../utils/number'
 import { CodeHashMessage, ScriptCells, ScriptTransactions } from './ScriptsComp'
@@ -22,52 +23,56 @@ import { explorerService, Response } from '../../services/ExplorerService'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
-const scriptHashNameMap = new Map<string, string>(
-  scriptDataList
-    .map(scriptData =>
-      scriptData.codeHashes.map(
-        codeHash =>
-          [
-            `${codeHash}_${scriptData.hashType}`,
-            scriptNameList.has(scriptData.tag)
-              ? scriptNameList.get(scriptData.tag)!.name
-              : i18n.t('scripts.unnamed_script'),
-          ] as [string, string],
-      ),
-    )
-    .flat(),
-)
+const useScriptHashNameMap = (): Map<string, string> => {
+  const { t } = useTranslation()
+  return new Map(
+    scriptDataList
+      .map(scriptData =>
+        scriptData.codeHashes.map(
+          codeHash =>
+            [
+              `${codeHash}_${scriptData.hashType}`,
+              scriptNameList.has(scriptData.tag)
+                ? scriptNameList.get(scriptData.tag)!.name
+                : t('scripts.unnamed_script'),
+            ] as [string, string],
+        ),
+      )
+      .flat(),
+  )
+}
 
-const getScriptInfo = (scriptInfo: ScriptInfo) => {
+const useScriptInfo = (scriptInfo: ScriptInfo) => {
+  const { t } = useTranslation()
   const { scriptName, scriptType, id, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
     scriptInfo
   const items: OverviewItemData[] = [
     {
-      title: i18n.t('scripts.script_name'),
-      tooltip: i18n.t('glossary.script_name'),
+      title: t('scripts.script_name'),
+      tooltip: t('glossary.script_name'),
       content: scriptName,
     },
     {
-      title: i18n.t('scripts.hash_type'),
-      tooltip: i18n.t('glossary.hash_type'),
+      title: t('scripts.hash_type'),
+      tooltip: t('glossary.hash_type'),
       content: <span className={styles.hashType}>{hashType}</span>,
     },
     {
-      title: i18n.t('scripts.script_type'),
-      content: scriptType ? i18n.t(`scripts.${scriptType}`) : '-',
+      title: t('scripts.script_type'),
+      content: scriptType ? t(`scripts.${scriptType}`) : '-',
     },
     {
-      title: i18n.t('scripts.type_id'),
+      title: t('scripts.type_id'),
       content: id ? <CodeHashMessage codeHash={id} /> : '-',
     },
     {
-      title: i18n.t('scripts.code_hash'),
-      tooltip: i18n.t('glossary.code_hash'),
+      title: t('scripts.code_hash'),
+      tooltip: t('glossary.code_hash'),
       content: <CodeHashMessage codeHash={codeHash} />,
     },
     {
-      title: i18n.t('scripts.capacity_of_deployed_cells'),
-      tooltip: i18n.t('glossary.capacity_of_deployed_cells'),
+      title: t('scripts.capacity_of_deployed_cells'),
+      tooltip: t('glossary.capacity_of_deployed_cells'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfDeployedCells))} hideZero />,
     },
     {
@@ -75,7 +80,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
       content: '',
     },
     {
-      title: i18n.t('scripts.capacity_of_referring_cells'),
+      title: t('scripts.capacity_of_referring_cells'),
       content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfReferringCells))} hideZero />,
     },
   ]
@@ -86,18 +91,22 @@ const getScriptInfo = (scriptInfo: ScriptInfo) => {
 const ScriptsTitleOverview = ({ scriptInfo }: { scriptInfo: ScriptInfo }) => {
   return (
     <div className={styles.scriptsTitleOverviewPanel}>
-      <OverviewCard items={getScriptInfo(scriptInfo)} hideShadow />
+      <OverviewCard items={useScriptInfo(scriptInfo)} hideShadow />
     </div>
   )
 }
 
-const seekScriptName = (codeHash: string, hashType: string): string =>
-  scriptHashNameMap.has(`${codeHash}_${hashType}`)
-    ? scriptHashNameMap.get(`${codeHash}_${hashType}`)!
-    : i18n.t('scripts.unnamed_script')
+const useSeekScriptName = (codeHash: string, hashType: string): string => {
+  const { t } = useTranslation()
+  const nameMap = useScriptHashNameMap()
+  return nameMap.has(`${codeHash}_${hashType}`) ? nameMap.get(`${codeHash}_${hashType}`)! : t('scripts.unnamed_script')
+}
 
 export const ScriptPage = () => {
   const history = useHistory()
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+
   const { codeHash, hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
   const { currentPage, pageSize } = usePaginationParamsInPage()
 
@@ -133,7 +142,7 @@ export const ScriptPage = () => {
           countOfDeployedCells: 0,
           countOfReferringCells: 0,
         } as ScriptInfo)
-  scriptInfo.scriptName = seekScriptName(scriptInfo.codeHash, scriptInfo.hashType)
+  scriptInfo.scriptName = useSeekScriptName(scriptInfo.codeHash, scriptInfo.hashType)
 
   useEffect(() => {
     setCountOfTransactions(scriptInfo.countOfTransactions)
@@ -148,7 +157,7 @@ export const ScriptPage = () => {
           <ScriptsTitleOverview scriptInfo={scriptInfo} />
         </HashCardPanel>
         <Tabs
-          key={i18n.language + countOfTransactions + countOfDeployedCells + countOfReferringCells}
+          key={currentLanguage + countOfTransactions + countOfDeployedCells + countOfReferringCells}
           className={styles.scriptTabs}
           activeKey={tab ?? 'transactions'}
           animated={{ inkBar: false }}
@@ -181,17 +190,17 @@ export const ScriptPage = () => {
           }}
           items={[
             {
-              label: `${i18n.t('transaction.transactions')} (${localeNumberString(countOfTransactions!)})`,
+              label: `${t('transaction.transactions')} (${localeNumberString(countOfTransactions!)})`,
               key: 'transactions',
               children: <ScriptTransactions page={currentPage} size={pageSize} />,
             },
             {
-              label: `${i18n.t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`,
+              label: `${t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`,
               key: 'deployed_cells',
               children: <ScriptCells page={currentPage} size={pageSize} cellType="deployed_cells" />,
             },
             {
-              label: `${i18n.t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`,
+              label: `${t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`,
               key: 'referring_cells',
               children: <ScriptCells page={currentPage} size={pageSize} cellType="referring_cells" />,
             },

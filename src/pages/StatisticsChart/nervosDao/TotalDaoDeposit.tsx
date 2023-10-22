@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
+import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
@@ -9,29 +9,33 @@ import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../commo
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
 
-const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 168 : 110)
+const widthSpan = (value: string, language: LanuageType) => tooltipWidth(value, language === 'en' ? 168 : 110)
 
-const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string] }): string => {
-  if (seriesName === i18n.t('statistic.total_dao_deposit')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.total_dao_deposit'))} ${parseNumericAbbr(
-      data[1],
-      2,
-    )}</div>`
+const useTooltip = () => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+  return ({ seriesName, data, color }: SeriesItem & { data: [string, string, string] }): string => {
+    if (seriesName === t('statistic.total_dao_deposit')) {
+      return `<div>${tooltipColor(color)}${widthSpan(
+        t('statistic.total_dao_deposit'),
+        currentLanguage,
+      )} ${parseNumericAbbr(data[1], 2)}</div>`
+    }
+    if (seriesName === t('statistic.total_dao_depositor')) {
+      return `<div>${tooltipColor(color)}${widthSpan(
+        t('statistic.total_dao_depositor'),
+        currentLanguage,
+      )} ${parseNumericAbbr(data[2], 2, true)}</div>`
+    }
+    return ''
   }
-  if (seriesName === i18n.t('statistic.total_dao_depositor')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.total_dao_depositor'))} ${parseNumericAbbr(
-      data[2],
-      2,
-      true,
-    )}</div>`
-  }
-  return ''
 }
 
-const getOption = (
+const useOption = (
   statisticTotalDaoDeposits: State.StatisticTotalDaoDeposit[],
   chartColor: State.ChartColor,
   isMobile: boolean,
+
   isThumbnail = false,
 ): echarts.EChartOption => {
   const gridThumbnail = {
@@ -48,6 +52,10 @@ const getOption = (
     bottom: '5%',
     containLabel: true,
   }
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+  const parseTooltip = useTooltip()
+
   return {
     color: chartColor.colors,
     tooltip: !isThumbnail
@@ -55,7 +63,7 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any) => {
             const list = dataList as Array<SeriesItem & { data: [string, string, string] }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${
               list[0].data[0]
             }</div>`
             list.forEach(data => {
@@ -71,17 +79,17 @@ const getOption = (
         ? []
         : [
             {
-              name: i18n.t('statistic.total_dao_deposit'),
+              name: t('statistic.total_dao_deposit'),
             },
             {
-              name: i18n.t('statistic.total_dao_depositor'),
+              name: t('statistic.total_dao_depositor'),
             },
           ],
     },
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.date'),
+        name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -91,7 +99,7 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.total_dao_deposit'),
+        name: isMobile || isThumbnail ? '' : t('statistic.total_dao_deposit'),
         nameTextStyle: {
           align: 'left',
         },
@@ -108,7 +116,7 @@ const getOption = (
       },
       {
         position: 'right',
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.total_dao_depositor'),
+        name: isMobile || isThumbnail ? '' : t('statistic.total_dao_depositor'),
         nameTextStyle: {
           align: 'right',
         },
@@ -126,7 +134,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.total_dao_deposit'),
+        name: t('statistic.total_dao_deposit'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -137,7 +145,7 @@ const getOption = (
         },
       },
       {
-        name: i18n.t('statistic.total_dao_depositor'),
+        name: t('statistic.total_dao_depositor'),
         type: 'line',
         yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -177,7 +185,7 @@ export const TotalDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: bo
       note={isMainnet() ? `${t('common.note')}1GB = 1,000,000,000 CKBytes` : undefined}
       isThumbnail={isThumbnail}
       fetchData={explorerService.api.fetchStatisticTotalDaoDeposit}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.TotalDeposit}
       cacheMode="date"

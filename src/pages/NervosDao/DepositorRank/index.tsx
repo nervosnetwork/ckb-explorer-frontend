@@ -1,7 +1,7 @@
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'
-import i18n from '../../../utils/i18n'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { handleBigNumber } from '../../../utils/string'
 import {
@@ -30,21 +30,23 @@ const AddressTextCol = ({ address }: { address: string }) => {
 }
 
 const DepositorCardGroup: FC<{ depositors: (State.NervosDaoDepositor & { rank: number })[] }> = ({ depositors }) => {
+  const { t } = useTranslation()
+
   const items: ItemCardData<State.NervosDaoDepositor & { rank: number }>[] = [
     {
-      title: i18n.t('nervos_dao.dao_title_rank'),
+      title: t('nervos_dao.dao_title_rank'),
       render: depositor => depositor.rank,
     },
     {
-      title: i18n.t('nervos_dao.dao_title_address'),
+      title: t('nervos_dao.dao_title_address'),
       render: depositor => <AddressTextCol address={depositor.addressHash} />,
     },
     {
-      title: i18n.t('nervos_dao.dao_title_deposit_capacity'),
+      title: t('nervos_dao.dao_title_deposit_capacity'),
       render: depositor => <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />,
     },
     {
-      title: i18n.t('nervos_dao.dao_title_deposit_time'),
+      title: t('nervos_dao.dao_title_deposit_time'),
       render: depositor => handleBigNumber(depositor.averageDepositTime, 1),
     },
   ]
@@ -53,6 +55,7 @@ const DepositorCardGroup: FC<{ depositors: (State.NervosDaoDepositor & { rank: n
 }
 
 export default ({ depositors, filter }: { depositors: State.NervosDaoDepositor[]; filter?: string }) => {
+  const { t } = useTranslation()
   const rankedDepositors = depositors.map((depositor, index) => ({
     ...depositor,
     rank: index + 1,
@@ -67,10 +70,10 @@ export default ({ depositors, filter }: { depositors: State.NervosDaoDepositor[]
   ) : (
     <DepositorRankPanel>
       <DepositorRankTitle>
-        <div>{i18n.t('nervos_dao.dao_title_rank')}</div>
-        <div>{i18n.t('nervos_dao.dao_title_address')}</div>
-        <div>{i18n.t('nervos_dao.dao_title_deposit_capacity')}</div>
-        <div>{i18n.t('nervos_dao.dao_title_deposit_time')}</div>
+        <div>{t('nervos_dao.dao_title_rank')}</div>
+        <div>{t('nervos_dao.dao_title_address')}</div>
+        <div>{t('nervos_dao.dao_title_deposit_capacity')}</div>
+        <div>{t('nervos_dao.dao_title_deposit_time')}</div>
       </DepositorRankTitle>
       <DepositorSeparate />
       {filteredDepositors.map(depositor => (

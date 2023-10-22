@@ -4,10 +4,10 @@ import { useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import camelcase from 'camelcase'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService, Response } from '../../services/ExplorerService'
-import i18n from '../../utils/i18n'
 import { TransactionCellDetailModal, TransactionCellInfoPanel } from '../Transaction/TransactionCell/styled'
 import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
@@ -120,6 +120,7 @@ export const ScriptCells = ({
   size: number
   cellType: 'deployed_cells' | 'referring_cells'
 }) => {
+  const { t } = useTranslation()
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
@@ -166,10 +167,10 @@ export const ScriptCells = ({
             <table>
               <thead>
                 <tr>
-                  <th align="left">{i18n.t('transaction.transaction')}</th>
-                  <th>{i18n.t('scripts.index')}</th>
-                  <th align="left">{i18n.t('transaction.capacity')}</th>
-                  <th align="right">{i18n.t('scripts.cell_info')}</th>
+                  <th align="left">{t('transaction.transaction')}</th>
+                  <th>{t('scripts.index')}</th>
+                  <th align="left">{t('transaction.capacity')}</th>
+                  <th align="right">{t('scripts.cell_info')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -215,6 +216,7 @@ export const ScriptCells = ({
 
 export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
   const setToast = useSetToast()
+  const { t } = useTranslation()
   return (
     <div className={styles.codeHashMessagePanel}>
       <div className={styles.codeHash}>
@@ -225,7 +227,7 @@ export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
         onClick={() => {
           navigator.clipboard.writeText(codeHash).then(
             () => {
-              setToast({ message: i18n.t('common.copied') })
+              setToast({ message: t('common.copied') })
             },
             error => {
               console.error(error)

@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import i18n from '../../utils/i18n'
+import { useTranslation } from 'react-i18next'
 import { getPrimaryColor } from '../../constants/common'
-import { dayjs, parseDate } from '../../utils/date'
+import { dayjs, useParseDate } from '../../utils/date'
 import styles from './styles.module.scss'
+import { useCurrentLanguage } from '../../utils/i18n'
 
 const primaryColor = getPrimaryColor()
 
@@ -40,30 +41,34 @@ export interface TransferListRes {
 }
 const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boolean }> = ({ list, isLoading }) => {
   const [isShowInAge, setIsShowInAge] = useState(false)
-  dayjs.locale(i18n.language === 'zh' ? 'zh-cn' : 'en')
+  const { t } = useTranslation()
+  const parseDate = useParseDate()
+  const currentLanguage = useCurrentLanguage()
+
+  dayjs.locale(currentLanguage === 'zh' ? 'zh-cn' : 'en')
 
   return (
     <div className={styles.list}>
       <table>
         <thead>
           <tr>
-            <th>{i18n.t('nft.tx_hash')}</th>
-            <th>{i18n.t('nft.action')}</th>
+            <th>{t('nft.tx_hash')}</th>
+            <th>{t('nft.action')}</th>
             <th>
               <span
                 role="presentation"
                 onClick={() => setIsShowInAge(show => !show)}
                 className={styles.age}
-                title={i18n.t('nft.toggle-age')}
+                title={t('nft.toggle-age')}
                 style={{
                   color: primaryColor,
                 }}
               >
-                {i18n.t('nft.age')}
+                {t('nft.age')}
               </span>
             </th>
-            <th>{i18n.t('nft.from')}</th>
-            <th>{i18n.t('nft.to')}</th>
+            <th>{t('nft.from')}</th>
+            <th>{t('nft.to')}</th>
           </tr>
         </thead>
         <tbody>
@@ -87,7 +92,7 @@ const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boo
                       </Tooltip>
                     </Link>
                   </td>
-                  <td>{i18n.t(`nft.action_type.${item.action}`)}</td>
+                  <td>{t(`nft.action_type.${item.action}`)}</td>
                   <td>
                     {isShowInAge
                       ? dayjs(item.transaction.block_timestamp).fromNow()
@@ -133,7 +138,7 @@ const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boo
           ) : (
             <tr>
               <td colSpan={5} className={styles.noRecord}>
-                {isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}
+                {isLoading ? t('nft.loading') : t(`nft.no_record`)}
               </td>
             </tr>
           )}
@@ -145,7 +150,7 @@ const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boo
             <li key={item.id}>
               <dl>
                 <div>
-                  <dt>{i18n.t('nft.tx_hash')}</dt>
+                  <dt>{t('nft.tx_hash')}</dt>
                   <dd>
                     <Link
                       to={`/transaction/${item.transaction.tx_hash}`}
@@ -164,15 +169,15 @@ const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boo
                   </dd>
                 </div>
                 <div>
-                  <dt>{i18n.t('nft.action')}</dt>
-                  <dd>{i18n.t(`nft.action_type.${item.action}`)}</dd>
+                  <dt>{t('nft.action')}</dt>
+                  <dd>{t(`nft.action_type.${item.action}`)}</dd>
                 </div>
                 <div>
-                  <dt>{i18n.t('nft.age')}</dt>
+                  <dt>{t('nft.age')}</dt>
                   <dd>{parseDate(item.transaction.block_timestamp)}</dd>
                 </div>
                 <div>
-                  <dt>{i18n.t('nft.from')}</dt>
+                  <dt>{t('nft.from')}</dt>
                   <dd>
                     {item.from ? (
                       <Link
@@ -192,7 +197,7 @@ const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boo
                   </dd>
                 </div>
                 <div>
-                  <dt>{i18n.t('nft.to')}</dt>
+                  <dt>{t('nft.to')}</dt>
                   <dd>
                     {item.to ? (
                       <Link
@@ -215,7 +220,7 @@ const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boo
             </li>
           ))
         ) : (
-          <li>{isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}</li>
+          <li>{isLoading ? t('nft.loading') : t(`nft.no_record`)}</li>
         )}
       </ul>
     </div>

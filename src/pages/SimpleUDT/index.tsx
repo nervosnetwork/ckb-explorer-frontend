@@ -5,7 +5,6 @@ import { useQuery } from 'react-query'
 import { Popover } from 'antd'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
-import i18n from '../../utils/i18n'
 import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
 import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
 import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
@@ -40,10 +39,10 @@ enum TransactionType {
 }
 
 export const SimpleUDT = () => {
+  const { t } = useTranslation()
   const isMobile = useIsMobile()
   const { push } = useHistory()
   const { search } = useLocation()
-  const [t] = useTranslation()
   const [showType, setShowType] = useState(false)
   const { hash: typeHash } = useParams<{ hash: string }>()
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
@@ -95,15 +94,15 @@ export const SimpleUDT = () => {
   const filterList: { value: TransactionType; title: string }[] = [
     {
       value: TransactionType.Mint,
-      title: i18n.t('udt.view-mint-txns'),
+      title: t('udt.view-mint-txns'),
     },
     {
       value: TransactionType.Transfer,
-      title: i18n.t('udt.view-transfer-txns'),
+      title: t('udt.view-transfer-txns'),
     },
     {
       value: TransactionType.Burn,
-      title: i18n.t('udt.view-burn-txns'),
+      title: t('udt.view-burn-txns'),
     },
   ]
 
@@ -112,14 +111,10 @@ export const SimpleUDT = () => {
   return (
     <Content>
       <SimpleUDTContentPanel className="container">
-        <SimpleUDTHashCard
-          title={(uan || symbol) ?? i18n.t('udt.sudt')}
-          hash={typeHash}
-          iconUri={iconFile || SUDTTokenIcon}
-        >
+        <SimpleUDTHashCard title={(uan || symbol) ?? t('udt.sudt')} hash={typeHash} iconUri={iconFile || SUDTTokenIcon}>
           <SimpleUDTOverview udt={udt}>
             <TypeScriptController onClick={() => setShowType(!showType)}>
-              <div>{i18n.t('udt.type_script')}</div>
+              <div>{t('udt.type_script')}</div>
               <img alt="type script" src={typeScriptIcon(showType)} />
             </TypeScriptController>
             {showType && typeScript && <Script script={typeScript} />}

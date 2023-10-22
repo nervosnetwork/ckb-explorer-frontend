@@ -2,8 +2,8 @@ import { Tooltip } from 'antd'
 import BigNumber from 'bignumber.js'
 import classnames from 'classnames'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
-import i18n from '../../utils/i18n'
 import { useHalving, useIsMobile } from '../../utils/hook'
 import { useStatistics } from '../../services/ExplorerService'
 import styles from './index.module.scss'
@@ -11,6 +11,7 @@ import styles from './index.module.scss'
 export const HalvingInfo = () => {
   const statistics = useStatistics()
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   const { currentEpoch, targetEpoch, estimatedDate } = useHalving()
   const utcOffset = dayjs().utcOffset() / 60
 
@@ -20,7 +21,7 @@ export const HalvingInfo = () => {
         <div className={styles.epochInfo}>
           <div className={styles.epochInfoItem}>
             <strong className={styles.epochInfoValue}>{new BigNumber(statistics.tipBlockNumber).toFormat()}</strong>
-            <div className={styles.textSecondary}>{i18n.t('halving.current_block')}</div>
+            <div className={styles.textSecondary}>{t('halving.current_block')}</div>
           </div>
           <div className={styles.separate} />
           <div className={styles.epochInfoItem}>
@@ -30,14 +31,14 @@ export const HalvingInfo = () => {
                 {statistics.epochInfo.index} / {statistics.epochInfo.epochLength}
               </small>
             </strong>
-            <div className={styles.textSecondary}>{i18n.t('halving.current_epoch')}</div>
+            <div className={styles.textSecondary}>{t('halving.current_epoch')}</div>
           </div>
         </div>
 
         <div className={styles.epochInfo}>
           <div className={styles.epochInfoItem}>
             <strong className={styles.epochInfoValue}>{new BigNumber(targetEpoch).toFormat()}</strong>
-            <div className={styles.textSecondary}>{i18n.t('halving.target_epoch')}</div>
+            <div className={styles.textSecondary}>{t('halving.target_epoch')}</div>
           </div>
 
           <div className={styles.separate} />
@@ -57,9 +58,7 @@ export const HalvingInfo = () => {
                 </Tooltip>
               </div>
             </div>
-            <div className={classnames(styles.textSecondary, styles.fontSizeSm)}>
-              {i18n.t('halving.estimated_time')}
-            </div>
+            <div className={classnames(styles.textSecondary, styles.fontSizeSm)}>{t('halving.estimated_time')}</div>
           </div>
         </div>
       </>
@@ -70,7 +69,7 @@ export const HalvingInfo = () => {
     <div className={styles.epochInfo}>
       <div className={styles.epochInfoItem}>
         <strong className={styles.epochInfoValue}>{new BigNumber(statistics.tipBlockNumber).toFormat()}</strong>
-        <div className={styles.textSecondary}>{i18n.t('halving.current_block')}</div>
+        <div className={styles.textSecondary}>{t('halving.current_block')}</div>
       </div>
       <div className={styles.separate} />
       <div className={styles.epochInfoItem}>
@@ -80,13 +79,13 @@ export const HalvingInfo = () => {
             {statistics.epochInfo.index} / {statistics.epochInfo.epochLength}
           </small>
         </strong>
-        <div className={styles.textSecondary}>{i18n.t('halving.current_epoch')}</div>
+        <div className={styles.textSecondary}>{t('halving.current_epoch')}</div>
       </div>
       <div className={styles.separate} />
 
       <div className={styles.epochInfoItem}>
         <strong className={styles.epochInfoValue}>{new BigNumber(targetEpoch).toFormat()}</strong>
-        <div className={styles.textSecondary}>{i18n.t('halving.target_epoch')}</div>
+        <div className={styles.textSecondary}>{t('halving.target_epoch')}</div>
       </div>
       <div className={styles.separate} />
 
@@ -101,7 +100,7 @@ export const HalvingInfo = () => {
             <WarningCircle style={{ cursor: 'pointer', marginLeft: '4px' }} width={16} height={16} />
           </Tooltip>
         </strong>
-        <div className={styles.textSecondary}>{i18n.t('halving.estimated_time')}</div>
+        <div className={styles.textSecondary}>{t('halving.estimated_time')}</div>
       </div>
     </div>
   )
