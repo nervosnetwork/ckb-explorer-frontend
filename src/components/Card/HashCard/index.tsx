@@ -4,7 +4,6 @@ import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import CopyIcon from '../../../assets/copy.png'
 import { explorerService } from '../../../services/ExplorerService'
-import { copyElementValue } from '../../../utils/util'
 import SmallLoading from '../../Loading/SmallLoading'
 import { useIsMobile, useNewAddr, useDeprecatedAddr } from '../../../utils/hook'
 import SimpleButton from '../../SimpleButton'
@@ -104,7 +103,7 @@ export default ({
             <SimpleButton
               className="hashCopyIcon"
               onClick={() => {
-                copyElementValue(document.getElementById('hashValue'))
+                navigator.clipboard.writeText(hash)
                 setToast({ message: t('common.copied') })
               }}
             >
