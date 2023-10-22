@@ -1,8 +1,8 @@
 import { useParams, useLocation } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
-import i18n from '../../utils/i18n'
 import { BlockDetailPanel } from './styled'
 import { BlockComp, BlockOverview } from './BlockComp'
 import { usePaginationParamsInPage } from '../../utils/hook'
@@ -12,6 +12,7 @@ import { QueryResult } from '../../components/QueryResult'
 import { defaultBlockInfo } from './state'
 
 export default () => {
+  const { t } = useTranslation()
   const { search } = useLocation()
   const { param: blockHeightOrHash } = useParams<{ param: string }>()
   const { currentPage, pageSize: pageSizeParam, setPage } = usePaginationParamsInPage()
@@ -59,7 +60,7 @@ export default () => {
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <BlockHashCard title={i18n.t('block.block')} hash={blockHash ?? blockHeightOrHash}>
+        <BlockHashCard title={t('block.block')} hash={blockHash ?? blockHeightOrHash}>
           <BlockOverview block={block} />
         </BlockHashCard>
 

@@ -2,13 +2,14 @@ import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
 import styles from './styles.module.scss'
-import i18n from '../../utils/i18n'
 import { ReactChartCore } from '../StatisticsChart/common'
 import { ReactComponent as BikeIcon } from '../../assets/bike.svg'
 import { ReactComponent as CarIcon } from '../../assets/car.svg'
 import { ReactComponent as RocketIcon } from '../../assets/rocket.svg'
 import { ChartColor } from '../../constants/common'
+import { useCurrentLanguage } from '../../utils/i18n'
 
 const textStyleInChart: echarts.EChartOption.TextStyle = {
   color: '#999999',
@@ -41,6 +42,7 @@ const calcFeeRate = (tfrs: FeeRateTracker.TransactionFeeRate[]): string =>
 const colors = ChartColor.moreColors
 
 export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
+  const { t } = useTranslation()
   const allFrs = transactionFeeRates.sort((a, b) => a.confirmationTime - b.confirmationTime)
   const avgConfirmationTime = getWeightedMedian(allFrs)
 
@@ -52,21 +54,21 @@ export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: Fee
 
   const feeRateCards: FeeRateTracker.FeeRateCard[] = [
     {
-      priority: i18n.t('fee_rate_tracker.low'),
+      priority: t('fee_rate_tracker.low'),
       icon: <BikeIcon />,
       feeRate: calcFeeRate(lowFrs),
       priorityClass: styles.low,
       confirmationTime: lowConfirmationTime,
     },
     {
-      priority: i18n.t('fee_rate_tracker.average'),
+      priority: t('fee_rate_tracker.average'),
       icon: <CarIcon />,
       feeRate: calcFeeRate(allFrs),
       priorityClass: styles.average,
       confirmationTime: avgConfirmationTime,
     },
     {
-      priority: i18n.t('fee_rate_tracker.high'),
+      priority: t('fee_rate_tracker.high'),
       icon: <RocketIcon />,
       feeRate: calcFeeRate(highFrs),
       priorityClass: styles.high,
@@ -83,10 +85,10 @@ export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: Fee
           <div className={styles.shannonsPerByte}>{`${feeRate} shannons/kB`}</div>
           <div className={styles.secs}>
             {confirmationTime >= 60
-              ? `${Math.floor(confirmationTime / 60)} ${i18n.t('fee_rate_tracker.mins')}${
-                  confirmationTime % 60 === 0 ? '' : ` ${confirmationTime % 60} ${i18n.t('fee_rate_tracker.secs')}`
+              ? `${Math.floor(confirmationTime / 60)} ${t('fee_rate_tracker.mins')}${
+                  confirmationTime % 60 === 0 ? '' : ` ${confirmationTime % 60} ${t('fee_rate_tracker.secs')}`
                 }`
-              : `${confirmationTime} ${i18n.t('fee_rate_tracker.secs')}`}
+              : `${confirmationTime} ${t('fee_rate_tracker.secs')}`}
           </div>
         </div>
       ))}
@@ -99,6 +101,7 @@ export const ConfirmationTimeFeeRateChart = ({
 }: {
   transactionFeeRates: FeeRateTracker.TransactionFeeRate[]
 }) => {
+  const { t } = useTranslation()
   const data = transactionFeeRates.reduce<Array<Array<number>>>((acc, cur) => {
     if (!cur.confirmationTime) {
       return acc
@@ -123,16 +126,14 @@ export const ConfirmationTimeFeeRateChart = ({
           formatter(params) {
             const feeRate: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
             const count: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[1] : params
-            return `${i18n.t('fee_rate_tracker.fee_rate')}: ${feeRate.value?.toLocaleString(
-              'en',
-            )} shannons/kB<br />${i18n.t('fee_rate_tracker.confirmation_time')}: ${feeRate.name}<br />${i18n.t(
-              'fee_rate_tracker.count',
-            )}: ${count.value}`
+            return `${t('fee_rate_tracker.fee_rate')}: ${feeRate.value?.toLocaleString('en')} shannons/kB<br />${t(
+              'fee_rate_tracker.confirmation_time',
+            )}: ${feeRate.name}<br />${t('fee_rate_tracker.count')}: ${count.value}`
           },
         },
         xAxis: {
           type: 'category',
-          name: `${i18n.t('fee_rate_tracker.confirmation_time')} (${i18n.t('fee_rate_tracker.seconds')})`,
+          name: `${t('fee_rate_tracker.confirmation_time')} (${t('fee_rate_tracker.seconds')})`,
           nameGap: 32,
           nameLocation: 'middle',
           nameTextStyle: textStyleInChart,
@@ -166,7 +167,7 @@ export const ConfirmationTimeFeeRateChart = ({
                 color: '#e5e5e5',
               },
             },
-            name: `${i18n.t('fee_rate_tracker.fee_rate')}(shannons/kB)`,
+            name: `${t('fee_rate_tracker.fee_rate')}(shannons/kB)`,
           },
           {
             position: 'right',
@@ -189,7 +190,7 @@ export const ConfirmationTimeFeeRateChart = ({
             splitLine: {
               show: false,
             },
-            name: `${i18n.t('fee_rate_tracker.count')}`,
+            name: `${t('fee_rate_tracker.count')}`,
           },
         ],
         series: [
@@ -227,6 +228,7 @@ export const FeeRateTransactionCountChartCore = ({
 }: {
   pendingTransactionFeeRates: FeeRateTracker.PendingTransactionFeeRate[]
 }) => {
+  const { t } = useTranslation()
   const feeRateCount = pendingTransactionFeeRates.reduce((acc, cur) => {
     const count = acc.get(cur.feeRate) ?? 0
     acc.set(cur.feeRate, count + 1)
@@ -246,12 +248,12 @@ export const FeeRateTransactionCountChartCore = ({
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           formatter(params) {
             const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
-            return `${param.name} shannons/kB<br />${i18n.t('fee_rate_tracker.transaction_count')}: ${param.value}`
+            return `${param.name} shannons/kB<br />${t('fee_rate_tracker.transaction_count')}: ${param.value}`
           },
         },
         xAxis: {
           type: 'category',
-          name: `${i18n.t('fee_rate_tracker.fee_rate')} (shannons/kB)`,
+          name: `${t('fee_rate_tracker.fee_rate')} (shannons/kB)`,
           nameGap: 32,
           nameLocation: 'middle',
           nameTextStyle: textStyleInChart,
@@ -278,7 +280,7 @@ export const FeeRateTransactionCountChartCore = ({
               color: '#e5e5e5',
             },
           },
-          name: i18n.t('fee_rate_tracker.transaction_count'),
+          name: t('fee_rate_tracker.transaction_count'),
         },
         series: [
           {
@@ -306,10 +308,11 @@ export const FeeRateTransactionCountChart = ({
 }: {
   pendingTransactionFeeRates: FeeRateTracker.PendingTransactionFeeRate[]
 }) => {
+  const currentLanguage = useCurrentLanguage()
   return useMemo(() => {
     return <FeeRateTransactionCountChartCore pendingTransactionFeeRates={pendingTransactionFeeRates} />
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pendingTransactionFeeRates, i18n.language])
+  }, [pendingTransactionFeeRates, currentLanguage])
 }
 
 export const LastNDaysTransactionFeeRateChart = ({
@@ -317,6 +320,7 @@ export const LastNDaysTransactionFeeRateChart = ({
 }: {
   lastNDaysTransactionFeeRates: FeeRateTracker.LastNDaysTransactionFeeRate[]
 }) => {
+  const { t } = useTranslation()
   const sortedLastNDaysTransactionFeeRates = lastNDaysTransactionFeeRates
     .filter(r => dayjs(r.date).isValid())
     .sort((a, b) => (dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1))
@@ -333,14 +337,14 @@ export const LastNDaysTransactionFeeRateChart = ({
           formatter(params) {
             const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
             const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
-            return `${i18n.t('fee_rate_tracker.date')}: ${
-              feeRate ? dayjs(feeRate.date).format('YYYY/MM/DD') : ''
-            }<br />${i18n.t('fee_rate_tracker.average_fee_rate')}: ${param.value?.toLocaleString('en')} shannons/kB`
+            return `${t('fee_rate_tracker.date')}: ${feeRate ? dayjs(feeRate.date).format('YYYY/MM/DD') : ''}<br />${t(
+              'fee_rate_tracker.average_fee_rate',
+            )}: ${param.value?.toLocaleString('en')} shannons/kB`
           },
         },
         xAxis: {
           type: 'category',
-          name: `${i18n.t('fee_rate_tracker.date')}`,
+          name: `${t('fee_rate_tracker.date')}`,
           nameGap: 32,
           nameLocation: 'middle',
           nameTextStyle: textStyleInChart,
@@ -373,7 +377,7 @@ export const LastNDaysTransactionFeeRateChart = ({
               color: '#e5e5e5',
             },
           },
-          name: `${i18n.t('fee_rate_tracker.fee_rate')}(shannons/kB)`,
+          name: `${t('fee_rate_tracker.fee_rate')}(shannons/kB)`,
         },
         series: [
           {

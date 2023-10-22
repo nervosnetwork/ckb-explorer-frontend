@@ -1,16 +1,19 @@
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
+import { useCurrentLanguage } from '../../../utils/i18n'
 
-const getOption = (
+const useOption = (
   statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[],
   chartColor: State.ChartColor,
   isMobile: boolean,
+
   isThumbnail = false,
 ): echarts.EChartOption => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -31,11 +34,9 @@ const getOption = (
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 80 : 80)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.time'))} ${
-              dataList[0].name
-            }</div>`
-            result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(i18n.t('statistic.block_count'))} ${
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 80 : 80)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.time'))} ${dataList[0].name}</div>`
+            result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.block_count'))} ${
               dataList[0].data
             }%</div>`
             return result
@@ -46,7 +47,7 @@ const getOption = (
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.time'),
+        name: isMobile || isThumbnail ? '' : t('statistic.time'),
         nameLocation: 'middle',
         nameGap: 30,
         data: statisticBlockTimeDistributions.map(data => data.time),
@@ -59,7 +60,7 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.block_count'),
+        name: isMobile || isThumbnail ? '' : t('statistic.block_count'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -74,7 +75,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.block_count'),
+        name: t('statistic.block_count'),
         type: 'line',
         yAxisIndex: 0,
         areaStyle: {
@@ -124,7 +125,7 @@ export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
       description={t('statistic.block_time_distribution_description')}
       isThumbnail={isThumbnail}
       fetchData={fetchStatisticBlockTimeDistributions}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.BlockTimeDistribution}
       cacheMode="date"

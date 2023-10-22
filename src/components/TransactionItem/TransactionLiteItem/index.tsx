@@ -1,19 +1,20 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { localeNumberString } from '../../../utils/number'
 import AddressText from '../../AddressText'
 import styles from './index.module.scss'
 import TransactionLiteIncome from '../TransactionLiteIncome'
-import i18n from '../../../utils/i18n'
 import { useIsMobile, useParsedDate } from '../../../utils/hook'
 
 const TransactionLiteItem = ({ transaction, address }: { transaction: State.Transaction; address?: string }) => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   const parsedBlockCreateAt = useParsedDate(transaction.blockTimestamp)
   return (
     <div className={styles.transactionLitePanel}>
       <div className={styles.transactionLiteRow}>
         <div>
-          {isMobile && <div>{i18n.t('transaction.transaction_hash')}</div>}
+          {isMobile && <div>{t('transaction.transaction_hash')}</div>}
           <AddressText
             disableTooltip
             className={styles.transactionLink}
@@ -25,26 +26,24 @@ const TransactionLiteItem = ({ transaction, address }: { transaction: State.Tran
           </AddressText>
         </div>
         <div>
-          {isMobile && <div>{i18n.t('transaction.height')}</div>}
+          {isMobile && <div>{t('transaction.height')}</div>}
           <Link className={styles.blockLink} to={`/block/${transaction.blockNumber}`}>
             {localeNumberString(transaction.blockNumber)}
           </Link>
         </div>
         <div>
-          {isMobile && <div>{i18n.t('transaction.time')}</div>}
+          {isMobile && <div>{t('transaction.time')}</div>}
           {parsedBlockCreateAt}
         </div>
         <div>
-          {isMobile && <div>{`${i18n.t('transaction.input')} & ${i18n.t('transaction.output')}`}</div>}
+          {isMobile && <div>{`${t('transaction.input')} & ${t('transaction.output')}`}</div>}
+          <span>{transaction.displayInputs && `${t('transaction.input')}: ${transaction.displayInputs.length}`}</span>
           <span>
-            {transaction.displayInputs && `${i18n.t('transaction.input')}: ${transaction.displayInputs.length}`}
-          </span>
-          <span>
-            {transaction.displayOutputs && `${i18n.t('transaction.output')}: ${transaction.displayOutputs.length}`}
+            {transaction.displayOutputs && `${t('transaction.output')}: ${transaction.displayOutputs.length}`}
           </span>
         </div>
         <div>
-          {isMobile && <div>{i18n.t('transaction.capacity_change')}</div>}
+          {isMobile && <div>{t('transaction.capacity_change')}</div>}
           {address && <TransactionLiteIncome income={transaction.income} />}
         </div>
       </div>

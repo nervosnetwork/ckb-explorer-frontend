@@ -1,32 +1,44 @@
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
+import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
 
-const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 155 : 70)
+const widthSpan = (value: string, currentLanguage: LanuageType) =>
+  tooltipWidth(value, currentLanguage === 'en' ? 155 : 70)
 
-const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
-  if (seriesName === i18n.t('nervos_dao.deposit_compensation')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('nervos_dao.deposit_compensation'))} ${data[3]}%</div>`
+const useTooltip = () => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+
+  return ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
+    if (seriesName === t('nervos_dao.deposit_compensation')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('nervos_dao.deposit_compensation'), currentLanguage)} ${
+        data[3]
+      }%</div>`
+    }
+    if (seriesName === t('nervos_dao.mining_reward')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('nervos_dao.mining_reward'), currentLanguage)} ${data[2]}%</div>`
+    }
+    if (seriesName === t('nervos_dao.burnt')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('nervos_dao.burnt'), currentLanguage)} ${data[1]}%</div>`
+    }
+    return ''
   }
-  if (seriesName === i18n.t('nervos_dao.mining_reward')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('nervos_dao.mining_reward'))} ${data[2]}%</div>`
-  }
-  if (seriesName === i18n.t('nervos_dao.burnt')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('nervos_dao.burnt'))} ${data[1]}%</div>`
-  }
-  return ''
 }
 
-const getOption = (
+const useOption = (
   statisticSecondaryIssuance: State.StatisticSecondaryIssuance[],
   chartColor: State.ChartColor,
   isMobile: boolean,
+
   isThumbnail = false,
 ): echarts.EChartOption => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -41,6 +53,7 @@ const getOption = (
     bottom: '5%',
     containLabel: true,
   }
+  const parseTooltip = useTooltip()
   return {
     color: chartColor.secondaryIssuanceColors,
     tooltip: !isThumbnail
@@ -48,7 +61,7 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any) => {
             const list = dataList as Array<SeriesItem & { data: [string, string, string, string] }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${
               dataList[0].data[0]
             }</div>`
             list.forEach(data => {
@@ -63,13 +76,13 @@ const getOption = (
         ? []
         : [
             {
-              name: i18n.t('nervos_dao.burnt'),
+              name: t('nervos_dao.burnt'),
             },
             {
-              name: i18n.t('nervos_dao.mining_reward'),
+              name: t('nervos_dao.mining_reward'),
             },
             {
-              name: i18n.t('nervos_dao.deposit_compensation'),
+              name: t('nervos_dao.deposit_compensation'),
             },
           ],
     },
@@ -77,7 +90,7 @@ const getOption = (
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.date'),
+        name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -100,7 +113,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('nervos_dao.burnt'),
+        name: t('nervos_dao.burnt'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -113,7 +126,7 @@ const getOption = (
         },
       },
       {
-        name: i18n.t('nervos_dao.mining_reward'),
+        name: t('nervos_dao.mining_reward'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -126,7 +139,7 @@ const getOption = (
         },
       },
       {
-        name: i18n.t('nervos_dao.deposit_compensation'),
+        name: t('nervos_dao.deposit_compensation'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -169,7 +182,7 @@ export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: 
       description={t('statistic.secondary_issuance_description')}
       isThumbnail={isThumbnail}
       fetchData={explorerService.api.fetchStatisticSecondaryIssuance}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.SecondaryIssuance}
       cacheMode="date"

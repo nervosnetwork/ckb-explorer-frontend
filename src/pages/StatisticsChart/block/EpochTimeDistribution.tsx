@@ -1,18 +1,22 @@
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { parseHourFromMinute } from '../../../utils/date'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
+import { useCurrentLanguage } from '../../../utils/i18n'
 
-const getOption = (
+const useOption = (
   statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[],
   chartColor: State.ChartColor,
   isMobile: boolean,
+
   isThumbnail = false,
 ): echarts.EChartOption => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -33,13 +37,13 @@ const getOption = (
       ? {
           trigger: 'axis',
           formatter: (dataList: any) => {
-            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 80 : 80)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(
-              i18n.t('statistic.time_hour'),
-            )} ${parseHourFromMinute(dataList[0].name)}</div>`
+            const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 80 : 80)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.time_hour'))} ${parseHourFromMinute(
+              dataList[0].name,
+            )}</div>`
             result += `\
             <div>${tooltipColor(chartColor.colors[0])}\
-            ${widthSpan(i18n.t('statistic.epochs'))} \
+            ${widthSpan(t('statistic.epochs'))} \
             ${localeNumberString(dataList[0].data)}</div>`
             return result
           },
@@ -49,7 +53,7 @@ const getOption = (
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.time_hour'),
+        name: isMobile || isThumbnail ? '' : t('statistic.time_hour'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -63,7 +67,7 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.epochs'),
+        name: isMobile || isThumbnail ? '' : t('statistic.epochs'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -78,7 +82,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.epochs'),
+        name: t('statistic.epochs'),
         type: 'bar',
         yAxisIndex: 0,
         areaStyle: {
@@ -118,7 +122,7 @@ export const EpochTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
       description={t('statistic.epoch_time_distribution_description')}
       isThumbnail={isThumbnail}
       fetchData={fetchStatisticEpochTimeDistributions}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.EpochTimeDistribution}
       cacheMode="date"
