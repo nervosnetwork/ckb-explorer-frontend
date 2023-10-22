@@ -1,24 +1,31 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
+import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, handleAxis, handleLogGroupAxis } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
 
-const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 270 : 110)
+const widthSpan = (value: string, currentLanguage: string) => tooltipWidth(value, currentLanguage === 'en' ? 270 : 110)
 
-const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }): string => {
-  return `<div>${tooltipColor(color)}${widthSpan(seriesName)} ${localeNumberString(data)}</div>`
+const parseTooltip = ({
+  seriesName,
+  data,
+  color,
+  currentLanguage,
+}: SeriesItem & { data: string; currentLanguage: LanuageType }): string => {
+  return `<div>${tooltipColor(color)}${widthSpan(seriesName, currentLanguage)} ${localeNumberString(data)}</div>`
 }
 
-const getOption = (
+const useOption = (
   statisticBalanceDistributions: State.StatisticBalanceDistribution[],
   chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
     left: '4%',
     right: '4%',
@@ -41,13 +48,14 @@ const getOption = (
           formatter: (dataList: any) => {
             const list = dataList as (SeriesItem & { data: string })[]
             let result = `<div>${tooltipColor('#333333')}${widthSpan(
-              i18n.t('statistic.addresses_balance'),
+              t('statistic.addresses_balance'),
+              currentLanguage,
             )} ${handleLogGroupAxis(
               new BigNumber(list[0].name),
               list[0].dataIndex === statisticBalanceDistributions.length - 1 ? '+' : '',
-            )} ${i18n.t('common.ckb_unit')}</div>`
+            )} ${t('common.ckb_unit')}</div>`
             list.forEach(data => {
-              result += parseTooltip(data)
+              result += parseTooltip({ ...data, currentLanguage })
             })
             return result
           },
@@ -57,10 +65,10 @@ const getOption = (
       ? {
           data: [
             {
-              name: i18n.t('statistic.addresses_balance_group'),
+              name: t('statistic.addresses_balance_group'),
             },
             {
-              name: i18n.t('statistic.addresses_below_specific_balance'),
+              name: t('statistic.addresses_below_specific_balance'),
             },
           ],
         }
@@ -69,7 +77,7 @@ const getOption = (
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : `${i18n.t('statistic.addresses_balance')} (CKB)`,
+        name: isMobile || isThumbnail ? '' : `${t('statistic.addresses_balance')} (CKB)`,
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -87,7 +95,7 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.addresses_balance_group'),
+        name: isMobile || isThumbnail ? '' : t('statistic.addresses_balance_group'),
         type: 'value',
         scale: true,
         nameTextStyle: {
@@ -104,7 +112,7 @@ const getOption = (
       },
       {
         position: 'right',
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.addresses_below_specific_balance'),
+        name: isMobile || isThumbnail ? '' : t('statistic.addresses_below_specific_balance'),
         type: 'value',
         splitLine: {
           show: false,
@@ -125,7 +133,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.addresses_balance_group'),
+        name: t('statistic.addresses_balance_group'),
         type: 'bar',
         areaStyle: {
           color: chartColor.areaColor,
@@ -135,7 +143,7 @@ const getOption = (
         data: statisticBalanceDistributions.map(data => new BigNumber(data.addresses).toNumber()),
       },
       {
-        name: i18n.t('statistic.addresses_below_specific_balance'),
+        name: t('statistic.addresses_below_specific_balance'),
         type: 'line',
         yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -180,7 +188,7 @@ export const BalanceDistributionChart = ({ isThumbnail = false }: { isThumbnail?
       description={t('statistic.balance_distribution_description')}
       isThumbnail={isThumbnail}
       fetchData={fetchStatisticBalanceDistributions}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.BalanceDistribution}
       cacheMode="date"

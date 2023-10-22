@@ -1,31 +1,40 @@
 import { FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
 import { handleAxis } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
+import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
 
-const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 90 : 80)
+const widthSpan = (value: string, currentLanguage: LanuageType) =>
+  tooltipWidth(value, currentLanguage === 'en' ? 90 : 80)
 
-const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }) => {
-  if (seriesName === i18n.t('block.epoch_time')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.epoch_time'))} ${data} h</div>`
+const useTooltip = () => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+  return ({ seriesName, data, color }: SeriesItem & { data: string }) => {
+    if (seriesName === t('block.epoch_time')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('block.epoch_time'), currentLanguage)} ${data} h</div>`
+    }
+    if (seriesName === t('block.epoch_length')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('block.epoch_length'), currentLanguage)} ${data}</div>`
+    }
+    return ''
   }
-  if (seriesName === i18n.t('block.epoch_length')) {
-    return `<div>${tooltipColor(color)}${widthSpan(i18n.t('block.epoch_length'))} ${data}</div>`
-  }
-  return ''
 }
 
-const getOption = (
+const useOption = (
   statisticChartData: State.StatisticDifficultyUncleRateEpoch[],
   chartColor: State.ChartColor,
   isMobile: boolean,
+
   isThumbnail = false,
 ): echarts.EChartOption => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+
   const gridThumbnail = {
     left: '4%',
     right: '4%',
@@ -47,6 +56,7 @@ const getOption = (
   const epochLengthSerie = statisticChartData.map(data => data.epochLength)
   const endValue = statisticChartData[statisticChartData.length - 1]?.epochNumber ?? '0'
   const startValue = Math.max(+endValue - COUNT_IN_THUMBNAIL, 0).toString()
+  const parseTooltip = useTooltip()
 
   return {
     color: chartColor.moreColors,
@@ -55,7 +65,9 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any) => {
             const list = dataList as Array<SeriesItem & { data: string }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('block.epoch'))} ${list[0].name}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'), currentLanguage)} ${
+              list[0].name
+            }</div>`
             list.forEach(data => {
               result += parseTooltip(data)
             })
@@ -67,10 +79,10 @@ const getOption = (
       ? {
           data: [
             {
-              name: i18n.t('block.epoch_time'),
+              name: t('block.epoch_time'),
             },
             {
-              name: i18n.t('block.epoch_length'),
+              name: t('block.epoch_length'),
             },
           ],
           textStyle: {
@@ -100,7 +112,7 @@ const getOption = (
 
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : i18n.t('block.epoch'),
+        name: isMobile || isThumbnail ? '' : t('block.epoch'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -114,7 +126,7 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: isMobile || isThumbnail ? '' : i18n.t('block.epoch_time'),
+        name: isMobile || isThumbnail ? '' : t('block.epoch_time'),
         type: 'value',
         scale: true,
         axisLine: {
@@ -128,7 +140,7 @@ const getOption = (
       },
       {
         position: 'right',
-        name: isMobile || isThumbnail ? '' : i18n.t('block.epoch_length'),
+        name: isMobile || isThumbnail ? '' : t('block.epoch_length'),
         type: 'value',
         scale: true,
         splitLine: {
@@ -167,7 +179,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('block.epoch_time'),
+        name: t('block.epoch_time'),
         type: 'bar',
         step: 'start',
         yAxisIndex: 0,
@@ -176,7 +188,7 @@ const getOption = (
         data: isThumbnail ? epochTimeSerie.slice(-1 * COUNT_IN_THUMBNAIL) : epochTimeSerie,
       },
       {
-        name: i18n.t('block.epoch_length'),
+        name: t('block.epoch_length'),
         type: 'bar',
         step: 'start',
         yAxisIndex: 1,
@@ -200,7 +212,7 @@ export const DifficultyUncleRateEpochChart: FC<{ isThumbnail?: boolean }> = ({ i
       title={`${t('block.epoch_time')} & ${t('block.epoch_length')}`}
       isThumbnail={isThumbnail}
       fetchData={explorerService.api.fetchStatisticDifficultyUncleRateEpoch}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.DifficultyUncleRateEpoch}
       cacheMode="epoch"

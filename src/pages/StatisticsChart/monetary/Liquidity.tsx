@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
+import { useCurrentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
@@ -7,12 +7,16 @@ import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
 
-const getOption = (
+const useOption = (
   statisticLiquidity: State.StatisticLiquidity[],
   chartColor: State.ChartColor,
   isMobile: boolean,
+
   isThumbnail = false,
 ): echarts.EChartOption => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
+
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -28,33 +32,32 @@ const getOption = (
     containLabel: true,
   }
 
-  const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 140 : 120)
+  const widthSpan = (value: string, language: string) => tooltipWidth(value, language === 'en' ? 140 : 120)
 
-  const parseTooltip = ({
-    seriesName,
-    data,
-    color,
-  }: SeriesItem & { data: [string, string, string, string] }): string => {
-    if (seriesName === i18n.t('statistic.circulating_supply')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.circulating_supply'))} ${parseNumericAbbr(
-        data[3],
-        2,
-      )}</div>`
+  const useTooltip = () => {
+    return ({ seriesName, data, color }: SeriesItem & { data: [string, string, string, string] }): string => {
+      if (seriesName === t('statistic.circulating_supply')) {
+        return `<div>${tooltipColor(color)}${widthSpan(
+          t('statistic.circulating_supply'),
+          currentLanguage,
+        )} ${parseNumericAbbr(data[3], 2)}</div>`
+      }
+      if (seriesName === t('statistic.dao_deposit')) {
+        return `<div>${tooltipColor(color)}${widthSpan(t('statistic.dao_deposit'), currentLanguage)} ${parseNumericAbbr(
+          data[2],
+          2,
+        )}</div>`
+      }
+      if (seriesName === t('statistic.tradable')) {
+        return `<div>${tooltipColor(color)}${widthSpan(t('statistic.tradable'), currentLanguage)} ${parseNumericAbbr(
+          data[1],
+          2,
+        )}</div>`
+      }
+      return ''
     }
-    if (seriesName === i18n.t('statistic.dao_deposit')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.dao_deposit'))} ${parseNumericAbbr(
-        data[2],
-        2,
-      )}</div>`
-    }
-    if (seriesName === i18n.t('statistic.tradable')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.tradable'))} ${parseNumericAbbr(
-        data[1],
-        2,
-      )}</div>`
-    }
-    return ''
   }
+  const parseTooltip = useTooltip()
   return {
     color: chartColor.liquidityColors,
     tooltip: !isThumbnail
@@ -62,7 +65,7 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any) => {
             const list = dataList as Array<SeriesItem & { data: [string, string, string, string] }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(i18n.t('statistic.date'))} ${
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${
               list[0].data[0]
             }</div>`
             list.forEach(data => {
@@ -77,13 +80,13 @@ const getOption = (
         ? []
         : [
             {
-              name: i18n.t('statistic.circulating_supply'),
+              name: t('statistic.circulating_supply'),
             },
             {
-              name: i18n.t('statistic.dao_deposit'),
+              name: t('statistic.dao_deposit'),
             },
             {
-              name: i18n.t('statistic.tradable'),
+              name: t('statistic.tradable'),
             },
           ],
     },
@@ -91,7 +94,7 @@ const getOption = (
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.date'),
+        name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category',
@@ -114,7 +117,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.tradable'),
+        name: t('statistic.tradable'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -129,7 +132,7 @@ const getOption = (
         },
       },
       {
-        name: i18n.t('statistic.dao_deposit'),
+        name: t('statistic.dao_deposit'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -144,7 +147,7 @@ const getOption = (
         },
       },
       {
-        name: i18n.t('statistic.circulating_supply'),
+        name: t('statistic.circulating_supply'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -184,7 +187,7 @@ export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
       title={t('statistic.liquidity')}
       isThumbnail={isThumbnail}
       fetchData={explorerService.api.fetchStatisticLiquidity}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.Liquidity}
       cacheMode="date"

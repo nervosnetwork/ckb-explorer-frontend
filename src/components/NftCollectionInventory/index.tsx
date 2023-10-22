@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
+import { useTranslation } from 'react-i18next'
 import { parseSporeCellData } from '../../utils/spore'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
-import i18n from '../../utils/i18n'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
 import { explorerService } from '../../services/ExplorerService'
@@ -32,6 +32,7 @@ const NftCollectionInventory: React.FC<{
   collection: string
   isLoading: boolean
 }> = ({ list, collection, isLoading }) => {
+  const { t } = useTranslation()
   const { data: info } = useQuery<AxiosResponse<{ icon_url: string | null }>>(['collection-info', collection], () =>
     explorerService.api.requesterV2(`nft/collections/${collection}`),
   )
@@ -47,7 +48,7 @@ const NftCollectionInventory: React.FC<{
           gridTemplateColumns: 'auto',
         }}
       >
-        {isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}
+        {isLoading ? t('nft.loading') : t(`nft.no_record`)}
       </div>
     )
   }
@@ -107,7 +108,7 @@ const NftCollectionInventory: React.FC<{
               </Link>
             </div>
             <div className={styles.owner}>
-              <span>{i18n.t(`nft.owner`)}</span>
+              <span>{t(`nft.owner`)}</span>
               {item.owner ? (
                 <Link
                   to={`/address/${item.owner}`}

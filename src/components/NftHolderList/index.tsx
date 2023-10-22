@@ -1,24 +1,26 @@
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
-import SortButton from '../SortButton'
-import i18n from '../../utils/i18n'
+import { useTranslation } from 'react-i18next'
 import { getPrimaryColor } from '../../constants/common'
+import SortButton from '../SortButton'
 import styles from './styles.module.scss'
 
-const primaryColor = getPrimaryColor()
+export const primaryColor = getPrimaryColor()
 
 const NftHolderList: React.FC<{
   list: Array<{ addr: string; quantity: number }>
   isLoading: boolean
 }> = ({ list, isLoading }) => {
+  const { t } = useTranslation()
+
   return (
     <div className={styles.list}>
       <table>
         <thead>
           <tr>
-            <th>{i18n.t('nft.holder')}</th>
+            <th>{t('nft.holder')}</th>
             <th>
-              {i18n.t('nft.quantity')}
+              {t('nft.quantity')}
               <SortButton field="quantity" />
             </th>
           </tr>
@@ -49,7 +51,7 @@ const NftHolderList: React.FC<{
           ) : (
             <tr>
               <td colSpan={2} className={styles.noRecord}>
-                {isLoading ? i18n.t('nft.loading') : i18n.t(`nft.no_record`)}
+                {isLoading ? t('nft.loading') : t(`nft.no_record`)}
               </td>
             </tr>
           )}

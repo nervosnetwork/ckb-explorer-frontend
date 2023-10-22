@@ -1,5 +1,5 @@
 import { FC, memo } from 'react'
-import i18n from '../../../utils/i18n'
+import { useTranslation } from 'react-i18next'
 import { HighLightLink } from '../../../components/Text'
 import { localeNumberString } from '../../../utils/number'
 import DecimalCapacity from '../../../components/DecimalCapacity'
@@ -12,6 +12,7 @@ import { useParsedDate } from '../../../utils/hook'
 
 // eslint-disable-next-line no-underscore-dangle
 const _BlockCardItem: FC<{ block: State.Block; isDelayBlock?: boolean }> = ({ block, isDelayBlock }) => {
+  const { t } = useTranslation()
   const liveCellChanges = Number(block.liveCellChanges)
   const blockReward = isDelayBlock ? (
     <BlockRewardPlusPanel>
@@ -48,11 +49,11 @@ const _BlockCardItem: FC<{ block: State.Block; isDelayBlock?: boolean }> = ({ bl
 
       <div className="blockCardMiner">
         <div>
-          <span className="blockCardMinerHash">{i18n.t('home.miner')}</span>
+          <span className="blockCardMinerHash">{t('home.miner')}</span>
           <TableMinerContentItem content={deprecatedAddrToNewAddr(block.minerHash)} fontSize="14px" />
         </div>
         <div className="blockCardReward">
-          <span>{`${i18n.t('home.reward')}`}</span>
+          <span>{`${t('home.reward')}`}</span>
           {blockReward}
         </div>
       </div>
@@ -60,7 +61,7 @@ const _BlockCardItem: FC<{ block: State.Block; isDelayBlock?: boolean }> = ({ bl
       <div className="blockCardTransaction">
         <span className="blockCardTransactionCount">{`${block.transactionsCount} TXs`}</span>
         <span className="blockCardLiveCells">
-          {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${i18n.t('home.cells')}`}
+          {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${t('home.cells')}`}
         </span>
       </div>
     </BlockCardPanel>
@@ -76,10 +77,11 @@ const _TransactionCardItem: FC<{
   transaction: State.Transaction
   tipBlockNumber: number
 }> = ({ transaction, tipBlockNumber }) => {
+  const { t } = useTranslation()
   const liveCellChanges = Number(transaction.liveCellChanges)
   let confirmation = tipBlockNumber - Number(transaction.blockNumber)
   confirmation = confirmation < 0 ? 0 : confirmation
-  const confirmationUnit = confirmation > 1 ? i18n.t('address.confirmations') : i18n.t('address.confirmation')
+  const confirmationUnit = confirmation > 1 ? t('address.confirmations') : t('address.confirmation')
 
   const parsedBlockCreateAt = useParsedDate(transaction.blockTimestamp)
 
@@ -100,7 +102,7 @@ const _TransactionCardItem: FC<{
 
       <div className="transactionCardBlock">
         <div>
-          <span className="transactionCardBlockHeight">{i18n.t('block.block')}</span>
+          <span className="transactionCardBlockHeight">{t('block.block')}</span>
           <span className="transactionCardBlockHeightPrefix">#</span>
           <HighLightLink value={localeNumberString(transaction.blockNumber)} to={`/block/${transaction.blockNumber}`} />
         </div>
@@ -114,7 +116,7 @@ const _TransactionCardItem: FC<{
           hideZero
         />
         <span className="transactionCardLiveCells">
-          {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${i18n.t('home.cells')}`}
+          {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${t('home.cells')}`}
         </span>
       </div>
     </TransactionCardPanel>

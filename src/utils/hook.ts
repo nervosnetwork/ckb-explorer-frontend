@@ -23,9 +23,9 @@ import {
   storeDateChartCache,
   storeEpochChartCache,
 } from './cache'
-import { parseDate } from './date'
 import { omit } from './object'
 // TODO: This file depends on higher-level abstractions, so it should not be in the utils folder. It should be moved to `src/hooks/index.ts`.
+import { useParseDate } from './date'
 import { Response, useStatistics } from '../services/ExplorerService'
 
 /**
@@ -576,6 +576,7 @@ export function useTimestamp(): number {
 }
 
 export function useParsedDate(timestamp: number): string {
+  const parseDate = useParseDate()
   const now = useTimestamp()
   return parseDate(timestamp, now)
 }

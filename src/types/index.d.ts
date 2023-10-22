@@ -66,6 +66,7 @@ declare namespace State {
     id: number
     addressHash: string
     capacity: string
+    occupiedCapacity: string
     fromCellbase: boolean
     generatedTxHash: string
     targetBlockNumber: number

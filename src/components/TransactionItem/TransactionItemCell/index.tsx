@@ -2,11 +2,12 @@ import { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Popover, Tooltip } from 'antd'
 import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
 import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import CurrentAddressIcon from '../../../assets/current_address.svg'
 import UDTTokenIcon from '../../../assets/udt_token.png'
-import i18n, { currentLanguage } from '../../../utils/i18n'
+import { useCurrentLanguage } from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import {
@@ -70,10 +71,12 @@ const AddressTextWithAlias: FC<{
   )
 }
 
-const udtAmount = (udt: State.UDTInfo) =>
-  udt.published
+const useUdtAmount = (udt: State.UDTInfo) => {
+  const { t } = useTranslation()
+  return udt.published
     ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.uan || udt.symbol}`
-    : `${i18n.t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
+    : `${t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
+}
 
 const WithdrawPopoverItem = ({
   width,
@@ -92,27 +95,27 @@ const WithdrawPopoverItem = ({
 
 const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
   let width = 'short'
-  if (currentLanguage() === 'en') {
+  if (currentLanguage === 'en') {
     width = isDaoDepositCell(cell.cellType) ? 'long' : 'medium'
   }
   return (
     <WithdrawInfoPanel>
       <p>
-        {isDaoWithdrawCell(cell.cellType)
-          ? i18n.t('nervos_dao.withdraw_tooltip')
-          : i18n.t('nervos_dao.withdraw_request_tooltip')}
+        {isDaoWithdrawCell(cell.cellType) ? t('nervos_dao.withdraw_tooltip') : t('nervos_dao.withdraw_request_tooltip')}
       </p>
       <WithdrawPopoverItem
         width={width}
-        title={`${i18n.t('nervos_dao.deposit_capacity')}: `}
+        title={`${t('nervos_dao.deposit_capacity')}: `}
         content={
           <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize={isMobile ? '8px' : ''} />
         }
       />
       <WithdrawPopoverItem
         width={width}
-        title={`${i18n.t(
+        title={`${t(
           isDaoWithdrawCell(cell.cellType) ? 'nervos_dao.compensation' : 'nervos_dao.unissued_compensation',
         )}: `}
         content={
@@ -121,10 +124,10 @@ const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
       />
       <WithdrawPopoverItem
         width={width}
-        title={`${i18n.t('nervos_dao.compensation_period')}: `}
+        title={`${t('nervos_dao.compensation_period')}: `}
         content={
           <>
-            <span>{`${i18n.t('block.block')} `}</span>
+            <span>{`${t('block.block')} `}</span>
             <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
               <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
             </Link>
@@ -137,17 +140,17 @@ const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
       />
       <WithdrawPopoverItem
         width={width}
-        title={`${i18n.t('nervos_dao.compensation_time')}: `}
+        title={`${t('nervos_dao.compensation_time')}: `}
         content={parseDiffDate(cell.compensationStartedTimestamp, cell.compensationEndedTimestamp)}
       />
       {isDaoWithdrawCell(cell.cellType) && (
         <>
           <WithdrawPopoverItem
             width={width}
-            title={`${i18n.t('nervos_dao.locked_period')}: `}
+            title={`${t('nervos_dao.locked_period')}: `}
             content={
               <>
-                <span>{`${i18n.t('block.block')} `}</span>
+                <span>{`${t('block.block')} `}</span>
                 <Link to={`/block/${cell.compensationStartedBlockNumber}`}>
                   <span>{localeNumberString(cell.compensationStartedBlockNumber)}</span>
                 </Link>
@@ -160,7 +163,7 @@ const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
           />
           <WithdrawPopoverItem
             width={width}
-            title={`${i18n.t('nervos_dao.locked_time')}: `}
+            title={`${t('nervos_dao.locked_time')}: `}
             content={parseDiffDate(cell.compensationStartedTimestamp, cell.lockedUntilBlockTimestamp)}
           />
         </>
@@ -171,6 +174,7 @@ const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
 
 const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   return (
     <TransactionCellWithdraw>
       <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
@@ -181,9 +185,7 @@ const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellTy
       ) : (
         <Tooltip
           placement={isMobile ? 'topRight' : 'top'}
-          title={i18n.t(
-            isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip',
-          )}
+          title={t(isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip')}
           arrowPointAtCenter
           overlayStyle={{
             fontSize: '14px',
@@ -202,7 +204,7 @@ const TransactionCellUDT = ({ cell }: { cell: State.Cell$UDT }) => {
 
   return (
     <TransactionCellUDTPanel>
-      <span>{udtAmount(extraInfo)}</span>
+      <span>{useUdtAmount(extraInfo)}</span>
       <Tooltip
         placement={isMobile ? 'topRight' : 'top'}
         title={`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
@@ -235,11 +237,12 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: State.Cell; cellTyp
 
 const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
   const isMobile = useIsMobile()
+  const { t } = useTranslation()
   if (cell.fromCellbase) {
     return <Cellbase cell={cell} cellType={cellType} />
   }
 
-  let addressText = i18n.t('address.unable_decode_address')
+  let addressText = t('address.unable_decode_address')
   let highLight = false
   if (cell.addressHash) {
     addressText = cell.addressHash
@@ -253,14 +256,14 @@ const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; addres
         <AddressTextWithAlias address={addressText} to={highLight ? `/address/${cell.addressHash}` : undefined} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {!highLight && !isMobile && (
-          <Tooltip placement="top" title={`${i18n.t('address.current-address')} `}>
+          <Tooltip placement="top" title={`${t('address.current-address')} `}>
             <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}
       </div>
       <TransactionCellCapacityPanel>
         {!highLight && isMobile && (
-          <Tooltip placement="top" title={`${i18n.t('address.current-address')} `}>
+          <Tooltip placement="top" title={`${t('address.current-address')} `}>
             <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}

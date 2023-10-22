@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { useQuery } from 'react-query'
+import { useTranslation } from 'react-i18next'
 import styles from './styles.module.scss'
 import Content from '../../components/Content'
 import { toCamelcase } from '../../utils/util'
@@ -11,12 +12,12 @@ import {
   LastNDaysTransactionFeeRateChart,
 } from './FeeRateTrackerComp'
 import Loading from '../../components/Loading'
-import i18n from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
 import { getFeeRateSamples } from '../../utils/chart'
 import { explorerService, useStatistics } from '../../services/ExplorerService'
 
 const FeeRateTracker = () => {
+  const { t } = useTranslation()
   const lastFetchedTime = useRef(Number.MAX_SAFE_INTEGER)
   const deltaSecond = useRef(0)
   const [secondAfterUpdate, setSecondAfterUpdate] = useState<number>(0)
@@ -55,11 +56,11 @@ const FeeRateTracker = () => {
   return (
     <Content>
       <div className={`${styles.feeRateTrackerPanel} container`}>
-        <div className={styles.title}>{i18n.t('fee_rate_tracker.title')}</div>
+        <div className={styles.title}>{t('fee_rate_tracker.title')}</div>
         <div className={styles.charts}>
           <div className={styles.feeRateSection}>
             <div className={styles.updatedTimeCounter}>
-              {i18n.t('fee_rate_tracker.updated_time', {
+              {t('fee_rate_tracker.updated_time', {
                 second: secondAfterUpdate,
               })}
             </div>
@@ -78,7 +79,7 @@ const FeeRateTracker = () => {
           </div>
           <div>
             <div className={styles.chartTitle}>
-              {`${i18n.t('fee_rate_tracker.confirmation_time_x_avg_fee_rate')}${isMobile ? '\n' : ' '}(${i18n.t(
+              {`${t('fee_rate_tracker.confirmation_time_x_avg_fee_rate')}${isMobile ? '\n' : ' '}(${t(
                 'fee_rate_tracker.last_n_transactions',
                 {
                   c: localeNumberString(10000),
@@ -94,7 +95,7 @@ const FeeRateTracker = () => {
             </div>
           </div>
           <div>
-            <div className={styles.chartTitle}>{i18n.t('fee_rate_tracker.fee_rate_of_pending_transactions')}</div>
+            <div className={styles.chartTitle}>{t('fee_rate_tracker.fee_rate_of_pending_transactions')}</div>
             <div className={styles.chart}>
               {transactionFeesStatistic?.pendingTransactionFeeRates ? (
                 <FeeRateTransactionCountChart
@@ -106,7 +107,7 @@ const FeeRateTracker = () => {
             </div>
           </div>
           <div>
-            <div className={styles.chartTitle}>{i18n.t('fee_rate_tracker.n_days_historical_fee_rate', { n: 7 })}</div>
+            <div className={styles.chartTitle}>{t('fee_rate_tracker.n_days_historical_fee_rate', { n: 7 })}</div>
             <div className={styles.chart}>
               {transactionFeesStatistic?.lastNDaysTransactionFeeRates ? (
                 <LastNDaysTransactionFeeRateChart

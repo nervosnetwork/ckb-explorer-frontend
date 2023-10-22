@@ -10,7 +10,6 @@ import { TableTitleRow, TableContentRow, TableTitleRowItem } from '../../compone
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
-import i18n from '../../utils/i18n'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
 import AddressText from '../../components/AddressText'
@@ -84,17 +83,18 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
 }
 
 const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ blocks, isFirstPage }) => {
+  const { t } = useTranslation()
   const items: ItemCardData<State.Block>[] = [
     {
-      title: i18n.t('home.height'),
+      title: t('home.height'),
       render: block => <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
     },
     {
-      title: i18n.t('home.transactions'),
+      title: t('home.transactions'),
       render: block => localeNumberString(block.transactionsCount),
     },
     {
-      title: i18n.t('home.block_reward'),
+      title: t('home.block_reward'),
       render: (block, index) =>
         index < DELAY_BLOCK_NUMBER && isFirstPage ? (
           <BlockRewardContainer>
@@ -107,7 +107,7 @@ const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ b
         ),
     },
     {
-      title: i18n.t('block.miner'),
+      title: t('block.miner'),
       render: block => (
         <HighLightValue>
           <AddressText
@@ -123,7 +123,7 @@ const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ b
       ),
     },
     {
-      title: i18n.t('home.time'),
+      title: t('home.time'),
       render: block => parseSimpleDate(block.timestamp),
     },
   ]

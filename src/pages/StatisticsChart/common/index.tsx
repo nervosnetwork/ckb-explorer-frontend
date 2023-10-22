@@ -12,13 +12,13 @@ import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/brush'
 import echarts from 'echarts/lib/echarts'
 import { EChartOption, ECharts } from 'echarts'
+import { useTranslation } from 'react-i18next'
 import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel, ChartNotePanel } from './styled'
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from '../../../assets/chart_no_data.png'
 import ChartNoDataAggronImage from '../../../assets/chart_no_data_aggron.png'
 import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import i18n from '../../../utils/i18n'
 import Content from '../../../components/Content'
 import { useChartQueryWithCache, useIsMobile, usePrevious, useWindowResize } from '../../../utils/hook'
 import { isDeepEqual } from '../../../utils/util'
@@ -28,18 +28,21 @@ import { Response } from '../../../services/ExplorerService'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
-const ChartLoading = ({ show, isThumbnail = false }: { show: boolean; isThumbnail?: boolean }) => (
-  <LoadingPanel isThumbnail={isThumbnail}>
-    {show ? (
-      <LoadingComp isThumbnail={isThumbnail} />
-    ) : (
-      <ChartNoDataPanel isThumbnail={isThumbnail}>
-        <img alt="no data" src={isMainnet() ? ChartNoDataImage : ChartNoDataAggronImage} />
-        <span>{i18n.t('statistic.no_data')}</span>
-      </ChartNoDataPanel>
-    )}
-  </LoadingPanel>
-)
+const ChartLoading = ({ show, isThumbnail = false }: { show: boolean; isThumbnail?: boolean }) => {
+  const { t } = useTranslation()
+  return (
+    <LoadingPanel isThumbnail={isThumbnail}>
+      {show ? (
+        <LoadingComp isThumbnail={isThumbnail} />
+      ) : (
+        <ChartNoDataPanel isThumbnail={isThumbnail}>
+          <img alt="no data" src={isMainnet() ? ChartNoDataImage : ChartNoDataAggronImage} />
+          <span>{t('statistic.no_data')}</span>
+        </ChartNoDataPanel>
+      )}
+    </LoadingPanel>
+  )
+}
 
 const ReactChartCore = ({
   option,
@@ -123,6 +126,7 @@ const ChartPage = ({
   data?: (string | number)[][]
 }) => {
   const csv = dataToCsv(data)
+  const { t } = useTranslation()
   const fileName = (title.indexOf(' (') > 0 ? title.substring(0, title.indexOf(' (')) : title)
     .replace(/&/g, '')
     .toLowerCase()
@@ -142,7 +146,7 @@ const ChartPage = ({
             target="_blank"
             download={`${fileName}.csv`}
           >
-            {i18n.t('statistic.download_data')}
+            {t('statistic.download_data')}
           </a>
         )}
       </ChartDetailTitle>
@@ -163,7 +167,7 @@ export interface SmartChartPageProps<T> {
     dataList: T[],
     chartColor: State.ChartColor,
     isMobile: boolean,
-    isThumbnail: boolean,
+    isThumbnail?: boolean,
   ) => echarts.EChartOption
   toCSV: (dataList: T[]) => (string | number)[][]
   cacheKey?: string

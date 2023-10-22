@@ -1,18 +1,20 @@
 import { useTranslation } from 'react-i18next'
-import i18n, { currentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime, parseSimpleDate, parseSimpleDateNoSecond } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
 import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
+import { useCurrentLanguage } from '../../../utils/i18n'
 
-const getOption = (
+const useOption = (
   statisticAverageBlockTimes: State.StatisticAverageBlockTime[],
   chartColor: State.ChartColor,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
+  const { t } = useTranslation()
+  const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
     left: '3%',
     right: '3%',
@@ -36,16 +38,16 @@ const getOption = (
     }
   }
 
-  const widthSpan = (value: string) => tooltipWidth(value, currentLanguage() === 'en' ? 180 : 100)
+  const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 180 : 100)
 
   const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }): string => {
-    if (seriesName === i18n.t('statistic.daily_moving_average')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.daily_moving_average'))} ${localeNumberString(
+    if (seriesName === t('statistic.daily_moving_average')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('statistic.daily_moving_average'))} ${localeNumberString(
         data[1],
       )}</div>`
     }
-    if (seriesName === i18n.t('statistic.weekly_moving_average')) {
-      return `<div>${tooltipColor(color)}${widthSpan(i18n.t('statistic.weekly_moving_average'))} ${localeNumberString(
+    if (seriesName === t('statistic.weekly_moving_average')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('statistic.weekly_moving_average'))} ${localeNumberString(
         data[2],
       )}</div>`
     }
@@ -58,9 +60,11 @@ const getOption = (
           trigger: 'axis',
           formatter: (dataList: any) => {
             const list = dataList as Array<SeriesItem & { data: string }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(
-              i18n.t('statistic.date'),
-            )} ${parseSimpleDateNoSecond(new Date(list[0].data[0]), '/', false)}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${parseSimpleDateNoSecond(
+              new Date(list[0].data[0]),
+              '/',
+              false,
+            )}</div>`
             list.forEach(data => {
               result += parseTooltip(data)
             })
@@ -72,10 +76,10 @@ const getOption = (
       ? {
           data: [
             {
-              name: i18n.t('statistic.daily_moving_average'),
+              name: t('statistic.daily_moving_average'),
             },
             {
-              name: i18n.t('statistic.weekly_moving_average'),
+              name: t('statistic.weekly_moving_average'),
             },
           ],
         }
@@ -84,7 +88,7 @@ const getOption = (
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
     xAxis: [
       {
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.date'),
+        name: isMobile || isThumbnail ? '' : t('statistic.date'),
         nameLocation: 'middle',
         nameGap: 30,
         type: 'category', // TODO: use type: time
@@ -100,7 +104,7 @@ const getOption = (
     yAxis: [
       {
         position: 'left',
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.daily_moving_average'),
+        name: isMobile || isThumbnail ? '' : t('statistic.daily_moving_average'),
         type: 'value',
         scale: true,
         nameTextStyle: {
@@ -119,7 +123,7 @@ const getOption = (
       },
       {
         position: 'right',
-        name: isMobile || isThumbnail ? '' : i18n.t('statistic.weekly_moving_average'),
+        name: isMobile || isThumbnail ? '' : t('statistic.weekly_moving_average'),
         type: 'value',
         scale: true,
         nameTextStyle: {
@@ -139,7 +143,7 @@ const getOption = (
     ],
     series: [
       {
-        name: i18n.t('statistic.daily_moving_average'),
+        name: t('statistic.daily_moving_average'),
         type: 'line',
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -150,7 +154,7 @@ const getOption = (
         },
       },
       {
-        name: i18n.t('statistic.weekly_moving_average'),
+        name: t('statistic.weekly_moving_average'),
         type: 'line',
         yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
@@ -185,7 +189,7 @@ export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: b
       description={t('statistic.average_block_time_description')}
       isThumbnail={isThumbnail}
       fetchData={explorerService.api.fetchStatisticAverageBlockTimes}
-      getEChartOption={getOption}
+      getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.AverageBlockTime}
       cacheMode="date"

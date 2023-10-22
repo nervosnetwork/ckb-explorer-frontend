@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { Tooltip } from 'antd'
+import { useTranslation } from 'react-i18next'
 import { CellType, PAGE_CELL_COUNT } from '../../../constants/common'
-import i18n from '../../../utils/i18n'
 import TransactionCell from '../TransactionCell'
 import { TransactionCellListPanel, TransactionCellListTitlePanel, TransactionCellsPanel } from './styled'
 import SmallLoading from '../../../components/Loading/SmallLoading'
@@ -29,6 +29,7 @@ export default ({
     setIsAddrNew: (is: boolean) => void
   }
 }) => {
+  const { t } = useTranslation()
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
   const [isEnd, setIsEnd] = useState(false)
   const cells = inputs || outputs || []
@@ -64,17 +65,17 @@ export default ({
   }
 
   const cellTitle = () => {
-    const title = inputs ? i18n.t('transaction.input') : i18n.t('transaction.output')
+    const title = inputs ? t('transaction.input') : t('transaction.output')
     return (
       <div className={styles.cellListTitle}>
         {`${title} (${cellsCount()})`}
-        <Tooltip placement="top" title={i18n.t(`address.view-deprecated-address`)}>
+        <Tooltip placement="top" title={t(`address.view-deprecated-address`)}>
           <div className={styles.newAddrToggle} onClick={handleAddrToggle} role="presentation">
             {isAddrNew ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
           </div>
         </Tooltip>
         {isAddrNew ? null : (
-          <Tooltip placement="top" title={i18n.t('address.displaying-deprecated-address')}>
+          <Tooltip placement="top" title={t('address.displaying-deprecated-address')}>
             <Warning />
           </Tooltip>
         )}
@@ -87,8 +88,8 @@ export default ({
       <TransactionCellListTitlePanel>
         <div className="transactionCellListTitles">
           <div>{cellTitle()}</div>
-          <div>{isCellbaseInput ? i18n.t('transaction.reward_info') : i18n.t('transaction.detail')}</div>
-          <div>{isCellbaseInput ? '' : i18n.t('transaction.capacity_amount')}</div>
+          <div>{isCellbaseInput ? t('transaction.reward_info') : t('transaction.detail')}</div>
+          <div>{isCellbaseInput ? '' : t('transaction.capacity_amount')}</div>
         </div>
       </TransactionCellListTitlePanel>
       <TransactionCellsPanel isScroll={isScroll}>

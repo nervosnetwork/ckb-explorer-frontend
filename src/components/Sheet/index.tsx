@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { SheetPanel, SheetPointPanel, SheetItem } from './styled'
 import { createGlobalState, createGlobalStateSetter, useGlobalState } from '../../utils/state'
 
@@ -8,6 +9,7 @@ export const setNetworkErrMsgs = createGlobalStateSetter(globalNetworkErrMsgs)
 export const setChainAlerts = createGlobalStateSetter(globalChainAlerts)
 
 const Sheet = () => {
+  const { t } = useTranslation()
   const [networkErrMsgs] = useGlobalState(globalNetworkErrMsgs)
   const [chainAlerts] = useGlobalState(globalChainAlerts)
   const messages: string[] = chainAlerts.concat(networkErrMsgs)
@@ -19,7 +21,7 @@ const Sheet = () => {
         return (
           <SheetPointPanel key={key} isSingle={messages.length === 1}>
             {messages.length > 1 && <span>·</span>}
-            <SheetItem>{context}</SheetItem>
+            <SheetItem>{t(context)}</SheetItem>
           </SheetPointPanel>
         )
       })}

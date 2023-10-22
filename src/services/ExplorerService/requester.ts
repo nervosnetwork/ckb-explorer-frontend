@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios'
 import CONFIG from '../../config'
-import i18n from '../../utils/i18n'
 import { setNetworkErrMsgs } from '../../components/Sheet'
 
 export const requesterV1 = axios.create({
@@ -32,7 +31,7 @@ const updateNetworkError = (errMessage = 'toast.invalid_network') => {
     setNetworkErrMsgs([])
     timeout = null
   }, 2000)
-  setNetworkErrMsgs([i18n.t(errMessage)])
+  setNetworkErrMsgs([errMessage])
 }
 
 requesterV1.interceptors.request.use(
