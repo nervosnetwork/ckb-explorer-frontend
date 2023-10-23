@@ -197,10 +197,7 @@ export function SmartChartPage<T>({
     }
   }, [onFetched, query.data])
 
-  const option = useMemo(
-    () => getEChartOption(dataList, ChartColor, isMobile, isThumbnail),
-    [dataList, getEChartOption, isMobile, isThumbnail],
-  )
+  const option = getEChartOption(dataList, ChartColor, isMobile, isThumbnail)
 
   const content = query.isLoading ? (
     <ChartLoading show isThumbnail={isThumbnail} />
