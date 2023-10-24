@@ -1,11 +1,12 @@
 import type { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
+import { Radio, Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { LayoutLiteProfessional } from '../../../constants/common'
 import CopyIcon from '../../../assets/copy.png'
 import { explorerService } from '../../../services/ExplorerService'
 import SmallLoading from '../../Loading/SmallLoading'
-import { useIsMobile, useNewAddr, useDeprecatedAddr } from '../../../utils/hook'
+import { useIsMobile, useNewAddr, useDeprecatedAddr, useSearchParams, useUpdateSearchParams } from '../../../utils/hook'
 import SimpleButton from '../../SimpleButton'
 import { ReactComponent as OpenInNew } from '../../../assets/open_in_new.svg'
 import { ReactComponent as DownloadIcon } from '../../../assets/download_tx.svg'
@@ -48,6 +49,7 @@ export default ({
   showDASInfoOnHeader?: boolean | string
 }) => {
   const isMobile = useIsMobile()
+  const { Professional, Lite } = LayoutLiteProfessional
   const setToast = useSetToast()
   const { t } = useTranslation()
 
@@ -55,6 +57,19 @@ export default ({
   const newAddr = useNewAddr(hash)
   const deprecatedAddr = useDeprecatedAddr(hash)
   const counterpartAddr = newAddr === hash ? deprecatedAddr : newAddr
+
+  const searchParams = useSearchParams('layout')
+  const defaultLayout = Professional
+  const updateSearchParams = useUpdateSearchParams<'layout'>()
+  const layout = searchParams.layout === Lite ? Lite : defaultLayout
+
+  const onChangeLayout = (layoutType: LayoutLiteProfessional) => {
+    updateSearchParams(params =>
+      layoutType === defaultLayout
+        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
+        : { ...params, layout: layoutType },
+    )
+  }
 
   const handleExportTxClick = async () => {
     const res = await explorerService.api.requesterV2(`transactions/${hash}/raw`).catch(error => {
@@ -86,7 +101,6 @@ export default ({
             <div className="hashTitle">{title}</div>
           </>
         )}
-
         <div className={styles.hashCardHeaderRight}>
           <div className="hashCardHashContent">
             {loading ? (
@@ -133,11 +147,26 @@ export default ({
             ) : null}
           </div>
 
+          {!isMobile && isTx && !loading ? (
+            <div className={styles.professionalLiteBox}>
+              <Radio.Group
+                className={styles.layoutButtons}
+                options={[
+                  { label: t('transaction.professional'), value: Professional },
+                  { label: t('transaction.lite'), value: Lite },
+                ]}
+                onChange={({ target: { value } }) => onChangeLayout(value)}
+                value={layout}
+                optionType="button"
+                buttonStyle="solid"
+              />
+            </div>
+          ) : null}
+
           {(showDASInfoOnHeader || showDASInfoOnHeader === '') && (
             <DASInfo address={typeof showDASInfoOnHeader === 'string' ? showDASInfoOnHeader : hash} />
           )}
         </div>
-
         {specialAddress && (
           <Tooltip title={t('address.vesting_tooltip')} placement={isMobile ? 'bottomRight' : 'bottom'}>
             <Link to={`/address/${specialAddress}`} className="hashVesting">
@@ -149,6 +178,23 @@ export default ({
           {hash}
         </div>
       </div>
+
+      {isMobile && isTx && !loading ? (
+        <div className={styles.professionalLiteBox}>
+          <Radio.Group
+            className={styles.layoutButtons}
+            options={[
+              { label: t('transaction.professional'), value: Professional },
+              { label: t('transaction.lite'), value: Lite },
+            ]}
+            onChange={({ target: { value } }) => onChangeLayout(value)}
+            value={layout}
+            optionType="button"
+            buttonStyle="solid"
+          />
+        </div>
+      ) : null}
+
       {children}
     </HashCardPanel>
   )

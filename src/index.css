@@ -2,6 +2,8 @@
 
 body {
   --primary-color: #00cc9b;
+  --accent-color: #FA504F;
+  --primary-text-color: #333;
   --primary-hover-bg-color: #e8fff1;
   --primary-chiffon-color: #e6fcf7;
   --navbar-height: 64px;

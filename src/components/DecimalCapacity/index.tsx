@@ -1,23 +1,27 @@
+import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { DecimalPanel, DecimalPartPanel, DecimalZerosPanel } from './styled'
+import styles from './styles.module.scss'
 
 export default ({
   value,
   fontSize,
-  color,
+  balanceChangeType = 'none',
   hideUnit,
   hideZero,
   marginBottom = '1px',
 }: {
   value: string
+  balanceChangeType?: 'payment' | 'income' | 'none'
   fontSize?: string
-  color?: string
   hideUnit?: boolean
   hideZero?: boolean
   marginBottom?: string
 }) => {
   const { t } = useTranslation()
   const integer = value.split('.')[0] || '0'
+  const isPayment = balanceChangeType === 'payment'
+  const balanceChangeTypeClass = isPayment ? 'subtraction' : 'addition'
   let decimal = value.split('.')[1] || ''
   let zeros = ''
 
@@ -33,16 +37,24 @@ export default ({
 
   return (
     <DecimalPanel>
-      <span>{integer}</span>
-      <DecimalPartPanel className="monospace" fontSize={fontSize} color={color} marginBottom={marginBottom}>
+      <span className={classNames(balanceChangeTypeClass, styles.intergerPart)}>{integer}</span>
+      <DecimalPartPanel
+        className={`monospace ${balanceChangeTypeClass}`}
+        fontSize={fontSize}
+        marginBottom={marginBottom}
+      >
         {decimal}
       </DecimalPartPanel>
       {!hideZero && (
-        <DecimalZerosPanel className="monospace" fontSize={fontSize} color={color} marginBottom={marginBottom}>
+        <DecimalZerosPanel
+          className={`monospace ${balanceChangeTypeClass}`}
+          fontSize={fontSize}
+          marginBottom={marginBottom}
+        >
           {zeros}
         </DecimalZerosPanel>
       )}
-      {!hideUnit && <div className="decimalUnit monospace">{t('common.ckb_unit')}</div>}
+      {!hideUnit && <div className={`decimalUnit monospace ${balanceChangeTypeClass}`}>{t('common.ckb_unit')}</div>}
     </DecimalPanel>
   )
 }

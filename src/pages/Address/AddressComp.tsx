@@ -43,6 +43,7 @@ import ArrowUpIcon from '../../assets/arrow_up.png'
 import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownIcon from '../../assets/arrow_down.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
+import { LayoutLiteProfessional } from '../../constants/common'
 import { omit } from '../../utils/object'
 import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
@@ -341,17 +342,20 @@ export const AddressTransactions = ({
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { Professional, Lite } = LayoutLiteProfessional
   const searchParams = useSearchParams('layout')
-  const defaultLayout = 'professional'
+  const defaultLayout = Professional
   const updateSearchParams = useUpdateSearchParams<'layout' | 'sort' | 'tx_type'>()
-  const layout = searchParams.layout === 'lite' ? 'lite' : defaultLayout
+  const layout = searchParams.layout === Lite ? Lite : defaultLayout
   const totalPages = Math.ceil(total / pageSize)
 
-  const onChangeLayout = (lo: 'professional' | 'lite') => {
-    updateSearchParams(params => (lo === defaultLayout ? omit(params, ['layout']) : { ...params, layout: lo }))
+  const onChangeLayout = (layoutType: LayoutLiteProfessional) => {
+    updateSearchParams(params =>
+      layoutType === defaultLayout
+        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
+        : { ...params, layout: layoutType },
+    )
   }
-
-  // REFACTOR: could be an independent component
   const handleTimeSort = () => {
     updateSearchParams(
       params =>
@@ -394,8 +398,8 @@ export const AddressTransactions = ({
             <Radio.Group
               className={styles.layoutButtons}
               options={[
-                { label: t('transaction.professional'), value: 'professional' },
-                { label: t('transaction.lite'), value: 'lite' },
+                { label: t('transaction.professional'), value: Professional },
+                { label: t('transaction.lite'), value: Lite },
               ]}
               onChange={({ target: { value } }) => onChangeLayout(value)}
               value={layout}

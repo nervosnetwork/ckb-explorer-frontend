@@ -10,17 +10,13 @@ export default ({ income }: { income: string }) => {
   if (bigIncome.isNaN()) {
     bigIncome = new BigNumber(0)
   }
+  const isIncome = bigIncome.isGreaterThanOrEqualTo(0)
   return (
-    <div
-      className={classNames(
-        styles.transactionLitePanel,
-        bigIncome.isGreaterThanOrEqualTo(0) ? styles.increased : styles.decreased,
-      )}
-    >
+    <div className={classNames(styles.transactionLitePanel, isIncome ? styles.increased : styles.decreased)}>
       <DecimalCapacity
         value={`${bigIncome.isPositive() ? '+' : ''}${localeNumberString(shannonToCkb(bigIncome))}`}
-        color="inherit"
         marginBottom="0"
+        balanceChangeType={isIncome ? 'income' : 'payment'}
       />
     </div>
   )

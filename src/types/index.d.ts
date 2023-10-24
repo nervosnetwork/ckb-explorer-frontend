@@ -100,6 +100,9 @@ declare namespace State {
       | 'nervos_dao_withdrawing'
       | 'cota_registry'
       | 'cota_regular'
+      | 'nft_transfer'
+      | 'simple_transfer'
+      | 'nft_mint'
       | 'spore_cluster'
       | 'spore_cell'
     extraInfo?: never
@@ -131,6 +134,47 @@ declare namespace State {
   }
 
   type Cell = Cell$NoExtra | Cell$UDT | Cell$NftIssuer | Cell$NftClass | Cell$NftToken | Cell$Nrc721Token
+
+  export interface TransactionLiteDetails {
+    address: string
+    transfers: LiteTransfer[]
+  }
+
+  // cell_type comes from: https://github.com/nervosnetwork/ckb-explorer/blob/develop/app/utils/ckb_utils.rb#L380
+  type CellType =
+    | 'normal'
+    | 'udt'
+    | 'nervos_dao_deposit'
+    | 'nervos_dao_withdrawing'
+    | 'spore_cell'
+    | 'spore_cluster'
+    | 'cota_regular'
+    | 'cota_registry'
+    | 'm_nft_issuer'
+    | 'm_nft_class'
+    | 'm_nft_token'
+    | 'nrc_721_token'
+    | 'nrc_721_factory'
+  interface LiteTransfer {
+    capacity: string
+    cellType: CellType
+
+    udtInfo?: {
+      symbol: string
+      amount: string
+      decimal: string
+      typeHash: string
+      published: boolean
+      displayName: string
+      uan: string
+    }
+
+    mNftInfo?: {
+      className: string
+      tokenId: string // none 0x prefix hex number
+      total: string // decimal string
+    }
+  }
 
   export interface LockInfo {
     status: 'locked' | 'unlocked'

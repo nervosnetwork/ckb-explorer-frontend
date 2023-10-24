@@ -67,9 +67,13 @@ export const handleHashRate = (value: BigNumber | string | number) => {
   return `${handleDifficulty(value)}/s`
 }
 
-export const parseUDTAmount = (amount: string, decimal: string) => {
+export const parseCKBAmount = (capacity: string) => {
+  return parseUDTAmount(capacity, 8)
+}
+
+export const parseUDTAmount = (amount: string, decimal: string | number) => {
   try {
-    const decimalInt = parseInt(decimal, 10)
+    const decimalInt = typeof decimal === 'string' ? parseInt(decimal, 10) : decimal
     const amountBigInt = new BigNumber(amount)
     const result = amountBigInt.dividedBy(new BigNumber(10).pow(decimalInt))
     if (decimalInt > 20) {
