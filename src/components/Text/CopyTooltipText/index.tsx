@@ -10,7 +10,7 @@ export default ({ content }: { content: string }) => {
   return (
     <SimpleButton
       id={`copy__content__${content}`}
-      onClick={(event: any) => {
+      onClick={event => {
         event.stopPropagation()
         copyElementValue(document.getElementById(`copy__content__${content}`))
         setToast({ message: t('common.copied') })

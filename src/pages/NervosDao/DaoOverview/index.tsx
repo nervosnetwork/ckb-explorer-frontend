@@ -28,6 +28,7 @@ import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
 import { ReactChartCore } from '../../StatisticsChart/common'
 import { HelpTip } from '../../../components/HelpTip'
 import { ChartColor } from '../../../constants/common'
+import { assertNotArray } from '../../../utils/chart'
 
 interface NervosDaoItemContent {
   title: string
@@ -41,7 +42,7 @@ interface NervosDaoItemContent {
 interface NervosDaoPieItemContent {
   title: string
   content: ReactNode
-  color: any
+  color: string
 }
 
 const numberSymbol = (num: number, isCapacity = true) => {
@@ -209,19 +210,17 @@ const useOption = (nervosDao: State.NervosDao, colors: string[], isMobile: boole
       title: t('nervos_dao.burnt'),
     },
   ]
-  const selectedData: any = {
-    first: true,
-  }
-  selectedData[names[0]] = true
-  selectedData[names[1]] = true
-  selectedData[names[2]] = true
 
   return {
     color: colors,
     tooltip: {
       trigger: 'item',
-      formatter: (value: any) =>
-        `${value.data.title}: ${localeNumberString(value.data.value)} ${t('common.ckb_unit')} (${value.data.name})`,
+      formatter: value => {
+        assertNotArray(value)
+        return `${value.data.title}: ${localeNumberString(value.data.value)} ${t('common.ckb_unit')} (${
+          value.data.name
+        })`
+      },
       position: ['10%', '50%'],
     },
     series: [

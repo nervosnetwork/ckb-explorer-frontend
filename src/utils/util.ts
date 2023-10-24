@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, SyntheticEvent } from 'react'
 import camelcaseKeys from 'camelcase-keys'
 import JSBI from 'jsbi'
 import BigNumber from 'bignumber.js'
@@ -152,7 +152,7 @@ export const handleRedirectFromAggron = () => {
   return false
 }
 
-export const handleNftImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+export const handleNftImgError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
   e.currentTarget.src = '/images/nft_placeholder.png'
 }
 
@@ -331,6 +331,12 @@ export const isDeepEqual = (left: any, right: any, ignoredKeys?: string[]): bool
 export function randomInt(min: number, max: number) {
   return min + Math.floor(Math.random() * (max - min + 1))
 }
+
+export const isDaoDepositCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_deposit'
+
+export const isDaoWithdrawCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_withdrawing'
+
+export const isDaoCell = (cellType: State.CellTypes) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 
 export default {
   copyElementValue,

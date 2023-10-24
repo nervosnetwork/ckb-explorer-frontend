@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
-import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { useCurrentLanguage } from '../../../utils/i18n'
@@ -40,7 +40,8 @@ const useOption = (
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
-          formatter: (dataList: any) => {
+          formatter: dataList => {
+            assertIsArray(dataList)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 75 : 50)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${dataList[0].data[0]}</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('block.uncle_rate'))} ${
@@ -95,7 +96,7 @@ const useOption = (
             },
           ],
           label: {
-            formatter: (label: any) => `${label.data.value}%`,
+            formatter: (label: { data: { value: string } }) => `${label.data.value}%`,
           },
         },
       },

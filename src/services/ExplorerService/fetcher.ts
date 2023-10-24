@@ -51,6 +51,11 @@ export const fetchTransactionByHash = (hash: string) =>
     .get(`transactions/${hash}`)
     .then((res: AxiosResponse) => toCamelcase<Response.Wrapper<State.Transaction>>(res.data.data))
 
+export const fetchTransactionLiteDetailsByHash = (hash: string) =>
+  requesterV2
+    .get(`ckb_transactions/${hash}/details`)
+    .then((res: AxiosResponse) => toCamelcase<Response.Response<State.TransactionLiteDetails[]>>(res.data))
+
 export const fetchTransactions = (page: number, size: number, sort?: string) =>
   requesterV1
     .get('transactions', {

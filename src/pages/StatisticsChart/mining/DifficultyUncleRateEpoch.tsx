@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import { handleAxis } from '../../../utils/chart'
+import { assertSerialsDataIsString, assertIsArray, assertSerialsItem, handleAxis } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
 import { ChartCachedKeys } from '../../../constants/cache'
@@ -63,12 +63,14 @@ const useOption = (
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
-          formatter: (dataList: any) => {
-            const list = dataList as Array<SeriesItem & { data: string }>
+          formatter: dataList => {
+            assertIsArray(dataList)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'), currentLanguage)} ${
-              list[0].name
+              dataList[0].name
             }</div>`
-            list.forEach(data => {
+            dataList.forEach(data => {
+              assertSerialsItem(data)
+              assertSerialsDataIsString(data)
               result += parseTooltip(data)
             })
             return result

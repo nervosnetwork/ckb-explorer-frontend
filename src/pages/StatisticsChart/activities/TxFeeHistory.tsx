@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { shannonToCkbDecimal } from '../../../utils/util'
@@ -37,7 +37,8 @@ const useOption = (
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
-          formatter: (dataList: any) => {
+          formatter: dataList => {
+            assertIsArray(dataList)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 145 : 90)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${dataList[0].data[0]}</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.tx_fee'))} ${handleAxis(

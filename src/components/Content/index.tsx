@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 import styled from 'styled-components'
 
 const ContentPanel = styled.div`
@@ -7,6 +7,6 @@ const ContentPanel = styled.div`
   flex: 1;
   background: #ededed;
 `
-export default ({ children, style }: { children: ReactNode; style?: any }) => {
+export default ({ children, style }: { children: ReactNode; style?: CSSProperties }) => {
   return <ContentPanel style={style}>{children}</ContentPanel>
 }

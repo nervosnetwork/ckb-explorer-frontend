@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
-import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, assertSerialsDataIsString, assertIsArray, assertSerialsItem } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
 
@@ -51,10 +51,12 @@ const useOption = (
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
-          formatter: (dataList: any) => {
-            const list = dataList as Array<SeriesItem & { data: string }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.year'))} ${list[0].name}</div>`
-            list.forEach(data => {
+          formatter: dataList => {
+            assertIsArray(dataList)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.year'))} ${dataList[0].name}</div>`
+            dataList.forEach(data => {
+              assertSerialsItem(data)
+              assertSerialsDataIsString(data)
               result += parseTooltip(data)
             })
             return result

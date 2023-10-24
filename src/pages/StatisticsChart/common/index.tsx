@@ -47,7 +47,7 @@ const ChartLoading = ({ show, isThumbnail = false }: { show: boolean; isThumbnai
 const ReactChartCore = ({
   option,
   isThumbnail,
-  clickEvent,
+  onClick,
   notMerge = false,
   lazyUpdate = false,
   style,
@@ -55,7 +55,7 @@ const ReactChartCore = ({
 }: {
   option: EChartOption
   isThumbnail?: boolean
-  clickEvent?: any
+  onClick?: (param: echarts.CallbackDataParams) => void
   notMerge?: boolean
   lazyUpdate?: boolean
   style?: CSSProperties
@@ -64,7 +64,7 @@ const ReactChartCore = ({
   const chartRef = useRef<HTMLDivElement>(null)
   const chartInstanceRef = useRef<ECharts | null>(null)
   const prevOption = usePrevious(option)
-  const prevClickEvent = usePrevious(clickEvent)
+  const prevClickEvent = usePrevious(onClick)
 
   useEffect(() => {
     let chartInstance: ECharts | null = null
@@ -81,8 +81,8 @@ const ReactChartCore = ({
         if (!isDeepEqual(prevOption, option, ['formatter'])) {
           chartInstance.setOption(option, { notMerge, lazyUpdate })
         }
-        if (clickEvent && typeof clickEvent === 'function' && clickEvent !== prevClickEvent) {
-          chartInstance.on('click', clickEvent)
+        if (onClick && typeof onClick === 'function' && onClick !== prevClickEvent) {
+          chartInstance.on('click', onClick)
         }
       } catch (error) {
         console.error('error', error)
@@ -91,7 +91,7 @@ const ReactChartCore = ({
         }
       }
     }
-  }, [clickEvent, lazyUpdate, notMerge, option, prevClickEvent, prevOption])
+  }, [onClick, lazyUpdate, notMerge, option, prevClickEvent, prevOption])
 
   useWindowResize(() => {
     if (chartInstanceRef.current) {
@@ -102,7 +102,7 @@ const ReactChartCore = ({
   return <div style={{ height: isThumbnail ? '200px' : '70vh', ...style }} className={className} ref={chartRef} />
 }
 
-const dataToCsv = (data: any[] | undefined) => {
+const dataToCsv = (data?: (string | number)[][]) => {
   if (!data || data.length === 0) {
     return undefined
   }

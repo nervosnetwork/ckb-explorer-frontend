@@ -10,7 +10,15 @@ export const TableTitleItem = ({ width, title }: { width: string; title: string 
   </TableTitleRowItem>
 )
 
-export const TableContentItem = ({ width, content, to }: { width: string; content: string | ReactNode; to?: any }) => {
+export const TableContentItem = ({
+  width,
+  content,
+  to,
+}: {
+  width: string
+  content: string | ReactNode
+  to?: string
+}) => {
   const highLight = to !== undefined
   return (
     <TableContentRowItem width={width}>
