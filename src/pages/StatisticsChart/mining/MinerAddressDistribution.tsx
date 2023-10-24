@@ -6,6 +6,7 @@ import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
 import { useAdaptMobileEllipsis, useAdaptPCEllipsis, useIsMobile } from '../../../utils/hook'
 import { useCurrentLanguage } from '../../../utils/i18n'
+import { assertNotArray } from '../../../utils/chart'
 
 const Colors = [
   '#069ECD',
@@ -49,7 +50,8 @@ const useOption = () => {
       color: [chartColor.colors[0], ...Colors],
       tooltip: !isThumbnail
         ? {
-            formatter: (data: any) => {
+            formatter: data => {
+              assertNotArray(data)
               const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 60 : 65)
               let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.address'))} ${getAdaptAddressText(
                 data.data.title,
@@ -107,8 +109,8 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
   const [t] = useTranslation()
 
   const history = useHistory()
-  const clickEvent = useCallback(
-    (param: any) => {
+  const onClick = useCallback(
+    (param: echarts.CallbackDataParams) => {
       if (param && param.data.title) {
         history.push(`/address/${param.data.title}`)
       }
@@ -130,7 +132,7 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
     <SmartChartPage
       title={t('statistic.miner_addresses_rank')}
       isThumbnail={isThumbnail}
-      chartProps={{ clickEvent: !isThumbnail ? clickEvent : undefined }}
+      chartProps={{ onClick: !isThumbnail ? onClick : undefined }}
       fetchData={fetchStatisticMinerAddresses}
       getEChartOption={getEChartOption}
       toCSV={toCSV}

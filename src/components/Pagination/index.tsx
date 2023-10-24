@@ -82,11 +82,11 @@ const Pagination = ({
           pattern="[0-9]*"
           className="paginationInputPage"
           value={inputPage}
-          onChange={(event: any) => {
+          onChange={event => {
             const pageNo = parseInt(event.target.value, 10)
-            setInputPage(Number.isNaN(pageNo) ? event.target.value : Math.min(pageNo, total))
+            setInputPage(Number.isNaN(pageNo) ? Number(event.target.value) : Math.min(pageNo, total))
           }}
-          onKeyUp={(event: any) => {
+          onKeyUp={event => {
             if (event.keyCode === 13) {
               changePage(inputPage)
             }

@@ -10,9 +10,15 @@ export enum LinkType {
   Outer,
 }
 
+interface MenuData {
+  type: LinkType
+  name: string
+  url: string
+}
+
 const useMenuDataList = () => {
   const { t } = useTranslation()
-  return [
+  const list: MenuData[] = [
     {
       type: LinkType.Inner,
       name: t('navbar.home'),
@@ -43,17 +49,18 @@ const useMenuDataList = () => {
       name: t('navbar.fee_rate'),
       url: '/fee-rate-tracker',
     },
-    !isMainnet()
-      ? {
-          type: LinkType.Outer,
-          name: t('navbar.faucet'),
-          url: 'https://faucet.nervos.org/',
-        }
-      : {},
   ]
+  if (!isMainnet()) {
+    list.push({
+      type: LinkType.Outer,
+      name: t('navbar.faucet'),
+      url: 'https://faucet.nervos.org/',
+    })
+  }
+  return list
 }
 
-const MenuItemLink = ({ menu }: { menu: any }) => {
+const MenuItemLink = ({ menu }: { menu: MenuData }) => {
   const { url, type, name } = menu
   return (
     <MobileMenuLink href={url} target={type === LinkType.Inner ? '_self' : '_blank'} rel="noopener noreferrer">
@@ -74,19 +81,17 @@ export default memo(() => {
     </MobileMenuItem>
   ) : (
     <HeaderMenuPanel>
-      {menuList
-        .filter(menu => menu.name !== undefined)
-        .map(menu =>
-          menu.type === LinkType.Inner ? (
-            <Link className="headerMenusItem" to={menu.url} key={menu.name}>
-              {menu.name}
-            </Link>
-          ) : (
-            <a className="headerMenusItem" href={menu.url} target="_blank" rel="noopener noreferrer" key={menu.name}>
-              {menu.name}
-            </a>
-          ),
-        )}
+      {menuList.map(menu =>
+        menu.type === LinkType.Inner ? (
+          <Link className="headerMenusItem" to={menu.url} key={menu.name}>
+            {menu.name}
+          </Link>
+        ) : (
+          <a className="headerMenusItem" href={menu.url} target="_blank" rel="noopener noreferrer" key={menu.name}>
+            {menu.name}
+          </a>
+        ),
+      )}
     </HeaderMenuPanel>
   )
 })

@@ -39,7 +39,7 @@ interface TableTitleData {
 
 interface TableContentData {
   width: string
-  to?: any
+  to?: string
   content: string
 }
 

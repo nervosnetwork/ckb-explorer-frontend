@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { useCurrentLanguage } from '../../../utils/i18n'
-import { DATA_ZOOM_CONFIG, parseNumericAbbr } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, assertIsArray, parseNumericAbbr } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
@@ -10,7 +10,8 @@ import { explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { useAdaptPCEllipsis } from '../../../utils/hook'
 
-const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[], ranking: string) => {
+const getAddressWithRanking = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[], ranking?: string) => {
+  if (!ranking) return ''
   const addressBalanceRank = statisticAddressBalanceRanks.find(rank => rank.ranking === ranking)
   return addressBalanceRank ? addressBalanceRank.address : ''
 }
@@ -44,7 +45,8 @@ const useOption = () => {
       tooltip: !isThumbnail
         ? {
             trigger: 'axis',
-            formatter: (dataList: any) => {
+            formatter: dataList => {
+              assertIsArray(dataList)
               const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 60 : 35)
               let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.address'))} ${getAdaptAddressText(
                 getAddressWithRanking(statisticAddressBalanceRanks, dataList[0].name),
@@ -119,8 +121,8 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
   const [statisticAddressBalanceRanks, setStatisticAddressBalanceRanks] = useState<State.StatisticAddressBalanceRank[]>(
     [],
   )
-  const clickEvent = useCallback(
-    (param: any) => {
+  const handleClick = useCallback(
+    (param: echarts.CallbackDataParams) => {
       if (param && param.name && statisticAddressBalanceRanks.length > 0) {
         const address = getAddressWithRanking(statisticAddressBalanceRanks, param.name)
         if (address) {
@@ -143,7 +145,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
       title={t('statistic.balance_ranking')}
       description={t('statistic.balance_ranking_description')}
       isThumbnail={isThumbnail}
-      chartProps={{ clickEvent: !isThumbnail ? clickEvent : undefined }}
+      chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
       fetchData={fetchStatisticAddressBalanceRanks}
       onFetched={setStatisticAddressBalanceRanks}
       getEChartOption={getEChartOption}

@@ -1,6 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
+import {
+  DATA_ZOOM_CONFIG,
+  assertIsArray,
+  assertSerialsDataIsString,
+  assertSerialsItem,
+  handleAxis,
+} from '../../../utils/chart'
 import { handleDifficulty, handleHashRate } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { explorerService } from '../../../services/ExplorerService'
@@ -11,7 +17,6 @@ const useOption = (
   statisticDifficultyHashRates: State.StatisticDifficultyHashRate[],
   chartColor: State.ChartColor,
   isMobile: boolean,
-
   isThumbnail = false,
 ): echarts.EChartOption => {
   const { t } = useTranslation()
@@ -53,10 +58,12 @@ const useOption = (
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
-          formatter: (dataList: any): string => {
-            const list = dataList as Array<SeriesItem & { data: string }>
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'))} ${list[0].name}</div>`
-            list.forEach(data => {
+          formatter: (dataList): string => {
+            assertIsArray(dataList)
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('block.epoch'))} ${dataList[0].name}</div>`
+            dataList.forEach(data => {
+              assertSerialsItem(data)
+              assertSerialsDataIsString(data)
               result += parseTooltip(data)
             })
             return result
@@ -171,7 +178,7 @@ const useOption = (
                 },
               ],
               label: {
-                formatter: (params: any) => `${params.value}%`,
+                formatter: (params: { value: string }) => `${params.value}%`,
               },
             },
         data: statisticDifficultyHashRates.map(data => (Number(data.uncleRate) * 100).toFixed(2)),

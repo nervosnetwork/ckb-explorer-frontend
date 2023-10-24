@@ -99,7 +99,7 @@ export const TransactionCellAddressPanel = styled.div`
 `
 
 export const TransactionCellHashPanel = styled.div`
-  color: ${({ highLight = false, theme }: { highLight?: boolean; theme: any }) =>
+  color: ${({ highLight = false, theme }: { highLight?: boolean; theme: State.Theme }) =>
     highLight ? `${theme.primary}` : '#000000'};
   text-align: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? 'left' : 'center')};
   flex: 1;

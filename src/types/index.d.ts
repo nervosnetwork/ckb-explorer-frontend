@@ -600,4 +600,6 @@ declare namespace State {
   }
 
   type SortOrderTypes = 'asc' | 'desc'
+
+  type Theme = { primary: string }
 }

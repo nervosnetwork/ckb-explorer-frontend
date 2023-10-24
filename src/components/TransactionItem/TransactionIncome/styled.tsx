@@ -19,7 +19,7 @@ export const TransactionCapacityValuePanel = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  color: ${(props: { increased: boolean; theme: any }) => (props.increased ? props.theme.primary : '#FF6347')};
+  color: ${(props: { increased: boolean; theme: State.Theme }) => (props.increased ? props.theme.primary : '#FF6347')};
   font-size: 16px;
 
   img {

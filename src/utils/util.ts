@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, SyntheticEvent } from 'react'
 import camelcaseKeys from 'camelcase-keys'
 import JSBI from 'jsbi'
 import BigNumber from 'bignumber.js'
@@ -152,7 +152,7 @@ export const handleRedirectFromAggron = () => {
   return false
 }
 
-export const handleNftImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+export const handleNftImgError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
   e.currentTarget.src = '/images/nft_placeholder.png'
 }
 
