@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react'
+import { ReactNode, memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as XIcon } from '../../assets/footer_X.svg'
 import { ReactComponent as MediumIcon } from '../../assets/footer_medium.svg'
@@ -15,7 +15,7 @@ import { udtSubmitEmail } from '../../utils/util'
 interface FooterLinkItem {
   label?: string
   url?: string
-  icon?: any
+  icon?: ReactNode
 }
 
 interface FooterLink {
@@ -34,9 +34,10 @@ const FooterItem = ({ item }: { item: FooterLinkItem }) => {
 
 const FooterImageItem = ({ item }: { item: FooterLinkItem }) => {
   const { label, url, icon: IconComponent } = item
+
   return (
     <FooterImageItemPanel key={label} href={url} rel="noopener noreferrer" target="_blank">
-      <IconComponent />
+      {IconComponent}
       <span>{label}</span>
     </FooterImageItemPanel>
   )
@@ -45,7 +46,7 @@ const FooterImageItem = ({ item }: { item: FooterLinkItem }) => {
 export default memo(() => {
   const isMobile = useIsMobile()
   const [t] = useTranslation()
-  const Footers: FooterLink[] = useMemo(
+  const Footers = useMemo<FooterLink[]>(
     () => [
       {
         name: t('footer.nervos_foundation'),
@@ -86,37 +87,37 @@ export default memo(() => {
         items: [
           {
             label: t('footer.discord'),
-            icon: Discord,
+            icon: <Discord />,
             url: 'https://discord.com/invite/FKh8Zzvwqa',
           },
           {
             label: t('footer.X'),
-            icon: XIcon,
+            icon: <XIcon />,
             url: 'https://x.com/nervosnetwork',
           },
           {
             label: t('footer.blog'),
-            icon: MediumIcon,
+            icon: <MediumIcon />,
             url: 'https://medium.com/nervosnetwork',
           },
           {
             label: t('footer.telegram'),
-            icon: TelegramIcon,
+            icon: <TelegramIcon />,
             url: 'https://t.me/nervosnetwork',
           },
           {
             label: t('footer.reddit'),
-            icon: RedditIcon,
+            icon: <RedditIcon />,
             url: 'https://www.reddit.com/r/NervosNetwork/',
           },
           {
             label: t('footer.youtube'),
-            icon: YoutubeIcon,
+            icon: <YoutubeIcon />,
             url: 'https://www.youtube.com/channel/UCONuJGdMzUY0Y6jrPBOzH7A',
           },
           {
             label: t('footer.forum'),
-            icon: ForumIcon,
+            icon: <ForumIcon />,
             url: 'https://talk.nervos.org/',
           },
         ],
@@ -129,7 +130,7 @@ export default memo(() => {
       <FooterMenuPanel>
         <div className="footerFoundation">
           <div className="footerTitle">{Footers[0].name}</div>
-          {Footers[0].items.map((item: any) => (
+          {Footers[0].items.map(item => (
             <FooterItem item={item} key={item.label} />
           ))}
         </div>
@@ -137,31 +138,31 @@ export default memo(() => {
           <div className="footerTitle">{Footers[1].name}</div>
           {Footers[1].items
             .filter(item => item.label !== undefined)
-            .map((item: any) => (
+            .map(item => (
               <FooterItem item={item} key={item.label} />
             ))}
         </div>
         <div className="footerCommunity">
           {isMobile ? (
             <div>
-              {Footers[2].items.map((item: any) => (
+              {Footers[2].items.map(item => (
                 <FooterImageItem item={item} key={item.label} />
               ))}
             </div>
           ) : (
             <>
               <div>
-                {Footers[2].items.slice(0, 3).map((item: any) => (
+                {Footers[2].items.slice(0, 3).map(item => (
                   <FooterImageItem item={item} key={item.label} />
                 ))}
               </div>
               <div>
-                {Footers[2].items.slice(3, 6).map((item: any) => (
+                {Footers[2].items.slice(3, 6).map(item => (
                   <FooterImageItem item={item} key={item.label} />
                 ))}
               </div>
               <div>
-                {Footers[2].items.slice(6).map((item: any) => (
+                {Footers[2].items.slice(6).map(item => (
                   <FooterImageItem item={item} key={item.label} />
                 ))}
               </div>

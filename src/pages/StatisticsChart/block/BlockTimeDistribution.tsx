@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { DATA_ZOOM_CONFIG } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
@@ -33,7 +33,8 @@ const useOption = (
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
-          formatter: (dataList: any) => {
+          formatter: dataList => {
+            assertIsArray(dataList)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 80 : 80)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.time'))} ${dataList[0].name}</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.block_count'))} ${

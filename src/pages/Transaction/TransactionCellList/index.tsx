@@ -37,7 +37,7 @@ export default ({
   const isScroll = cells.length > PAGE_CELL_COUNT
 
   const handleScroll = useCallback(
-    (event: Event) => {
+    (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
       if (cells.length <= offset) {
         setIsEnd(true)
         return
@@ -94,7 +94,7 @@ export default ({
       </TransactionCellListTitlePanel>
       <TransactionCellsPanel isScroll={isScroll}>
         <div className="transactionCellTitle">{cellTitle()}</div>
-        <div className="transactionCellListContainer" onScroll={(event: any) => handleScroll(event)}>
+        <div className="transactionCellListContainer" onScroll={event => handleScroll(event)}>
           {cells &&
             cells
               .slice(0, offset)

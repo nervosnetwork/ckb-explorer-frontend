@@ -1,0 +1,16 @@
+.transactionBadge {
+  font-size: 12px;
+  line-height: 100%;
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #b0cbfc;
+  background: #d7e5fd;
+
+  @media (width <= 750px) {
+    margin-left: 12px;
+  }
+}
+
+.tootip {
+  text-align: center;
+}

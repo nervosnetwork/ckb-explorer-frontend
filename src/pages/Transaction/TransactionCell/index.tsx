@@ -43,7 +43,7 @@ import { useDASAccount } from '../../../contexts/providers/dasQuery'
 import styles from './styles.module.scss'
 import AddressText from '../../../components/AddressText'
 
-const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, isCellBase }) => {
+export const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, isCellBase }) => {
   const alias = useDASAccount(address)
   const { t } = useTranslation()
 

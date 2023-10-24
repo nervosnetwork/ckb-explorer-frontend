@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, FC, memo } from 'react'
+import { useState, useRef, useEffect, FC, memo, RefObject, ChangeEvent } from 'react'
 import { useHistory } from 'react-router'
 import { AxiosError } from 'axios'
 import { TFunction, useTranslation } from 'react-i18next'
@@ -19,21 +19,23 @@ enum SearchResultType {
   UDT = 'udt',
 }
 
-const clearSearchInput = (inputElement: any) => {
-  const input: HTMLInputElement = inputElement.current
+const clearSearchInput = (inputElement: RefObject<HTMLInputElement>) => {
+  const input = inputElement.current
   if (input) {
     input.value = ''
     input.blur()
   }
 }
 
-const setSearchLoading = (inputElement: any, t: TFunction) => {
-  const input: HTMLInputElement = inputElement.current
-  input.value = t('search.loading')
+const setSearchLoading = (inputElement: RefObject<HTMLInputElement>, t: TFunction) => {
+  const input = inputElement.current
+  if (input) {
+    input.value = t('search.loading')
+  }
 }
 
-const setSearchContent = (inputElement: any, content: string) => {
-  const input: HTMLInputElement = inputElement.current
+const setSearchContent = (inputElement: RefObject<HTMLInputElement>, content: string) => {
+  const input = inputElement.current
   if (input) {
     input.value = content
   }
@@ -41,7 +43,7 @@ const setSearchContent = (inputElement: any, content: string) => {
 
 const handleSearchResult = (
   searchValue: string,
-  inputElement: any,
+  inputElement: RefObject<HTMLInputElement>,
   setSearchValue: Function,
   history: ReturnType<typeof useHistory>,
   t: TFunction,
@@ -131,12 +133,12 @@ const Search: FC<{
     }
   }
 
-  const inputChangeAction = (event: any) => {
+  const inputChangeAction = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value)
     if (!event.target.value) onEditEnd?.()
   }
 
-  const searchKeyAction = (event: any) => {
+  const searchKeyAction = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.keyCode === 13) {
       handleSearchResult(searchValue, inputElement, setSearchValue, history, t)
       onEditEnd?.()
@@ -157,8 +159,8 @@ const Search: FC<{
           ref={inputElement}
           placeholder={placeholder}
           defaultValue={searchValue || ''}
-          onChange={(event: any) => inputChangeAction(event)}
-          onKeyUp={(event: any) => searchKeyAction(event)}
+          onChange={event => inputChangeAction(event)}
+          onKeyUp={event => searchKeyAction(event)}
         />
         {searchValue && <ImageIcon isClear />}
       </SearchPanel>

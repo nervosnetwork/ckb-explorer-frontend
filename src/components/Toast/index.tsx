@@ -59,12 +59,24 @@ const ToastItem = ({ data, willLeave }: { data: State.ToastMessage; willLeave: F
   )
 }
 
-const initialState = {
+interface State {
+  toasts: State.ToastMessage[]
+  toast: string
+}
+
+interface Action {
+  type: 'ADD' | 'REMOVE'
+  payload: {
+    toast: State.ToastMessage
+  }
+}
+
+const initialState: State = {
   toasts: [] as State.ToastMessage[],
   toast: '',
 }
 
-const reducer = (state: any, action: any) => {
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'ADD':
       return {

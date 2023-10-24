@@ -96,7 +96,7 @@ export const TableMinerContentPanel = styled.div`
   margin: auto 0;
 
   .tableMinerContent {
-    color: ${(props: { theme: any }) => props.theme.primary};
+    color: ${(props: { theme: State.Theme }) => props.theme.primary};
     text-decoration: none;
   }
 

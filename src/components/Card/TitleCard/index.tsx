@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import { ReactNode } from 'react'
 import { TitleCardPanel } from './styled'
 
 export default ({
@@ -8,10 +9,10 @@ export default ({
   rear,
   rearClassName,
 }: {
-  title: React.ReactNode
+  title: ReactNode
   isSingle?: boolean
   className?: string
-  rear?: React.ReactNode
+  rear?: ReactNode
   rearClassName?: string
 }) => (
   <TitleCardPanel isSingle={isSingle} className={className} hasRear={!!rear}>

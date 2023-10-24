@@ -22,6 +22,7 @@ import AddressText from '../../components/AddressText'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import { ReactComponent as InfoMoreIcon } from '../../assets/info_more_icon.svg'
 import { useSetToast } from '../../components/Toast'
+import { CellBasicInfo, transformToTransaction } from '../../utils/transformer'
 
 export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
   const history = useHistory()
@@ -62,22 +63,16 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
         {data => (
           <div className={styles.scriptTransactionsPanel}>
             {data.ckbTransactions &&
-              data.ckbTransactions.map(tr => {
-                const transaction = {
-                  ...tr,
-                  transactionHash: tr.txHash,
-                } as any as State.Transaction
-                return (
-                  <TransactionItem
-                    address=""
-                    transaction={transaction}
-                    key={tr.txHash}
-                    circleCorner={{
-                      bottom: false,
-                    }}
-                  />
-                )
-              })}
+              data.ckbTransactions.map(tr => (
+                <TransactionItem
+                  address=""
+                  transaction={transformToTransaction(tr)}
+                  key={tr.txHash}
+                  circleCorner={{
+                    bottom: false,
+                  }}
+                />
+              ))}
           </div>
         )}
       </QueryResult>
@@ -90,7 +85,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
   )
 }
 
-export const CellInfo = ({ cell }: { cell: State.Cell }) => {
+export const CellInfo = ({ cell }: { cell: CellBasicInfo }) => {
   const [showModal, setShowModal] = useState(false)
   return (
     <TransactionCellInfoPanel>
@@ -194,7 +189,14 @@ export const ScriptCells = ({
                       </td>
                       <td>
                         <div className={styles.cellInfoMore}>
-                          <CellInfo cell={record as any as State.Cell} />
+                          <CellInfo
+                            cell={{
+                              id: record.id,
+                              capacity: record.capacity,
+                              isGenesisOutput: false,
+                              occupiedCapacity: String(record.occupiedCapacity),
+                            }}
+                          />
                         </div>
                       </td>
                     </tr>

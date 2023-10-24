@@ -10,20 +10,20 @@ export type OverviewItemData = {
   content: ReactNode
   contentWrapperClass?: string
   filled?: boolean
-  icon?: any
+  icon?: string
   isAsset?: boolean
   tooltip?: TooltipProps['title']
   valueTooltip?: string
 } | null
 
 const handleOverviewItems = (items: OverviewItemData[], isMobile: boolean) => ({
-  leftItems: isMobile ? items : items.filter((_item: any, index: number) => index % 2 === 0),
-  rightItems: isMobile ? [] : items.filter((_item: any, index: number) => index % 2 !== 0),
+  leftItems: isMobile ? items : items.filter((_item, index) => index % 2 === 0),
+  rightItems: isMobile ? [] : items.filter((_item, index) => index % 2 !== 0),
 })
 
 export const OverviewItem = ({ item, hideLine }: { item: OverviewItemData; hideLine: boolean }) =>
   item ? (
-    <OverviewItemPanel hideLine={hideLine} hasIcon={item.icon} isAsset={item.isAsset}>
+    <OverviewItemPanel hideLine={hideLine} hasIcon={!!item.icon} isAsset={item.isAsset}>
       <div className="overviewItemTitlePanel">
         {item.icon && (
           <div className="overviewItemIcon">
