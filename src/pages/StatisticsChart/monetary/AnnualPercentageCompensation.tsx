@@ -3,11 +3,12 @@ import { useCurrentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
+import { ChartColorConfig } from '../../../constants/common'
 
 const useOption = (
-  statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[],
-  chartColor: State.ChartColor,
+  statisticAnnualPercentageCompensations: ChartItem.AnnualPercentageCompensation[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
 
   isThumbnail = false,
@@ -93,18 +94,7 @@ const useOption = (
   }
 }
 
-const fetchStatisticAnnualPercentageCompensations = async () => {
-  const { nominalApc } = await explorerService.api.fetchStatisticAnnualPercentageCompensation()
-  const statisticAnnualPercentageCompensations = nominalApc
-    .filter((_apc, index) => index % 3 === 0 || index === nominalApc.length - 1)
-    .map((apc, index) => ({
-      year: 0.25 * index,
-      apc,
-    }))
-  return statisticAnnualPercentageCompensations
-}
-
-const toCSV = (statisticAnnualPercentageCompensations: State.StatisticAnnualPercentageCompensation[]) =>
+const toCSV = (statisticAnnualPercentageCompensations: ChartItem.AnnualPercentageCompensation[]) =>
   statisticAnnualPercentageCompensations
     ? statisticAnnualPercentageCompensations.map(data => [data.year, (Number(data.apc) / 100).toFixed(4)])
     : []
@@ -116,7 +106,7 @@ export const AnnualPercentageCompensationChart = ({ isThumbnail = false }: { isT
       title={t('statistic.nominal_apc')}
       description={t('statistic.nominal_rpc_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticAnnualPercentageCompensations}
+      fetchData={explorerService.api.fetchStatisticAnnualPercentageCompensation}
       getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.APC}

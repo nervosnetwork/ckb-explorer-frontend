@@ -48,8 +48,10 @@ import { LayoutLiteProfessional } from '../../constants/common'
 import { omit } from '../../utils/object'
 import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
+import { Transaction } from '../../models/Transaction'
+import { Address, SUDT, UDTAccount } from '../../models/Address'
 
-const addressAssetInfo = (address: State.Address, useMiniStyle: boolean, t: TFunction) => {
+const addressAssetInfo = (address: Address, useMiniStyle: boolean, t: TFunction) => {
   const items = [
     {
       title: '',
@@ -92,7 +94,7 @@ const addressAssetInfo = (address: State.Address, useMiniStyle: boolean, t: TFun
   return items
 }
 
-const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
+const UDT_LABEL: Record<UDTAccount['udtType'], string> = {
   sudt: 'sudt',
   m_nft_token: 'm nft',
   nrc_721_token: 'nrc 721',
@@ -100,7 +102,7 @@ const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
   spore_cell: 'Spore',
 }
 
-const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
+const AddressUDTItem = ({ udtAccount }: { udtAccount: UDTAccount }) => {
   const { t } = useTranslation()
   const { symbol, uan, amount, udtIconFile, typeHash, udtType, collection, cota } = udtAccount
   const isSudt = udtType === 'sudt'
@@ -145,7 +147,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
 
   switch (true) {
     case isSudt: {
-      property = parseUDTAmount(amount, (udtAccount as State.SUDT).decimal)
+      property = parseUDTAmount(amount, (udtAccount as SUDT).decimal)
       href = `/sudt/${typeHash}`
       break
     }
@@ -196,7 +198,7 @@ const lockScriptIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
-const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: State.Address) => {
+const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: Address) => {
   const { t } = useTranslation()
   const items: OverviewItemData[] = [
     {
@@ -237,7 +239,7 @@ const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, l
   return items
 }
 
-const AddressLockScript: FC<{ address: State.Address }> = ({ address }) => {
+const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
   const [showLock, setShowLock] = useState<boolean>(false)
   const { t } = useTranslation()
 
@@ -254,7 +256,7 @@ const AddressLockScript: FC<{ address: State.Address }> = ({ address }) => {
   )
 }
 
-export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => {
+export const AddressOverview: FC<{ address: Address }> = ({ address }) => {
   const isLG = useIsLGScreen()
   const { t } = useTranslation()
   const { udtAccounts = [] } = address
@@ -317,7 +319,7 @@ export const AddressTransactions = ({
   timeOrderBy,
 }: {
   address: string
-  transactions: State.Transaction[]
+  transactions: Transaction[]
   transactionsTotal: number
   timeOrderBy: OrderByType
 }) => {
@@ -403,12 +405,12 @@ export const AddressTransactions = ({
                 <div>{t('transaction.capacity_change')}</div>
               </div>
             )}
-            {txList.map((transaction: State.Transaction) => (
+            {txList.map((transaction: Transaction) => (
               <TransactionLiteItem address={address} transaction={transaction} key={transaction.transactionHash} />
             ))}
           </>
         ) : (
-          txList.map((transaction: State.Transaction, index: number) => (
+          txList.map((transaction: Transaction, index: number) => (
             <TransactionItem
               address={address}
               transaction={transaction}

@@ -14,7 +14,7 @@ import type { NFTItem } from '../../services/ExplorerService/fetcher'
 const primaryColor = getPrimaryColor()
 
 const NftCollectionInventory: React.FC<{
-  list: Array<NFTItem>
+  list: NFTItem[]
   collection: string
   isLoading: boolean
 }> = ({ list, collection, isLoading }) => {

@@ -1,3 +1,5 @@
+import { Script } from '../models/Script'
+
 export interface ContractHashTag {
   codeHashes: string[] // The code hashes whose hash type are type in mainnet and testnet are different
   txHashes: string[] //  mainnet and testnet contract tx hashes
@@ -7,7 +9,7 @@ export interface ContractHashTag {
   hashType: string
 }
 
-export const ScriptTagExtraRules = new Map<string, (s: State.Script) => string>([
+export const ScriptTagExtraRules = new Map<string, (s: Script) => string>([
   [
     'secp256k1 / multisig',
     script => (script.args.length === 28 * 2 + 2 ? 'secp256k1 / multisig / locktime' : 'secp256k1 / multisig'),

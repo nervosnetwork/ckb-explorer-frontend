@@ -11,7 +11,7 @@ export const TransactionIncomePanel = styled.div`
   }
 `
 
-export const TransactionCapacityValuePanel = styled.div`
+export const TransactionCapacityValuePanel = styled.div<{ increased: boolean }>`
   height: 36px;
   border-radius: 18px;
   background-color: white;
@@ -19,7 +19,7 @@ export const TransactionCapacityValuePanel = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  color: ${(props: { increased: boolean; theme: State.Theme }) => (props.increased ? props.theme.primary : '#FF6347')};
+  color: ${props => (props.increased ? props.theme.primary : '#FF6347')};
   font-size: 16px;
 
   img {

@@ -42,6 +42,7 @@ import { useDeprecatedAddr, useIsMobile, useNewAddr } from '../../../utils/hook'
 import { useDASAccount } from '../../../contexts/providers/dasQuery'
 import styles from './styles.module.scss'
 import AddressText from '../../../components/AddressText'
+import { Cell } from '../../../models/Cell'
 
 export const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, isCellBase }) => {
   const alias = useDASAccount(address)
@@ -86,7 +87,7 @@ const TransactionCellIndexAddress = ({
   index,
   isAddrNew,
 }: {
-  cell: State.Cell
+  cell: Cell
   cellType: CellType
   index: number
   isAddrNew: boolean
@@ -139,7 +140,7 @@ const TransactionCellIndexAddress = ({
   )
 }
 
-const useParseNftInfo = (cell: State.Cell) => {
+const useParseNftInfo = (cell: Cell) => {
   const { t } = useTranslation()
   if (cell.cellType === 'nrc_721_token') {
     const nftInfo = cell.extraInfo
@@ -170,7 +171,7 @@ const useParseNftInfo = (cell: State.Cell) => {
   }
 }
 
-const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
+const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   const { t } = useTranslation()
   let detailTitle = t('transaction.ckb_capacity')
   let detailIcon
@@ -253,7 +254,7 @@ const TransactionCellDetail = ({ cell }: { cell: State.Cell }) => {
   )
 }
 
-const TransactionCellInfo = ({ cell, children }: { cell: State.Cell; children: string | ReactNode }) => {
+const TransactionCellInfo = ({ cell, children }: { cell: Cell; children: string | ReactNode }) => {
   const [showModal, setShowModal] = useState(false)
   return (
     <TransactionCellInfoPanel>
@@ -275,7 +276,7 @@ const TransactionCellInfo = ({ cell, children }: { cell: State.Cell; children: s
   )
 }
 
-const TransactionCellCapacityAmount = ({ cell }: { cell: State.Cell }) => {
+const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
   const { t } = useTranslation()
   if (cell.cellType === 'udt') {
     const udtInfo = cell.extraInfo
@@ -302,7 +303,7 @@ export default ({
   showReward,
   isAddrNew,
 }: {
-  cell: State.Cell
+  cell: Cell
   cellType: CellType
   index: number
   txHash?: string

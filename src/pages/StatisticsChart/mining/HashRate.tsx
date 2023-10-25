@@ -4,13 +4,14 @@ import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/char
 import { parseDateNoTime } from '../../../utils/date'
 import { handleHashRate } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { useCurrentLanguage } from '../../../utils/i18n'
+import { ChartColorConfig } from '../../../constants/common'
 
 const useOption = (
-  statisticHashRates: State.StatisticHashRate[],
-  chartColor: State.ChartColor,
+  statisticHashRates: ChartItem.HashRate[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
 
   isThumbnail = false,
@@ -94,7 +95,7 @@ const useOption = (
   }
 }
 
-const toCSV = (statisticHashRates: State.StatisticHashRate[]) =>
+const toCSV = (statisticHashRates: ChartItem.HashRate[]) =>
   statisticHashRates ? statisticHashRates.map(data => [data.createdAtUnixtimestamp, data.avgHashRate]) : []
 
 export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {

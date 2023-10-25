@@ -38,6 +38,8 @@ import styles from './index.module.scss'
 import { RouteState } from '../../routes/state'
 import { explorerService, useLatestBlockNumber, useStatistics } from '../../services/ExplorerService'
 import { useShowSearchBarInHeader } from '../../components/Header'
+import { Block } from '../../models/Block'
+import { Transaction } from '../../models/Transaction'
 
 interface BlockchainData {
   name: string
@@ -70,8 +72,10 @@ const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRa
 
 const parseBlockTime = (blockTime: string | undefined) => (blockTime ? parseTime(Number(blockTime)) : '- -')
 
-const useBlockchainDataList = (statistics: State.Statistics, isMobile: boolean, isLG: boolean): BlockchainData[] => {
+const useBlockchainDataList = (isMobile: boolean, isLG: boolean): BlockchainData[] => {
   const { t } = useTranslation()
+  const statistics = useStatistics()
+
   return [
     {
       name: t('blockchain.latest_block'),
@@ -153,7 +157,7 @@ const HomeHeaderTopPanel: FC = memo(() => {
   )
 })
 
-const BlockList: FC<{ blocks: State.Block[] }> = memo(({ blocks }) => {
+const BlockList: FC<{ blocks: Block[] }> = memo(({ blocks }) => {
   return blocks.length > 0 ? (
     <>
       {blocks.map((block, index) => (
@@ -168,7 +172,7 @@ const BlockList: FC<{ blocks: State.Block[] }> = memo(({ blocks }) => {
   )
 })
 
-const TransactionList: FC<{ transactions: State.Transaction[]; tipBlockNumber: number }> = memo(
+const TransactionList: FC<{ transactions: Transaction[]; tipBlockNumber: number }> = memo(
   ({ transactions, tipBlockNumber }) => {
     return transactions.length > 0 ? (
       <>
@@ -190,7 +194,6 @@ export default () => {
   const { t } = useTranslation()
   const isLG = useIsLGScreen()
   const history = useHistory<RouteState>()
-  const statistics = useStatistics()
   const tipBlockNumber = useLatestBlockNumber()
 
   const blocksQuery = useQuery(
@@ -234,7 +237,7 @@ export default () => {
     handleBlockchainAlert()
   }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
-  const blockchainDataList = useBlockchainDataList(statistics, isMobile, isLG)
+  const blockchainDataList = useBlockchainDataList(isMobile, isLG)
 
   return (
     <Content>

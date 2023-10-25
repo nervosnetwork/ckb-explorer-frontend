@@ -188,7 +188,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   ],
 ])
 
-const keysWithLinkValueInScript: Array<keyof ScriptAttributes> = ['rfc', 'code', 'deprecated', 'website']
+const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'deprecated', 'website']
 
 const ScriptList: FC = () => {
   const { t } = useTranslation()

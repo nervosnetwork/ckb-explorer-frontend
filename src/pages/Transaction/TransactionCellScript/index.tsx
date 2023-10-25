@@ -28,6 +28,7 @@ import { HelpTip } from '../../../components/HelpTip'
 import { useSetToast } from '../../../components/Toast'
 import { CellBasicInfo } from '../../../utils/transformer'
 import { isAxiosError } from '../../../utils/error'
+import { Script } from '../../../models/Script'
 
 enum CellInfo {
   LOCK = 1,
@@ -42,9 +43,9 @@ interface CellData {
   data: string
 }
 
-type CellInfoValue = State.Script | CellData | CapacityUsage | null | undefined
+type CellInfoValue = Script | CellData | CapacityUsage | null | undefined
 
-function isScript(content: CellInfoValue): content is State.Script {
+function isScript(content: CellInfoValue): content is Script {
   return content != null && 'codeHash' in content
 }
 

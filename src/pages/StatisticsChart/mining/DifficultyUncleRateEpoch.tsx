@@ -5,8 +5,9 @@ import { assertSerialsDataIsString, assertIsArray, assertSerialsItem, handleAxis
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
+import { ChartColorConfig } from '../../../constants/common'
 
 const widthSpan = (value: string, currentLanguage: LanuageType) =>
   tooltipWidth(value, currentLanguage === 'en' ? 90 : 80)
@@ -26,8 +27,8 @@ const useTooltip = () => {
 }
 
 const useOption = (
-  statisticChartData: State.StatisticDifficultyUncleRateEpoch[],
-  chartColor: State.ChartColor,
+  statisticChartData: ChartItem.DifficultyUncleRateEpoch[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
 
   isThumbnail = false,
@@ -202,7 +203,7 @@ const useOption = (
   }
 }
 
-const toCSV = (statisticDifficultyUncleRateEpochs: State.StatisticDifficultyUncleRateEpoch[]) =>
+const toCSV = (statisticDifficultyUncleRateEpochs: ChartItem.DifficultyUncleRateEpoch[]) =>
   statisticDifficultyUncleRateEpochs
     ? statisticDifficultyUncleRateEpochs.map(data => [data.epochNumber, data.epochTime, data.epochLength])
     : []

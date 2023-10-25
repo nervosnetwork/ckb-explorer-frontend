@@ -38,6 +38,8 @@ import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import Filter from '../../components/Search/Filter'
 import { HelpTip } from '../../components/HelpTip'
 import { useLatestBlockNumber } from '../../services/ExplorerService'
+import { Block } from '../../models/Block'
+import { Transaction } from '../../models/Transaction'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -102,7 +104,7 @@ const BlockMinerReward = ({
   )
 }
 
-export const BlockOverview: FC<{ block: State.Block }> = ({ block }) => {
+export const BlockOverview: FC<{ block: Block }> = ({ block }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const tipBlockNumber = useLatestBlockNumber()
@@ -321,7 +323,7 @@ export const BlockComp = ({
   onPageChange: (page: number) => void
   currentPage: number
   pageSize: number
-  transactions: State.Transaction[]
+  transactions: Transaction[]
   total: number
 }) => {
   const { t } = useTranslation()

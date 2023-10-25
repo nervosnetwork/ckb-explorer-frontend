@@ -4,12 +4,13 @@ import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/char
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
+import { ChartColorConfig } from '../../../constants/common'
 
 const useOption = (
-  statisticTransactionCounts: State.StatisticTransactionCount[],
-  chartColor: State.ChartColor,
+  statisticTransactionCounts: ChartItem.TransactionCount[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
 
   isThumbnail = false,
@@ -92,7 +93,7 @@ const useOption = (
   }
 }
 
-const toCSV = (statisticTransactionCounts: State.StatisticTransactionCount[]) =>
+const toCSV = (statisticTransactionCounts: ChartItem.TransactionCount[]) =>
   statisticTransactionCounts
     ? statisticTransactionCounts.map(data => [data.createdAtUnixtimestamp, data.transactionsCount])
     : []

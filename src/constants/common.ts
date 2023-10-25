@@ -96,6 +96,7 @@ export const ChartColor = {
   secondaryIssuanceColors: ['#484E4E', '#5824FB', '#31EEB3'],
   liquidityColors: ['#5824FB', '#484E4E', '#31EEB3'],
 }
+export type ChartColorConfig = typeof ChartColor
 
 export enum ChainName {
   Mainnet = 'mirana',

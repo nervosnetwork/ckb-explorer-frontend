@@ -103,7 +103,7 @@ export const ConfirmationTimeFeeRateChart = ({
   transactionFeeRates: FeeRateTracker.TransactionFeeRate[]
 }) => {
   const { t } = useTranslation()
-  const data = transactionFeeRates.reduce<Array<Array<number>>>((acc, cur) => {
+  const data = transactionFeeRates.reduce<number[][]>((acc, cur) => {
     if (!cur.confirmationTime) {
       return acc
     }

@@ -3,11 +3,12 @@ import { useCurrentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertSerialsDataIsString, assertIsArray, assertSerialsItem } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
+import { ChartColorConfig } from '../../../constants/common'
 
 const useOption = (
-  statisticInflationRates: State.StatisticInflationRate[],
-  chartColor: State.ChartColor,
+  statisticInflationRates: ChartItem.InflationRate[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -147,24 +148,7 @@ const useOption = (
   }
 }
 
-const fetchStatisticInflationRates = async () => {
-  const { nominalApc, nominalInflationRate, realInflationRate } =
-    await explorerService.api.fetchStatisticInflationRate()
-  const statisticInflationRates = []
-  for (let i = 0; i < nominalApc.length; i++) {
-    if (i % 6 === 0 || i === nominalApc.length - 1) {
-      statisticInflationRates.push({
-        year: i % 6 === 0 ? Math.floor(i / 6) * 0.5 : 50,
-        nominalApc: nominalApc[i],
-        nominalInflationRate: nominalInflationRate[i],
-        realInflationRate: realInflationRate[i],
-      })
-    }
-  }
-  return statisticInflationRates
-}
-
-const toCSV = (statisticInflationRates: State.StatisticInflationRate[]) =>
+const toCSV = (statisticInflationRates: ChartItem.InflationRate[]) =>
   statisticInflationRates
     ? statisticInflationRates.map(data => [
         data.year,
@@ -181,7 +165,7 @@ export const InflationRateChart = ({ isThumbnail = false }: { isThumbnail?: bool
       title={t('statistic.inflation_rate')}
       description={t('statistic.inflation_rate_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticInflationRates}
+      fetchData={explorerService.api.fetchStatisticInflationRate}
       getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.InflationRate}

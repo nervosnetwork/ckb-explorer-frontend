@@ -14,7 +14,7 @@ import type { NFTCollection } from '../../services/ExplorerService/fetcher'
 
 type NftSortField = 'transactions' | 'holder' | 'minted'
 const primaryColor = getPrimaryColor()
-function useFilterList(): Array<Record<'title' | 'value', string>> {
+function useFilterList(): Record<'title' | 'value', string>[] {
   const { t } = useTranslation()
   return [
     {
@@ -142,7 +142,7 @@ const TypeInfo: React.FC<{ nft: NFTCollection }> = ({ nft: item }) => {
   )
 }
 
-export const ListOnDesktop: React.FC<{ isLoading: boolean; list: Array<NFTCollection> }> = ({ list, isLoading }) => {
+export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
   return (
     <table data-role="desktop-list">
@@ -245,7 +245,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: Array<NFTCollec
   )
 }
 
-export const ListOnMobile: React.FC<{ isLoading: boolean; list: Array<NFTCollection> }> = ({ list, isLoading }) => {
+export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
   return (
     <div data-role="mobile-list">

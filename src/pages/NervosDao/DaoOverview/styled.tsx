@@ -147,7 +147,7 @@ export const DaoOverviewPieItemsPanel = styled.div`
   }
 `
 
-export const DaoOverviewLeftItemPanel = styled.div`
+export const DaoOverviewLeftItemPanel = styled.div<{ symbol?: string; hasChange?: boolean; hasTooltip?: boolean }>`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -177,8 +177,7 @@ export const DaoOverviewLeftItemPanel = styled.div`
       white-space: nowrap;
 
       @media (max-width: 1440px) {
-        max-width: ${(props: { symbol?: string; hasChange?: boolean; hasTooltip?: boolean }) =>
-          props.hasChange ? '130px' : '200px'};
+        max-width: ${props => (props.hasChange ? '130px' : '200px')};
       }
 
       @media (max-width: 1200px) {
@@ -187,13 +186,13 @@ export const DaoOverviewLeftItemPanel = styled.div`
 
       @media (max-width: 750px) {
         font-size: 12px;
-        max-width: ${(props: { hasChange?: boolean }) => (props.hasChange ? '90px' : '200px')};
+        max-width: ${props => (props.hasChange ? '90px' : '200px')};
       }
     }
 
     .daoOverviewItemChangeIcon {
-      width: ${(props: { symbol?: string }) => (props.symbol === 'zero' ? '10px' : '7px')};
-      height: ${(props: { symbol?: string }) => (props.symbol === 'zero' ? '7px' : '10px')};
+      width: ${props => (props.symbol === 'zero' ? '10px' : '7px')};
+      height: ${props => (props.symbol === 'zero' ? '7px' : '10px')};
       margin-left: 5px;
       margin-right: 3px;
     }
@@ -201,8 +200,7 @@ export const DaoOverviewLeftItemPanel = styled.div`
     .daoOverviewItemChange {
       font-size: 12px;
       font-weight: bold;
-      color: ${(props: { symbol?: string; theme: State.Theme }) =>
-        props.symbol === 'negative' ? '#FF464F' : props.theme.primary};
+      color: ${props => (props.symbol === 'negative' ? '#FF464F' : props.theme.primary)};
       cursor: default;
 
       @media (max-width: 750px) {

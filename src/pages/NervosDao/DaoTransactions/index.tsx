@@ -4,6 +4,7 @@ import { TransactionsPagination, DAONoResultPanel } from './styled'
 import Pagination from '../../../components/Pagination'
 import { PageParams } from '../../../constants/common'
 import { deprecatedAddrToNewAddr } from '../../../utils/util'
+import { Transaction } from '../../../models/Transaction'
 
 export default ({
   currentPage = 1,
@@ -15,7 +16,7 @@ export default ({
 }: {
   currentPage: number
   pageSize: number
-  transactions: State.Transaction[]
+  transactions: Transaction[]
   total: number
   onPageChange: (page: number) => void
   filterNoResult?: boolean
@@ -45,7 +46,7 @@ export default ({
   return (
     <>
       {txList.map(
-        (transaction: State.Transaction, index: number) =>
+        (transaction: Transaction, index: number) =>
           transaction && (
             <TransactionItem
               key={transaction.transactionHash}

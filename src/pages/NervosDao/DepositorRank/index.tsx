@@ -15,6 +15,9 @@ import { ItemCardData, ItemCardGroup } from '../../../components/Card/ItemCard'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
 import { useIsMobile } from '../../../utils/hook'
+import { NervosDaoDepositor } from '../../../services/ExplorerService'
+
+type RankedDepositor = NervosDaoDepositor & { rank: number }
 
 const AddressTextCol = ({ address }: { address: string }) => {
   return (
@@ -29,10 +32,10 @@ const AddressTextCol = ({ address }: { address: string }) => {
   )
 }
 
-const DepositorCardGroup: FC<{ depositors: (State.NervosDaoDepositor & { rank: number })[] }> = ({ depositors }) => {
+const DepositorCardGroup: FC<{ depositors: RankedDepositor[] }> = ({ depositors }) => {
   const { t } = useTranslation()
 
-  const items: ItemCardData<State.NervosDaoDepositor & { rank: number }>[] = [
+  const items: ItemCardData<RankedDepositor>[] = [
     {
       title: t('nervos_dao.dao_title_rank'),
       render: depositor => depositor.rank,
@@ -54,9 +57,9 @@ const DepositorCardGroup: FC<{ depositors: (State.NervosDaoDepositor & { rank: n
   return <ItemCardGroup items={items} dataSource={depositors} getDataKey={(_, idx) => idx} />
 }
 
-export default ({ depositors, filter }: { depositors: State.NervosDaoDepositor[]; filter?: string }) => {
+export default ({ depositors, filter }: { depositors: NervosDaoDepositor[]; filter?: string }) => {
   const { t } = useTranslation()
-  const rankedDepositors = depositors.map((depositor, index) => ({
+  const rankedDepositors: RankedDepositor[] = depositors.map((depositor, index) => ({
     ...depositor,
     rank: index + 1,
   }))

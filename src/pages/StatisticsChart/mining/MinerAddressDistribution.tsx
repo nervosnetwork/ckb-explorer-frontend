@@ -3,10 +3,11 @@ import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useAdaptMobileEllipsis, useAdaptPCEllipsis, useIsMobile } from '../../../utils/hook'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { assertNotArray } from '../../../utils/chart'
+import { ChartColorConfig } from '../../../constants/common'
 
 const Colors = [
   '#069ECD',
@@ -25,8 +26,8 @@ const useOption = () => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
   return (
-    statisticMinerAddresses: State.StatisticMinerAddress[],
-    chartColor: State.ChartColor,
+    statisticMinerAddresses: ChartItem.MinerAddress[],
+    chartColor: ChartColorConfig,
     isMobile: boolean,
     isThumbnail = false,
     getAdaptAddressText: (address: string) => string,
@@ -88,19 +89,7 @@ const useOption = () => {
   }
 }
 
-const fetchStatisticMinerAddresses = async () => {
-  const { minerAddressDistribution } = await explorerService.api.fetchStatisticMinerAddressDistribution()
-  const blockSum = Object.values(minerAddressDistribution).reduce((sum, val) => sum + Number(val), 0)
-  const statisticMinerAddresses: State.StatisticMinerAddress[] = Object.entries(minerAddressDistribution).map(
-    ([key, val]) => ({
-      address: key,
-      radio: (Number(val) / blockSum).toFixed(3),
-    }),
-  )
-  return statisticMinerAddresses
-}
-
-const toCSV = (statisticMinerAddresses: State.StatisticMinerAddress[]) =>
+const toCSV = (statisticMinerAddresses: ChartItem.MinerAddress[]) =>
   statisticMinerAddresses ? statisticMinerAddresses.map(data => [data.address, data.radio]) : []
 
 export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
@@ -120,7 +109,7 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
   const adaptMobileEllipsis = useAdaptMobileEllipsis()
   const adaptPCEllipsis = useAdaptPCEllipsis(80)
   const parseOption = useOption()
-  const getEChartOption: SmartChartPageProps<State.StatisticMinerAddress>['getEChartOption'] = useCallback(
+  const getEChartOption: SmartChartPageProps<ChartItem.MinerAddress>['getEChartOption'] = useCallback(
     (...args) =>
       parseOption(...args, address => (isMobile ? adaptMobileEllipsis(address, 4) : adaptPCEllipsis(address, 2))),
     [adaptMobileEllipsis, adaptPCEllipsis, isMobile, parseOption],
@@ -131,7 +120,7 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
       title={t('statistic.miner_addresses_rank')}
       isThumbnail={isThumbnail}
       chartProps={{ onClick: !isThumbnail ? onClick : undefined }}
-      fetchData={fetchStatisticMinerAddresses}
+      fetchData={explorerService.api.fetchStatisticMinerAddressDistribution}
       getEChartOption={getEChartOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.MinerAddressDistribution}

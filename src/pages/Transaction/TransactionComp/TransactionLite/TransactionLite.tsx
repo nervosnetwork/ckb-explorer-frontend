@@ -10,10 +10,10 @@ import { shannonToCkb } from '../../../../utils/util'
 import { Addr } from '../../TransactionCell'
 import { defaultTransactionLiteDetails } from '../../state'
 import { TransactionBadge } from './TransactionBadge'
-import { explorerService } from '../../../../services/ExplorerService'
+import { TransactionRecord, TransactionRecordTransfer, explorerService } from '../../../../services/ExplorerService'
 import { useIsMobile } from '../../../../utils/hook'
 
-const getTransferItemTag = (transfer: State.LiteTransfer) => {
+const getTransferItemTag = (transfer: TransactionRecordTransfer) => {
   const { cellType, udtInfo, mNftInfo } = transfer
   if (cellType === 'm_nft_token' || cellType === 'm_nft_class' || cellType === 'm_nft_issuer') {
     return `NFT-${mNftInfo?.className ?? 'Unknown'}`
@@ -44,7 +44,7 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
     const ckbTransactionDetails = await explorerService.api.fetchTransactionLiteDetailsByHash(txHash)
     return ckbTransactionDetails.data
   })
-  const transactionLiteDetails: State.TransactionLiteDetails[] = query.data ?? defaultTransactionLiteDetails
+  const transactionLiteDetails: TransactionRecord[] = query.data ?? defaultTransactionLiteDetails
   return (
     <>
       {transactionLiteDetails &&
@@ -64,7 +64,7 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
   )
 }
 
-export const DesktopTransferItems = (props: { details: State.TransactionLiteDetails }) => {
+export const DesktopTransferItems = (props: { details: TransactionRecord }) => {
   const { details } = props
   const { transfers } = details
   return (
@@ -84,7 +84,7 @@ export const DesktopTransferItems = (props: { details: State.TransactionLiteDeta
   )
 }
 
-export const MobileTransferItems = (props: { details: State.TransactionLiteDetails }) => {
+export const MobileTransferItems = (props: { details: TransactionRecord }) => {
   const { details } = props
   const { transfers } = details
   return (
@@ -110,7 +110,7 @@ export const MobileTransferItems = (props: { details: State.TransactionLiteDetai
   )
 }
 
-const TransferAmount: FC<{ transfer: State.LiteTransfer }> = ({ transfer }) => {
+const TransferAmount: FC<{ transfer: TransactionRecordTransfer }> = ({ transfer }) => {
   const isUdt = transfer.cellType === 'udt'
   const isNft = transfer.cellType === 'm_nft_token'
 

@@ -18,7 +18,7 @@ import NftHolderList from '../../components/NftHolderList'
 import Pagination from '../../components/Pagination'
 
 const tabs = ['transfers', 'holders', 'inventory']
-function getFilterList(t: TFunction): Array<Record<'title' | 'value', string>> {
+function getFilterList(t: TFunction): Record<'title' | 'value', string>[] {
   return [
     {
       value: 'mint',

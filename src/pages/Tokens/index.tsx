@@ -26,8 +26,9 @@ import styles from './styles.module.scss'
 import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
+import { UDT } from '../../models/UDT'
 
-const TokenItem = ({ token, isLast }: { token: State.UDT; isLast?: boolean }) => {
+const TokenItem = ({ token, isLast }: { token: UDT; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
   const { t } = useTranslation()
 

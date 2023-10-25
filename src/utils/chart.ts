@@ -106,7 +106,7 @@ export const parseInterval = (max: number, min: number) => {
 // This is a hotfix to avoid outliers in production environment, final algorithm will be decided later at
 // https://github.com/Magickbase/ckb-explorer-public-issues/issues/394
 // TODO: add tests for the sample function
-export const getFeeRateSamples = (feeRates: Array<FeeRateTracker.TransactionFeeRate>, TPM: number) => {
+export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[], TPM: number) => {
   if (feeRates.length === 0) return feeRates
 
   const SAMPLES_MIN_COUNT = 100
@@ -116,7 +116,7 @@ export const getFeeRateSamples = (feeRates: Array<FeeRateTracker.TransactionFeeR
   const samples = feeRates
     .filter(i => i.confirmationTime)
     .sort((a, b) => a.confirmationTime - b.confirmationTime)
-    .reduce<Array<FeeRateTracker.TransactionFeeRate>>((acc, cur) => {
+    .reduce<FeeRateTracker.TransactionFeeRate[]>((acc, cur) => {
       const last = acc[acc.length - 1]
       if (!last || last.feeRate >= cur.feeRate) {
         return [...acc, cur]

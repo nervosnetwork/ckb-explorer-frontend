@@ -1,4 +1,6 @@
-export const defaultUDTInfo: State.UDT = {
+import { UDT } from '../../models/UDT'
+
+export const defaultUDTInfo: UDT = {
   symbol: '',
   fullName: '',
   totalAmount: '0',

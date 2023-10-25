@@ -24,6 +24,7 @@ import { defaultUDTInfo } from './state'
 import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
 import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
 import styles from './styles.module.scss'
+import { Cell } from '../../models/Cell'
 
 const typeScriptIcon = (show: boolean) => {
   if (show) {
@@ -70,7 +71,7 @@ export const SimpleUDT = () => {
         type,
       })
 
-      const ensureCellAddrIsNewFormat = (cell: State.Cell) => ({
+      const ensureCellAddrIsNewFormat = (cell: Cell) => ({
         ...cell,
         addressHash: deprecatedAddrToNewAddr(cell.addressHash),
       })
