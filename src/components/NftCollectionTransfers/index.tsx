@@ -1,4 +1,3 @@
-import type { AxiosResponse } from 'axios'
 import { FC, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
@@ -7,7 +6,8 @@ import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
 import { parseSporeCellData } from '../../utils/spore'
-import type { TransferListRes, TransferRes } from '../../pages/NftCollectionInfo'
+// TODO: Refactor is needed. Should not directly import anything from the descendants of ExplorerService.
+import type { TransferListRes, TransferRes } from '../../services/ExplorerService/fetcher'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
@@ -28,14 +28,14 @@ interface TransferCollectionProps {
 const NftCollectionTransfers: FC<TransferCollectionProps> = props => {
   const { collection } = props
 
-  const { data: info } = useQuery<AxiosResponse<{ icon_url: string | null }>>(['collection-info', collection], () =>
-    explorerService.api.requesterV2(`nft/collections/${collection}`),
+  const { data: info } = useQuery(['collection-info', collection], () =>
+    explorerService.api.fetchNFTCollection(collection),
   )
 
   return (
     <div className={styles.list}>
-      <TransferTable {...props} iconURL={info?.data.icon_url} />
-      <TransferCardGroup {...props} iconURL={info?.data.icon_url} />
+      <TransferTable {...props} iconURL={info?.icon_url} />
+      <TransferCardGroup {...props} iconURL={info?.icon_url} />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { BehaviorSubject, Subscription, map, switchMap, timer } from 'rxjs'
 import { BLOCK_POLLING_TIME } from '../../constants/common'
-import * as apiFetcher from './fetcher'
+import { apiFetcher } from './fetcher'
 
 const initStatistics: State.Statistics = {
   tipBlockNumber: '0',
@@ -41,19 +41,14 @@ class ExplorerService {
   start() {
     this.callbacksAtStop = new Subscription()
     this.callbacksAtStop.add(
-      timer(0, BLOCK_POLLING_TIME)
-        .pipe(
-          switchMap(this.api.fetchStatistics),
-          map(wrapper => wrapper.attributes),
-        )
-        .subscribe(this.latestStatistics$),
+      timer(0, BLOCK_POLLING_TIME).pipe(switchMap(this.api.fetchStatistics)).subscribe(this.latestStatistics$),
     )
 
     this.callbacksAtStop.add(
       timer(0, BLOCK_POLLING_TIME)
         .pipe(
           switchMap(this.api.fetchTipBlockNumber),
-          map(wrapper => Number(wrapper.attributes.tipBlockNumber)),
+          map(tipBlockNumber => Number(tipBlockNumber)),
         )
         .subscribe(this.latestBlockNumber$),
     )

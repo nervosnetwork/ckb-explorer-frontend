@@ -10,6 +10,7 @@ import { ReactComponent as CarIcon } from '../../assets/car.svg'
 import { ReactComponent as RocketIcon } from '../../assets/rocket.svg'
 import { ChartColor } from '../../constants/common'
 import { useCurrentLanguage } from '../../utils/i18n'
+import type { FeeRateTracker } from '../../services/ExplorerService/fetcher'
 
 const textStyleInChart: echarts.EChartOption.TextStyle = {
   color: '#999999',

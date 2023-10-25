@@ -94,9 +94,7 @@ const useOption = (
 }
 
 const fetchStatisticAnnualPercentageCompensations = async () => {
-  const {
-    attributes: { nominalApc },
-  } = await explorerService.api.fetchStatisticAnnualPercentageCompensation()
+  const { nominalApc } = await explorerService.api.fetchStatisticAnnualPercentageCompensation()
   const statisticAnnualPercentageCompensations = nominalApc
     .filter((_apc, index) => index % 3 === 0 || index === nominalApc.length - 1)
     .map((apc, index) => ({

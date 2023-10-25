@@ -51,39 +51,38 @@ export const SimpleUDT = () => {
   const filter = query.get('filter')
   const type = query.get('type')
 
-  const querySimpleUDT = useQuery(['simple-udt'], async () => {
-    const wrapper = await explorerService.api.fetchSimpleUDT(typeHash)
-    const udt = wrapper.attributes
-    return udt
-  })
+  const querySimpleUDT = useQuery(['simple-udt'], () => explorerService.api.fetchSimpleUDT(typeHash))
   const udt = querySimpleUDT.data ?? defaultUDTInfo
   const { iconFile, typeScript, symbol, uan } = udt
 
   const querySimpleUDTTransactions = useQuery(
     ['simple-udt-transactions', typeHash, currentPage, _pageSize, filter, type],
     async () => {
-      const { data, meta } = await explorerService.api.fetchSimpleUDTTransactions({
+      const {
+        data: transactions,
+        total,
+        pageSize: resPageSize,
+      } = await explorerService.api.fetchSimpleUDTTransactions({
         typeHash,
         page: currentPage,
         size: pageSize,
         filter,
         type,
       })
+
+      const ensureCellAddrIsNewFormat = (cell: State.Cell) => ({
+        ...cell,
+        addressHash: deprecatedAddrToNewAddr(cell.addressHash),
+      })
+
       return {
-        transactions:
-          data.map(wrapper => ({
-            ...wrapper.attributes,
-            displayInputs: wrapper.attributes.displayInputs.map(input => ({
-              ...input,
-              addressHash: deprecatedAddrToNewAddr(input.addressHash),
-            })),
-            displayOutputs: wrapper.attributes.displayOutputs.map(output => ({
-              ...output,
-              addressHash: deprecatedAddrToNewAddr(output.addressHash),
-            })),
-          })) || [],
-        total: meta?.total ?? 0,
-        pageSize: meta?.pageSize,
+        transactions: transactions.map(tx => ({
+          ...tx,
+          displayInputs: tx.displayInputs.map(ensureCellAddrIsNewFormat),
+          displayOutputs: tx.displayOutputs.map(ensureCellAddrIsNewFormat),
+        })),
+        total,
+        pageSize: resPageSize,
       }
     },
   )

@@ -10,7 +10,7 @@ import { shannonToCkb } from '../../../../utils/util'
 import { Addr } from '../../TransactionCell'
 import { defaultTransactionLiteDetails } from '../../state'
 import { TransactionBadge } from './TransactionBadge'
-import { fetchTransactionLiteDetailsByHash } from '../../../../services/ExplorerService/fetcher'
+import { explorerService } from '../../../../services/ExplorerService'
 import { useIsMobile } from '../../../../utils/hook'
 
 const getTransferItemTag = (transfer: State.LiteTransfer) => {
@@ -41,7 +41,7 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
   const isMobile = useIsMobile()
 
   const query = useQuery(['ckb_transaction_details', txHash], async () => {
-    const ckbTransactionDetails = await fetchTransactionLiteDetailsByHash(txHash)
+    const ckbTransactionDetails = await explorerService.api.fetchTransactionLiteDetailsByHash(txHash)
     return ckbTransactionDetails.data
   })
   const transactionLiteDetails: State.TransactionLiteDetails[] = query.data ?? defaultTransactionLiteDetails

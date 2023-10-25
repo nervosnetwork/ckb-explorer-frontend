@@ -148,9 +148,8 @@ const useOption = (
 }
 
 const fetchStatisticInflationRates = async () => {
-  const {
-    attributes: { nominalApc, nominalInflationRate, realInflationRate },
-  } = await explorerService.api.fetchStatisticInflationRate()
+  const { nominalApc, nominalInflationRate, realInflationRate } =
+    await explorerService.api.fetchStatisticInflationRate()
   const statisticInflationRates = []
   for (let i = 0; i < nominalApc.length; i++) {
     if (i % 6 === 0 || i === nominalApc.length - 1) {

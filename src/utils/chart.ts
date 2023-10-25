@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { EChartOption } from 'echarts'
 import { SeriesItem } from '../pages/StatisticsChart/common'
+import type { FeeRateTracker } from '../services/ExplorerService/fetcher'
 
 export const DATA_ZOOM_CONFIG = [
   {

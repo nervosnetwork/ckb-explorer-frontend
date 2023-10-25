@@ -102,14 +102,18 @@ export default () => {
   const sort = new URLSearchParams(location.search).get('sort')
 
   const query = useQuery(['tokens', currentPage, _pageSize, sort], async () => {
-    const { data, meta } = await explorerService.api.fetchTokens(currentPage, _pageSize, sort ?? undefined)
-    if (data == null || data.length === 0) {
+    const {
+      data: tokens,
+      total,
+      pageSize,
+    } = await explorerService.api.fetchTokens(currentPage, _pageSize, sort ?? undefined)
+    if (tokens.length === 0) {
       throw new Error('Tokens empty')
     }
     return {
-      total: meta?.total ?? 0,
-      tokens: data.map(wrapper => wrapper.attributes),
-      pageSize: meta?.pageSize,
+      tokens,
+      total,
+      pageSize,
     }
   })
   const total = query.data?.total ?? 0

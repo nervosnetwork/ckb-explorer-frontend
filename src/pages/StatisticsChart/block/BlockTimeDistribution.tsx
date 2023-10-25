@@ -90,9 +90,7 @@ const useOption = (
 }
 
 const fetchStatisticBlockTimeDistributions = async () => {
-  const {
-    attributes: { blockTimeDistribution },
-  } = await explorerService.api.fetchStatisticBlockTimeDistribution()
+  const { blockTimeDistribution } = await explorerService.api.fetchStatisticBlockTimeDistribution()
   const sumBlocks = blockTimeDistribution
     .flatMap(data => Number(data[1]))
     .reduce((previous, current) => previous + current)

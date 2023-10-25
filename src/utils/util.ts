@@ -332,11 +332,11 @@ export function randomInt(min: number, max: number) {
   return min + Math.floor(Math.random() * (max - min + 1))
 }
 
-export const isDaoDepositCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_deposit'
+export const isDaoDepositCell = (cellType: State.Cell['cellType']) => cellType === 'nervos_dao_deposit'
 
-export const isDaoWithdrawCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_withdrawing'
+export const isDaoWithdrawCell = (cellType: State.Cell['cellType']) => cellType === 'nervos_dao_withdrawing'
 
-export const isDaoCell = (cellType: State.CellTypes) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
+export const isDaoCell = (cellType: State.Cell['cellType']) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 
 export default {
   copyElementValue,

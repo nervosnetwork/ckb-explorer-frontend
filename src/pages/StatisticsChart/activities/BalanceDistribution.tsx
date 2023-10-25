@@ -166,9 +166,8 @@ const useOption = (
 }
 
 const fetchStatisticBalanceDistributions = async () => {
-  const wrapper = await explorerService.api.fetchStatisticBalanceDistribution()
-  const balanceDistributionArray = wrapper.attributes.addressBalanceDistribution
-  const balanceDistributions = balanceDistributionArray.map(distribution => {
+  const { addressBalanceDistribution } = await explorerService.api.fetchStatisticBalanceDistribution()
+  const balanceDistributions = addressBalanceDistribution.map(distribution => {
     const [balance, addresses, sumAddresses] = distribution
     return {
       balance,

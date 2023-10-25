@@ -1,13 +1,10 @@
 import { createContext, FC, useCallback, useContext, useMemo, useRef } from 'react'
 import { useQuery } from 'react-query'
 import { explorerService } from '../../services/ExplorerService'
+import type { DASAccount, DASAccountMap } from '../../services/ExplorerService/fetcher'
 import { unique } from '../../utils/array'
 import { throttle } from '../../utils/function'
 import { pick } from '../../utils/object'
-
-export type DASAccount = string
-
-export type DASAccountMap = Record<string, DASAccount | null>
 
 export interface DASQueryContextValue {
   getDASAccounts: (addresses: string[]) => Promise<DASAccountMap>
@@ -25,18 +22,6 @@ interface PendingQuery {
   }
 }
 
-async function fetchDASAccounts(addresses: string[]): Promise<DASAccountMap> {
-  const { data } = await explorerService.api.requesterV2.post<Record<string, string>>('das_accounts', {
-    addresses,
-  })
-  const dataWithNormalizeEmptyValue = Object.fromEntries(
-    Object.entries(data).map(([addr, account]) => {
-      return account === '' ? [addr, null] : [addr, account]
-    }),
-  )
-  return dataWithNormalizeEmptyValue
-}
-
 export const DASQueryContextProvider: FC = ({ children }) => {
   const accountMap = useRef<DASAccountMap>({})
   const pendingQueries = useRef<PendingQuery[]>([])
@@ -51,7 +36,7 @@ export const DASQueryContextProvider: FC = ({ children }) => {
     )
 
     try {
-      const newAccountMap = await fetchDASAccounts(addressesWithMissCache)
+      const newAccountMap = await explorerService.api.fetchDASAccounts(addressesWithMissCache)
       Object.assign(accountMap.current, newAccountMap)
       queries.forEach(({ addresses, handler }) => {
         handler.resolve(pick(accountMap.current, addresses))

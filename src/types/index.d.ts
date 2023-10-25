@@ -5,28 +5,6 @@ declare namespace State {
     hashType: string
   }
 
-  export interface Data {
-    data: string
-  }
-
-  export interface NodeVersion {
-    version: string
-  }
-
-  export interface ToastMessage {
-    message: string
-    type: 'success' | 'warning' | 'danger'
-    duration?: number
-    id: number
-  }
-
-  export interface AppError {
-    type: 'Network' | 'ChainAlert' | 'Maintenance'
-    message: string[]
-  }
-
-  type CellTypes = Cell['cellType']
-
   interface UDTInfo {
     symbol: string
     amount: string
@@ -340,22 +318,6 @@ declare namespace State {
     createTimestamp?: number
   }
 
-  export interface BlockchainInfo {
-    blockchainInfo: {
-      isInitialBlockDownload: boolean
-      epoch: string
-      difficulty: string
-      medianTime: string
-      chain: string
-      alerts: {
-        id: string
-        message: string
-        noticeNntil: string
-        priority: string
-      }[]
-    }
-  }
-
   export interface NervosDao {
     totalDeposit: string
     depositorsCount: string
@@ -623,14 +585,6 @@ declare namespace State {
     uan?: string
   }
 
-  export interface AddressState {
-    address: Address
-    transactions: Transaction[]
-    total: number
-    addressStatus: FetchStatus
-    transactionsStatus: FetchStatus
-  }
-
   export type TransactionCsvExportType = 'address_transactions' | 'blocks' | 'udts' | 'nft'
 
   export interface ChartColor {
@@ -642,8 +596,6 @@ declare namespace State {
     secondaryIssuanceColors: string[]
     liquidityColors: string[]
   }
-
-  type SortOrderTypes = 'asc' | 'desc'
 
   type Theme = { primary: string }
 }

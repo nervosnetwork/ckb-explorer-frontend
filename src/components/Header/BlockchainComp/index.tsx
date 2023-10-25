@@ -122,10 +122,9 @@ export default memo(() => {
   const query = useQuery(
     ['node_version'],
     async () => {
-      const wrapper = await explorerService.api.fetchNodeVersion()
-      const nodeVersion = wrapper.attributes.version
-      storeCachedData(AppCachedKeys.Version, `${nodeVersion}&${new Date().getTime()}`)
-      return nodeVersion
+      const { version } = await explorerService.api.fetchNodeVersion()
+      storeCachedData(AppCachedKeys.Version, `${version}&${new Date().getTime()}`)
+      return version
     },
     {
       keepPreviousData: true,

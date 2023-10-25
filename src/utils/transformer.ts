@@ -1,6 +1,6 @@
-import { CellInScript, CkbTransactionInScript } from '../pages/Script/types'
+import type { CellInScript, CKBTransactionInScript } from '../services/ExplorerService/fetcher'
 
-export const transformToTransaction = (tx: CkbTransactionInScript): State.Transaction => {
+export const transformToTransaction = (tx: CKBTransactionInScript): State.Transaction => {
   return {
     transactionHash: tx.txHash,
     blockNumber: tx.blockNumber,

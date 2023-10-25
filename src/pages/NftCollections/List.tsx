@@ -10,6 +10,7 @@ import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
 import { getPrimaryColor } from '../../constants/common'
 import { useIsMobile, useSearchParams, useSortParam } from '../../utils/hook'
 import styles from './styles.module.scss'
+import type { NFTCollection } from '../../services/ExplorerService/fetcher'
 
 type NftSortField = 'transactions' | 'holder' | 'minted'
 const primaryColor = getPrimaryColor()
@@ -41,19 +42,6 @@ function useFilterList(): Array<Record<'title' | 'value', string>> {
 
 export const isTxFilterType = (s?: string): boolean => {
   return s ? ['all', 'm_nft', 'nrc721', 'cota', 'spore'].includes(s) : false
-}
-
-export interface NFTCollection {
-  id: number
-  standard: string
-  name: string
-  description: string
-  h24_ckb_transactions_count: string
-  creator: string | null
-  icon_url: string | null
-  items_count: number | null
-  holders_count: number | null
-  type_script: { code_hash: string; hash_type: 'data' | 'type'; args: string } | null
 }
 
 const TypeFilter = () => {

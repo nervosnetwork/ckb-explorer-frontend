@@ -26,6 +26,7 @@ import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
 import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { sliceNftName } from '../../utils/string'
 import {
+  OrderByType,
   useIsLGScreen,
   useIsMobile,
   useNewAddr,
@@ -188,23 +189,6 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   )
 }
 
-interface CoTAList {
-  data: Array<{
-    id: number
-    token_id: number
-    owner: string
-    collection: {
-      id: number
-      name: string
-      description: string
-      icon_url: string
-    }
-  }>
-  pagination: {
-    series: Array<string>
-  }
-}
-
 const lockScriptIcon = (show: boolean) => {
   if (show) {
     return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
@@ -275,22 +259,20 @@ export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => 
   const { t } = useTranslation()
   const { udtAccounts = [] } = address
 
-  const { data: initList } = useQuery<AxiosResponse<CoTAList>>(
+  const { data: initList } = useQuery(
     ['cota-list', address.addressHash],
-    () => explorerService.api.requesterV2(`nft/items?owner=${address.addressHash}&standard=cota`),
+    () => explorerService.api.fetchNFTItemByOwner(address.addressHash, 'cota'),
     {
       enabled: !!address?.addressHash,
     },
   )
 
-  const { data: cotaList } = useQuery<CoTAList['data']>(['cota-list', initList?.data.pagination.series], () =>
+  const { data: cotaList } = useQuery(['cota-list', initList?.pagination.series], () =>
     Promise.all(
-      (initList?.data.pagination.series ?? []).map(p =>
-        explorerService.api.requesterV2(`nft/items?owner=${address.addressHash}&standard=cota&page=${p}`),
+      (initList?.pagination.series ?? []).map(p =>
+        explorerService.api.fetchNFTItemByOwner(address.addressHash, 'cota', p),
       ),
-    ).then(list => {
-      return list.reduce((total, acc) => [...total, ...acc.data.data], [] as CoTAList['data'])
-    }),
+    ).then(resList => resList.flatMap(res => res.data)),
   )
 
   return (
@@ -308,11 +290,11 @@ export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => 
                   symbol: cota.collection.name,
                   amount: '',
                   typeHash: '',
-                  udtIconFile: cota.collection.icon_url,
+                  udtIconFile: cota.collection.icon_url ?? '',
                   udtType: 'cota',
                   cota: {
                     cotaId: cota.collection.id,
-                    tokenId: cota.token_id,
+                    tokenId: Number(cota.token_id),
                   },
                   uan: undefined,
                   collection: undefined,
@@ -337,7 +319,7 @@ export const AddressTransactions = ({
   address: string
   transactions: State.Transaction[]
   transactionsTotal: number
-  timeOrderBy: State.SortOrderTypes
+  timeOrderBy: OrderByType
 }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()

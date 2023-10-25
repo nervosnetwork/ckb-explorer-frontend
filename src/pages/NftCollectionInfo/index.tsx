@@ -1,4 +1,3 @@
-import type { AxiosResponse } from 'axios'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { Popover } from 'antd'
@@ -17,75 +16,6 @@ import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
 import NftHolderList from '../../components/NftHolderList'
 import Pagination from '../../components/Pagination'
-
-export interface InventoryRes {
-  data: Array<{
-    id: number
-    collection_id: number
-    icon_url: string | null
-    owner_id: number
-    token_id: string
-    standard: string
-    cell: {
-      cell_index: number
-      data: string
-      status: string
-      tx_hash: string
-    } | null
-  }>
-  pagination: {
-    count: number
-    page: number
-    next: number | null
-    prev: number | null
-    last: number
-  }
-}
-
-export interface TransferRes {
-  id: number
-  from: string | null
-  to: string | null
-  action: 'mint' | 'transfer'
-  item: {
-    id: number
-    token_id: string
-    name: string | null
-    icon_url: string | null
-    owner_id: number
-    metadata_url: string | null
-    cell_id: number | null
-    standard: string | null
-    cell: {
-      cell_index: number
-      data: string
-      status: string
-      tx_hash: string
-    } | null
-    type_script: {
-      script_hash: string
-    }
-  }
-  transaction: {
-    tx_hash: string
-    block_number: number
-    block_timestamp: number
-  }
-}
-
-export interface TransferListRes {
-  data: Array<TransferRes>
-  pagination: {
-    count: number
-    page: number
-    next: number | null
-    prev: number | null
-    last: number
-  }
-}
-export interface HolderListRes {
-  data: Record<string, number>
-}
 
 const tabs = ['transfers', 'holders', 'inventory']
 function getFilterList(t: TFunction): Array<Record<'title' | 'value', string>> {
@@ -117,45 +47,32 @@ const NftCollectionInfo = () => {
   const filteredList = getFilterList(t)
   const isFilteredByType = filteredList.some(f => f.value === type)
 
-  const { isLoading: isTransferListLoading, data: transferListRes } = useQuery<AxiosResponse<TransferListRes>>(
+  const { isLoading: isTransferListLoading, data: transferListRes } = useQuery(
     ['nft-collection-transfer-list', id, page, filter, type],
     () =>
-      explorerService.api.requesterV2(`/nft/transfers`, {
-        params: {
-          page,
-          collection_id: id,
-          transfer_action: isFilteredByType ? type : null,
-          address_hash: filter?.startsWith('0x') ? null : filter,
-          tx_hash: filter?.startsWith('0x') ? filter : null,
-        },
-      }),
+      explorerService.api.fetchNFTCollectionTransferList(
+        id,
+        page,
+        null,
+        isFilteredByType ? type : null,
+        filter?.startsWith('0x') ? null : filter,
+        filter?.startsWith('0x') ? filter : null,
+      ),
     {
       enabled: tab === tabs[0],
     },
   )
-  const { isLoading: isHolderListLoading, data: rawHolderList } = useQuery<AxiosResponse<HolderListRes>>(
+  const { isLoading: isHoldersLoading, data: rawHolders } = useQuery(
     ['nft-collection-holder-list', id, page, sort, filter],
-    () =>
-      explorerService.api.requesterV2(`/nft/collections/${id}/holders`, {
-        params: {
-          page,
-          sort,
-          address_hash: filter || null,
-        },
-      }),
+    () => explorerService.api.fetchNFTCollectionHolders(id, page, sort, filter || null),
     {
       enabled: tab === tabs[1],
     },
   )
 
-  const { isLoading: isInventoryLoading, data: inventoryList } = useQuery<AxiosResponse<InventoryRes>>(
+  const { isLoading: isInventoryLoading, data: inventoryList } = useQuery(
     ['nft-collection-inventory', id, page],
-    () =>
-      explorerService.api.requesterV2(`/nft/collections/${id}/items`, {
-        params: {
-          page,
-        },
-      }),
+    () => explorerService.api.fetchNFTCollectionItems(id, page),
     {
       enabled: tab === tabs[2],
     },
@@ -169,11 +86,11 @@ const NftCollectionInfo = () => {
     history.push(`/nft-collections/${id}?${new URLSearchParams({ ...query, page: pageNo.toString() }).toString()}`)
   }
 
-  const holderList = rawHolderList
-    ? Object.keys(rawHolderList.data.data)
+  const holderList = rawHolders
+    ? Object.keys(rawHolders.data)
         .map(addr => ({
           addr,
-          quantity: rawHolderList.data.data[addr],
+          quantity: rawHolders.data[addr],
         }))
         .sort((h1, h2) => {
           if (sort === 'quantity.asc') {
@@ -187,16 +104,12 @@ const NftCollectionInfo = () => {
 
   let pageSource:
     | {
-        data: {
-          pagination: Record<'page' | 'last', number>
-        }
+        pagination: Record<'page' | 'last', number>
       }
     | undefined = {
-    data: {
-      pagination: {
-        page: 1,
-        last: 1,
-      },
+    pagination: {
+      page: 1,
+      last: 1,
     },
   }
 
@@ -207,8 +120,8 @@ const NftCollectionInfo = () => {
   }
 
   const pages = {
-    currentPage: pageSource?.data.pagination.page ?? 1,
-    totalPages: pageSource?.data.pagination.last ?? 1,
+    currentPage: pageSource?.pagination.page ?? 1,
+    totalPages: pageSource?.pagination.last ?? 1,
   }
 
   return (
@@ -272,13 +185,13 @@ const NftCollectionInfo = () => {
         {tab === tabs[0] ? (
           <>
             <NftCollectionTransfers
-              list={transferListRes?.data.data ?? []}
+              list={transferListRes?.data ?? []}
               isLoading={isTransferListLoading}
               collection={id}
             />
             <PaginationWithRear
-              currentPage={transferListRes?.data.pagination.page ?? 1}
-              totalPages={transferListRes?.data.pagination.last ?? 1}
+              currentPage={transferListRes?.pagination.page ?? 1}
+              totalPages={transferListRes?.pagination.last ?? 1}
               onChange={handlePageChange}
               rear={<CsvExport type="nft" id={id} />}
             />
@@ -288,7 +201,7 @@ const NftCollectionInfo = () => {
           <>
             <NftHolderList
               list={holderList?.slice((+page - 1) * PAGE_SIZE, +page * PAGE_SIZE) ?? []}
-              isLoading={isHolderListLoading}
+              isLoading={isHoldersLoading}
             />
             <Pagination
               currentPage={+page}
@@ -299,11 +212,7 @@ const NftCollectionInfo = () => {
         ) : null}
         {tab === tabs[2] ? (
           <>
-            <NftCollectionInventory
-              collection={id}
-              list={inventoryList?.data.data ?? []}
-              isLoading={isInventoryLoading}
-            />
+            <NftCollectionInventory collection={id} list={inventoryList?.data ?? []} isLoading={isInventoryLoading} />
             <Pagination {...pages} onChange={handlePageChange} />
           </>
         ) : null}

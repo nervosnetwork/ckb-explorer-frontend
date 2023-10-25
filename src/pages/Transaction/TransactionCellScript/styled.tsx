@@ -256,7 +256,7 @@ export const TransactionDetailScriptButton = styled.a`
   }
 `
 
-export const TransactionCellScriptContentPanel = styled.div`
+export const TransactionCellInfoValuePanel = styled.div`
   > div {
     display: flex;
     margin: 2px 0 2px 30px;

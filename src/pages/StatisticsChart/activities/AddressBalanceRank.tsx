@@ -104,11 +104,6 @@ const useOption = () => {
   }
 }
 
-const fetchStatisticAddressBalanceRanks = async () => {
-  const resp = await explorerService.api.fetchStatisticAddressBalanceRank()
-  return resp.attributes.addressBalanceRanking
-}
-
 const toCSV = (statisticAddressBalanceRanks: State.StatisticAddressBalanceRank[]) =>
   statisticAddressBalanceRanks
     ? statisticAddressBalanceRanks.map(data => [data.ranking, shannonToCkbDecimal(data.balance, 8)])
@@ -146,7 +141,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
       description={t('statistic.balance_ranking_description')}
       isThumbnail={isThumbnail}
       chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
-      fetchData={fetchStatisticAddressBalanceRanks}
+      fetchData={explorerService.api.fetchStatisticAddressBalanceRank}
       onFetched={setStatisticAddressBalanceRanks}
       getEChartOption={getEChartOption}
       toCSV={toCSV}

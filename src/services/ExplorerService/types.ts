@@ -19,9 +19,9 @@ export namespace Response {
     pageSize: number
   }
 
-  export interface Wrapper<T> {
+  export interface Wrapper<A, T = string> {
     id: number
-    type: string
-    attributes: T
+    type: T
+    attributes: A
   }
 }

@@ -64,14 +64,6 @@ export const SearchFailType = {
   CHAIN_ERROR: 'chain_error',
 }
 
-export enum CellState {
-  NONE = 0,
-  LOCK = 1,
-  TYPE = 2,
-  DATA = 3,
-  CAPACITY = 4,
-}
-
 export enum CellType {
   Input = 'input',
   Output = 'output',

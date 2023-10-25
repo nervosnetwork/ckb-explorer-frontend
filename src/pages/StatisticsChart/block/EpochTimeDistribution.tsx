@@ -97,9 +97,7 @@ const useOption = (
 }
 
 const fetchStatisticEpochTimeDistributions = async () => {
-  const {
-    attributes: { epochTimeDistribution },
-  } = await explorerService.api.fetchStatisticEpochTimeDistribution()
+  const { epochTimeDistribution } = await explorerService.api.fetchStatisticEpochTimeDistribution()
   const statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[] = epochTimeDistribution.map(data => {
     const [time, epoch] = data
     return {

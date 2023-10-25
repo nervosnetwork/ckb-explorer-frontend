@@ -1,4 +1,3 @@
-import type { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { Base64 } from 'js-base64'
@@ -10,31 +9,18 @@ import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../constants/common'
 import { explorerService } from '../../services/ExplorerService'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
+import type { NFTItem } from '../../services/ExplorerService/fetcher'
 
 const primaryColor = getPrimaryColor()
 
-type NftCollectionInventoryItem = {
-  icon_url: string | null
-  id: number
-  token_id: string
-  owner?: string
-  standard: string
-  cell: {
-    cell_index: number
-    data: string
-    status: string
-    tx_hash: string
-  } | null
-}
-
 const NftCollectionInventory: React.FC<{
-  list: Array<NftCollectionInventoryItem>
+  list: Array<NFTItem>
   collection: string
   isLoading: boolean
 }> = ({ list, collection, isLoading }) => {
   const { t } = useTranslation()
-  const { data: info } = useQuery<AxiosResponse<{ icon_url: string | null }>>(['collection-info', collection], () =>
-    explorerService.api.requesterV2(`nft/collections/${collection}`),
+  const { data: info } = useQuery(['collection-info', collection], () =>
+    explorerService.api.fetchNFTCollection(collection),
   )
 
   if (!list.length) {
@@ -53,8 +39,8 @@ const NftCollectionInventory: React.FC<{
     )
   }
 
-  const renderCover = (item: NftCollectionInventoryItem) => {
-    const coverUrl = item.icon_url ?? info?.data.icon_url
+  const renderCover = (item: NFTItem) => {
+    const coverUrl = item.icon_url ?? info?.icon_url
     const cell = item?.cell
     const standard = item?.standard
 

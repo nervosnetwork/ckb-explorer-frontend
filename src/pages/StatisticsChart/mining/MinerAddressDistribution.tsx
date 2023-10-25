@@ -89,9 +89,7 @@ const useOption = () => {
 }
 
 const fetchStatisticMinerAddresses = async () => {
-  const {
-    attributes: { minerAddressDistribution },
-  } = await explorerService.api.fetchStatisticMinerAddressDistribution()
+  const { minerAddressDistribution } = await explorerService.api.fetchStatisticMinerAddressDistribution()
   const blockSum = Object.values(minerAddressDistribution).reduce((sum, val) => sum + Number(val), 0)
   const statisticMinerAddresses: State.StatisticMinerAddress[] = Object.entries(minerAddressDistribution).map(
     ([key, val]) => ({
