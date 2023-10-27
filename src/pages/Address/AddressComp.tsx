@@ -26,6 +26,7 @@ import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
 import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { sliceNftName } from '../../utils/string'
 import {
+  OrderByType,
   useIsLGScreen,
   useIsMobile,
   useNewAddr,
@@ -47,8 +48,10 @@ import { LayoutLiteProfessional } from '../../constants/common'
 import { omit } from '../../utils/object'
 import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
+import { Transaction } from '../../models/Transaction'
+import { Address, SUDT, UDTAccount } from '../../models/Address'
 
-const addressAssetInfo = (address: State.Address, useMiniStyle: boolean, t: TFunction) => {
+const addressAssetInfo = (address: Address, useMiniStyle: boolean, t: TFunction) => {
   const items = [
     {
       title: '',
@@ -91,7 +94,7 @@ const addressAssetInfo = (address: State.Address, useMiniStyle: boolean, t: TFun
   return items
 }
 
-const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
+const UDT_LABEL: Record<UDTAccount['udtType'], string> = {
   sudt: 'sudt',
   m_nft_token: 'm nft',
   nrc_721_token: 'nrc 721',
@@ -99,7 +102,7 @@ const UDT_LABEL: Record<State.UDTAccount['udtType'], string> = {
   spore_cell: 'Spore',
 }
 
-const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
+const AddressUDTItem = ({ udtAccount }: { udtAccount: UDTAccount }) => {
   const { t } = useTranslation()
   const { symbol, uan, amount, udtIconFile, typeHash, udtType, collection, cota } = udtAccount
   const isSudt = udtType === 'sudt'
@@ -144,7 +147,7 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
 
   switch (true) {
     case isSudt: {
-      property = parseUDTAmount(amount, (udtAccount as State.SUDT).decimal)
+      property = parseUDTAmount(amount, (udtAccount as SUDT).decimal)
       href = `/sudt/${typeHash}`
       break
     }
@@ -188,23 +191,6 @@ const AddressUDTItem = ({ udtAccount }: { udtAccount: State.UDTAccount }) => {
   )
 }
 
-interface CoTAList {
-  data: Array<{
-    id: number
-    token_id: number
-    owner: string
-    collection: {
-      id: number
-      name: string
-      description: string
-      icon_url: string
-    }
-  }>
-  pagination: {
-    series: Array<string>
-  }
-}
-
 const lockScriptIcon = (show: boolean) => {
   if (show) {
     return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
@@ -212,7 +198,7 @@ const lockScriptIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
-const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: State.Address) => {
+const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: Address) => {
   const { t } = useTranslation()
   const items: OverviewItemData[] = [
     {
@@ -253,7 +239,7 @@ const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, l
   return items
 }
 
-const AddressLockScript: FC<{ address: State.Address }> = ({ address }) => {
+const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
   const [showLock, setShowLock] = useState<boolean>(false)
   const { t } = useTranslation()
 
@@ -270,27 +256,25 @@ const AddressLockScript: FC<{ address: State.Address }> = ({ address }) => {
   )
 }
 
-export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => {
+export const AddressOverview: FC<{ address: Address }> = ({ address }) => {
   const isLG = useIsLGScreen()
   const { t } = useTranslation()
   const { udtAccounts = [] } = address
 
-  const { data: initList } = useQuery<AxiosResponse<CoTAList>>(
+  const { data: initList } = useQuery(
     ['cota-list', address.addressHash],
-    () => explorerService.api.requesterV2(`nft/items?owner=${address.addressHash}&standard=cota`),
+    () => explorerService.api.fetchNFTItemByOwner(address.addressHash, 'cota'),
     {
       enabled: !!address?.addressHash,
     },
   )
 
-  const { data: cotaList } = useQuery<CoTAList['data']>(['cota-list', initList?.data.pagination.series], () =>
+  const { data: cotaList } = useQuery(['cota-list', initList?.pagination.series], () =>
     Promise.all(
-      (initList?.data.pagination.series ?? []).map(p =>
-        explorerService.api.requesterV2(`nft/items?owner=${address.addressHash}&standard=cota&page=${p}`),
+      (initList?.pagination.series ?? []).map(p =>
+        explorerService.api.fetchNFTItemByOwner(address.addressHash, 'cota', p),
       ),
-    ).then(list => {
-      return list.reduce((total, acc) => [...total, ...acc.data.data], [] as CoTAList['data'])
-    }),
+    ).then(resList => resList.flatMap(res => res.data)),
   )
 
   return (
@@ -308,11 +292,11 @@ export const AddressOverview: FC<{ address: State.Address }> = ({ address }) => 
                   symbol: cota.collection.name,
                   amount: '',
                   typeHash: '',
-                  udtIconFile: cota.collection.icon_url,
+                  udtIconFile: cota.collection.icon_url ?? '',
                   udtType: 'cota',
                   cota: {
                     cotaId: cota.collection.id,
-                    tokenId: cota.token_id,
+                    tokenId: Number(cota.token_id),
                   },
                   uan: undefined,
                   collection: undefined,
@@ -335,9 +319,9 @@ export const AddressTransactions = ({
   timeOrderBy,
 }: {
   address: string
-  transactions: State.Transaction[]
+  transactions: Transaction[]
   transactionsTotal: number
-  timeOrderBy: State.SortOrderTypes
+  timeOrderBy: OrderByType
 }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
@@ -421,12 +405,12 @@ export const AddressTransactions = ({
                 <div>{t('transaction.capacity_change')}</div>
               </div>
             )}
-            {txList.map((transaction: State.Transaction) => (
+            {txList.map((transaction: Transaction) => (
               <TransactionLiteItem address={address} transaction={transaction} key={transaction.transactionHash} />
             ))}
           </>
         ) : (
-          txList.map((transaction: State.Transaction, index: number) => (
+          txList.map((transaction: Transaction, index: number) => (
             <TransactionItem
               address={address}
               transaction={transaction}

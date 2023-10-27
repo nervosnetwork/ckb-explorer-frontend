@@ -1,4 +1,6 @@
-export const defaultAddressInfo: State.Address = {
+import { Address } from '../../models/Address'
+
+export const defaultAddressInfo: Address = {
   addressHash: '',
   lockHash: '',
   balance: '0',

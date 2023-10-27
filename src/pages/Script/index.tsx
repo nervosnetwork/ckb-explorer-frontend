@@ -3,7 +3,6 @@ import { useHistory } from 'react-router'
 import { useParams } from 'react-router-dom'
 import { Tabs } from 'antd'
 import { useQuery } from 'react-query'
-import { AxiosResponse } from 'axios'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
@@ -15,11 +14,11 @@ import { MainnetContractHashTags, TestnetContractHashTags } from '../../constant
 import { isMainnet } from '../../utils/chain'
 import { scripts as scriptNameList } from '../ScriptList'
 import { usePaginationParamsInPage } from '../../utils/hook'
-import { shannonToCkb, toCamelcase } from '../../utils/util'
+import { shannonToCkb } from '../../utils/util'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import { ScriptInfo, ScriptTabType } from './types'
 import styles from './styles.module.scss'
-import { explorerService, Response } from '../../services/ExplorerService'
+import { explorerService } from '../../services/ExplorerService'
+import type { ScriptInfo } from '../../services/ExplorerService/fetcher'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -102,12 +101,15 @@ const useSeekScriptName = (codeHash: string, hashType: string): string => {
   return nameMap.has(`${codeHash}_${hashType}`) ? nameMap.get(`${codeHash}_${hashType}`)! : t('scripts.unnamed_script')
 }
 
+type ScriptTabType = 'transactions' | 'deployed_cells' | 'referring_cells' | undefined
+
 export const ScriptPage = () => {
   const history = useHistory()
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
-  const { codeHash, hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
+  const { codeHash, hashType: _hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
+  const hashType = _hashType === 'data' ? 'data' : 'type'
   const { currentPage, pageSize } = usePaginationParamsInPage()
 
   const [countOfTransactions, setCountOfTransactions] = useState<number>(0)
@@ -118,19 +120,14 @@ export const ScriptPage = () => {
   const [pageOfDeployedCells, setPageOfDeployedCells] = useState<number>(1)
   const [pageOfReferringCells, setPageOfReferringCells] = useState<number>(1)
 
-  const { status, data: resp } = useQuery<AxiosResponse>(['scripts_general_info', codeHash, hashType], () =>
-    explorerService.api.requesterV2.get(`scripts/general_info`, {
-      params: {
-        code_hash: codeHash,
-        hash_type: hashType,
-      },
-    }),
+  const { status, data: resp } = useQuery(['scripts_general_info', codeHash, hashType], () =>
+    explorerService.api.fetchScriptInfo(codeHash, hashType),
   )
 
-  const scriptInfo =
+  const scriptInfo: ScriptInfo =
     status === 'success' && resp
-      ? toCamelcase<Response.Response<ScriptInfo>>(resp?.data)!.data
-      : ({
+      ? resp.data
+      : {
           id: '-',
           scriptName: '',
           scriptType: '',
@@ -141,7 +138,7 @@ export const ScriptPage = () => {
           countOfTransactions: 0,
           countOfDeployedCells: 0,
           countOfReferringCells: 0,
-        } as ScriptInfo)
+        }
   scriptInfo.scriptName = useSeekScriptName(scriptInfo.codeHash, scriptInfo.hashType)
 
   useEffect(() => {

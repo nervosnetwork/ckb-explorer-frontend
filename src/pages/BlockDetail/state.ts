@@ -1,4 +1,6 @@
-export const defaultBlockInfo: State.Block = {
+import { Block } from '../../models/Block'
+
+export const defaultBlockInfo: Block = {
   blockHash: '',
   number: 0,
   transactionsCount: 0,

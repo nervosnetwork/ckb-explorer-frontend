@@ -9,16 +9,13 @@ import SmallLoading from '../../../components/Loading/SmallLoading'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { ReactChartCore } from '../../StatisticsChart/common'
 
 const useOption = () => {
   const { t } = useTranslation()
-  return (
-    statisticAverageBlockTimes: State.StatisticAverageBlockTime[],
-    useMiniStyle: boolean,
-  ): echarts.EChartOption => {
+  return (statisticAverageBlockTimes: ChartItem.AverageBlockTime[], useMiniStyle: boolean): echarts.EChartOption => {
     return {
       color: ['#ffffff'],
       title: {

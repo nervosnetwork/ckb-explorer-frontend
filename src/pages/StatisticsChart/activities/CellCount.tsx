@@ -11,7 +11,8 @@ import {
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
+import { ChartColorConfig } from '../../../constants/common'
 
 const widthSpan = (value: string, currentLanguage: LanuageType) =>
   tooltipWidth(value, currentLanguage === 'en' ? 125 : 80)
@@ -43,8 +44,8 @@ const useTooltip = () => {
 }
 
 const useOption = (
-  statisticCellCounts: State.StatisticCellCount[],
-  chartColor: State.ChartColor,
+  statisticCellCounts: ChartItem.CellCount[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
 
   isThumbnail = false,
@@ -175,7 +176,7 @@ const useOption = (
   }
 }
 
-const toCSV = (statisticCellCounts: State.StatisticCellCount[]) =>
+const toCSV = (statisticCellCounts: ChartItem.CellCount[]) =>
   statisticCellCounts
     ? statisticCellCounts.map(data => [
         data.createdAtUnixtimestamp,

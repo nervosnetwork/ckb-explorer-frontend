@@ -4,6 +4,7 @@ import { ScriptItemPanel, ScriptPanel } from './styled'
 import HashTag from '../HashTag'
 import { getContractHashTag } from '../../utils/util'
 import { HelpTip } from '../HelpTip'
+import { Script } from '../../models/Script'
 
 const ScriptItem = ({ title, tooltip, children }: { title: string; tooltip?: string; children?: ReactNode }) => (
   <ScriptItemPanel>
@@ -16,7 +17,7 @@ const ScriptItem = ({ title, tooltip, children }: { title: string; tooltip?: str
   </ScriptItemPanel>
 )
 
-const Script = ({ script }: { script: State.Script }) => {
+const ScriptComp = ({ script }: { script: Script }) => {
   const contractHashTag = getContractHashTag(script)
   const { t } = useTranslation()
 
@@ -38,4 +39,4 @@ const Script = ({ script }: { script: State.Script }) => {
   )
 }
 
-export default Script
+export default ScriptComp

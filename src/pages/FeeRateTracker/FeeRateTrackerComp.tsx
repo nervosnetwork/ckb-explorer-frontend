@@ -10,6 +10,7 @@ import { ReactComponent as CarIcon } from '../../assets/car.svg'
 import { ReactComponent as RocketIcon } from '../../assets/rocket.svg'
 import { ChartColor } from '../../constants/common'
 import { useCurrentLanguage } from '../../utils/i18n'
+import type { FeeRateTracker } from '../../services/ExplorerService/fetcher'
 
 const textStyleInChart: echarts.EChartOption.TextStyle = {
   color: '#999999',
@@ -102,7 +103,7 @@ export const ConfirmationTimeFeeRateChart = ({
   transactionFeeRates: FeeRateTracker.TransactionFeeRate[]
 }) => {
   const { t } = useTranslation()
-  const data = transactionFeeRates.reduce<Array<Array<number>>>((acc, cur) => {
+  const data = transactionFeeRates.reduce<number[][]>((acc, cur) => {
     if (!cur.confirmationTime) {
       return acc
     }

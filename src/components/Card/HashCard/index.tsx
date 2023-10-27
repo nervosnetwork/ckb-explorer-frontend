@@ -72,12 +72,12 @@ export default ({
   }
 
   const handleExportTxClick = async () => {
-    const res = await explorerService.api.requesterV2(`transactions/${hash}/raw`).catch(error => {
+    const raw = await explorerService.api.fetchTransactionRaw(hash).catch(error => {
       setToast({ message: error.message })
     })
-    if (!res) return
+    if (typeof raw !== 'object') return
 
-    const blob = new Blob([JSON.stringify(res.data, null, 2)])
+    const blob = new Blob([JSON.stringify(raw, null, 2)])
 
     const link = document.createElement('a')
     link.download = `tx-${hash}.json`

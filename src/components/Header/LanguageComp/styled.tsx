@@ -35,7 +35,7 @@ export const HeaderLanguagePanel = styled.div`
   }
 `
 
-export const MobileSubMenuPanel = styled.div`
+export const MobileSubMenuPanel = styled.div<{ showSubMenu: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -49,8 +49,7 @@ export const MobileSubMenuPanel = styled.div`
   }
 
   .mobileMenusMainItemContent {
-    color: ${(props: { showSubMenu: boolean; theme: State.Theme }) =>
-      props.showSubMenu ? props.theme.primary : 'white'};
+    color: ${props => (props.showSubMenu ? props.theme.primary : 'white')};
   }
 
   .mobileMenusMainItemContentHighlight {

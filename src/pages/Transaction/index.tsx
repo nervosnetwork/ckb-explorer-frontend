@@ -19,8 +19,8 @@ export default () => {
   const { hash: txHash } = useParams<{ hash: string }>()
 
   const query = useQuery(['transaction', txHash], async () => {
-    const wrapper = await explorerService.api.fetchTransactionByHash(txHash)
-    const transaction = wrapper.attributes
+    const transaction = await explorerService.api.fetchTransactionByHash(txHash)
+    // TODO: When will displayOutputs be empty? Its type description indicates that it will not be empty.
     if (transaction.displayOutputs && transaction.displayOutputs.length > 0) {
       transaction.displayOutputs[0].isGenesisOutput = transaction.blockNumber === 0
     }

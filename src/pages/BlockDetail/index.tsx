@@ -19,11 +19,7 @@ export default () => {
 
   const filter = new URLSearchParams(search).get('filter')
 
-  const queryBlock = useQuery(['block', blockHeightOrHash], async () => {
-    const wrapper = await explorerService.api.fetchBlock(blockHeightOrHash)
-    const block = wrapper.attributes
-    return block
-  })
+  const queryBlock = useQuery(['block', blockHeightOrHash], () => explorerService.api.fetchBlock(blockHeightOrHash))
   const blockHash = queryBlock.data?.blockHash
   const block = queryBlock.data ?? defaultBlockInfo
 
@@ -32,16 +28,16 @@ export default () => {
     async () => {
       assert(blockHash != null)
       try {
-        const { data, meta } = await explorerService.api.fetchTransactionsByBlockHash(blockHash, {
+        const {
+          data: transactions,
+          total,
+          pageSize,
+        } = await explorerService.api.fetchTransactionsByBlockHash(blockHash, {
           page: currentPage,
           size: pageSizeParam,
           filter,
         })
-        return {
-          transactions: data.map(wrapper => wrapper.attributes),
-          total: meta?.total ?? 0,
-          pageSize: meta?.pageSize,
-        }
+        return { transactions, total, pageSize }
       } catch (e) {
         console.error(e)
         return {

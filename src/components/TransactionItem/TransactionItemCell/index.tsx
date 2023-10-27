@@ -29,6 +29,7 @@ import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.sv
 import { useBoolean, useIsMobile } from '../../../utils/hook'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import EllipsisMiddle from '../../EllipsisMiddle'
+import { Cell, Cell$UDT, UDTInfo } from '../../../models/Cell'
 
 const AddressTextWithAlias: FC<{
   address: string
@@ -65,7 +66,7 @@ const AddressTextWithAlias: FC<{
   )
 }
 
-const useUdtAmount = (udt: State.UDTInfo) => {
+const useUdtAmount = (udt: UDTInfo) => {
   const { t } = useTranslation()
   return udt.published
     ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.uan || udt.symbol}`
@@ -87,7 +88,7 @@ const WithdrawPopoverItem = ({
   </WithdrawItemPanel>
 )
 
-const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
+const WithdrawPopoverInfo = ({ cell }: { cell: Cell }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
@@ -166,7 +167,7 @@ const WithdrawPopoverInfo = ({ cell }: { cell: State.Cell }) => {
   )
 }
 
-const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
+const TransactionCellNervosDao = ({ cell, cellType }: { cell: Cell; cellType: CellType }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   return (
@@ -192,7 +193,7 @@ const TransactionCellNervosDao = ({ cell, cellType }: { cell: State.Cell; cellTy
   )
 }
 
-const TransactionCellUDT = ({ cell }: { cell: State.Cell$UDT }) => {
+const TransactionCellUDT = ({ cell }: { cell: Cell$UDT }) => {
   const isMobile = useIsMobile()
   const { extraInfo } = cell
 
@@ -213,7 +214,7 @@ const TransactionCellUDT = ({ cell }: { cell: State.Cell$UDT }) => {
   )
 }
 
-const TransactionCellCapacity = ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) => {
+const TransactionCellCapacity = ({ cell, cellType }: { cell: Cell; cellType: CellType }) => {
   if (isDaoCell(cell.cellType)) {
     return <TransactionCellNervosDao cell={cell} cellType={cellType} />
   }
@@ -229,7 +230,7 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: State.Cell; cellTyp
   )
 }
 
-const TransactionCell = ({ cell, address, cellType }: { cell: State.Cell; address?: string; cellType: CellType }) => {
+const TransactionCell = ({ cell, address, cellType }: { cell: Cell; address?: string; cellType: CellType }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   if (cell.fromCellbase) {
