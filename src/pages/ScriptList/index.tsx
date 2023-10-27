@@ -187,7 +187,7 @@ export const scripts = new Map<string, ScriptAttributes>([
     },
   ],
   [
-    'joy id',
+    'JoyID',
     {
       name: 'JoyID',
       description: 'An universal Account Protocol for Web3 Mass-adoption.',
