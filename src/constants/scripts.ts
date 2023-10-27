@@ -238,6 +238,14 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     tag: 'godwoken_eth_account_lock',
     category: 'lock',
   },
+  {
+    codeHashes: ['0xd00c84f0ec8fd441c38bc3f87a371f547190f2fcff88e642bc5bf54b9e318323'],
+    txHashes: ['0xf05188e5f3a6767fc4687faf45ba5f1a6e25d3ada6129dae8722cb282f262493-0'],
+    depType: 'dep_group',
+    hashType: 'type',
+    tag: 'joy_id',
+    category: 'lock',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
