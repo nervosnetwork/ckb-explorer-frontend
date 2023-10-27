@@ -618,6 +618,7 @@
       "link": {
         "rfc": "RFC",
         "code": "Source Code",
+        "doc": "Documentation",
         "deprecated": "Deprecated",
         "website": "Website",
         "detail": "Detail"

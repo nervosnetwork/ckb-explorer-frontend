@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { useEffect, useState, ReactNode, useRef } from 'react'
+import { useState, ReactNode, useRef } from 'react'
 import BigNumber from 'bignumber.js'
-import { TFunction, useTranslation } from 'react-i18next'
-import { explorerService, Response } from '../../../services/ExplorerService'
-import { CellState } from '../../../constants/common'
+import { useTranslation } from 'react-i18next'
+import { useQuery } from 'react-query'
+import { explorerService } from '../../../services/ExplorerService'
 import { hexToUtf8 } from '../../../utils/string'
 import {
   TransactionDetailCopyButton,
@@ -14,7 +14,7 @@ import {
   TransactionCellDetailPanel,
   TransactionDetailData,
   TransactionDetailCapacityUsage,
-  TransactionCellScriptContentPanel,
+  TransactionCellInfoValuePanel,
   TransactionDetailScriptButton,
 } from './styled'
 import SmallLoading from '../../../components/Loading/SmallLoading'
@@ -27,10 +27,39 @@ import { ReactComponent as OuterLinkIcon } from '../../../assets/outer_link_icon
 import { HelpTip } from '../../../components/HelpTip'
 import { useSetToast } from '../../../components/Toast'
 import { CellBasicInfo } from '../../../utils/transformer'
+import { isAxiosError } from '../../../utils/error'
+import { Script } from '../../../models/Script'
 
-const initScriptContent = {
-  lock: 'null',
-  type: 'null',
+enum CellInfo {
+  LOCK = 1,
+  TYPE = 2,
+  DATA = 3,
+  CAPACITY = 4,
+}
+
+type CapacityUsage = Record<'declared' | 'occupied', string | null>
+
+interface CellData {
+  data: string
+}
+
+type CellInfoValue = Script | CellData | CapacityUsage | null | undefined
+
+function isScript(content: CellInfoValue): content is Script {
+  return content != null && 'codeHash' in content
+}
+
+function isCapacityUsage(content: CellInfoValue): content is CapacityUsage {
+  return content != null && 'declared' in content
+}
+
+function isCellData(content: CellInfoValue): content is CellData {
+  return content != null && 'data' in content
+}
+
+const initCellInfoValue = {
+  lock: null,
+  type: null,
   data: {
     data: '0x',
   },
@@ -41,11 +70,9 @@ type TransactionCellScriptProps = {
   onClose: Function
 }
 
-type CapacityUsage = Record<'declared' | 'occupied', string | null>
-
-const updateJsonFormat = (content: State.Script | State.Data | CapacityUsage | null): string => {
-  if (content !== null && (content as State.Script).args !== undefined) {
-    const { codeHash, args, hashType } = content as State.Script
+const getContentJSONWithSnakeCase = (content: CellInfoValue): string => {
+  if (isScript(content)) {
+    const { codeHash, args, hashType } = content
     return JSON.stringify(
       {
         code_hash: codeHash,
@@ -59,199 +86,158 @@ const updateJsonFormat = (content: State.Script | State.Data | CapacityUsage | n
   return JSON.stringify(content, null, 4)
 }
 
-const handleFetchCellInfo = async (
-  cell: CellBasicInfo,
-  state: CellState,
-  setScriptFetchStatus: (val: boolean) => void,
-  setContent: Function,
-  setToast: ReturnType<typeof useSetToast>,
-  t: TFunction,
-) => {
-  setScriptFetchStatus(false)
-
+const fetchCellInfo = async (cell: CellBasicInfo, state: CellInfo): Promise<CellInfoValue> => {
   const fetchLock = async () => {
     if (cell.id) {
-      const wrapper: Response.Wrapper<State.Script> | null = await explorerService.api.fetchScript(
-        'lock_scripts',
-        `${cell.id}`,
-      )
-      return wrapper ? wrapper.attributes : initScriptContent.lock
+      const wrapper = await explorerService.api.fetchScript('lock_scripts', `${cell.id}`)
+      return wrapper ? wrapper.attributes : initCellInfoValue.lock
     }
-    return initScriptContent.lock
+    return initCellInfoValue.lock
   }
 
   const fetchType = async () => {
     if (cell.id) {
-      const wrapper: Response.Wrapper<State.Script> | null = await explorerService.api.fetchScript(
-        'type_scripts',
-        `${cell.id}`,
-      )
-      return wrapper ? wrapper.attributes : initScriptContent.type
+      const wrapper = await explorerService.api.fetchScript('type_scripts', `${cell.id}`)
+      return wrapper ? wrapper.attributes : initCellInfoValue.type
     }
-    return initScriptContent.type
+    return initCellInfoValue.type
   }
 
   const fetchData = async () => {
-    if (cell.id) {
-      return explorerService.api
-        .fetchCellData(`${cell.id}`)
-        .then((wrapper: Response.Wrapper<State.Data> | null) => {
-          const dataValue: State.Data = wrapper ? wrapper.attributes : initScriptContent.data
-          if (wrapper && cell.isGenesisOutput) {
-            dataValue.data = hexToUtf8(wrapper.attributes.data)
-          }
-          return dataValue || initScriptContent.data
-        })
-        .catch(error => {
-          if (error.response && error.response.data && error.response.data[0]) {
-            const err = error.response.data[0]
-            if (err.status === 400 && err.code === 1022) {
-              setToast({
-                message: t('toast.data_too_large'),
-                type: 'warning',
-              })
-              return null
-            }
-          }
-          return null
-        })
+    // TODO: When will cell.id be empty? Its type description indicates that it will not be empty.
+    if (!cell.id) return initCellInfoValue.data
+
+    let dataValue = await explorerService.api.fetchCellData(`${cell.id}`)
+    if (!dataValue) return initCellInfoValue.data
+
+    if (cell.isGenesisOutput) {
+      dataValue = hexToUtf8(dataValue)
     }
-    const dataValue: State.Data = initScriptContent.data
-    return dataValue
+    return { data: dataValue }
   }
 
   switch (state) {
-    case CellState.LOCK:
-      fetchLock().then(lock => {
-        setScriptFetchStatus(true)
-        setContent(lock)
-      })
-      break
-    case CellState.TYPE:
-      fetchType().then(type => {
-        setScriptFetchStatus(true)
-        setContent(type)
-      })
-      break
-    case CellState.DATA:
-      fetchData().then(data => {
-        setScriptFetchStatus(true)
-        setContent(data)
-      })
-      break
-    case CellState.CAPACITY:
-      {
-        setScriptFetchStatus(true)
-        const declared = new BigNumber(cell.capacity)
-        const occupied = new BigNumber(cell.occupiedCapacity)
+    case CellInfo.LOCK:
+      return fetchLock()
 
-        setContent({
-          declared: `${localeNumberString(declared.dividedBy(10 ** 8))} CKBytes`,
-          occupied: `${localeNumberString(occupied.dividedBy(10 ** 8))} CKBytes`,
-        })
+    case CellInfo.TYPE:
+      return fetchType()
+
+    case CellInfo.DATA:
+      return fetchData()
+
+    case CellInfo.CAPACITY: {
+      const declared = new BigNumber(cell.capacity)
+      const occupied = new BigNumber(cell.occupiedCapacity)
+
+      return {
+        declared: `${localeNumberString(declared.dividedBy(10 ** 8))} CKBytes`,
+        occupied: `${localeNumberString(occupied.dividedBy(10 ** 8))} CKBytes`,
       }
+    }
 
-      break
     default:
-      break
+      return null
   }
 }
 
-const ScriptContentItem = ({ title = '', value = '' }: { title?: string; value?: ReactNode | string }) => (
+const JSONKeyValueView = ({ title = '', value = '' }: { title?: string; value?: ReactNode | string }) => (
   <div>
     <div>{title}</div>
     <div className="monospace">{value}</div>
   </div>
 )
 
-const ScriptContent = ({
-  content,
-  state,
-}: {
-  content: State.Script | State.Data | CapacityUsage | undefined
-  state: CellState
-}) => {
+const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
   const { t } = useTranslation()
-  const hashTag = getContractHashTag(content as State.Script)
-  const data = content as State.Data
-  const script = content as State.Script
 
-  if (state === CellState.CAPACITY) {
-    const capacities = content as CapacityUsage
-
+  if (isScript(content)) {
+    const hashTag = getContractHashTag(content)
     return (
       <>
-        {Object.keys(capacities).map(key => {
-          const v = capacities[key as keyof CapacityUsage]
+        <JSONKeyValueView title={`"${t('transaction.script_code_hash')}": `} value={content.codeHash} />
+        {hashTag && (
+          <JSONKeyValueView
+            value={
+              <div>
+                <HashTag content={hashTag.tag} category={hashTag.category} />
+              </div>
+            }
+          />
+        )}
+        <JSONKeyValueView title={`"${t('transaction.script_hash_type')}": `} value={content.hashType} />
+        <JSONKeyValueView title={`"${t('transaction.script_args')}": `} value={content.args} />
+      </>
+    )
+  }
 
-          if (!v) return null
+  if (isCapacityUsage(content)) {
+    return (
+      <>
+        {Object.entries(content).map(([key, value]) => {
           const field = t(`transaction.${key}_capacity`)
-          return <ScriptContentItem key={key} title={`"${field}": `} value={v || ''} />
+          return <JSONKeyValueView key={key} title={`"${field}": `} value={value ?? ''} />
         })}
       </>
     )
   }
-  if (state === CellState.DATA) {
+
+  if (isCellData(content)) {
     return (
-      <ScriptContentItem
-        title={data.data ? `"${t('transaction.script_data')}": ` : ''}
-        value={data.data ? `"${data.data}"` : JSON.stringify(initScriptContent.data, null, 4)}
+      <JSONKeyValueView
+        title={content.data ? `"${t('transaction.script_data')}": ` : ''}
+        value={content.data ? `"${content.data}"` : JSON.stringify(initCellInfoValue.data, null, 4)}
       />
     )
   }
-  if (!script.args) {
-    return <ScriptContentItem title={JSON.stringify(initScriptContent.lock, null, 4)} />
-  }
-  return (
-    <>
-      <ScriptContentItem title={`"${t('transaction.script_code_hash')}": `} value={script.codeHash} />
-      {hashTag && (
-        <ScriptContentItem
-          value={
-            <div>
-              <HashTag content={hashTag.tag} category={hashTag.category} />
-            </div>
-          }
-        />
-      )}
-      <ScriptContentItem title={`"${t('transaction.script_hash_type')}": `} value={script.hashType} />
-      <ScriptContentItem title={`"${t('transaction.script_args')}": `} value={(content as State.Script).args} />
-    </>
-  )
+
+  return <JSONKeyValueView title="null" />
 }
 
-const ScriptContentJson = ({
-  content,
-  state,
-}: {
-  content: State.Script | State.Data | CapacityUsage | undefined
-  state: CellState
-}) => (
-  <TransactionCellScriptContentPanel isData={state === CellState.DATA}>
+const CellInfoValueJSONView = ({ content, state }: { content: CellInfoValue; state: CellInfo }) => (
+  <TransactionCellInfoValuePanel isData={state === CellInfo.DATA}>
     <span>{'{'}</span>
-    <ScriptContent content={content} state={state} />
+    <CellInfoValueRender content={content} />
     <span>{'}'}</span>
-  </TransactionCellScriptContentPanel>
+  </TransactionCellInfoValuePanel>
 )
 
 export default ({ cell, onClose }: TransactionCellScriptProps) => {
   const setToast = useSetToast()
   const { t } = useTranslation()
-  const [scriptFetched, setScriptFetched] = useState(false)
-  const [content, setContent] = useState(null as State.Script | State.Data | CapacityUsage | null)
-  const [state, setState] = useState(CellState.LOCK as CellState)
+  const [selectedInfo, setSelectedInfo] = useState<CellInfo>(CellInfo.LOCK)
   const ref = useRef<HTMLDivElement>(null)
 
-  const changeType = (newState: CellState) => {
-    setState(state !== newState ? newState : state)
+  const changeType = (newState: CellInfo) => {
+    setSelectedInfo(selectedInfo !== newState ? newState : selectedInfo)
   }
 
-  useEffect(() => {
-    handleFetchCellInfo(cell, state, setScriptFetched, setContent, setToast, t)
-  }, [cell, state, setToast, t])
+  const { data: content, isFetched } = useQuery(
+    ['cell-info', cell, selectedInfo],
+    () =>
+      fetchCellInfo(cell, selectedInfo).catch(error => {
+        if (!isAxiosError(error)) return null
+        const respErrors = error.response?.data
+        if (!Array.isArray(respErrors)) return null
+
+        const err = respErrors[0]
+        if (err.status === 400 && err.code === 1022) {
+          setToast({
+            message: t('toast.data_too_large'),
+            type: 'warning',
+          })
+        }
+
+        return null
+      }),
+    {
+      retry: false,
+      refetchInterval: false,
+    },
+  )
 
   const onClickCopy = () => {
-    navigator.clipboard.writeText(updateJsonFormat(content)).then(
+    navigator.clipboard.writeText(getContentJSONWithSnakeCase(content)).then(
       () => {
         setToast({ message: t('common.copied') })
       },
@@ -264,24 +250,25 @@ export default ({ cell, onClose }: TransactionCellScriptProps) => {
   return (
     <TransactionDetailContainer ref={ref}>
       <TransactionCellDetailPanel>
-        <TransactionDetailLock selected={state === CellState.LOCK} onClick={() => changeType(CellState.LOCK)}>
+        <TransactionDetailLock selected={selectedInfo === CellInfo.LOCK} onClick={() => changeType(CellInfo.LOCK)}>
           {t('transaction.lock_script')}
           <HelpTip title={t('glossary.lock_script')} placement="bottom" containerRef={ref} />
         </TransactionDetailLock>
-        <TransactionDetailType selected={state === CellState.TYPE} onClick={() => changeType(CellState.TYPE)}>
+        <TransactionDetailType selected={selectedInfo === CellInfo.TYPE} onClick={() => changeType(CellInfo.TYPE)}>
           {t('transaction.type_script')}
           <HelpTip title={t('glossary.type_script')} placement="bottom" containerRef={ref} />
         </TransactionDetailType>
-        <TransactionDetailData selected={state === CellState.DATA} onClick={() => changeType(CellState.DATA)}>
+        <TransactionDetailData selected={selectedInfo === CellInfo.DATA} onClick={() => changeType(CellInfo.DATA)}>
           {t('transaction.data')}
         </TransactionDetailData>
         <TransactionDetailCapacityUsage
-          selected={state === CellState.CAPACITY}
-          onClick={() => changeType(CellState.CAPACITY)}
+          selected={selectedInfo === CellInfo.CAPACITY}
+          onClick={() => changeType(CellInfo.CAPACITY)}
         >
           {t('transaction.capacity_usage')}
           <HelpTip title={t('glossary.capacity_usage')} placement="bottom" containerRef={ref} />
         </TransactionDetailCapacityUsage>
+
         <div className="transactionDetailModalClose">
           <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
         </div>
@@ -290,24 +277,22 @@ export default ({ cell, onClose }: TransactionCellScriptProps) => {
       <div className="transactionDetailSeparate" />
 
       <TransactionDetailPanel>
-        {content && scriptFetched ? (
+        {isFetched ? (
           <div className="transactionDetailContent">
-            <ScriptContentJson content={content} state={state} />
+            <CellInfoValueJSONView content={content} state={selectedInfo} />
           </div>
         ) : (
-          <div className="transactionDetailLoading">{!scriptFetched ? <SmallLoading /> : null}</div>
+          <div className="transactionDetailLoading">{!isFetched ? <SmallLoading /> : null}</div>
         )}
-        {!content && scriptFetched ? null : (
+
+        {!isFetched || !content ? null : (
           <div className="transactionDetailCopy">
             <TransactionDetailCopyButton onClick={onClickCopy}>
               <div>{t('common.copy')}</div>
               <CopyIcon />
             </TransactionDetailCopyButton>
-            {(state === CellState.LOCK || state === CellState.TYPE) &&
-            content &&
-            typeof content === 'object' &&
-            'codeHash' in content &&
-            'hashType' in content ? (
+
+            {isScript(content) ? (
               <TransactionDetailScriptButton href={`/script/${content.codeHash}/${content.hashType}`} target="_blank">
                 <div>{t('scripts.script')}</div>
                 <OuterLinkIcon />

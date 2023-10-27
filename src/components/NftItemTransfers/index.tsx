@@ -6,40 +6,11 @@ import { getPrimaryColor } from '../../constants/common'
 import { dayjs, useParseDate } from '../../utils/date'
 import styles from './styles.module.scss'
 import { useCurrentLanguage } from '../../utils/i18n'
+import type { TransferRes } from '../../services/ExplorerService/fetcher'
 
 const primaryColor = getPrimaryColor()
 
-export interface TransferListRes {
-  data: Array<{
-    id: number
-    from: string | null
-    to: string | null
-    action: 'mint' | 'normal' | 'destruction'
-    item: {
-      id: number
-      collection_id: number
-      token_id: string
-      name: string | null
-      icon_url: string | null
-      owner_id: number
-      metadata_url: string | null
-      cell_id: number | null
-    }
-    transaction: {
-      tx_hash: string
-      block_number: number
-      block_timestamp: number
-    }
-  }>
-  pagination: {
-    count: number
-    page: number
-    next: number | null
-    prev: number | null
-    last: number
-  }
-}
-const NftItemTransfers: React.FC<{ list: TransferListRes['data']; isLoading: boolean }> = ({ list, isLoading }) => {
+const NftItemTransfers: React.FC<{ list: TransferRes[]; isLoading: boolean }> = ({ list, isLoading }) => {
   const [isShowInAge, setIsShowInAge] = useState(false)
   const { t } = useTranslation()
   const parseDate = useParseDate()

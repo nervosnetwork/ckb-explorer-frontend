@@ -8,8 +8,9 @@ import LiveCellIcon from '../../../assets/live_cell.png'
 import LiveCellBlueIcon from '../../../assets/live_cell_blue.png'
 import { isMainnet } from '../../../utils/chain'
 import { RightArrowImage, LeftArrowImage } from './styled'
+import { Cell } from '../../../models/Cell'
 
-const CellInputIcon = ({ cell }: { cell: State.Cell }) =>
+const CellInputIcon = ({ cell }: { cell: Cell }) =>
   cell.generatedTxHash ? (
     <Link to={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}>
       <LeftArrowImage
@@ -20,7 +21,7 @@ const CellInputIcon = ({ cell }: { cell: State.Cell }) =>
     </Link>
   ) : null
 
-const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
+const CellOutputIcon = ({ cell }: { cell: Cell }) => {
   const { t } = useTranslation()
 
   if (cell.status === 'dead') {
@@ -37,5 +38,5 @@ const CellOutputIcon = ({ cell }: { cell: State.Cell }) => {
   )
 }
 
-export default ({ cell, cellType }: { cell: State.Cell; cellType: CellType }) =>
+export default ({ cell, cellType }: { cell: Cell; cellType: CellType }) =>
   cellType === CellType.Input ? <CellInputIcon cell={cell} /> : <CellOutputIcon cell={cell} />

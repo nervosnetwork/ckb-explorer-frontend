@@ -18,28 +18,21 @@ export const Address = () => {
   // REFACTOR: avoid using useSortParam
   const { sortBy, orderBy, sort } = useSortParam<'time'>(s => s === 'time')
 
-  const addressInfoQuery = useQuery(['address_info', address], async () => {
-    const wrapper = await explorerService.api.fetchAddressInfo(address)
-    const result: State.Address = {
-      ...wrapper.attributes,
-      type: wrapper.type === 'lock_hash' ? 'LockHash' : 'Address',
-    }
-    return result
-  })
+  const addressInfoQuery = useQuery(['address_info', address], () => explorerService.api.fetchAddressInfo(address))
 
   const addressTransactionsQuery = useQuery(
     ['address_transactions', address, currentPage, pageSize, sort],
     async () => {
       try {
-        const { data, meta } = await explorerService.api.fetchTransactionsByAddress(
+        const { data: transactions, total } = await explorerService.api.fetchTransactionsByAddress(
           address,
           currentPage,
           pageSize,
           sort,
         )
         return {
-          transactions: data.map(wrapper => wrapper.attributes),
-          total: meta ? meta.total : 0,
+          transactions,
+          total,
         }
       } catch (err) {
         const isEmptyAddress = isAxiosError(err) && err.response?.status === 404

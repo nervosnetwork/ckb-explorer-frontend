@@ -12,6 +12,8 @@ import {
   TestnetContractHashTags,
 } from '../constants/scripts'
 import { isMainnet } from './chain'
+import { Script } from '../models/Script'
+import { Cell } from '../models/Cell'
 
 export const copyElementValue = (component: any) => {
   if (!component) return
@@ -94,13 +96,13 @@ export const isValidReactNode = (node: ReactNode) => {
   return !!node
 }
 
-export const getContractHashTag = (script: State.Script): ContractHashTag | undefined => {
+export const getContractHashTag = (script: Script): ContractHashTag | undefined => {
   if (!script.codeHash || !script.hashType) return undefined
   const contractHashTag = matchScript(script.codeHash, script.hashType)
   if (!!contractHashTag && ScriptTagExtraRules.has(contractHashTag.tag)) {
     return {
       ...contractHashTag,
-      tag: ScriptTagExtraRules.get(contractHashTag.tag)?.(script as State.Script) || contractHashTag.tag,
+      tag: ScriptTagExtraRules.get(contractHashTag.tag)?.(script as Script) || contractHashTag.tag,
     }
   }
   return contractHashTag
@@ -332,11 +334,11 @@ export function randomInt(min: number, max: number) {
   return min + Math.floor(Math.random() * (max - min + 1))
 }
 
-export const isDaoDepositCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_deposit'
+export const isDaoDepositCell = (cellType: Cell['cellType']) => cellType === 'nervos_dao_deposit'
 
-export const isDaoWithdrawCell = (cellType: State.CellTypes) => cellType === 'nervos_dao_withdrawing'
+export const isDaoWithdrawCell = (cellType: Cell['cellType']) => cellType === 'nervos_dao_withdrawing'
 
-export const isDaoCell = (cellType: State.CellTypes) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
+export const isDaoCell = (cellType: Cell['cellType']) => isDaoDepositCell(cellType) || isDaoWithdrawCell(cellType)
 
 export default {
   copyElementValue,

@@ -8,7 +8,7 @@ import styles from './styles.module.scss'
 export const primaryColor = getPrimaryColor()
 
 const NftHolderList: React.FC<{
-  list: Array<{ addr: string; quantity: number }>
+  list: { addr: string; quantity: number }[]
   isLoading: boolean
 }> = ({ list, isLoading }) => {
   const { t } = useTranslation()

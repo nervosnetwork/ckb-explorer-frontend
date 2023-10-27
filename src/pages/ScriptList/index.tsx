@@ -9,7 +9,7 @@ import { isMainnet } from '../../utils/chain'
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
 type ScriptAttributes = Record<'name' | 'description', string> &
-  Partial<Record<'code' | 'rfc' | 'deprecated' | 'website', string>>
+  Partial<Record<'code' | 'rfc' | 'deprecated' | 'website' | 'doc', string>>
 
 export const scripts = new Map<string, ScriptAttributes>([
   [
@@ -186,9 +186,18 @@ export const scripts = new Map<string, ScriptAttributes>([
       website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#eth-account-lock',
     },
   ],
+  [
+    'joy_id',
+    {
+      name: 'joy_id',
+      description: 'An universal Account Protocol for Web3 Mass-adoption.',
+      doc: 'https://docs.joy.id/',
+      website: ' https://joy.id/',
+    },
+  ],
 ])
 
-const keysWithLinkValueInScript: Array<keyof ScriptAttributes> = ['rfc', 'code', 'deprecated', 'website']
+const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']
 
 const ScriptList: FC = () => {
   const { t } = useTranslation()

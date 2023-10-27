@@ -5,8 +5,9 @@ import AddressText from '../../AddressText'
 import styles from './index.module.scss'
 import TransactionLiteIncome from '../TransactionLiteIncome'
 import { useIsMobile, useParsedDate } from '../../../utils/hook'
+import { Transaction } from '../../../models/Transaction'
 
-const TransactionLiteItem = ({ transaction, address }: { transaction: State.Transaction; address?: string }) => {
+const TransactionLiteItem = ({ transaction, address }: { transaction: Transaction; address?: string }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const parsedBlockCreateAt = useParsedDate(transaction.blockTimestamp)

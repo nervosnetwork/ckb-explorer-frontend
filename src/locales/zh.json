@@ -618,6 +618,7 @@
       "link": {
         "rfc": "RFC",
         "code": "源代码",
+        "doc": "文档",
         "deprecated": "已废弃",
         "website": "官网",
         "detail": "详情"

@@ -1,8 +1,11 @@
+import { Block } from '../models/Block'
+import { Transaction } from '../models/Transaction'
+
 export interface RouteState$BlockListPage {
   type: 'BlockListPage'
   createTime: number
   blocksDataWithFirstPage: {
-    blocks: State.Block[]
+    blocks: Block[]
     total: number
   }
 }
@@ -11,7 +14,7 @@ export interface RouteState$TransactionListPage {
   type: 'TransactionListPage'
   createTime: number
   transactionsDataWithFirstPage: {
-    transactions: State.Transaction[]
+    transactions: Transaction[]
     total: number
   }
 }

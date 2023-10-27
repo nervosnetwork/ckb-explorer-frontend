@@ -15,7 +15,7 @@ import { ReactComponent as BlockIcon } from '../../assets/block_icon.svg'
 import { ReactComponent as ErrorIcon } from '../../assets/error_icon.svg'
 import { ReactComponent as SuccessIcon } from '../../assets/success_icon.svg'
 import { omit } from '../../utils/object'
-import { explorerService } from '../../services/ExplorerService'
+import { SupportedExportTransactionType, explorerService } from '../../services/ExplorerService'
 
 const ExportTransactions = () => {
   const [t, { language }] = useTranslation()
@@ -31,7 +31,7 @@ const ExportTransactions = () => {
     'from-height': fromHeightStr,
     'to-height': toHeightStr,
   } = useSearchParams('type', 'id', 'tab', 'start-date', 'end-date', 'from-height', 'to-height')
-  function isTransactionCsvExportType(s?: string): s is State.TransactionCsvExportType {
+  function isTransactionCsvExportType(s?: string): s is SupportedExportTransactionType {
     return !!s && ['address_transactions', 'blocks', 'udts', 'nft'].includes(s)
   }
 

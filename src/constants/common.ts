@@ -64,14 +64,6 @@ export const SearchFailType = {
   CHAIN_ERROR: 'chain_error',
 }
 
-export enum CellState {
-  NONE = 0,
-  LOCK = 1,
-  TYPE = 2,
-  DATA = 3,
-  CAPACITY = 4,
-}
-
 export enum CellType {
   Input = 'input',
   Output = 'output',
@@ -104,6 +96,7 @@ export const ChartColor = {
   secondaryIssuanceColors: ['#484E4E', '#5824FB', '#31EEB3'],
   liquidityColors: ['#5824FB', '#484E4E', '#31EEB3'],
 }
+export type ChartColorConfig = typeof ChartColor
 
 export enum ChainName {
   Mainnet = 'mirana',

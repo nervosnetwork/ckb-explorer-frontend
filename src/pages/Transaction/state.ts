@@ -1,4 +1,7 @@
-export const defaultTransactionInfo: State.Transaction = {
+import { Transaction } from '../../models/Transaction'
+import { TransactionRecord } from '../../services/ExplorerService'
+
+export const defaultTransactionInfo: Transaction = {
   transactionHash: '',
   blockNumber: 0,
   blockTimestamp: 0,
@@ -24,7 +27,7 @@ export const defaultTransactionInfo: State.Transaction = {
   maxCycles: null,
 }
 
-export const defaultTransactionLiteDetails: State.TransactionLiteDetails[] = [
+export const defaultTransactionLiteDetails: TransactionRecord[] = [
   {
     address: '',
     transfers: [],

@@ -3,13 +3,14 @@ import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { parseHourFromMinute } from '../../../utils/date'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { useCurrentLanguage } from '../../../utils/i18n'
+import { ChartColorConfig } from '../../../constants/common'
 
 const useOption = (
-  statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[],
-  chartColor: State.ChartColor,
+  statisticEpochTimeDistributions: ChartItem.EpochTimeDistribution[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
 
   isThumbnail = false,
@@ -96,21 +97,7 @@ const useOption = (
   }
 }
 
-const fetchStatisticEpochTimeDistributions = async () => {
-  const {
-    attributes: { epochTimeDistribution },
-  } = await explorerService.api.fetchStatisticEpochTimeDistribution()
-  const statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[] = epochTimeDistribution.map(data => {
-    const [time, epoch] = data
-    return {
-      time,
-      epoch,
-    }
-  })
-  return statisticEpochTimeDistributions
-}
-
-const toCSV = (statisticEpochTimeDistributions: State.StatisticEpochTimeDistribution[]) =>
+const toCSV = (statisticEpochTimeDistributions: ChartItem.EpochTimeDistribution[]) =>
   statisticEpochTimeDistributions
     ? statisticEpochTimeDistributions.map(data => [parseHourFromMinute(data.time), data.epoch])
     : []
@@ -122,7 +109,7 @@ export const EpochTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
       title={t('statistic.epoch_time_distribution_more')}
       description={t('statistic.epoch_time_distribution_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticEpochTimeDistributions}
+      fetchData={explorerService.api.fetchStatisticEpochTimeDistribution}
       getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.EpochTimeDistribution}

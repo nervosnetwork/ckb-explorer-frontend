@@ -9,7 +9,8 @@ import {
   assertSerialsItem,
 } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
+import { ChartColorConfig } from '../../../constants/common'
 
 const widthSpan = (value: string, currentLanguage: LanuageType) =>
   tooltipWidth(value, currentLanguage === 'en' ? 155 : 70)
@@ -35,8 +36,8 @@ const useTooltip = () => {
 }
 
 const useOption = (
-  statisticSecondaryIssuance: State.StatisticSecondaryIssuance[],
-  chartColor: State.ChartColor,
+  statisticSecondaryIssuance: ChartItem.SecondaryIssuance[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
 
   isThumbnail = false,
@@ -171,7 +172,7 @@ const useOption = (
   }
 }
 
-const toCSV = (statisticSecondaryIssuance: State.StatisticSecondaryIssuance[]) =>
+const toCSV = (statisticSecondaryIssuance: ChartItem.SecondaryIssuance[]) =>
   statisticSecondaryIssuance
     ? statisticSecondaryIssuance.map(data => [
         data.createdAtUnixtimestamp,

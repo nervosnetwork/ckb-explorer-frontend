@@ -20,6 +20,7 @@ import { RouteState } from '../../routes/state'
 import { assert } from '../../utils/error'
 import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
 import { TableTitleRowItem } from '../../components/Table/styled'
+import { Transaction } from '../../models/Transaction'
 
 type TxStatus = 'confirmed' | 'pending'
 
@@ -31,12 +32,12 @@ interface SortItemCardData<T> extends ItemCardData<T> {
 }
 
 const TransactionCardGroup: FC<{
-  transactions: State.Transaction[]
+  transactions: Transaction[]
   type: TxStatus
   sortButton: (sortRule?: ConfirmedSortByType | PendingSortByType) => ReactNode
 }> = ({ transactions, type, sortButton }) => {
   const { t } = useTranslation()
-  const itemHash: SortItemCardData<State.Transaction> = {
+  const itemHash: SortItemCardData<Transaction> = {
     title: t('transaction.transaction_hash'),
     render: transaction => (
       <AddressText
@@ -51,7 +52,7 @@ const TransactionCardGroup: FC<{
       </AddressText>
     ),
   }
-  const itemCapacity: SortItemCardData<State.Transaction> = {
+  const itemCapacity: SortItemCardData<Transaction> = {
     title: t('transaction.capacity'),
     sortRule: 'capacity',
     render: transaction => (
@@ -59,7 +60,7 @@ const TransactionCardGroup: FC<{
     ),
   }
 
-  const confirmedItems: SortItemCardData<State.Transaction>[] = [
+  const confirmedItems: SortItemCardData<Transaction>[] = [
     itemHash,
     {
       title: t('transaction.height'),
@@ -77,7 +78,7 @@ const TransactionCardGroup: FC<{
     },
   ]
 
-  const pendingItems: SortItemCardData<State.Transaction>[] = [
+  const pendingItems: SortItemCardData<Transaction>[] = [
     itemHash,
     itemCapacity,
     {
@@ -102,7 +103,7 @@ const TransactionCardGroup: FC<{
       <div className={styles.transactionCardHeader}>
         {items
           .filter(data => data.sortRule)
-          .map((data: SortItemCardData<State.Transaction>) => (
+          .map((data: SortItemCardData<Transaction>) => (
             <TableTitleRowItem width="fit-content" key={data.title}>
               <div>{data.title}</div>
               {sortButton(data.sortRule)}
@@ -120,13 +121,13 @@ const TransactionCardGroup: FC<{
 }
 
 const TransactionTable: FC<{
-  transactions: State.Transaction[]
+  transactions: Transaction[]
   type: TxStatus
   sortButton: (sortRule: ConfirmedSortByType | PendingSortByType) => ReactNode
 }> = ({ transactions, type, sortButton }) => {
   const [t] = useTranslation()
 
-  const colHash: Column<State.Transaction> = {
+  const colHash: Column<Transaction> = {
     key: 'hash',
     title: t('transaction.transaction_hash'),
     className: styles.colHash,
@@ -135,7 +136,7 @@ const TransactionTable: FC<{
     render: transaction => <AddressText disableTooltip>{transaction.transactionHash}</AddressText>,
   }
 
-  const confirmedColumns: Column<State.Transaction>[] = [
+  const confirmedColumns: Column<Transaction>[] = [
     colHash,
     {
       key: 'height',
@@ -170,7 +171,7 @@ const TransactionTable: FC<{
     },
   ]
 
-  const pendingColumns: Column<State.Transaction>[] = [
+  const pendingColumns: Column<Transaction>[] = [
     colHash,
     {
       key: 'capacity',
@@ -242,19 +243,17 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
       const [, type] = queryKey
       switch (type) {
         case 'pending': {
-          const resp = await explorerService.api.fetchPendingTransactions(currentPage, pageSize, sort)
-          return {
-            transactions: resp.data,
-            total: resp.meta?.total ?? 0,
-          }
+          const { data: transactions, total } = await explorerService.api.fetchPendingTransactions(
+            currentPage,
+            pageSize,
+            sort,
+          )
+          return { transactions, total }
         }
         case 'confirmed':
         default: {
-          const resp = await explorerService.api.fetchTransactions(currentPage, pageSize, sort)
-          return {
-            transactions: resp.data.map(wrapper => wrapper.attributes) ?? [],
-            total: resp.meta?.total ?? 0,
-          }
+          const { data: transactions, total } = await explorerService.api.fetchTransactions(currentPage, pageSize, sort)
+          return { transactions, total }
         }
       }
     },

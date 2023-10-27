@@ -182,12 +182,14 @@ export function useSearchParams<T extends string>(...names: T[]): Partial<Record
   return useMemo(() => getSearchParams(location.search, names), [location.search, names])
 }
 
+export type OrderByType = 'asc' | 'desc'
+
 // REFACTOR: remove useSearchParams
 export function useSortParam<T extends string>(
   isSortBy: (s?: string) => boolean,
 ): {
   sortBy: T | undefined
-  orderBy: State.SortOrderTypes
+  orderBy: OrderByType
   sort?: string
   handleSortClick: (sortRule?: T) => void
 } {
@@ -195,13 +197,13 @@ export function useSortParam<T extends string>(
   function isSortByType(s?: string): s is SortType {
     return isSortBy(s) || s === undefined
   }
-  function isOrderByType(s?: string): s is State.SortOrderTypes {
+  function isOrderByType(s?: string): s is OrderByType {
     return s === 'asc' || s === 'desc'
   }
   const { sort: sortParam } = useSearchParams('sort')
   const updateSearchParams = useUpdateSearchParams<'sort' | 'page'>()
   let sortBy: SortType
-  let orderBy: State.SortOrderTypes = 'asc'
+  let orderBy: OrderByType = 'asc'
   if (sortParam) {
     const sortEntry = sortParam.split(',')[0]
     const indexOfPoint = sortEntry.indexOf('.')

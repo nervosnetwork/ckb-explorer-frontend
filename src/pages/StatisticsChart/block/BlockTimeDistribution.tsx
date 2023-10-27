@@ -2,12 +2,13 @@ import { useTranslation } from 'react-i18next'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
+import { ChartColorConfig } from '../../../constants/common'
 
 const useOption = (
-  statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[],
-  chartColor: State.ChartColor,
+  statisticBlockTimeDistributions: ChartItem.BlockTimeDistribution[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
 
   isThumbnail = false,
@@ -89,31 +90,7 @@ const useOption = (
   }
 }
 
-const fetchStatisticBlockTimeDistributions = async () => {
-  const {
-    attributes: { blockTimeDistribution },
-  } = await explorerService.api.fetchStatisticBlockTimeDistribution()
-  const sumBlocks = blockTimeDistribution
-    .flatMap(data => Number(data[1]))
-    .reduce((previous, current) => previous + current)
-  const statisticBlockTimeDistributions = [
-    {
-      time: '0',
-      ratio: '0',
-    },
-  ].concat(
-    blockTimeDistribution.map(data => {
-      const [time, blocks] = data
-      return {
-        time,
-        ratio: (Number(blocks) / sumBlocks).toFixed(5),
-      }
-    }),
-  )
-  return statisticBlockTimeDistributions
-}
-
-const toCSV = (statisticBlockTimeDistributions: State.StatisticBlockTimeDistribution[]) =>
+const toCSV = (statisticBlockTimeDistributions: ChartItem.BlockTimeDistribution[]) =>
   statisticBlockTimeDistributions
     ? statisticBlockTimeDistributions.map(data => [data.time, Number(data.ratio).toFixed(4)])
     : []
@@ -125,7 +102,7 @@ export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
       title={t('statistic.block_time_distribution_more')}
       description={t('statistic.block_time_distribution_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticBlockTimeDistributions}
+      fetchData={explorerService.api.fetchStatisticBlockTimeDistribution}
       getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.BlockTimeDistribution}

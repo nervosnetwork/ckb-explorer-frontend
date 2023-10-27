@@ -23,7 +23,7 @@ import Content from '../../../components/Content'
 import { useChartQueryWithCache, useIsMobile, usePrevious, useWindowResize } from '../../../utils/hook'
 import { isDeepEqual } from '../../../utils/util'
 import { HelpTip } from '../../../components/HelpTip'
-import { ChartColor } from '../../../constants/common'
+import { ChartColor, ChartColorConfig } from '../../../constants/common'
 import { Response } from '../../../services/ExplorerService'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
@@ -165,7 +165,7 @@ export interface SmartChartPageProps<T> {
   onFetched?: (dataList: T[]) => void
   getEChartOption: (
     dataList: T[],
-    chartColor: State.ChartColor,
+    chartColor: ChartColorConfig,
     isMobile: boolean,
     isThumbnail?: boolean,
   ) => echarts.EChartOption

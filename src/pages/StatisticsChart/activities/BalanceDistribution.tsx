@@ -12,7 +12,8 @@ import {
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
+import { ChartColorConfig } from '../../../constants/common'
 
 const widthSpan = (value: string, currentLanguage: string) => tooltipWidth(value, currentLanguage === 'en' ? 270 : 110)
 
@@ -26,8 +27,8 @@ const parseTooltip = ({
 }
 
 const useOption = (
-  statisticBalanceDistributions: State.StatisticBalanceDistribution[],
-  chartColor: State.ChartColor,
+  statisticBalanceDistributions: ChartItem.BalanceDistribution[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -165,21 +166,7 @@ const useOption = (
   }
 }
 
-const fetchStatisticBalanceDistributions = async () => {
-  const wrapper = await explorerService.api.fetchStatisticBalanceDistribution()
-  const balanceDistributionArray = wrapper.attributes.addressBalanceDistribution
-  const balanceDistributions = balanceDistributionArray.map(distribution => {
-    const [balance, addresses, sumAddresses] = distribution
-    return {
-      balance,
-      addresses,
-      sumAddresses,
-    }
-  })
-  return balanceDistributions
-}
-
-const toCSV = (statisticBalanceDistributions?: State.StatisticBalanceDistribution[]) =>
+const toCSV = (statisticBalanceDistributions?: ChartItem.BalanceDistribution[]) =>
   statisticBalanceDistributions
     ? statisticBalanceDistributions.map((data, index) => [
         `"${handleLogGroupAxis(
@@ -198,7 +185,7 @@ export const BalanceDistributionChart = ({ isThumbnail = false }: { isThumbnail?
       title={t('statistic.balance_distribution')}
       description={t('statistic.balance_distribution_description')}
       isThumbnail={isThumbnail}
-      fetchData={fetchStatisticBalanceDistributions}
+      fetchData={explorerService.api.fetchStatisticBalanceDistribution}
       getEChartOption={useOption}
       toCSV={toCSV}
       cacheKey={ChartCachedKeys.BalanceDistribution}

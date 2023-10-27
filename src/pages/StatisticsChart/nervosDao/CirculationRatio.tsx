@@ -4,11 +4,12 @@ import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
+import { ChartColorConfig } from '../../../constants/common'
 
 const useOption = (
-  statisticCirculationRatios: State.StatisticCirculationRatio[],
-  chartColor: State.ChartColor,
+  statisticCirculationRatios: ChartItem.CirculationRatio[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -94,7 +95,7 @@ const useOption = (
   }
 }
 
-const toCSV = (statisticCirculationRatios: State.StatisticCirculationRatio[]) =>
+const toCSV = (statisticCirculationRatios: ChartItem.CirculationRatio[]) =>
   statisticCirculationRatios
     ? statisticCirculationRatios.map(data => [data.createdAtUnixtimestamp, data.circulationRatio])
     : []

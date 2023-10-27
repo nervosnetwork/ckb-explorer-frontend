@@ -1,11 +1,10 @@
-import type { AxiosResponse } from 'axios'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { Tooltip } from 'antd'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
-import NftItemTransfers, { TransferListRes } from '../../components/NftItemTransfers'
+import NftItemTransfers from '../../components/NftItemTransfers'
 import Pagination from '../../components/Pagination'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { explorerService } from '../../services/ExplorerService'
@@ -22,44 +21,13 @@ const NftInfo = () => {
   const history = useHistory()
   const { t } = useTranslation()
   const { page = '1' } = useSearchParams('page')
-  const { data } = useQuery<
-    AxiosResponse<{
-      id: number
-      collection_id: number
-      token_id: string
-      name: string | null
-      icon_url: string | null
-      owner: string | null
-      metadata_url: string | null
-      standard: string | null
-      cell: {
-        status: string
-        tx_hash: string
-        cell_index: number
-        data: string | null
-      } | null
-      collection: {
-        id: number
-        standard: string
-        name: string
-        creator: string
-        icon_url: string
-      }
-    }>
-  >(['nft-item-info', collection, id], () =>
-    explorerService.api.requesterV2(`nft/collections/${collection}/items/${id}`),
+  const { data } = useQuery(['nft-item-info', collection, id], () =>
+    explorerService.api.fetchNFTCollectionItem(collection, id),
   )
 
-  const { isLoading: isTransferListLoading, data: transferListRes } = useQuery<AxiosResponse<TransferListRes>>(
+  const { isLoading: isTransferListLoading, data: transferListRes } = useQuery(
     ['nft-item-transfer-list', collection, id, page],
-    () =>
-      explorerService.api.requesterV2(`/nft/transfers`, {
-        params: {
-          page,
-          collection_id: collection,
-          token_id: id,
-        },
-      }),
+    () => explorerService.api.fetchNFTCollectionTransferList(collection, page, id),
   )
 
   const handlePageChange = (pageNo: number) => {
@@ -68,11 +36,11 @@ const NftInfo = () => {
     }
     history.push(`/nft-info/${collection}/${id}?page=${pageNo}`)
   }
-  const coverUrl = data?.data.icon_url || data?.data.collection.icon_url
+  const coverUrl = data?.icon_url || data?.collection.icon_url
 
   const renderCover = () => {
-    const cell = data?.data.cell
-    const standard = data?.data.standard
+    const cell = data?.cell
+    const standard = data?.standard
 
     if (standard === 'spore' && cell && cell.data) {
       const sporeData = parseSporeCellData(cell.data)
@@ -93,7 +61,7 @@ const NftInfo = () => {
     if (coverUrl) {
       return (
         <img
-          src={`${patchMibaoImg(coverUrl)}?size=medium&tid=${data?.data.token_id}`}
+          src={`${patchMibaoImg(coverUrl)}?size=medium&tid=${data?.token_id}`}
           alt="cover"
           loading="lazy"
           className={styles.cover}
@@ -110,23 +78,21 @@ const NftInfo = () => {
       <div className={styles.overview}>
         {renderCover()}
         <div className={styles.info}>
-          <div className={styles.name}>{data ? `${data.data.collection.name} #${data.data.token_id}` : '-'}</div>
+          <div className={styles.name}>{data ? `${data.collection.name} #${data.token_id}` : '-'}</div>
           <div className={styles.items}>
             <dl>
               <dt>{t('nft.owner')}</dt>
               <dd>
-                {data?.data.owner ? (
+                {data?.owner ? (
                   <Link
-                    to={`/address/${data.data.owner}`}
+                    to={`/address/${data.owner}`}
                     style={{
                       fontWeight: 700,
                       color: primaryColor,
                     }}
                   >
-                    <Tooltip title={data.data.owner}>
-                      <span className="monospace">{`${data.data.owner.slice(0, 12)}...${data.data.owner.slice(
-                        -12,
-                      )}`}</span>
+                    <Tooltip title={data.owner}>
+                      <span className="monospace">{`${data.owner.slice(0, 12)}...${data.owner.slice(-12)}`}</span>
                     </Tooltip>
                   </Link>
                 ) : (
@@ -137,19 +103,19 @@ const NftInfo = () => {
             <dl>
               <dt>{t('nft.minter_address')}</dt>
               <dd>
-                {data?.data.collection.creator ? (
+                {data?.collection.creator ? (
                   <Link
-                    to={`/address/${data.data.collection.creator}`}
+                    to={`/address/${data.collection.creator}`}
                     style={{
                       fontWeight: 700,
                       color: primaryColor,
                     }}
                   >
-                    <Tooltip title={data.data.collection.creator}>
-                      <span className="monospace">{`${data.data.collection.creator.slice(
+                    <Tooltip title={data.collection.creator}>
+                      <span className="monospace">{`${data.collection.creator.slice(
                         0,
                         12,
-                      )}...${data.data.collection.creator.slice(-12)}`}</span>
+                      )}...${data.collection.creator.slice(-12)}`}</span>
                     </Tooltip>
                   </Link>
                 ) : (
@@ -159,21 +125,21 @@ const NftInfo = () => {
             </dl>
             <dl>
               <dt>Token ID</dt>
-              <dd>{`#${data?.data.token_id}`}</dd>
+              <dd>{`#${data?.token_id}`}</dd>
             </dl>
             <dl>
               <dt>{t('nft.standard')}</dt>
-              <dd>{data ? t(`nft.${data.data.collection.standard}`) : '-'}</dd>
+              <dd>{data ? t(`nft.${data.collection.standard}`) : '-'}</dd>
             </dl>
           </div>
         </div>
       </div>
       <div>
         <div className={styles.tab}>{t(`nft.activity`)}</div>
-        <NftItemTransfers list={transferListRes?.data.data ?? []} isLoading={isTransferListLoading} />
+        <NftItemTransfers list={transferListRes?.data ?? []} isLoading={isTransferListLoading} />
         <Pagination
-          currentPage={transferListRes?.data.pagination.page ?? 1}
-          totalPages={transferListRes?.data.pagination.last ?? 1}
+          currentPage={transferListRes?.pagination.page ?? 1}
+          totalPages={transferListRes?.pagination.last ?? 1}
           onChange={handlePageChange}
         />
       </div>
