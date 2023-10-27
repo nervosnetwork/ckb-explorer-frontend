@@ -243,7 +243,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xf05188e5f3a6767fc4687faf45ba5f1a6e25d3ada6129dae8722cb282f262493-0'],
     depType: 'dep_group',
     hashType: 'type',
-    tag: 'joy id',
+    tag: 'JoyID',
     category: 'lock',
   },
 ]
