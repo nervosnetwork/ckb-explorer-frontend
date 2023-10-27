@@ -4,8 +4,9 @@ import { localeNumberString } from '../../../utils/number'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { RewardPenal, RewardItemPenal } from './styled'
 import { useIsMobile } from '../../../utils/hook'
+import { Cell } from '../../../models/Cell'
 
-const useRewards = (cell: State.Cell, isMobile: boolean) => {
+const useRewards = (cell: Cell, isMobile: boolean) => {
   const { t } = useTranslation()
   return [
     {
@@ -27,7 +28,7 @@ const useRewards = (cell: State.Cell, isMobile: boolean) => {
   ]
 }
 
-const TransactionReward = ({ cell, showReward }: { cell: State.Cell; showReward?: boolean }) => {
+const TransactionReward = ({ cell, showReward }: { cell: Cell; showReward?: boolean }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   // [0, 11] block doesn't show block reward and only cellbase show block reward

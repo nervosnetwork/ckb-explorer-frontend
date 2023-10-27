@@ -21,37 +21,29 @@ export const NervosDao = () => {
   const params = useSearchParams('tab', 'filter')
   const tab = (params.tab as 'transactions' | 'depositors') || 'transactions'
 
-  const queryNervosDao = useQuery(['nervos-dao'], async () => {
-    const wrapper = await explorerService.api.fetchNervosDao()
-    const nervosDao = wrapper.attributes
-    return nervosDao
-  })
+  const queryNervosDao = useQuery(['nervos-dao'], () => explorerService.api.fetchNervosDao())
 
   const queryNervosDaoTransactions = useQuery(
     ['nervos-dao-transactions', currentPage, _pageSize, params.filter],
     async () => {
-      const { data, meta } = await explorerService.api.fetchNervosDaoTransactionsByFilter({
+      const {
+        data: transactions,
+        total,
+        pageSize,
+      } = await explorerService.api.fetchNervosDaoTransactionsByFilter({
         filter: params.filter,
         page: currentPage,
         size: _pageSize,
       })
 
-      const transactions = data.map(wrapper => wrapper.attributes)
-      return {
-        transactions,
-        total: meta?.total ?? transactions.length,
-        pageSize: meta?.pageSize,
-      }
+      return { transactions, total, pageSize }
     },
     { enabled: !params.tab || params.tab === 'transactions' },
   )
 
   const queryNervosDaoDepositors = useQuery(
     ['nervos-dao-depositors'],
-    async () => {
-      const { data } = await explorerService.api.fetchNervosDaoDepositors()
-      return { depositors: data.map(wrapper => wrapper.attributes) }
-    },
+    () => explorerService.api.fetchNervosDaoDepositors(),
     {
       enabled: params.tab === 'depositors',
     },
@@ -107,7 +99,7 @@ export const NervosDao = () => {
           </QueryResult>
         ) : (
           <QueryResult query={queryNervosDaoDepositors} delayLoading>
-            {data => <DepositorRank depositors={data.depositors} filter={params.filter} />}
+            {data => <DepositorRank depositors={data} filter={params.filter} />}
           </QueryResult>
         )}
       </DaoContentPanel>

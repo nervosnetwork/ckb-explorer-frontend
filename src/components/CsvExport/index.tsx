@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import styles from './styles.module.scss'
 import { ReactComponent as ExportIcon } from '../../assets/export_icon.svg'
+import { SupportedExportTransactionType } from '../../services/ExplorerService'
 
-export function CsvExport({ type, id }: { type: State.TransactionCsvExportType; id?: string }) {
+export function CsvExport({ type, id }: { type: SupportedExportTransactionType; id?: string }) {
   const [t] = useTranslation()
   return (
     <Link

@@ -1,8 +1,8 @@
 import { BehaviorSubject, Subscription, map, switchMap, timer } from 'rxjs'
 import { BLOCK_POLLING_TIME } from '../../constants/common'
-import * as apiFetcher from './fetcher'
+import { APIReturn, apiFetcher } from './fetcher'
 
-const initStatistics: State.Statistics = {
+const initStatistics: APIReturn<'fetchStatistics'> = {
   tipBlockNumber: '0',
   averageBlockTime: '0',
   currentEpochDifficulty: '0',
@@ -26,7 +26,7 @@ class ExplorerService {
   // This process usually makes the code asynchronous, and the Observable is a type that may have a null value,
   // so we need to do related logic, which will make the overall code design complex.
   // Therefore, we choose to implement it with a Subject here.
-  latestStatistics$ = new BehaviorSubject<State.Statistics>(initStatistics)
+  latestStatistics$ = new BehaviorSubject<APIReturn<'fetchStatistics'>>(initStatistics)
 
   // Although the data is also available in latestStatistics$, it seems to have a longer caching time,
   // so another API is used here to obtain it separately.
@@ -41,19 +41,14 @@ class ExplorerService {
   start() {
     this.callbacksAtStop = new Subscription()
     this.callbacksAtStop.add(
-      timer(0, BLOCK_POLLING_TIME)
-        .pipe(
-          switchMap(this.api.fetchStatistics),
-          map(wrapper => wrapper.attributes),
-        )
-        .subscribe(this.latestStatistics$),
+      timer(0, BLOCK_POLLING_TIME).pipe(switchMap(this.api.fetchStatistics)).subscribe(this.latestStatistics$),
     )
 
     this.callbacksAtStop.add(
       timer(0, BLOCK_POLLING_TIME)
         .pipe(
           switchMap(this.api.fetchTipBlockNumber),
-          map(wrapper => Number(wrapper.attributes.tipBlockNumber)),
+          map(tipBlockNumber => Number(tipBlockNumber)),
         )
         .subscribe(this.latestBlockNumber$),
     )
@@ -68,3 +63,4 @@ export const explorerService = new ExplorerService()
 
 export * from './hooks'
 export * from './types'
+export type { APIFetcher, APIReturn } from './fetcher'

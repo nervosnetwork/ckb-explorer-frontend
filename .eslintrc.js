@@ -99,6 +99,7 @@ module.exports = {
         allow: ['^.*_'],
       },
     ],
+    '@typescript-eslint/array-type': 'error',
   },
   env: {
     jest: true,

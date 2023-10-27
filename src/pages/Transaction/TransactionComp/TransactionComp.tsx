@@ -1,7 +1,9 @@
 import TransactionCellList from '../TransactionCellList'
 import { useAddrFormatToggle } from '../../../utils/hook'
+import { Cell } from '../../../models/Cell'
+import { Transaction } from '../../../models/Transaction'
 
-const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
+const handleCellbaseInputs = (inputs: Cell[], outputs: Cell[]) => {
   if (inputs[0] && inputs[0].fromCellbase && outputs[0] && outputs[0].baseReward) {
     const resultInputs = inputs
     resultInputs[0] = {
@@ -16,7 +18,7 @@ const handleCellbaseInputs = (inputs: State.Cell[], outputs: State.Cell[]) => {
   return inputs
 }
 
-export const TransactionComp = ({ transaction }: { transaction: State.Transaction }) => {
+export const TransactionComp = ({ transaction }: { transaction: Transaction }) => {
   const { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase } = transaction
 
   const { isNew: isAddrNew, setIsNew: setIsAddrNew } = useAddrFormatToggle()

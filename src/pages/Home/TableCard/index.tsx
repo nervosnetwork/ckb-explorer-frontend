@@ -9,9 +9,11 @@ import { BlockRewardPlusPanel, BlockRewardPanel, BlockCardPanel, TransactionCard
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
 import { useParsedDate } from '../../../utils/hook'
+import { Block } from '../../../models/Block'
+import { Transaction } from '../../../models/Transaction'
 
 // eslint-disable-next-line no-underscore-dangle
-const _BlockCardItem: FC<{ block: State.Block; isDelayBlock?: boolean }> = ({ block, isDelayBlock }) => {
+const _BlockCardItem: FC<{ block: Block; isDelayBlock?: boolean }> = ({ block, isDelayBlock }) => {
   const { t } = useTranslation()
   const liveCellChanges = Number(block.liveCellChanges)
   const blockReward = isDelayBlock ? (
@@ -74,7 +76,7 @@ export const BlockCardItem = memo(
 
 // eslint-disable-next-line no-underscore-dangle
 const _TransactionCardItem: FC<{
-  transaction: State.Transaction
+  transaction: Transaction
   tipBlockNumber: number
 }> = ({ transaction, tipBlockNumber }) => {
   const { t } = useTranslation()

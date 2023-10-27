@@ -4,6 +4,7 @@ import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
+import { ChartColorConfig } from '../../../constants/common'
 
 const Colors = [
   '#069ECD',
@@ -24,8 +25,8 @@ interface VersionRecord {
 }
 
 const useOption = (
-  list: Array<VersionRecord>,
-  chartColor: State.ChartColor,
+  list: VersionRecord[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -109,7 +110,7 @@ const fetchData = async () => {
   }))
 }
 
-const toCSV = (versionList: Array<VersionRecord>) => versionList?.map(r => [r.version, `${r.percent}%`]) ?? []
+const toCSV = (versionList: VersionRecord[]) => versionList?.map(r => [r.version, `${r.percent}%`]) ?? []
 
 export const MinerVersionDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()

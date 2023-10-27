@@ -1,4 +1,6 @@
-export const defaultNervosDaoInfo: State.NervosDao = {
+import { APIReturn } from '../../services/ExplorerService'
+
+export const defaultNervosDaoInfo: APIReturn<'fetchNervosDao'> = {
   totalDeposit: '',
   depositorsCount: '',
   depositChanges: '',

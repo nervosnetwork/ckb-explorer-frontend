@@ -13,7 +13,8 @@ import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
 import { tooltipWidth, tooltipColor, SeriesItem, SmartChartPage } from '../common'
 import { ChartCachedKeys } from '../../../constants/cache'
-import { explorerService } from '../../../services/ExplorerService'
+import { ChartItem, explorerService } from '../../../services/ExplorerService'
+import { ChartColorConfig } from '../../../constants/common'
 
 const widthSpan = (value: string, language: LanuageType) => tooltipWidth(value, language === 'en' ? 140 : 120)
 
@@ -39,8 +40,8 @@ const useTooltip = () => {
 }
 
 const useOption = (
-  statisticNewDaoDeposits: State.StatisticNewDaoDeposit[],
-  chartColor: State.ChartColor,
+  statisticNewDaoDeposits: ChartItem.NewDaoDeposit[],
+  chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -177,7 +178,7 @@ const useOption = (
   }
 }
 
-const toCSV = (statisticNewDaoDeposits: State.StatisticNewDaoDeposit[]) =>
+const toCSV = (statisticNewDaoDeposits: ChartItem.NewDaoDeposit[]) =>
   statisticNewDaoDeposits
     ? statisticNewDaoDeposits.map(data => [
         data.createdAtUnixtimestamp,

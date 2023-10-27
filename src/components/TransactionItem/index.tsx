@@ -10,6 +10,7 @@ import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, Transaction
 import { CellType } from '../../constants/common'
 import AddressText from '../AddressText'
 import { useIsLGScreen, useParsedDate } from '../../utils/hook'
+import { Transaction } from '../../models/Transaction'
 
 export interface CircleCorner {
   top?: boolean
@@ -27,7 +28,7 @@ const TransactionItem = ({
   },
   scrollIntoViewOnMount,
 }: {
-  transaction: State.Transaction
+  transaction: Transaction
   address?: string
   isBlock?: boolean
   titleCard?: ReactNode | null

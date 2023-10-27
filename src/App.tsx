@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { ThemeProvider } from 'styled-components'
+import { DefaultTheme, ThemeProvider } from 'styled-components'
 import Routers from './routes'
 import Toast from './components/Toast'
 import useInitApp from './contexts/providers/hook'
@@ -18,7 +18,7 @@ const queryClient = new QueryClient()
 
 const App = () => {
   useInitApp()
-  const theme = useMemo(
+  const theme = useMemo<DefaultTheme>(
     () => ({
       primary: getPrimaryColor(),
       secondary: getSecondaryColor(),

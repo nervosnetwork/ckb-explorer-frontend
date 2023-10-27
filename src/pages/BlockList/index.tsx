@@ -20,6 +20,7 @@ import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
 import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
 import styles from './styles.module.scss'
+import { Block } from '../../models/Block'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -45,7 +46,7 @@ interface TableContentData {
 
 const LoadingSection = () => <div className={styles.loadingSection}>Loading...</div>
 
-const getTableContentDataList = (block: State.Block, index: number, page: number, isMaxW: boolean) => {
+const getTableContentDataList = (block: Block, index: number, page: number, isMaxW: boolean) => {
   const blockReward =
     index < DELAY_BLOCK_NUMBER && page === 1 ? (
       <BlockRewardContainer>
@@ -82,9 +83,9 @@ const getTableContentDataList = (block: State.Block, index: number, page: number
   ] as TableContentData[]
 }
 
-const BlockCardGroup: FC<{ blocks: State.Block[]; isFirstPage: boolean }> = ({ blocks, isFirstPage }) => {
+const BlockCardGroup: FC<{ blocks: Block[]; isFirstPage: boolean }> = ({ blocks, isFirstPage }) => {
   const { t } = useTranslation()
-  const items: ItemCardData<State.Block>[] = [
+  const items: ItemCardData<Block>[] = [
     {
       title: t('home.height'),
       render: block => <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
@@ -245,7 +246,7 @@ export default () => {
               <LoadingSection />
             ) : (
               blockList.map(
-                (block: State.Block, blockIndex: number) =>
+                (block: Block, blockIndex: number) =>
                   block && (
                     <TableContentRow key={block.number}>
                       {getTableContentDataList(block, blockIndex, currentPage, isMaxW).map(

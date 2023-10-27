@@ -1,11 +1,12 @@
 import { Tooltip } from 'antd'
 import styles from './TransactionBadge.module.scss'
+import { Cell } from '../../../../models/Cell'
 
 type Props = {
-  cellType: State.CellType
+  cellType: Cell['cellType']
   capacity?: string
 }
-const cellTypeDisplayMap: Record<State.CellType, string> = {
+const cellTypeDisplayMap: Record<Cell['cellType'], string> = {
   normal: '',
   udt: '',
   nervos_dao_deposit: 'Nervos DAO Deposit',
@@ -19,6 +20,9 @@ const cellTypeDisplayMap: Record<State.CellType, string> = {
   m_nft_token: '',
   nrc_721_token: '',
   nrc_721_factory: '',
+  nft_transfer: '',
+  simple_transfer: '',
+  nft_mint: '',
 }
 
 export const TransactionBadge = ({ cellType, capacity }: Props) => {

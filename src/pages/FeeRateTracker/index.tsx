@@ -3,7 +3,6 @@ import { useQuery } from 'react-query'
 import { useTranslation } from 'react-i18next'
 import styles from './styles.module.scss'
 import Content from '../../components/Content'
-import { toCamelcase } from '../../utils/util'
 import { useAnimationFrame, useIsMobile } from '../../utils/hook'
 import {
   ConfirmationTimeFeeRateChart,
@@ -15,8 +14,9 @@ import Loading from '../../components/Loading'
 import { localeNumberString } from '../../utils/number'
 import { getFeeRateSamples } from '../../utils/chart'
 import { explorerService, useStatistics } from '../../services/ExplorerService'
+import { FeeRateTracker } from '../../services/ExplorerService/fetcher'
 
-const FeeRateTracker = () => {
+const FeeRateTrackerPage = () => {
   const { t } = useTranslation()
   const lastFetchedTime = useRef(Number.MAX_SAFE_INTEGER)
   const deltaSecond = useRef(0)
@@ -27,20 +27,14 @@ const FeeRateTracker = () => {
 
   const { data: transactionFeesStatistic } = useQuery<FeeRateTracker.TransactionFeesStatistic>(
     ['statistics-transaction_fees'],
-    () =>
-      explorerService.api.requesterV2.get(`statistics/transaction_fees`).then(({ status, data }) => {
-        if (status === 200 && data) {
-          lastFetchedTime.current = Date.now()
-          deltaSecond.current = 0
-          setSecondAfterUpdate(0)
-          return toCamelcase<FeeRateTracker.TransactionFeesStatistic>(data)
-        }
-        return {
-          transactionFeeRates: [],
-          pendingTransactionFeeRates: [],
-          lastNDaysTransactionFeeRates: [],
-        }
-      }),
+    async () => {
+      const res = await explorerService.api.fetchStatisticTransactionFees()
+      lastFetchedTime.current = Date.now()
+      deltaSecond.current = 0
+      // TODO: refactor to dataUpdatedAt?
+      setSecondAfterUpdate(0)
+      return res
+    },
     {
       refetchInterval: 1000 * 60,
     },
@@ -124,4 +118,4 @@ const FeeRateTracker = () => {
   )
 }
 
-export default FeeRateTracker
+export default FeeRateTrackerPage

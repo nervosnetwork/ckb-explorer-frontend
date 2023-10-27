@@ -1,3 +1,5 @@
+import { Script } from '../models/Script'
+
 export interface ContractHashTag {
   codeHashes: string[] // The code hashes whose hash type are type in mainnet and testnet are different
   txHashes: string[] //  mainnet and testnet contract tx hashes
@@ -7,7 +9,7 @@ export interface ContractHashTag {
   hashType: string
 }
 
-export const ScriptTagExtraRules = new Map<string, (s: State.Script) => string>([
+export const ScriptTagExtraRules = new Map<string, (s: Script) => string>([
   [
     'secp256k1 / multisig',
     script => (script.args.length === 28 * 2 + 2 ? 'secp256k1 / multisig / locktime' : 'secp256k1 / multisig'),
@@ -234,6 +236,14 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'godwoken_eth_account_lock',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0xd00c84f0ec8fd441c38bc3f87a371f547190f2fcff88e642bc5bf54b9e318323'],
+    txHashes: ['0xf05188e5f3a6767fc4687faf45ba5f1a6e25d3ada6129dae8722cb282f262493-0'],
+    depType: 'dep_group',
+    hashType: 'type',
+    tag: 'joy_id',
     category: 'lock',
   },
 ]

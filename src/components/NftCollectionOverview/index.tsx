@@ -1,4 +1,3 @@
-import type { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { Tooltip } from 'antd'
@@ -10,23 +9,9 @@ import { getPrimaryColor } from '../../constants/common'
 
 const primaryColor = getPrimaryColor()
 
-interface InfoRes {
-  id: number
-  standard: string
-  name: string
-  description: string
-  creator: string | null
-  icon_url: string | null
-  items_count: number | null
-  holders_count: number | null
-}
-
 const NftCollectionOverview = ({ id }: { id: string }) => {
   const { t } = useTranslation()
-  const { isLoading, data } = useQuery<AxiosResponse<InfoRes>>(['collection-info', id], () =>
-    explorerService.api.requesterV2(`nft/collections/${id}`),
-  )
-  const info = data?.data
+  const { isLoading, data: info } = useQuery(['collection-info', id], () => explorerService.api.fetchNFTCollection(id))
 
   return (
     <div className={styles.container}>

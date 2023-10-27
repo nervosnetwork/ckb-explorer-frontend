@@ -9,12 +9,12 @@ export const TransactionDetailContainer = styled.div`
   }
 `
 
-export const TransactionDetailItem = styled.div`
+export const TransactionDetailItem = styled.div<{ selected?: boolean }>`
   cursor: pointer;
   position: relative;
   display: flex;
   padding-bottom: 22px;
-  color: ${(props: { selected?: boolean }) => (props.selected ? '#000000' : 'rgba(0, 0, 0, 0.6)')};
+  color: ${props => (props.selected ? '#000000' : 'rgba(0, 0, 0, 0.6)')};
   font-weight: 600;
   font-size: 16px;
   align-items: center;
@@ -28,10 +28,10 @@ export const TransactionDetailItem = styled.div`
     left: 2px;
     bottom: 0;
     content: '';
-    background: ${(props: { theme: State.Theme }) => `${props.theme.primary}`};
+    background: ${props => `${props.theme.primary}`};
     width: calc(100% - 4px);
     height: 5px;
-    display: ${(props: { theme: State.Theme; selected: boolean }) => (props.selected ? 'block' : 'none')};
+    display: ${props => (props.selected ? 'block' : 'none')};
   }
 `
 
@@ -180,7 +180,6 @@ export const TransactionDetailCopyButton = styled.div`
   cursor: pointer;
   width: 150px;
   height: 40px;
-  background: ${props => props.theme.default};
   border: 1px ${props => props.theme.primary} solid;
   border-radius: 6px;
   display: flex;
@@ -256,7 +255,7 @@ export const TransactionDetailScriptButton = styled.a`
   }
 `
 
-export const TransactionCellScriptContentPanel = styled.div`
+export const TransactionCellInfoValuePanel = styled.div`
   > div {
     display: flex;
     margin: 2px 0 2px 30px;

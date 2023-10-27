@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
-export const TransactionCellPanel = styled.div`
+export const TransactionCellPanel = styled.div<{ highLight?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 16px;
-  background: ${({ highLight = false }: { highLight?: boolean }) => (highLight ? '' : '#f5f5f5')};
+  background: ${({ highLight }) => (highLight ? '' : '#f5f5f5')};
 
   @media (min-width: 750px) {
     height: 20px;
@@ -18,8 +18,7 @@ export const TransactionCellPanel = styled.div`
   }
 
   .transactionCellAddress {
-    color: ${({ highLight = false, theme }: { highLight?: boolean; theme: State.Theme }) =>
-      highLight ? `${theme.primary}` : '#000000'};
+    color: ${({ highLight = false, theme }) => (highLight ? `${theme.primary}` : '#000000')};
     font-weight: 500;
     min-width: 0;
     width: 100%;
@@ -33,11 +32,11 @@ export const TransactionCellPanel = styled.div`
     }
 
     a {
-      color: ${({ theme }: { theme: State.Theme }) => `${theme.primary}`};
+      color: ${({ theme }) => `${theme.primary}`};
     }
 
     a:hover {
-      color: ${({ theme }: { theme: State.Theme }) => `${theme.primary}`};
+      color: ${({ theme }) => `${theme.primary}`};
     }
   }
 `
@@ -194,10 +193,10 @@ export const WithdrawItemPanel = styled.div`
   }
 
   a {
-    color: ${({ theme }: { theme: State.Theme }) => theme.primary};
+    color: ${({ theme }) => theme.primary};
   }
 
   a:hover {
-    color: ${({ theme }: { theme: State.Theme }) => `${theme.primary}`};
+    color: ${({ theme }) => `${theme.primary}`};
   }
 `

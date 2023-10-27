@@ -7,8 +7,9 @@ import TransactionCellArrow from '../TransactionCellArrow'
 import { localeNumberString } from '../../../utils/number'
 import HelpIcon from '../../../assets/qa_help.png'
 import styles from './index.module.scss'
+import { Cell } from '../../../models/Cell'
 
-const Cellbase = ({ cell, cellType, isDetail }: { cell: State.Cell; cellType: CellType; isDetail?: boolean }) => {
+const Cellbase = ({ cell, cellType, isDetail }: { cell: Cell; cellType: CellType; isDetail?: boolean }) => {
   if (!cell.targetBlockNumber || cell.targetBlockNumber <= 0) {
     return (
       <CellbasePanel>

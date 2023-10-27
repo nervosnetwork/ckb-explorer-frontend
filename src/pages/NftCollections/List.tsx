@@ -10,10 +10,11 @@ import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
 import { getPrimaryColor } from '../../constants/common'
 import { useIsMobile, useSearchParams, useSortParam } from '../../utils/hook'
 import styles from './styles.module.scss'
+import type { NFTCollection } from '../../services/ExplorerService/fetcher'
 
 type NftSortField = 'transactions' | 'holder' | 'minted'
 const primaryColor = getPrimaryColor()
-function useFilterList(): Array<Record<'title' | 'value', string>> {
+function useFilterList(): Record<'title' | 'value', string>[] {
   const { t } = useTranslation()
   return [
     {
@@ -41,19 +42,6 @@ function useFilterList(): Array<Record<'title' | 'value', string>> {
 
 export const isTxFilterType = (s?: string): boolean => {
   return s ? ['all', 'm_nft', 'nrc721', 'cota', 'spore'].includes(s) : false
-}
-
-export interface NFTCollection {
-  id: number
-  standard: string
-  name: string
-  description: string
-  h24_ckb_transactions_count: string
-  creator: string | null
-  icon_url: string | null
-  items_count: number | null
-  holders_count: number | null
-  type_script: { code_hash: string; hash_type: 'data' | 'type'; args: string } | null
 }
 
 const TypeFilter = () => {
@@ -154,7 +142,7 @@ const TypeInfo: React.FC<{ nft: NFTCollection }> = ({ nft: item }) => {
   )
 }
 
-export const ListOnDesktop: React.FC<{ isLoading: boolean; list: Array<NFTCollection> }> = ({ list, isLoading }) => {
+export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
   return (
     <table data-role="desktop-list">
@@ -257,7 +245,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: Array<NFTCollec
   )
 }
 
-export const ListOnMobile: React.FC<{ isLoading: boolean; list: Array<NFTCollection> }> = ({ list, isLoading }) => {
+export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
   return (
     <div data-role="mobile-list">
