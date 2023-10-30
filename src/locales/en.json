@@ -560,6 +560,7 @@
       "decimal": "Decimal",
       "search_placeholder": "Transaction / Address",
       "unknown_token": "Unknown Token",
+      "unknown_amount": "Unknown Amount",
       "submit_token_info": "Submit Token Info",
       "unknown_token_description": "The token’s information is incomplete. If you are the owner of this token, please submit token info.",
       "tokens": "Tokens",
