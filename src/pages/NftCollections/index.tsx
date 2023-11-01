@@ -7,12 +7,11 @@ import Pagination from '../../components/Pagination'
 import { getPrimaryColor } from '../../constants/common'
 import { explorerService } from '../../services/ExplorerService'
 import { udtSubmitEmail } from '../../utils/util'
-import { useSearchParams, useSortParam } from '../../utils/hook'
+import { useSearchParams } from '../../utils/hook'
 import styles from './styles.module.scss'
+import { useNFTCollectionsSortParam } from './util'
 
 const primaryColor = getPrimaryColor()
-
-type NftSortByType = 'transactions' | 'holder' | 'minted'
 
 const submitTokenInfoUrl = udtSubmitEmail()
 
@@ -21,8 +20,7 @@ const NftCollections = () => {
   const { t } = useTranslation()
   const { search } = useLocation()
   const { page = '1', type } = useSearchParams('page', 'type')
-
-  const { sort = 'holder' } = useSortParam<NftSortByType>(s => s === 'transactions' || s === 'holder' || s === 'minted')
+  const { sort } = useNFTCollectionsSortParam()
 
   const isValidFilter = isTxFilterType(type) && type !== 'all'
 

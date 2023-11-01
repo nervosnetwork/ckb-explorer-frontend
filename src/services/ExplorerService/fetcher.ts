@@ -579,7 +579,7 @@ export const apiFetcher = {
       .then(res => toCamelcase<string>(res.data))
   },
 
-  fetchNFTCollections: (page: string, sort: string, type?: string) =>
+  fetchNFTCollections: (page: string, sort?: string, type?: string) =>
     requesterV2
       .get<{
         data: NFTCollection[]

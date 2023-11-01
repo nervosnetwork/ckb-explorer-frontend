@@ -186,7 +186,8 @@ export type OrderByType = 'asc' | 'desc'
 
 // REFACTOR: remove useSearchParams
 export function useSortParam<T extends string>(
-  isSortBy: (s?: string) => boolean,
+  isSortBy?: (s?: string) => boolean,
+  defaultValue?: string,
 ): {
   sortBy: T | undefined
   orderBy: OrderByType
@@ -195,12 +196,13 @@ export function useSortParam<T extends string>(
 } {
   type SortType = T | undefined
   function isSortByType(s?: string): s is SortType {
+    if (!isSortBy) return true
     return isSortBy(s) || s === undefined
   }
   function isOrderByType(s?: string): s is OrderByType {
     return s === 'asc' || s === 'desc'
   }
-  const { sort: sortParam } = useSearchParams('sort')
+  const { sort: sortParam = defaultValue } = useSearchParams('sort')
   const updateSearchParams = useUpdateSearchParams<'sort' | 'page'>()
   let sortBy: SortType
   let orderBy: OrderByType = 'asc'

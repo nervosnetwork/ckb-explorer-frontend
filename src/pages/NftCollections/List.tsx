@@ -6,13 +6,13 @@ import { Trans, useTranslation } from 'react-i18next'
 import SortButton from '../../components/SortButton'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
 import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
-import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
+import { ReactComponent as FilterIcon } from './filter.svg'
 import { getPrimaryColor } from '../../constants/common'
-import { useIsMobile, useSearchParams, useSortParam } from '../../utils/hook'
+import { useIsMobile, useSearchParams } from '../../utils/hook'
 import styles from './styles.module.scss'
 import type { NFTCollection } from '../../services/ExplorerService/fetcher'
+import { useNFTCollectionsSortParam } from './util'
 
-type NftSortField = 'transactions' | 'holder' | 'minted'
 const primaryColor = getPrimaryColor()
 function useFilterList(): Record<'title' | 'value', string>[] {
   const { t } = useTranslation()
@@ -80,30 +80,35 @@ const TypeFilter = () => {
 
 const HolderMinterSort = () => {
   const { t } = useTranslation()
-  const { sortBy, handleSortClick } = useSortParam<NftSortField>(
-    s => s === 'transactions' || s === 'holder' || s === 'minted',
-  )
+  const sortParam = useNFTCollectionsSortParam()
+  const { sortBy, handleSortClick } = sortParam
 
   return (
     <div className={styles.holderMinted}>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
         className={classNames({
           [styles.sortActive]: sortBy === 'holder',
         })}
         onClick={() => handleSortClick('holder')}
-        aria-hidden
+        role="button"
+        tabIndex={0}
       >
         {t('nft.holder')}
+        {sortBy === 'holder' && <SortButton field="holder" sortParam={sortParam} />}
       </div>
-      &nbsp;/&nbsp;
+      <span className={styles.divider}>/</span>
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div
         className={classNames({
           [styles.sortActive]: sortBy === 'minted',
         })}
         onClick={() => handleSortClick('minted')}
-        aria-hidden
+        role="button"
+        tabIndex={0}
       >
         {t('nft.minted')}
+        {sortBy !== 'holder' && <SortButton field="minted" sortParam={sortParam} />}
       </div>
     </div>
   )
@@ -144,6 +149,8 @@ const TypeInfo: React.FC<{ nft: NFTCollection }> = ({ nft: item }) => {
 
 export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
+  const sortParam = useNFTCollectionsSortParam()
+
   return (
     <table data-role="desktop-list">
       <thead>
@@ -154,8 +161,11 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
           </th>
           <th className={styles.transactionsHeader}>
             <span>
-              {t('nft.transactions')}
-              <SortButton field="transactions" />
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+              <span onClick={() => sortParam.handleSortClick('transactions')} role="button" tabIndex={0}>
+                {t('nft.transactions')}
+              </span>
+              <SortButton field="transactions" sortParam={sortParam} />
             </span>
           </th>
           <th>
@@ -247,10 +257,19 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
 
 export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
+  const sortParam = useNFTCollectionsSortParam()
+
   return (
     <div data-role="mobile-list">
       <div className={styles.listHeader}>
         <TypeFilter />
+        <span>
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+          <span onClick={() => sortParam.handleSortClick('transactions')} role="button" tabIndex={0}>
+            {t('nft.transactions')}
+          </span>
+          <SortButton field="transactions" sortParam={sortParam} />
+        </span>
         <HolderMinterSort />
       </div>
       <div>
