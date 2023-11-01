@@ -8,7 +8,7 @@ import {
   systemScripts,
 } from '@nervosnetwork/ckb-sdk-utils'
 import { useHistory, useLocation } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useResizeDetector } from 'react-resize-detector'
 import { interval, share } from 'rxjs'
 import { AppCachedKeys } from '../constants/cache'

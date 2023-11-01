@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { DefaultTheme, ThemeProvider } from 'styled-components'
 import Routers from './routes'
 import Toast from './components/Toast'

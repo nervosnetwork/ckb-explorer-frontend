@@ -1,5 +1,5 @@
 import { useHistory, useLocation } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import { ListOnDesktop, ListOnMobile, isTxFilterType } from './List'

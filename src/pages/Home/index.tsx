@@ -1,7 +1,7 @@
 import { FC, memo, useMemo, useRef } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useResizeDetector } from 'react-resize-detector'
 import {
   HomeHeaderItemPanel,
@@ -197,7 +197,7 @@ export default () => {
   const tipBlockNumber = useLatestBlockNumber()
 
   const blocksQuery = useQuery(
-    'latest_blocks',
+    ['latest_blocks'],
     async () => {
       // Using the size of list pages to request will be more friendly to the data reuse of the list pages.
       const { data, meta } = await explorerService.api.fetchLatestBlocks(ListPageParams.PageSize)

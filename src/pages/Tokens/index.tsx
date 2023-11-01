@@ -1,6 +1,6 @@
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
@@ -154,7 +154,7 @@ export default () => {
         >
           {data => (
             <TokensTableContent>
-              {data.tokens.map((token, index) => (
+              {data?.tokens.map((token, index) => (
                 <TokenItem key={token.typeHash} token={token} isLast={index === data.tokens.length - 1} />
               ))}
             </TokensTableContent>

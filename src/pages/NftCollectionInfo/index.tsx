@@ -1,5 +1,5 @@
 import { Link, useParams, useHistory } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Popover } from 'antd'
 import { TFunction, useTranslation } from 'react-i18next'
 import Content from '../../components/Content'

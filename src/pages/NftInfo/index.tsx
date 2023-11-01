@@ -1,5 +1,5 @@
 import { Link, useParams, useHistory } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'

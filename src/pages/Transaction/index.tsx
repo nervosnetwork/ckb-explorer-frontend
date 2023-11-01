@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import TransactionHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
@@ -42,11 +42,11 @@ export default () => {
         </TransactionHashCard>
         {layout === Professional ? (
           <QueryResult query={query} delayLoading>
-            {transaction => <TransactionComp transaction={transaction} />}
+            {transaction => (transaction ? <TransactionComp transaction={transaction} /> : <div />)}
           </QueryResult>
         ) : (
           <QueryResult query={query} delayLoading>
-            {transaction => <TransactionCompLite isCellbase={transaction.isCellbase} />}
+            {transaction => <TransactionCompLite isCellbase={transaction?.isCellbase ?? false} />}
           </QueryResult>
         )}
       </TransactionPanel>

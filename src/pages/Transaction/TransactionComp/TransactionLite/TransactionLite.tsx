@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { FC } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'

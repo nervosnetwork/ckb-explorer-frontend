@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { explorerService } from '../../services/ExplorerService'
