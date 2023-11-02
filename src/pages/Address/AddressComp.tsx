@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { useState, useEffect, FC } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Radio } from 'antd'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'

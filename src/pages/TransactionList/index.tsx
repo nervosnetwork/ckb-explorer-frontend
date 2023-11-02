@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { parseSimpleDate } from '../../utils/date'
 import Content from '../../components/Content'
 import { shannonToCkb } from '../../utils/util'
@@ -237,7 +237,11 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
     type === 'confirmed' ? s === 'height' || s === 'capacity' : s === 'capacity' || s === 'time' || s === 'fee',
   )
 
-  const query = useQuery(
+  const query = useQuery<
+    { transactions: Transaction[]; total: number },
+    unknown,
+    { transactions: Transaction[]; total: number }
+  >(
     [`${type}-transactions`, type, currentPage, pageSize, sortBy, orderBy] as const,
     async ({ queryKey }) => {
       const [, type] = queryKey
@@ -261,7 +265,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
       initialData:
         state?.type === 'TransactionListPage' && state.createTime + stateStaleTime > Date.now()
           ? state.transactionsDataWithFirstPage
-          : undefined,
+          : { total: 0, transactions: [] },
     },
   )
 

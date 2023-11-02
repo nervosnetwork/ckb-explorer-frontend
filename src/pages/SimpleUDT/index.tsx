@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Popover } from 'antd'
 import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
@@ -170,8 +170,8 @@ export const SimpleUDT = () => {
             <SimpleUDTComp
               currentPage={currentPage}
               pageSize={pageSize}
-              transactions={data.transactions}
-              total={data.total}
+              transactions={data?.transactions ?? []}
+              total={data?.total ?? 0}
               onPageChange={setPage}
               filterNoResult={filterNoResult}
               id={typeHash}

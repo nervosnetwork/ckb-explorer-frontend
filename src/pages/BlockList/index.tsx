@@ -1,7 +1,7 @@
 import { Fragment, useMemo, FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { parseSimpleDate } from '../../utils/date'
 import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
 import Content from '../../components/Content'

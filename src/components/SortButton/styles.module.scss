@@ -3,9 +3,9 @@
   border: none;
   outline: none;
   background: none;
-  display: inline-block;
+  display: inline-flex;
   vertical-align: text-top;
-  margin: 0 8px;
+  margin-left: 8px;
   cursor: pointer;
 
   &[data-order='desc'] {

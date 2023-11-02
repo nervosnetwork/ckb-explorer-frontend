@@ -28,6 +28,7 @@
 }
 
 .searchAndfilter {
+  display: flex;
   align-items: center;
 
   > div:last-child {
@@ -46,13 +47,12 @@
   padding-left: 0.8rem;
 
   svg {
-    height: 1rem;
-    width: 1rem;
+    color: #999;
   }
 
   &[data-is-active='true'] {
-    svg path {
-      fill: var(--primary-color);
+    svg {
+      color: var(--primary-color);
     }
   }
 }

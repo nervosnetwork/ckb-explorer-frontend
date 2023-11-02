@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import Content from '../../components/Content'
 import { DaoContentPanel, DaoTabBarPanel } from './styled'
 import DaoTransactions from './DaoTransactions'
@@ -90,16 +90,16 @@ export const NervosDao = () => {
               <DaoTransactions
                 currentPage={currentPage}
                 pageSize={pageSize}
-                transactions={data.transactions}
-                total={data.total}
+                transactions={data?.transactions ?? []}
+                total={data?.total ?? 0}
                 onPageChange={setPage}
-                filterNoResult={!!params.filter && data.total === 0}
+                filterNoResult={!!params.filter && data?.total === 0}
               />
             )}
           </QueryResult>
         ) : (
           <QueryResult query={queryNervosDaoDepositors} delayLoading>
-            {data => <DepositorRank depositors={data} filter={params.filter} />}
+            {data => <DepositorRank depositors={data ?? []} filter={params.filter} />}
           </QueryResult>
         )}
       </DaoContentPanel>

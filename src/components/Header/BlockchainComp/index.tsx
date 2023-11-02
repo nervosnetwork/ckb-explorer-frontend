@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect, FC, memo } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { isMainnet } from '../../../utils/chain'
 import WhiteDropdownIcon from '../../../assets/white_dropdown.png'
 import BlueDropUpIcon from '../../../assets/blue_drop_up.png'

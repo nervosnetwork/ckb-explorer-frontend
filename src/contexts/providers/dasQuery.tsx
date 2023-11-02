@@ -1,5 +1,5 @@
 import { createContext, FC, useCallback, useContext, useMemo, useRef } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { explorerService } from '../../services/ExplorerService'
 import type { DASAccount, DASAccountMap } from '../../services/ExplorerService/fetcher'
 import { unique } from '../../utils/array'

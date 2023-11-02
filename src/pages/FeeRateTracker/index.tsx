@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import styles from './styles.module.scss'
 import Content from '../../components/Content'

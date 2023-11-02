@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import AddressHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
@@ -58,15 +58,15 @@ export const Address = () => {
         />
 
         <QueryResult query={addressInfoQuery} delayLoading>
-          {data => <AddressOverview address={data} />}
+          {data => (data ? <AddressOverview address={data} /> : <div />)}
         </QueryResult>
 
         <QueryResult query={addressTransactionsQuery} delayLoading>
           {data => (
             <AddressTransactions
               address={address}
-              transactions={data.transactions}
-              transactionsTotal={data.total}
+              transactions={data?.transactions ?? []}
+              transactionsTotal={data?.total ?? 0}
               timeOrderBy={sortBy === 'time' ? orderBy : 'desc'}
             />
           )}

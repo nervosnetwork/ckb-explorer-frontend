@@ -1,6 +1,6 @@
 import { Tooltip } from 'antd'
-import { Link, useHistory } from 'react-router-dom'
-import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
@@ -23,7 +23,7 @@ import Loading from '../../components/Loading'
 import { udtSubmitEmail } from '../../utils/util'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import styles from './styles.module.scss'
-import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInPage, useSortParam } from '../../utils/hook'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import { UDT } from '../../models/UDT'
@@ -98,9 +98,8 @@ export default () => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
-
-  const { location } = useHistory()
-  const sort = new URLSearchParams(location.search).get('sort')
+  const sortParam = useSortParam(undefined, 'transactions.desc')
+  const { sort } = sortParam
 
   const query = useQuery(['tokens', currentPage, _pageSize, sort], async () => {
     const {
@@ -134,15 +133,15 @@ export default () => {
           {!isMobile && <span>{t('udt.uan_name')}</span>}
           <span>
             {t('udt.transactions')}
-            <SortButton field="transactions" />
+            <SortButton field="transactions" sortParam={sortParam} />
           </span>
           <span>
             {t('udt.address_count')}
-            <SortButton field="addresses_count" />
+            <SortButton field="addresses_count" sortParam={sortParam} />
           </span>
           <span>
             {t('udt.created_time')}
-            <SortButton field="created_time" />
+            <SortButton field="created_time" sortParam={sortParam} />
           </span>
         </TokensTableTitle>
 
@@ -155,7 +154,7 @@ export default () => {
         >
           {data => (
             <TokensTableContent>
-              {data.tokens.map((token, index) => (
+              {data?.tokens.map((token, index) => (
                 <TokenItem key={token.typeHash} token={token} isLast={index === data.tokens.length - 1} />
               ))}
             </TokensTableContent>
