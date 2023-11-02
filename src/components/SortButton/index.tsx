@@ -1,39 +1,27 @@
-import { useHistory, useLocation } from 'react-router-dom'
 import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
 import styles from './styles.module.scss'
-
-enum SortOrder {
-  Asc = 'asc',
-  Desc = 'desc',
-}
+import { useSortParam } from '../../utils/hook'
 
 /*
  * REFACTOR: could be refactored for https://github.com/Magickbase/ckb-explorer-frontend/pull/8#discussion_r1267484265
  */
-const SortButton: React.FC<{
-  field: string
-}> = ({ field }) => {
-  const { push } = useHistory()
-  const { search, pathname } = useLocation()
-
-  const query = new URLSearchParams(search)
-
-  const [sortKey, sortOrder] = query.get('sort')?.split('.') ?? []
-
-  const isActive = sortKey === field
+export function SortButton<T extends string>({
+  field,
+  sortParam,
+}: {
+  field: T
+  sortParam?: ReturnType<typeof useSortParam<T>>
+}) {
+  const sortParamByQuery = useSortParam()
+  const { sortBy, orderBy, handleSortClick } = sortParam ?? sortParamByQuery
+  const isActive = sortBy === field
 
   const handleClick = () => {
-    const shouldAsc = isActive && sortOrder === SortOrder.Desc
-    push(
-      `${pathname}?${new URLSearchParams({
-        ...Object.fromEntries(query),
-        sort: shouldAsc ? `${field}.${SortOrder.Asc}` : `${field}.${SortOrder.Desc}`,
-      })}`,
-    )
+    handleSortClick(field)
   }
 
   return (
-    <button type="button" className={styles.container} data-order={isActive ? sortOrder : null} onClick={handleClick}>
+    <button type="button" className={styles.container} data-order={isActive ? orderBy : null} onClick={handleClick}>
       <SortIcon />
     </button>
   )

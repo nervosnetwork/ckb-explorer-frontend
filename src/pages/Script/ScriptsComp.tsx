@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useHistory } from 'react-router'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import camelcase from 'camelcase'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -49,7 +49,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
       <QueryResult query={transactionsQuery} delayLoading>
         {data => (
           <div className={styles.scriptTransactionsPanel}>
-            {data.ckbTransactions &&
+            {data?.ckbTransactions &&
               data.ckbTransactions.map(tr => (
                 <TransactionItem
                   address=""
@@ -143,7 +143,7 @@ export const ScriptCells = ({
                 </tr>
               </thead>
               <tbody>
-                {data.cells.map(record => {
+                {data?.cells.map(record => {
                   return (
                     <tr key={`${record.txHash}_${record.cellIndex}`}>
                       <td align="left">

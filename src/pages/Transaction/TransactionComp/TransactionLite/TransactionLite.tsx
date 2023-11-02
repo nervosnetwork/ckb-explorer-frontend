@@ -1,11 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import { FC } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
+import { useTranslation } from 'react-i18next'
 import styles from './TransactionLite.module.scss'
 import DecimalCapacity from '../../../../components/DecimalCapacity'
-import { parseCKBAmount, localeNumberString } from '../../../../utils/number'
+import { parseCKBAmount, localeNumberString, parseUDTAmount } from '../../../../utils/number'
 import { shannonToCkb } from '../../../../utils/util'
 import { Addr } from '../../TransactionCell'
 import { defaultTransactionLiteDetails } from '../../state'
@@ -13,27 +14,30 @@ import { TransactionBadge } from './TransactionBadge'
 import { TransactionRecord, TransactionRecordTransfer, explorerService } from '../../../../services/ExplorerService'
 import { useIsMobile } from '../../../../utils/hook'
 
-const getTransferItemTag = (transfer: TransactionRecordTransfer) => {
-  const { cellType, udtInfo, mNftInfo } = transfer
-  if (cellType === 'm_nft_token' || cellType === 'm_nft_class' || cellType === 'm_nft_issuer') {
-    return `NFT-${mNftInfo?.className ?? 'Unknown'}`
+const useGetTransferItemTag = () => {
+  const { t } = useTranslation()
+  return (transfer: TransactionRecordTransfer) => {
+    const { cellType, udtInfo, mNftInfo } = transfer
+    if (cellType === 'm_nft_token' || cellType === 'm_nft_class' || cellType === 'm_nft_issuer') {
+      return `NFT-${mNftInfo?.className ?? 'Unknown'}`
+    }
+    if (cellType === 'udt') {
+      return udtInfo?.symbol || `${t('udt.unknown_token')} #${udtInfo?.typeHash.substring(udtInfo.typeHash.length - 4)}`
+    }
+    if (cellType === 'spore_cell' || cellType === 'spore_cluster') {
+      return 'Spore'
+    }
+    if (cellType === 'cota_regular' || cellType === 'cota_registry') {
+      return 'Cota'
+    }
+    if (cellType === 'nervos_dao_deposit' || cellType === 'nervos_dao_withdrawing') {
+      return 'Nervos DAO'
+    }
+    if (cellType === 'nrc_721_token' || cellType === 'nrc_721_factory') {
+      return 'NRC-721'
+    }
+    return 'CKB'
   }
-  if (cellType === 'udt') {
-    return udtInfo?.symbol || `Uknown Asset #${udtInfo?.typeHash.substring(udtInfo.typeHash.length - 4)}`
-  }
-  if (cellType === 'spore_cell' || cellType === 'spore_cluster') {
-    return 'Spore'
-  }
-  if (cellType === 'cota_regular' || cellType === 'cota_registry') {
-    return 'Cota'
-  }
-  if (cellType === 'nervos_dao_deposit' || cellType === 'nervos_dao_withdrawing') {
-    return 'Nervos DAO'
-  }
-  if (cellType === 'nrc_721_token' || cellType === 'nrc_721_factory') {
-    return 'NRC-721'
-  }
-  return 'CKB'
 }
 
 export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase }) => {
@@ -67,6 +71,7 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
 export const DesktopTransferItems = (props: { details: TransactionRecord }) => {
   const { details } = props
   const { transfers } = details
+  const getTransferItemTag = useGetTransferItemTag()
   return (
     <div className={styles.transactionLiteBoxContent}>
       {transfers.map((transfer, index) => {
@@ -87,6 +92,7 @@ export const DesktopTransferItems = (props: { details: TransactionRecord }) => {
 export const MobileTransferItems = (props: { details: TransactionRecord }) => {
   const { details } = props
   const { transfers } = details
+  const getTransferItemTag = useGetTransferItemTag()
   return (
     <div className={styles.transactionLiteBoxContent}>
       {transfers.map((transfer, index) => {
@@ -111,6 +117,7 @@ export const MobileTransferItems = (props: { details: TransactionRecord }) => {
 }
 
 const TransferAmount: FC<{ transfer: TransactionRecordTransfer }> = ({ transfer }) => {
+  const { t } = useTranslation()
   const isUdt = transfer.cellType === 'udt'
   const isNft = transfer.cellType === 'm_nft_token'
 
@@ -119,7 +126,16 @@ const TransferAmount: FC<{ transfer: TransactionRecordTransfer }> = ({ transfer 
   const isIncome = isUdt ? transferAmount.isPositive() : transferCapacity.isPositive()
   const decimalPanelType = isIncome ? 'income' : 'payment'
 
-  const amountChange = localeNumberString(shannonToCkb(transferAmount))
+  const udtDecimals = transfer.udtInfo?.decimal
+  let amountChange: string
+  if (udtDecimals) {
+    amountChange = parseUDTAmount(transferAmount.toString(), udtDecimals)
+  } else if (isIncome) {
+    amountChange = t('udt.unknown_amount')
+  } else {
+    amountChange = `-${t('udt.unknown_amount')}`
+  }
+
   const capacityChange = localeNumberString(shannonToCkb(transferCapacity))
   const isIncomeColor = isIncome ? styles.add : styles.subtraction
 
