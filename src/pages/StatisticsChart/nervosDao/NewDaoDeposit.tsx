@@ -171,7 +171,7 @@ const useOption = (
       source: statisticNewDaoDeposits.map(data => [
         parseDateNoTime(data.createdAtUnixtimestamp),
         new BigNumber(shannonToCkb(data.dailyDaoDeposit)).toFixed(0),
-        new BigNumber(data.dailyDaoDepositorsCount).toNumber(),
+        new BigNumber(data.dailyDaoDepositorsCount).toNumber().toString(),
       ]),
       dimensions: ['timestamp', 'deposit', 'depositor'],
     },
