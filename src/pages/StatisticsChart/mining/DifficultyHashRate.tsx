@@ -150,7 +150,7 @@ const useOption = (
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticDifficultyHashRates.map(data => new BigNumber(data.difficulty).toNumber()),
+        data: statisticDifficultyHashRates.map(data => new BigNumber(data.difficulty).toString()),
       },
       {
         name: t('block.hash_rate_hps'),
@@ -158,7 +158,7 @@ const useOption = (
         yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticDifficultyHashRates.map(data => new BigNumber(data.hashRate).toNumber()),
+        data: statisticDifficultyHashRates.map(data => new BigNumber(data.hashRate).toString()),
       },
       {
         name: t('block.uncle_rate'),

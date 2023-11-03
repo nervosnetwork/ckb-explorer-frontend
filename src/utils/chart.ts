@@ -157,21 +157,21 @@ export const assertSerialsDataIsString: (value: EChartOption.Tooltip.Format) => 
   value: EChartOption.Tooltip.Format,
 ) => {
   if (typeof value.data !== 'string') {
-    throw new Error(`Value is expected to be an array, but got a ${typeof value.data}`)
+    throw new Error(`Value is expected to be an string, but got a ${typeof value.data}`)
   }
 }
 
 export const assertSerialsDataIsStringArrayOf3: (
   value: EChartOption.Tooltip.Format,
 ) => asserts value is { data: [string, string, string] } = (value: EChartOption.Tooltip.Format) => {
-  if (!Array.isArray(value.data) || value.data.length !== 3 || value.data.every(item => typeof item !== 'string')) {
+  if (!Array.isArray(value.data) || value.data.length !== 3 || !value.data.every(item => typeof item === 'string')) {
     throw new Error('invalid SeriesItem length of 3')
   }
 }
 export const assertSerialsDataIsStringArrayOf4: (
   value: EChartOption.Tooltip.Format,
 ) => asserts value is { data: [string, string, string, string] } = (value: EChartOption.Tooltip.Format) => {
-  if (!Array.isArray(value.data) || value.data.length !== 4 || value.data.every(item => typeof item !== 'string')) {
+  if (!Array.isArray(value.data) || value.data.length !== 4 || !value.data.every(item => typeof item === 'string')) {
     throw new Error('invalid SeriesItem length of 4')
   }
 }

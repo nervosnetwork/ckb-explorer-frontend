@@ -152,7 +152,7 @@ const useOption = (
         },
         yAxisIndex: 0,
         barWidth: isMobile || isThumbnail ? 20 : 50,
-        data: statisticBalanceDistributions.map(data => new BigNumber(data.addresses).toNumber()),
+        data: statisticBalanceDistributions.map(data => new BigNumber(data.addresses).toString()),
       },
       {
         name: t('statistic.addresses_below_specific_balance'),
@@ -160,7 +160,7 @@ const useOption = (
         yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
-        data: statisticBalanceDistributions.map(data => new BigNumber(data.sumAddresses).toNumber()),
+        data: statisticBalanceDistributions.map(data => new BigNumber(data.sumAddresses).toString()),
       },
     ],
   }
