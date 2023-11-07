@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { parseDateNoTime, parseSimpleDate, parseSimpleDateNoSecond } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
-import { DATA_ZOOM_CONFIG, assertIsArray, assertSerialsDataIsString, assertSerialsItem } from '../../../utils/chart'
+import { DATA_ZOOM_CONFIG, assertIsArray, assertSerialsItem } from '../../../utils/chart'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
@@ -42,13 +42,13 @@ const useOption = (
 
   const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 180 : 100)
 
-  const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data: string }): string => {
-    if (seriesName === t('statistic.daily_moving_average')) {
+  const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data?: string[] }): string => {
+    if (seriesName === t('statistic.daily_moving_average') && data?.[1]) {
       return `<div>${tooltipColor(color)}${widthSpan(t('statistic.daily_moving_average'))} ${localeNumberString(
         data[1],
       )}</div>`
     }
-    if (seriesName === t('statistic.weekly_moving_average')) {
+    if (seriesName === t('statistic.weekly_moving_average') && data?.[2]) {
       return `<div>${tooltipColor(color)}${widthSpan(t('statistic.weekly_moving_average'))} ${localeNumberString(
         data[2],
       )}</div>`
@@ -69,8 +69,7 @@ const useOption = (
             )}</div>`
             dataList.forEach(data => {
               assertSerialsItem(data)
-              assertSerialsDataIsString(data)
-              result += parseTooltip(data)
+              result += parseTooltip({ ...data })
             })
             return result
           },
@@ -89,7 +88,8 @@ const useOption = (
         }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    /* Selection starts from 1% because the average block time is extremely high on launch */
+    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(zoom => ({ ...zoom, start: 1 })),
     xAxis: [
       {
         name: isMobile || isThumbnail ? '' : t('statistic.date'),
