@@ -18,7 +18,7 @@ import styles from './styles.module.scss'
 import { QueryResult } from '../../components/QueryResult'
 import AddressText from '../../components/AddressText'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
-import { ReactComponent as InfoMoreIcon } from '../../assets/info_more_icon.svg'
+import { ReactComponent as InfoMoreIcon } from './info_more_icon.svg'
 import { useSetToast } from '../../components/Toast'
 import { CellBasicInfo, transformToTransaction } from '../../utils/transformer'
 
