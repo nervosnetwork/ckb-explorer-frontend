@@ -4,9 +4,10 @@ import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../commo
 import { localeNumberString } from '../../../utils/number'
 import { DATA_ZOOM_CONFIG, assertIsArray, assertSerialsDataIsString, assertSerialsItem } from '../../../utils/chart'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
+
+export const AverageBlockTimeCacheKey = 'AverageBlockTime'
 
 const useOption = (
   statisticAverageBlockTimes: ChartItem.AverageBlockTime[],
@@ -194,7 +195,7 @@ export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: b
       fetchData={explorerService.api.fetchStatisticAverageBlockTimes}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.AverageBlockTime}
+      cacheKey={AverageBlockTimeCacheKey}
       cacheMode="date"
     />
   )

@@ -10,8 +10,8 @@ import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ReactChartCore } from '../../StatisticsChart/common'
+import { AverageBlockTimeCacheKey } from '../../StatisticsChart/block/AverageBlockTime'
 
 const useOption = () => {
   const { t } = useTranslation()
@@ -111,7 +111,7 @@ export default memo(() => {
 
   const query = useChartQueryWithCache(
     explorerService.api.fetchStatisticAverageBlockTimes,
-    ChartCachedKeys.AverageBlockTime,
+    AverageBlockTimeCacheKey,
     'date',
   )
   const fullStatisticAverageBlockTimes = useMemo(() => query.data ?? [], [query.data])

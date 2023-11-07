@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
+import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import {
@@ -8,11 +8,10 @@ import {
   assertSerialsDataIsStringArrayOf4,
   assertSerialsItem,
 } from '../../../utils/chart'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartColorConfig } from '../../../constants/common'
 
-const widthSpan = (value: string, currentLanguage: LanuageType) =>
+const widthSpan = (value: string, currentLanguage: SupportedLng) =>
   tooltipWidth(value, currentLanguage === 'en' ? 155 : 70)
 
 const useTooltip = () => {
@@ -192,7 +191,7 @@ export const SecondaryIssuanceChart = ({ isThumbnail = false }: { isThumbnail?: 
       fetchData={explorerService.api.fetchStatisticSecondaryIssuance}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.SecondaryIssuance}
+      cacheKey="SecondaryIssuance"
       cacheMode="date"
     />
   )

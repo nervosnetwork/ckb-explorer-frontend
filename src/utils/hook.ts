@@ -11,22 +11,22 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useResizeDetector } from 'react-resize-detector'
 import { interval, share } from 'rxjs'
-import { AppCachedKeys } from '../constants/cache'
+import dayjs from 'dayjs'
 import { deprecatedAddrToNewAddr } from './util'
 import { startEndEllipsis } from './string'
-import { ListPageParams, PageParams, THEORETICAL_EPOCH_TIME, EPOCHS_PER_HALVING } from '../constants/common'
 import {
-  fetchCachedData,
-  fetchDateChartCache,
-  fetchEpochChartCache,
-  storeCachedData,
-  storeDateChartCache,
-  storeEpochChartCache,
-} from './cache'
+  ListPageParams,
+  PageParams,
+  THEORETICAL_EPOCH_TIME,
+  EPOCHS_PER_HALVING,
+  ONE_YEAR_MILLISECOND,
+  ONE_HOUR_MILLISECOND,
+} from '../constants/common'
 import { omit } from './object'
 // TODO: This file depends on higher-level abstractions, so it should not be in the utils folder. It should be moved to `src/hooks/index.ts`.
 import { useParseDate } from './date'
 import { Response, useStatistics } from '../services/ExplorerService'
+import { cacheService } from '../services/CacheService'
 
 /**
  * Returns the value of the argument from the previous render
@@ -424,18 +424,6 @@ export function useAdaptPCEllipsis(factor = 40) {
   return adaptPCEllipsis
 }
 
-export const useAddrFormatToggle = () => {
-  const [isNew, setIsNew] = useState(localStorage.getItem(AppCachedKeys.NewAddrFormat) !== 'false')
-
-  return {
-    isNew,
-    setIsNew: (is: boolean) => {
-      localStorage.setItem(AppCachedKeys.NewAddrFormat, `${is}`)
-      setIsNew(is)
-    },
-  }
-}
-
 export const useNewAddr = (addr: string) =>
   useMemo(() => {
     if (addr.startsWith('0x')) {
@@ -528,10 +516,7 @@ export function useChartQueryWithCache<T>(
 ) {
   return useQuery([fetchData, cacheKey, cacheMode], async () => {
     if (cacheKey) {
-      const fetchCache =
-        // eslint-disable-next-line no-nested-ternary
-        cacheMode === 'forever' ? fetchCachedData : cacheMode === 'date' ? fetchDateChartCache : fetchEpochChartCache
-      const dataList = fetchCache<T[]>(cacheKey)
+      const dataList = cacheService.get<T[]>(cacheKey)
       if (dataList) return dataList
     }
 
@@ -540,10 +525,25 @@ export function useChartQueryWithCache<T>(
       dataList = dataList.data.map(wrapper => wrapper.attributes)
     }
     if (cacheKey && dataList.length > 0) {
-      const storeCache =
-        // eslint-disable-next-line no-nested-ternary
-        cacheMode === 'forever' ? storeCachedData : cacheMode === 'date' ? storeDateChartCache : storeEpochChartCache
-      storeCache<T[]>(cacheKey, dataList)
+      let expireAt: Date | number
+      switch (cacheMode) {
+        case 'epoch':
+          expireAt = Date.now() + ONE_HOUR_MILLISECOND * 3
+          break
+        case 'date': {
+          // Chart data will be updated at 08:10(CST) every day
+          const now = dayjs().utc()
+          const todayUpdateTime = now.hour(8).minute(11).second(0).millisecond(0)
+          const nextUpdateTime = now.isBefore(todayUpdateTime) ? todayUpdateTime : todayUpdateTime.add(1, 'day')
+          expireAt = nextUpdateTime.toDate()
+          break
+        }
+        case 'forever':
+        default:
+          expireAt = Date.now() + ONE_YEAR_MILLISECOND * 100
+          break
+      }
+      cacheService.set<T[]>(cacheKey, dataList, { expireAt })
     }
     return dataList
   })
@@ -611,9 +611,9 @@ export const useSingleHalving = (_halvingCount = 1) => {
   const halvingCount = Math.max(Math.floor(_halvingCount) || 1, 1) // halvingCount should be a positive integer greater than 1.
   const statistics = useStatistics()
   const celebrationSkipKey = `having-celebration-${halvingCount}`
-  const celebrationSkipped = fetchCachedData(celebrationSkipKey) !== null
+  const celebrationSkipped = cacheService.get<boolean>(celebrationSkipKey) ?? false
   function skipCelebration() {
-    storeCachedData(celebrationSkipKey, true)
+    cacheService.set(celebrationSkipKey, true)
   }
 
   const currentEpoch = Number(statistics.epochInfo.epochNumber)
@@ -654,6 +654,5 @@ export default {
   useInterval,
   useTimeout,
   useTimeoutWithUnmount,
-  useAddrFormatToggle,
   useNewAddr,
 }

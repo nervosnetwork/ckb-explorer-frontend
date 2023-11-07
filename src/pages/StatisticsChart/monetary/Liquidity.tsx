@@ -10,7 +10,6 @@ import {
   parseNumericAbbr,
 } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartColorConfig } from '../../../constants/common'
 
@@ -198,7 +197,7 @@ export const LiquidityChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
       fetchData={explorerService.api.fetchStatisticLiquidity}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.Liquidity}
+      cacheKey="Liquidity"
       cacheMode="date"
     />
   )

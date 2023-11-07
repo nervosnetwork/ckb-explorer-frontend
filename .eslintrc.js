@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   extends: ['airbnb', 'plugin:prettier/recommended'],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'react-hooks', 'unused-imports'],
@@ -99,7 +100,15 @@ module.exports = {
         allow: ['^.*_'],
       },
     ],
+    // The service layer uses the singleton pattern, so there will be many methods that do not use this.
+    'class-methods-use-this': 'off',
+    // TODO: Perhaps @typescript-eslint/recommended should be used.
     '@typescript-eslint/array-type': 'error',
+    'no-dupe-class-members': 'off',
+    '@typescript-eslint/no-dupe-class-members': 'error',
+    'lines-between-class-members': 'off',
+    // It looks like this rule has a bug, and it seems that typescript-eslint missed this rule when supporting eslint v8.
+    '@typescript-eslint/lines-between-class-members': 'off',
   },
   env: {
     jest: true,

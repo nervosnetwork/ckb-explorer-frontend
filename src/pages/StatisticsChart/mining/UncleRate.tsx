@@ -3,7 +3,6 @@ import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
@@ -124,7 +123,7 @@ export const UncleRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
       fetchData={explorerService.api.fetchStatisticUncleRate}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.UncleRate}
+      cacheKey="UncleRate"
       cacheMode="date"
     />
   )

@@ -10,7 +10,6 @@ import {
 import { handleDifficulty, handleHashRate } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
@@ -202,7 +201,7 @@ export const DifficultyHashRateChart = ({ isThumbnail = false }: { isThumbnail?:
       fetchData={explorerService.api.fetchStatisticDifficultyHashRate}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.DifficultyHashRate}
+      cacheKey="DifficultyHashRate"
       cacheMode="epoch"
     />
   )

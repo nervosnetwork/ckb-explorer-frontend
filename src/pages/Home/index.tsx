@@ -14,12 +14,7 @@ import {
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
-import {
-  BLOCK_POLLING_TIME,
-  BLOCKCHAIN_ALERT_POLLING_TIME,
-  ListPageParams,
-  DELAY_BLOCK_NUMBER,
-} from '../../constants/common'
+import { BLOCK_POLLING_TIME, ListPageParams, DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { isMainnet } from '../../utils/chain'
@@ -27,10 +22,9 @@ import LatestBlocksIcon from '../../assets/latest_blocks.png'
 import LatestTransactionsIcon from '../../assets/latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import Loading from '../../components/Loading/SmallLoading'
-import { useElementIntersecting, useInterval, useIsLGScreen, useIsMobile } from '../../utils/hook'
+import { useElementIntersecting, useIsLGScreen, useIsMobile } from '../../utils/hook'
 import Banner from '../../components/Banner'
 import { HalvingBanner } from '../../components/Banner/HalvingBanner'
-import { handleBlockchainAlert } from '../../service/app/blockchain'
 import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
 import HashRateChart from './HashRateChart'
@@ -232,10 +226,6 @@ export default () => {
     () => transactionsQuery.data?.transactions.slice(0, maxDisplaysCount) ?? [],
     [transactionsQuery.data?.transactions],
   )
-
-  useInterval(() => {
-    handleBlockchainAlert()
-  }, BLOCKCHAIN_ALERT_POLLING_TIME)
 
   const blockchainDataList = useBlockchainDataList(isMobile, isLG)
 

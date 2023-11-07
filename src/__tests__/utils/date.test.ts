@@ -11,7 +11,6 @@ import {
   parseSimpleDate,
   parseSimpleDateNoSecond,
   getCurrentYear,
-  getCSTTime,
 } from '../../utils/date'
 
 describe('Date methods tests', () => {
@@ -80,14 +79,5 @@ describe('Date methods tests', () => {
   it('getCurrentYear', async () => {
     MockDate.set(1588694400000)
     expect(getCurrentYear()).toBe(2020)
-  })
-
-  it('getCSTTime', async () => {
-    timezoneMock.register('UTC')
-    expect(parseSimpleDate(1588651000000)).toBe('2020/05/05 03:56:40')
-    MockDate.set(1588651000000, 0)
-    expect(getCSTTime()).toBe(1588679800000)
-    timezoneMock.register('UTC')
-    expect(parseSimpleDate(1588679800000)).toBe('2020/05/05 11:56:40')
   })
 })

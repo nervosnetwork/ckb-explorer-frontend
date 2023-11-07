@@ -5,9 +5,10 @@ import { parseDateNoTime } from '../../../utils/date'
 import { handleHashRate } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
+
+export const HashRateCacheKey = 'HashRate'
 
 const useOption = (
   statisticHashRates: ChartItem.HashRate[],
@@ -108,7 +109,7 @@ export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }
       fetchData={explorerService.api.fetchStatisticHashRate}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.HashRate}
+      cacheKey={HashRateCacheKey}
       cacheMode="date"
     />
   )

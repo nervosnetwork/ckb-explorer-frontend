@@ -1,6 +1,12 @@
 import { BehaviorSubject, Subscription, map, switchMap, timer } from 'rxjs'
-import { BLOCK_POLLING_TIME } from '../../constants/common'
+import {
+  BLOCKCHAIN_ALERT_POLLING_TIME,
+  BLOCK_POLLING_TIME,
+  FLUSH_CHART_CACHE_POLLING_TIME,
+} from '../../constants/common'
 import { APIReturn, apiFetcher } from './fetcher'
+import { networkErrMsgs$ } from './requester'
+import { CacheService, cacheService } from '../CacheService'
 
 const initStatistics: APIReturn<'fetchStatistics'> = {
   tipBlockNumber: '0',
@@ -32,14 +38,20 @@ class ExplorerService {
   // so another API is used here to obtain it separately.
   latestBlockNumber$ = new BehaviorSubject<number>(0)
 
+  blockchainAlerts$ = new BehaviorSubject<string[]>([])
+
+  networkErrMsgs$ = networkErrMsgs$
+
   private callbacksAtStop?: Subscription
 
-  constructor() {
+  constructor(private cacheService: CacheService) {
     this.start()
   }
 
   start() {
+    this.callbacksAtStop?.unsubscribe()
     this.callbacksAtStop = new Subscription()
+
     this.callbacksAtStop.add(
       timer(0, BLOCK_POLLING_TIME).pipe(switchMap(this.api.fetchStatistics)).subscribe(this.latestStatistics$),
     )
@@ -52,6 +64,28 @@ class ExplorerService {
         )
         .subscribe(this.latestBlockNumber$),
     )
+
+    this.callbacksAtStop.add(
+      timer(0, BLOCKCHAIN_ALERT_POLLING_TIME)
+        .pipe(
+          switchMap(this.api.fetchBlockchainInfo),
+          map(wrapper => (wrapper?.attributes.blockchainInfo.alerts ?? []).map(alert => alert.message)),
+        )
+        .subscribe(this.blockchainAlerts$),
+    )
+
+    this.callbacksAtStop.add(
+      timer(0, FLUSH_CHART_CACHE_POLLING_TIME)
+        .pipe(
+          switchMap(this.api.fetchFlushChartCache),
+          map(({ flushCacheInfo }) => {
+            if (flushCacheInfo.length === 0) return
+
+            this.cacheService.clear()
+          }),
+        )
+        .subscribe(),
+    )
   }
 
   stop() {
@@ -59,7 +93,7 @@ class ExplorerService {
   }
 }
 
-export const explorerService = new ExplorerService()
+export const explorerService = new ExplorerService(cacheService)
 
 export * from './hooks'
 export * from './types'

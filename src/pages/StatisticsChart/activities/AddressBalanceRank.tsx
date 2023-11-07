@@ -7,7 +7,6 @@ import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { useAdaptPCEllipsis } from '../../../utils/hook'
 import { ChartColorConfig } from '../../../constants/common'
 
@@ -144,7 +143,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
       onFetched={setStatisticAddressBalanceRanks}
       getEChartOption={getEChartOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.AddressBalanceRank}
+      cacheKey="AddressBalanceRank"
       cacheMode="date"
     />
   )
