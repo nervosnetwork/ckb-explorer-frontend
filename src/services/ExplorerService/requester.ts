@@ -1,6 +1,8 @@
 import axios, { AxiosError } from 'axios'
+import { BehaviorSubject } from 'rxjs'
 import CONFIG from '../../config'
-import { setNetworkErrMsgs } from '../../components/Sheet'
+
+export const networkErrMsgs$ = new BehaviorSubject<string[]>([])
 
 export const requesterV1 = axios.create({
   baseURL: `${CONFIG.API_URL}/api/v1/`,
@@ -28,10 +30,10 @@ const updateNetworkError = (errMessage = 'toast.invalid_network') => {
     clearTimeout(timeout)
   }
   timeout = setTimeout(() => {
-    setNetworkErrMsgs([])
+    networkErrMsgs$.next([])
     timeout = null
   }, 2000)
-  setNetworkErrMsgs([errMessage])
+  networkErrMsgs$.next([errMessage])
 }
 
 requesterV1.interceptors.request.use(

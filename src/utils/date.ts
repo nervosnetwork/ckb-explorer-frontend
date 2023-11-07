@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import updateLocale from 'dayjs/plugin/updateLocale'
+import utc from 'dayjs/plugin/utc'
 import 'dayjs/locale/zh-cn'
 import 'dayjs/locale/en'
 import BigNumber from 'bignumber.js'
@@ -10,6 +11,7 @@ import { useTranslation } from 'react-i18next'
 
 dayjs.extend(relativeTime)
 dayjs.extend(updateLocale)
+dayjs.extend(utc)
 
 dayjs.extend(weekday)
 dayjs.extend(localeData)
@@ -97,11 +99,4 @@ export const parseHourFromMinute = (minutes: number | string) => {
 export const parseHourFromMillisecond = (millisecond: string) => {
   const minutes = new BigNumber(millisecond).div(1000 * 60, 10).toNumber()
   return parseHourFromMinute(minutes)
-}
-
-export const getCSTTime = () => {
-  const date = new Date()
-  const offsetGMT = date.getTimezoneOffset() // minutes
-  const now = date.getTime()
-  return now + (offsetGMT + 8 * 60) * 60 * 1000
 }

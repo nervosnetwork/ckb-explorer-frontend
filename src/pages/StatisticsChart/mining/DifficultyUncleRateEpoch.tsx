@@ -4,12 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { assertSerialsDataIsString, assertIsArray, assertSerialsItem, handleAxis } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
+import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
-const widthSpan = (value: string, currentLanguage: LanuageType) =>
+const widthSpan = (value: string, currentLanguage: SupportedLng) =>
   tooltipWidth(value, currentLanguage === 'en' ? 90 : 80)
 
 const useTooltip = () => {
@@ -217,7 +216,7 @@ export const DifficultyUncleRateEpochChart: FC<{ isThumbnail?: boolean }> = ({ i
       fetchData={explorerService.api.fetchStatisticDifficultyUncleRateEpoch}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.DifficultyUncleRateEpoch}
+      cacheKey="DifficultyUncleRateEpoch"
       cacheMode="epoch"
     />
   )

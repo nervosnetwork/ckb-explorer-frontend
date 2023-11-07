@@ -4,7 +4,6 @@ import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/char
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
@@ -109,7 +108,7 @@ export const AddressCountChart = ({ isThumbnail = false }: { isThumbnail?: boole
       fetchData={explorerService.api.fetchStatisticAddressCount}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.AddressCount}
+      cacheKey="AddressCount"
       cacheMode="date"
     />
   )

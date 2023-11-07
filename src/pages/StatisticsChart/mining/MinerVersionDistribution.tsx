@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { EChartOption } from 'echarts'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
@@ -122,7 +121,7 @@ export const MinerVersionDistributionChart = ({ isThumbnail = false }: { isThumb
       fetchData={fetchData}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.MinerVersionDistribution}
+      cacheKey="MinerVersionDistribution"
       cacheMode="date"
     />
   )

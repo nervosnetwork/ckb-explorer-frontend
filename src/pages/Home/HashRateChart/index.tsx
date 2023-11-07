@@ -11,8 +11,8 @@ import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ReactChartCore } from '../../StatisticsChart/common'
+import { HashRateCacheKey } from '../../StatisticsChart/mining/HashRate'
 
 const useOption = () => {
   const { t } = useTranslation()
@@ -103,7 +103,7 @@ const useOption = () => {
 }
 export default memo(() => {
   const isLG = useIsLGScreen()
-  const query = useChartQueryWithCache(explorerService.api.fetchStatisticHashRate, ChartCachedKeys.HashRate, 'date')
+  const query = useChartQueryWithCache(explorerService.api.fetchStatisticHashRate, HashRateCacheKey, 'date')
   const fullStatisticHashRates = useMemo(() => query.data ?? [], [query.data])
   const parseOption = useOption()
 

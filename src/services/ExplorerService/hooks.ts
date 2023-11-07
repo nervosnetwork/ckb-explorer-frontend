@@ -8,3 +8,11 @@ export function useStatistics() {
 export function useLatestBlockNumber() {
   return useObservableState(explorerService.latestBlockNumber$)
 }
+
+export function useBlockchainAlerts() {
+  return useObservableState(explorerService.blockchainAlerts$)
+}
+
+export function useNetworkErrMsgs() {
+  return useObservableState(explorerService.networkErrMsgs$)
+}

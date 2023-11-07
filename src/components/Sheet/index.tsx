@@ -1,18 +1,13 @@
 import { useTranslation } from 'react-i18next'
+import { useMemo } from 'react'
 import { SheetPanel, SheetPointPanel, SheetItem } from './styled'
-import { createGlobalState, createGlobalStateSetter, useGlobalState } from '../../utils/state'
-
-const globalNetworkErrMsgs = createGlobalState<string[]>([])
-const globalChainAlerts = createGlobalState<string[]>([])
-
-export const setNetworkErrMsgs = createGlobalStateSetter(globalNetworkErrMsgs)
-export const setChainAlerts = createGlobalStateSetter(globalChainAlerts)
+import { useBlockchainAlerts, useNetworkErrMsgs } from '../../services/ExplorerService'
 
 const Sheet = () => {
   const { t } = useTranslation()
-  const [networkErrMsgs] = useGlobalState(globalNetworkErrMsgs)
-  const [chainAlerts] = useGlobalState(globalChainAlerts)
-  const messages: string[] = chainAlerts.concat(networkErrMsgs)
+  const networkErrMsgs = useNetworkErrMsgs()
+  const chainAlerts = useBlockchainAlerts()
+  const messages = useMemo<string[]>(() => [...chainAlerts, ...networkErrMsgs], [chainAlerts, networkErrMsgs])
 
   return messages.length > 0 ? (
     <SheetPanel>

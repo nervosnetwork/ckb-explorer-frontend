@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
+import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import {
   DATA_ZOOM_CONFIG,
   assertIsArray,
@@ -11,7 +11,6 @@ import {
 } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartColorConfig } from '../../../constants/common'
 
@@ -22,7 +21,7 @@ const parseTooltip = ({
   data,
   color,
   currentLanguage,
-}: SeriesItem & { data: string; currentLanguage: LanuageType }): string => {
+}: SeriesItem & { data: string; currentLanguage: SupportedLng }): string => {
   return `<div>${tooltipColor(color)}${widthSpan(seriesName, currentLanguage)} ${localeNumberString(data)}</div>`
 }
 
@@ -188,7 +187,7 @@ export const BalanceDistributionChart = ({ isThumbnail = false }: { isThumbnail?
       fetchData={explorerService.api.fetchStatisticBalanceDistribution}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.BalanceDistribution}
+      cacheKey="BalanceDistribution"
       cacheMode="date"
     />
   )

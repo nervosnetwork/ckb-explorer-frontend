@@ -8,10 +8,9 @@ import { HeaderBlockchainPanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
 import { useIsMobile } from '../../../utils/hook'
-import { ChainName, MAINNET_URL, TESTNET_URL } from '../../../constants/common'
+import { ChainName, MAINNET_URL, ONE_DAY_MILLISECOND, TESTNET_URL } from '../../../constants/common'
 import { explorerService } from '../../../services/ExplorerService'
-import { AppCachedKeys } from '../../../constants/cache'
-import { fetchCachedData, storeCachedData } from '../../../utils/cache'
+import { cacheService } from '../../../services/CacheService'
 
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon
@@ -123,24 +122,12 @@ export default memo(() => {
     ['node_version'],
     async () => {
       const { version } = await explorerService.api.fetchNodeVersion()
-      storeCachedData(AppCachedKeys.Version, `${version}&${new Date().getTime()}`)
+      cacheService.set<string>('node_version', version, { expireTime: ONE_DAY_MILLISECOND })
       return version
     },
     {
       keepPreviousData: true,
-      initialData: () => {
-        // version cache format: version&timestamp
-        const data = fetchCachedData<string>(AppCachedKeys.Version)
-        if (!data?.includes('&')) return undefined
-
-        const timestamp = Number(data.substring(data.indexOf('&') + 1))
-        const DAY_TIMESTAMP = 24 * 60 * 60 * 1000
-        const isStale = Date.now() - timestamp > DAY_TIMESTAMP
-        if (isStale) return undefined
-
-        const nodeVersion = data.substring(0, data.indexOf('&'))
-        return nodeVersion
-      },
+      initialData: () => cacheService.get<string>('node_version'),
     },
   )
   const nodeVersion = query.data ?? ''

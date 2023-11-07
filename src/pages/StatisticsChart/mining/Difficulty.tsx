@@ -4,7 +4,6 @@ import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/char
 import { parseDateNoTime } from '../../../utils/date'
 import { handleDifficulty } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
@@ -109,7 +108,7 @@ export const DifficultyChart = ({ isThumbnail = false }: { isThumbnail?: boolean
       fetchData={explorerService.api.fetchStatisticDifficulty}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.Difficulty}
+      cacheKey="Difficulty"
       cacheMode="date"
     />
   )
