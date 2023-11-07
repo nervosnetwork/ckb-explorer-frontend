@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import { assertSerialsDataIsString, assertIsArray, assertSerialsItem, handleAxis } from '../../../utils/chart'
+import { assertIsArray, assertSerialsItem, handleAxis } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
@@ -14,11 +14,13 @@ const widthSpan = (value: string, currentLanguage: SupportedLng) =>
 const useTooltip = () => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
-  return ({ seriesName, data, color }: SeriesItem & { data: string }) => {
-    if (seriesName === t('block.epoch_time')) {
+  return ({ seriesName, data, color }: SeriesItem & { data?: unknown }) => {
+    // empty epoch time is invalid and could be hidden, epoch time is expected to be around 4 hours
+    if (seriesName === t('block.epoch_time') && data) {
       return `<div>${tooltipColor(color)}${widthSpan(t('block.epoch_time'), currentLanguage)} ${data} h</div>`
     }
-    if (seriesName === t('block.epoch_length')) {
+    // empty epoch length is invalid and could be hidden, epoch length is determined by avg block time, it's expected to be 4h / avg_block_time
+    if (seriesName === t('block.epoch_length') && data) {
       return `<div>${tooltipColor(color)}${widthSpan(t('block.epoch_length'), currentLanguage)} ${data}</div>`
     }
     return ''
@@ -70,7 +72,6 @@ const useOption = (
             }</div>`
             dataList.forEach(data => {
               assertSerialsItem(data)
-              assertSerialsDataIsString(data)
               result += parseTooltip(data)
             })
             return result
