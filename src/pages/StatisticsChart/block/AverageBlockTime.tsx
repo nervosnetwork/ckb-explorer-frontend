@@ -32,14 +32,6 @@ const useOption = (
     containLabel: true,
   }
 
-  const maxAndMinAxis = (statisticAverageBlockTimes: ChartItem.AverageBlockTime[]) => {
-    const array = statisticAverageBlockTimes.flatMap(data => parseFloat(data.avgBlockTimeDaily))
-    return {
-      max: Math.ceil(Math.max(...array) / 1000),
-      min: Math.floor(Math.min(...array) / 1000),
-    }
-  }
-
   const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 180 : 100)
 
   const parseTooltip = ({ seriesName, data, color }: SeriesItem & { data?: string[] }): string => {
@@ -114,8 +106,6 @@ const useOption = (
         nameTextStyle: {
           align: 'left',
         },
-        max: () => maxAndMinAxis(statisticAverageBlockTimes).max,
-        min: () => maxAndMinAxis(statisticAverageBlockTimes).min,
         axisLine: {
           lineStyle: {
             color: chartColor.colors[0],
@@ -133,8 +123,6 @@ const useOption = (
         nameTextStyle: {
           align: 'right',
         },
-        max: () => maxAndMinAxis(statisticAverageBlockTimes).max,
-        min: () => maxAndMinAxis(statisticAverageBlockTimes).min,
         axisLine: {
           lineStyle: {
             color: chartColor.colors[1],
