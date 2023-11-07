@@ -10,6 +10,7 @@ import { ReactComponent as DeprecatedAddrOff } from '../../../assets/deprecated_
 import { ReactComponent as Warning } from '../../../assets/warning.svg'
 import styles from './styles.module.scss'
 import { Cell } from '../../../models/Cell'
+import { useIsDeprecatedAddressesDisplayed } from '../../../services/AppSettings/hooks'
 
 const SCROLL_BOTTOM_OFFSET = 5
 const SCROLL_LOADING_TIME = 400
@@ -19,16 +20,11 @@ export default ({
   outputs,
   txHash,
   showReward,
-  addrToggle: { isAddrNew, setIsAddrNew },
 }: {
   inputs?: Cell[]
   outputs?: Cell[]
   txHash?: string
   showReward?: boolean
-  addrToggle: {
-    isAddrNew: boolean
-    setIsAddrNew: (is: boolean) => void
-  }
 }) => {
   const { t } = useTranslation()
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
@@ -54,9 +50,8 @@ export default ({
     [offset, cells.length],
   )
 
-  const handleAddrToggle = () => {
-    setIsAddrNew(!isAddrNew)
-  }
+  const [isDeprecatedAddressesDisplayed, setIsDeprecatedAddressesDisplayed] = useIsDeprecatedAddressesDisplayed()
+  const toggleDeprecatedAddressesDisplayed = () => setIsDeprecatedAddressesDisplayed(value => !value)
 
   const cellsCount = () => {
     if (inputs) {
@@ -71,11 +66,11 @@ export default ({
       <div className={styles.cellListTitle}>
         {`${title} (${cellsCount()})`}
         <Tooltip placement="top" title={t(`address.view-deprecated-address`)}>
-          <div className={styles.newAddrToggle} onClick={handleAddrToggle} role="presentation">
-            {isAddrNew ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
+          <div className={styles.newAddrToggle} onClick={toggleDeprecatedAddressesDisplayed} role="presentation">
+            {!isDeprecatedAddressesDisplayed ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
           </div>
         </Tooltip>
-        {isAddrNew ? null : (
+        {!isDeprecatedAddressesDisplayed ? null : (
           <Tooltip placement="top" title={t('address.displaying-deprecated-address')}>
             <Warning />
           </Tooltip>
@@ -107,7 +102,7 @@ export default ({
                   index={index}
                   txHash={txHash}
                   showReward={showReward}
-                  isAddrNew={isAddrNew}
+                  isAddrNew={!isDeprecatedAddressesDisplayed}
                 />
               ))}
           {isScroll && !isEnd && <SmallLoading />}

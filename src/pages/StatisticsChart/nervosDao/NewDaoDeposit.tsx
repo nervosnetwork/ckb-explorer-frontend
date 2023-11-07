@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import { LanuageType, useCurrentLanguage } from '../../../utils/i18n'
+import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import {
   DATA_ZOOM_CONFIG,
   assertIsArray,
@@ -12,11 +12,10 @@ import { parseDateNoTime } from '../../../utils/date'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
 import { tooltipWidth, tooltipColor, SeriesItem, SmartChartPage } from '../common'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartColorConfig } from '../../../constants/common'
 
-const widthSpan = (value: string, language: LanuageType) => tooltipWidth(value, language === 'en' ? 140 : 120)
+const widthSpan = (value: string, language: SupportedLng) => tooltipWidth(value, language === 'en' ? 140 : 120)
 
 const useTooltip = () => {
   const { t } = useTranslation()
@@ -197,7 +196,7 @@ export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: bool
       fetchData={explorerService.api.fetchStatisticNewDaoDeposit}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.DailyDeposit}
+      cacheKey="DailyDeposit"
       cacheMode="date"
     />
   )

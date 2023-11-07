@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { DefaultTheme, ThemeProvider } from 'styled-components'
 import Routers from './routes'
 import Toast from './components/Toast'
-import useInitApp from './contexts/providers/hook'
 import { isMainnet } from './utils/chain'
 import { DASQueryContextProvider } from './contexts/providers/dasQuery'
 import { getPrimaryColor, getSecondaryColor } from './constants/common'
@@ -17,7 +16,6 @@ const appStyle = {
 const queryClient = new QueryClient()
 
 const App = () => {
-  useInitApp()
   const theme = useMemo<DefaultTheme>(
     () => ({
       primary: getPrimaryColor(),

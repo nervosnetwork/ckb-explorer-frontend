@@ -2,7 +2,6 @@ import { useCallback } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useAdaptMobileEllipsis, useAdaptPCEllipsis, useIsMobile } from '../../../utils/hook'
 import { useCurrentLanguage } from '../../../utils/i18n'
@@ -123,7 +122,7 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
       fetchData={explorerService.api.fetchStatisticMinerAddressDistribution}
       getEChartOption={getEChartOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.MinerAddressDistribution}
+      cacheKey="MinerAddressDistribution"
       cacheMode="date"
     />
   )

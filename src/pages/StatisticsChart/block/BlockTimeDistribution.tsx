@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
@@ -105,7 +104,7 @@ export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
       fetchData={explorerService.api.fetchStatisticBlockTimeDistribution}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.BlockTimeDistribution}
+      cacheKey="BlockTimeDistribution"
       cacheMode="date"
     />
   )

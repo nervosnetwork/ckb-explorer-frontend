@@ -1,5 +1,4 @@
 import TransactionCellList from '../TransactionCellList'
-import { useAddrFormatToggle } from '../../../utils/hook'
 import { Cell } from '../../../models/Cell'
 import { Transaction } from '../../../models/Transaction'
 
@@ -21,35 +20,16 @@ const handleCellbaseInputs = (inputs: Cell[], outputs: Cell[]) => {
 export const TransactionComp = ({ transaction }: { transaction: Transaction }) => {
   const { transactionHash, displayInputs, displayOutputs, blockNumber, isCellbase } = transaction
 
-  const { isNew: isAddrNew, setIsNew: setIsAddrNew } = useAddrFormatToggle()
   const inputs = handleCellbaseInputs(displayInputs, displayOutputs)
 
   /// [0, 11] block doesn't show block reward and only cellbase show block reward
   return (
     <>
       <div className="transactionInputs">
-        {inputs && (
-          <TransactionCellList
-            inputs={inputs}
-            showReward={blockNumber > 0 && isCellbase}
-            addrToggle={{
-              isAddrNew,
-              setIsAddrNew,
-            }}
-          />
-        )}
+        {inputs && <TransactionCellList inputs={inputs} showReward={blockNumber > 0 && isCellbase} />}
       </div>
       <div className="transactionOutputs">
-        {displayOutputs && (
-          <TransactionCellList
-            outputs={displayOutputs}
-            txHash={transactionHash}
-            addrToggle={{
-              isAddrNew,
-              setIsAddrNew,
-            }}
-          />
-        )}
+        {displayOutputs && <TransactionCellList outputs={displayOutputs} txHash={transactionHash} />}
       </div>
     </>
   )

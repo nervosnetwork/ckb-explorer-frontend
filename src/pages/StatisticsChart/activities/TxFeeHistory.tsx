@@ -5,7 +5,6 @@ import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
@@ -113,7 +112,7 @@ export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boole
       fetchData={explorerService.api.fetchStatisticTxFeeHistory}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.TransactionFee}
+      cacheKey="TransactionFee"
       cacheMode="date"
     />
   )

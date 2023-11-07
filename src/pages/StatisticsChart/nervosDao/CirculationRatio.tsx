@@ -3,7 +3,6 @@ import { useCurrentLanguage } from '../../../utils/i18n'
 import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
-import { ChartCachedKeys } from '../../../constants/cache'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartColorConfig } from '../../../constants/common'
 
@@ -110,7 +109,7 @@ export const CirculationRatioChart = ({ isThumbnail = false }: { isThumbnail?: b
       fetchData={explorerService.api.fetchStatisticCirculationRatio}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={ChartCachedKeys.DepositCirculationRatio}
+      cacheKey="DepositCirculationRatio"
       cacheMode="date"
     />
   )
