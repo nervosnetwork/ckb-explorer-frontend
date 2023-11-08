@@ -489,4 +489,12 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     tag: 'omni_lock v2',
     category: 'lock',
   },
+  {
+    codeHashes: ['0xd23761b364210735c19c60561d213fb3beae2fd6172743719eff6920e020baac'],
+    txHashes: ['0x4dcf3f3b09efac8995d6cbee87c5345e812d310094651e0c3d9a730f32dc9263-0'],
+    depType: 'dep_group',
+    hashType: 'type',
+    tag: 'JoyID',
+    category: 'lock',
+  },
 ]
