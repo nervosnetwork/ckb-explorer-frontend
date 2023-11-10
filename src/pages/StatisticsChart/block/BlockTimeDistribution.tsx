@@ -104,8 +104,7 @@ export const BlockTimeDistributionChart = ({ isThumbnail = false }: { isThumbnai
       fetchData={explorerService.api.fetchStatisticBlockTimeDistribution}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="BlockTimeDistribution"
-      cacheMode="date"
+      queryKey="fetchStatisticBlockTimeDistribution"
     />
   )
 }

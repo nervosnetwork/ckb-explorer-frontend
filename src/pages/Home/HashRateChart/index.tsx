@@ -4,15 +4,15 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import echarts from 'echarts/lib/echarts'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 import { handleAxis } from '../../../utils/chart'
 import { parseDateNoTime } from '../../../utils/date'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
-import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
+import { useIsLGScreen } from '../../../utils/hook'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ReactChartCore } from '../../StatisticsChart/common'
-import { HashRateCacheKey } from '../../StatisticsChart/mining/HashRate'
 
 const useOption = () => {
   const { t } = useTranslation()
@@ -103,7 +103,9 @@ const useOption = () => {
 }
 export default memo(() => {
   const isLG = useIsLGScreen()
-  const query = useChartQueryWithCache(explorerService.api.fetchStatisticHashRate, HashRateCacheKey, 'date')
+  const query = useQuery(['fetchStatisticHashRate'], () => explorerService.api.fetchStatisticHashRate(), {
+    refetchOnWindowFocus: false,
+  })
   const fullStatisticHashRates = useMemo(() => query.data ?? [], [query.data])
   const parseOption = useOption()
 

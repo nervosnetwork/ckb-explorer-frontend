@@ -3,15 +3,15 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
 import echarts from 'echarts/lib/echarts'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 import { parseDateNoTime } from '../../../utils/date'
 import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
-import { useChartQueryWithCache, useIsLGScreen } from '../../../utils/hook'
+import { useIsLGScreen } from '../../../utils/hook'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ReactChartCore } from '../../StatisticsChart/common'
-import { AverageBlockTimeCacheKey } from '../../StatisticsChart/block/AverageBlockTime'
 
 const useOption = () => {
   const { t } = useTranslation()
@@ -109,10 +109,12 @@ export default memo(() => {
   const isLG = useIsLGScreen()
   const parseOption = useOption()
 
-  const query = useChartQueryWithCache(
-    explorerService.api.fetchStatisticAverageBlockTimes,
-    AverageBlockTimeCacheKey,
-    'date',
+  const query = useQuery(
+    ['fetchStatisticAverageBlockTimes'],
+    () => explorerService.api.fetchStatisticAverageBlockTimes(),
+    {
+      refetchOnWindowFocus: false,
+    },
   )
   const fullStatisticAverageBlockTimes = useMemo(() => query.data ?? [], [query.data])
 

@@ -201,8 +201,7 @@ export const DifficultyHashRateChart = ({ isThumbnail = false }: { isThumbnail?:
       fetchData={explorerService.api.fetchStatisticDifficultyHashRate}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="DifficultyHashRate"
-      cacheMode="epoch"
+      queryKey="fetchStatisticDifficultyHashRate"
     />
   )
 }

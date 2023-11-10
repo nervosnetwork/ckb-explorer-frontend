@@ -109,8 +109,7 @@ export const CirculationRatioChart = ({ isThumbnail = false }: { isThumbnail?: b
       fetchData={explorerService.api.fetchStatisticCirculationRatio}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="DepositCirculationRatio"
-      cacheMode="date"
+      queryKey="fetchStatisticCirculationRatio"
     />
   )
 }
