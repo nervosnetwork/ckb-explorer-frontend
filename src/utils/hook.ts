@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo, useCallback, RefObject } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback, RefObject, Dispatch, SetStateAction } from 'react'
 import {
   AddressPrefix,
   addressToScript,
@@ -14,8 +14,8 @@ import { deprecatedAddrToNewAddr } from './util'
 import { startEndEllipsis } from './string'
 import { ListPageParams, PageParams, THEORETICAL_EPOCH_TIME, EPOCHS_PER_HALVING } from '../constants/common'
 import { omit } from './object'
-// TODO: This file depends on higher-level abstractions, so it should not be in the utils folder. It should be moved to `src/hooks/index.ts`.
 import { useParseDate } from './date'
+// TODO: This file depends on higher-level abstractions, so it should not be in the utils folder. It should be moved to `src/hooks/index.ts`.
 import { useStatistics } from '../services/ExplorerService'
 import { cacheService } from '../services/CacheService'
 
@@ -33,6 +33,12 @@ export function usePrevious<T>(value: T): T | undefined {
   }, [value])
 
   return ref.current
+}
+
+export function useForkedState<S>(basedState: S): [S, Dispatch<SetStateAction<S>>] {
+  const [state, setState] = useState<S>(basedState)
+  useEffect(() => setState(basedState), [basedState])
+  return [state, setState]
 }
 
 export const useInterval = (callback: () => void, delay: number, deps: any[] = []) => {

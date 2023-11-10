@@ -103,7 +103,7 @@
     "eject": "react-app-rewired eject",
     "husky:init": "husky install",
     "prepare": "husky install",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 3000",
     "build-storybook": "storybook build"
   },
   "jest": {
