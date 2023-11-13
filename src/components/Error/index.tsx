@@ -1,5 +1,5 @@
-import PCDataNotFoundImage from '../../assets/pc_data_not_found.png'
-import MobileDataNotFoundImage from '../../assets/mobile_data_not_found.png'
+import PCDataNotFoundImage from './pc_data_not_found.png'
+import MobileDataNotFoundImage from './mobile_data_not_found.png'
 import { useIsMobile } from '../../utils/hook'
 import { ErrorPanel } from './styled'
 
