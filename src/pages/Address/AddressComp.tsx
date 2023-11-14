@@ -20,10 +20,10 @@ import {
 } from './styled'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import TitleCard from '../../components/Card/TitleCard'
-import CKBTokenIcon from '../../assets/ckb_token_icon.png'
+import CKBTokenIcon from './ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
-import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
-import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
+import { ReactComponent as TimeDownIcon } from './time_down.svg'
+import { ReactComponent as TimeUpIcon } from './time_up.svg'
 import { sliceNftName } from '../../utils/string'
 import {
   OrderByType,

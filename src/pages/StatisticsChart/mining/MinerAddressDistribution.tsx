@@ -122,8 +122,7 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
       fetchData={explorerService.api.fetchStatisticMinerAddressDistribution}
       getEChartOption={getEChartOption}
       toCSV={toCSV}
-      cacheKey="MinerAddressDistribution"
-      cacheMode="date"
+      queryKey="fetchStatisticMinerAddressDistribution"
     />
   )
 }

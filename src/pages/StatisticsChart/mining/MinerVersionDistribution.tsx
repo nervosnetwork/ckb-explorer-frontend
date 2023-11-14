@@ -121,8 +121,7 @@ export const MinerVersionDistributionChart = ({ isThumbnail = false }: { isThumb
       fetchData={fetchData}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="MinerVersionDistribution"
-      cacheMode="date"
+      queryKey="fetchStatisticMinerVersionDistribution"
     />
   )
 }

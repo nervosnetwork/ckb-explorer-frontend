@@ -1,6 +1,6 @@
 import { FC, memo, useCallback } from 'react'
 import Search from '../../Search'
-import SearchLogo from '../../../assets/search_white.png'
+import SearchLogo from './search_white.png'
 import { HeaderSearchPanel, HeaderSearchBarPanel } from './styled'
 
 export const SearchComp: FC<{

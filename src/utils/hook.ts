@@ -8,24 +8,15 @@ import {
   systemScripts,
 } from '@nervosnetwork/ckb-sdk-utils'
 import { useHistory, useLocation } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
 import { useResizeDetector } from 'react-resize-detector'
 import { interval, share } from 'rxjs'
-import dayjs from 'dayjs'
 import { deprecatedAddrToNewAddr } from './util'
 import { startEndEllipsis } from './string'
-import {
-  ListPageParams,
-  PageParams,
-  THEORETICAL_EPOCH_TIME,
-  EPOCHS_PER_HALVING,
-  ONE_YEAR_MILLISECOND,
-  ONE_HOUR_MILLISECOND,
-} from '../constants/common'
+import { ListPageParams, PageParams, THEORETICAL_EPOCH_TIME, EPOCHS_PER_HALVING } from '../constants/common'
 import { omit } from './object'
 // TODO: This file depends on higher-level abstractions, so it should not be in the utils folder. It should be moved to `src/hooks/index.ts`.
 import { useParseDate } from './date'
-import { Response, useStatistics } from '../services/ExplorerService'
+import { useStatistics } from '../services/ExplorerService'
 import { cacheService } from '../services/CacheService'
 
 /**
@@ -508,46 +499,6 @@ export const useDeprecatedAddr = (addr: string) =>
       return null
     }
   }, [addr])
-
-export function useChartQueryWithCache<T>(
-  fetchData: () => Promise<T[] | Response.Response<Response.Wrapper<T>[]>>,
-  cacheKey?: string,
-  cacheMode: 'forever' | 'date' | 'epoch' = 'forever',
-) {
-  return useQuery([fetchData, cacheKey, cacheMode], async () => {
-    if (cacheKey) {
-      const dataList = cacheService.get<T[]>(cacheKey)
-      if (dataList) return dataList
-    }
-
-    let dataList = await fetchData()
-    if ('data' in dataList) {
-      dataList = dataList.data.map(wrapper => wrapper.attributes)
-    }
-    if (cacheKey && dataList.length > 0) {
-      let expireAt: Date | number
-      switch (cacheMode) {
-        case 'epoch':
-          expireAt = Date.now() + ONE_HOUR_MILLISECOND * 3
-          break
-        case 'date': {
-          // Chart data will be updated at 08:10(CST) every day
-          const now = dayjs().utc()
-          const todayUpdateTime = now.hour(8).minute(11).second(0).millisecond(0)
-          const nextUpdateTime = now.isBefore(todayUpdateTime) ? todayUpdateTime : todayUpdateTime.add(1, 'day')
-          expireAt = nextUpdateTime.toDate()
-          break
-        }
-        case 'forever':
-        default:
-          expireAt = Date.now() + ONE_YEAR_MILLISECOND * 100
-          break
-      }
-      cacheService.set<T[]>(cacheKey, dataList, { expireAt })
-    }
-    return dataList
-  })
-}
 
 export const useAnimationFrame = (callback: () => void, running: boolean = true) => {
   const savedCallback = useRef(callback)

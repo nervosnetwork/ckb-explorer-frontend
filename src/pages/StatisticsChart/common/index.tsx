@@ -13,18 +13,18 @@ import 'echarts/lib/component/brush'
 import echarts from 'echarts/lib/echarts'
 import { EChartOption, ECharts } from 'echarts'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel, ChartNotePanel } from './styled'
 import Loading from '../../../components/Loading'
-import ChartNoDataImage from '../../../assets/chart_no_data.png'
-import ChartNoDataAggronImage from '../../../assets/chart_no_data_aggron.png'
+import ChartNoDataImage from './chart_no_data.png'
+import ChartNoDataAggronImage from './chart_no_data_aggron.png'
 import { isMainnet } from '../../../utils/chain'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import Content from '../../../components/Content'
-import { useChartQueryWithCache, useIsMobile, usePrevious, useWindowResize } from '../../../utils/hook'
+import { useIsMobile, usePrevious, useWindowResize } from '../../../utils/hook'
 import { isDeepEqual } from '../../../utils/util'
 import { HelpTip } from '../../../components/HelpTip'
 import { ChartColor, ChartColorConfig } from '../../../constants/common'
-import { Response } from '../../../services/ExplorerService'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
@@ -161,7 +161,7 @@ export interface SmartChartPageProps<T> {
   note?: string
   isThumbnail?: boolean
   chartProps?: Partial<ComponentProps<typeof ReactChartCore>>
-  fetchData: () => Promise<T[] | Response.Response<Response.Wrapper<T>[]>>
+  fetchData: () => Promise<T[]>
   onFetched?: (dataList: T[]) => void
   getEChartOption: (
     dataList: T[],
@@ -170,8 +170,7 @@ export interface SmartChartPageProps<T> {
     isThumbnail?: boolean,
   ) => echarts.EChartOption
   toCSV: (dataList: T[]) => (string | number)[][]
-  cacheKey?: string
-  cacheMode?: 'forever' | 'date' | 'epoch'
+  queryKey?: string
 }
 
 export function SmartChartPage<T>({
@@ -184,12 +183,11 @@ export function SmartChartPage<T>({
   onFetched,
   getEChartOption,
   toCSV,
-  cacheKey,
-  cacheMode = 'forever',
+  queryKey,
 }: SmartChartPageProps<T>): ReactElement {
   const isMobile = useIsMobile()
 
-  const query = useChartQueryWithCache(fetchData, cacheKey, cacheMode)
+  const query = useQuery(['SmartChartPage', queryKey], () => fetchData(), { refetchOnWindowFocus: false })
   const dataList = useMemo(() => query.data ?? [], [query.data])
   useEffect(() => {
     if (onFetched && query.data) {

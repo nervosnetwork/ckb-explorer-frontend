@@ -108,8 +108,7 @@ export const DifficultyChart = ({ isThumbnail = false }: { isThumbnail?: boolean
       fetchData={explorerService.api.fetchStatisticDifficulty}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="Difficulty"
-      cacheMode="date"
+      queryKey="fetchStatisticDifficulty"
     />
   )
 }

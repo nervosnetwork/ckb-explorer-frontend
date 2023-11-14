@@ -143,8 +143,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
       onFetched={setStatisticAddressBalanceRanks}
       getEChartOption={getEChartOption}
       toCSV={toCSV}
-      cacheKey="AddressBalanceRank"
-      cacheMode="date"
+      queryKey="fetchStatisticAddressBalanceRank"
     />
   )
 }

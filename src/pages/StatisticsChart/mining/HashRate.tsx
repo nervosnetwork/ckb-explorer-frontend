@@ -8,8 +8,6 @@ import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
-export const HashRateCacheKey = 'HashRate'
-
 const useOption = (
   statisticHashRates: ChartItem.HashRate[],
   chartColor: ChartColorConfig,
@@ -109,8 +107,7 @@ export const HashRateChart = ({ isThumbnail = false }: { isThumbnail?: boolean }
       fetchData={explorerService.api.fetchStatisticHashRate}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={HashRateCacheKey}
-      cacheMode="date"
+      queryKey="fetchStatisticHashRate"
     />
   )
 }

@@ -167,8 +167,7 @@ export const InflationRateChart = ({ isThumbnail = false }: { isThumbnail?: bool
       fetchData={explorerService.api.fetchStatisticInflationRate}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="InflationRate"
-      cacheMode="forever"
+      queryKey="fetchStatisticInflationRate"
     />
   )
 }

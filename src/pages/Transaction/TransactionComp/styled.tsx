@@ -104,7 +104,6 @@ export const TransactionInfoItemPanel = styled.div`
   }
 
   .transactionInfoValue {
-    margin-left: 10px;
     margin-top: 5px;
     max-height: 250px;
     font-size: 16px;
@@ -119,6 +118,28 @@ export const TransactionInfoItemPanel = styled.div`
 
 export const TransactionInfoContentPanel = styled.div`
   margin: 15px 0;
+`
+
+export const TransactionInfoContentTitle = styled.div`
+  flex: 0 0 auto;
+  width: 160px;
+`
+
+export const TransactionInfoContentContainer = styled.div`
+  display: flex;
+
+  @media (max-width: 1150px) {
+    display: block;
+  }
+`
+
+export const TransactionInfoContentTag = styled.div`
+  margin-left: 10px;
+  margin-top: 3px;
+
+  @media (max-width: 1150px) {
+    margin-left: 0;
+  }
 `
 
 export const TransactionInfoContentItem = styled.div`
