@@ -7,8 +7,6 @@ import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
-export const AverageBlockTimeCacheKey = 'AverageBlockTime'
-
 const useOption = (
   statisticAverageBlockTimes: ChartItem.AverageBlockTime[],
   chartColor: ChartColorConfig,
@@ -183,8 +181,7 @@ export const AverageBlockTimeChart = ({ isThumbnail = false }: { isThumbnail?: b
       fetchData={explorerService.api.fetchStatisticAverageBlockTimes}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey={AverageBlockTimeCacheKey}
-      cacheMode="date"
+      queryKey="fetchStatisticAverageBlockTimes"
     />
   )
 }

@@ -108,8 +108,7 @@ export const AnnualPercentageCompensationChart = ({ isThumbnail = false }: { isT
       fetchData={explorerService.api.fetchStatisticAnnualPercentageCompensation}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="APC"
-      cacheMode="forever"
+      queryKey="fetchStatisticAnnualPercentageCompensation"
     />
   )
 }

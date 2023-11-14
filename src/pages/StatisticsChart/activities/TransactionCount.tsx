@@ -106,8 +106,7 @@ export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: b
       fetchData={explorerService.api.fetchStatisticTransactionCount}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="TransactionCount"
-      cacheMode="date"
+      queryKey="fetchStatisticTransactionCount"
     />
   )
 }

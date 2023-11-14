@@ -195,8 +195,7 @@ export const TotalDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: bo
       fetchData={explorerService.api.fetchStatisticTotalDaoDeposit}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="TotalDeposit"
-      cacheMode="date"
+      queryKey="fetchStatisticTotalDaoDeposit"
     />
   )
 }

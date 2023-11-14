@@ -17,9 +17,9 @@ import {
   DaoOverviewPieChartPanel,
   DaoOverviewPieItemsPanel,
 } from './styled'
-import DaoUpIcon from '../../../assets/dao_up.png'
-import DaoDownIcon from '../../../assets/dao_down.png'
-import DaoBalanceIcon from '../../../assets/dao_balance.png'
+import DaoUpIcon from './dao_up.png'
+import DaoDownIcon from './dao_down.png'
+import DaoBalanceIcon from './dao_balance.png'
 import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'

@@ -194,8 +194,7 @@ export const CellCountChart = ({ isThumbnail = false }: { isThumbnail?: boolean 
       fetchData={explorerService.api.fetchStatisticCellCount}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="CellCount"
-      cacheMode="date"
+      queryKey="fetchStatisticCellCount"
     />
   )
 }

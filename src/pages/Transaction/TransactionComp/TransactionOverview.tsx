@@ -24,6 +24,9 @@ import {
   TransactionInfoContentPanel,
   TransactionOverviewPanel,
   TransactionInfoItemPanel,
+  TransactionInfoContentContainer,
+  TransactionInfoContentTitle,
+  TransactionInfoContentTag,
 } from './styled'
 import { useLatestBlockNumber } from '../../../services/ExplorerService'
 import { Transaction } from '../../../models/Transaction'
@@ -62,7 +65,7 @@ const TransactionInfoItem = ({
   tag?: ReactNode
 }) => (
   <TransactionInfoContentItem>
-    <div className="transaction__info__content_title">
+    <TransactionInfoContentTitle>
       {title ? (
         <>
           <span>{title}</span>
@@ -72,9 +75,9 @@ const TransactionInfoItem = ({
       ) : (
         ''
       )}
-    </div>
-    <div className="transaction__info__content_container monospace">
-      <div className="transaction__info__content_value">
+    </TransactionInfoContentTitle>
+    <TransactionInfoContentContainer className="monospace">
+      <div className="">
         {linkUrl ? (
           <Link to={linkUrl} className="monospace">
             {value}
@@ -84,8 +87,8 @@ const TransactionInfoItem = ({
         )}
         {valueTooltip && <HelpTip title={valueTooltip} />}
       </div>
-      {tag && <div className="transaction__info__content__tag">{tag}</div>}
-    </div>
+      {tag && <TransactionInfoContentTag>{tag}</TransactionInfoContentTag>}
+    </TransactionInfoContentContainer>
   </TransactionInfoContentItem>
 )
 

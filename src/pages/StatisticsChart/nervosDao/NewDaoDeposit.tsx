@@ -196,8 +196,7 @@ export const NewDaoDepositChart = ({ isThumbnail = false }: { isThumbnail?: bool
       fetchData={explorerService.api.fetchStatisticNewDaoDeposit}
       getEChartOption={useOption}
       toCSV={toCSV}
-      cacheKey="DailyDeposit"
-      cacheMode="date"
+      queryKey="fetchStatisticNewDaoDeposit"
     />
   )
 }
