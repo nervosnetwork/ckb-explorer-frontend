@@ -79,7 +79,7 @@ export const parseUDTAmount = (amount: string, decimal: string | number) => {
     if (decimalInt > 20) {
       return `${result.toFixed(20)}...`
     }
-    if (result.toString().length >= 16 || result.lt(new BigNumber(0.000001))) {
+    if (result.toString().length >= 16 || result.abs().lt(new BigNumber(0.000001))) {
       return localeNumberString(result.toFixed(decimalInt))
     }
     return localeNumberString(result.toNumber())
