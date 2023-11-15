@@ -555,7 +555,9 @@ export const useCountdown = (targetDate: Date): [number, number, number, number,
   const minutes = expired ? 0 : Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60))
   const seconds = expired ? 0 : Math.floor((countdown % (1000 * 60)) / 1000)
 
-  return [days, hours, minutes, seconds, expired]
+  const isComingSoon = countdown <= 3_000 // show coming soon when countdown is less than 3s
+
+  return [days, hours, minutes, seconds, isComingSoon]
 }
 
 export const useSingleHalving = (_halvingCount = 1) => {
