@@ -34,7 +34,7 @@ function numberToOrdinal(number: number) {
 
 export const HalvingBanner = () => {
   const { estimatedDate, halvingCount, inCelebration, isLoading } = useHalving()
-  const [days, hours, minutes, seconds, expired] = useCountdown(estimatedDate)
+  const [days, hours, minutes, seconds, countdown] = useCountdown(estimatedDate)
   const isMobile = useIsMobile()
   const [t, { language }] = useTranslation()
 
@@ -60,7 +60,7 @@ export const HalvingBanner = () => {
       return t('halving.learn_more')
     }
 
-    if (expired) {
+    if (countdown <= 3) {
       return t('halving.comming_soon')
     }
 
