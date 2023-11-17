@@ -5,4 +5,4 @@ const NFTSortByTypes = ['transactions', 'holder', 'minted'] as const
 type NFTSortByType = (typeof NFTSortByTypes)[number]
 
 export const useNFTCollectionsSortParam = () =>
-  useSortParam<NFTSortByType>(s => includes(NFTSortByTypes, s), 'holder.asc')
+  useSortParam<NFTSortByType>(s => includes(NFTSortByTypes, s), 'transactions.desc')
