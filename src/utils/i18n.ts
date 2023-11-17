@@ -2,6 +2,7 @@ import i18n from 'i18next'
 import { initReactI18next, useTranslation } from 'react-i18next'
 import en from '../locales/en.json'
 import zh from '../locales/zh.json'
+// TODO: This file depends on higher-level abstractions, so it should not be in the utils folder.
 import { appSettings } from '../services/AppSettings'
 import { includes } from './array'
 
