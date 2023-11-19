@@ -76,6 +76,10 @@ export const HalvingCountdownPage = () => {
   })
   const shareUrl = `https://x.com/share?text=${encodeURIComponent(shareText)}&hashtags=CKB%2CPoW%2CHalving`
   const getTargetBlockByHavingCount = (count: number) => {
+    // FIXME: this is a hot fix to the halving block number
+    if (count === 1) {
+      return `11487788`
+    }
     return (
       EPOCHS_PER_HALVING *
       (statistics.epochInfo.epochLength ? parseInt(statistics.epochInfo.epochLength, 10) : 1800) *
