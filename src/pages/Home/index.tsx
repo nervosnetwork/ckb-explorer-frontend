@@ -228,8 +228,9 @@ export default () => {
   )
   const { currentEpoch, targetEpoch } = useSingleHalving()
   const isHalvingHidden =
-    currentEpoch > targetEpoch + 6 && // 6 epochs(1 day) after halving
-    currentEpoch < targetEpoch + EPOCHS_PER_HALVING - 180 // 180 epochs(30 days) before next halving
+    !currentEpoch ||
+    (currentEpoch > targetEpoch + 6 && // 6 epochs(1 day) after halving
+      currentEpoch < targetEpoch + EPOCHS_PER_HALVING - 180) // 180 epochs(30 days) before next halving
 
   const blockchainDataList = useBlockchainDataList(isMobile, isLG)
 
