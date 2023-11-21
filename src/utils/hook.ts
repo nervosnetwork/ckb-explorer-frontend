@@ -649,11 +649,11 @@ export const useSingleHalving = (_halvingCount = 1) => {
 export const useHalving = () => {
   const statistics = useStatistics()
   const currentEpoch = Number(statistics.epochInfo.epochNumber)
-  const lastedHalvingCount = Math.ceil((currentEpoch + 1) / EPOCHS_PER_HALVING)
-  const lastedHalving = useSingleHalving(lastedHalvingCount)
-  const previousHalving = useSingleHalving(lastedHalvingCount - 1)
+  const nextHalvingCount = Math.ceil((currentEpoch + 1) / EPOCHS_PER_HALVING)
+  const nextHalving = useSingleHalving(nextHalvingCount)
+  const previousHalving = useSingleHalving(nextHalvingCount - 1)
 
-  return previousHalving.inCelebration ? previousHalving : lastedHalving
+  return previousHalving.inCelebration ? previousHalving : nextHalving
 }
 
 export default {
