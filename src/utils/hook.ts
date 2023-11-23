@@ -646,6 +646,28 @@ export const useSingleHalving = (_halvingCount = 1) => {
   }
 }
 
+export const useEpochBlockMap = () => {
+  const statistics = useStatistics()
+  const currentEpoch = Number(statistics.epochInfo.epochNumber)
+  const { data: epochStatistic } = useQuery(['fetchStatisticDifficultyUncleRateEpoch', currentEpoch], () =>
+    explorerService.api.fetchStatisticDifficultyUncleRateEpoch(),
+  )
+
+  const epochBlockMap = useMemo(() => {
+    const r = new Map<number, number>([[0, 0]])
+    epochStatistic?.forEach(i => {
+      const last = r.get(+i.epochNumber) ?? 0
+      r.set(+i.epochNumber + 1, +i.epochLength + last)
+    })
+
+    return r
+  }, [epochStatistic])
+
+  return {
+    epochBlockMap,
+  }
+}
+
 export const useHalving = () => {
   const statistics = useStatistics()
   const currentEpoch = Number(statistics.epochInfo.epochNumber)
