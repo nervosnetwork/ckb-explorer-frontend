@@ -646,14 +646,36 @@ export const useSingleHalving = (_halvingCount = 1) => {
   }
 }
 
+export const useEpochBlockMap = () => {
+  const statistics = useStatistics()
+  const currentEpoch = Number(statistics.epochInfo.epochNumber)
+  const { data: epochStatistic } = useQuery(['fetchStatisticDifficultyUncleRateEpoch', currentEpoch], () =>
+    explorerService.api.fetchStatisticDifficultyUncleRateEpoch(),
+  )
+
+  const epochBlockMap = useMemo(() => {
+    const r = new Map<number, number>([[0, 0]])
+    epochStatistic?.forEach(i => {
+      const last = r.get(+i.epochNumber) ?? 0
+      r.set(+i.epochNumber + 1, +i.epochLength + last)
+    })
+
+    return r
+  }, [epochStatistic])
+
+  return {
+    epochBlockMap,
+  }
+}
+
 export const useHalving = () => {
   const statistics = useStatistics()
   const currentEpoch = Number(statistics.epochInfo.epochNumber)
-  const lastedHalvingCount = Math.ceil((currentEpoch + 1) / EPOCHS_PER_HALVING)
-  const lastedHalving = useSingleHalving(lastedHalvingCount)
-  const previousHalving = useSingleHalving(lastedHalvingCount - 1)
+  const nextHalvingCount = Math.ceil((currentEpoch + 1) / EPOCHS_PER_HALVING)
+  const nextHalving = useSingleHalving(nextHalvingCount)
+  const previousHalving = useSingleHalving(nextHalvingCount - 1)
 
-  return previousHalving.inCelebration ? previousHalving : lastedHalving
+  return previousHalving.inCelebration ? previousHalving : nextHalving
 }
 
 export default {

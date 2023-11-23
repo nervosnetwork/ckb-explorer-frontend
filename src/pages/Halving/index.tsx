@@ -14,9 +14,8 @@ import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg
 import { HalvingTable } from './HalvingTable'
 import { HalvingInfo } from './HalvingInfo'
 import SmallLoading from '../../components/Loading/SmallLoading'
-import { useStatistics } from '../../services/ExplorerService'
 import { HalvingCountdown } from './HalvingCountdown'
-import { useCountdown, useHalving, useIsMobile } from '../../utils/hook'
+import { useCountdown, useHalving, useIsMobile, useEpochBlockMap } from '../../utils/hook'
 import { getPrimaryColor, EPOCHS_PER_HALVING, THEORETICAL_EPOCH_TIME } from '../../constants/common'
 import styles from './index.module.scss'
 import { useCurrentLanguage } from '../../utils/i18n'
@@ -46,9 +45,9 @@ function numberToOrdinal(number: number) {
 export const HalvingCountdownPage = () => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const statistics = useStatistics()
   const { currentEpoch, estimatedDate, currentEpochUsedTime, halvingCount, inCelebration, skipCelebration, isLoading } =
     useHalving()
+  const { epochBlockMap } = useEpochBlockMap()
 
   const percent =
     (((currentEpoch % EPOCHS_PER_HALVING) * THEORETICAL_EPOCH_TIME - currentEpochUsedTime) /
@@ -76,11 +75,7 @@ export const HalvingCountdownPage = () => {
   })
   const shareUrl = `https://x.com/share?text=${encodeURIComponent(shareText)}&hashtags=CKB%2CPoW%2CHalving`
   const getTargetBlockByHavingCount = (count: number) => {
-    return (
-      EPOCHS_PER_HALVING *
-      (statistics.epochInfo.epochLength ? parseInt(statistics.epochInfo.epochLength, 10) : 1800) *
-      count
-    )
+    return epochBlockMap.get(EPOCHS_PER_HALVING * count)
   }
 
   const renderHalvingPanel = () => {
@@ -111,9 +106,13 @@ export const HalvingCountdownPage = () => {
                 {t('halving.halving')}
                 {t('symbol.char_space')}
                 {t('halving.actived')}{' '}
-                <a className={styles.textPrimary} href={`/block/${getTargetBlockByHavingCount(halvingCount)}`}>
-                  {new BigNumber(getTargetBlockByHavingCount(halvingCount)).toFormat()}.
-                </a>
+                {getTargetBlockByHavingCount(halvingCount) ? (
+                  <a className={styles.textPrimary} href={`/block/${getTargetBlockByHavingCount(halvingCount)}`}>
+                    {new BigNumber(getTargetBlockByHavingCount(halvingCount)!).toFormat()}.
+                  </a>
+                ) : (
+                  <SmallLoading />
+                )}
               </div>
             </div>
             <div className={styles.textCenter}>
