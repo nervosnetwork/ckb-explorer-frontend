@@ -5006,10 +5006,10 @@
   resolved "https://registry.yarnpkg.com/@types/doctrine/-/doctrine-0.0.3.tgz#e892d293c92c9c1d3f9af72c15a554fbc7e0895a"
   integrity sha512-w5jZ0ee+HaPOaX25X2/2oGR/7rgAQSYII7X7pp0m9KgBfMP7uKfMfTvcpl5Dj+eDBbpxKGiqE+flqDr6XTd2RA==
 
-"@types/echarts@4.9.21":
-  version "4.9.21"
-  resolved "https://registry.yarnpkg.com/@types/echarts/-/echarts-4.9.21.tgz#9626d0db7215cf51cbfe02a42c05d9d2834f243a"
-  integrity sha512-xUvHN2TbednNO3bybnG8GtOWU/f+/ouSlC9wO+704uiRlVtPEcLPfvfD24WqZ8uAXJ2dvlBLeB60WIlzv+Xajw==
+"@types/echarts@4.9.22":
+  version "4.9.22"
+  resolved "https://registry.yarnpkg.com/@types/echarts/-/echarts-4.9.22.tgz#b584fd3d312f106dd8cacb53f689573a6953d822"
+  integrity sha512-7Fo6XdWpoi8jxkwP7BARUOM7riq8bMhmsCtSG8gzUcJmFhLo387tihoBYS/y5j7jl3PENT5RxeWZdN9RiwO7HQ==
   dependencies:
     "@types/zrender" "*"
 
