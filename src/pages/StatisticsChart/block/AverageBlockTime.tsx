@@ -45,6 +45,7 @@ const useOption = (
     }
     return ''
   }
+
   return {
     color: chartColor.colors,
     tooltip: !isThumbnail
@@ -115,6 +116,7 @@ const useOption = (
       },
       {
         position: 'right',
+        splitLine: { show: false },
         name: isMobile || isThumbnail ? '' : t('statistic.weekly_moving_average'),
         type: 'value',
         scale: true,
