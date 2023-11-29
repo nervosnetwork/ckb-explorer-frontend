@@ -47,6 +47,7 @@ const useOption = (
     bottom: '6%',
     containLabel: true,
   }
+
   return {
     color: chartColor.colors,
     tooltip: !isThumbnail

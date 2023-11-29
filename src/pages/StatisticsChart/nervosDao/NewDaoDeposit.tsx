@@ -129,6 +129,7 @@ const useOption = (
         },
         type: 'value',
         scale: true,
+        splitLine: { show: false },
         axisLine: {
           lineStyle: {
             color: chartColor.colors[1],
