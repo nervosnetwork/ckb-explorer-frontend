@@ -105,7 +105,7 @@ export const HalvingCountdownPage = () => {
                 {t('symbol.char_space')}
                 {t('halving.halving')}
                 {t('symbol.char_space')}
-                {t('halving.actived')}{' '}
+                {t('halving.activated')}{' '}
                 {getTargetBlockByHavingCount(halvingCount) ? (
                   <a className={styles.textPrimary} href={`/block/${getTargetBlockByHavingCount(halvingCount)}`}>
                     {new BigNumber(getTargetBlockByHavingCount(halvingCount)!).toFormat()}.
@@ -135,7 +135,7 @@ export const HalvingCountdownPage = () => {
       return (
         <div className={styles.halvingPanelWrapper}>
           <div className={classnames(styles.halvingPanel, styles.loadingPanel)}>
-            {t('halving.comming_soon')}
+            {t('halving.coming_soon')}
             <SmallLoading />
           </div>
         </div>
