@@ -53,9 +53,9 @@ const useOption = (
   }
 
   const COUNT_IN_THUMBNAIL = 90
-  const epochNumberSerie = statisticChartData.map(data => data.epochNumber)
-  const epochTimeSerie = statisticChartData.map(data => parseHourFromMillisecond(data.epochTime))
-  const epochLengthSerie = statisticChartData.map(data => data.epochLength)
+  const epochNumberSeries = statisticChartData.map(data => data.epochNumber)
+  const epochTimeSeries = statisticChartData.map(data => parseHourFromMillisecond(data.epochTime))
+  const epochLengthSeries = statisticChartData.map(data => data.epochLength)
   const endValue = statisticChartData[statisticChartData.length - 1]?.epochNumber ?? '0'
   const startValue = Math.max(+endValue - COUNT_IN_THUMBNAIL, 0).toString()
   const parseTooltip = useTooltip()
@@ -120,7 +120,7 @@ const useOption = (
         nameGap: 30,
         type: 'category',
         boundaryGap: true,
-        data: isThumbnail ? epochNumberSerie.slice(-1 * COUNT_IN_THUMBNAIL) : epochNumberSerie,
+        data: isThumbnail ? epochNumberSeries.slice(-1 * COUNT_IN_THUMBNAIL) : epochNumberSeries,
         axisLabel: {
           formatter: (value: string) => value,
         },
@@ -188,7 +188,7 @@ const useOption = (
         yAxisIndex: 0,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 5,
-        data: isThumbnail ? epochTimeSerie.slice(-1 * COUNT_IN_THUMBNAIL) : epochTimeSerie,
+        data: isThumbnail ? epochTimeSeries.slice(-1 * COUNT_IN_THUMBNAIL) : epochTimeSeries,
       },
       {
         name: t('block.epoch_length'),
@@ -197,7 +197,7 @@ const useOption = (
         yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 5,
-        data: isThumbnail ? epochLengthSerie.slice(-1 * COUNT_IN_THUMBNAIL) : epochLengthSerie,
+        data: isThumbnail ? epochLengthSeries.slice(-1 * COUNT_IN_THUMBNAIL) : epochLengthSeries,
       },
     ],
   }

@@ -119,8 +119,8 @@ export default memo(() => {
   const fullStatisticAverageBlockTimes = useMemo(() => query.data ?? [], [query.data])
 
   const statisticAverageBlockTimes = useMemo(() => {
-    const last14Dyas = -336
-    return fullStatisticAverageBlockTimes.slice(last14Dyas)
+    const last14Days = -336
+    return fullStatisticAverageBlockTimes.slice(last14Days)
   }, [fullStatisticAverageBlockTimes])
 
   if (query.isLoading || statisticAverageBlockTimes.length === 0) {

@@ -1,8 +1,8 @@
-$backgroudColor: #232323;
+$backgroundColor: #232323;
 
 .root {
   width: 100%;
-  background-color: $backgroudColor;
+  background-color: $backgroundColor;
   height: 200px;
   position: relative;
   background-image: url('./ckb_explorer_banner.svg');
@@ -22,7 +22,7 @@ $backgroudColor: #232323;
 
 .halvingBannerWrapper {
   width: 100%;
-  background-color: $backgroudColor;
+  background-color: $backgroundColor;
   height: 200px;
   position: relative;
   background-repeat: no-repeat;

@@ -61,7 +61,7 @@ export const HalvingBanner = () => {
     }
 
     if (countdown <= 3) {
-      return t('halving.comming_soon')
+      return t('halving.coming_soon')
     }
 
     return (

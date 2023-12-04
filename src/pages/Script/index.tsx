@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useParams } from 'react-router-dom'
-import { Tabs } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
@@ -19,6 +18,7 @@ import DecimalCapacity from '../../components/DecimalCapacity'
 import styles from './styles.module.scss'
 import { explorerService } from '../../services/ExplorerService'
 import type { ScriptInfo } from '../../services/ExplorerService/fetcher'
+import { ScriptTab, ScriptTabPane, ScriptTabTitle } from './styled'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -153,12 +153,12 @@ export const ScriptPage = () => {
         <HashCardPanel isColumn={false}>
           <ScriptsTitleOverview scriptInfo={scriptInfo} />
         </HashCardPanel>
-        <Tabs
+        <ScriptTab
           key={currentLanguage + countOfTransactions + countOfDeployedCells + countOfReferringCells}
-          className={styles.scriptTabs}
           activeKey={tab ?? 'transactions'}
           animated={{ inkBar: false }}
           tabBarStyle={{
+            marginLeft: 40,
             marginBottom: 0,
             height: 56,
           }}
@@ -185,24 +185,38 @@ export const ScriptPage = () => {
               history.push(`/script/${codeHash}/${hashType}?page=${pageOfTransactions}&size=${pageSize}`)
             }
           }}
-          items={[
-            {
-              label: `${t('transaction.transactions')} (${localeNumberString(countOfTransactions!)})`,
-              key: 'transactions',
-              children: <ScriptTransactions page={currentPage} size={pageSize} />,
-            },
-            {
-              label: `${t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`,
-              key: 'deployed_cells',
-              children: <ScriptCells page={currentPage} size={pageSize} cellType="deployed_cells" />,
-            },
-            {
-              label: `${t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`,
-              key: 'referring_cells',
-              children: <ScriptCells page={currentPage} size={pageSize} cellType="referring_cells" />,
-            },
-          ]}
-        />
+        >
+          <ScriptTabPane
+            tab={
+              <ScriptTabTitle>
+                {`${t('transaction.transactions')} (${localeNumberString(countOfTransactions!)})`}
+              </ScriptTabTitle>
+            }
+            key="transactions"
+          >
+            <ScriptTransactions page={currentPage} size={pageSize} />
+          </ScriptTabPane>
+          <ScriptTabPane
+            tab={
+              <ScriptTabTitle>
+                {`${t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`}
+              </ScriptTabTitle>
+            }
+            key="deployed_cells"
+          >
+            <ScriptCells page={currentPage} size={pageSize} cellType="deployed_cells" />
+          </ScriptTabPane>
+          <ScriptTabPane
+            tab={
+              <ScriptTabTitle>
+                {`${t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`}
+              </ScriptTabTitle>
+            }
+            key="referring_cells"
+          >
+            <ScriptCells page={currentPage} size={pageSize} cellType="referring_cells" />
+          </ScriptTabPane>
+        </ScriptTab>
       </div>
     </Content>
   )

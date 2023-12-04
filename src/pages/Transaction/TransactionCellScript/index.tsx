@@ -9,13 +9,12 @@ import {
   TransactionDetailCopyButton,
   TransactionDetailContainer,
   TransactionDetailPanel,
-  TransactionDetailLock,
-  TransactionDetailType,
   TransactionCellDetailPanel,
-  TransactionDetailData,
-  TransactionDetailCapacityUsage,
   TransactionCellInfoValuePanel,
   TransactionDetailScriptButton,
+  TransactionCellDetailTab,
+  TransactionCellDetailPane,
+  TransactionCellDetailTitle,
 } from './styled'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import CloseIcon from './modal_close.png'
@@ -250,31 +249,53 @@ export default ({ cell, onClose }: TransactionCellScriptProps) => {
   return (
     <TransactionDetailContainer ref={ref}>
       <TransactionCellDetailPanel>
-        <TransactionDetailLock selected={selectedInfo === CellInfo.LOCK} onClick={() => changeType(CellInfo.LOCK)}>
-          {t('transaction.lock_script')}
-          <HelpTip title={t('glossary.lock_script')} placement="bottom" containerRef={ref} />
-        </TransactionDetailLock>
-        <TransactionDetailType selected={selectedInfo === CellInfo.TYPE} onClick={() => changeType(CellInfo.TYPE)}>
-          {t('transaction.type_script')}
-          <HelpTip title={t('glossary.type_script')} placement="bottom" containerRef={ref} />
-        </TransactionDetailType>
-        <TransactionDetailData selected={selectedInfo === CellInfo.DATA} onClick={() => changeType(CellInfo.DATA)}>
-          {t('transaction.data')}
-        </TransactionDetailData>
-        <TransactionDetailCapacityUsage
-          selected={selectedInfo === CellInfo.CAPACITY}
-          onClick={() => changeType(CellInfo.CAPACITY)}
+        <TransactionCellDetailTab
+          tabBarExtraContent={
+            <div className="transactionDetailModalClose">
+              <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
+            </div>
+          }
+          tabBarStyle={{ fontSize: '10px' }}
+          onTabClick={key => {
+            const state = parseInt(key, 10)
+            if (state && !Number.isNaN(state)) {
+              changeType(state)
+            }
+          }}
         >
-          {t('transaction.capacity_usage')}
-          <HelpTip title={t('glossary.capacity_usage')} placement="bottom" containerRef={ref} />
-        </TransactionDetailCapacityUsage>
-
-        <div className="transactionDetailModalClose">
-          <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
-        </div>
+          <TransactionCellDetailPane
+            tab={
+              <>
+                <TransactionCellDetailTitle>{t('transaction.lock_script')}</TransactionCellDetailTitle>
+                <HelpTip title={t('glossary.lock_script')} placement="bottom" containerRef={ref} />
+              </>
+            }
+            key={CellInfo.LOCK}
+          />
+          <TransactionCellDetailPane
+            tab={
+              <>
+                <TransactionCellDetailTitle>{t('transaction.type_script')}</TransactionCellDetailTitle>
+                <HelpTip title={t('glossary.type_script')} placement="bottom" containerRef={ref} />
+              </>
+            }
+            key={CellInfo.TYPE}
+          />
+          <TransactionCellDetailPane
+            tab={<TransactionCellDetailTitle>{t('transaction.data')}</TransactionCellDetailTitle>}
+            key={CellInfo.DATA}
+          />
+          <TransactionCellDetailPane
+            tab={
+              <>
+                <TransactionCellDetailTitle>{t('transaction.capacity_usage')}</TransactionCellDetailTitle>
+                <HelpTip title={t('glossary.capacity_usage')} placement="bottom" containerRef={ref} />
+              </>
+            }
+            key={CellInfo.CAPACITY}
+          />
+        </TransactionCellDetailTab>
       </TransactionCellDetailPanel>
-
-      <div className="transactionDetailSeparate" />
 
       <TransactionDetailPanel>
         {isFetched ? (
