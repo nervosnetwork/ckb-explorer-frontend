@@ -6,7 +6,7 @@ module.exports = {
   rules: {
     'no-empty-source': null,
     // Based on the discussion in https://github.com/Magickbase/ckb-explorer-public-issues/issues/442, we have decided to use lower camel case.
-    'selector-class-pattern': "^[a-z][a-zA-Z0-9]+$",
+    'selector-class-pattern': '^[a-z][a-zA-Z0-9]+$',
     'selector-id-pattern': null,
     'custom-property-pattern': null,
     // This rule provides little benefit relative to the cost of implementing it, so it has been disabled.
@@ -27,6 +27,14 @@ module.exports = {
       extends: ['stylelint-config-standard-scss'],
       rules: {
         'scss/dollar-variable-pattern': null,
+        'scss/at-rule-no-unknown': [
+          true,
+          {
+            // This syntax is specified by the CSS module specification and implemented by the css-loader.
+            // Refs: https://github.com/css-modules/css-modules/blob/master/docs/values-variables.md
+            ignoreAtRules: ['value'],
+          },
+        ],
       },
     },
     {

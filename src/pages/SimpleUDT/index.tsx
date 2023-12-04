@@ -1,22 +1,13 @@
-import { useState } from 'react'
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { Popover } from 'antd'
-import SimpleUDTHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
-import { SimpleUDTContentPanel, UDTTransactionTitlePanel, TypeScriptController } from './styled'
-import SimpleUDTComp, { SimpleUDTOverview } from './SimpleUDTComp'
+import { SimpleUDTContentPanel, UDTTransactionTitlePanel } from './styled'
+import SimpleUDTComp, { SimpleUDTOverviewCard } from './SimpleUDTComp'
 import { useIsMobile, usePaginationParamsInPage } from '../../utils/hook'
-import SUDTTokenIcon from '../../assets/sudt_token.png'
-import ArrowUpIcon from '../../assets/arrow_up.png'
-import ArrowDownIcon from '../../assets/arrow_down.png'
-import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
-import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
-import { isMainnet } from '../../utils/chain'
 import Filter from '../../components/Search/Filter'
 import { localeNumberString } from '../../utils/number'
-import Script from '../../components/Script'
 import { explorerService } from '../../services/ExplorerService'
 import { deprecatedAddrToNewAddr } from '../../utils/util'
 import { QueryResult } from '../../components/QueryResult'
@@ -25,13 +16,6 @@ import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
 import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
 import styles from './styles.module.scss'
 import { Cell } from '../../models/Cell'
-
-const typeScriptIcon = (show: boolean) => {
-  if (show) {
-    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
-  }
-  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
-}
 
 enum TransactionType {
   Mint = 'mint',
@@ -44,7 +28,6 @@ export const SimpleUDT = () => {
   const isMobile = useIsMobile()
   const { push } = useHistory()
   const { search } = useLocation()
-  const [showType, setShowType] = useState(false)
   const { hash: typeHash } = useParams<{ hash: string }>()
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
 
@@ -54,7 +37,6 @@ export const SimpleUDT = () => {
 
   const querySimpleUDT = useQuery(['simple-udt'], () => explorerService.api.fetchSimpleUDT(typeHash))
   const udt = querySimpleUDT.data ?? defaultUDTInfo
-  const { iconFile, typeScript, symbol, uan } = udt
 
   const querySimpleUDTTransactions = useQuery(
     ['simple-udt-transactions', typeHash, currentPage, _pageSize, filter, type],
@@ -111,15 +93,7 @@ export const SimpleUDT = () => {
   return (
     <Content>
       <SimpleUDTContentPanel className="container">
-        <SimpleUDTHashCard title={(uan || symbol) ?? t('udt.sudt')} hash={typeHash} iconUri={iconFile || SUDTTokenIcon}>
-          <SimpleUDTOverview udt={udt}>
-            <TypeScriptController onClick={() => setShowType(!showType)}>
-              <div>{t('udt.type_script')}</div>
-              <img alt="type script" src={typeScriptIcon(showType)} />
-            </TypeScriptController>
-            {showType && typeScript && <Script script={typeScript} />}
-          </SimpleUDTOverview>
-        </SimpleUDTHashCard>
+        <SimpleUDTOverviewCard typeHash={typeHash} udt={udt} />
 
         <UDTTransactionTitlePanel>
           <div className="udtTransactionContainer">

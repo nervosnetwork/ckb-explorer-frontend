@@ -1,45 +1,31 @@
-import { useState, ReactNode, FC } from 'react'
+import { ReactNode, FC } from 'react'
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
 import { Trans, useTranslation } from 'react-i18next'
 import Pagination from '../../components/Pagination'
-import DropDownIcon from './content_drop_down.png'
-import PackUpIcon from './content_pack_up.png'
-import DropDownBlueIcon from './content_blue_drop_down.png'
-import PackUpBlueIcon from './content_blue_pack_up.png'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import TransactionItem from '../../components/TransactionItem/index'
 import { parseSimpleDate } from '../../utils/date'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { useIsMobile, useSearchParams } from '../../utils/hook'
 import { hexToUtf8 } from '../../utils/string'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
-import {
-  BlockLinkPanel,
-  BlockOverviewDisplayControlPanel,
-  BlockMinerRewardPanel,
-  BlockMinerMessagePanel,
-  BlockRootInfoItemPanel,
-  BlockTransactionsPagination,
-  BlockRootInfoPanel,
-} from './styled'
+import { BlockLinkPanel, BlockMinerRewardPanel, BlockMinerMessagePanel, BlockTransactionsPagination } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import MoreIcon from '../../assets/more.png'
 import MinerRewardIcon from './miner_complete.png'
 import { ReactComponent as LeftArrow } from './prev_block.svg'
-import { isMainnet } from '../../utils/chain'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
-import TitleCard from '../../components/Card/TitleCard'
+import { Card, CardCell, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../components/Card'
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import Filter from '../../components/Search/Filter'
-import { HelpTip } from '../../components/HelpTip'
 import { useLatestBlockNumber } from '../../services/ExplorerService'
 import { Block } from '../../models/Block'
 import { Transaction } from '../../models/Transaction'
+import { CardHeader } from '../../components/Card/CardHeader'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -104,21 +90,18 @@ const BlockMinerReward = ({
   )
 }
 
-export const BlockOverview: FC<{ block: Block }> = ({ block }) => {
+export const BlockOverviewCard: FC<{ blockHeightOrHash: string; block: Block }> = ({ blockHeightOrHash, block }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const tipBlockNumber = useLatestBlockNumber()
-  const [showAllOverview, setShowAllOverview] = useState(false)
   const minerReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.minerReward))} />
-  const rootInfoItems = [
-    {
-      title: t('block.transactions_root'),
-      tooltip: t('glossary.transactions_root'),
-      content: `${block.transactionsRoot}`,
-    },
-  ]
+  const rootInfoItem: CardCellInfo = {
+    title: t('block.transactions_root'),
+    tooltip: t('glossary.transactions_root'),
+    content: <AddressText>{block.transactionsRoot}</AddressText>,
+  }
   const sentBlockNumber = `${Number(block.number) + DELAY_BLOCK_NUMBER}`
-  let overviewItems: OverviewItemData[] = [
+  const overviewItems: CardCellInfo<'left' | 'right'>[] = [
     {
       title: t('block.block_height'),
       tooltip: t('glossary.block_height'),
@@ -183,35 +166,39 @@ export const BlockOverview: FC<{ block: Block }> = ({ block }) => {
         '-'
       ),
     },
-    null,
     {
-      title: t('block.cycles'),
-      tooltip: t('glossary.cycles'),
-      content: block.cycles ? (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {`${block.cycles.toLocaleString('en')}`}
-          <ComparedToMaxTooltip
-            numerator={block.cycles}
-            maxInEpoch={block.maxCyclesInEpoch}
-            maxInChain={block.maxCycles}
-            titleInEpoch={t('block.compared_to_the_max_cycles_in_epoch')}
-            titleInChain={t('block.compared_to_the_max_cycles_in_chain')}
-          />
-        </div>
-      ) : (
-        '-'
-      ),
+      slot: 'left',
+      cell: {
+        title: t('block.cycles'),
+        tooltip: t('glossary.cycles'),
+        content: block.cycles ? (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {`${block.cycles.toLocaleString('en')}`}
+            <ComparedToMaxTooltip
+              numerator={block.cycles}
+              maxInEpoch={block.maxCyclesInEpoch}
+              maxInChain={block.maxCycles}
+              titleInEpoch={t('block.compared_to_the_max_cycles_in_epoch')}
+              titleInChain={t('block.compared_to_the_max_cycles_in_chain')}
+            />
+          </div>
+        ) : (
+          '-'
+        ),
+      },
     },
-    null,
     {
-      title: t('block.proposal_transactions'),
-      tooltip: t('glossary.proposal_transactions'),
-      content: block.proposalsCount ? localeNumberString(block.proposalsCount) : 0,
+      slot: 'left',
+      cell: {
+        title: t('block.proposal_transactions'),
+        tooltip: t('glossary.proposal_transactions'),
+        content: block.proposalsCount ? localeNumberString(block.proposalsCount) : 0,
+      },
     },
     {
       title: t('block.epoch'),
@@ -274,42 +261,15 @@ export const BlockOverview: FC<{ block: Block }> = ({ block }) => {
   ]
 
   if (isMobile) {
-    const newItems: OverviewItemData[] = []
-    overviewItems.forEach((item, index) => (index % 2 === 0 ? newItems.push(item) : null))
-    overviewItems.forEach((item, index) => (index % 2 !== 0 ? newItems.push(item) : null))
-    overviewItems = newItems.concat(rootInfoItems)
-    if (!showAllOverview) {
-      overviewItems.splice(11, overviewItems.length - 11)
-    }
+    overviewItems.push(rootInfoItem)
   }
 
-  const getDropdownIcon = () => {
-    if (isMainnet()) {
-      return showAllOverview ? PackUpIcon : DropDownIcon
-    }
-    return showAllOverview ? PackUpBlueIcon : DropDownBlueIcon
-  }
   return (
-    <OverviewCard items={overviewItems} hideShadow>
-      {isMobile ? (
-        <BlockOverviewDisplayControlPanel onClick={() => setShowAllOverview(!showAllOverview)}>
-          <img src={getDropdownIcon()} alt={showAllOverview ? 'show' : 'hide'} />
-        </BlockOverviewDisplayControlPanel>
-      ) : (
-        <BlockRootInfoPanel>
-          <span />
-          {rootInfoItems.map(item => (
-            <BlockRootInfoItemPanel key={item.title}>
-              <div className="blockRootInfoTitle">
-                <span>{item.title}</span>
-                {item.tooltip && <HelpTip title={item.tooltip} />}
-              </div>
-              <div className="blockRootInfoValue monospace">{item.content}</div>
-            </BlockRootInfoItemPanel>
-          ))}
-        </BlockRootInfoPanel>
-      )}
-    </OverviewCard>
+    <Card>
+      <HashCardHeader title={t('block.block')} hash={blockHeightOrHash} />
+      <CardCellsLayout type="left-right" cells={overviewItems} borderTop />
+      {!isMobile && <CardCell {...rootInfoItem} className={styles.cellTransactionsRoot} />}
+    </Card>
   )
 }
 
@@ -336,25 +296,27 @@ export const BlockComp = ({
 
   return (
     <>
-      <TitleCard
-        title={`${t('transaction.transactions')} (${localeNumberString(total)})`}
-        className={styles.transactionTitleCard}
-        isSingle
-        rearClassName={styles.rear}
-        rear={
-          <Filter
-            showReset={!!filter}
-            defaultValue={filter ?? ''}
-            placeholder={t('block.address_or_hash')}
-            onFilter={filter => {
-              push(`/block/${blockId}?${new URLSearchParams({ filter })}`)
-            }}
-            onReset={() => {
-              push(`/block/${blockId}`)
-            }}
-          />
-        }
-      />
+      <Card className={styles.transactionListOptionsCard} rounded="top">
+        <CardHeader
+          className={styles.cardHeader}
+          leftContent={`${t('transaction.transactions')} (${localeNumberString(total)})`}
+          rightProps={{ className: styles.rear }}
+          rightContent={
+            <Filter
+              showReset={!!filter}
+              defaultValue={filter ?? ''}
+              placeholder={t('block.address_or_hash')}
+              onFilter={filter => {
+                push(`/block/${blockId}?${new URLSearchParams({ filter })}`)
+              }}
+              onReset={() => {
+                push(`/block/${blockId}`)
+              }}
+            />
+          }
+        />
+      </Card>
+
       {transactions.map(
         (transaction, index) =>
           transaction && (

@@ -1,4 +1,9 @@
 .link {
   flex: 1;
   min-width: 0;
+  color: var(--primary-color);
+
+  &:hover {
+    color: var(--primary-color);
+  }
 }

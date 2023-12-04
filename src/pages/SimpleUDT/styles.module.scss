@@ -1,3 +1,50 @@
+.simpleUDTOverviewCard:not(
+    [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
+  ) {
+  padding-bottom: 20px;
+
+  @media (width <= 750px) {
+    padding-bottom: 16px;
+  }
+}
+
+.cardTitle {
+  display: flex;
+  gap: 8px;
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  @media (width <= 750px) {
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 16px;
+    color: #333;
+    font-size: 20px;
+    font-weight: 600;
+
+    .icon {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
+
+.cardHeader {
+  @media (width <= 750px) {
+    height: min-content;
+    padding: 8px 0 12px;
+  }
+}
+
 .openInNew {
   cursor: pointer;
   margin-left: 4px;

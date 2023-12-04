@@ -3,35 +3,29 @@ import TabPane from 'antd/lib/tabs/TabPane'
 import styled from 'styled-components'
 
 export const ScriptTab = styled(Tabs)`
+  /* stylelint-disable selector-class-pattern */
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  background-color: #fff;
-  border-radius: 6px 6px 0 0;
+  margin-top: 24px;
 
-  /* stylelint-disable-next-line selector-class-pattern */
   .ant-tabs-nav-list {
     padding-left: 40px;
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
   .ant-tabs-tab.ant-tabs-tab-active {
-    /* stylelint-disable-next-line selector-class-pattern */
     .ant-tabs-tab-btn {
       color: var(--primary-color);
     }
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
   .ant-tabs-tab-active {
-    /* stylelint-disable-next-line selector-class-pattern */
     .ant-tabs-tab-btn {
       color: #333;
     }
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
   .ant-tabs-tab-btn {
     color: #333;
     font-weight: 400;
@@ -44,8 +38,8 @@ export const ScriptTab = styled(Tabs)`
     }
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  .ant-tabs-nav .ant-tabs-ink-bar {
+  .ant-tabs-nav
+    .ant-tabs-ink-bar[_='This \`:not\` selector is used to increase the specificity of the selector and serves no other purpose.'] {
     background: linear-gradient(
       to right,
       transparent 30%,
@@ -53,8 +47,15 @@ export const ScriptTab = styled(Tabs)`
       var(--primary-color) 70%,
       transparent 70%
     );
-    height: 3px;
-    bottom: 3px;
+    height: 4px;
+
+    @media (max-width: 750px) {
+      height: 2px;
+    }
+  }
+
+  @media (max-width: 750px) {
+    margin-top: 20px;
   }
 `
 export const ScriptTabTitle = styled.span`

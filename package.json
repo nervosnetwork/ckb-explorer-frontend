@@ -125,5 +125,8 @@
     "*.{ts,tsx}": "eslint --cache --fix",
     "*.{ts,tsx,json,html,scss}": "prettier --write",
     "*.{scss,css,tsx}": "stylelint --fix"
+  },
+  "peerDependencies": {
+    "react-dev-utils": "*"
   }
 }

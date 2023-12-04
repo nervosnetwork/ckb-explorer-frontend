@@ -81,7 +81,6 @@ export const SimpleUDTLockScriptController = styled.div`
 export const TypeScriptController = styled(SimpleButton)`
   font-size: 16px;
   font-weight: 600;
-  margin-top: 10px;
   cursor: pointer;
   color: ${props => props.theme.primary};
   display: flex;

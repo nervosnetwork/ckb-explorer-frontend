@@ -1,0 +1,27 @@
+.card {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 40px;
+  background: #fff;
+  box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
+
+  &.rounded {
+    border-radius: 4px;
+  }
+
+  &.roundedTop {
+    border-radius: 4px 4px 0 0;
+  }
+
+  &.roundedBottom {
+    border-radius: 0 0 4px 4px;
+  }
+
+  @media (width <= 750px) {
+    padding: 0 16px;
+    box-shadow: 1px 1px 3px 0 #dfdfdf;
+  }
+}

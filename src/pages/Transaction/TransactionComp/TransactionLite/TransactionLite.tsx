@@ -50,7 +50,7 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
   })
   const transactionLiteDetails: TransactionRecord[] = query.data ?? defaultTransactionLiteDetails
   return (
-    <>
+    <div className={styles.transactionLites}>
       {transactionLiteDetails &&
         transactionLiteDetails.map(item => (
           <div className="transactionLite" key={item.address}>
@@ -64,7 +64,7 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
             </div>
           </div>
         ))}
-    </>
+    </div>
   )
 }
 
