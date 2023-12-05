@@ -1,8 +1,8 @@
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { getPrimaryColor } from '../../constants/common'
-import SortButton from '../SortButton'
+import { getPrimaryColor } from '../../../constants/common'
+import SortButton from '../../../components/SortButton'
 import styles from './styles.module.scss'
 
 export const primaryColor = getPrimaryColor()

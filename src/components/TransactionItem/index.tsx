@@ -9,7 +9,7 @@ import TransactionIncome from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import { CellType } from '../../constants/common'
 import AddressText from '../AddressText'
-import { useIsLGScreen, useParsedDate } from '../../utils/hook'
+import { useIsLGScreen, useParsedDate } from '../../hooks'
 import { Transaction } from '../../models/Transaction'
 
 export interface CircleCorner {

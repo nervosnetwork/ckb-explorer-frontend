@@ -8,12 +8,12 @@ import { AddressContentPanel } from './styled'
 import { AddressTransactions, AddressOverviewCard } from './AddressComp'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
-import { useDeprecatedAddr, useNewAddr, usePaginationParamsInListPage, useSortParam } from '../../utils/hook'
+import { useDeprecatedAddr, useNewAddr, usePaginationParamsInListPage, useSortParam } from '../../hooks'
 import { isAxiosError } from '../../utils/error'
 import { Card, HashCardHeader } from '../../components/Card'
 import { ReactComponent as ShareIcon } from './share.svg'
 import styles from './styles.module.scss'
-import { useDASAccount } from '../../contexts/providers/dasQuery'
+import { useDASAccount } from '../../hooks/useDASAccount'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()

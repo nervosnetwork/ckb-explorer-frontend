@@ -12,7 +12,7 @@ import { Addr } from '../../TransactionCell'
 import { defaultTransactionLiteDetails } from '../../state'
 import { TransactionBadge } from './TransactionBadge'
 import { TransactionRecord, TransactionRecordTransfer, explorerService } from '../../../../services/ExplorerService'
-import { useIsMobile } from '../../../../utils/hook'
+import { useIsMobile } from '../../../../hooks'
 
 const useGetTransferItemTag = () => {
   const { t } = useTranslation()

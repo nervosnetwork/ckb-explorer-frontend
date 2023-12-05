@@ -13,7 +13,7 @@ import {
 } from './styled'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
-import { useIsMobile } from '../../../utils/hook'
+import { useIsMobile } from '../../../hooks'
 import { NervosDaoDepositor } from '../../../services/ExplorerService'
 import { CardCellFactory, CardListWithCellsList } from '../../../components/CardList'
 

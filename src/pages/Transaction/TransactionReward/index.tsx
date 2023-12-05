@@ -3,7 +3,7 @@ import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import { RewardPenal, RewardItemPenal } from './styled'
-import { useIsMobile } from '../../../utils/hook'
+import { useIsMobile } from '../../../hooks'
 import { Cell } from '../../../models/Cell'
 
 const useRewards = (cell: Cell, isMobile: boolean) => {

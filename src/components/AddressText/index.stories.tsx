@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import AddressText from '.'
 import styles from './index.stories.module.scss'
-import { useForkedState } from '../../utils/hook'
+import { useForkedState } from '../../hooks'
 
 const meta = {
   component: AddressText,

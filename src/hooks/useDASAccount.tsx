@@ -1,10 +1,10 @@
 import { createContext, FC, useCallback, useContext, useMemo, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { explorerService } from '../../services/ExplorerService'
-import type { DASAccount, DASAccountMap } from '../../services/ExplorerService/fetcher'
-import { unique } from '../../utils/array'
-import { throttle } from '../../utils/function'
-import { pick } from '../../utils/object'
+import { explorerService } from '../services/ExplorerService'
+import type { DASAccount, DASAccountMap } from '../services/ExplorerService/fetcher'
+import { unique } from '../utils/array'
+import { throttle } from '../utils/function'
+import { pick } from '../utils/object'
 
 export interface DASQueryContextValue {
   getDASAccounts: (addresses: string[]) => Promise<DASAccountMap>
@@ -22,6 +22,10 @@ interface PendingQuery {
   }
 }
 
+// Currently, this ContextProvider is placed at the App level, which means that the caching
+// and logic for aggregating multiple queries can actually be implemented in ExplorerService instead of relying on the Context.
+// However, the current implementation still uses Context because it provides
+// the possibility of implementing page-level and component-level accountMap caching in the future.
 export const DASQueryContextProvider: FC = ({ children }) => {
   const accountMap = useRef<DASAccountMap>({})
   const pendingQueries = useRef<PendingQuery[]>([])

@@ -34,7 +34,7 @@ import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../../co
 import { ReactComponent as DownloadIcon } from './download.svg'
 import styles from './TransactionOverview.module.scss'
 import { useSetToast } from '../../../components/Toast'
-import { useIsMobile, useUpdateSearchParams } from '../../../utils/hook'
+import { useIsMobile, useUpdateSearchParams } from '../../../hooks'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (

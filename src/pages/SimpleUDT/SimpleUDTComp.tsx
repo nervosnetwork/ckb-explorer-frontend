@@ -19,7 +19,7 @@ import { CsvExport } from '../../components/CsvExport'
 import { Transaction } from '../../models/Transaction'
 import { UDT } from '../../models/UDT'
 import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../components/Card'
-import { useIsMobile } from '../../utils/hook'
+import { useIsMobile } from '../../hooks'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { isMainnet } from '../../utils/chain'
 // TODO: replaced to svg format

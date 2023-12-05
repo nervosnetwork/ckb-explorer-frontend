@@ -38,8 +38,8 @@ export const ScriptTab = styled(Tabs)`
     }
   }
 
-  .ant-tabs-nav
-    .ant-tabs-ink-bar[_='This \`:not\` selector is used to increase the specificity of the selector and serves no other purpose.'] {
+  /* Repeating class selectors to increase selector specificity. */
+  .ant-tabs-nav.ant-tabs-nav .ant-tabs-ink-bar {
     background: linear-gradient(
       to right,
       transparent 30%,

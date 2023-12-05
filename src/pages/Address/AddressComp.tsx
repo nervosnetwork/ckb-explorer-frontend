@@ -30,7 +30,7 @@ import {
   usePaginationParamsInListPage,
   useSearchParams,
   useUpdateSearchParams,
-} from '../../utils/hook'
+} from '../../hooks'
 import styles from './styles.module.scss'
 import TransactionLiteItem from '../../components/TransactionItem/TransactionLiteItem'
 import Script from '../../components/Script'

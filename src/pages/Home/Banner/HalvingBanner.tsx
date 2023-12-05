@@ -5,10 +5,10 @@ import halvingBanner from './halving_banner.png'
 import halvingBannerSuccess from './halving_banner_success.png'
 import halvingBannerSuccessMobile from './halving_banner_success_mobile.png'
 import { ReactComponent as MoveIcon } from './move.svg'
-import LoadingWhiteImage from '../../assets/loading_white.gif'
+import LoadingWhiteImage from '../../../assets/loading_white.gif'
 import halvingSuccessAni from './halving_success_ani.gif'
-import SimpleButton from '../SimpleButton'
-import { useCountdown, useHalving, useIsMobile } from '../../utils/hook'
+import SimpleButton from '../../../components/SimpleButton'
+import { useCountdown, useHalving, useIsMobile } from '../../../hooks'
 
 function numberToOrdinal(number: number) {
   switch (number) {

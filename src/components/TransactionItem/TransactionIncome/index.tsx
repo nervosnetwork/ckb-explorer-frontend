@@ -5,7 +5,7 @@ import { TransactionIncomePanel, TransactionCapacityValuePanel } from './styled'
 import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import DecimalCapacity from '../../DecimalCapacity'
-import { useIsMobile } from '../../../utils/hook'
+import { useIsMobile } from '../../../hooks'
 import CurrentAddressIcon from '../../../assets/current_address.svg'
 
 export default ({ income }: { income: string }) => {

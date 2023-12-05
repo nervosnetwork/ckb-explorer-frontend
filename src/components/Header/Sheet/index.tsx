@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import { SheetPanel, SheetPointPanel, SheetItem } from './styled'
-import { useBlockchainAlerts, useNetworkErrMsgs } from '../../services/ExplorerService'
+import { useBlockchainAlerts, useNetworkErrMsgs } from '../../../services/ExplorerService'
 
 const Sheet = () => {
   const { t } = useTranslation()

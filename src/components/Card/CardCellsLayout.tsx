@@ -4,7 +4,7 @@ import { ComponentProps, FC, ReactElement, isValidElement, useMemo } from 'react
 import classNames from 'classnames'
 import { CardCell, CardCellProps } from './CardCell'
 import styles from './CardCellsLayout.module.scss'
-import { useBoolean, useIsMobile } from '../../utils/hook'
+import { useBoolean, useIsMobile } from '../../hooks'
 import { ReactComponent as DownArrowIcon } from './down_arrow.svg'
 
 type LayoutType = 'left-right' | 'leftSingle-right' | 'list'

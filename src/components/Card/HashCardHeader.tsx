@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import styles from './HashCardHeader.module.scss'
 import { ReactComponent as CopyIcon } from './copy.svg'
 import AddressText from '../AddressText'
-import { useIsMobile } from '../../utils/hook'
+import { useIsMobile } from '../../hooks'
 import SimpleButton from '../SimpleButton'
 import { useSetToast } from '../Toast'
 

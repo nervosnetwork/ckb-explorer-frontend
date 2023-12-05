@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { IS_MAINTAINING } from '../../constants/common'
+import { IS_MAINTAINING } from '../../../constants/common'
 import styles from './styles.module.scss'
 
 const MaintainAlert = () => {

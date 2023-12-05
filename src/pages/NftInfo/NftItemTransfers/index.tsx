@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { getPrimaryColor } from '../../constants/common'
-import { dayjs, useParseDate } from '../../utils/date'
+import { getPrimaryColor } from '../../../constants/common'
+import { dayjs, useParseDate } from '../../../utils/date'
 import styles from './styles.module.scss'
-import { useCurrentLanguage } from '../../utils/i18n'
-import type { TransferRes } from '../../services/ExplorerService/fetcher'
+import { useCurrentLanguage } from '../../../utils/i18n'
+import type { TransferRes } from '../../../services/ExplorerService/fetcher'
 
 const primaryColor = getPrimaryColor()
 
