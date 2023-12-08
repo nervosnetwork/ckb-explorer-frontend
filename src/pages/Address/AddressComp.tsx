@@ -4,8 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Radio } from 'antd'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
-import { TFunction, useTranslation } from 'react-i18next'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
+import { useTranslation } from 'react-i18next'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService } from '../../services/ExplorerService'
 import { parseSporeCellData } from '../../utils/spore'
@@ -19,7 +18,6 @@ import {
   AddressUDTItemPanel,
 } from './styled'
 import DecimalCapacity from '../../components/DecimalCapacity'
-import TitleCard from '../../components/Card/TitleCard'
 import CKBTokenIcon from './ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { ReactComponent as TimeDownIcon } from './time_down.svg'
@@ -27,13 +25,12 @@ import { ReactComponent as TimeUpIcon } from './time_up.svg'
 import { sliceNftName } from '../../utils/string'
 import {
   OrderByType,
-  useIsLGScreen,
   useIsMobile,
   useNewAddr,
   usePaginationParamsInListPage,
   useSearchParams,
   useUpdateSearchParams,
-} from '../../utils/hook'
+} from '../../hooks'
 import styles from './styles.module.scss'
 import TransactionLiteItem from '../../components/TransactionItem/TransactionLiteItem'
 import Script from '../../components/Script'
@@ -50,49 +47,8 @@ import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
 import { Transaction } from '../../models/Transaction'
 import { Address, SUDT, UDTAccount } from '../../models/Address'
-
-const addressAssetInfo = (address: Address, useMiniStyle: boolean, t: TFunction) => {
-  const items = [
-    {
-      title: '',
-      content: '',
-    },
-    {
-      title: t('address.occupied'),
-      tooltip: t('glossary.occupied'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balanceOccupied))} />,
-      isAsset: true,
-    },
-    {
-      icon: CKBTokenIcon,
-      title: t('common.ckb_unit'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
-    },
-    {
-      title: t('address.dao_deposit'),
-      tooltip: t('glossary.nervos_dao_deposit'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
-      isAsset: true,
-    },
-    {
-      title: '',
-      content: '',
-    },
-    {
-      title: t('address.compensation'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
-      tooltip: t('glossary.nervos_dao_compensation'),
-      isAsset: true,
-    },
-  ] as OverviewItemData[]
-  if (useMiniStyle) {
-    const item2 = items[2]
-    items[0] = item2
-    items.splice(2, 1)
-    items.splice(3, 1)
-  }
-  return items
-}
+import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
+import { CardHeader } from '../../components/Card/CardHeader'
 
 const UDT_LABEL: Record<UDTAccount['udtType'], string> = {
   sudt: 'sudt',
@@ -198,9 +154,12 @@ const lockScriptIcon = (show: boolean) => {
   return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
 }
 
-const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, lockInfo }: Address) => {
+const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
+  const [showLock, setShowLock] = useState<boolean>(false)
   const { t } = useTranslation()
-  const items: OverviewItemData[] = [
+
+  const { liveCellsCount, minedBlocksCount, type, addressHash, lockInfo } = address
+  const overviewItems: CardCellInfo<'left' | 'right'>[] = [
     {
       title: t('address.live_cells'),
       tooltip: t('glossary.live_cells'),
@@ -215,12 +174,12 @@ const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, l
 
   if (type === 'LockHash') {
     if (!addressHash) {
-      items.push({
+      overviewItems.push({
         title: t('address.address'),
         content: t('address.unable_decode_address'),
       })
     } else {
-      items.push({
+      overviewItems.push({
         title: t('address.address'),
         contentWrapperClass: styles.addressWidthModify,
         content: <AddressText>{addressHash}</AddressText>,
@@ -229,35 +188,27 @@ const useAddressInfo = ({ liveCellsCount, minedBlocksCount, type, addressHash, l
   }
   if (lockInfo && lockInfo.epochNumber !== '0' && lockInfo.estimatedUnlockTime !== '0') {
     const estimate = Number(lockInfo.estimatedUnlockTime) > new Date().getTime() ? t('address.estimated') : ''
-    items.push({
+    overviewItems.push({
       title: t('address.lock_until'),
       content: `${lockInfo.epochNumber} ${t('address.epoch')} (${estimate} ${parseSimpleDateNoSecond(
         lockInfo.estimatedUnlockTime,
       )})`,
     })
   }
-  return items
-}
-
-const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
-  const [showLock, setShowLock] = useState<boolean>(false)
-  const { t } = useTranslation()
 
   return (
-    <AddressLockScriptPanel>
-      <OverviewCard items={useAddressInfo(address)} hideShadow>
-        <AddressLockScriptController onClick={() => setShowLock(!showLock)}>
-          <div>{t('address.lock_script')}</div>
-          <img alt="lock script" src={lockScriptIcon(showLock)} />
-        </AddressLockScriptController>
-        {showLock && address.lockScript && <Script script={address.lockScript} />}
-      </OverviewCard>
+    <AddressLockScriptPanel className={styles.addressLockScriptPanel}>
+      <CardCellsLayout type="left-right" cells={overviewItems} borderTop />
+      <AddressLockScriptController onClick={() => setShowLock(!showLock)}>
+        <div>{t('address.lock_script')}</div>
+        <img alt="lock script" src={lockScriptIcon(showLock)} />
+      </AddressLockScriptController>
+      {showLock && address.lockScript && <Script script={address.lockScript} />}
     </AddressLockScriptPanel>
   )
 }
 
-export const AddressOverview: FC<{ address: Address }> = ({ address }) => {
-  const isLG = useIsLGScreen()
+export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
   const { t } = useTranslation()
   const { udtAccounts = [] } = address
 
@@ -277,10 +228,40 @@ export const AddressOverview: FC<{ address: Address }> = ({ address }) => {
     ).then(resList => resList.flatMap(res => res.data)),
   )
 
+  const overviewItems: CardCellInfo<'left' | 'right'>[] = [
+    {
+      slot: 'left',
+      cell: {
+        icon: <img src={CKBTokenIcon} alt="item icon" width="100%" />,
+        title: t('common.ckb_unit'),
+        content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
+      },
+    },
+    {
+      title: t('address.occupied'),
+      tooltip: t('glossary.occupied'),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balanceOccupied))} />,
+    },
+    {
+      title: t('address.dao_deposit'),
+      tooltip: t('glossary.nervos_dao_deposit'),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
+    },
+    {
+      title: t('address.compensation'),
+      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
+      tooltip: t('glossary.nervos_dao_compensation'),
+    },
+  ]
+
   return (
-    <OverviewCard items={addressAssetInfo(address, isLG, t)} titleCard={<TitleCard title={t('address.overview')} />}>
+    <Card className={styles.addressOverviewCard}>
+      <div className={styles.cardTitle}>{t('address.overview')}</div>
+
+      <CardCellsLayout type="leftSingle-right" cells={overviewItems} borderTop />
+
       {udtAccounts.length || cotaList?.length ? (
-        <AddressUDTAssetsPanel>
+        <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
           <span>{t('address.user_defined_token')}</span>
           <div className="addressUdtAssetsGrid">
             {udtAccounts.map(udt => (
@@ -307,8 +288,9 @@ export const AddressOverview: FC<{ address: Address }> = ({ address }) => {
           </div>
         </AddressUDTAssetsPanel>
       ) : null}
+
       <AddressLockScript address={address} />
-    </OverviewCard>
+    </Card>
   )
 }
 
@@ -364,35 +346,36 @@ export const AddressTransactions = ({
       }))
     : transactions
 
+  const searchOptionsAndModeSwitch = (
+    <div className={styles.searchOptionsAndModeSwitch}>
+      <div className={styles.sortAndFilter} data-is-active={timeOrderBy === 'asc'}>
+        {timeOrderBy === 'asc' ? <TimeDownIcon onClick={handleTimeSort} /> : <TimeUpIcon onClick={handleTimeSort} />}
+      </div>
+      <Radio.Group
+        className={styles.layoutButtons}
+        options={[
+          { label: t('transaction.professional'), value: Professional },
+          { label: t('transaction.lite'), value: Lite },
+        ]}
+        onChange={({ target: { value } }) => onChangeLayout(value)}
+        value={layout}
+        optionType="button"
+        buttonStyle="solid"
+      />
+    </div>
+  )
+
   return (
     <>
-      <TitleCard
-        title={`${t('transaction.transactions')} (${localeNumberString(total)})`}
-        className={styles.transactionTitleCard}
-        isSingle
-        rear={
-          <>
-            <div className={styles.sortAndFilter} data-is-active={timeOrderBy === 'asc'}>
-              {timeOrderBy === 'asc' ? (
-                <TimeDownIcon onClick={handleTimeSort} />
-              ) : (
-                <TimeUpIcon onClick={handleTimeSort} />
-              )}
-            </div>
-            <Radio.Group
-              className={styles.layoutButtons}
-              options={[
-                { label: t('transaction.professional'), value: Professional },
-                { label: t('transaction.lite'), value: Lite },
-              ]}
-              onChange={({ target: { value } }) => onChangeLayout(value)}
-              value={layout}
-              optionType="button"
-              buttonStyle="solid"
-            />
-          </>
-        }
-      />
+      <Card className={styles.transactionListOptionsCard} rounded="top">
+        <CardHeader
+          className={styles.cardHeader}
+          leftContent={`${t('transaction.transactions')} (${localeNumberString(total)})`}
+          rightContent={!isMobile && searchOptionsAndModeSwitch}
+        />
+        {isMobile && searchOptionsAndModeSwitch}
+      </Card>
+
       <AddressTransactionsPanel>
         {layout === 'lite' ? (
           <>
@@ -430,9 +413,4 @@ export const AddressTransactions = ({
       />
     </>
   )
-}
-
-export default {
-  AddressOverview,
-  AddressTransactions,
 }

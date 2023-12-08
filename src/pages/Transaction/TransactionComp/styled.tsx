@@ -16,11 +16,20 @@ export const TransactionDiv = styled.div.attrs({
 
   .transactionInputs {
     width: 100%;
+    margin-top: 24px;
+
+    @media (max-width: 750px) {
+      margin-top: 20px;
+    }
   }
 
   .transactionOutputs {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 24px;
+
+    @media (max-width: 750px) {
+      margin-top: 20px;
+    }
   }
 
   .transactionLite {
@@ -41,14 +50,12 @@ export const TransactionOverviewPanel = styled.div`
   width: 100%;
 
   .transactionOverviewInfo {
-    margin-bottom: 12px;
     display: flex;
     flex-direction: column;
 
     .transactionOverviewParameters {
       font-size: 16px;
       font-weight: 600;
-      margin: 8px 0;
       cursor: pointer;
       color: ${props => props.theme.primary};
       display: flex;
@@ -62,7 +69,7 @@ export const TransactionOverviewPanel = styled.div`
 
       @media (max-width: 750px) {
         font-size: 14px;
-        margin-top: 15px;
+        margin-top: 8px;
 
         > img {
           margin: 0 0 0 5px;
@@ -73,7 +80,12 @@ export const TransactionOverviewPanel = styled.div`
 
   .transactionOverviewParams {
     background: #f1f1f1;
+    margin-top: 8px;
     padding: 0 12px;
+  }
+
+  @media (max-width: 750px) {
+    margin-top: 8px;
   }
 `
 

@@ -22,7 +22,7 @@ declare namespace echarts {
     opacity?: number
     borderColor?: string
     dimensionNames?: DimensionName[]
-    encode?: DimensionUserOuputEncode
+    encode?: DimensionUserOutputEncode
     marker?: TooltipMarker
     status?: DisplayState
     dimensionIndex?: number

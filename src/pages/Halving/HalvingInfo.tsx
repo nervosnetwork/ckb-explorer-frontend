@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
-import { useHalving, useIsMobile } from '../../utils/hook'
+import { useHalving, useIsMobile } from '../../hooks'
 import { useStatistics } from '../../services/ExplorerService'
 import styles from './index.module.scss'
 

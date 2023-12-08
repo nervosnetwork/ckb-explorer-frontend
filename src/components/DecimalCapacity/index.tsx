@@ -37,7 +37,7 @@ export default ({
 
   return (
     <DecimalPanel>
-      <span className={classNames(balanceChangeTypeClass, styles.intergerPart)}>{integer}</span>
+      <span className={classNames(balanceChangeTypeClass, styles.integerPart)}>{integer}</span>
       <DecimalPartPanel
         className={`monospace ${balanceChangeTypeClass}`}
         fontSize={fontSize}

@@ -4,7 +4,7 @@ import { Tooltip } from 'antd'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
-import NftItemTransfers from '../../components/NftItemTransfers'
+import NftItemTransfers from './NftItemTransfers'
 import Pagination from '../../components/Pagination'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { explorerService } from '../../services/ExplorerService'
@@ -12,7 +12,7 @@ import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
 import { patchMibaoImg, handleNftImgError } from '../../utils/util'
 import { parseSporeCellData } from '../../utils/spore'
-import { useSearchParams } from '../../utils/hook'
+import { useSearchParams } from '../../hooks'
 
 const primaryColor = getPrimaryColor()
 

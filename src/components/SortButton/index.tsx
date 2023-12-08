@@ -1,6 +1,6 @@
 import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
 import styles from './styles.module.scss'
-import { useSortParam } from '../../utils/hook'
+import { useSortParam } from '../../hooks'
 
 /*
  * REFACTOR: could be refactored for https://github.com/Magickbase/ckb-explorer-frontend/pull/8#discussion_r1267484265

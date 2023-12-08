@@ -3,7 +3,7 @@ import { Tooltip, TooltipProps } from 'antd'
 import classNames from 'classnames'
 import HelpIcon from '../../assets/qa_help.png'
 import styles from './index.module.scss'
-import { useIsMobile } from '../../utils/hook'
+import { useIsMobile } from '../../hooks'
 
 export const HelpTip: FC<
   TooltipProps & {

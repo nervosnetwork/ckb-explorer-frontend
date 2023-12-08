@@ -1,7 +1,7 @@
 import { toCamelcase, shannonToCkb, shannonToCkbDecimal, parseSince } from '../../utils/util'
 
 describe('Number methods tests', () => {
-  it('pasre simple object to camelcase', async () => {
+  it('parse simple object to camelcase', async () => {
     interface Data {
       dataName: string
       dataValue: string
@@ -17,7 +17,7 @@ describe('Number methods tests', () => {
     })
   })
 
-  it('pasre complex object to camelcase', async () => {
+  it('parse complex object to camelcase', async () => {
     interface Data {
       dataName: string
       dataValue: {

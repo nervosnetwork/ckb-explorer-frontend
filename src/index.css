@@ -2,7 +2,7 @@
 
 body {
   --primary-color: #00cc9b;
-  --accent-color: #FA504F;
+  --accent-color: #fa504f;
   --primary-text-color: #333;
   --primary-hover-bg-color: #e8fff1;
   --primary-chiffon-color: #e6fcf7;
@@ -27,11 +27,11 @@ body[data-chain-type='testnet'] {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Lato, sans-serif, Montserrat, "PingFang SC", -apple-system;
+  font-family: Lato, sans-serif, Montserrat, 'PingFang SC', -apple-system;
 }
 
 .monospace {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 *[role]:focus {

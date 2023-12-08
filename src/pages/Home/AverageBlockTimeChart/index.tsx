@@ -9,7 +9,7 @@ import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
-import { useIsLGScreen } from '../../../utils/hook'
+import { useIsLGScreen } from '../../../hooks'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ReactChartCore } from '../../StatisticsChart/common'
 
@@ -119,8 +119,8 @@ export default memo(() => {
   const fullStatisticAverageBlockTimes = useMemo(() => query.data ?? [], [query.data])
 
   const statisticAverageBlockTimes = useMemo(() => {
-    const last14Dyas = -336
-    return fullStatisticAverageBlockTimes.slice(last14Dyas)
+    const last14Days = -336
+    return fullStatisticAverageBlockTimes.slice(last14Days)
   }, [fullStatisticAverageBlockTimes])
 
   if (query.isLoading || statisticAverageBlockTimes.length === 0) {

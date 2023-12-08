@@ -1,0 +1,121 @@
+$backgroundColor: #232323;
+
+.root {
+  width: 100%;
+  background-color: $backgroundColor;
+  height: 200px;
+  position: relative;
+  background-image: url('./ckb_explorer_banner.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: auto 100%;
+
+  @media (width <= 750px) {
+    background-image: url('./ckb_explorer_banner_phone.svg');
+  }
+}
+
+.halvingBannerSuccess {
+  background-size: cover;
+  background-position: center;
+}
+
+.halvingBannerWrapper {
+  width: 100%;
+  background-color: $backgroundColor;
+  height: 200px;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+
+  @media (width >= 750px) {
+    height: 300px;
+  }
+}
+
+.halvingBannerShadow {
+  width: 100%;
+  background-color: rgb(0 0 0 / 30%);
+  height: 100%;
+}
+
+.halvingLoading {
+  width: 20px;
+  margin-top: 4px;
+}
+
+.halvingBanner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+
+  @media (width >= 750px) {
+    gap: 16px;
+  }
+}
+
+.halvingBannerAnimation {
+  margin-top: -16px;
+  height: 64px;
+
+  @media (width >= 750px) {
+    height: 100px;
+  }
+}
+
+.halvingBannerText {
+  align-items: baseline;
+  display: flex;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: capitalize;
+
+  &.linear {
+    background: linear-gradient(45deg, rgb(130 203 140), rgb(121 122 121), rgb(172 221 181));
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &.success {
+    transform: rotate(-2deg);
+    text-shadow: 1.5px 1.5px 1px #57f3a9, -1px -1px 1px #eef8f2;
+    color: rgb(28 28 28);
+    line-height: 26px;
+    margin-top: -4px;
+    margin-bottom: 4px;
+
+    @media (width >= 750px) {
+      text-shadow: 1.5px 1.5px 1px #57f3a9, -1px -1px 1px #eef8f2;
+    }
+  }
+
+  @media (width >= 750px) {
+    font-size: 40px;
+  }
+}
+
+.halvingBannerCount {
+  font-size: 36px;
+  margin-left: 24px;
+}
+
+.learnMoreButton {
+  border: 0;
+  border-radius: 8px;
+  color: white;
+  padding: 8px 16px;
+  user-select: none;
+  text-transform: capitalize;
+  background: linear-gradient(180deg, #00cc9b, #008365);
+  display: flex;
+  align-items: center;
+
+  @media (width >= 750px) {
+    padding: 16px 24px;
+  }
+}

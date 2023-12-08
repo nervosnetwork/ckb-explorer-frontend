@@ -15,7 +15,7 @@ import { HalvingTable } from './HalvingTable'
 import { HalvingInfo } from './HalvingInfo'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { HalvingCountdown } from './HalvingCountdown'
-import { useCountdown, useHalving, useIsMobile, useEpochBlockMap } from '../../utils/hook'
+import { useCountdown, useHalving, useIsMobile, useEpochBlockMap } from '../../hooks'
 import { getPrimaryColor, EPOCHS_PER_HALVING, THEORETICAL_EPOCH_TIME } from '../../constants/common'
 import styles from './index.module.scss'
 import { useCurrentLanguage } from '../../utils/i18n'
@@ -105,7 +105,7 @@ export const HalvingCountdownPage = () => {
                 {t('symbol.char_space')}
                 {t('halving.halving')}
                 {t('symbol.char_space')}
-                {t('halving.actived')}{' '}
+                {t('halving.activated')}{' '}
                 {getTargetBlockByHavingCount(halvingCount) ? (
                   <a className={styles.textPrimary} href={`/block/${getTargetBlockByHavingCount(halvingCount)}`}>
                     {new BigNumber(getTargetBlockByHavingCount(halvingCount)!).toFormat()}.
@@ -135,7 +135,7 @@ export const HalvingCountdownPage = () => {
       return (
         <div className={styles.halvingPanelWrapper}>
           <div className={classnames(styles.halvingPanel, styles.loadingPanel)}>
-            {t('halving.comming_soon')}
+            {t('halving.coming_soon')}
             <SmallLoading />
           </div>
         </div>

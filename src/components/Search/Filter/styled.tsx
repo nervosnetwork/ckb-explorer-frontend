@@ -3,7 +3,7 @@ import SimpleButton from '../../SimpleButton'
 
 export const FilterPanel = styled.div`
   width: 600px;
-  height: 38px;
+  height: 40px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -18,7 +18,7 @@ export const FilterPanel = styled.div`
   }
 
   @media (max-width: 750px) {
-    width: 80vw;
+    width: 100%;
   }
 `
 

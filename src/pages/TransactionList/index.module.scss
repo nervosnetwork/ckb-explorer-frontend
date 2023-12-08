@@ -85,11 +85,11 @@
   flex-flow: row wrap;
 }
 
-.transactionCard {
-  &:first-child {
-    border-radius: 0 0 4px 4px;
-  }
+.transactionCardGroup {
+  margin-top: 10px;
+}
 
+.transactionCard {
   .addressLink {
     font-size: 13px;
   }
