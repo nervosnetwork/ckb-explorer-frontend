@@ -9,7 +9,7 @@ import { ReactComponent as ForumIcon } from './footer_forum.svg'
 import { ReactComponent as Discord } from './footer_discord.svg'
 import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
-import { useIsMobile } from '../../utils/hook'
+import { useIsMobile } from '../../hooks'
 import { udtSubmitEmail } from '../../utils/util'
 
 interface FooterLinkItem {

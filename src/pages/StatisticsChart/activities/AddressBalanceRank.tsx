@@ -7,7 +7,7 @@ import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { useAdaptPCEllipsis } from '../../../utils/hook'
+import { useAdaptPCEllipsis } from '../../../hooks'
 import { ChartColorConfig } from '../../../constants/common'
 
 const getAddressWithRanking = (statisticAddressBalanceRanks: ChartItem.AddressBalanceRank[], ranking?: string) => {

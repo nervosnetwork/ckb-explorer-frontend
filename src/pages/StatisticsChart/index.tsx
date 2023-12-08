@@ -28,7 +28,7 @@ import { InflationRateChart } from './monetary/InflationRate'
 import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
 import { MinerVersionDistributionChart } from './mining/MinerVersionDistribution'
-import { useIsMobile } from '../../utils/hook'
+import { useIsMobile } from '../../hooks'
 import { HelpTip } from '../../components/HelpTip'
 
 interface ChartData {

@@ -8,7 +8,7 @@ import { TableMinerContentItem } from '../../../components/Table'
 import { BlockRewardPlusPanel, BlockRewardPanel, BlockCardPanel, TransactionCardPanel } from './styled'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
-import { useParsedDate } from '../../../utils/hook'
+import { useParsedDate } from '../../../hooks'
 import { Block } from '../../../models/Block'
 import { Transaction } from '../../../models/Transaction'
 

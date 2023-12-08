@@ -1,18 +1,15 @@
 import { useParams, useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
-import BlockHashCard from '../../components/Card/HashCard'
 import Content from '../../components/Content'
 import { BlockDetailPanel } from './styled'
-import { BlockComp, BlockOverview } from './BlockComp'
-import { usePaginationParamsInPage } from '../../utils/hook'
+import { BlockOverviewCard, BlockComp } from './BlockComp'
+import { usePaginationParamsInPage } from '../../hooks'
 import { explorerService } from '../../services/ExplorerService'
 import { assert } from '../../utils/error'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultBlockInfo } from './state'
 
 export default () => {
-  const { t } = useTranslation()
   const { search } = useLocation()
   const { param: blockHeightOrHash } = useParams<{ param: string }>()
   const { currentPage, pageSize: pageSizeParam, setPage } = usePaginationParamsInPage()
@@ -56,9 +53,7 @@ export default () => {
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <BlockHashCard title={t('block.block')} hash={blockHash ?? blockHeightOrHash}>
-          <BlockOverview block={block} />
-        </BlockHashCard>
+        <BlockOverviewCard blockHeightOrHash={blockHash ?? blockHeightOrHash} block={block} />
 
         <QueryResult query={queryBlockTransactions} delayLoading>
           {data => (

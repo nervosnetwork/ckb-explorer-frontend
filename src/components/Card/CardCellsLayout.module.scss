@@ -1,0 +1,108 @@
+@value cardCell from "./CardCell.module.scss";
+
+.cardCellsLayout {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+
+  &.borderTop {
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .left,
+  .leftSingle {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: 20px;
+  }
+
+  .leftSingle {
+    align-self: center;
+
+    .cardCell {
+      height: auto;
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    margin-left: 40px;
+    border-left: 1px solid #e5e5e5;
+    padding-left: 40px;
+    gap: 20px;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .expand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0 16px;
+    color: var(--primary-color);
+
+    .isExpanded {
+      transform: rotate(180deg);
+    }
+  }
+
+  @media (width <= 1200px) {
+    flex-direction: column;
+    gap: 20px;
+
+    .leftSingle {
+      align-self: auto;
+    }
+
+    .right {
+      margin-left: 0;
+      border-left: 0;
+      padding-left: 0;
+    }
+  }
+
+  @media (width <= 750px) {
+    gap: 0;
+    padding: 0;
+
+    &.borderTop {
+      border-top: 0;
+    }
+
+    .left {
+      gap: 0;
+    }
+
+    .right {
+      gap: 0;
+    }
+
+    .list {
+      gap: 0;
+    }
+
+    .cardCell {
+      border-top: 1px solid #e5e5e5;
+    }
+
+    &:not(.borderTop) {
+      .left,
+      .list {
+        .cardCell {
+          &:first-child {
+            border-top: 0;
+          }
+        }
+      }
+    }
+  }
+}
