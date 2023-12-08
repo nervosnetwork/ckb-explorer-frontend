@@ -2,16 +2,8 @@ import styled from 'styled-components'
 
 export const DecimalPanel = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: flex-end;
-
-  .subtraction {
-    color: var(--accent-color);
-  }
-
-  .addition {
-    color: var(--primary-color);
-  }
 
   .decimalUnit {
     margin-left: 5px;

@@ -16,6 +16,8 @@ import {
   NervosDaoPieCapacityPanel,
   DaoOverviewPieChartPanel,
   DaoOverviewPieItemsPanel,
+  NervosDaoOverviewPieTitle,
+  NervosDaoOverviewPieIcon,
 } from './styled'
 import DaoUpIcon from './dao_up.png'
 import DaoDownIcon from './dao_down.png'
@@ -271,8 +273,7 @@ const NervosDaoRightCapacity = ({ reward }: { reward: string }) => {
 
 const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
   <NervosDaoPieItemPanel>
-    <div
-      className="nervosDaoOverviewPieIcon"
+    <NervosDaoOverviewPieIcon
       style={{
         backgroundColor: item.color,
       }}
@@ -316,10 +317,10 @@ export default ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
       <span className="daoOverviewSeparate" />
       <DaoOverviewRightPanel>
         <DaoOverviewPieChartPanel>
-          <div className="nervosDaoOverviewPieTitle">
+          <NervosDaoOverviewPieTitle>
             <span>{t('nervos_dao.secondary_issuance')}</span>
             <HelpTip title={t('glossary.secondary_issuance')} />
-          </div>
+          </NervosDaoOverviewPieTitle>
           <ReactChartCore
             option={useOption(nervosDao, ChartColor.daoColors, isMobile)}
             notMerge
