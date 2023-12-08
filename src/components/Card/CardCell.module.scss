@@ -1,0 +1,51 @@
+.cardCell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 20px;
+
+  .left {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    .icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .icon + .title {
+      margin-left: 8px;
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: rgb(0 0 0 / 60%);
+    }
+  }
+
+  .right {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #000;
+    min-width: 0;
+  }
+
+  @media (width <= 750px) {
+    flex-direction: column;
+    justify-content: initial;
+    align-items: initial;
+    height: auto;
+    padding: 16px 0;
+
+    .right {
+      margin-left: 0;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+  }
+}

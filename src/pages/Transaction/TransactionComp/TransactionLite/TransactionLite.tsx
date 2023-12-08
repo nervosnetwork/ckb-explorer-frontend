@@ -12,7 +12,7 @@ import { Addr } from '../../TransactionCell'
 import { defaultTransactionLiteDetails } from '../../state'
 import { TransactionBadge } from './TransactionBadge'
 import { TransactionRecord, TransactionRecordTransfer, explorerService } from '../../../../services/ExplorerService'
-import { useIsMobile } from '../../../../utils/hook'
+import { useIsMobile } from '../../../../hooks'
 
 const useGetTransferItemTag = () => {
   const { t } = useTranslation()
@@ -50,7 +50,7 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
   })
   const transactionLiteDetails: TransactionRecord[] = query.data ?? defaultTransactionLiteDetails
   return (
-    <>
+    <div className={styles.transactionLites}>
       {transactionLiteDetails &&
         transactionLiteDetails.map(item => (
           <div className="transactionLite" key={item.address}>
@@ -64,7 +64,7 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
             </div>
           </div>
         ))}
-    </>
+    </div>
   )
 }
 

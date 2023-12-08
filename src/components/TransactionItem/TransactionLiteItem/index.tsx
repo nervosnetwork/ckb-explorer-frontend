@@ -4,7 +4,7 @@ import { localeNumberString } from '../../../utils/number'
 import AddressText from '../../AddressText'
 import styles from './index.module.scss'
 import TransactionLiteIncome from '../TransactionLiteIncome'
-import { useIsMobile, useParsedDate } from '../../../utils/hook'
+import { useIsMobile, useParsedDate } from '../../../hooks'
 import { Transaction } from '../../../models/Transaction'
 
 const TransactionLiteItem = ({ transaction, address }: { transaction: Transaction; address?: string }) => {

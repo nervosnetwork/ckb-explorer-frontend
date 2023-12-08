@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import PCErrorImage from './error.png'
 import MobileErrorImage from './Mobile_error.png'
-import { useIsMobile } from '../../utils/hook'
+import { useIsMobile } from '../../hooks'
 import styles from './index.module.scss'
 
 export default ({ errorMessage, errorDescription }: { errorMessage?: string; errorDescription?: string }) => {

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import styles from './styles.module.scss'
 import Content from '../../components/Content'
-import { useAnimationFrame, useIsMobile } from '../../utils/hook'
+import { useAnimationFrame, useIsMobile } from '../../hooks'
 import {
   ConfirmationTimeFeeRateChart,
   FeeRateCards,

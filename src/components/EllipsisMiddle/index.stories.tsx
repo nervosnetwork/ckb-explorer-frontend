@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import EllipsisMiddle from '.'
-import { useForkedState } from '../../utils/hook'
+import { useForkedState } from '../../hooks'
 
 const meta = {
   component: EllipsisMiddle,

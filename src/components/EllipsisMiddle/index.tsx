@@ -9,8 +9,9 @@ const EllipsisMiddle: FC<
     children?: string
     /** When this item is not empty, ignore the value of `children`. */
     text?: string
+    // TODO: Perhaps there are certain methods to automatically check the current font and optimize the fontKey accordingly.
     /** Any key that represents the use of a different font. */
-    fontKey?: string | number | boolean
+    fontKey?: unknown
     minStartLen?: number
     minEndLen?: number
     onTruncateStateChange?: (isTruncated: boolean) => void

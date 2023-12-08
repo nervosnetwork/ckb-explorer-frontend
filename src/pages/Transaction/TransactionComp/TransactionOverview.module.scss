@@ -1,0 +1,76 @@
+.transactionOverviewCard:not(
+    [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
+  ) {
+  padding-bottom: 40px;
+
+  .exportTxAction {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (width <= 750px) {
+    padding-bottom: 16px;
+  }
+}
+
+.professionalLiteBox {
+  margin-left: 10px;
+
+  .layoutButtons {
+    > label {
+      height: 40px;
+      width: 120px;
+      text-align: center;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 38px;
+      color: #333;
+      border: 1px solid #e5e5e5;
+      box-shadow: none !important;
+
+      &::before {
+        content: none !important;
+      }
+
+      &:hover {
+        color: #333;
+        background: #fff;
+      }
+
+      &:first-child {
+        border-radius: 4px 0 0 4px;
+      }
+
+      &:last-child {
+        border-radius: 0 4px 4px 0;
+      }
+
+      /* stylelint-disable-next-line selector-class-pattern */
+      &:global(.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)) {
+        background: #333;
+        border-color: #333 !important;
+
+        &:hover {
+          background: #333;
+        }
+      }
+    }
+
+    @media (width <= 750px) {
+      width: 100%;
+
+      > label {
+        height: 40px;
+        width: 50%;
+      }
+    }
+  }
+
+  @media (width <= 750px) {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 16px;
+    margin: 0;
+  }
+}

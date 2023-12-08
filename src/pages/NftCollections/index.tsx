@@ -7,7 +7,7 @@ import Pagination from '../../components/Pagination'
 import { getPrimaryColor } from '../../constants/common'
 import { explorerService } from '../../services/ExplorerService'
 import { udtSubmitEmail } from '../../utils/util'
-import { useSearchParams } from '../../utils/hook'
+import { useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
 import { useNFTCollectionsSortParam } from './util'
 

@@ -49,7 +49,6 @@ export const AddressPendingRewardTitlePanel = styled.div`
 export const AddressLockScriptController = styled(SimpleButton)`
   font-size: 16px;
   font-weight: 600;
-  margin-top: 15px;
   cursor: pointer;
   color: ${props => props.theme.primary};
   display: flex;
@@ -63,7 +62,7 @@ export const AddressLockScriptController = styled(SimpleButton)`
 
   @media (max-width: 750px) {
     font-size: 14px;
-    margin-top: 10px;
+    margin-top: 0;
 
     > img {
       margin: 0 0 0 5px;
@@ -73,6 +72,7 @@ export const AddressLockScriptController = styled(SimpleButton)`
 
 export const AddressTransactionsPanel = styled.div`
   width: 100%;
+  margin-top: 4px;
 
   @media (max-width: 750px) {
     ${TransactionPanel}:first-child {
@@ -86,7 +86,6 @@ export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 20px 0;
 
   > span {
     font-size: 14px;
@@ -110,6 +109,11 @@ export const AddressUDTAssetsPanel = styled.div`
     @media (max-width: 1200px) {
       max-height: 310px;
     }
+  }
+
+  @media (max-width: 750px) {
+    padding-top: 16px;
+    border-top: 1px solid #f5f5f5;
   }
 `
 

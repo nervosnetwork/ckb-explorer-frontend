@@ -7,7 +7,7 @@ import SearchLogo from '../../assets/search_black.png'
 import ClearLogo from '../../assets/clear.png'
 import { addPrefixForHash, containSpecialChar } from '../../utils/string'
 import { HttpErrorCode, SearchFailType } from '../../constants/common'
-import { useIsMobile } from '../../utils/hook'
+import { useIsMobile } from '../../hooks'
 import { isChainTypeError } from '../../utils/chain'
 import { isAxiosError } from '../../utils/error'
 // TODO: Refactor is needed. Should not directly import anything from the descendants of ExplorerService.

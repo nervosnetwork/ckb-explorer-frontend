@@ -5,7 +5,7 @@ import LeftBlack from './pagination_black_left.png'
 import RightBlack from './pagination_black_right.png'
 import LeftGrey from './pagination_grey_left.png'
 import RightGrey from './pagination_grey_right.png'
-import { useIsMobile } from '../../utils/hook'
+import { useIsMobile } from '../../hooks'
 import SimpleButton from '../SimpleButton'
 import { HelpTip } from '../HelpTip'
 

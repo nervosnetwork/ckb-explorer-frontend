@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { useCountdown, useHalving } from '../../utils/hook'
+import { useCountdown, useHalving } from '../../hooks'
 import styles from './index.module.scss'
 
 export const HalvingCountdown = () => {

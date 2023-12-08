@@ -4,7 +4,7 @@ import { DefaultTheme, ThemeProvider } from 'styled-components'
 import Routers from './routes'
 import Toast from './components/Toast'
 import { isMainnet } from './utils/chain'
-import { DASQueryContextProvider } from './contexts/providers/dasQuery'
+import { DASQueryContextProvider } from './hooks/useDASAccount'
 import { getPrimaryColor, getSecondaryColor } from './constants/common'
 
 const appStyle = {
