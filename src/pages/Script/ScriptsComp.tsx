@@ -20,7 +20,7 @@ import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import { ReactComponent as InfoMoreIcon } from './info_more_icon.svg'
 import { useSetToast } from '../../components/Toast'
 import { CellBasicInfo, transformToTransaction } from '../../utils/transformer'
-import { usePrevious } from '../../utils/hook'
+import { usePrevious } from '../../hooks'
 
 export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
   const { t } = useTranslation()
