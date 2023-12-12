@@ -15,28 +15,39 @@ import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 import DecimalCapacity from '../../components/DecimalCapacity'
 import styles from './styles.module.scss'
-import { QueryResult } from '../../components/QueryResult'
 import AddressText from '../../components/AddressText'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import { ReactComponent as InfoMoreIcon } from './info_more_icon.svg'
 import { useSetToast } from '../../components/Toast'
 import { CellBasicInfo, transformToTransaction } from '../../utils/transformer'
+import { usePrevious } from '../../hooks'
 
 export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
+  const { t } = useTranslation()
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
-  const transactionsQuery = useQuery(['scripts_ckb_transactions', codeHash, hashType, page, size], async () => {
-    const { data } = await explorerService.api.fetchScriptCKBTransactions(codeHash, hashType, page, size)
+  const [transactionsEmpty, setTransactionsEmpty] = useState(false)
+  const previousTransactionEmpty = usePrevious(transactionsEmpty)
 
-    if (data == null || data.ckbTransactions == null || data.ckbTransactions.length === 0) {
-      throw new Error('Transactions empty')
-    }
-    return {
-      total: data.meta.total,
-      ckbTransactions: data.ckbTransactions,
+  const transactionsQuery = useQuery(['scripts_ckb_transactions', codeHash, hashType, page, size], async () => {
+    try {
+      const { data } = await explorerService.api.fetchScriptCKBTransactions(codeHash, hashType, page, size)
+
+      if (data == null || data.ckbTransactions == null || data.ckbTransactions.length === 0) {
+        setTransactionsEmpty(true)
+      }
+      return {
+        total: data.meta.total,
+        ckbTransactions: data.ckbTransactions,
+      }
+    } catch (error) {
+      setTransactionsEmpty(true)
+      return { total: 0, ckbTransactions: [] }
     }
   })
+
+  const ckbTransactions = transactionsQuery.data?.ckbTransactions ?? []
   const total = transactionsQuery.data?.total ?? 0
   const totalPages = Math.ceil(total / size)
 
@@ -46,23 +57,29 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
 
   return (
     <>
-      <QueryResult query={transactionsQuery} delayLoading>
-        {data => (
-          <div className={styles.scriptTransactionsPanel}>
-            {data?.ckbTransactions &&
-              data.ckbTransactions.map(tr => (
-                <TransactionItem
-                  address=""
-                  transaction={transformToTransaction(tr)}
-                  key={tr.txHash}
-                  circleCorner={{
-                    bottom: false,
-                  }}
-                />
-              ))}
+      <div className={styles.scriptTransactionsPanel}>
+        {ckbTransactions.length > 0 ? (
+          ckbTransactions.map(tr => (
+            <TransactionItem
+              address=""
+              transaction={transformToTransaction(tr)}
+              key={tr.txHash}
+              circleCorner={{
+                bottom: false,
+              }}
+            />
+          ))
+        ) : (
+          <div
+            style={{
+              textAlign: 'center',
+              padding: '20px',
+            }}
+          >
+            {transactionsQuery.isLoading && !previousTransactionEmpty ? t('nft.loading') : t(`nft.no_record`)}
           </div>
         )}
-      </QueryResult>
+      </div>
       {totalPages > 1 && (
         <div className={styles.scriptPagination}>
           <Pagination currentPage={page} totalPages={totalPages} onChange={onChange} />
@@ -106,21 +123,35 @@ export const ScriptCells = ({
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
+  const [cellsEmpty, setCellsEmpty] = useState<Record<'deployedCells' | 'referringCells', boolean>>({
+    deployedCells: false,
+    referringCells: false,
+  })
+  const previousCellsEmpty = usePrevious(cellsEmpty)
+
+  const camelCellType = camelcase(cellType) as 'deployedCells' | 'referringCells'
+
   const cellsQuery = useQuery([`scripts_${cellType}`, codeHash, hashType, page, size], async () => {
-    const { data } = await explorerService.api.fetchScriptCells(cellType, codeHash, hashType, page, size)
-    const camelCellType = camelcase(cellType) as 'deployedCells' | 'referringCells'
-    if (data == null) {
-      throw new Error('Fetch Cells null')
-    }
-    const cells = data[camelCellType]!
-    if (cells == null || cells.length === 0) {
-      throw new Error('Cells empty')
-    }
-    return {
-      total: data.meta.total ?? 0,
-      cells,
+    try {
+      const { data } = await explorerService.api.fetchScriptCells(cellType, codeHash, hashType, page, size)
+      const cells = data[camelCellType]
+      if (cells == null || cells.length === 0) {
+        setCellsEmpty(prev => ({ ...prev, [camelCellType]: true }))
+      }
+      return {
+        total: data.meta.total ?? 0,
+        cells,
+      }
+    } catch (error) {
+      setCellsEmpty(prev => ({ ...prev, [camelCellType]: true }))
+      return {
+        total: 0,
+        cells: [],
+      }
     }
   })
+
+  const cells = cellsQuery.data?.cells ?? []
   const total = cellsQuery.data?.total ?? 0
   const totalPages = Math.ceil(total / size)
 
@@ -130,57 +161,61 @@ export const ScriptCells = ({
 
   return (
     <>
-      <QueryResult query={cellsQuery}>
-        {data => (
-          <div className={styles.scriptCellsPanel}>
-            <table>
-              <thead>
-                <tr>
-                  <th align="left">{t('transaction.transaction')}</th>
-                  <th>{t('scripts.index')}</th>
-                  <th align="left">{t('transaction.capacity')}</th>
-                  <th align="right">{t('scripts.cell_info')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.cells.map(record => {
-                  return (
-                    <tr key={`${record.txHash}_${record.cellIndex}`}>
-                      <td align="left">
-                        <AddressText
-                          disableTooltip
-                          className="transactionItemHash"
-                          linkProps={{
-                            to: `/transaction/${record.txHash}`,
+      <div className={styles.scriptCellsPanel}>
+        <table>
+          <thead>
+            <tr>
+              <th align="left">{t('transaction.transaction')}</th>
+              <th>{t('scripts.index')}</th>
+              <th align="left">{t('transaction.capacity')}</th>
+              <th align="right">{t('scripts.cell_info')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cells.length > 0 ? (
+              cells.map(record => {
+                return (
+                  <tr key={`${record.txHash}_${record.cellIndex}`}>
+                    <td align="left">
+                      <AddressText
+                        disableTooltip
+                        className="transactionItemHash"
+                        linkProps={{
+                          to: `/transaction/${record.txHash}`,
+                        }}
+                      >
+                        {record.txHash}
+                      </AddressText>
+                    </td>
+                    <td align="center">{record.cellIndex}</td>
+                    <td align="left">
+                      <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} hideZero />
+                    </td>
+                    <td>
+                      <div className={styles.cellInfoMore}>
+                        <CellInfo
+                          cell={{
+                            id: record.id,
+                            capacity: record.capacity,
+                            isGenesisOutput: false,
+                            occupiedCapacity: String(record.occupiedCapacity),
                           }}
-                        >
-                          {record.txHash}
-                        </AddressText>
-                      </td>
-                      <td align="center">{record.cellIndex}</td>
-                      <td align="left">
-                        <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} hideZero />
-                      </td>
-                      <td>
-                        <div className={styles.cellInfoMore}>
-                          <CellInfo
-                            cell={{
-                              id: record.id,
-                              capacity: record.capacity,
-                              isGenesisOutput: false,
-                              occupiedCapacity: String(record.occupiedCapacity),
-                            }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </QueryResult>
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })
+            ) : (
+              <td colSpan={4} className={styles.noRecord}>
+                {cellsQuery.isLoading && (!previousCellsEmpty || !previousCellsEmpty[camelCellType])
+                  ? t('nft.loading')
+                  : t(`nft.no_record`)}
+              </td>
+            )}
+          </tbody>
+        </table>
+      </div>
       {totalPages > 1 && (
         <div className={styles.scriptPagination}>
           <Pagination currentPage={page} totalPages={totalPages} onChange={onChange} />
