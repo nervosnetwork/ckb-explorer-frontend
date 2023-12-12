@@ -52,7 +52,8 @@ const useOption = (
         }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    /* Selection starts from 1% because the uncle rate starts from 0 on launch */
+    dataZoom: DATA_ZOOM_CONFIG.map(zoom => ({ ...zoom, show: !isThumbnail, start: 1 })),
     xAxis: [
       {
         name: isMobile || isThumbnail ? '' : t('statistic.date'),
