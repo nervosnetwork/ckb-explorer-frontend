@@ -6,11 +6,6 @@ import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
-const max = (statisticUncleRates: ChartItem.UncleRate[]) => {
-  const array = statisticUncleRates.flatMap(data => Number(data.uncleRate) * 100)
-  return Math.max(5, Math.ceil(Math.max(...array)))
-}
-
 const useOption = (
   statisticUncleRates: ChartItem.UncleRate[],
   chartColor: ChartColorConfig,
@@ -69,8 +64,6 @@ const useOption = (
         name: isMobile || isThumbnail ? '' : t('block.uncle_rate'),
         type: 'value',
         scale: true,
-        max: max(statisticUncleRates),
-        min: 0,
         axisLine: {
           lineStyle: {
             color: chartColor.colors[0],
