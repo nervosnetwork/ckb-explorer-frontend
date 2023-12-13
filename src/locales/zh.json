@@ -168,6 +168,7 @@
       "tokens": "代币",
       "docs": "文档",
       "search_placeholder": "区块/交易/地址/锁定脚本哈希/Type 脚本哈希",
+      "search_by_name_placeholder": "代币名称",
       "mainnet": "LINA",
       "testnet": "测试网",
       "language_en": "EN",
@@ -326,6 +327,7 @@
     },
     "search": {
       "loading": "加载中...",
+      "no_search_result": "哎呀！搜索失败。",
       "empty_result": "哎呀！搜索失败。\n\n请确保输入内容仅包含以下选项中的一个：\n",
       "empty_result_items": "区块高度/ 区块哈希/ 交易哈希/ 地址/ 锁定脚本哈希/ Type 脚本哈希",
       "address_type_testnet_error": "检测到测试链地址，请跳转",
@@ -337,7 +339,9 @@
       "udt_filter_no_result": "搜索结果为空。\n请输入完整的地址",
       "tx": "交易",
       "addr": "地址",
-      "reset": "复位"
+      "reset": "复位",
+      "by_name": "按名称",
+      "by_id": "按 ID"
     },
     "address": {
       "address": "地址",

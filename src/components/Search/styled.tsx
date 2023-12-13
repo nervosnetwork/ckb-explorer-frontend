@@ -8,6 +8,7 @@ export const SearchContainer = styled.div`
 `
 
 export const SearchPanel = styled.div`
+  position: relative;
   margin: 0 auto;
   width: 100%;
   height: ${(props: { moreHeight?: boolean; hasButton?: boolean }) => (props.moreHeight ? '38px' : '30px')};

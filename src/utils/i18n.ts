@@ -13,18 +13,23 @@ export const isSupportedLng = (value: unknown): value is SupportedLng => include
 const getDefaultLanguage = () => appSettings.defaultLanguage$.value
 const setDefaultLanguage = appSettings.defaultLanguage$.next.bind(appSettings.defaultLanguage$)
 
-i18n.use(initReactI18next).init({
-  resources: {
-    en,
-    zh,
-  },
-  supportedLngs: SupportedLngs,
-  // Here, `fallbackLng` is used instead of `lng`, perhaps to continue using the results of automatic region checking?
-  fallbackLng: getDefaultLanguage(),
-  interpolation: {
-    escapeValue: false,
-  },
-})
+// export this method for testing
+export const initI18n = async () => {
+  i18n.use(initReactI18next).init({
+    resources: {
+      en,
+      zh,
+    },
+    supportedLngs: SupportedLngs,
+    // Here, `fallbackLng` is used instead of `lng`, perhaps to continue using the results of automatic region checking?
+    fallbackLng: getDefaultLanguage(),
+    interpolation: {
+      escapeValue: false,
+    },
+  })
+}
+
+initI18n()
 
 i18n.on('languageChanged', lng => {
   setDefaultLanguage(isSupportedLng(lng) ? lng : 'en')

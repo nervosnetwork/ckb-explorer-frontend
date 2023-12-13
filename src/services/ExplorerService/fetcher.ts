@@ -149,7 +149,7 @@ export const apiFetcher = {
     // TODO: When will it return an empty result?
     v1GetNullableWrapped<{ data: string }>(`/cell_output_data/${id}`).then(res => res?.attributes.data ?? null),
 
-  fetchSearchResult: (param: string) =>
+  fetchSearchByIdResult: (param: string) =>
     v1Get<
       | Response.Wrapper<Block, SearchResultType.Block>
       | Response.Wrapper<Transaction, SearchResultType.Transaction>
@@ -157,6 +157,13 @@ export const apiFetcher = {
       | Response.Wrapper<Address, SearchResultType.LockHash>
       | Response.Wrapper<unknown, SearchResultType.UDT>
     >('suggest_queries', {
+      params: {
+        q: param,
+      },
+    }),
+
+  fetchSearchByNameResult: (param: string) =>
+    v1GetUnwrappedList<UDTQueryResult>('udt_queries', {
       params: {
         q: param,
       },
@@ -902,3 +909,10 @@ export interface TransferListRes {
 export type DASAccount = string
 
 export type DASAccountMap = Record<string, DASAccount | null>
+
+export type UDTQueryResult = {
+  fullName: string
+  symbol: string | null
+  typeHash: string
+  iconFile: string | null
+}

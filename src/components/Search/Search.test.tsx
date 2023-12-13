@@ -1,5 +1,7 @@
 import { render, fireEvent } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Search from './index'
+import { initI18n } from '../../utils/i18n'
 
 beforeEach(() => {
   Object.defineProperty(window, 'matchMedia', {
@@ -18,8 +20,13 @@ beforeEach(() => {
 })
 
 test('show clear button when content is available', async () => {
-  const { getByRole, getAllByRole } = render(<Search />)
-  const getClearButton = () => getAllByRole('button')[1]
+  initI18n()
+  const { getByRole, getAllByRole } = render(
+    <QueryClientProvider client={new QueryClient()}>
+      <Search />
+    </QueryClientProvider>,
+  )
+  const getClearButton = () => getAllByRole('button')[2]
 
   const inputEl = getByRole('textbox') as HTMLInputElement
   expect(inputEl).toBeInstanceOf(HTMLInputElement)

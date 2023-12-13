@@ -168,6 +168,7 @@
       "tokens": "Tokens",
       "docs": "Docs",
       "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash",
+      "search_by_name_placeholder": "Token Name",
       "mainnet": "LINA",
       "testnet": "TESTNET",
       "language_en": "EN",
@@ -327,6 +328,7 @@
     },
     "search": {
       "loading": "Loading...",
+      "no_search_result": "Oops! Your search did not match any record.",
       "empty_result": "Oops! Your search did not match any record. \n\nPlease make sure input contains only one of the following items:\n",
       "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Lock Hash/ Type Hash",
       "address_type_testnet_error": "Testnet address detected，please goto",
@@ -338,7 +340,9 @@
       "udt_filter_no_result": "Filter result not found.\nPlease enter only complete Address",
       "tx": "Transaction",
       "addr": "Address",
-      "reset": "Reset"
+      "reset": "Reset",
+      "by_name": "by name",
+      "by_id": "by ID"
     },
     "address": {
       "address": "Address",
