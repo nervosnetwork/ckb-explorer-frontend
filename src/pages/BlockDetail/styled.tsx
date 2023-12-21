@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../styles/variables.module.scss'
 
 export const BlockDetailPanel = styled.div`
   display: flex;
@@ -7,7 +8,7 @@ export const BlockDetailPanel = styled.div`
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 0;
     padding: 20px;
   }
@@ -41,7 +42,7 @@ export const BlockMinerRewardPanel = styled.div`
     margin: ${(props: { sent: boolean }) => (props.sent ? '0 0 3px 5px' : '3px 0 0 5px')};
     cursor: ${(props: { sent: boolean }) => (props.sent ? 'pointer' : 'default')};
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       width: ${(props: { sent: boolean }) => (props.sent ? '27px' : '15px')};
       height: 15px;
       margin-bottom: ${(props: { sent: boolean }) => (props.sent ? '1px' : '0')};

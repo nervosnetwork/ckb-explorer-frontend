@@ -1,8 +1,10 @@
+@import '../../../../styles/variables.module';
+
 .transactionLites {
   width: 100%;
   margin-top: 24px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin-top: 20px;
   }
 }
@@ -24,7 +26,7 @@
       }
     }
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       .transactionLiteBoxHeaderAddr {
         width: 200px;
         display: inline-block;
@@ -70,7 +72,7 @@
       margin-left: 12px;
       height: 24px;
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         margin-left: 0;
       }
     }

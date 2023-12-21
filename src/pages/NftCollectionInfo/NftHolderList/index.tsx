@@ -1,9 +1,8 @@
-import { Tooltip } from 'antd'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { getPrimaryColor } from '../../../constants/common'
 import SortButton from '../../../components/SortButton'
 import styles from './styles.module.scss'
+import AddressText from '../../../components/AddressText'
 
 export const primaryColor = getPrimaryColor()
 
@@ -31,18 +30,7 @@ const NftHolderList: React.FC<{
               return (
                 <tr key={item.addr}>
                   <td>
-                    <Tooltip title={item.addr}>
-                      <Link
-                        to={`/address/${item.addr}`}
-                        style={{
-                          color: primaryColor,
-                        }}
-                        className="monospace"
-                      >
-                        <span className={styles.addr}>{`${item.addr.slice(0, 25)}...${item.addr.slice(-25)}`}</span>
-                        <span className={styles.addr}>{`${item.addr.slice(0, 12)}...${item.addr.slice(-12)}`}</span>
-                      </Link>
-                    </Tooltip>
+                    <AddressText className={styles.addr}>{item.addr}</AddressText>
                   </td>
                   <td>{item.quantity.toLocaleString('en')}</td>
                 </tr>

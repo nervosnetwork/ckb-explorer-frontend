@@ -9,7 +9,7 @@ import TransactionIncome from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import { CellType } from '../../constants/common'
 import AddressText from '../AddressText'
-import { useIsLGScreen, useParsedDate } from '../../hooks'
+import { useIsExtraLarge, useParsedDate } from '../../hooks'
 import { Transaction } from '../../models/Transaction'
 
 export interface CircleCorner {
@@ -72,7 +72,7 @@ const TransactionItem = ({
   circleCorner?: CircleCorner
   scrollIntoViewOnMount?: boolean
 }) => {
-  const isLG = useIsLGScreen()
+  const isXL = useIsExtraLarge()
   const { t } = useTranslation()
   const ref = useRef<HTMLDivElement>(null)
 
@@ -113,7 +113,7 @@ const TransactionItem = ({
             render={cell => <TransactionCell cell={cell} address={address} cellType={CellType.Input} key={cell.id} />}
           />
         </div>
-        <img src={isLG ? DownArrowIcon : RightArrowIcon} alt="input and output" />
+        <img src={isXL ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transactionItemOutput">
           {transaction.displayOutputs && transaction.displayOutputs.length !== 0 ? (
             <TransactionCellList

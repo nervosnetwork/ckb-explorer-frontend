@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .container {
   margin: 0 120px 60px;
 }
@@ -28,7 +30,7 @@
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     flex-direction: column;
     justify-content: stretch;
     padding: 1rem;
@@ -41,7 +43,7 @@
     font-size: 1.25rem;
     align-self: stretch;
 
-    @media screen and (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       justify-content: space-between;
     }
 
@@ -55,16 +57,16 @@
       &:not(:last-child) {
         margin-right: 4rem;
 
-        @media screen and (width <= 1440px) {
+        @media (width <= $xxlBreakPoint) {
           margin-right: 3rem;
         }
 
-        @media screen and (width <= 1280px) {
+        @media (width <= 1280px) {
           margin-right: 1rem;
         }
       }
 
-      @media screen and (width <= 1280px) {
+      @media (width <= 1280px) {
         font-size: 0.875rem;
       }
 
@@ -73,7 +75,7 @@
         border-bottom-color: var(--primary-color);
       }
 
-      @media screen and (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         border-width: 2px;
         font-size: 1.125rem;
       }
@@ -83,7 +85,7 @@
   .filters {
     display: flex;
 
-    @media screen and (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       & > div {
         margin-top: 1.5rem;
 
@@ -93,7 +95,7 @@
       }
     }
 
-    @media screen and (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       width: 100%;
     }
   }
@@ -203,13 +205,13 @@
   }
 }
 
-@media screen and (width <= 1200px) {
+@media (width <= $extraLargeBreakPoint) {
   .container {
     margin: 0 45px 60px;
   }
 }
 
-@media screen and (width <= 750px) {
+@media (width <= $mobileBreakPoint) {
   .container {
     margin: 0 8px 60px;
   }

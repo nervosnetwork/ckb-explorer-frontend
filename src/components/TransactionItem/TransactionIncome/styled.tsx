@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const TransactionIncomePanel = styled.div`
   width: 100%;
@@ -6,7 +7,7 @@ export const TransactionIncomePanel = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     justify-content: center;
   }
 `
@@ -28,7 +29,7 @@ export const TransactionCapacityValuePanel = styled.div<{ increased: boolean }>`
     margin-bottom: 2px;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     font-size: 14px;
 
     img {

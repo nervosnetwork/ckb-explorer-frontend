@@ -1,3 +1,5 @@
+@import '../../../styles/variables.module';
+
 .container {
   margin: 40px 120px 24px;
   background-color: #fff;
@@ -36,13 +38,13 @@
   color: #494949;
 }
 
-@media screen and (width <= 1200px) {
+@media (width <= $extraLargeBreakPoint) {
   .container {
     margin: 40px 45px 24px;
   }
 }
 
-@media screen and (width <= 750px) {
+@media (width <= $mobileBreakPoint) {
   .container {
     margin: 40px 8px 24px;
   }

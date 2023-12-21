@@ -26,7 +26,7 @@ import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
 import DecimalCapacity from '../../../components/DecimalCapacity'
-import { useIsLGScreen, useIsMobile } from '../../../hooks'
+import { useIsExtraLarge, useIsMobile } from '../../../hooks'
 import { ReactChartCore } from '../../StatisticsChart/common'
 import { HelpTip } from '../../../components/HelpTip'
 import { ChartColor } from '../../../constants/common'
@@ -288,7 +288,7 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
 export default ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const isExactLG = useIsLGScreen(true)
+  const isExactXL = useIsExtraLarge(true)
 
   const nervosDaoPieItemContents = useCallback(
     (nervosDao: NervosDaoInfo): NervosDaoPieItemContent[] => [
@@ -327,7 +327,7 @@ export default ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
             lazyUpdate
             style={{
               height: isMobile ? '65%' : '90%',
-              width: isExactLG ? '70%' : '100%',
+              width: isExactXL ? '70%' : '100%',
             }}
           />
         </DaoOverviewPieChartPanel>

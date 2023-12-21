@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Trans, useTranslation } from 'react-i18next'
 import { Radio, Tooltip } from 'antd'
+import classNames from 'classnames'
 import DecimalCapacity from '../../../components/DecimalCapacity'
 import HashTag from '../../../components/HashTag'
 import { HelpTip } from '../../../components/HelpTip'
@@ -26,7 +27,6 @@ import {
   TransactionInfoItemPanel,
   TransactionInfoContentContainer,
   TransactionInfoContentTitle,
-  TransactionInfoContentTag,
 } from './styled'
 import { explorerService, useLatestBlockNumber } from '../../../services/ExplorerService'
 import { Transaction } from '../../../models/Transaction'
@@ -92,7 +92,7 @@ const TransactionInfoItem = ({
         )}
         {valueTooltip && <HelpTip title={valueTooltip} />}
       </div>
-      {tag && <TransactionInfoContentTag>{tag}</TransactionInfoContentTag>}
+      {tag && <div>{tag}</div>}
     </TransactionInfoContentContainer>
   </TransactionInfoContentItem>
 )
@@ -364,7 +364,7 @@ export const TransactionOverviewCard: FC<{
               key={`${witness}-${index}`}
               title="Witness"
               tooltip={t('glossary.witness')}
-              value={witness}
+              value={<div className={classNames(styles.witnessInTransactionInfo, 'monospace')}>{witness}</div>}
             />
           ))
         ) : (

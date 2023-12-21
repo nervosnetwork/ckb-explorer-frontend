@@ -1,7 +1,9 @@
+@import '../../styles/variables.module';
+
 .integerPart {
   font-size: 16px;
 
-  @media (width <= 1000px) {
+  @media (width <= $largeBreakPoint) {
     font-size: 12px;
   }
 }

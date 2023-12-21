@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import variables from '../../../styles/variables.module.scss'
 
 export const HomeChartLink = styled(Link)`
   canvas {
@@ -17,7 +18,7 @@ export const ChartLoadingPanel = styled.div`
     width: 105px;
     height: auto;
 
-    @media (max-width: 1200px) {
+    @media (max-width: ${variables.extraLargeBreakPoint}) {
       width: 90px;
     }
   }

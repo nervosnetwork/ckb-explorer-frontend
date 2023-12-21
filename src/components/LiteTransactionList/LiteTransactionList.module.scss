@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .container {
   padding: 0 2rem;
   background: #fff;
@@ -91,8 +93,7 @@
     }
   }
 
-  // TODO: use https://github.com/Magickbase/ckb-explorer-frontend/pull/178/files#diff-0f21b8f9c1d917feff4b138db3e62f202f2e3c1b691a2cd309397400edfca591R3
-  @media screen and (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     padding: 0;
 
     table {

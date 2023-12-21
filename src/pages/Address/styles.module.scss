@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .addressOverviewCard:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
   ) {
@@ -13,7 +15,7 @@
     font-weight: 600;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin-top: 20px;
     padding-bottom: 16px;
   }
@@ -26,11 +28,11 @@
 .addressWidthModify {
   max-width: 80%;
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     max-width: 40%;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     max-width: 100%;
   }
 }
@@ -39,7 +41,7 @@
   display: flex;
   align-items: stretch;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin-bottom: 1rem;
   }
 
@@ -63,7 +65,7 @@
         left: 50%;
         transform: translateX(-50%);
 
-        @media (width <= 750px) {
+        @media (width <= $mobileBreakPoint) {
           width: 104px;
           height: 2px;
           bottom: -10px;
@@ -74,7 +76,7 @@
     &:first-child {
       margin-right: 4rem;
 
-      @media (width <= 1200px) {
+      @media (width <= $extraLargeBreakPoint) {
         margin-right: 1rem;
       }
     }
@@ -90,7 +92,7 @@
   ) {
   margin-top: 24px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     padding-bottom: 16px;
   }
 
@@ -102,7 +104,7 @@
       display: none;
     }
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       padding: 10px 0;
     }
   }
@@ -112,11 +114,11 @@
   display: flex;
   gap: 40px;
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     gap: 1rem;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     flex-direction: column-reverse;
     align-items: flex-end;
   }
@@ -142,7 +144,7 @@
 .layoutButtons {
   width: 240px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     width: 100%;
   }
 
@@ -251,7 +253,7 @@
   font-size: 16px;
   font-weight: 500;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     max-width: 90px;
     font-size: 13px;
   }

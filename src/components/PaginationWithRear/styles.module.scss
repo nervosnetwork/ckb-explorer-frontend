@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .paginationWithRear {
   display: flex;
   flex-flow: row wrap;
@@ -15,7 +17,7 @@
     flex: 1 0.8 auto;
     min-width: 650px;
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       min-width: auto;
       border-radius: 0;
     }
@@ -35,7 +37,7 @@
     display: flex;
     justify-content: flex-end;
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       height: 50px;
       border-radius: 0 0 6px 6px;
       border-top: 1px solid #f0f0f0;
@@ -43,7 +45,7 @@
     }
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     justify-content: flex-end;
     margin-top: 5px;
     padding: 0 20px;

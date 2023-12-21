@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../styles/variables.module.scss'
 
 export const TagPanel = styled.div`
   height: 20px;
@@ -12,7 +13,7 @@ export const TagPanel = styled.div`
   justify-content: center;
   font-size: 12px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     height: 16px;
     width: ${({ length }: { length: number; isLock?: boolean }) => `${length * 7.5}px`};
   }

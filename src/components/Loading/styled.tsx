@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../styles/variables.module.scss'
 
 export const LoadingPanel = styled.div`
   width: 100%;
@@ -10,7 +11,7 @@ export const LoadingPanel = styled.div`
     width: 270px;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 60px 0;
 
     > img {

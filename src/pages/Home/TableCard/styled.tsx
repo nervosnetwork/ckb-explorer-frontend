@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const BlockCardPanel = styled.div`
   /* stylelint-disable no-descending-specificity */
@@ -9,7 +10,7 @@ export const BlockCardPanel = styled.div`
   padding: 15px;
   background: #fff;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
@@ -22,7 +23,7 @@ export const BlockCardPanel = styled.div`
     font-size: 14px;
     flex: 2;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
@@ -54,7 +55,7 @@ export const BlockCardPanel = styled.div`
       white-space: nowrap;
       text-overflow: ellipsis;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 12px;
         margin-top: 2px;
         margin-left: 10px;
@@ -70,7 +71,7 @@ export const BlockCardPanel = styled.div`
     align-items: flex-start;
     flex: 4;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-top: 15px;
     }
 
@@ -79,7 +80,7 @@ export const BlockCardPanel = styled.div`
       font-weight: 500;
       width: 100%;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         align-items: center;
       }
 
@@ -89,7 +90,7 @@ export const BlockCardPanel = styled.div`
         margin-right: 10px;
         white-space: nowrap;
 
-        @media (max-width: 750px) {
+        @media (max-width: ${variables.mobileBreakPoint}) {
           font-size: 13px;
         }
       }
@@ -100,7 +101,7 @@ export const BlockCardPanel = styled.div`
       color: #888;
       font-weight: 500;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 13px;
       }
 
@@ -108,7 +109,7 @@ export const BlockCardPanel = styled.div`
         margin-top: 9px;
         margin-right: 10px;
 
-        @media (max-width: 750px) {
+        @media (max-width: ${variables.mobileBreakPoint}) {
           margin-top: 0;
         }
       }
@@ -121,7 +122,7 @@ export const BlockCardPanel = styled.div`
     align-items: flex-end;
     flex: 1.3;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       flex-direction: row;
       margin-top: 15px;
       align-items: center;
@@ -145,7 +146,7 @@ export const BlockCardPanel = styled.div`
         font-size: 10px;
       }
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 12px;
         margin-top: 2px;
       }
@@ -162,11 +163,11 @@ export const TransactionCardPanel = styled.div`
   font-weight: 500;
   max-height: 83px;
 
-  @media screen and (max-width: 790px) {
+  @media (max-width: 790px) {
     max-height: unset;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
@@ -182,7 +183,7 @@ export const TransactionCardPanel = styled.div`
     max-width: 100%;
     font-weight: 500;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 13px;
     }
 
@@ -195,7 +196,7 @@ export const TransactionCardPanel = styled.div`
       white-space: nowrap;
       text-overflow: ellipsis;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         margin-top: 0;
       }
     }
@@ -207,7 +208,7 @@ export const TransactionCardPanel = styled.div`
     align-items: flex-start;
     flex: 1;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-top: 15px;
     }
 
@@ -217,7 +218,7 @@ export const TransactionCardPanel = styled.div`
       font-size: 14px;
       font-weight: 500;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 13px;
       }
 
@@ -245,7 +246,7 @@ export const TransactionCardPanel = styled.div`
       margin-right: 10px;
       font-weight: 500;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 12px;
         margin-top: 0;
       }
@@ -261,7 +262,7 @@ export const TransactionCardPanel = styled.div`
     font-weight: 500;
     color: #000;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       flex-direction: row;
       margin-top: 15px;
       font-size: 13px;
@@ -279,7 +280,7 @@ export const TransactionCardPanel = styled.div`
         margin-left: 10px;
       }
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 12px;
         margin-top: 2px;
         margin-left: 10px;
@@ -293,7 +294,7 @@ export const BlockRewardPlusPanel = styled.div`
   align-items: flex-end;
   justify-content: center;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     align-items: flex-end;
     justify-content: flex-start;
   }

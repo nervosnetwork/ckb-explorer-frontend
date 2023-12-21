@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export default styled.div`
   display: flex;
@@ -12,7 +13,7 @@ export default styled.div`
     margin-top: 20px;
     height: 20px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 14px;
       margin-top: 15px;
       height: 16px;

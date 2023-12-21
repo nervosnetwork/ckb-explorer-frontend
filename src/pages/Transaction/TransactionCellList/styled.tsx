@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const TransactionCellListTitlePanel = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     display: none;
   }
 
@@ -58,7 +59,7 @@ export const TransactionCellListPanel = styled.div`
   background-color: #fff;
   padding: 12px 20px 12px 40px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     padding: 12px 10px 3px;
   }
 `
@@ -73,7 +74,7 @@ export const TransactionCellsPanel = styled.div`
         max-height: 600px;
         overflow-y: scroll;
 
-        @media (min-width: 750px) {
+        @media (min-width: ${variables.mobileBreakPoint}) {
           max-height: 400px;
         }
       }
@@ -85,7 +86,7 @@ export const TransactionCellsPanel = styled.div`
     font-size: 20px;
     margin-left: 10px;
 
-    @media (min-width: 750px) {
+    @media (min-width: ${variables.mobileBreakPoint}) {
       display: none;
     }
   }

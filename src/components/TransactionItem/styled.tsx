@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { CircleCorner } from '.'
+import variables from '../../styles/variables.module.scss'
 
 export const TransactionPanel = styled.div`
   width: 100%;
@@ -13,7 +14,7 @@ export const TransactionPanel = styled.div`
   flex-direction: column;
   font-size: 16px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     padding: 15px 20px;
     font-size: 13px;
   }
@@ -32,7 +33,7 @@ export const TransactionHashBlockPanel = styled.div`
     justify-content: space-between;
     margin-bottom: 10px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       flex-direction: column;
       justify-content: normal;
       margin-bottom: 10px;
@@ -47,7 +48,7 @@ export const TransactionHashBlockPanel = styled.div`
     .transactionItemBlock {
       color: #000;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-weight: normal;
       }
     }
@@ -68,7 +69,7 @@ export const TransactionCellPanel = styled.div`
   flex-direction: row;
   align-items: flex-start;
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${variables.extraLargeBreakPoint}) {
     flex-direction: column;
     align-items: center;
   }
@@ -84,7 +85,7 @@ export const TransactionCellPanel = styled.div`
     flex: 1;
     min-width: 0;
 
-    @media (max-width: 1200px) {
+    @media (max-width: ${variables.extraLargeBreakPoint}) {
       margin: 0;
       flex: none;
       width: 100%;
@@ -99,7 +100,7 @@ export const TransactionCellPanel = styled.div`
     align-items: flex-start;
     margin-left: 40px;
 
-    @media (max-width: 1200px) {
+    @media (max-width: ${variables.extraLargeBreakPoint}) {
       margin: 0;
       flex: none;
       width: 100%;
@@ -111,7 +112,7 @@ export const TransactionCellPanel = styled.div`
     color: #666;
     margin-top: 18px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 13px;
     }
   }

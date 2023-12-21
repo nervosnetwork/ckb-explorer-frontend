@@ -22,7 +22,7 @@ import LatestBlocksIcon from './latest_blocks.png'
 import LatestTransactionsIcon from './latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import Loading from '../../components/Loading/SmallLoading'
-import { useElementIntersecting, useIsLGScreen, useIsMobile, useSingleHalving } from '../../hooks'
+import { useElementIntersecting, useIsExtraLarge, useIsMobile, useSingleHalving } from '../../hooks'
 import Banner from './Banner'
 import { HalvingBanner } from './Banner/HalvingBanner'
 import Search from '../../components/Search'
@@ -66,7 +66,7 @@ const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRa
 
 const parseBlockTime = (blockTime: string | undefined) => (blockTime ? parseTime(Number(blockTime)) : '- -')
 
-const useBlockchainDataList = (isMobile: boolean, isLG: boolean): BlockchainData[] => {
+const useBlockchainDataList = (isMobile: boolean, isXL: boolean): BlockchainData[] => {
   const { t } = useTranslation()
   const statistics = useStatistics()
 
@@ -100,7 +100,7 @@ const useBlockchainDataList = (isMobile: boolean, isLG: boolean): BlockchainData
     {
       name: t('blockchain.estimated_epoch_time'),
       value: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
-      showSeparate: !isLG,
+      showSeparate: !isXL,
     },
     {
       name: t('blockchain.transactions_per_minute'),
@@ -186,7 +186,7 @@ const TransactionList: FC<{ transactions: Transaction[]; tipBlockNumber: number 
 export default () => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const isLG = useIsLGScreen()
+  const isXL = useIsExtraLarge()
   const history = useHistory<RouteState>()
   const tipBlockNumber = useLatestBlockNumber()
 
@@ -232,7 +232,7 @@ export default () => {
     (currentEpoch > targetEpoch + 6 && // 6 epochs(1 day) after halving
       currentEpoch < targetEpoch + EPOCHS_PER_HALVING - 180) // 180 epochs(30 days) before next halving
 
-  const blockchainDataList = useBlockchainDataList(isMobile, isLG)
+  const blockchainDataList = useBlockchainDataList(isMobile, isXL)
 
   return (
     <Content>
@@ -260,7 +260,7 @@ export default () => {
           </div>
         </div>
         <div className={styles.homeStatisticBottomPanel}>
-          {!isLG ? (
+          {!isXL ? (
             blockchainDataList
               .slice(4)
               .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)

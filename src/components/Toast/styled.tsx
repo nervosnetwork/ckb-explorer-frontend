@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../styles/variables.module.scss'
 
 export const ToastPanel = styled.div`
   position: absolute;
@@ -29,7 +30,7 @@ export const ToastItemPanel = styled.div`
     text-align: center;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     top: 42px;
     height: 36px;
 

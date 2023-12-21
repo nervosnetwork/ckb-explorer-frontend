@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const TransactionCellPanel = styled.div<{ highLight?: boolean }>`
   display: flex;
@@ -7,11 +8,11 @@ export const TransactionCellPanel = styled.div<{ highLight?: boolean }>`
   margin-top: 16px;
   background: ${({ highLight }) => (highLight ? '' : '#f5f5f5')};
 
-  @media (min-width: 750px) {
+  @media (min-width: ${variables.mobileBreakPoint}) {
     height: 20px;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     justify-content: normal;
     align-items: flex-start;
     flex-direction: column;
@@ -26,7 +27,7 @@ export const TransactionCellPanel = styled.div<{ highLight?: boolean }>`
     display: flex;
     align-items: center;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       height: 16px;
       font-size: 14px;
     }
@@ -53,7 +54,7 @@ export const TransactionCellCapacityPanel = styled.div`
     margin-right: 21px;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin-left: 0;
     margin-top: 5px;
     height: 16px;
@@ -85,7 +86,7 @@ export const TransactionCellWithdraw = styled.div`
     height: auto;
     cursor: pointer;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       width: 12px;
       height: auto;
     }
@@ -106,7 +107,7 @@ export const TransactionCellUDTPanel = styled.div`
     height: auto;
     cursor: pointer;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       width: 12px;
       height: auto;
       margin-bottom: 3px;
@@ -122,7 +123,7 @@ export const WithdrawInfoPanel = styled.div`
     text-align: center;
     margin-bottom: 16px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 11px;
       margin-bottom: 8px;
     }
@@ -133,7 +134,7 @@ export const WithdrawItemPanel = styled.div`
   margin: 10px;
   display: flex;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 5px;
   }
 
@@ -151,7 +152,7 @@ export const WithdrawItemPanel = styled.div`
       }
     }};
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 10px;
       width: ${({ width }: { width: string }) => {
         switch (width) {
@@ -183,7 +184,7 @@ export const WithdrawItemPanel = styled.div`
   .withdrawInfoContent {
     font-size: 14px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 10px;
     }
 
