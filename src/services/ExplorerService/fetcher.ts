@@ -79,6 +79,22 @@ export const apiFetcher = {
       },
     }),
 
+  fetchPendingTransactionsByAddress: (
+    address: string,
+    page: number,
+    size: number,
+    sort?: string,
+    txTypeFilter?: string,
+  ) =>
+    v1GetUnwrappedPagedList<Transaction>(`address_pending_transactions/${address}`, {
+      params: {
+        page,
+        page_size: size,
+        sort,
+        tx_type: txTypeFilter,
+      },
+    }),
+
   fetchTransactionRaw: (hash: string) => requesterV2.get<unknown>(`transactions/${hash}/raw`).then(res => res.data),
 
   fetchTransactionByHash: (hash: string) => v1GetUnwrapped<Transaction>(`transactions/${hash}`),

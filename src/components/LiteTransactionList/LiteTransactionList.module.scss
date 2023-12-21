@@ -1,0 +1,148 @@
+.container {
+  padding: 0 2rem;
+  background: #fff;
+
+  table {
+    width: 100%;
+
+    th,
+    td {
+      height: 4rem;
+      padding: 0 8px;
+      white-space: nowrap;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: left;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+        text-align: right;
+      }
+
+      &.noRecords:last-child {
+        text-align: center;
+      }
+    }
+
+    thead {
+      th {
+        font-weight: 600;
+      }
+    }
+
+    tbody {
+      tr {
+        border-top: 1px solid #e5e5e5;
+      }
+    }
+  }
+
+  a {
+    color: var(--primary-color);
+  }
+
+  .hash {
+    font-size: 0.875rem;
+    max-width: 25vw;
+  }
+
+  .height {
+    font-family: Roboto, inherit, sans-serif;
+  }
+
+  .cells {
+    white-space: pre;
+  }
+
+  .income > span {
+    display: inline-flex;
+
+    * {
+      color: inherit;
+      font-size: 1rem;
+
+      // REFACTOR: it's hard to maintain, the component of decimal should be refactored
+      :global {
+        div.addition,
+        div.subtraction {
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    &[data-is-positive='true'][data-is-zero='false'] {
+      color: var(--primary-color);
+
+      &::before {
+        content: '+';
+      }
+    }
+
+    &[data-is-zero='true'] {
+      color: #999;
+    }
+
+    &[data-is-positive='false'] {
+      color: var(--accent-color);
+    }
+  }
+
+  // TODO: use https://github.com/Magickbase/ckb-explorer-frontend/pull/178/files#diff-0f21b8f9c1d917feff4b138db3e62f202f2e3c1b691a2cd309397400edfca591R3
+  @media screen and (width <= 1200px) {
+    padding: 0;
+
+    table {
+      thead {
+        display: none;
+      }
+
+      tbody {
+        tr {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          border-top: 4px solid #ededed;
+        }
+
+        td {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          height: auto;
+          padding: 0.625rem 1rem;
+
+          &:first-child {
+            padding-left: 1rem;
+            max-width: calc(100vw - 2.25rem);
+          }
+
+          &:last-child {
+            text-align: left;
+          }
+
+          &:not(:last-child)::after {
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            content: '';
+            display: block;
+            height: 1px;
+            background: #f5f5f5;
+          }
+
+          &::before {
+            content: attr(title);
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}

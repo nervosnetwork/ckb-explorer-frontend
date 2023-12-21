@@ -379,6 +379,7 @@
     "transaction": {
       "transaction": "Transaction",
       "transactions": "Transactions",
+      "pending_transactions": "Pending Transactions",
       "transaction_fee": "Transaction Fee",
       "fee_rate": "Fee Rate",
       "cell_deps": "CellDeps",
@@ -460,7 +461,8 @@
       "professional": "Professional",
       "lite": "Lite",
       "unknown_assets": "Unknown Assets",
-      "mint": "Mint"
+      "mint": "Mint",
+      "no_records": "No records"
     },
     "block": {
       "block": "Block",

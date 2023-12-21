@@ -299,6 +299,7 @@
     "home": {
       "height": "高度",
       "transactions": "交易",
+      "pending_transactions": "待处理交易",
       "block_reward": "奖励 (CKB)",
       "time": "时间戳",
       "more": "更多",
@@ -459,7 +460,8 @@
       "professional": "专业版",
       "lite": "精简版",
       "unknown_assets": "未知资产",
-      "mint": "铸造"
+      "mint": "铸造",
+      "no_records": "没有记录"
     },
     "block": {
       "block": "区块",

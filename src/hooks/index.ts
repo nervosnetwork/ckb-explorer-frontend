@@ -208,7 +208,7 @@ export function useTimestamp(): number {
   return timestamp
 }
 
-export function useParsedDate(timestamp: number): string {
+export function useParsedDate(timestamp: number | string): string {
   const parseDate = useParseDate()
   const now = useTimestamp()
   return parseDate(timestamp, now)

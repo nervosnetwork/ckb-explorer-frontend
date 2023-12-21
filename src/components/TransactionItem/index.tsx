@@ -17,6 +17,43 @@ export interface CircleCorner {
   bottom?: boolean
 }
 
+const Time: React.FC<{ tx?: Transaction }> = ({ tx }) => {
+  const { t } = useTranslation()
+  let timestamp = 0
+  if (tx) {
+    if (tx.blockTimestamp) {
+      timestamp = +tx.blockTimestamp
+    } else if (tx.createTimestamp) {
+      // FIXME: round the timestamp because sometimes a decimal is returned from the API, could be removed when the API is fixed
+      timestamp = Math.floor(Number(tx.createTimestamp))
+    }
+  }
+
+  const dateTime = new Date(timestamp).toISOString()
+  const localTime = useParsedDate(timestamp)
+
+  if (!tx) {
+    return null
+  }
+
+  if (tx.blockTimestamp) {
+    return (
+      <time dateTime={dateTime} className="transactionItemBlock">
+        {`(${t('block.block')} ${localeNumberString(tx.blockNumber)}) ${localTime}`}
+      </time>
+    )
+  }
+
+  if (tx.createTimestamp) {
+    return (
+      <time dateTime={dateTime} className="transactionItemBlock">
+        {localTime}
+      </time>
+    )
+  }
+  return null
+}
+
 const TransactionItem = ({
   transaction,
   address,
@@ -51,8 +88,6 @@ const TransactionItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const parsedBlockCreateAt = useParsedDate(transaction.blockTimestamp)
-
   return (
     <TransactionPanel ref={ref} circleCorner={circleCorner}>
       {titleCard}
@@ -67,11 +102,7 @@ const TransactionItem = ({
           >
             {transaction.transactionHash}
           </AddressText>
-          {!isBlock && (
-            <div className="transactionItemBlock">
-              {`(${t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parsedBlockCreateAt}`}
-            </div>
-          )}
+          <Time tx={isBlock ? undefined : transaction} />
         </div>
       </TransactionHashBlockPanel>
       <TransactionCellPanel>
