@@ -656,6 +656,7 @@
       "mins": "分",
       "secs": "秒",
       "second": "秒",
+      "seconds": "秒",
       "date": "日期",
       "average_fee_rate": "平均费率",
       "confirmation_time_x_avg_fee_rate": "确认时间与平均费率",
