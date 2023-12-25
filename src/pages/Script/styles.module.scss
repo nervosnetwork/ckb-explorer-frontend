@@ -74,6 +74,8 @@
 
 .scriptCellsPanel {
   padding: 0 40px;
+  margin-top: 4px;
+  background: #fff;
 
   @media (width <= $extraLargeBreakPoint) {
     padding: 0 10px;
@@ -109,8 +111,14 @@
   min-width: 0;
 
   .codeHash {
+    flex: 1;
+    min-width: 0;
     width: 350px;
     margin-right: 16px;
+  }
+
+  .action {
+    flex-shrink: 0;
   }
 
   @media (width <= 1300px) {

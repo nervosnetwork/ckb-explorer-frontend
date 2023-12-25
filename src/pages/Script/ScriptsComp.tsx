@@ -235,6 +235,7 @@ export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
       </div>
 
       <CopyIcon
+        className={styles.action}
         onClick={() => {
           navigator.clipboard.writeText(codeHash).then(
             () => {
