@@ -64,21 +64,26 @@ const handleSearchById = async (
     clearSearchInput(inputElement)
     setSearchValue('')
 
-    switch (data.type) {
+    const { type, attributes } = data
+    switch (type) {
+      case SearchResultType.TypeScript:
+        history.push(`/script/${attributes.scriptHash}/type`)
+        break
+
       case SearchResultType.Block:
-        history.push(`/block/${data.attributes.blockHash}`)
+        history.push(`/block/${attributes.blockHash}`)
         break
 
       case SearchResultType.Transaction:
-        history.push(`/transaction/${data.attributes.transactionHash}`)
+        history.push(`/transaction/${attributes.transactionHash}`)
         break
 
       case SearchResultType.Address:
-        history.push(`/address/${data.attributes.addressHash}`)
+        history.push(`/address/${attributes.addressHash}`)
         break
 
       case SearchResultType.LockHash:
-        history.push(`/address/${data.attributes.lockHash}`)
+        history.push(`/address/${attributes.lockHash}`)
         break
 
       case SearchResultType.UDT:
