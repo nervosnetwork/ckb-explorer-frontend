@@ -12,8 +12,7 @@ import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
 import TransactionCellScript from '../Transaction/TransactionCellScript'
 import { shannonToCkb } from '../../utils/util'
-import { localeNumberString } from '../../utils/number'
-import DecimalCapacity from '../../components/DecimalCapacity'
+import Capacity from '../../components/Capacity'
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
@@ -189,7 +188,7 @@ export const ScriptCells = ({
                     </td>
                     <td align="center">{record.cellIndex}</td>
                     <td align="left">
-                      <DecimalCapacity value={localeNumberString(shannonToCkb(record.capacity))} hideZero />
+                      <Capacity capacity={shannonToCkb(record.capacity)} display="short" />
                     </td>
                     <td>
                       <div className={styles.cellInfoMore}>

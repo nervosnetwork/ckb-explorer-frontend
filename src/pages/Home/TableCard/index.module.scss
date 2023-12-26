@@ -15,3 +15,43 @@
     color: var(--primary-color);
   }
 }
+
+.reward,
+.capacity {
+  span[data-role='int'] {
+    font-size: 16px;
+  }
+
+  span[data-role='dec'] {
+    font-size: 9px;
+    padding-right: 2px;
+  }
+
+  span[data-role='suffix'] {
+    font-size: 13px;
+  }
+
+  @media screen and (width <= $largeBreakPoint) {
+    display: flex;
+    align-items: flex-end;
+
+    span[data-role='int'] {
+      font-size: 12px;
+    }
+  }
+}
+
+.reward {
+  margin-top: 7px;
+  height: 24px;
+}
+
+.capacity {
+  span[data-role='dec'] {
+    color: var(--decimal-color);
+  }
+
+  span[data-role='unit'] {
+    margin-left: 3px;
+  }
+}

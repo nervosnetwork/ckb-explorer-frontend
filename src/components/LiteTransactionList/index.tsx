@@ -8,7 +8,7 @@ import styles from './LiteTransactionList.module.scss'
 import AddressText from '../AddressText'
 import { localeNumberString } from '../../utils/number'
 import { useParseDate } from '../../utils/date'
-import DecimalCapacity from '../DecimalCapacity'
+import Capacity from '../Capacity'
 import { shannonToCkb } from '../../utils/util'
 
 const LiteTransactionList: React.FC<{
@@ -68,7 +68,6 @@ const LiteTransactionList: React.FC<{
               if (bigIncome.isNaN()) {
                 bigIncome = new BigNumber(0)
               }
-              const isIncome = bigIncome.isGreaterThanOrEqualTo(0)
               return (
                 <tr key={item.transactionHash}>
                   <td className={styles.hash} title={t('transaction.transaction_hash')}>
@@ -97,13 +96,8 @@ const LiteTransactionList: React.FC<{
                     }`}
                   </td>
                   {address ? (
-                    <td className={styles.income} title={t('transaction.capacity_change')}>
-                      <span data-is-positive={bigIncome.isPositive()} data-is-zero={bigIncome.isZero()}>
-                        <DecimalCapacity
-                          value={localeNumberString(shannonToCkb(bigIncome))}
-                          balanceChangeType={isIncome ? 'income' : 'payment'}
-                        />
-                      </span>
+                    <td title={t('transaction.capacity_change')}>
+                      <Capacity capacity={shannonToCkb(bigIncome)} type="diff" />
                     </td>
                   ) : null}
                 </tr>

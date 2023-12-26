@@ -18,7 +18,7 @@ import {
   AddressUDTAssetsPanel,
   AddressUDTItemPanel,
 } from './styled'
-import DecimalCapacity from '../../components/DecimalCapacity'
+import Capacity from '../../components/Capacity'
 import CKBTokenIcon from './ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { ReactComponent as TimeDownIcon } from './time_down.svg'
@@ -235,22 +235,22 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
       cell: {
         icon: <img src={CKBTokenIcon} alt="item icon" width="100%" />,
         title: t('common.ckb_unit'),
-        content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
+        content: <Capacity capacity={shannonToCkb(address.balance)} />,
       },
     },
     {
       title: t('address.occupied'),
       tooltip: t('glossary.occupied'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balanceOccupied))} />,
+      content: <Capacity capacity={shannonToCkb(address.balanceOccupied)} />,
     },
     {
       title: t('address.dao_deposit'),
       tooltip: t('glossary.nervos_dao_deposit'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
+      content: <Capacity capacity={shannonToCkb(address.daoDeposit)} />,
     },
     {
       title: t('address.compensation'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
+      content: <Capacity capacity={shannonToCkb(address.daoCompensation)} />,
       tooltip: t('glossary.nervos_dao_compensation'),
     },
   ]

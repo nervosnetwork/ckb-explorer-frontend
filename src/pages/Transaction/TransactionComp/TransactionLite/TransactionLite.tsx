@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import styles from './TransactionLite.module.scss'
-import DecimalCapacity from '../../../../components/DecimalCapacity'
-import { parseCKBAmount, localeNumberString, parseUDTAmount } from '../../../../utils/number'
+import Capacity from '../../../../components/Capacity'
+import { parseCKBAmount, parseUDTAmount } from '../../../../utils/number'
 import { shannonToCkb } from '../../../../utils/util'
 import { Addr } from '../../TransactionCell'
 import { defaultTransactionLiteDetails } from '../../state'
@@ -119,50 +119,48 @@ export const MobileTransferItems = (props: { details: TransactionRecord }) => {
 const TransferAmount: FC<{ transfer: TransactionRecordTransfer }> = ({ transfer }) => {
   const { t } = useTranslation()
   const isUdt = transfer.cellType === 'udt'
-  const isNft = transfer.cellType === 'm_nft_token'
+  const isNft = ['m_nft_token', 'spore_cell', 'nrc_721_token', 'cota', 'nft_transfer'].includes(transfer.cellType)
 
-  const transferCapacity = new BigNumber(transfer.capacity)
-  const transferAmount = new BigNumber(transfer.udtInfo?.amount ?? 0)
-  const isIncome = isUdt ? transferAmount.isPositive() : transferCapacity.isPositive()
-  const decimalPanelType = isIncome ? 'income' : 'payment'
+  const capacityChange = shannonToCkb(transfer.capacity)
 
-  const udtDecimals = transfer.udtInfo?.decimal
-  let amountChange: string
-  if (udtDecimals) {
-    amountChange = parseUDTAmount(transferAmount.toString(), udtDecimals)
-  } else if (isIncome) {
-    amountChange = t('udt.unknown_amount')
-  } else {
-    amountChange = `-${t('udt.unknown_amount')}`
+  if (isNft) {
+    // FIXME: direction should be returned from API
+    // Tracked by issue https://github.com/Magickbase/ckb-explorer-public-issues/issues/503
+    return (
+      <div>
+        ID: {transfer.mNftInfo?.tokenId ?? 'Unknown'}
+        (<Capacity capacity={capacityChange} type="diff" display="short" />)
+      </div>
+    )
   }
 
-  const capacityChange = localeNumberString(shannonToCkb(transferCapacity))
-  const isIncomeColor = isIncome ? styles.add : styles.subtraction
-
-  const getUdtComponent = () => {
-    if (isUdt) {
+  if (isUdt) {
+    const transferAmount = new BigNumber(transfer.udtInfo?.amount ?? 0)
+    const udtDecimals = transfer.udtInfo?.decimal
+    if (udtDecimals) {
+      const amountChange = parseUDTAmount(transferAmount.toString(), udtDecimals)
       return (
         <>
-          <DecimalCapacity balanceChangeType={decimalPanelType} value={amountChange} hideUnit hideZero />
-          <div className={isIncomeColor}>{`(${capacityChange} CKB)`}</div>
+          <Capacity capacity={amountChange} type="diff" unit={null} display="short" />
+          (<Capacity capacity={capacityChange} type="diff" display="short" />)
         </>
       )
     }
-    if (isNft) {
-      return (
-        <div className={isIncomeColor}>
-          {isIncome ? '' : '-'}
-          ID: {transfer.mNftInfo?.tokenId ?? 'Unknown'}
-          {`(${capacityChange} CKB)`}
-        </div>
-      )
+    let diffStatus = ''
+    if (transferAmount.isNegative()) {
+      diffStatus = 'negative'
+    } else if (transferAmount.isZero()) {
+      // skip
+    } else {
+      diffStatus = 'positive'
     }
-    return <DecimalCapacity balanceChangeType={decimalPanelType} value={capacityChange} />
+    return (
+      <>
+        <div className={styles.udtAmount} data-diff-status={diffStatus}>{`${t('udt.unknown_amount')}`}</div>
+        (<Capacity capacity={capacityChange} type="diff" display="short" />)
+      </>
+    )
   }
-  return (
-    <div className={styles.capacityChange}>
-      <span className={isIncomeColor}>{isIncome ? '+' : ''}</span>
-      {getUdtComponent()}
-    </div>
-  )
+
+  return <Capacity capacity={capacityChange} type="diff" display="short" />
 }

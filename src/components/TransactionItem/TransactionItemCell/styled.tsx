@@ -76,10 +76,6 @@ export const TransactionCellWithdraw = styled.div`
   align-items: center;
   margin-top: 2px;
 
-  span {
-    margin-left: 6px;
-  }
-
   img {
     margin-left: 5px;
     width: 16px;
@@ -186,6 +182,10 @@ export const WithdrawItemPanel = styled.div`
 
     @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 10px;
+
+      * {
+        font-size: inherit;
+      }
     }
 
     @media (max-width: 375px) {

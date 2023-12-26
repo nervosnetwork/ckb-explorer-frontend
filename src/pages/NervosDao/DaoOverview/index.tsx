@@ -1,4 +1,5 @@
 import { ReactNode, useCallback, FC } from 'react'
+import BigNumber from 'bignumber.js'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
@@ -25,13 +26,13 @@ import DaoBalanceIcon from './dao_balance.png'
 import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
-import DecimalCapacity from '../../../components/DecimalCapacity'
 import { useIsExtraLarge, useIsMobile } from '../../../hooks'
 import { ReactChartCore } from '../../StatisticsChart/common'
 import { HelpTip } from '../../../components/HelpTip'
 import { ChartColor } from '../../../constants/common'
 import { assertNotArray } from '../../../utils/chart'
 import { APIReturn } from '../../../services/ExplorerService'
+import styles from './DaoOverview.module.scss'
 
 type NervosDaoInfo = APIReturn<'fetchNervosDao'>
 
@@ -70,6 +71,18 @@ const daoIcon = (symbol: 'positive' | 'negative' | 'zero' | undefined) => {
     default:
       return DaoUpIcon
   }
+}
+
+const Capacity: FC<{ capacity: string }> = ({ capacity }) => {
+  const [int, dec] = new BigNumber(capacity).toFormat(8).split('.')
+  return (
+    <div className={styles.capacity}>
+      <span data-role="int">{int}</span>
+      <span data-role="dec" className="monospace">
+        {`.${dec}`}
+      </span>
+    </div>
+  )
 }
 
 const useNervosDaoItemContents = (nervosDao: NervosDaoInfo): NervosDaoItemContent[] => {
@@ -258,15 +271,9 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
 }
 
 const NervosDaoRightCapacity = ({ reward }: { reward: string }) => {
-  const isMobile = useIsMobile()
   return (
     <NervosDaoPieCapacityPanel>
-      <DecimalCapacity
-        value={localeNumberString(shannonToCkb(Number(reward).toFixed()))}
-        fontSize={isMobile ? '10px' : '12px'}
-        marginBottom="2px"
-        hideUnit
-      />
+      <Capacity capacity={shannonToCkb(Number(reward).toFixed())} />
     </NervosDaoPieCapacityPanel>
   )
 }

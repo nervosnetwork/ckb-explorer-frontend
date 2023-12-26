@@ -1,11 +1,11 @@
 import { FC, memo } from 'react'
 import { useTranslation } from 'react-i18next'
+import BigNumber from 'bignumber.js'
 import { HighLightLink } from '../../../components/Text'
 import { localeNumberString } from '../../../utils/number'
-import DecimalCapacity from '../../../components/DecimalCapacity'
-import { shannonToCkbDecimal, deprecatedAddrToNewAddr } from '../../../utils/util'
+import { deprecatedAddrToNewAddr, shannonToCkb } from '../../../utils/util'
 import { TableMinerContentItem } from '../../../components/Table'
-import { BlockRewardPlusPanel, BlockRewardPanel, BlockCardPanel, TransactionCardPanel } from './styled'
+import { BlockCardPanel, TransactionCardPanel } from './styled'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
 import { useParsedDate } from '../../../hooks'
@@ -16,26 +16,7 @@ import { Transaction } from '../../../models/Transaction'
 const _BlockCardItem: FC<{ block: Block; isDelayBlock?: boolean }> = ({ block, isDelayBlock }) => {
   const { t } = useTranslation()
   const liveCellChanges = Number(block.liveCellChanges)
-  const blockReward = isDelayBlock ? (
-    <BlockRewardPlusPanel>
-      <DecimalCapacity
-        value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
-        fontSize="9px"
-        hideUnit
-        hideZero
-      />
-      <span>+</span>
-    </BlockRewardPlusPanel>
-  ) : (
-    <BlockRewardPanel>
-      <DecimalCapacity
-        value={localeNumberString(shannonToCkbDecimal(block.reward, 2))}
-        fontSize="9px"
-        hideUnit
-        hideZero
-      />
-    </BlockRewardPanel>
-  )
+  const [int, dec] = new BigNumber(shannonToCkb(block.reward)).toFormat(2, BigNumber.ROUND_FLOOR).split('.')
 
   const parsedBlockCreateAt = useParsedDate(block.timestamp)
 
@@ -56,7 +37,11 @@ const _BlockCardItem: FC<{ block: Block; isDelayBlock?: boolean }> = ({ block, i
         </div>
         <div className="blockCardReward">
           <span>{`${t('home.reward')}`}</span>
-          {blockReward}
+          <div className={styles.reward}>
+            <span data-role="int">{int}</span>
+            {dec ? <span data-role="dec" className="monospace">{`.${dec}`}</span> : null}
+            {isDelayBlock ? <span data-role="suffix">+</span> : null}
+          </div>
         </div>
       </div>
 
@@ -87,6 +72,7 @@ const _TransactionCardItem: FC<{
 
   const parsedBlockCreateAt = useParsedDate(transaction.blockTimestamp)
 
+  const [int, dec] = new BigNumber(shannonToCkb(transaction.capacityInvolved)).toFormat(2).split('.')
   return (
     <TransactionCardPanel>
       <div className="transactionCardHash">
@@ -112,11 +98,13 @@ const _TransactionCardItem: FC<{
       </div>
 
       <div className="transactionCardCapacity">
-        <DecimalCapacity
-          value={localeNumberString(shannonToCkbDecimal(transaction.capacityInvolved, 2))}
-          fontSize="9px"
-          hideZero
-        />
+        <div className={styles.capacity}>
+          <span data-role="int">{int}</span>
+          {dec ? <span data-role="dec" className="monospace">{`.${dec}`}</span> : null}
+          <span className="monospace" data-role="unit">
+            CKB
+          </span>
+        </div>
         <span className="transactionCardLiveCells">
           {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${t('home.cells')}`}
         </span>

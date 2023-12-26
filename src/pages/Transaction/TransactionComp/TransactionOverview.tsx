@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import { Trans, useTranslation } from 'react-i18next'
 import { Radio, Tooltip } from 'antd'
 import classNames from 'classnames'
-import DecimalCapacity from '../../../components/DecimalCapacity'
+import Capacity from '../../../components/Capacity'
 import HashTag from '../../../components/HashTag'
 import { HelpTip } from '../../../components/HelpTip'
 import SimpleButton from '../../../components/SimpleButton'
@@ -168,7 +168,7 @@ export const TransactionOverviewCard: FC<{
           display: 'flex',
         }}
       >
-        <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />
+        <Capacity capacity={shannonToCkb(transactionFee)} />
         <span
           style={{
             whiteSpace: 'pre',
@@ -182,7 +182,7 @@ export const TransactionOverviewCard: FC<{
   }
   const txFeeData: CardCellInfo = {
     title: t('transaction.transaction_fee'),
-    content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+    content: <Capacity capacity={shannonToCkb(transactionFee)} />,
   }
   const txStatusData: CardCellInfo = {
     title: t('transaction.status'),

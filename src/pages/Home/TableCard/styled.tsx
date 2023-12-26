@@ -288,28 +288,3 @@ export const TransactionCardPanel = styled.div`
     }
   }
 `
-
-export const BlockRewardPlusPanel = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-
-  @media (max-width: ${variables.mobileBreakPoint}) {
-    align-items: flex-end;
-    justify-content: flex-start;
-  }
-
-  > span {
-    content: '+';
-    color: #7f7d7d;
-    font-size: 13px;
-    margin-bottom: -1px;
-    margin-left: 2px;
-  }
-`
-
-export const BlockRewardPanel = styled.div`
-  margin-right: 8px;
-  display: flex;
-  justify-content: center;
-`

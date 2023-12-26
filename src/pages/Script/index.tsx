@@ -12,7 +12,7 @@ import { isMainnet } from '../../utils/chain'
 import { scripts as scriptNameList } from '../ScriptList'
 import { usePaginationParamsInPage } from '../../hooks'
 import { shannonToCkb } from '../../utils/util'
-import DecimalCapacity from '../../components/DecimalCapacity'
+import Capacity from '../../components/Capacity'
 import styles from './styles.module.scss'
 import { explorerService } from '../../services/ExplorerService'
 import type { ScriptInfo } from '../../services/ExplorerService/fetcher'
@@ -71,13 +71,13 @@ const useScriptInfo = (scriptInfo: ScriptInfo) => {
     {
       title: t('scripts.capacity_of_deployed_cells'),
       tooltip: t('glossary.capacity_of_deployed_cells'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfDeployedCells))} hideZero />,
+      content: <Capacity capacity={shannonToCkb(capacityOfDeployedCells)} display="short" />,
     },
     {
       slot: 'right',
       cell: {
         title: t('scripts.capacity_of_referring_cells'),
-        content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfReferringCells))} hideZero />,
+        content: <Capacity capacity={shannonToCkb(capacityOfReferringCells)} display="short" />,
       },
     },
   ]
