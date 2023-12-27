@@ -72,21 +72,25 @@ a {
   color: inherit;
 }
 
+/* stylelint-disable selector-class-pattern */
 @media (width <= 750px) {
-  /* stylelint-disable-next-line selector-class-pattern */
   .rc-pagination-options-quick-jumper {
     display: none;
   }
 }
 
 @media (width <= 750px) {
-  /* stylelint-disable-next-line selector-class-pattern */
   .ant-popover-inner-content {
     padding: 5px;
   }
 }
 
-/* stylelint-disable-next-line selector-class-pattern */
 .ant-tooltip-inner {
   white-space: pre-wrap;
 }
+
+.ant-btn-primary:hover,
+.ant-tabs-tab:hover {
+  color: var(--primary-color);
+}
+/* stylelint-enable selector-class-pattern */
