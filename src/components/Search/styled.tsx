@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import SimpleButton from '../SimpleButton'
+import variables from '../../styles/variables.module.scss'
 
 export const SearchContainer = styled.div`
   display: flex;
@@ -8,6 +9,7 @@ export const SearchContainer = styled.div`
 `
 
 export const SearchPanel = styled.div`
+  position: relative;
   margin: 0 auto;
   width: 100%;
   height: ${(props: { moreHeight?: boolean; hasButton?: boolean }) => (props.moreHeight ? '38px' : '30px')};
@@ -20,12 +22,12 @@ export const SearchPanel = styled.div`
   border-radius: ${(props: { hasButton?: boolean }) => (props.hasButton ? '4px 0 0 4px' : '4px')};
   padding-right: 5px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     border-radius: 4px;
   }
 `
 
-export const SearchImage = styled(SimpleButton)`
+export const ImageButton = styled(SimpleButton)`
   display: flex;
   align-items: center;
   margin: ${(props: { isClear?: boolean }) => (props.isClear ? '0 8px 0 0' : '0 0 0 8px')};
@@ -59,7 +61,7 @@ export const SearchInputPanel = styled.input`
     color: #888;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     font-size: 12px;
     width: 100%;
     padding-left: 6px;
@@ -80,7 +82,7 @@ export const SearchButton = styled.div`
   font-size: 14px;
   cursor: pointer;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     display: none;
   }
 `

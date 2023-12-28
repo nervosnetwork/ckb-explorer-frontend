@@ -1,0 +1,27 @@
+@import '../../styles/variables.module';
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+
+  .left,
+  .right {
+    display: flex;
+    align-items: center;
+  }
+
+  .left {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  @media (width <= $mobileBreakPoint) {
+    flex-direction: column;
+    justify-content: initial;
+    align-items: initial;
+    gap: 16px;
+  }
+}

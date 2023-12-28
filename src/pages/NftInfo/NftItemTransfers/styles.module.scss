@@ -1,0 +1,142 @@
+@import '../../../styles/variables.module';
+
+.list {
+  background: #fff;
+  border-top-right-radius: 6px;
+  padding: 0 15px;
+
+  table {
+    position: relative;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  thead {
+    position: relative;
+    font-size: 14px;
+    font-weight: 700;
+
+    th {
+      vertical-align: middle;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+
+    &::after {
+      position: absolute;
+      left: -15px;
+      top: 44px;
+      width: calc(100% + 30px);
+      height: 4px;
+      content: '';
+      display: block;
+      background-color: #ededed;
+    }
+  }
+
+  tbody {
+    td {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      font-size: 14px;
+    }
+
+    tr:not(:last-child) {
+      border-bottom: 1px solid #d8d8d8;
+    }
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding-left: 25px;
+    padding-right: 25px;
+    max-width: 0.25vw;
+
+    &:first-child,
+    &:last-child {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .icon,
+  .defaultIcon {
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+
+  .defaultIcon {
+    background-color: #f0f0f0;
+    justify-content: center;
+    align-items: center;
+    text-transform: capitalize;
+  }
+
+  .noRecord {
+    text-align: center;
+  }
+
+  ul {
+    display: none;
+    margin: 0;
+    margin-bottom: 4px;
+  }
+
+  ul,
+  dl {
+    list-style: none;
+
+    .item {
+      padding-bottom: 16px;
+    }
+  }
+
+  li {
+    padding: 16px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #d8d8d8;
+    }
+  }
+
+  dl > div {
+    display: flex;
+    width: 100%;
+  }
+
+  dt {
+    width: 100px;
+  }
+
+  dd {
+    text-align: right;
+    flex: 1;
+  }
+
+  @media (width <= $extraLargeBreakPoint) {
+    table {
+      display: none;
+    }
+
+    ul {
+      display: block;
+    }
+  }
+}
+
+.age {
+  cursor: pointer;
+}

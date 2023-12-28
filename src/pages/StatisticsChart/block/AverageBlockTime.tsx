@@ -45,6 +45,7 @@ const useOption = (
     }
     return ''
   }
+
   return {
     color: chartColor.colors,
     tooltip: !isThumbnail
@@ -79,7 +80,7 @@ const useOption = (
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     /* Selection starts from 1% because the average block time is extremely high on launch */
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG.map(zoom => ({ ...zoom, start: 1 })),
+    dataZoom: DATA_ZOOM_CONFIG.map(zoom => ({ ...zoom, show: !isThumbnail, start: 1 })),
     xAxis: [
       {
         name: isMobile || isThumbnail ? '' : t('statistic.date'),
@@ -115,6 +116,7 @@ const useOption = (
       },
       {
         position: 'right',
+        splitLine: { show: false },
         name: isMobile || isThumbnail ? '' : t('statistic.weekly_moving_average'),
         type: 'value',
         scale: true,

@@ -6,11 +6,6 @@ import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
-const max = (statisticUncleRates: ChartItem.UncleRate[]) => {
-  const array = statisticUncleRates.flatMap(data => Number(data.uncleRate) * 100)
-  return Math.max(5, Math.ceil(Math.max(...array)))
-}
-
 const useOption = (
   statisticUncleRates: ChartItem.UncleRate[],
   chartColor: ChartColorConfig,
@@ -30,7 +25,7 @@ const useOption = (
   }
   const grid = {
     left: '3%',
-    right: '3%',
+    right: isMobile ? '12%' : '5%',
     top: '5%',
     bottom: '5%',
     containLabel: true,
@@ -52,7 +47,8 @@ const useOption = (
         }
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
-    dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+    /* Selection starts from 1% because the uncle rate starts from 0 on launch */
+    dataZoom: DATA_ZOOM_CONFIG.map(zoom => ({ ...zoom, show: !isThumbnail, start: 1 })),
     xAxis: [
       {
         name: isMobile || isThumbnail ? '' : t('statistic.date'),
@@ -68,8 +64,6 @@ const useOption = (
         name: isMobile || isThumbnail ? '' : t('block.uncle_rate'),
         type: 'value',
         scale: true,
-        max: max(statisticUncleRates),
-        min: 0,
         axisLine: {
           lineStyle: {
             color: chartColor.colors[0],

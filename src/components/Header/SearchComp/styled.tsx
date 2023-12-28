@@ -1,26 +1,17 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const HeaderSearchPanel = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 40px;
-  height: 38px;
-  width: 440px;
+  margin: 0 40px 0 64px;
 
-  @media (max-width: 750px) {
-    padding: 40px 15px;
-    height: 38px;
-    width: 100%;
+  @media (max-width: ${variables.largeBreakPoint}) {
+    margin: 0 16px 0 24px;
   }
 
-  @media (max-width: 1600px) {
-    width: 360px;
-    margin-right: 16px;
-  }
-
-  @media (max-width: 1480px) {
-    width: 320px;
-    margin-right: 16px;
+  @media (max-width: ${variables.mobileBreakPoint}) {
+    margin: 40px 56px;
   }
 `
 

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import SimpleButton from '../../components/SimpleButton'
+import variables from '../../styles/variables.module.scss'
 
 export const SUDTContentPanel = styled.div`
   display: flex;
@@ -9,7 +10,7 @@ export const SUDTContentPanel = styled.div`
   margin-bottom: 40px;
   width: 100%;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 0;
     padding: 20px;
   }
@@ -21,7 +22,7 @@ export const SimpleUDTContentPanel = styled.div`
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 0;
     padding: 20px;
   }
@@ -36,7 +37,7 @@ export const SimpleUDTPendingRewardTitlePanel = styled.div`
     width: 20px;
     height: 20px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-left: 10px;
       width: 16px;
       height: 16px;
@@ -68,7 +69,7 @@ export const SimpleUDTLockScriptController = styled.div`
     margin: 2px 0 0 5px;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     font-size: 14px;
     margin-top: 10px;
 
@@ -81,7 +82,6 @@ export const SimpleUDTLockScriptController = styled.div`
 export const TypeScriptController = styled(SimpleButton)`
   font-size: 16px;
   font-weight: 600;
-  margin-top: 10px;
   cursor: pointer;
   color: ${props => props.theme.primary};
   display: flex;
@@ -93,7 +93,7 @@ export const TypeScriptController = styled(SimpleButton)`
     margin: 2px 0 0 5px;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     font-size: 14px;
 
     > img {
@@ -119,7 +119,7 @@ export const UDTTransactionTitlePanel = styled.div`
   border-radius: 6px 6px 0 0;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     height: 108px;
     padding: 16px;
   }
@@ -133,7 +133,7 @@ export const UDTTransactionTitlePanel = styled.div`
     font-size: 18px;
     margin-bottom: 5px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       flex-direction: column;
       align-items: flex-start;
     }

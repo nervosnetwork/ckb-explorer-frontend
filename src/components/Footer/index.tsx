@@ -9,7 +9,6 @@ import { ReactComponent as ForumIcon } from './footer_forum.svg'
 import { ReactComponent as Discord } from './footer_discord.svg'
 import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
-import { useIsMobile } from '../../utils/hook'
 import { udtSubmitEmail } from '../../utils/util'
 
 interface FooterLinkItem {
@@ -44,7 +43,6 @@ const FooterImageItem = ({ item }: { item: FooterLinkItem }) => {
 }
 
 export default memo(() => {
-  const isMobile = useIsMobile()
   const [t] = useTranslation()
   const Footers = useMemo<FooterLink[]>(
     () => [
@@ -143,31 +141,9 @@ export default memo(() => {
             ))}
         </div>
         <div className="footerCommunity">
-          {isMobile ? (
-            <div>
-              {Footers[2].items.map(item => (
-                <FooterImageItem item={item} key={item.label} />
-              ))}
-            </div>
-          ) : (
-            <>
-              <div>
-                {Footers[2].items.slice(0, 3).map(item => (
-                  <FooterImageItem item={item} key={item.label} />
-                ))}
-              </div>
-              <div>
-                {Footers[2].items.slice(3, 6).map(item => (
-                  <FooterImageItem item={item} key={item.label} />
-                ))}
-              </div>
-              <div>
-                {Footers[2].items.slice(6).map(item => (
-                  <FooterImageItem item={item} key={item.label} />
-                ))}
-              </div>
-            </>
-          )}
+          {Footers[2].items.map(item => (
+            <FooterImageItem item={item} key={item.label} />
+          ))}
         </div>
       </FooterMenuPanel>
       <div className="footerCopyright">

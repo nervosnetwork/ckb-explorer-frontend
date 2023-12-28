@@ -1,0 +1,6 @@
+[default.extend-words]
+# ordinal suffix
+st='st'
+nd='nd'
+rd='rd'
+th='th'

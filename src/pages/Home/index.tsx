@@ -14,7 +14,7 @@ import {
 } from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
-import { BLOCK_POLLING_TIME, ListPageParams, DELAY_BLOCK_NUMBER } from '../../constants/common'
+import { BLOCK_POLLING_TIME, ListPageParams, DELAY_BLOCK_NUMBER, EPOCHS_PER_HALVING } from '../../constants/common'
 import { localeNumberString, handleHashRate, handleDifficulty } from '../../utils/number'
 import { handleBigNumber } from '../../utils/string'
 import { isMainnet } from '../../utils/chain'
@@ -22,9 +22,9 @@ import LatestBlocksIcon from './latest_blocks.png'
 import LatestTransactionsIcon from './latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import Loading from '../../components/Loading/SmallLoading'
-import { useElementIntersecting, useIsLGScreen, useIsMobile } from '../../utils/hook'
-import Banner from '../../components/Banner'
-import { HalvingBanner } from '../../components/Banner/HalvingBanner'
+import { useElementIntersecting, useIsExtraLarge, useIsMobile, useSingleHalving } from '../../hooks'
+import Banner from './Banner'
+import { HalvingBanner } from './Banner/HalvingBanner'
 import Search from '../../components/Search'
 import AverageBlockTimeChart from './AverageBlockTimeChart'
 import HashRateChart from './HashRateChart'
@@ -66,7 +66,7 @@ const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRa
 
 const parseBlockTime = (blockTime: string | undefined) => (blockTime ? parseTime(Number(blockTime)) : '- -')
 
-const useBlockchainDataList = (isMobile: boolean, isLG: boolean): BlockchainData[] => {
+const useBlockchainDataList = (isMobile: boolean, isXL: boolean): BlockchainData[] => {
   const { t } = useTranslation()
   const statistics = useStatistics()
 
@@ -100,7 +100,7 @@ const useBlockchainDataList = (isMobile: boolean, isLG: boolean): BlockchainData
     {
       name: t('blockchain.estimated_epoch_time'),
       value: parseTimeNoSecond(Number(statistics.estimatedEpochTime)),
-      showSeparate: !isLG,
+      showSeparate: !isXL,
     },
     {
       name: t('blockchain.transactions_per_minute'),
@@ -186,7 +186,7 @@ const TransactionList: FC<{ transactions: Transaction[]; tipBlockNumber: number 
 export default () => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const isLG = useIsLGScreen()
+  const isXL = useIsExtraLarge()
   const history = useHistory<RouteState>()
   const tipBlockNumber = useLatestBlockNumber()
 
@@ -226,12 +226,17 @@ export default () => {
     () => transactionsQuery.data?.transactions.slice(0, maxDisplaysCount) ?? [],
     [transactionsQuery.data?.transactions],
   )
+  const { currentEpoch, targetEpoch } = useSingleHalving()
+  const isHalvingHidden =
+    !currentEpoch ||
+    (currentEpoch > targetEpoch + 6 && // 6 epochs(1 day) after halving
+      currentEpoch < targetEpoch + EPOCHS_PER_HALVING - 180) // 180 epochs(30 days) before next halving
 
-  const blockchainDataList = useBlockchainDataList(isMobile, isLG)
+  const blockchainDataList = useBlockchainDataList(isMobile, isXL)
 
   return (
     <Content>
-      {isMainnet() ? <HalvingBanner /> : <Banner />}
+      {isMainnet() && !isHalvingHidden ? <HalvingBanner /> : <Banner />}
       <div className="container">
         <HomeHeaderTopPanel />
         <div className={`${styles.homeStatisticTopPanel} ${styles.afterHardFork}`}>
@@ -255,7 +260,7 @@ export default () => {
           </div>
         </div>
         <div className={styles.homeStatisticBottomPanel}>
-          {!isLG ? (
+          {!isXL ? (
             blockchainDataList
               .slice(4)
               .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)

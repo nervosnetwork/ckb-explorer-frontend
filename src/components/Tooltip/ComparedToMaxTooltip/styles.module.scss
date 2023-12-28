@@ -1,8 +1,10 @@
+@import '../../../styles/variables.module';
+
 /* stylelint-disable-next-line selector-class-pattern */
 :global(.ant-tooltip) {
   max-width: 320px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     max-width: 250px;
   }
 }

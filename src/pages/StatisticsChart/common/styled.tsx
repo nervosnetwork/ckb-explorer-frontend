@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const ChartDetailPanel = styled.div`
   margin-bottom: 30px;
@@ -13,7 +14,7 @@ export const ChartDetailTitle = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin-top: 20px;
   }
 
@@ -29,7 +30,7 @@ export const ChartDetailTitle = styled.div`
       font-size: 24px;
       margin-left: 100px;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 16px;
         margin-left: 0;
       }
@@ -52,7 +53,7 @@ export const ChartDetailTitle = styled.div`
     color: #666;
     margin-right: 3.6%;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       display: none;
     }
   }

@@ -84,6 +84,7 @@ module.exports = {
         prop: 'ignore',
       },
     ],
+    'react/jsx-pascal-case': 'off',
     'no-console': ['error', { allow: ['error'] }],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',

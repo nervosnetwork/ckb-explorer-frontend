@@ -3,9 +3,8 @@ import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { TransactionIncomePanel, TransactionCapacityValuePanel } from './styled'
 import { shannonToCkb } from '../../../utils/util'
-import { localeNumberString } from '../../../utils/number'
-import DecimalCapacity from '../../DecimalCapacity'
-import { useIsMobile } from '../../../utils/hook'
+import Capacity from '../../Capacity'
+import { useIsMobile } from '../../../hooks'
 import CurrentAddressIcon from '../../../assets/current_address.svg'
 
 export default ({ income }: { income: string }) => {
@@ -24,10 +23,7 @@ export default ({ income }: { income: string }) => {
             <img src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}
-        <DecimalCapacity
-          value={`${bigIncome.isPositive() ? '+' : ''}${localeNumberString(shannonToCkb(bigIncome))}`}
-          balanceChangeType={isIncome ? 'income' : 'payment'}
-        />
+        <Capacity capacity={shannonToCkb(bigIncome)} type="diff" />
         {!isMobile && (
           <Tooltip placement="top" title={`${t('address.current-address')} `}>
             <img src={CurrentAddressIcon} alt="current Address" />

@@ -1,0 +1,49 @@
+@import '../../styles/variables.module';
+
+.container {
+  display: inline-flex;
+  align-items: flex-end;
+  font-size: 1rem;
+
+  span[data-role='dec'] {
+    font-size: 0.875em;
+  }
+
+  .unit {
+    margin-left: 5px;
+  }
+
+  &[data-type='value'] {
+    span[data-role='dec'] {
+      color: var(--decimal-color);
+    }
+  }
+
+  &[data-type='diff'] {
+    &[data-diff-status='positive'] {
+      color: var(--primary-color);
+
+      &::before {
+        content: '+';
+      }
+    }
+
+    &[data-diff-status='negative'] {
+      color: var(--accent-color);
+    }
+  }
+
+  &[data-layout='responsive'] {
+    @media screen and (width <= $largeBreakPoint) {
+      font-size: 0.75rem;
+
+      span[data-role='dec'] {
+        font-size: 0.9em;
+      }
+
+      .unit {
+        font-size: 1rem;
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { ReactNode, useCallback, FC } from 'react'
+import BigNumber from 'bignumber.js'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
@@ -16,6 +17,8 @@ import {
   NervosDaoPieCapacityPanel,
   DaoOverviewPieChartPanel,
   DaoOverviewPieItemsPanel,
+  NervosDaoOverviewPieTitle,
+  NervosDaoOverviewPieIcon,
 } from './styled'
 import DaoUpIcon from './dao_up.png'
 import DaoDownIcon from './dao_down.png'
@@ -23,13 +26,13 @@ import DaoBalanceIcon from './dao_balance.png'
 import { handleBigNumber, handleBigNumberFloor } from '../../../utils/string'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkbDecimal, shannonToCkb } from '../../../utils/util'
-import DecimalCapacity from '../../../components/DecimalCapacity'
-import { useIsLGScreen, useIsMobile } from '../../../utils/hook'
+import { useIsExtraLarge, useIsMobile } from '../../../hooks'
 import { ReactChartCore } from '../../StatisticsChart/common'
 import { HelpTip } from '../../../components/HelpTip'
 import { ChartColor } from '../../../constants/common'
 import { assertNotArray } from '../../../utils/chart'
 import { APIReturn } from '../../../services/ExplorerService'
+import styles from './DaoOverview.module.scss'
 
 type NervosDaoInfo = APIReturn<'fetchNervosDao'>
 
@@ -68,6 +71,18 @@ const daoIcon = (symbol: 'positive' | 'negative' | 'zero' | undefined) => {
     default:
       return DaoUpIcon
   }
+}
+
+const Capacity: FC<{ capacity: string }> = ({ capacity }) => {
+  const [int, dec] = new BigNumber(capacity).toFormat(8).split('.')
+  return (
+    <div className={styles.capacity}>
+      <span data-role="int">{int}</span>
+      <span data-role="dec" className="monospace">
+        {`.${dec}`}
+      </span>
+    </div>
+  )
 }
 
 const useNervosDaoItemContents = (nervosDao: NervosDaoInfo): NervosDaoItemContent[] => {
@@ -256,23 +271,16 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
 }
 
 const NervosDaoRightCapacity = ({ reward }: { reward: string }) => {
-  const isMobile = useIsMobile()
   return (
     <NervosDaoPieCapacityPanel>
-      <DecimalCapacity
-        value={localeNumberString(shannonToCkb(Number(reward).toFixed()))}
-        fontSize={isMobile ? '10px' : '12px'}
-        marginBottom="2px"
-        hideUnit
-      />
+      <Capacity capacity={shannonToCkb(Number(reward).toFixed())} />
     </NervosDaoPieCapacityPanel>
   )
 }
 
 const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
   <NervosDaoPieItemPanel>
-    <div
-      className="nervosDaoOverviewPieIcon"
+    <NervosDaoOverviewPieIcon
       style={{
         backgroundColor: item.color,
       }}
@@ -287,7 +295,7 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
 export default ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const isExactLG = useIsLGScreen(true)
+  const isExactXL = useIsExtraLarge(true)
 
   const nervosDaoPieItemContents = useCallback(
     (nervosDao: NervosDaoInfo): NervosDaoPieItemContent[] => [
@@ -316,17 +324,17 @@ export default ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
       <span className="daoOverviewSeparate" />
       <DaoOverviewRightPanel>
         <DaoOverviewPieChartPanel>
-          <div className="nervosDaoOverviewPieTitle">
+          <NervosDaoOverviewPieTitle>
             <span>{t('nervos_dao.secondary_issuance')}</span>
             <HelpTip title={t('glossary.secondary_issuance')} />
-          </div>
+          </NervosDaoOverviewPieTitle>
           <ReactChartCore
             option={useOption(nervosDao, ChartColor.daoColors, isMobile)}
             notMerge
             lazyUpdate
             style={{
               height: isMobile ? '65%' : '90%',
-              width: isExactLG ? '70%' : '100%',
+              width: isExactXL ? '70%' : '100%',
             }}
           />
         </DaoOverviewPieChartPanel>

@@ -10,10 +10,9 @@ import { TableTitleRow, TableContentRow, TableTitleRowItem } from '../../compone
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
-import DecimalCapacity from '../../components/DecimalCapacity'
-import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
+import Capacity from '../../components/Capacity'
 import AddressText from '../../components/AddressText'
-import { useIsMobile, useMediaQuery, usePaginationParamsInListPage, useSortParam } from '../../utils/hook'
+import { useIsMobile, useMediaQuery, usePaginationParamsInListPage, useSortParam } from '../../hooks'
 import { explorerService } from '../../services/ExplorerService'
 import { RouteState } from '../../routes/state'
 import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
@@ -21,6 +20,7 @@ import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
 import styles from './styles.module.scss'
 import { Block } from '../../models/Block'
+import { CardCellFactory, CardListWithCellsList } from '../../components/CardList'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
   <HighLightValue>
@@ -50,11 +50,11 @@ const getTableContentDataList = (block: Block, index: number, page: number, isMa
   const blockReward =
     index < DELAY_BLOCK_NUMBER && page === 1 ? (
       <BlockRewardContainer>
-        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+        <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
       </BlockRewardContainer>
     ) : (
       <BlockRewardPanel>
-        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+        <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
       </BlockRewardPanel>
     )
 
@@ -85,31 +85,31 @@ const getTableContentDataList = (block: Block, index: number, page: number, isMa
 
 const BlockCardGroup: FC<{ blocks: Block[]; isFirstPage: boolean }> = ({ blocks, isFirstPage }) => {
   const { t } = useTranslation()
-  const items: ItemCardData<Block>[] = [
+  const items: CardCellFactory<Block>[] = [
     {
       title: t('home.height'),
-      render: block => <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
+      content: block => <BlockValueItem value={localeNumberString(block.number)} to={`/block/${block.number}`} />,
     },
     {
       title: t('home.transactions'),
-      render: block => localeNumberString(block.transactionsCount),
+      content: block => localeNumberString(block.transactionsCount),
     },
     {
       title: t('home.block_reward'),
-      render: (block, index) =>
+      content: (block, index) =>
         index < DELAY_BLOCK_NUMBER && isFirstPage ? (
           <BlockRewardContainer>
-            <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+            <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
           </BlockRewardContainer>
         ) : (
           <BlockRewardPanel>
-            <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+            <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
           </BlockRewardPanel>
         ),
     },
     {
       title: t('block.miner'),
-      render: block => (
+      content: block => (
         <HighLightValue>
           <AddressText
             disableTooltip
@@ -125,11 +125,18 @@ const BlockCardGroup: FC<{ blocks: Block[]; isFirstPage: boolean }> = ({ blocks,
     },
     {
       title: t('home.time'),
-      render: block => parseSimpleDate(block.timestamp),
+      content: block => parseSimpleDate(block.timestamp),
     },
   ]
 
-  return <ItemCardGroup items={items} dataSource={blocks} getDataKey={block => block.number} />
+  return (
+    <CardListWithCellsList
+      className={styles.blockCardGroup}
+      dataSource={blocks}
+      getDataKey={block => block.number}
+      cells={items}
+    />
+  )
 }
 
 export default () => {

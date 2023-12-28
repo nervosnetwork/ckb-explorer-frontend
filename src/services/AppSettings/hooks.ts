@@ -21,6 +21,10 @@ export function useDefaultLanguage() {
   return [useObservableState(appSettings.defaultLanguage$), createPropSetter(appSettings.defaultLanguage$)] as const
 }
 
+export function useSearchType() {
+  return [useObservableState(appSettings.searchType$), createPropSetter(appSettings.searchType$)] as const
+}
+
 export function useIsDeprecatedAddressesDisplayed() {
   return [
     useObservableState(appSettings.isDeprecatedAddressesDisplayed$),

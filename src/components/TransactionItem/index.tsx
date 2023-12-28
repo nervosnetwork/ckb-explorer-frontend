@@ -9,12 +9,49 @@ import TransactionIncome from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import { CellType } from '../../constants/common'
 import AddressText from '../AddressText'
-import { useIsLGScreen, useParsedDate } from '../../utils/hook'
+import { useIsExtraLarge, useParsedDate } from '../../hooks'
 import { Transaction } from '../../models/Transaction'
 
 export interface CircleCorner {
   top?: boolean
   bottom?: boolean
+}
+
+const Time: React.FC<{ tx?: Transaction }> = ({ tx }) => {
+  const { t } = useTranslation()
+  let timestamp = 0
+  if (tx) {
+    if (tx.blockTimestamp) {
+      timestamp = +tx.blockTimestamp
+    } else if (tx.createTimestamp) {
+      // FIXME: round the timestamp because sometimes a decimal is returned from the API, could be removed when the API is fixed
+      timestamp = Math.floor(Number(tx.createTimestamp))
+    }
+  }
+
+  const dateTime = new Date(timestamp).toISOString()
+  const localTime = useParsedDate(timestamp)
+
+  if (!tx) {
+    return null
+  }
+
+  if (tx.blockTimestamp) {
+    return (
+      <time dateTime={dateTime} className="transactionItemBlock">
+        {`(${t('block.block')} ${localeNumberString(tx.blockNumber)}) ${localTime}`}
+      </time>
+    )
+  }
+
+  if (tx.createTimestamp) {
+    return (
+      <time dateTime={dateTime} className="transactionItemBlock">
+        {localTime}
+      </time>
+    )
+  }
+  return null
 }
 
 const TransactionItem = ({
@@ -35,7 +72,7 @@ const TransactionItem = ({
   circleCorner?: CircleCorner
   scrollIntoViewOnMount?: boolean
 }) => {
-  const isLG = useIsLGScreen()
+  const isXL = useIsExtraLarge()
   const { t } = useTranslation()
   const ref = useRef<HTMLDivElement>(null)
 
@@ -51,8 +88,6 @@ const TransactionItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const parsedBlockCreateAt = useParsedDate(transaction.blockTimestamp)
-
   return (
     <TransactionPanel ref={ref} circleCorner={circleCorner}>
       {titleCard}
@@ -67,11 +102,7 @@ const TransactionItem = ({
           >
             {transaction.transactionHash}
           </AddressText>
-          {!isBlock && (
-            <div className="transactionItemBlock">
-              {`(${t('block.block')} ${localeNumberString(transaction.blockNumber)})  ${parsedBlockCreateAt}`}
-            </div>
-          )}
+          <Time tx={isBlock ? undefined : transaction} />
         </div>
       </TransactionHashBlockPanel>
       <TransactionCellPanel>
@@ -82,7 +113,7 @@ const TransactionItem = ({
             render={cell => <TransactionCell cell={cell} address={address} cellType={CellType.Input} key={cell.id} />}
           />
         </div>
-        <img src={isLG ? DownArrowIcon : RightArrowIcon} alt="input and output" />
+        <img src={isXL ? DownArrowIcon : RightArrowIcon} alt="input and output" />
         <div className="transactionItemOutput">
           {transaction.displayOutputs && transaction.displayOutputs.length !== 0 ? (
             <TransactionCellList

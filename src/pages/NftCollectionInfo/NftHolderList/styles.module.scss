@@ -1,0 +1,81 @@
+@import '../../../styles/variables.module';
+
+.list {
+  background: #fff;
+
+  table {
+    position: relative;
+    width: 100%;
+    margin-bottom: 4px;
+  }
+
+  thead {
+    position: relative;
+    font-size: 14px;
+    font-weight: 700;
+
+    th {
+      vertical-align: middle;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-transform: capitalize;
+      white-space: nowrap;
+
+      @media (width <= $mobileBreakPoint) {
+        &:first-child {
+          padding-right: 0;
+        }
+
+        &:last-child {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  tbody {
+    td {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      font-size: 14px;
+    }
+
+    tr {
+      border-top: 1px solid var(--table-separator-color);
+    }
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding-left: 25px;
+    padding-right: 25px;
+    max-width: 0.25vw;
+
+    &:last-child {
+      @media (width <= $mobileBreakPoint) {
+        text-align: right;
+      }
+    }
+
+    &:first-child,
+    &:last-child {
+      padding-left: 40px;
+      padding-right: 40px;
+
+      @media (width <= $mobileBreakPoint) {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+    }
+  }
+
+  .noRecord {
+    text-align: center;
+  }
+}
+
+.addr {
+  font-weight: 700;
+  color: var(--primary-color);
+}

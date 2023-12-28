@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import SimpleButton from '../../components/SimpleButton'
 import { TransactionPanel } from '../../components/TransactionItem/styled'
+import variables from '../../styles/variables.module.scss'
 
 export const AddressLockScriptPanel = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ export const AddressContentPanel = styled.div`
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 0;
     padding: 20px;
   }
@@ -29,7 +30,7 @@ export const AddressPendingRewardTitlePanel = styled.div`
     width: 20px;
     height: 20px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-left: 10px;
       width: 16px;
       height: 16px;
@@ -49,7 +50,6 @@ export const AddressPendingRewardTitlePanel = styled.div`
 export const AddressLockScriptController = styled(SimpleButton)`
   font-size: 16px;
   font-weight: 600;
-  margin-top: 15px;
   cursor: pointer;
   color: ${props => props.theme.primary};
   display: flex;
@@ -61,9 +61,9 @@ export const AddressLockScriptController = styled(SimpleButton)`
     margin: 2px 0 0 5px;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     font-size: 14px;
-    margin-top: 10px;
+    margin-top: 0;
 
     > img {
       margin: 0 0 0 5px;
@@ -73,8 +73,9 @@ export const AddressLockScriptController = styled(SimpleButton)`
 
 export const AddressTransactionsPanel = styled.div`
   width: 100%;
+  margin-top: 4px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     ${TransactionPanel}:first-child {
       margin-top: 0;
       box-shadow: none;
@@ -86,7 +87,6 @@ export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 20px 0;
 
   > span {
     font-size: 14px;
@@ -103,13 +103,18 @@ export const AddressUDTAssetsPanel = styled.div`
     flex-flow: row wrap;
     overflow-y: scroll;
 
-    @media (min-width: 1200px) {
+    @media (min-width: ${variables.extraLargeBreakPoint}) {
       max-height: 220px;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: ${variables.extraLargeBreakPoint}) {
       max-height: 310px;
     }
+  }
+
+  @media (max-width: ${variables.mobileBreakPoint}) {
+    padding-top: 16px;
+    border-top: 1px solid #f5f5f5;
   }
 `
 
@@ -120,7 +125,7 @@ export const AddressUDTItemPanel = styled.a`
   background: #fff;
   width: 260px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     width: calc(100% - 30px);
   }
 
@@ -169,7 +174,7 @@ export const AddressUDTItemPanel = styled.a`
       text-overflow: ellipsis;
       max-width: 196px;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         max-width: calc(100% - 42px);
       }
     }

@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .blockNumber {
   display: flex;
   align-items: center;
@@ -60,36 +62,39 @@
 .addressWidthModify {
   max-width: 80%;
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     max-width: 40%;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     max-width: 100%;
   }
 }
 
-.transactionTitleCard {
-  @media (width <= 750px) {
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    height: 110px;
+.transactionListOptionsCard {
+  margin-top: 24px;
 
-    .rear {
-      > div:first-child {
-        padding: 0;
-        justify-content: space-between;
+  .cardHeader {
+    padding: 8px 0;
+
+    @media (width <= $mobileBreakPoint) {
+      padding: 16px 0;
+
+      img {
+        height: 12px;
+        width: 12px;
+      }
+
+      input {
+        padding-left: 38px;
       }
     }
-
-    img {
-      height: 12px;
-      width: 12px;
-    }
-
-    input {
-      padding-left: 38px;
-    }
   }
+}
+
+.cellTransactionsRoot {
+  box-sizing: content-box;
+  margin-top: 4px;
+  border-top: 1px solid #e5e5e5;
+  padding: 20px 0;
 }

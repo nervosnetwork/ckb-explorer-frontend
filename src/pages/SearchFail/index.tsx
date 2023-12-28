@@ -4,7 +4,7 @@ import Search from '../../components/Search'
 import { SearchFailType, MAINNET_URL, TESTNET_URL } from '../../constants/common'
 import { isMainnet } from '../../utils/chain'
 import { SearchContent, SearchPanel } from './styled'
-import { useSearchParams } from '../../utils/hook'
+import { useSearchParams } from '../../hooks'
 
 const targetUrl = isMainnet() ? TESTNET_URL : MAINNET_URL
 

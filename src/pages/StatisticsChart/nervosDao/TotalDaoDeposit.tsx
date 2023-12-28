@@ -135,6 +135,7 @@ const useOption = (
             color: chartColor.colors[1],
           },
         },
+        splitLine: { show: false },
         axisLabel: {
           formatter: (value: string) => `${parseNumericAbbr(new BigNumber(value))}`,
         },

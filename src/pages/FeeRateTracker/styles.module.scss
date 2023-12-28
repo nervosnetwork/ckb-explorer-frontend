@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .feeRateTrackerPanel {
   display: flex;
   flex-flow: row wrap;
@@ -173,7 +175,7 @@
     }
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     .title {
       margin: 20px 0 12px;
       font-size: 20px;

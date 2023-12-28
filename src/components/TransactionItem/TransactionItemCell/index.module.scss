@@ -1,3 +1,5 @@
+@import '../../../styles/variables.module';
+
 .addressTextWithAlias {
   display: flex;
   align-items: center;
@@ -22,15 +24,15 @@
   min-width: 0;
   width: 260px;
 
-  @media (width <= 1440px) {
+  @media (width <= $xxlBreakPoint) {
     width: 148px;
   }
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     width: 260px;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     width: 460px;
   }
 }
@@ -39,7 +41,7 @@
   margin-left: 6px;
   width: 14px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin-bottom: 2px;
   }
 }

@@ -1,9 +1,11 @@
+@import '../../styles/variables.module';
+
 .containerPanel {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin: 0;
   }
 }
@@ -13,7 +15,7 @@
   justify-content: center;
   margin-top: 40px;
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin-top: 20px;
     width: calc(100% - 32px);
     justify-content: start;
@@ -24,7 +26,7 @@
     font-size: 24px;
     line-height: 28px;
 
-    @media screen and (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       font-size: 20px;
       line-height: normal;
     }
@@ -53,7 +55,7 @@
     color: #333;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     display: none;
   }
 }
@@ -69,7 +71,7 @@
   border-radius: 4px;
   background: white;
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin-top: 12px;
     margin-bottom: 20px;
     width: calc(100% - 32px);
@@ -88,7 +90,7 @@
       padding-top: 24px;
       padding-bottom: 4px;
 
-      @media screen and (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         padding: 16px 0;
       }
 
@@ -112,7 +114,7 @@
       justify-content: center;
       align-items: center;
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         width: 80px;
         margin-left: 10px;
         margin-right: 10px;
@@ -141,7 +143,7 @@
       color: #333;
     }
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       margin-top: 12px;
     }
   }
@@ -153,7 +155,7 @@
     margin-top: 16px;
     color: #666;
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       margin-top: 8px;
       flex-direction: column;
 
@@ -171,7 +173,7 @@
       width: 40%;
       max-width: 256px;
 
-      @media screen and (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         margin-left: 16px;
         margin-right: 16px;
       }
@@ -202,7 +204,7 @@
         }
       }
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         width: 100%;
         max-width: 312px;
       }
@@ -210,7 +212,7 @@
       > div:first-child {
         margin-bottom: 12px;
 
-        @media (width <= 750px) {
+        @media (width <= $mobileBreakPoint) {
           margin-bottom: 8px;
         }
       }
@@ -246,7 +248,7 @@
       padding-top: 56px;
       padding-bottom: 40px;
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         padding: 24px 8px 16px;
         max-width: 312px;
       }
@@ -282,7 +284,7 @@
         max-width: 560px;
         font-size: 14px;
 
-        @media screen and (width <= 750px) {
+        @media (width <= $mobileBreakPoint) {
           max-width: 312px;
         }
       }
@@ -323,7 +325,7 @@
         cursor: not-allowed;
       }
 
-      @media screen and (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         margin-top: 20px;
         margin-bottom: 24px;
       }

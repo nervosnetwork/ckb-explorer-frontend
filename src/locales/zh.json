@@ -45,11 +45,11 @@
     "halving": {
       "congratulations": "恭喜",
       "the": "",
-      "actived": "生效于高度",
+      "activated": "生效于高度",
       "next": "下一次",
       "halving": "减半",
       "and": "和",
-      "comming_soon": "减半将在几秒钟内发生",
+      "coming_soon": "减半将在几秒钟内发生",
       "halving_countdown": "减半倒计时",
       "learn_more": "了解更多",
       "banner_congratulation": "CKB {{times}}减半生效",
@@ -167,7 +167,8 @@
       "faucet": "水龙头",
       "tokens": "代币",
       "docs": "文档",
-      "search_placeholder": "区块/交易/地址/锁定脚本哈希/Type 脚本哈希",
+      "search_placeholder": "区块/交易/地址/锁定脚本哈希/Type 脚本哈希/参数",
+      "search_by_name_placeholder": "代币名称",
       "mainnet": "LINA",
       "testnet": "测试网",
       "language_en": "EN",
@@ -298,6 +299,7 @@
     "home": {
       "height": "高度",
       "transactions": "交易",
+      "pending_transactions": "待处理交易",
       "block_reward": "奖励 (CKB)",
       "time": "时间戳",
       "more": "更多",
@@ -326,8 +328,9 @@
     },
     "search": {
       "loading": "加载中...",
+      "no_search_result": "哎呀！搜索失败。",
       "empty_result": "哎呀！搜索失败。\n\n请确保输入内容仅包含以下选项中的一个：\n",
-      "empty_result_items": "区块高度/ 区块哈希/ 交易哈希/ 地址/ 锁定脚本哈希/ Type 脚本哈希",
+      "empty_result_items": "区块高度/ 区块哈希/ 交易哈希/ 地址/ 锁定脚本哈希/ Type 脚本哈希/ 参数",
       "address_type_testnet_error": "检测到测试链地址，请跳转",
       "address_type_mainnet_error": "检测到主网地址，请跳转",
       "address_type_testnet_url": "测试链浏览器查询",
@@ -337,7 +340,9 @@
       "udt_filter_no_result": "搜索结果为空。\n请输入完整的地址",
       "tx": "交易",
       "addr": "地址",
-      "reset": "复位"
+      "reset": "复位",
+      "by_name": "按名称",
+      "by_id": "按 ID"
     },
     "address": {
       "address": "地址",
@@ -455,7 +460,8 @@
       "professional": "专业版",
       "lite": "精简版",
       "unknown_assets": "未知资产",
-      "mint": "铸造"
+      "mint": "铸造",
+      "no_records": "没有记录"
     },
     "block": {
       "block": "区块",
@@ -652,6 +658,7 @@
       "mins": "分",
       "secs": "秒",
       "second": "秒",
+      "seconds": "秒",
       "date": "日期",
       "average_fee_rate": "平均费率",
       "confirmation_time_x_avg_fee_rate": "确认时间与平均费率",

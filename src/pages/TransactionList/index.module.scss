@@ -1,7 +1,9 @@
+@import '../../styles/variables.module';
+
 .tabs {
   margin: 24px 0 40px;
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin: 20px 0;
   }
 
@@ -85,11 +87,11 @@
   flex-flow: row wrap;
 }
 
-.transactionCard {
-  &:first-child {
-    border-radius: 0 0 4px 4px;
-  }
+.transactionCardGroup {
+  margin-top: 10px;
+}
 
+.transactionCard {
   .addressLink {
     font-size: 13px;
   }

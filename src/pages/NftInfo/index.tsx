@@ -4,7 +4,7 @@ import { Tooltip } from 'antd'
 import { Base64 } from 'js-base64'
 import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
-import NftItemTransfers from '../../components/NftItemTransfers'
+import NftItemTransfers from './NftItemTransfers'
 import Pagination from '../../components/Pagination'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { explorerService } from '../../services/ExplorerService'
@@ -12,7 +12,7 @@ import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
 import { patchMibaoImg, handleNftImgError } from '../../utils/util'
 import { parseSporeCellData } from '../../utils/spore'
-import { useSearchParams } from '../../utils/hook'
+import { useSearchParams } from '../../hooks'
 
 const primaryColor = getPrimaryColor()
 
@@ -80,9 +80,9 @@ const NftInfo = () => {
         <div className={styles.info}>
           <div className={styles.name}>{data ? `${data.collection.name} #${data.token_id}` : '-'}</div>
           <div className={styles.items}>
-            <dl>
-              <dt>{t('nft.owner')}</dt>
-              <dd>
+            <div className={styles.item}>
+              <div>{t('nft.owner')}</div>
+              <div>
                 {data?.owner ? (
                   <Link
                     to={`/address/${data.owner}`}
@@ -98,11 +98,11 @@ const NftInfo = () => {
                 ) : (
                   '-'
                 )}
-              </dd>
-            </dl>
-            <dl>
-              <dt>{t('nft.minter_address')}</dt>
-              <dd>
+              </div>
+            </div>
+            <div className={styles.item}>
+              <div>{t('nft.minter_address')}</div>
+              <div>
                 {data?.collection.creator ? (
                   <Link
                     to={`/address/${data.collection.creator}`}
@@ -121,16 +121,16 @@ const NftInfo = () => {
                 ) : (
                   '-'
                 )}
-              </dd>
-            </dl>
-            <dl>
-              <dt>Token ID</dt>
-              <dd>{`#${data?.token_id}`}</dd>
-            </dl>
-            <dl>
-              <dt>{t('nft.standard')}</dt>
-              <dd>{data ? t(`nft.${data.collection.standard}`) : '-'}</dd>
-            </dl>
+              </div>
+            </div>
+            <div className={styles.item}>
+              <div>Token ID</div>
+              <div>{`#${data?.token_id}`}</div>
+            </div>
+            <div className={styles.item}>
+              <div>{t('nft.standard')}</div>
+              <div>{data ? t(`nft.${data.collection.standard}`) : '-'}</div>
+            </div>
           </div>
         </div>
       </div>

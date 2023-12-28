@@ -1,0 +1,17 @@
+.byNameOrId {
+  // remove original button styles
+  border: none;
+  display: flex;
+  padding: 2px 8px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 16px;
+  color: #666;
+  font-size: 14px;
+  opacity: 0.8;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 2px;
+  background: #f0f0f0;
+  white-space: nowrap;
+}

@@ -1,46 +1,38 @@
-import { useState, useRef, useEffect, FC, memo, RefObject, ChangeEvent } from 'react'
+import {
+  useState,
+  useEffect,
+  FC,
+  memo,
+  useMemo,
+  useCallback,
+  ChangeEventHandler,
+  KeyboardEventHandler,
+  ComponentPropsWithoutRef,
+} from 'react'
 import { useHistory } from 'react-router'
-import { TFunction, useTranslation } from 'react-i18next'
-import { SearchImage, SearchInputPanel, SearchPanel, SearchButton, SearchContainer } from './styled'
+import { useTranslation } from 'react-i18next'
+import debounce from 'lodash.debounce'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { ImageButton, SearchInputPanel, SearchPanel, SearchButton, SearchContainer } from './styled'
 import { explorerService, Response } from '../../services/ExplorerService'
 import SearchLogo from '../../assets/search_black.png'
 import ClearLogo from '../../assets/clear.png'
 import { addPrefixForHash, containSpecialChar } from '../../utils/string'
 import { HttpErrorCode, SearchFailType } from '../../constants/common'
-import { useIsMobile } from '../../utils/hook'
+import { useForkedState, useIsMobile } from '../../hooks'
 import { isChainTypeError } from '../../utils/chain'
 import { isAxiosError } from '../../utils/error'
 // TODO: Refactor is needed. Should not directly import anything from the descendants of ExplorerService.
 import { SearchResultType } from '../../services/ExplorerService/fetcher'
+import styles from './index.module.scss'
+import { SearchByNameResults } from './SearchByNameResults'
+import { useSearchType } from '../../services/AppSettings/hooks'
 
-const clearSearchInput = (inputElement: RefObject<HTMLInputElement>) => {
-  const input = inputElement.current
-  if (input) {
-    input.value = ''
-    input.blur()
-  }
-}
-
-const setSearchLoading = (inputElement: RefObject<HTMLInputElement>, t: TFunction) => {
-  const input = inputElement.current
-  if (input) {
-    input.value = t('search.loading')
-  }
-}
-
-const setSearchContent = (inputElement: RefObject<HTMLInputElement>, content: string) => {
-  const input = inputElement.current
-  if (input) {
-    input.value = content
-  }
-}
-
-const handleSearchResult = async (
+const handleSearchById = async (
   searchValue: string,
-  inputElement: RefObject<HTMLInputElement>,
-  setSearchValue: Function,
+  setInputLoading: (loading: boolean) => void,
+  onClear: () => void,
   history: ReturnType<typeof useHistory>,
-  t: TFunction,
 ) => {
   const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
   if (!query || containSpecialChar(query)) {
@@ -52,28 +44,32 @@ const handleSearchResult = async (
     return
   }
 
-  setSearchLoading(inputElement, t)
+  setInputLoading(true)
 
   try {
-    const { data } = await explorerService.api.fetchSearchResult(addPrefixForHash(query))
-    clearSearchInput(inputElement)
-    setSearchValue('')
+    const { data } = await explorerService.api.fetchSearchByIdResult(addPrefixForHash(query))
+    onClear()
 
-    switch (data.type) {
+    const { type, attributes } = data
+    switch (type) {
+      case SearchResultType.TypeScript:
+        history.push(`/script/${attributes.scriptHash}/type`)
+        break
+
       case SearchResultType.Block:
-        history.push(`/block/${data.attributes.blockHash}`)
+        history.push(`/block/${attributes.blockHash}`)
         break
 
       case SearchResultType.Transaction:
-        history.push(`/transaction/${data.attributes.transactionHash}`)
+        history.push(`/transaction/${attributes.transactionHash}`)
         break
 
       case SearchResultType.Address:
-        history.push(`/address/${data.attributes.addressHash}`)
+        history.push(`/address/${attributes.addressHash}`)
         break
 
       case SearchResultType.LockHash:
-        history.push(`/address/${data.attributes.lockHash}`)
+        history.push(`/address/${attributes.lockHash}`)
         break
 
       case SearchResultType.UDT:
@@ -84,7 +80,7 @@ const handleSearchResult = async (
         break
     }
   } catch (error) {
-    setSearchContent(inputElement, query)
+    setInputLoading(false)
 
     if (
       isAxiosError(error) &&
@@ -94,7 +90,7 @@ const handleSearchResult = async (
         (errorData: Response.Error) => errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS,
       )
     ) {
-      clearSearchInput(inputElement)
+      onClear()
       history.push(`/address/${query}`)
     } else {
       history.push(`/search/fail?q=${query}`)
@@ -106,79 +102,134 @@ const Search: FC<{
   content?: string
   hasButton?: boolean
   onEditEnd?: () => void
-}> = memo(({ content, hasButton, onEditEnd }) => {
+}> = memo(({ content, hasButton, onEditEnd: handleEditEnd }) => {
+  // Currently, the API returns all search results, which could be extremely large in quantity.
+  // Since the rendering component does not implement virtual scrolling, this leads to a significant decrease in page performance.
+  // Therefore, here we are implementing a frontend-level limitation on the number of displayed results.
+  const DISPLAY_COUNT = 10
   const isMobile = useIsMobile()
+  const queryClient = useQueryClient()
   const { t } = useTranslation()
+  const [searchByType, setSearchByType] = useSearchType()
+  const [isSearchByName, setIsSearchByName] = useState(searchByType === 'name')
   const history = useHistory()
-  const SearchPlaceholder = t('navbar.search_placeholder')
-  const [searchValue, setSearchValue] = useState(content || '')
-  const [placeholder, setPlaceholder] = useState(SearchPlaceholder)
-  const inputElement = useRef<HTMLInputElement>(null)
+  const [keyword, setKeyword] = useState(content || '')
+  const [editEnded, setEditEnded] = useState(false)
+  const searchValue = keyword.trim()
+  const [inputLoading, setInputLoading] = useState(false)
 
-  // update input placeholder when language change
-  useEffect(() => {
-    setPlaceholder(SearchPlaceholder)
-  }, [SearchPlaceholder])
+  const toggleSearchType = () => {
+    const newIsSearchByNames = !isSearchByName
+    const searchTypePersistValue = newIsSearchByNames ? 'name' : 'id'
+    setSearchByType(searchTypePersistValue)
+    setIsSearchByName(newIsSearchByNames)
+    queryClient.resetQueries(['searchByName'])
+  }
+
+  const {
+    refetch: refetchSearchByName,
+    data: searchByNameResults,
+    isFetching,
+  } = useQuery(['searchByName'], () => explorerService.api.fetchSearchByNameResult(searchValue), {
+    // we need to control the fetch timing manually
+    enabled: false,
+  })
+
+  const debouncedSearchByName = useMemo(
+    () => debounce(refetchSearchByName, 1000, { trailing: true }),
+    [refetchSearchByName],
+  )
+
+  const onClear = useCallback(() => {
+    setKeyword('')
+    debouncedSearchByName.cancel()
+    queryClient.resetQueries(['searchByName'])
+    setEditEnded(true)
+  }, [debouncedSearchByName, queryClient])
 
   useEffect(() => {
-    if (inputElement.current && !isMobile) {
-      const input = inputElement.current as HTMLInputElement
-      input.focus()
+    if (isSearchByName) {
+      if (!searchValue) {
+        debouncedSearchByName.cancel()
+        queryClient.resetQueries(['searchByName'])
+        return
+      }
+
+      debouncedSearchByName()
+      return
+    }
+
+    if (editEnded && !!searchValue) {
+      handleSearchById(searchValue, setInputLoading, onClear, history)
+    }
+  }, [debouncedSearchByName, editEnded, history, isSearchByName, onClear, queryClient, searchValue, t])
+
+  useEffect(() => {
+    if (editEnded) {
+      handleEditEnd?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const clearSearchAction = (isClear?: boolean) => {
-    if (isClear) {
-      setSearchValue('')
-      clearSearchInput(inputElement)
-      onEditEnd?.()
-    }
-  }
-
-  const inputChangeAction = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value)
-    if (!event.target.value) onEditEnd?.()
-  }
-
-  const searchKeyAction = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.keyCode === 13) {
-      handleSearchResult(searchValue, inputElement, setSearchValue, history, t)
-      onEditEnd?.()
-    }
-  }
-
-  const ImageIcon = ({ isClear }: { isClear?: boolean }) => (
-    <SearchImage isClear={isClear} onClick={() => clearSearchAction(isClear)}>
-      <img src={isClear ? ClearLogo : SearchLogo} alt="search logo" />
-    </SearchImage>
-  )
+  }, [editEnded])
 
   return (
     <SearchContainer>
       <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
-        <ImageIcon />
-        <SearchInputPanel
-          ref={inputElement}
-          placeholder={placeholder}
-          defaultValue={searchValue || ''}
-          onChange={event => inputChangeAction(event)}
-          onKeyUp={event => searchKeyAction(event)}
+        <ImageButton>
+          <img src={SearchLogo} alt="search logo" />
+        </ImageButton>
+        <SearchInput
+          autoFocus={!isMobile}
+          value={inputLoading ? t('search.loading') : keyword}
+          onChange={event => setKeyword(event.target.value)}
+          onEditEndedChange={setEditEnded}
+          placeholder={isSearchByName ? t('navbar.search_by_name_placeholder') : t('navbar.search_placeholder')}
         />
-        {searchValue && <ImageIcon isClear />}
+        <button type="button" className={styles.byNameOrId} onClick={toggleSearchType}>
+          {isSearchByName ? t('search.by_name') : t('search.by_id')}
+        </button>
+        {searchValue && (
+          <ImageButton onClick={onClear} isClear>
+            <img src={ClearLogo} alt="clearButton" />
+          </ImageButton>
+        )}
+        <SearchByNameResults
+          udtQueryResults={searchByNameResults ? searchByNameResults.slice(0, DISPLAY_COUNT) : null}
+          loading={isFetching}
+        />
       </SearchPanel>
-      {hasButton && (
-        <SearchButton
-          onClick={() => {
-            handleSearchResult(searchValue, inputElement, setSearchValue, history, t)
-            onEditEnd?.()
-          }}
-        >
-          {t('search.search')}
-        </SearchButton>
-      )}
+      {hasButton && <SearchButton onClick={() => setEditEnded(true)}>{t('search.search')}</SearchButton>}
     </SearchContainer>
   )
 })
+
+const SearchInput: FC<
+  ComponentPropsWithoutRef<'input'> & {
+    onEditEndedChange?: (editEnded: boolean) => void
+  }
+> = ({ onEditEndedChange, value: propsValue, onChange: propsOnChange, onKeyUp: propsOnKeyUp, ...elprops }) => {
+  const [value, setValue] = useForkedState(propsValue)
+
+  const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    event => {
+      setValue(event.target.value)
+      propsOnChange?.(event)
+      onEditEndedChange?.(event.target.value === '')
+    },
+    [onEditEndedChange, propsOnChange, setValue],
+  )
+
+  const onKeyUp: KeyboardEventHandler<HTMLInputElement> = useCallback(
+    event => {
+      const isEnter = event.keyCode === 13
+      if (isEnter) {
+        onEditEndedChange?.(true)
+      }
+      propsOnKeyUp?.(event)
+    },
+    [onEditEndedChange, propsOnKeyUp],
+  )
+
+  return <SearchInputPanel value={value} onChange={onChange} onKeyUp={onKeyUp} {...elprops} />
+}
 
 export default Search

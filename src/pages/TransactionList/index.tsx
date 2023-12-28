@@ -7,10 +7,9 @@ import Content from '../../components/Content'
 import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 import Pagination from '../../components/Pagination'
-import DecimalCapacity from '../../components/DecimalCapacity'
-import { ItemCardData, ItemCardGroup } from '../../components/Card/ItemCard'
+import Capacity from '../../components/Capacity'
 import AddressText from '../../components/AddressText'
-import { useIsMobile, usePaginationParamsInListPage, useSearchParams, useSortParam } from '../../utils/hook'
+import { useIsMobile, usePaginationParamsInListPage, useSearchParams, useSortParam } from '../../hooks'
 import { explorerService } from '../../services/ExplorerService'
 import { Tabs } from './Tabs'
 import styles from './index.module.scss'
@@ -21,13 +20,14 @@ import { assert } from '../../utils/error'
 import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
 import { TableTitleRowItem } from '../../components/Table/styled'
 import { Transaction } from '../../models/Transaction'
+import { CardCellFactory, CardListWithCellsList } from '../../components/CardList'
 
 type TxStatus = 'confirmed' | 'pending'
 
 type ConfirmedSortByType = 'height' | 'capacity'
 type PendingSortByType = 'capacity' | 'time' | 'fee'
 
-interface SortItemCardData<T> extends ItemCardData<T> {
+interface SortItemCardData<T> extends CardCellFactory<T> {
   sortRule?: ConfirmedSortByType | PendingSortByType
 }
 
@@ -39,7 +39,7 @@ const TransactionCardGroup: FC<{
   const { t } = useTranslation()
   const itemHash: SortItemCardData<Transaction> = {
     title: t('transaction.transaction_hash'),
-    render: transaction => (
+    content: transaction => (
       <AddressText
         disableTooltip
         monospace={false}
@@ -55,8 +55,8 @@ const TransactionCardGroup: FC<{
   const itemCapacity: SortItemCardData<Transaction> = {
     title: t('transaction.capacity'),
     sortRule: 'capacity',
-    render: transaction => (
-      <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+    content: transaction => (
+      <Capacity capacity={shannonToCkb(transaction.capacityInvolved)} layout="responsive" unit={null} />
     ),
   }
 
@@ -65,7 +65,7 @@ const TransactionCardGroup: FC<{
     {
       title: t('transaction.height'),
       sortRule: 'height',
-      render: transaction => (
+      content: transaction => (
         <Link to={`/block/${transaction.blockNumber}`}>
           <span>{localeNumberString(transaction.blockNumber)}</span>
         </Link>
@@ -74,7 +74,7 @@ const TransactionCardGroup: FC<{
     itemCapacity,
     {
       title: t('transaction.time'),
-      render: transaction => parseSimpleDate(transaction.blockTimestamp),
+      content: transaction => parseSimpleDate(transaction.blockTimestamp),
     },
   ]
 
@@ -84,7 +84,7 @@ const TransactionCardGroup: FC<{
     {
       title: t('transaction.time'),
       sortRule: 'time',
-      render: transaction => {
+      content: transaction => {
         assert(transaction.createTimestamp != null)
         return parseSimpleDate(transaction.createTimestamp)
       },
@@ -92,7 +92,7 @@ const TransactionCardGroup: FC<{
     {
       title: t('transaction.transaction_fee'),
       sortRule: 'fee',
-      render: transaction => <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
+      content: transaction => <Capacity capacity={shannonToCkb(transaction.transactionFee)} layout="responsive" />,
     },
   ]
 
@@ -104,17 +104,18 @@ const TransactionCardGroup: FC<{
         {items
           .filter(data => data.sortRule)
           .map((data: SortItemCardData<Transaction>) => (
-            <TableTitleRowItem width="fit-content" key={data.title}>
+            <TableTitleRowItem width="fit-content" key={typeof data.title === 'string' ? data.title : ''}>
               <div>{data.title}</div>
               {sortButton(data.sortRule)}
             </TableTitleRowItem>
           ))}
       </div>
-      <ItemCardGroup
-        cardClassName={styles.transactionCard}
-        items={items}
+      <CardListWithCellsList
+        className={styles.transactionCardGroup}
         dataSource={transactions}
         getDataKey={transaction => transaction.transactionHash}
+        cells={items}
+        cardProps={{ className: styles.transactionCard }}
       />
     </>
   )
@@ -160,7 +161,7 @@ const TransactionTable: FC<{
       ),
       width: '30%',
       render: transaction => (
-        <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+        <Capacity capacity={shannonToCkb(transaction.capacityInvolved)} layout="responsive" unit={null} />
       ),
     },
     {
@@ -183,7 +184,7 @@ const TransactionTable: FC<{
       ),
       width: '22%',
       render: transaction => (
-        <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+        <Capacity capacity={shannonToCkb(transaction.capacityInvolved)} layout="responsive" unit={null} />
       ),
     },
     {
@@ -209,7 +210,7 @@ const TransactionTable: FC<{
         </>
       ),
       width: '22%',
-      render: transaction => <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
+      render: transaction => <Capacity capacity={shannonToCkb(transaction.transactionFee)} layout="responsive" />,
     },
   ]
 

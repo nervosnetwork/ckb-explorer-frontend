@@ -1,8 +1,7 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'
-import DecimalCapacity from '../../../components/DecimalCapacity'
+import Capacity from '../../../components/Capacity'
 import { handleBigNumber } from '../../../utils/string'
 import {
   DepositorRankCardPanel,
@@ -11,11 +10,11 @@ import {
   DepositorSeparate,
   DepositorRankItem,
 } from './styled'
-import { ItemCardData, ItemCardGroup } from '../../../components/Card/ItemCard'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
-import { useIsMobile } from '../../../utils/hook'
+import { useIsMobile } from '../../../hooks'
 import { NervosDaoDepositor } from '../../../services/ExplorerService'
+import { CardCellFactory, CardListWithCellsList } from '../../../components/CardList'
 
 type RankedDepositor = NervosDaoDepositor & { rank: number }
 
@@ -35,26 +34,34 @@ const AddressTextCol = ({ address }: { address: string }) => {
 const DepositorCardGroup: FC<{ depositors: RankedDepositor[] }> = ({ depositors }) => {
   const { t } = useTranslation()
 
-  const items: ItemCardData<RankedDepositor>[] = [
+  const items: CardCellFactory<RankedDepositor>[] = [
     {
       title: t('nervos_dao.dao_title_rank'),
-      render: depositor => depositor.rank,
+      content: depositor => depositor.rank,
     },
     {
       title: t('nervos_dao.dao_title_address'),
-      render: depositor => <AddressTextCol address={depositor.addressHash} />,
+      content: depositor => <AddressTextCol address={depositor.addressHash} />,
     },
     {
       title: t('nervos_dao.dao_title_deposit_capacity'),
-      render: depositor => <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />,
+      content: depositor => <Capacity capacity={shannonToCkb(depositor.daoDeposit)} layout="responsive" />,
     },
     {
       title: t('nervos_dao.dao_title_deposit_time'),
-      render: depositor => handleBigNumber(depositor.averageDepositTime, 1),
+      content: depositor => handleBigNumber(depositor.averageDepositTime, 1),
     },
   ]
 
-  return <ItemCardGroup items={items} dataSource={depositors} getDataKey={(_, idx) => idx} />
+  return (
+    <CardListWithCellsList
+      className={styles.depositorCardGroup}
+      dataSource={depositors}
+      getDataKey={data => data.addressHash}
+      cells={items}
+      cardProps={{ rounded: false }}
+    />
+  )
 }
 
 export default ({ depositors, filter }: { depositors: NervosDaoDepositor[]; filter?: string }) => {
@@ -84,7 +91,7 @@ export default ({ depositors, filter }: { depositors: NervosDaoDepositor[]; filt
           <div>{depositor.rank}</div>
           <AddressTextCol address={depositor.addressHash} />
           <div>
-            <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
+            <Capacity capacity={shannonToCkb(depositor.daoDeposit)} layout="responsive" />
           </div>
           <div>{handleBigNumber(depositor.averageDepositTime, 1)}</div>
         </DepositorRankItem>

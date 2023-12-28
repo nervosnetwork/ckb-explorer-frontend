@@ -1,0 +1,24 @@
+@import '../../../styles/variables.module';
+
+.capacity {
+  display: inline-flex;
+  align-items: flex-end;
+  font-size: 1rem;
+
+  span[data-role='dec'] {
+    font-size: 0.75em;
+    color: var(--decimal-color);
+  }
+
+  @media screen and (width <= $largeBreakPoint) {
+    font-size: 0.75rem;
+
+    span[data-role='dec'] {
+      font-size: 0.9em;
+    }
+
+    .unit {
+      font-size: 1rem;
+    }
+  }
+}

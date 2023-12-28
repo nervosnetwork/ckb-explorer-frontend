@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useParams } from 'react-router-dom'
-import { Tabs } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
-import OverviewCard, { OverviewItemData } from '../../components/Card/OverviewCard'
 import { useCurrentLanguage } from '../../utils/i18n'
-import { HashCardPanel } from '../../components/Card/HashCard/styled'
 import { localeNumberString } from '../../utils/number'
 import { CodeHashMessage, ScriptCells, ScriptTransactions } from './ScriptsComp'
 import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
 import { isMainnet } from '../../utils/chain'
 import { scripts as scriptNameList } from '../ScriptList'
-import { usePaginationParamsInPage } from '../../utils/hook'
+import { usePaginationParamsInPage } from '../../hooks'
 import { shannonToCkb } from '../../utils/util'
-import DecimalCapacity from '../../components/DecimalCapacity'
+import Capacity from '../../components/Capacity'
 import styles from './styles.module.scss'
 import { explorerService } from '../../services/ExplorerService'
 import type { ScriptInfo } from '../../services/ExplorerService/fetcher'
+import { ScriptTab, ScriptTabPane, ScriptTabTitle } from './styled'
+import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -45,7 +44,7 @@ const useScriptInfo = (scriptInfo: ScriptInfo) => {
   const { t } = useTranslation()
   const { scriptName, scriptType, id, codeHash, hashType, capacityOfDeployedCells, capacityOfReferringCells } =
     scriptInfo
-  const items: OverviewItemData[] = [
+  const items: CardCellInfo<'left' | 'right'>[] = [
     {
       title: t('scripts.script_name'),
       tooltip: t('glossary.script_name'),
@@ -72,27 +71,18 @@ const useScriptInfo = (scriptInfo: ScriptInfo) => {
     {
       title: t('scripts.capacity_of_deployed_cells'),
       tooltip: t('glossary.capacity_of_deployed_cells'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfDeployedCells))} hideZero />,
+      content: <Capacity capacity={shannonToCkb(capacityOfDeployedCells)} display="short" />,
     },
     {
-      title: '',
-      content: '',
-    },
-    {
-      title: t('scripts.capacity_of_referring_cells'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(capacityOfReferringCells))} hideZero />,
+      slot: 'right',
+      cell: {
+        title: t('scripts.capacity_of_referring_cells'),
+        content: <Capacity capacity={shannonToCkb(capacityOfReferringCells)} display="short" />,
+      },
     },
   ]
 
   return items
-}
-
-const ScriptsTitleOverview = ({ scriptInfo }: { scriptInfo: ScriptInfo }) => {
-  return (
-    <div className={styles.scriptsTitleOverviewPanel}>
-      <OverviewCard items={useScriptInfo(scriptInfo)} hideShadow />
-    </div>
-  )
 }
 
 const useSeekScriptName = (codeHash: string, hashType: string): string => {
@@ -150,18 +140,15 @@ export const ScriptPage = () => {
   return (
     <Content>
       <div className={`${styles.scriptContentPanel} container`}>
-        <HashCardPanel isColumn={false}>
-          <ScriptsTitleOverview scriptInfo={scriptInfo} />
-        </HashCardPanel>
-        <Tabs
+        <Card>
+          <CardCellsLayout type="left-right" cells={useScriptInfo(scriptInfo)} />
+        </Card>
+
+        <ScriptTab
           key={currentLanguage + countOfTransactions + countOfDeployedCells + countOfReferringCells}
           className={styles.scriptTabs}
           activeKey={tab ?? 'transactions'}
           animated={{ inkBar: false }}
-          tabBarStyle={{
-            marginBottom: 0,
-            height: 56,
-          }}
           onTabClick={key => {
             const currentTab = tab ?? 'transactions'
             if (currentTab === key) return
@@ -185,24 +172,45 @@ export const ScriptPage = () => {
               history.push(`/script/${codeHash}/${hashType}?page=${pageOfTransactions}&size=${pageSize}`)
             }
           }}
-          items={[
-            {
-              label: `${t('transaction.transactions')} (${localeNumberString(countOfTransactions!)})`,
-              key: 'transactions',
-              children: <ScriptTransactions page={currentPage} size={pageSize} />,
-            },
-            {
-              label: `${t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`,
-              key: 'deployed_cells',
-              children: <ScriptCells page={currentPage} size={pageSize} cellType="deployed_cells" />,
-            },
-            {
-              label: `${t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`,
-              key: 'referring_cells',
-              children: <ScriptCells page={currentPage} size={pageSize} cellType="referring_cells" />,
-            },
-          ]}
-        />
+          renderTabBar={(props, DefaultTabBar) => {
+            return (
+              <Card rounded="top" className={styles.cardHeader}>
+                <DefaultTabBar {...props} className={styles.tablist} />
+              </Card>
+            )
+          }}
+        >
+          <ScriptTabPane
+            tab={
+              <ScriptTabTitle>
+                {`${t('transaction.transactions')} (${localeNumberString(countOfTransactions!)})`}
+              </ScriptTabTitle>
+            }
+            key="transactions"
+          >
+            <ScriptTransactions page={currentPage} size={pageSize} />
+          </ScriptTabPane>
+          <ScriptTabPane
+            tab={
+              <ScriptTabTitle>
+                {`${t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`}
+              </ScriptTabTitle>
+            }
+            key="deployed_cells"
+          >
+            <ScriptCells page={currentPage} size={pageSize} cellType="deployed_cells" />
+          </ScriptTabPane>
+          <ScriptTabPane
+            tab={
+              <ScriptTabTitle>
+                {`${t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`}
+              </ScriptTabTitle>
+            }
+            key="referring_cells"
+          >
+            <ScriptCells page={currentPage} size={pageSize} cellType="referring_cells" />
+          </ScriptTabPane>
+        </ScriptTab>
       </div>
     </Content>
   )

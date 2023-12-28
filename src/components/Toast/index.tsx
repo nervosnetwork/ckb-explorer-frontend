@@ -1,5 +1,5 @@
 import { useState, useEffect, useReducer, useCallback } from 'react'
-import { useTimeoutWithUnmount } from '../../utils/hook'
+import { useTimeoutWithUnmount } from '../../hooks'
 import { ToastItemPanel, ToastPanel } from './styled'
 import { createGlobalState, useGlobalState } from '../../utils/state'
 

@@ -1,0 +1,20 @@
+@import '../../../styles/variables.module';
+
+.container {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  width: 100%;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 450;
+  line-height: 1.2;
+  text-align: center;
+  padding: 1rem;
+  background-color: #fa8f00;
+  z-index: 9;
+
+  @media (width <= $mobileBreakPoint) {
+    text-align: left;
+  }
+}

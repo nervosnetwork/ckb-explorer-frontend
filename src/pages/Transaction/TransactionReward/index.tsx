@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import { shannonToCkb } from '../../../utils/util'
-import { localeNumberString } from '../../../utils/number'
-import DecimalCapacity from '../../../components/DecimalCapacity'
 import { RewardPenal, RewardItemPenal } from './styled'
-import { useIsMobile } from '../../../utils/hook'
+import { useIsMobile } from '../../../hooks'
 import { Cell } from '../../../models/Cell'
+import Capacity from '../../../components/Capacity'
 
 const useRewards = (cell: Cell, isMobile: boolean) => {
   const { t } = useTranslation()
@@ -42,7 +41,7 @@ const TransactionReward = ({ cell, showReward }: { cell: Cell; showReward?: bool
         <RewardItemPenal key={reward.name}>
           <div className="rewardName">{reward.name}</div>
           <div className="rewardCapacity">
-            <DecimalCapacity value={localeNumberString(shannonToCkb(reward.capacity))} />
+            <Capacity capacity={shannonToCkb(reward.capacity)} />
           </div>
         </RewardItemPenal>
       ))}

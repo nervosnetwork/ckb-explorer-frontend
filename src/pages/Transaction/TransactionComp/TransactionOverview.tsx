@@ -3,8 +3,9 @@ import { useState, ReactNode, FC } from 'react'
 import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Trans, useTranslation } from 'react-i18next'
-import OverviewCard, { OverviewItemData } from '../../../components/Card/OverviewCard'
-import DecimalCapacity from '../../../components/DecimalCapacity'
+import { Radio, Tooltip } from 'antd'
+import classNames from 'classnames'
+import Capacity from '../../../components/Capacity'
 import HashTag from '../../../components/HashTag'
 import { HelpTip } from '../../../components/HelpTip'
 import SimpleButton from '../../../components/SimpleButton'
@@ -26,10 +27,14 @@ import {
   TransactionInfoItemPanel,
   TransactionInfoContentContainer,
   TransactionInfoContentTitle,
-  TransactionInfoContentTag,
 } from './styled'
-import { useLatestBlockNumber } from '../../../services/ExplorerService'
+import { explorerService, useLatestBlockNumber } from '../../../services/ExplorerService'
 import { Transaction } from '../../../models/Transaction'
+import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../../components/Card'
+import { ReactComponent as DownloadIcon } from './download.svg'
+import styles from './TransactionOverview.module.scss'
+import { useSetToast } from '../../../components/Toast'
+import { useIsMobile, useUpdateSearchParams } from '../../../hooks'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
@@ -87,7 +92,7 @@ const TransactionInfoItem = ({
         )}
         {valueTooltip && <HelpTip title={valueTooltip} />}
       </div>
-      {tag && <TransactionInfoContentTag>{tag}</TransactionInfoContentTag>}
+      {tag && <div>{tag}</div>}
     </TransactionInfoContentContainer>
   </TransactionInfoContentItem>
 )
@@ -108,10 +113,11 @@ const TransactionInfoItemWrapper = ({
   </TransactionInfoContentPanel>
 )
 
-export const TransactionOverview: FC<{ transaction: Transaction; layout: LayoutLiteProfessional }> = ({
-  transaction,
-  layout,
-}) => {
+export const TransactionOverviewCard: FC<{
+  txHash: string
+  transaction: Transaction
+  layout: LayoutLiteProfessional
+}> = ({ txHash, transaction, layout }) => {
   const [showParams, setShowParams] = useState<boolean>(false)
   const tipBlockNumber = useLatestBlockNumber()
   const {
@@ -132,25 +138,29 @@ export const TransactionOverview: FC<{ transaction: Transaction; layout: LayoutL
   } = transaction
 
   const { t } = useTranslation()
+  const isMobile = useIsMobile()
   const formatConfirmation = useFormatConfirmation()
   let confirmation = 0
   const isProfessional = layout === LayoutLiteProfessional.Professional
 
   if (tipBlockNumber && blockNumber) {
-    confirmation = tipBlockNumber - blockNumber
+    // FIXME: the type conversion should be removed once the type declaration is fixed to number
+    confirmation = Number(tipBlockNumber) - Number(blockNumber)
   }
 
-  const blockHeightData: OverviewItemData = {
+  const blockHeightData: CardCellInfo = {
     title: t('block.block_height'),
     tooltip: t('glossary.block_height'),
-    content: <TransactionBlockHeight blockNumber={blockNumber} txStatus={txStatus} />,
+    // FIXME: the type conversion should be removed once the type declaration is fixed to number
+    content: <TransactionBlockHeight blockNumber={Number(blockNumber)} txStatus={txStatus} />,
+    className: styles.firstCardCell,
   }
-  const timestampData: OverviewItemData = {
+  const timestampData: CardCellInfo = {
     title: t('block.timestamp'),
     tooltip: t('glossary.timestamp'),
     content: parseSimpleDate(blockTimestamp),
   }
-  const feeWithFeeRateData: OverviewItemData = {
+  const feeWithFeeRateData: CardCellInfo = {
     title: `${t('transaction.transaction_fee')} | ${t('transaction.fee_rate')}`,
     content: (
       <div
@@ -158,7 +168,7 @@ export const TransactionOverview: FC<{ transaction: Transaction; layout: LayoutL
           display: 'flex',
         }}
       >
-        <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />
+        <Capacity capacity={shannonToCkb(transactionFee)} />
         <span
           style={{
             whiteSpace: 'pre',
@@ -170,11 +180,11 @@ export const TransactionOverview: FC<{ transaction: Transaction; layout: LayoutL
       </div>
     ),
   }
-  const txFeeData: OverviewItemData = {
+  const txFeeData: CardCellInfo = {
     title: t('transaction.transaction_fee'),
-    content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+    content: <Capacity capacity={shannonToCkb(transactionFee)} />,
   }
-  const txStatusData: OverviewItemData = {
+  const txStatusData: CardCellInfo = {
     title: t('transaction.status'),
     tooltip: t('glossary.transaction_status'),
     content: formatConfirmation(confirmation),
@@ -204,7 +214,7 @@ export const TransactionOverview: FC<{ transaction: Transaction; layout: LayoutL
   ) : (
     ''
   )
-  const liteTxSizeData: OverviewItemData = {
+  const liteTxSizeData: CardCellInfo = {
     title: t('transaction.size'),
     content: liteTxSizeDataContent,
   }
@@ -227,11 +237,11 @@ export const TransactionOverview: FC<{ transaction: Transaction; layout: LayoutL
   ) : (
     '-'
   )
-  const liteTxCyclesData: OverviewItemData = {
+  const liteTxCyclesData: CardCellInfo = {
     title: t('transaction.cycles'),
     content: liteTxCyclesDataContent,
   }
-  const overviewItems: OverviewItemData[] = []
+  const overviewItems: CardCellInfo<'left' | 'right'>[] = []
   if (txStatus === 'committed') {
     overviewItems.push(blockHeightData, timestampData)
     if (confirmation >= 0) {
@@ -251,7 +261,7 @@ export const TransactionOverview: FC<{ transaction: Transaction; layout: LayoutL
       {
         ...txStatusData,
         content: 'Rejected',
-        valueTooltip: detailedMessage,
+        contentTooltip: detailedMessage,
       },
     )
   } else {
@@ -354,7 +364,7 @@ export const TransactionOverview: FC<{ transaction: Transaction; layout: LayoutL
               key={`${witness}-${index}`}
               title="Witness"
               tooltip={t('glossary.witness')}
-              value={witness}
+              value={<div className={classNames(styles.witnessInTransactionInfo, 'monospace')}>{witness}</div>}
             />
           ))
         ) : (
@@ -363,31 +373,92 @@ export const TransactionOverview: FC<{ transaction: Transaction; layout: LayoutL
     },
   ]
 
+  const setToast = useSetToast()
+
+  const handleExportTxClick = async () => {
+    const raw = await explorerService.api.fetchTransactionRaw(txHash).catch(error => {
+      setToast({ message: error.message })
+    })
+    if (typeof raw !== 'object') return
+
+    const blob = new Blob([JSON.stringify(raw, null, 2)])
+
+    const link = document.createElement('a')
+    link.download = `tx-${txHash}.json`
+    link.href = URL.createObjectURL(blob)
+    document.body.append(link)
+    link.click()
+    link.remove()
+  }
+
+  const defaultLayout = LayoutLiteProfessional.Professional
+  const updateSearchParams = useUpdateSearchParams<'layout'>()
+  const onChangeLayout = (layoutType: LayoutLiteProfessional) => {
+    updateSearchParams(params =>
+      layoutType === defaultLayout
+        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
+        : { ...params, layout: layoutType },
+    )
+  }
+
+  const professionalLiteBox = (
+    <div className={styles.professionalLiteBox}>
+      <Radio.Group
+        className={styles.layoutButtons}
+        options={[
+          { label: t('transaction.professional'), value: LayoutLiteProfessional.Professional },
+          { label: t('transaction.lite'), value: LayoutLiteProfessional.Lite },
+        ]}
+        onChange={({ target: { value } }) => onChangeLayout(value)}
+        value={layout}
+        optionType="button"
+        buttonStyle="solid"
+      />
+    </div>
+  )
+
   return (
-    <TransactionOverviewPanel>
-      <OverviewCard items={overviewItems} hideShadow>
-        {isProfessional && (
-          <div className="transactionOverviewInfo">
-            <SimpleButton className="transactionOverviewParameters" onClick={() => setShowParams(!showParams)}>
-              <div>{t('transaction.transaction_parameters')}</div>
-              <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
+    <Card className={styles.transactionOverviewCard}>
+      <HashCardHeader
+        title={t('transaction.transaction')}
+        hash={txHash}
+        customActions={[
+          <Tooltip placement="top" title={t(`transaction.export-transaction`)}>
+            <SimpleButton className={styles.exportTxAction} onClick={handleExportTxClick}>
+              <DownloadIcon />
             </SimpleButton>
-            {showParams && (
-              <div className="transactionOverviewParams">
-                {TransactionParams.map(item => (
-                  <TransactionInfoItemPanel key={item.title}>
-                    <div className="transactionInfoTitle">
-                      <span>{item.title}</span>
-                      {item.tooltip && <HelpTip title={item.tooltip} />}
-                    </div>
-                    <div className="transactionInfoValue">{item.content}</div>
-                  </TransactionInfoItemPanel>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </OverviewCard>
-    </TransactionOverviewPanel>
+          </Tooltip>,
+        ]}
+        rightContent={!isMobile && professionalLiteBox}
+      />
+      {isMobile && professionalLiteBox}
+
+      {(txStatus !== 'committed' || blockTimestamp > 0) && (
+        <TransactionOverviewPanel>
+          <CardCellsLayout type="left-right" cells={overviewItems} borderTop={!isMobile} />
+          {isProfessional && (
+            <div className="transactionOverviewInfo">
+              <SimpleButton className="transactionOverviewParameters" onClick={() => setShowParams(!showParams)}>
+                <div>{t('transaction.transaction_parameters')}</div>
+                <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
+              </SimpleButton>
+              {showParams && (
+                <div className="transactionOverviewParams">
+                  {TransactionParams.map(item => (
+                    <TransactionInfoItemPanel key={item.title}>
+                      <div className="transactionInfoTitle">
+                        <span>{item.title}</span>
+                        {item.tooltip && <HelpTip title={item.tooltip} />}
+                      </div>
+                      <div className="transactionInfoValue">{item.content}</div>
+                    </TransactionInfoItemPanel>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </TransactionOverviewPanel>
+      )}
+    </Card>
   )
 }

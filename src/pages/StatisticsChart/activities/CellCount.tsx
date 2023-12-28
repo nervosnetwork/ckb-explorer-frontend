@@ -99,6 +99,11 @@ const useOption = (
               name: t('statistic.dead_cell'),
             },
           ],
+      selected: {
+        [t('statistic.all_cells')]: false,
+        [t('statistic.live_cell')]: true,
+        [t('statistic.dead_cell')]: false,
+      },
     },
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,

@@ -1,7 +1,4 @@
-.scriptsTitleOverviewPanel {
-  display: flex;
-  flex-direction: column;
-}
+@import '../../styles/variables.module';
 
 .scriptContentPanel {
   display: flex;
@@ -10,66 +7,22 @@
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin: 0;
     padding: 20px;
   }
 }
 
-.scriptTabs {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  background-color: #fff;
-  border-radius: 6px 6px 0 0;
-
-  :global {
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-tabs-nav {
-      &::before {
-        border-bottom-width: 4px;
-      }
-    }
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-tabs-nav-list {
-      padding-left: 40px;
-    }
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-tabs-tab-btn {
-      color: #333;
-      font-weight: 400;
-      font-size: 20px;
-      line-height: 23px;
-      margin-bottom: 0;
-
-      &[aria-selected='true'] {
-        font-weight: 500;
-      }
-    }
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-tabs-tab-active {
-      /* stylelint-disable-next-line selector-class-pattern */
-      .ant-tabs-tab-btn {
-        color: #333;
-      }
-    }
+.scriptTabs:not(
+    [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
+  ) {
+  .cardHeader {
+    padding: 0;
   }
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  & > :global(.ant-tabs-nav .ant-tabs-ink-bar) {
-    background: linear-gradient(
-      to right,
-      transparent 30%,
-      var(--primary-color) 30%,
-      var(--primary-color) 70%,
-      transparent 70%
-    );
-    height: 3px;
-    bottom: 3px;
+  .tablist {
+    height: 56px;
+    margin-bottom: 0;
   }
 }
 
@@ -121,8 +74,10 @@
 
 .scriptCellsPanel {
   padding: 0 40px;
+  margin-top: 4px;
+  background: #fff;
 
-  @media screen and (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     padding: 0 10px;
   }
 }
@@ -156,17 +111,23 @@
   min-width: 0;
 
   .codeHash {
+    flex: 1;
+    min-width: 0;
     width: 350px;
     margin-right: 16px;
   }
 
-  @media screen and (width <= 1300px) {
+  .action {
+    flex-shrink: 0;
+  }
+
+  @media (width <= 1300px) {
     .codeHash {
       width: 280px;
     }
   }
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     .codeHash {
       width: 270px;
     }
@@ -180,4 +141,8 @@
 .typeId {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.noRecord {
+  text-align: center;
 }

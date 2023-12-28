@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const TransactionCellPanel = styled.div`
   width: 100%;
@@ -53,7 +54,7 @@ export const TransactionCellInfoPanel = styled.div`
     cursor: pointer;
     width: 45px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       width: auto;
     }
 
@@ -63,7 +64,7 @@ export const TransactionCellInfoPanel = styled.div`
       height: 1px;
       transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         width: auto;
       }
     }
@@ -91,7 +92,7 @@ export const TransactionCellAddressPanel = styled.div`
       width: 70px;
       text-align: start;
 
-      @media (max-width: 1440px) {
+      @media (max-width: ${variables.xxlBreakPoint}) {
         width: 50px;
       }
     }
@@ -108,7 +109,7 @@ export const TransactionCellHashPanel = styled.div<{ highLight?: boolean }>`
   align-items: center;
   font-size: 16px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     text-align: left;
 
     > a {
@@ -116,7 +117,7 @@ export const TransactionCellHashPanel = styled.div<{ highLight?: boolean }>`
     }
   }
 
-  @media (min-width: 750px) {
+  @media (min-width: ${variables.mobileBreakPoint}) {
     font-weight: 500;
   }
 
@@ -127,7 +128,7 @@ export const TransactionCellHashPanel = styled.div<{ highLight?: boolean }>`
   .transactionCellAddressLink {
     max-width: 70%;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       max-width: unset;
     }
   }
@@ -174,7 +175,7 @@ export const TransactionCellDetailModal = styled.div`
   border: 1px solid #888;
   width: 75%;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     width: 90%;
     margin-top: 40%;
     padding: 10px;
