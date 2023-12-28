@@ -159,3 +159,21 @@
     }
   }
 }
+
+.ckbDiff {
+  &::before {
+    content: '(';
+  }
+
+  &::after {
+    content: ')';
+  }
+
+  &[data-diff-status='positive'] {
+    color: var(--primary-color);
+  }
+
+  &[data-diff-status='negative'] {
+    color: var(--accent-color);
+  }
+}

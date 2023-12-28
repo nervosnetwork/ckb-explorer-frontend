@@ -123,13 +123,25 @@ const TransferAmount: FC<{ transfer: TransactionRecordTransfer }> = ({ transfer 
 
   const capacityChange = shannonToCkb(transfer.capacity)
 
+  const ckbDiff = new BigNumber(capacityChange)
+  let ckbDiffStatus = ''
+  if (ckbDiff.isNegative()) {
+    ckbDiffStatus = 'negative'
+  } else if (!ckbDiff.isZero()) {
+    ckbDiffStatus = 'positive'
+  } else {
+    // skip
+  }
+
   if (isNft) {
     // FIXME: direction should be returned from API
     // Tracked by issue https://github.com/Magickbase/ckb-explorer-public-issues/issues/503
     return (
       <div>
         ID: {transfer.mNftInfo?.tokenId ?? 'Unknown'}
-        (<Capacity capacity={capacityChange} type="diff" display="short" />)
+        <div className={styles.ckbDiff} data-diff-status={ckbDiffStatus}>
+          <Capacity capacity={capacityChange} type="diff" display="short" />
+        </div>
       </div>
     )
   }
@@ -142,7 +154,9 @@ const TransferAmount: FC<{ transfer: TransactionRecordTransfer }> = ({ transfer 
       return (
         <>
           <Capacity capacity={amountChange} type="diff" unit={null} display="short" />
-          (<Capacity capacity={capacityChange} type="diff" display="short" />)
+          <div className={styles.ckbDiff} data-diff-status={ckbDiffStatus}>
+            <Capacity capacity={capacityChange} type="diff" display="short" />
+          </div>
         </>
       )
     }
@@ -157,7 +171,10 @@ const TransferAmount: FC<{ transfer: TransactionRecordTransfer }> = ({ transfer 
     return (
       <>
         <div className={styles.udtAmount} data-diff-status={diffStatus}>{`${t('udt.unknown_amount')}`}</div>
-        (<Capacity capacity={capacityChange} type="diff" display="short" />)
+
+        <div className={styles.ckbDiff} data-diff-status={ckbDiffStatus}>
+          <Capacity capacity={capacityChange} type="diff" display="short" />
+        </div>
       </>
     )
   }
