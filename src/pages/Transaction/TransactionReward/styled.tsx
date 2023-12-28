@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const RewardItemPenal = styled.div`
   display: flex;
@@ -8,7 +9,7 @@ export const RewardItemPenal = styled.div`
   margin-bottom: 15px;
   color: #000;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 5px 10px;
     justify-content: space-between;
   }
@@ -27,7 +28,7 @@ export const RewardItemPenal = styled.div`
 `
 
 export const RewardPenal = styled.div`
-  @media (min-width: 750px) {
+  @media (min-width: ${variables.mobileBreakPoint}) {
     margin-bottom: -20px;
   }
 
@@ -36,7 +37,7 @@ export const RewardPenal = styled.div`
     margin-top: 12px;
     color: #666;
 
-    @media (min-width: 750px) {
+    @media (min-width: ${variables.mobileBreakPoint}) {
       display: none;
     }
   }

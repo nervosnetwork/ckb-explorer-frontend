@@ -1,8 +1,7 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'
-import DecimalCapacity from '../../../components/DecimalCapacity'
+import Capacity from '../../../components/Capacity'
 import { handleBigNumber } from '../../../utils/string'
 import {
   DepositorRankCardPanel,
@@ -46,7 +45,7 @@ const DepositorCardGroup: FC<{ depositors: RankedDepositor[] }> = ({ depositors 
     },
     {
       title: t('nervos_dao.dao_title_deposit_capacity'),
-      content: depositor => <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />,
+      content: depositor => <Capacity capacity={shannonToCkb(depositor.daoDeposit)} layout="responsive" />,
     },
     {
       title: t('nervos_dao.dao_title_deposit_time'),
@@ -92,7 +91,7 @@ export default ({ depositors, filter }: { depositors: NervosDaoDepositor[]; filt
           <div>{depositor.rank}</div>
           <AddressTextCol address={depositor.addressHash} />
           <div>
-            <DecimalCapacity value={localeNumberString(shannonToCkb(depositor.daoDeposit))} />
+            <Capacity capacity={shannonToCkb(depositor.daoDeposit)} layout="responsive" />
           </div>
           <div>{handleBigNumber(depositor.averageDepositTime, 1)}</div>
         </DepositorRankItem>

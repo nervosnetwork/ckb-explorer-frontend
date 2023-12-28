@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .scriptContentPanel {
   display: flex;
   flex-direction: column;
@@ -5,7 +7,7 @@
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin: 0;
     padding: 20px;
   }
@@ -72,8 +74,10 @@
 
 .scriptCellsPanel {
   padding: 0 40px;
+  margin-top: 4px;
+  background: #fff;
 
-  @media screen and (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     padding: 0 10px;
   }
 }
@@ -107,17 +111,23 @@
   min-width: 0;
 
   .codeHash {
+    flex: 1;
+    min-width: 0;
     width: 350px;
     margin-right: 16px;
   }
 
-  @media screen and (width <= 1300px) {
+  .action {
+    flex-shrink: 0;
+  }
+
+  @media (width <= 1300px) {
     .codeHash {
       width: 280px;
     }
   }
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     .codeHash {
       width: 270px;
     }

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const TransactionDiv = styled.div.attrs({
   className: 'container',
@@ -9,7 +10,7 @@ export const TransactionDiv = styled.div.attrs({
   margin-top: 40px;
   margin-bottom: 40px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 0;
     padding: 20px;
   }
@@ -18,7 +19,7 @@ export const TransactionDiv = styled.div.attrs({
     width: 100%;
     margin-top: 24px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-top: 20px;
     }
   }
@@ -27,7 +28,7 @@ export const TransactionDiv = styled.div.attrs({
     width: 100%;
     margin-top: 24px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-top: 20px;
     }
   }
@@ -40,7 +41,7 @@ export const TransactionDiv = styled.div.attrs({
     margin-bottom: 10px;
     padding: 16px 36px 12px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       padding: 16px 18px;
     }
   }
@@ -67,7 +68,7 @@ export const TransactionOverviewPanel = styled.div`
         margin: 2px 0 0 5px;
       }
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 14px;
         margin-top: 8px;
 
@@ -79,13 +80,19 @@ export const TransactionOverviewPanel = styled.div`
   }
 
   .transactionOverviewParams {
-    background: #f1f1f1;
+    background: #f5f5f5;
     margin-top: 8px;
-    padding: 0 12px;
+    padding: 24px 40px;
+    border-radius: 4px;
+    color: #333;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin-top: 8px;
+
+    .transactionOverviewParams {
+      padding: 12px 8px 8px;
+    }
   }
 `
 
@@ -100,63 +107,89 @@ export const TransactionBlockHeightPanel = styled.div`
 export const TransactionInfoItemPanel = styled.div`
   flex: 1;
 
-  @media (max-width: 750px) {
-    margin-top: 3px;
-  }
-
   .transactionInfoTitle {
     display: flex;
     align-items: center;
-    margin-top: 10px;
-    font-weight: 500;
+    margin-top: 24px;
 
-    @media (max-width: 750px) {
-      margin-top: 5px;
+    @media (max-width: ${variables.mobileBreakPoint}) {
+      margin-top: 12px;
+    }
+  }
+
+  &:first-child {
+    .transactionInfoTitle {
+      margin-top: 0;
     }
   }
 
   .transactionInfoValue {
-    margin-top: 5px;
+    margin-top: 16px;
+    padding: 12px;
     max-height: 250px;
     font-size: 16px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    background: #eee;
+    border-radius: 4px;
 
-    @media (max-width: 750px) {
-      margin-left: 0;
-      margin-top: 2px;
+    @media (max-width: ${variables.mobileBreakPoint}) {
+      margin-top: 8px;
+      padding: 12px 8px;
     }
   }
 `
 
 export const TransactionInfoContentPanel = styled.div`
-  margin: 15px 0;
+  margin: 16px 0;
+
+  &:first-child {
+    margin-top: 0;
+
+    /* TODO: This is a highly hardcoded implementation. The entire Transaction Parameters section needs to be refactored into a more maintainable layout structure. */
+    & > :nth-child(1) {
+      margin-top: 0;
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+
+    & > :nth-last-child(1) {
+      margin-bottom: 0;
+    }
+  }
 `
 
 export const TransactionInfoContentTitle = styled.div`
   flex: 0 0 auto;
   width: 160px;
+  font-size: 14px;
+
+  @media (max-width: ${variables.mobileBreakPoint}) {
+    width: 130px;
+    font-size: 12px;
+  }
 `
 
 export const TransactionInfoContentContainer = styled.div`
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  font-size: 14px;
 
-  @media (max-width: 1150px) {
-    display: block;
-  }
-`
-
-export const TransactionInfoContentTag = styled.div`
-  margin-left: 10px;
-  margin-top: 3px;
-
-  @media (max-width: 1150px) {
-    margin-left: 0;
+  @media (max-width: ${variables.mobileBreakPoint}) {
+    font-size: 12px;
   }
 `
 
 export const TransactionInfoContentItem = styled.div`
   display: flex;
-  margin: 5px 0;
+  margin: 12px 0;
+
+  @media (max-width: ${variables.mobileBreakPoint}) {
+    margin: 8px 0;
+  }
 
   a {
     color: ${props => props.theme.primary};
@@ -175,7 +208,7 @@ export const TransactionInfoContentItem = styled.div`
     color: #333;
     font-size: 14px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 12px;
     }
   }
@@ -191,7 +224,7 @@ export const TransactionInfoContentItem = styled.div`
     flex-wrap: wrap;
     gap: 0 12px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 12px;
     }
 

@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .cardHeader {
   display: flex;
   align-items: center;
@@ -16,7 +18,7 @@
     color: #333;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     flex-direction: column;
     justify-content: initial;
     align-items: initial;

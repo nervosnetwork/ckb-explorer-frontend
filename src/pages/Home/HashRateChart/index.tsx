@@ -10,7 +10,7 @@ import { parseDateNoTime } from '../../../utils/date'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
-import { useIsLGScreen } from '../../../hooks'
+import { useIsExtraLarge } from '../../../hooks'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ReactChartCore } from '../../StatisticsChart/common'
 
@@ -102,7 +102,7 @@ const useOption = () => {
   }
 }
 export default memo(() => {
-  const isLG = useIsLGScreen()
+  const isXL = useIsExtraLarge()
   const query = useQuery(['fetchStatisticHashRate'], () => explorerService.api.fetchStatisticHashRate(), {
     refetchOnWindowFocus: false,
   })
@@ -129,11 +129,11 @@ export default memo(() => {
   return (
     <HomeChartLink to="/charts/hash-rate">
       <ReactChartCore
-        option={parseOption(statisticHashRates, isLG)}
+        option={parseOption(statisticHashRates, isXL)}
         notMerge
         lazyUpdate
         style={{
-          height: isLG ? '136px' : '190px',
+          height: isXL ? '136px' : '190px',
         }}
       />
     </HomeChartLink>

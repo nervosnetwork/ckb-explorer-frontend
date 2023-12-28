@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import variables from '../../styles/variables.module.scss'
 
 export const TableTitleRow = styled.div`
   background: white;
@@ -9,7 +10,7 @@ export const TableTitleRow = styled.div`
   padding: 0 20px;
   margin-bottom: 4px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     flex-flow: row wrap;
     min-height: auto;
     padding: 5px 20px;
@@ -34,12 +35,12 @@ export const TableTitleRowItem = styled.div`
     font-weight: 450;
     text-align: center;
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${variables.largeBreakPoint}) {
       font-size: 16px;
     }
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 10px 40px 10px 0;
     min-height: auto;
   }
@@ -106,7 +107,7 @@ export const TableMinerContentPanel = styled.div`
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     font-weight: 500;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 13px;
     }
   }
@@ -118,7 +119,7 @@ export const TableMinerContentPanel = styled.div`
     font-size: ${(props: { width: string; fontSize: string }) => props.fontSize};
     color: #000;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 13px;
     }
   }

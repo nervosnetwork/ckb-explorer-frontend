@@ -7,7 +7,7 @@ $accent-color: #efefef;
   max-width: 1080px;
   margin: 45px auto 20px;
 
-  @media screen and (width <= 1140px) {
+  @media (width <= 1140px) {
     margin: 45px 15px 20px;
   }
 }
@@ -19,7 +19,7 @@ $accent-color: #efefef;
   padding: 16px;
   border-radius: 6px;
 
-  @media screen and (width <= 1140px) {
+  @media (width <= 1140px) {
     margin: 20px 15px;
   }
 
@@ -58,7 +58,7 @@ $accent-color: #efefef;
     user-select: none;
     transition: background 0.3s;
 
-    @media screen and (width <= 400px) {
+    @media (width <= 400px) {
       word-break: break-all;
     }
 

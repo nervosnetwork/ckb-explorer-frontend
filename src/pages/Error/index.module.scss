@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .container {
   margin-top: 120px;
   margin-bottom: 140px;
@@ -44,7 +46,7 @@
   border: 1px dashed #9c9c9c;
   padding: 6px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     width: 228px;
     height: 108px;
   }

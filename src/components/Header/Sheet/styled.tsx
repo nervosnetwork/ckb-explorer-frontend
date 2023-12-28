@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const SheetPanel = styled.div`
   width: 100%;
@@ -10,7 +11,7 @@ export const SheetPanel = styled.div`
   justify-content: center;
   padding: 15px 0 20px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     padding: 6px 0 10px;
   }
 `
@@ -23,7 +24,7 @@ export const SheetItem = styled.div`
   justify-content: left;
   margin-top: 5px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     font-size: 14px;
   }
 `
@@ -40,7 +41,7 @@ export const SheetPointPanel = styled.div`
     color: white;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     width: 86%;
 
     > span {

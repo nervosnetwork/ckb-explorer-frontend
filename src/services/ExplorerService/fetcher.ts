@@ -47,6 +47,7 @@ export enum SearchResultType {
   Address = 'address',
   LockHash = 'lock_hash',
   UDT = 'udt',
+  TypeScript = 'type_script',
 }
 
 export const apiFetcher = {
@@ -71,6 +72,22 @@ export const apiFetcher = {
 
   fetchTransactionsByAddress: (address: string, page: number, size: number, sort?: string, txTypeFilter?: string) =>
     v1GetUnwrappedPagedList<Transaction>(`address_transactions/${address}`, {
+      params: {
+        page,
+        page_size: size,
+        sort,
+        tx_type: txTypeFilter,
+      },
+    }),
+
+  fetchPendingTransactionsByAddress: (
+    address: string,
+    page: number,
+    size: number,
+    sort?: string,
+    txTypeFilter?: string,
+  ) =>
+    v1GetUnwrappedPagedList<Transaction>(`address_pending_transactions/${address}`, {
       params: {
         page,
         page_size: size,
@@ -149,14 +166,22 @@ export const apiFetcher = {
     // TODO: When will it return an empty result?
     v1GetNullableWrapped<{ data: string }>(`/cell_output_data/${id}`).then(res => res?.attributes.data ?? null),
 
-  fetchSearchResult: (param: string) =>
+  fetchSearchByIdResult: (param: string) =>
     v1Get<
       | Response.Wrapper<Block, SearchResultType.Block>
       | Response.Wrapper<Transaction, SearchResultType.Transaction>
       | Response.Wrapper<Address, SearchResultType.Address>
       | Response.Wrapper<Address, SearchResultType.LockHash>
       | Response.Wrapper<unknown, SearchResultType.UDT>
+      | Response.Wrapper<Script & { scriptHash: string }, SearchResultType.TypeScript>
     >('suggest_queries', {
+      params: {
+        q: param,
+      },
+    }),
+
+  fetchSearchByNameResult: (param: string) =>
+    v1GetUnwrappedList<UDTQueryResult>('udt_queries', {
       params: {
         q: param,
       },
@@ -902,3 +927,10 @@ export interface TransferListRes {
 export type DASAccount = string
 
 export type DASAccountMap = Record<string, DASAccount | null>
+
+export type UDTQueryResult = {
+  fullName: string
+  symbol: string | null
+  typeHash: string
+  iconFile: string | null
+}

@@ -1,7 +1,9 @@
+@import '../../styles/variables.module';
+
 .tabs {
   margin: 24px 0 40px;
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin: 20px 0;
   }
 

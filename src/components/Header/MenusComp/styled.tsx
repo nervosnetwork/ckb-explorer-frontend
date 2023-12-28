@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const MobileMenuItem = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ export const HeaderMenuPanel = styled.div`
       padding-left: 40px;
     }
 
-    @media (max-width: 1440px) {
+    @media (max-width: ${variables.xxlBreakPoint}) {
       padding-left: 24px;
     }
 
@@ -53,7 +54,7 @@ export const HeaderMenuPanel = styled.div`
       padding-left: 4px;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       padding-left: 0;
     }
 

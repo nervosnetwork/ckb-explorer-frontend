@@ -1,3 +1,5 @@
+@import '../../../styles/variables.module';
+
 .container {
   position: fixed;
   top: var(--navbar-height);
@@ -12,7 +14,7 @@
   background-color: #fa8f00;
   z-index: 9;
 
-  @media screen and (width <= 800px) {
+  @media (width <= $mobileBreakPoint) {
     text-align: left;
   }
 }

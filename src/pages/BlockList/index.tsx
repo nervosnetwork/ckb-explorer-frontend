@@ -10,7 +10,7 @@ import { TableTitleRow, TableContentRow, TableTitleRowItem } from '../../compone
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
-import DecimalCapacity from '../../components/DecimalCapacity'
+import Capacity from '../../components/Capacity'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, useMediaQuery, usePaginationParamsInListPage, useSortParam } from '../../hooks'
 import { explorerService } from '../../services/ExplorerService'
@@ -50,11 +50,11 @@ const getTableContentDataList = (block: Block, index: number, page: number, isMa
   const blockReward =
     index < DELAY_BLOCK_NUMBER && page === 1 ? (
       <BlockRewardContainer>
-        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+        <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
       </BlockRewardContainer>
     ) : (
       <BlockRewardPanel>
-        <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+        <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
       </BlockRewardPanel>
     )
 
@@ -99,11 +99,11 @@ const BlockCardGroup: FC<{ blocks: Block[]; isFirstPage: boolean }> = ({ blocks,
       content: (block, index) =>
         index < DELAY_BLOCK_NUMBER && isFirstPage ? (
           <BlockRewardContainer>
-            <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+            <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
           </BlockRewardContainer>
         ) : (
           <BlockRewardPanel>
-            <DecimalCapacity value={localeNumberString(shannonToCkb(block.reward))} hideUnit />
+            <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
           </BlockRewardPanel>
         ),
     },

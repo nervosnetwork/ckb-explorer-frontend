@@ -7,7 +7,7 @@ import Content from '../../components/Content'
 import { shannonToCkb } from '../../utils/util'
 import { localeNumberString } from '../../utils/number'
 import Pagination from '../../components/Pagination'
-import DecimalCapacity from '../../components/DecimalCapacity'
+import Capacity from '../../components/Capacity'
 import AddressText from '../../components/AddressText'
 import { useIsMobile, usePaginationParamsInListPage, useSearchParams, useSortParam } from '../../hooks'
 import { explorerService } from '../../services/ExplorerService'
@@ -56,7 +56,7 @@ const TransactionCardGroup: FC<{
     title: t('transaction.capacity'),
     sortRule: 'capacity',
     content: transaction => (
-      <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+      <Capacity capacity={shannonToCkb(transaction.capacityInvolved)} layout="responsive" unit={null} />
     ),
   }
 
@@ -92,7 +92,7 @@ const TransactionCardGroup: FC<{
     {
       title: t('transaction.transaction_fee'),
       sortRule: 'fee',
-      content: transaction => <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
+      content: transaction => <Capacity capacity={shannonToCkb(transaction.transactionFee)} layout="responsive" />,
     },
   ]
 
@@ -161,7 +161,7 @@ const TransactionTable: FC<{
       ),
       width: '30%',
       render: transaction => (
-        <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+        <Capacity capacity={shannonToCkb(transaction.capacityInvolved)} layout="responsive" unit={null} />
       ),
     },
     {
@@ -184,7 +184,7 @@ const TransactionTable: FC<{
       ),
       width: '22%',
       render: transaction => (
-        <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.capacityInvolved))} hideUnit />
+        <Capacity capacity={shannonToCkb(transaction.capacityInvolved)} layout="responsive" unit={null} />
       ),
     },
     {
@@ -210,7 +210,7 @@ const TransactionTable: FC<{
         </>
       ),
       width: '22%',
-      render: transaction => <DecimalCapacity value={localeNumberString(shannonToCkb(transaction.transactionFee))} />,
+      render: transaction => <Capacity capacity={shannonToCkb(transaction.transactionFee)} layout="responsive" />,
     },
   ]
 

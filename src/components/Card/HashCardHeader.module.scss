@@ -1,10 +1,12 @@
+@import '../../styles/variables.module';
+
 .hashCardHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 80px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     height: 56px;
   }
 
@@ -21,7 +23,7 @@
       color: #000;
       white-space: nowrap;
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         font-size: 20px;
       }
     }
@@ -31,7 +33,7 @@
       font-size: 18px;
       color: #000;
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         transform: translateY(2px);
       }
 
@@ -44,7 +46,7 @@
     .title + .hash {
       margin-left: 20px;
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         margin-left: 8px;
       }
     }
@@ -56,7 +58,7 @@
       margin-left: 32px;
       color: #999;
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         gap: 12px;
         margin-left: 8px;
       }
@@ -72,7 +74,7 @@
           color: var(--primary-color);
         }
 
-        @media (width <= 750px) {
+        @media (width <= $mobileBreakPoint) {
           width: 16px;
           height: 16px;
         }

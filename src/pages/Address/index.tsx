@@ -8,7 +8,14 @@ import { AddressContentPanel } from './styled'
 import { AddressTransactions, AddressOverviewCard } from './AddressComp'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
-import { useDeprecatedAddr, useNewAddr, usePaginationParamsInListPage, useSortParam } from '../../hooks'
+import type { Transaction } from '../../models/Transaction'
+import {
+  useDeprecatedAddr,
+  useNewAddr,
+  usePaginationParamsInListPage,
+  useSearchParams,
+  useSortParam,
+} from '../../hooks'
 import { isAxiosError } from '../../utils/error'
 import { Card, HashCardHeader } from '../../components/Card'
 import { ReactComponent as ShareIcon } from './share.svg'
@@ -19,17 +26,51 @@ export const Address = () => {
   const { address } = useParams<{ address: string }>()
   const { t } = useTranslation()
   const { currentPage, pageSize } = usePaginationParamsInListPage()
+  const { tx_status: txStatus } = useSearchParams('tx_status')
 
   // REFACTOR: avoid using useSortParam
   const { sortBy, orderBy, sort } = useSortParam<'time'>(s => s === 'time')
 
+  const isPendingTxListActive = txStatus === 'pending'
+
   const addressInfoQuery = useQuery(['address_info', address], () => explorerService.api.fetchAddressInfo(address))
 
-  const addressTransactionsQuery = useQuery(
-    ['address_transactions', address, currentPage, pageSize, sort],
+  const listQueryKey = [
+    isPendingTxListActive ? 'address_pending_transactions' : 'address_transactions',
+    address,
+    currentPage,
+    pageSize,
+    sort,
+  ]
+  const listQueryIns = isPendingTxListActive
+    ? explorerService.api.fetchPendingTransactionsByAddress
+    : explorerService.api.fetchTransactionsByAddress
+
+  const addressTransactionsQuery = useQuery(listQueryKey, async () => {
+    try {
+      const { data: transactions, total } = await listQueryIns(address, currentPage, pageSize, sort)
+      return {
+        transactions,
+        total,
+      }
+    } catch (err) {
+      const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
+      if (isEmptyAddress) {
+        return {
+          transactions: [],
+          total: 0,
+        }
+      }
+      throw err
+    }
+  })
+
+  /* reuse the cache of address_pending_transactions query by using the same query key */
+  const pendingTransactionCountQuery = useQuery<{ transactions: Transaction[]; total: number | '-' }>(
+    ['address_pending_transactions', address, currentPage, pageSize, sort],
     async () => {
       try {
-        const { data: transactions, total } = await explorerService.api.fetchTransactionsByAddress(
+        const { data: transactions, total } = await explorerService.api.fetchPendingTransactionsByAddress(
           address,
           currentPage,
           pageSize,
@@ -40,17 +81,22 @@ export const Address = () => {
           total,
         }
       } catch (err) {
-        const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
-        if (isEmptyAddress) {
-          return {
-            transactions: [],
-            total: 0,
-          }
-        }
-        throw err
+        return { transactions: [], total: '-' }
       }
     },
+    {
+      initialData: { transactions: [], total: '-' },
+    },
   )
+
+  const transactionCounts: Record<'committed' | 'pending', number | '-'> = {
+    committed:
+      addressInfoQuery.isFetched && addressInfoQuery.data
+        ? // FIXME: this type conversion could be removed once the type declaration of Transaction is fixed
+          Number(addressInfoQuery.data.transactionsCount) ?? '-'
+        : '-',
+    pending: pendingTransactionCountQuery.data?.total ?? '-',
+  }
 
   const newAddr = useNewAddr(address)
   const deprecatedAddr = useDeprecatedAddr(address)
@@ -95,8 +141,10 @@ export const Address = () => {
             <AddressTransactions
               address={address}
               transactions={data?.transactions ?? []}
-              transactionsTotal={data?.total ?? 0}
               timeOrderBy={sortBy === 'time' ? orderBy : 'desc'}
+              meta={{
+                counts: transactionCounts,
+              }}
             />
           )}
         </QueryResult>

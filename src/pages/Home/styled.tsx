@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 import styles from './index.module.scss'
+import variables from '../../styles/variables.module.scss'
 
 export const HomeHeaderItemPanel = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ export const HomeHeaderItemPanel = styled.div`
     width: 100%;
     margin: 0 30px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin: 0 20px;
     }
 
@@ -23,7 +24,7 @@ export const HomeHeaderItemPanel = styled.div`
       color: #555;
       font-size: 14px;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 12px;
       }
     }
@@ -38,7 +39,7 @@ export const HomeHeaderItemPanel = styled.div`
       .blockchainItemLeftValue {
         font-size: 20px;
 
-        @media (max-width: 750px) {
+        @media (max-width: ${variables.mobileBreakPoint}) {
           font-size: 16px;
         }
       }
@@ -46,7 +47,7 @@ export const HomeHeaderItemPanel = styled.div`
       .blockchainItemRightValue {
         font-size: 14px;
 
-        @media (max-width: 750px) {
+        @media (max-width: ${variables.mobileBreakPoint}) {
           font-size: 12px;
         }
       }
@@ -58,14 +59,14 @@ export const HomeHeaderItemPanel = styled.div`
     background: #eaeaea;
     width: 1px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       display: none;
     }
   }
 `
 
 export const HomeStatisticItemPanel = styled.div`
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     flex: 1;
     margin-left: ${(props: { isFirst?: boolean }) => (props.isFirst ? '0px' : '40px')};
   }
@@ -74,7 +75,7 @@ export const HomeStatisticItemPanel = styled.div`
     font-size: 14px;
     color: #fff;
 
-    @media (max-width: 1200px) {
+    @media (max-width: ${variables.extraLargeBreakPoint}) {
       font-size: 12px;
     }
   }
@@ -84,7 +85,7 @@ export const HomeStatisticItemPanel = styled.div`
     color: #fff;
     font-weight: bold;
 
-    @media (max-width: 1200px) {
+    @media (max-width: ${variables.extraLargeBreakPoint}) {
       font-size: 18px;
     }
   }
@@ -94,7 +95,7 @@ export const HomeTablePanel = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     flex-direction: column;
   }
 `
@@ -154,7 +155,7 @@ export const ContentTitle = styled.div`
     margin: 0 auto;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     font-size: 30px;
     color: #141414;
     font-weight: bold;
@@ -236,7 +237,7 @@ export const BlockRewardContainer = styled.div`
   align-items: flex-end;
   justify-content: center;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     align-items: flex-end;
     justify-content: flex-start;
   }

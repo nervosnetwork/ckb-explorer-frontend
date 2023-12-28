@@ -1,3 +1,5 @@
+@import '../../../styles/variables.module';
+
 $backgroundColor: #232323;
 
 .root {
@@ -10,7 +12,7 @@ $backgroundColor: #232323;
   background-position: center center;
   background-size: auto 100%;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     background-image: url('./ckb_explorer_banner_phone.svg');
   }
 }
@@ -29,7 +31,7 @@ $backgroundColor: #232323;
   background-position: bottom;
   background-size: cover;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     height: 300px;
   }
 }
@@ -53,7 +55,7 @@ $backgroundColor: #232323;
   flex-direction: column;
   gap: 8px;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     gap: 16px;
   }
 }
@@ -62,7 +64,7 @@ $backgroundColor: #232323;
   margin-top: -16px;
   height: 64px;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     height: 100px;
   }
 }
@@ -89,12 +91,12 @@ $backgroundColor: #232323;
     margin-top: -4px;
     margin-bottom: 4px;
 
-    @media (width >= 750px) {
+    @media (width >= $mobileBreakPoint) {
       text-shadow: 1.5px 1.5px 1px #57f3a9, -1px -1px 1px #eef8f2;
     }
   }
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     font-size: 40px;
   }
 }
@@ -115,7 +117,7 @@ $backgroundColor: #232323;
   display: flex;
   align-items: center;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     padding: 16px 24px;
   }
 }

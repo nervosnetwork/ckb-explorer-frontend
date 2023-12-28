@@ -1,6 +1,4 @@
-import styled from 'styled-components'
-
-export const LoadingPanel = styled.div`
+.loadingWrapper {
   width: 100%;
   margin: 100px 0;
   text-align: center;
@@ -17,4 +15,4 @@ export const LoadingPanel = styled.div`
       width: 135px;
     }
   }
-`
+}

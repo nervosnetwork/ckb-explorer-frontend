@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { useState, useEffect, FC } from 'react'
+import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Radio } from 'antd'
 import { Base64 } from 'js-base64'
@@ -17,7 +18,7 @@ import {
   AddressUDTAssetsPanel,
   AddressUDTItemPanel,
 } from './styled'
-import DecimalCapacity from '../../components/DecimalCapacity'
+import Capacity from '../../components/Capacity'
 import CKBTokenIcon from './ckb_token_icon.png'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { ReactComponent as TimeDownIcon } from './time_down.svg'
@@ -32,7 +33,7 @@ import {
   useUpdateSearchParams,
 } from '../../hooks'
 import styles from './styles.module.scss'
-import TransactionLiteItem from '../../components/TransactionItem/TransactionLiteItem'
+import LiteTransactionList from '../../components/LiteTransactionList'
 import Script from '../../components/Script'
 import AddressText from '../../components/AddressText'
 import { parseSimpleDateNoSecond } from '../../utils/date'
@@ -234,22 +235,22 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
       cell: {
         icon: <img src={CKBTokenIcon} alt="item icon" width="100%" />,
         title: t('common.ckb_unit'),
-        content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balance))} />,
+        content: <Capacity capacity={shannonToCkb(address.balance)} />,
       },
     },
     {
       title: t('address.occupied'),
       tooltip: t('glossary.occupied'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.balanceOccupied))} />,
+      content: <Capacity capacity={shannonToCkb(address.balanceOccupied)} />,
     },
     {
       title: t('address.dao_deposit'),
       tooltip: t('glossary.nervos_dao_deposit'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoDeposit))} />,
+      content: <Capacity capacity={shannonToCkb(address.daoDeposit)} />,
     },
     {
       title: t('address.compensation'),
-      content: <DecimalCapacity value={localeNumberString(shannonToCkb(address.daoCompensation))} />,
+      content: <Capacity capacity={shannonToCkb(address.daoCompensation)} />,
       tooltip: t('glossary.nervos_dao_compensation'),
     },
   ]
@@ -294,26 +295,31 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
   )
 }
 
+// TODO: Adding loading
 export const AddressTransactions = ({
   address,
   transactions,
-  transactionsTotal: total,
   timeOrderBy,
+  meta: { counts },
 }: {
   address: string
   transactions: Transaction[]
-  transactionsTotal: number
   timeOrderBy: OrderByType
+  meta: { counts: Record<'committed' | 'pending', number | '-'> }
 }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
   const { Professional, Lite } = LayoutLiteProfessional
-  const searchParams = useSearchParams('layout')
+  const searchParams = useSearchParams('layout', 'tx_status')
   const defaultLayout = Professional
   const updateSearchParams = useUpdateSearchParams<'layout' | 'sort' | 'tx_type'>()
   const layout = searchParams.layout === Lite ? Lite : defaultLayout
-  const totalPages = Math.ceil(total / pageSize)
+
+  const txStatus = searchParams.tx_status
+  const isPendingListActive = txStatus === 'pending'
+  const total = isPendingListActive ? counts.pending : counts.committed
+  const totalPages = total === '-' ? 0 : Math.ceil(total / pageSize)
 
   const onChangeLayout = (layoutType: LayoutLiteProfessional) => {
     updateSearchParams(params =>
@@ -370,7 +376,22 @@ export const AddressTransactions = ({
       <Card className={styles.transactionListOptionsCard} rounded="top">
         <CardHeader
           className={styles.cardHeader}
-          leftContent={`${t('transaction.transactions')} (${localeNumberString(total)})`}
+          leftContent={
+            <div className={styles.txHeaderLabels}>
+              <Link
+                to={`/address/${address}?${new URLSearchParams({ ...searchParams, tx_status: 'committed' })}`}
+                data-is-active={!isPendingListActive}
+              >{`${t('transaction.transactions')} (${
+                counts.committed === '-' ? counts.committed : localeNumberString(counts.committed)
+              })`}</Link>
+              <Link
+                to={`/address/${address}?${new URLSearchParams({ ...searchParams, tx_status: 'pending' })}`}
+                data-is-active={isPendingListActive}
+              >{`${t('transaction.pending_transactions')} (${
+                counts.pending === '-' ? counts.pending : localeNumberString(counts.pending)
+              })`}</Link>
+            </div>
+          }
           rightContent={!isMobile && searchOptionsAndModeSwitch}
         />
         {isMobile && searchOptionsAndModeSwitch}
@@ -378,38 +399,28 @@ export const AddressTransactions = ({
 
       <AddressTransactionsPanel>
         {layout === 'lite' ? (
-          <>
-            {!isMobile && (
-              <div className={styles.liteTransactionHeader}>
-                <div>{t('transaction.transaction_hash')}</div>
-                <div>{t('transaction.height')}</div>
-                <div>{t('transaction.time')}</div>
-                <div>{`${t('transaction.input')} & ${t('transaction.output')}`}</div>
-                <div>{t('transaction.capacity_change')}</div>
-              </div>
-            )}
-            {txList.map((transaction: Transaction) => (
-              <TransactionLiteItem address={address} transaction={transaction} key={transaction.transactionHash} />
-            ))}
-          </>
+          <LiteTransactionList address={address} list={transactions} />
         ) : (
-          txList.map((transaction: Transaction, index: number) => (
-            <TransactionItem
-              address={address}
-              transaction={transaction}
-              key={transaction.transactionHash}
-              circleCorner={{
-                bottom: index === transactions.length - 1 && totalPages === 1,
-              }}
-            />
-          ))
+          <>
+            {txList.map((transaction: Transaction, index: number) => (
+              <TransactionItem
+                address={address}
+                transaction={transaction}
+                key={transaction.transactionHash}
+                circleCorner={{
+                  bottom: index === transactions.length - 1 && totalPages === 1,
+                }}
+              />
+            ))}
+            {txList.length === 0 ? <div className={styles.noRecords}>{t(`transaction.no_records`)}</div> : null}
+          </>
         )}
       </AddressTransactionsPanel>
       <PaginationWithRear
         currentPage={currentPage}
         totalPages={totalPages}
         onChange={setPage}
-        rear={<CsvExport type="address_transactions" id={address} />}
+        rear={isPendingListActive ? null : <CsvExport type="address_transactions" id={address} />}
       />
     </>
   )

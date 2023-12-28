@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const DepositorRankPanel = styled.div`
   width: 100%;
@@ -54,7 +55,7 @@ export const DepositorRankItem = styled.div`
   font-size: 16px;
   height: 40px;
 
-  @media (max-width: 1000px) {
+  @media (max-width: ${variables.largeBreakPoint}) {
     font-size: 14px;
   }
 
