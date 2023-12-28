@@ -42,7 +42,7 @@ test('show clear button when content is available', async () => {
   fireEvent.change(inputEl, { target: { value: 'test' } })
   const btn = getClearButton()
   expect(btn).toBeTruthy()
-  btn.click()
+  fireEvent.click(btn)
   expect(inputEl.value).toBe('')
   expect(getClearButton()).toBeFalsy()
 })

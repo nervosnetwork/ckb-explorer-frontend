@@ -3,13 +3,17 @@
   width: 100%;
   z-index: 2;
   padding: 12px 8px;
-  max-height: 200px;
+  max-height: 232px;
   overflow-y: auto;
   background: white;
   color: black;
   top: 38px;
   left: 0;
   border-radius: 0 0 4px 4px;
+
+  .loadingWrapper {
+    margin: 0;
+  }
 }
 
 .searchResult {

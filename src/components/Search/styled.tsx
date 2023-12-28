@@ -27,7 +27,7 @@ export const SearchPanel = styled.div`
   }
 `
 
-export const SearchImage = styled(SimpleButton)`
+export const ImageButton = styled(SimpleButton)`
   display: flex;
   align-items: center;
   margin: ${(props: { isClear?: boolean }) => (props.isClear ? '0 8px 0 0' : '0 0 0 8px')};

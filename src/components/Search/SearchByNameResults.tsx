@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { UDTQueryResult } from '../../services/ExplorerService/fetcher'
 import styles from './SearchByNameResults.module.scss'
 import EllipsisMiddle from '../EllipsisMiddle'
-import Loading from '../Loading'
+import SmallLoading from '../Loading/SmallLoading'
 
 type Props = {
   loading?: boolean
@@ -15,7 +15,7 @@ export const SearchByNameResults = (props: Props) => {
   if (loading) {
     return (
       <div className={styles.searchResultsPanelWrapper}>
-        <Loading show />
+        <SmallLoading className={styles.loadingWrapper} />
       </div>
     )
   }
@@ -43,10 +43,11 @@ const EmptySearchByNameResult = () => {
 const SearchByNameResult = (props: { item: UDTQueryResult }) => {
   const { t } = useTranslation()
   const { item } = props
-  const { typeHash, symbol } = item
+  const { typeHash, fullName, symbol } = item
+  const displayName = symbol ?? fullName
   return (
     <a className={styles.searchResult} href={`${window.origin}/sudt/${typeHash}`}>
-      <span className={styles.tokenSymbol}>{symbol ?? t('udt.unknown_token')}</span>
+      <EllipsisMiddle className={styles.tokenSymbol}>{displayName ?? t('udt.unknown_token')}</EllipsisMiddle>
       <EllipsisMiddle className={classNames(styles.typeHash, 'monospace')}>{typeHash}</EllipsisMiddle>
     </a>
   )
