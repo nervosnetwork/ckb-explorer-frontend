@@ -5,6 +5,7 @@
 import { useEffect, useState, RefObject, useCallback, useRef } from 'react'
 import { useResizeDetector } from 'react-resize-detector'
 import { startEndEllipsis } from '../utils/string'
+import variables from '../styles/variables.module.scss'
 
 export function useElementIntersecting(
   ref: RefObject<HTMLElement>,
@@ -94,12 +95,12 @@ export function useMediaQuery(query: string): boolean {
   return matches
 }
 
-export const MOBILE_DEVICE_MAX_WIDTH = 750
-export const useIsMobile = () => useMediaQuery(`(max-width: ${MOBILE_DEVICE_MAX_WIDTH}px)`)
-export const useIsLGScreen = (exact = false) => {
+export const mobileBreakPoint = Number(variables.mobileBreakPoint.replace('px', ''))
+export const useIsMobile = () => useMediaQuery(`(max-width: ${variables.mobileBreakPoint})`)
+export const useIsExtraLarge = (exact = false) => {
   const isMobile = useIsMobile()
-  const isLG = useMediaQuery(`(max-width: 1200px)`)
-  return !exact ? isLG : isLG && !isMobile
+  const isExtraLarge = useMediaQuery(`(max-width: ${variables.extraLargeBreakPoint})`)
+  return !exact ? isExtraLarge : isExtraLarge && !isMobile
 }
 
 export function useAdaptMobileEllipsis() {
@@ -114,7 +115,7 @@ export function useAdaptMobileEllipsis() {
         const step = Math.ceil((width - 420) / 15)
         return startEndEllipsis(value, length + step, length + step)
       }
-      if (width < 750) {
+      if (width < mobileBreakPoint) {
         const step = Math.ceil((width - 500) / 15)
         return startEndEllipsis(value, length + step, length + step)
       }
@@ -128,7 +129,7 @@ export function useAdaptMobileEllipsis() {
 
 export function useAdaptPCEllipsis(factor = 40) {
   const { width } = useWindowSize()
-  const isMobile = width < 750
+  const isMobile = width < mobileBreakPoint
   const clippedWidth = Math.min(width, 1200)
   const step = Math.ceil((clippedWidth - 700) / factor)
 

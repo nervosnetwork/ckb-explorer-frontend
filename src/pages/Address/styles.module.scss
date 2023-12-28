@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .addressOverviewCard:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
   ) {
@@ -13,7 +15,7 @@
     font-weight: 600;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin-top: 20px;
     padding-bottom: 16px;
   }
@@ -26,12 +28,62 @@
 .addressWidthModify {
   max-width: 80%;
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     max-width: 40%;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     max-width: 100%;
+  }
+}
+
+.txHeaderLabels {
+  display: flex;
+  align-items: stretch;
+
+  @media (width <= $mobileBreakPoint) {
+    margin-bottom: 1rem;
+  }
+
+  a {
+    position: relative;
+    height: 100%;
+    font-weight: 400;
+    white-space: nowrap;
+    margin-right: 1rem;
+
+    &[data-is-active='true'] {
+      font-weight: 600; // 500 is set in figma, but not obvious enough in fact
+      &::after {
+        content: '';
+        display: block;
+        width: 72px;
+        height: 4px;
+        background: var(--primary-color);
+        position: absolute;
+        bottom: -24px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        @media (width <= $mobileBreakPoint) {
+          width: 104px;
+          height: 2px;
+          bottom: -10px;
+        }
+      }
+    }
+
+    &:first-child {
+      margin-right: 4rem;
+
+      @media (width <= $extraLargeBreakPoint) {
+        margin-right: 1rem;
+      }
+    }
+
+    &:hover {
+      color: var(--primary-color);
+    }
   }
 }
 
@@ -40,15 +92,20 @@
   ) {
   margin-top: 24px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     padding-bottom: 16px;
   }
 
   .cardHeader {
     padding: 20px 0;
+    overflow: scroll;
 
-    @media (width <= 750px) {
-      padding: 16px 0;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (width <= $mobileBreakPoint) {
+      padding: 10px 0;
     }
   }
 }
@@ -57,10 +114,13 @@
   display: flex;
   gap: 40px;
 
-  @media (width <= 750px) {
+  @media (width <= $extraLargeBreakPoint) {
+    gap: 1rem;
+  }
+
+  @media (width <= $mobileBreakPoint) {
     flex-direction: column-reverse;
     align-items: flex-end;
-    gap: 16px;
   }
 }
 
@@ -84,7 +144,7 @@
 .layoutButtons {
   width: 240px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     width: 100%;
   }
 
@@ -193,7 +253,7 @@
   font-size: 16px;
   font-weight: 500;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     max-width: 90px;
     font-size: 13px;
   }
@@ -210,4 +270,13 @@
     text-overflow: ellipsis;
     color: #333;
   }
+}
+
+.noRecords {
+  display: flex;
+  background: #fff;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  font-size: 1rem;
 }

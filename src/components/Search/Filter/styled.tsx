@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import SimpleButton from '../../SimpleButton'
+import variables from '../../../styles/variables.module.scss'
 
 export const FilterPanel = styled.div`
   width: 600px;
@@ -9,15 +10,15 @@ export const FilterPanel = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${variables.extraLargeBreakPoint}) {
     width: 450px;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: ${variables.largeBreakPoint}) {
     width: 320px;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     width: 100%;
   }
 `
@@ -31,7 +32,7 @@ export const FilterImage = styled(SimpleButton)`
   justify-content: center;
   cursor: ${(props: { isClear?: boolean }) => (props.isClear ? 'pointer' : 'default')};
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin-left: ${(props: { isClear?: boolean }) => (props.isClear ? '-14%' : '0')};
     margin-right: ${(props: { isClear?: boolean }) => (props.isClear ? '0' : '-14%')};
   }
@@ -41,7 +42,7 @@ export const FilterImage = styled(SimpleButton)`
     width: ${(props: { isClear?: boolean }) => (props.isClear ? '12px' : '18px')};
     height: ${(props: { isClear?: boolean }) => (props.isClear ? '12px' : '18px')};
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-top: 0;
     }
   }
@@ -70,15 +71,15 @@ export const FilterInputPanel = styled.input`
     color: #bababa;
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${variables.extraLargeBreakPoint}) {
     width: ${(props: { showReset: boolean }) => (props.showReset ? '380px' : '100%')};
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: ${variables.largeBreakPoint}) {
     width: ${(props: { showReset: boolean }) => (props.showReset ? '250px' : '100%')};
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     width: ${(props: { showReset: boolean }) => (props.showReset ? '82%' : '100%')};
     font-size: 12px;
   }
@@ -98,7 +99,7 @@ export const ResetButtonPanel = styled.div`
     background: #ddd;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     width: 50px;
   }
 `

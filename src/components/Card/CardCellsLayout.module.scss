@@ -1,3 +1,4 @@
+@import '../../styles/variables.module';
 @value cardCell from "./CardCell.module.scss";
 
 .cardCellsLayout {
@@ -55,7 +56,7 @@
     }
   }
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     flex-direction: column;
     gap: 20px;
 
@@ -70,7 +71,7 @@
     }
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     gap: 0;
     padding: 0;
 

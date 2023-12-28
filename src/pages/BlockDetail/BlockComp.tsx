@@ -15,7 +15,7 @@ import HelpIcon from '../../assets/qa_help.png'
 import MoreIcon from '../../assets/more.png'
 import MinerRewardIcon from './miner_complete.png'
 import { ReactComponent as LeftArrow } from './prev_block.svg'
-import DecimalCapacity from '../../components/DecimalCapacity'
+import Capacity from '../../components/Capacity'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { Card, CardCell, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../components/Card'
 import styles from './styles.module.scss'
@@ -94,7 +94,7 @@ export const BlockOverviewCard: FC<{ blockHeightOrHash: string; block: Block }> 
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const tipBlockNumber = useLatestBlockNumber()
-  const minerReward = <DecimalCapacity value={localeNumberString(shannonToCkb(block.minerReward))} />
+  const minerReward = <Capacity capacity={shannonToCkb(block.minerReward)} />
   const rootInfoItem: CardCellInfo = {
     title: t('block.transactions_root'),
     tooltip: t('glossary.transactions_root'),

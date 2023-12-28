@@ -1,11 +1,12 @@
+import classNames from 'classnames'
 import LoadingImage from '../../assets/loading.gif'
 import LoadingBlueImage from '../../assets/blue_loading.gif'
 import { isMainnet } from '../../utils/chain'
-import { LoadingPanel } from './styled'
+import styles from './index.module.scss'
 
-export default ({ show }: { show: boolean }) =>
+export default ({ show, className }: { show: boolean; className?: string }) =>
   show ? (
-    <LoadingPanel>
+    <div className={classNames(styles.loadingWrapper, className)}>
       <img src={isMainnet() ? LoadingImage : LoadingBlueImage} alt="loading" />
-    </LoadingPanel>
+    </div>
   ) : null

@@ -1,10 +1,11 @@
 import styled from 'styled-components'
+import variables from '../../styles/variables.module.scss'
 
 export const SearchPanel = styled.div`
   margin-top: 200px;
   margin-bottom: 240px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin-top: 120px;
     margin-bottom: 150px;
   }
@@ -13,7 +14,7 @@ export const SearchPanel = styled.div`
     width: 600px;
     margin: 0 auto;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       width: 340px;
     }
   }
@@ -28,7 +29,7 @@ export const SearchContent = styled.div`
   white-space: pre-wrap;
   width: 600px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     width: 340px;
   }
 
@@ -41,7 +42,7 @@ export const SearchContent = styled.div`
     color: ${props => props.theme.primary};
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     font-size: 12px;
   }
 
@@ -53,7 +54,7 @@ export const SearchContent = styled.div`
     font-weight: bold;
     font-size: 16px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 12px;
     }
 

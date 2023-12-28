@@ -1,3 +1,5 @@
+@import '../../../styles/variables.module';
+
 .depositorCardGroup {
   margin-top: 4px;
   gap: 4px;
@@ -9,7 +11,7 @@
   text-align: center;
   color: var(--primary-color);
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     width: 100%;
     padding: 0;
     text-align: start;

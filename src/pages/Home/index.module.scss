@@ -1,9 +1,11 @@
+@import '../../styles/variables.module';
+
 .homeHeaderTopPanel {
   margin: 20px 0;
   display: flex;
   align-items: center;
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     display: block;
   }
 
@@ -18,7 +20,7 @@
       margin-right: 8px;
     }
 
-    @media (width <= 1200px) {
+    @media (width <= $extraLargeBreakPoint) {
       margin-bottom: 20px;
     }
 
@@ -33,7 +35,7 @@
     width: 600px;
     flex-grow: 2;
 
-    @media (width <= 1200px) {
+    @media (width <= $extraLargeBreakPoint) {
       width: 100%;
     }
   }
@@ -47,7 +49,7 @@
   border-radius: 0 0 6px 6px;
   background: #fff;
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     flex-direction: column;
     padding: 10px 5px 0;
     box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
@@ -66,7 +68,7 @@
     width: auto;
     margin: 0 30px;
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       margin: 0 20px;
     }
   }
@@ -91,11 +93,11 @@
   width: 100%;
   display: flex;
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     height: 213px;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     flex-direction: column;
     height: 150px;
   }
@@ -107,11 +109,11 @@
     border-radius: 6px 0 0;
     border: 2px solid #6b88cf;
 
-    @media (width <= 1200px) {
+    @media (width <= $extraLargeBreakPoint) {
       flex-direction: column;
     }
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       border-radius: 6px 6px 0 0;
       border: 0 solid;
     }
@@ -126,18 +128,18 @@
       border-radius: 6px 0 0;
       background: linear-gradient(314deg, #6093e4, #6b88cf 49%, #7074de 80%);
 
-      @media (width >= 1440px) {
+      @media (width >= $xxlBreakPoint) {
         flex: 0;
         width: 246px;
         min-width: 246px;
       }
 
-      @media (width <= 1200px) {
+      @media (width <= $extraLargeBreakPoint) {
         padding: 15px 30px 10px;
         flex-direction: row;
       }
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         border-radius: 6px 6px 0 0;
         padding: 15px 23px 10px 20px;
         margin: 0;
@@ -151,11 +153,11 @@
       border-radius: 0;
       background: linear-gradient(304deg, #6e85e0 2%, #577cdb 48%, #486ecc 99%);
 
-      @media (width <= 1200px) {
+      @media (width <= $extraLargeBreakPoint) {
         padding: 6px 20px;
       }
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         flex: 0;
         display: none;
         margin: 0;
@@ -170,13 +172,13 @@
     border-radius: 0 6px 0 0;
     border: 2px solid #334350;
 
-    @media (width <= 1200px) {
+    @media (width <= $extraLargeBreakPoint) {
       flex-direction: column;
       border-radius: 0 6px 0 0;
       border: 2px solid #444c5a;
     }
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       flex-direction: column;
       border-radius: 0;
     }
@@ -190,20 +192,20 @@
       justify-content: space-between;
       background: linear-gradient(134deg, #444b57, #39424a 48%, #444c5a 96%);
 
-      @media (width >= 1440px) {
+      @media (width >= $xxlBreakPoint) {
         flex: 0;
         width: 246px;
         min-width: 246px;
       }
 
-      @media (width <= 1200px) {
+      @media (width <= $extraLargeBreakPoint) {
         padding: 15px 30px 10px;
         margin: -2px;
         border-radius: 0 6px 0 0;
         flex-direction: row;
       }
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         padding: 15px 20px 10px;
       }
     }
@@ -215,12 +217,12 @@
       border-radius: 0 6px 0 0;
       background: linear-gradient(118deg, #31383e, #35414d 48%, #334350);
 
-      @media (width <= 1200px) {
+      @media (width <= $extraLargeBreakPoint) {
         border-radius: 0;
         padding: 6px 20px;
       }
 
-      @media (width <= 750px) {
+      @media (width <= $mobileBreakPoint) {
         flex: 0;
         display: none;
         margin: 0;

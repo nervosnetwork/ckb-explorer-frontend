@@ -1,10 +1,11 @@
 import styled from 'styled-components'
+import variables from '../../styles/variables.module.scss'
 
 export const TokensPanel = styled.div`
   margin-top: 40px;
   margin-bottom: 60px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin-top: 20px;
     margin-bottom: 30px;
   }
@@ -15,7 +16,7 @@ export const TokensPanel = styled.div`
     align-items: center;
     margin-bottom: 20px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-bottom: 10px;
     }
 
@@ -65,7 +66,7 @@ export const TokensTableTitle = styled.div`
     text-align: right;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: ${variables.largeBreakPoint}) {
     > span:nth-child(1) {
       flex: 3.4;
     }
@@ -83,7 +84,7 @@ export const TokensTableTitle = styled.div`
     }
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     flex-flow: row wrap;
     height: fit-content;
     padding: 5px 20px;
@@ -104,7 +105,7 @@ export const TokensTableContent = styled.div`
   color: #000;
   margin-top: 4px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     border-radius: 6px;
     padding: 5px 0;
   }
@@ -123,7 +124,7 @@ export const TokensTableItem = styled.div`
     width: 100%;
     padding: 15px 25px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       flex-direction: column;
       align-items: flex-start;
       padding: 10px 20px;
@@ -139,7 +140,7 @@ export const TokensTableItem = styled.div`
       width: 30px;
       height: 30px;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         width: 20px;
         height: 20px;
       }
@@ -157,7 +158,7 @@ export const TokensTableItem = styled.div`
       }
     }
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${variables.largeBreakPoint}) {
       flex: 3.4;
     }
   }
@@ -168,11 +169,11 @@ export const TokensTableItem = styled.div`
     text-align: right;
     color: #000;
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${variables.largeBreakPoint}) {
       flex: 2.5;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-left: 30px;
       margin-top: 3px;
     }
@@ -184,11 +185,11 @@ export const TokensTableItem = styled.div`
     text-align: right;
     color: #000;
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${variables.largeBreakPoint}) {
       flex: 2.1;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-left: 30px;
       margin-top: 3px;
     }
@@ -200,7 +201,7 @@ export const TokensTableItem = styled.div`
     text-align: right;
     color: #000;
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${variables.largeBreakPoint}) {
       flex: 2;
     }
   }
@@ -250,7 +251,7 @@ export const TokensContentEmpty = styled.div`
   margin-top: 4px;
   margin-bottom: 180px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     font-size: 14px;
     border-radius: 6px;
     margin-bottom: 160px;
@@ -261,7 +262,7 @@ export const TokensLoadingPanel = styled.div`
   width: 100%;
   text-align: center;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     height: 100px;
     line-height: 100px;
     margin-bottom: 160px;

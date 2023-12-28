@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../styles/variables.module.scss'
 
 export const PaginationPanel = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ export const PaginationLeftItem = styled.div`
   color: #000;
   padding-left: 20px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     padding-left: 0;
     justify-content: flex-start;
   }
@@ -43,7 +44,7 @@ export const PaginationLeftItem = styled.div`
       background: #ddd;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       display: none;
     }
   }
@@ -61,7 +62,7 @@ export const PaginationLeftItem = styled.div`
       background: #ddd;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-left: 10px;
     }
 
@@ -82,7 +83,7 @@ export const PaginationLeftItem = styled.div`
     padding: 0 12px;
     margin-left: 20px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       background: white;
       border-radius: 0;
       margin-left: 10px;
@@ -105,7 +106,7 @@ export const PaginationLeftItem = styled.div`
     border-radius: 6px;
     pointer-events: ${(props: { isFirstPage: boolean; isLastPage: boolean }) => (props.isLastPage ? 'none' : 'auto')};
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-left: 10px;
     }
 
@@ -137,7 +138,7 @@ export const PaginationLeftItem = styled.div`
       background: #ddd;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       display: none;
     }
   }
@@ -151,7 +152,7 @@ export const PaginationRightItem = styled.div`
   color: #000;
   padding-right: 20px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     padding-right: 0;
     justify-content: flex-end;
   }
@@ -167,7 +168,7 @@ export const PaginationRightItem = styled.div`
     margin-right: 20px;
     padding-left: 10px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       width: 60px;
       margin-right: 0;
       padding-left: 8px;
@@ -178,7 +179,7 @@ export const PaginationRightItem = styled.div`
   .paginationPageLabel {
     margin-right: 20px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       display: none;
     }
   }
@@ -199,7 +200,7 @@ export const PaginationRightItem = styled.div`
       background: #ddd;
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       margin-left: 10px;
       margin-right: 10px;
       font-size: 12px;

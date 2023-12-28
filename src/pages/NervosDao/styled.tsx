@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../styles/variables.module.scss'
 
 export const DaoContentPanel = styled.div`
   display: flex;
@@ -7,7 +8,7 @@ export const DaoContentPanel = styled.div`
   margin-top: 30px;
   margin-bottom: 40px;
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin: 0;
     padding: 20px;
   }
@@ -25,11 +26,11 @@ export const DaoTabBarPanel = styled.div`
   font-size: 18px;
   border-radius: 6px 6px 0 0;
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${variables.extraLargeBreakPoint}) {
     font-size: 16px;
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     padding: 10px 0;
     flex-direction: column;
     justify-content: center;
@@ -49,7 +50,7 @@ export const DaoTabBarPanel = styled.div`
     cursor: pointer;
     margin-right: 15px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       display: flex;
       justify-content: space-between;
       margin-bottom: 25px;
@@ -59,7 +60,7 @@ export const DaoTabBarPanel = styled.div`
     .div {
       font-size: 20px;
 
-      @media (max-width: 750px) {
+      @media (max-width: ${variables.mobileBreakPoint}) {
         font-size: 13px;
       }
     }
@@ -67,7 +68,7 @@ export const DaoTabBarPanel = styled.div`
     div:nth-child(2) {
       margin-left: 50px;
 
-      @media (max-width: 1200px) {
+      @media (max-width: ${variables.extraLargeBreakPoint}) {
         margin-left: 30px;
       }
     }
@@ -79,7 +80,7 @@ export const DaoTabBarPanel = styled.div`
       font-weight: normal;
       font-size: 18px;
 
-      @media (max-width: 1200px) {
+      @media (max-width: ${variables.extraLargeBreakPoint}) {
         width: 110px;
       }
     }
@@ -92,7 +93,7 @@ export const DaoTabBarPanel = styled.div`
       font-weight: bold;
       border-bottom: 3px solid ${props => props.theme.primary};
 
-      @media (max-width: 1200px) {
+      @media (max-width: ${variables.extraLargeBreakPoint}) {
         width: 110px;
       }
     }

@@ -1,0 +1,12 @@
+// These values are determined based on legacy code and have no other specific reasons.
+$xxlBreakPoint: 1440px;
+$extraLargeBreakPoint: 1200px;
+$largeBreakPoint: 1000px;
+$mobileBreakPoint: 750px;
+
+:export {
+  xxlBreakPoint: $xxlBreakPoint;
+  extraLargeBreakPoint: $extraLargeBreakPoint;
+  largeBreakPoint: $largeBreakPoint;
+  mobileBreakPoint: $mobileBreakPoint;
+}

@@ -1,9 +1,11 @@
+@import '../../styles/variables.module';
+
 .simpleUDTOverviewCard:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
   ) {
   padding-bottom: 20px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     padding-bottom: 16px;
   }
 }
@@ -23,7 +25,7 @@
     height: 40px;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     flex-direction: column;
     gap: 4px;
     padding-top: 16px;
@@ -39,7 +41,7 @@
 }
 
 .cardHeader {
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     height: min-content;
     padding: 8px 0 12px;
   }
@@ -57,7 +59,7 @@
     }
   }
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin-left: 2px;
   }
 }
@@ -65,11 +67,11 @@
 .addressWidthModify {
   max-width: 80%;
 
-  @media (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     max-width: 40%;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     max-width: 100%;
   }
 }
@@ -82,7 +84,7 @@
     margin-left: 8px;
   }
 
-  @media screen and (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     width: 100%;
   }
 }

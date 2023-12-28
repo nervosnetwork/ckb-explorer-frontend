@@ -3,7 +3,7 @@ import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { CellType } from '../../../constants/common'
-import { localeNumberString, parseUDTAmount } from '../../../utils/number'
+import { parseUDTAmount } from '../../../utils/number'
 import { parseSimpleDate } from '../../../utils/date'
 import { sliceNftName } from '../../../utils/string'
 import { shannonToCkb, shannonToCkbDecimal, parseSince } from '../../../utils/util'
@@ -20,7 +20,7 @@ import {
   TransactionCellNftInfo,
 } from './styled'
 import TransactionCellArrow from '../../../components/Transaction/TransactionCellArrow'
-import DecimalCapacity from '../../../components/DecimalCapacity'
+import Capacity from '../../../components/Capacity'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import UDTTokenIcon from '../../../assets/udt_token.png'
@@ -285,7 +285,7 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
     }
     return <span>{`${t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}</span>
   }
-  return <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+  return <Capacity capacity={shannonToCkb(cell.capacity)} layout="responsive" />
 }
 
 const TransactionCellMobileItem = ({ title, value = null }: { title: string | ReactNode; value?: ReactNode }) => (

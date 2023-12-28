@@ -20,7 +20,7 @@ import {
 } from './styled'
 import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../../Transaction/TransactionCellArrow'
-import DecimalCapacity from '../../DecimalCapacity'
+import Capacity from '../../Capacity'
 import { parseDiffDate } from '../../../utils/date'
 import Cellbase from '../../Transaction/Cellbase'
 import styles from './index.module.scss'
@@ -89,7 +89,6 @@ const WithdrawPopoverItem = ({
 )
 
 const WithdrawPopoverInfo = ({ cell }: { cell: Cell }) => {
-  const isMobile = useIsMobile()
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
   let width = 'short'
@@ -104,18 +103,14 @@ const WithdrawPopoverInfo = ({ cell }: { cell: Cell }) => {
       <WithdrawPopoverItem
         width={width}
         title={`${t('nervos_dao.deposit_capacity')}: `}
-        content={
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} fontSize={isMobile ? '8px' : ''} />
-        }
+        content={<Capacity capacity={shannonToCkb(cell.capacity)} />}
       />
       <WithdrawPopoverItem
         width={width}
         title={`${t(
           isDaoWithdrawCell(cell.cellType) ? 'nervos_dao.compensation' : 'nervos_dao.unissued_compensation',
         )}: `}
-        content={
-          <DecimalCapacity value={localeNumberString(shannonToCkb(cell.interest))} fontSize={isMobile ? '8px' : ''} />
-        }
+        content={<Capacity capacity={shannonToCkb(cell.interest)} />}
       />
       <WithdrawPopoverItem
         width={width}
@@ -172,7 +167,7 @@ const TransactionCellNervosDao = ({ cell, cellType }: { cell: Cell; cellType: Ce
   const { t } = useTranslation()
   return (
     <TransactionCellWithdraw>
-      <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+      <Capacity capacity={shannonToCkb(cell.capacity)} />
       {cellType === CellType.Input ? (
         <Popover placement="right" title="" content={<WithdrawPopoverInfo cell={cell} />} trigger="click">
           <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
@@ -225,7 +220,7 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: Cell; cellType: Cel
 
   return (
     <div className="transactionCellWithoutIcon">
-      <DecimalCapacity value={localeNumberString(shannonToCkb(cell.capacity))} />
+      <Capacity capacity={shannonToCkb(cell.capacity)} />
     </div>
   )
 }

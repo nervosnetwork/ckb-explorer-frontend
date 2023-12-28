@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .container {
   margin: 40px 120px 60px;
 }
@@ -286,13 +288,13 @@ div[data-role='mobile-list'] {
   }
 }
 
-@media screen and (width <= 1200px) {
+@media (width <= $extraLargeBreakPoint) {
   .container {
     margin: 40px 45px 60px;
   }
 }
 
-@media screen and (width <= 1000px) {
+@media (width <= $largeBreakPoint) {
   .container {
     margin: 20px 16px 60px;
 
@@ -306,7 +308,7 @@ div[data-role='mobile-list'] {
   }
 }
 
-@media screen and (width <= 350px) {
+@media (width <= 350px) {
   div[data-role='mobile-list'] {
     font-size: 0.8rem;
   }

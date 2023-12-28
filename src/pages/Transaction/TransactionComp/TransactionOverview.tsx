@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Trans, useTranslation } from 'react-i18next'
 import { Radio, Tooltip } from 'antd'
-import DecimalCapacity from '../../../components/DecimalCapacity'
+import classNames from 'classnames'
+import Capacity from '../../../components/Capacity'
 import HashTag from '../../../components/HashTag'
 import { HelpTip } from '../../../components/HelpTip'
 import SimpleButton from '../../../components/SimpleButton'
@@ -26,7 +27,6 @@ import {
   TransactionInfoItemPanel,
   TransactionInfoContentContainer,
   TransactionInfoContentTitle,
-  TransactionInfoContentTag,
 } from './styled'
 import { explorerService, useLatestBlockNumber } from '../../../services/ExplorerService'
 import { Transaction } from '../../../models/Transaction'
@@ -92,7 +92,7 @@ const TransactionInfoItem = ({
         )}
         {valueTooltip && <HelpTip title={valueTooltip} />}
       </div>
-      {tag && <TransactionInfoContentTag>{tag}</TransactionInfoContentTag>}
+      {tag && <div>{tag}</div>}
     </TransactionInfoContentContainer>
   </TransactionInfoContentItem>
 )
@@ -144,13 +144,15 @@ export const TransactionOverviewCard: FC<{
   const isProfessional = layout === LayoutLiteProfessional.Professional
 
   if (tipBlockNumber && blockNumber) {
-    confirmation = tipBlockNumber - blockNumber
+    // FIXME: the type conversion should be removed once the type declaration is fixed to number
+    confirmation = Number(tipBlockNumber) - Number(blockNumber)
   }
 
   const blockHeightData: CardCellInfo = {
     title: t('block.block_height'),
     tooltip: t('glossary.block_height'),
-    content: <TransactionBlockHeight blockNumber={blockNumber} txStatus={txStatus} />,
+    // FIXME: the type conversion should be removed once the type declaration is fixed to number
+    content: <TransactionBlockHeight blockNumber={Number(blockNumber)} txStatus={txStatus} />,
     className: styles.firstCardCell,
   }
   const timestampData: CardCellInfo = {
@@ -166,7 +168,7 @@ export const TransactionOverviewCard: FC<{
           display: 'flex',
         }}
       >
-        <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />
+        <Capacity capacity={shannonToCkb(transactionFee)} />
         <span
           style={{
             whiteSpace: 'pre',
@@ -180,7 +182,7 @@ export const TransactionOverviewCard: FC<{
   }
   const txFeeData: CardCellInfo = {
     title: t('transaction.transaction_fee'),
-    content: <DecimalCapacity value={localeNumberString(shannonToCkb(transactionFee))} />,
+    content: <Capacity capacity={shannonToCkb(transactionFee)} />,
   }
   const txStatusData: CardCellInfo = {
     title: t('transaction.status'),
@@ -362,7 +364,7 @@ export const TransactionOverviewCard: FC<{
               key={`${witness}-${index}`}
               title="Witness"
               tooltip={t('glossary.witness')}
-              value={witness}
+              value={<div className={classNames(styles.witnessInTransactionInfo, 'monospace')}>{witness}</div>}
             />
           ))
         ) : (

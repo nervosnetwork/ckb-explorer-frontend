@@ -1,9 +1,11 @@
+@import '../../styles/variables.module';
+
 .shareWrapper {
   position: fixed;
   bottom: 10px;
   right: 18px;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     right: 60px;
   }
 }
@@ -65,7 +67,7 @@
     text-align: center;
   }
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     .digtialClockNumber {
       width: 136px;
       height: 136px;
@@ -223,7 +225,7 @@
   padding: 2px;
   border-radius: 12px;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     border-radius: 24px;
   }
 }
@@ -258,7 +260,7 @@
     align-items: center;
   }
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     padding: 32px 64px;
     gap: 32px;
     border-radius: 22px;
@@ -281,7 +283,7 @@
   flex-direction: column;
   gap: 24px;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     gap: 32px;
   }
 }
@@ -292,7 +294,7 @@
   font-size: 20px;
   margin-bottom: 16px;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     font-size: 32px;
     margin-bottom: 32px;
   }
@@ -303,7 +305,7 @@
   font-weight: 400;
   margin-bottom: 24px;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     font-size: 24px;
     margin-bottom: 48px;
   }
@@ -319,7 +321,7 @@
   gap: 16px;
   font-size: 16px;
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     border-radius: 24px;
     padding: 48px;
     gap: 48px;
@@ -363,7 +365,7 @@
     width: 1px;
   }
 
-  @media (width >= 750px) {
+  @media (width >= $mobileBreakPoint) {
     .epochInfoItem {
       gap: 16px;
       flex: inherit;

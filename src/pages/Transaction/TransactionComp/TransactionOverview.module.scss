@@ -1,3 +1,5 @@
+@import '../../../styles/variables.module';
+
 .transactionOverviewCard:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
   ) {
@@ -10,7 +12,7 @@
     height: 100%;
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     padding-bottom: 16px;
   }
 }
@@ -58,7 +60,7 @@
       }
     }
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       width: 100%;
 
       > label {
@@ -68,9 +70,13 @@
     }
   }
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     border-top: 1px solid #e5e5e5;
     padding-top: 16px;
     margin: 0;
   }
+}
+
+.witnessInTransactionInfo {
+  word-break: break-all;
 }

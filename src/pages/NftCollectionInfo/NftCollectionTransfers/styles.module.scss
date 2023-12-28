@@ -1,3 +1,5 @@
+@import '../../../styles/variables.module';
+
 .list {
   background: #fff;
 
@@ -110,7 +112,7 @@
     flex: 1;
   }
 
-  @media screen and (width <= 1200px) {
+  @media (width <= $extraLargeBreakPoint) {
     table {
       display: none;
     }
@@ -128,16 +130,5 @@
 .tokenId {
   overflow: hidden;
   text-overflow: ellipsis;
-
-  @media screen and (width <= 1800px) {
-    max-width: 200px;
-  }
-
-  @media screen and (width <= 1400px) {
-    max-width: 120px;
-  }
-
-  @media screen and (width <= 1200px) {
-    max-width: 80px;
-  }
+  max-width: 80px;
 }

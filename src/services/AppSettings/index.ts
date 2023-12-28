@@ -7,6 +7,7 @@ export const NAMESPACE_APP_SETTINGS = 'appSettings'
 
 export const KEY_DEFAULT_LANGUAGE = `${CONFIG.CHAIN_TYPE}_${NAMESPACE_APP_SETTINGS}_defaultLanguage`
 export const KEY_IS_DEPRECATED_ADDRESSES_DISPLAYED = `${NAMESPACE_APP_SETTINGS}_isDeprecatedAddressesDisplayed`
+export const KEY_SEARCH_TYPE = `${NAMESPACE_APP_SETTINGS}_searchType`
 
 export class AppSettings {
   defaultLanguage$ = new BehaviorSubject(this.persistenceService.get<SupportedLng>(KEY_DEFAULT_LANGUAGE, 'en'))
@@ -14,6 +15,8 @@ export class AppSettings {
   isDeprecatedAddressesDisplayed$ = new BehaviorSubject(
     this.persistenceService.get<boolean>(KEY_IS_DEPRECATED_ADDRESSES_DISPLAYED, false),
   )
+
+  searchType$ = new BehaviorSubject(this.persistenceService.get<'id' | 'name'>(KEY_SEARCH_TYPE, 'id'))
 
   private callbacksAtStop?: Subscription
 
@@ -27,6 +30,7 @@ export class AppSettings {
 
     this.saveToStorageOnChange(this.defaultLanguage$, KEY_DEFAULT_LANGUAGE)
     this.saveToStorageOnChange(this.isDeprecatedAddressesDisplayed$, KEY_IS_DEPRECATED_ADDRESSES_DISPLAYED)
+    this.saveToStorageOnChange(this.searchType$, KEY_SEARCH_TYPE)
   }
 
   stop() {

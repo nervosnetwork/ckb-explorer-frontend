@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import variables from '../../../styles/variables.module.scss'
 
 export const CellbasePanel = styled.div`
   display: flex;
@@ -8,7 +9,7 @@ export const CellbasePanel = styled.div`
   width: 100%;
   margin-top: ${(props: { isDetail?: boolean }) => (props.isDetail ? '0px' : '16px')};
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin-top: 10px;
     height: 16px;
   }

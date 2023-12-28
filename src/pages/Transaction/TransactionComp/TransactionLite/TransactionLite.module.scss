@@ -1,8 +1,10 @@
+@import '../../../../styles/variables.module';
+
 .transactionLites {
   width: 100%;
   margin-top: 24px;
 
-  @media (width <= 750px) {
+  @media (width <= $mobileBreakPoint) {
     margin-top: 20px;
   }
 }
@@ -24,7 +26,7 @@
       }
     }
 
-    @media (width <= 750px) {
+    @media (width <= $mobileBreakPoint) {
       .transactionLiteBoxHeaderAddr {
         width: 200px;
         display: inline-block;
@@ -64,14 +66,10 @@
     .addressDetailLite {
       text-align: right;
       font-size: 14px;
-    }
+      column-gap: 6px;
 
-    .capacityChange {
-      margin-left: 12px;
-      height: 24px;
-
-      @media (width <= 750px) {
-        margin-left: 0;
+      & > div:last-child {
+        margin-left: 6px;
       }
     }
 
@@ -83,11 +81,6 @@
 
       div {
         flex: 1;
-
-        &:first-child {
-          text-align: left;
-          color: #333;
-        }
 
         .tag {
           box-sizing: border-box;
@@ -146,5 +139,41 @@
       width: 100%;
       height: auto;
     }
+  }
+}
+
+.udtAmount {
+  &[data-diff-status='positive'] {
+    color: var(--primary-color);
+
+    &::before {
+      content: '+';
+    }
+  }
+
+  &[data-diff-status='negative'] {
+    color: var(--accent-color);
+
+    &::before {
+      content: '-';
+    }
+  }
+}
+
+.ckbDiff {
+  &::before {
+    content: '(';
+  }
+
+  &::after {
+    content: ')';
+  }
+
+  &[data-diff-status='positive'] {
+    color: var(--primary-color);
+  }
+
+  &[data-diff-status='negative'] {
+    color: var(--accent-color);
   }
 }

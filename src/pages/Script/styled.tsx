@@ -1,6 +1,7 @@
 import { Tabs } from 'antd'
 import TabPane from 'antd/lib/tabs/TabPane'
 import styled from 'styled-components'
+import variables from '../../styles/variables.module.scss'
 
 export const ScriptTab = styled(Tabs)`
   /* stylelint-disable selector-class-pattern */
@@ -49,12 +50,12 @@ export const ScriptTab = styled(Tabs)`
     );
     height: 4px;
 
-    @media (max-width: 750px) {
+    @media (max-width: ${variables.mobileBreakPoint}) {
       height: 2px;
     }
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: ${variables.mobileBreakPoint}) {
     margin-top: 20px;
   }
 `

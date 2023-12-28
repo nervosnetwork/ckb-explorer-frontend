@@ -9,7 +9,7 @@ import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
-import { useIsLGScreen } from '../../../hooks'
+import { useIsExtraLarge } from '../../../hooks'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ReactChartCore } from '../../StatisticsChart/common'
 
@@ -106,7 +106,7 @@ const useOption = () => {
 }
 
 export default memo(() => {
-  const isLG = useIsLGScreen()
+  const isXL = useIsExtraLarge()
   const parseOption = useOption()
 
   const query = useQuery(
@@ -137,11 +137,11 @@ export default memo(() => {
   return (
     <HomeChartLink to="/charts/average-block-time">
       <ReactChartCore
-        option={parseOption(statisticAverageBlockTimes, isLG)}
+        option={parseOption(statisticAverageBlockTimes, isXL)}
         notMerge
         lazyUpdate
         style={{
-          height: isLG ? '136px' : '190px',
+          height: isXL ? '136px' : '190px',
         }}
       />
     </HomeChartLink>

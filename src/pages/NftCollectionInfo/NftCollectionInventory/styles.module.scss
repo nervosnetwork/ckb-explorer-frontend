@@ -1,3 +1,5 @@
+@import '../../../styles/variables.module';
+
 .list {
   display: grid;
   grid-template-columns: repeat(20, 1fr);
@@ -49,20 +51,20 @@
   }
 
   @for $i from 0 through 12 {
-    @media screen and (min-width: 1200px + $i * 220px) {
+    @media (min-width: $extraLargeBreakPoint + $i * 220px) {
       grid-template-columns: repeat(3 + $i, 1fr);
     }
   }
 
-  @media screen and (width <= 1280px) {
+  @media (width <= 1280px) {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @media screen and (width <= 860px) {
+  @media (width <= 860px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media screen and (width <= 540px) {
+  @media (width <= 540px) {
     display: flex;
     flex-direction: column;
     align-items: center;
