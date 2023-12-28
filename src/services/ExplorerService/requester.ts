@@ -51,9 +51,9 @@ requesterV1.interceptors.request.use(
 
 requesterV1.interceptors.response.use(
   response => response,
-  (error: AxiosError) => {
+  (error: AxiosError<{ message: string }>) => {
     if (error && error.response && error.response.data) {
-      const { message }: { message: string } = error.response.data
+      const { message } = error.response.data
       switch (error.response.status) {
         case 503:
           updateNetworkError(message || undefined)
