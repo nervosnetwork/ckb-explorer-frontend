@@ -89,6 +89,7 @@ a {
   white-space: pre-wrap;
 }
 
+a:hover,
 .ant-btn-primary:hover,
 .ant-tabs-tab:hover {
   color: var(--primary-color);
