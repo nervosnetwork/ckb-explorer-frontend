@@ -123,8 +123,8 @@ export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[],
   // Calculate the Interquartile Range (IQR)
   const iqr = q3 - q1
   // // Define the lower and upper bounds for outliers
-  const lowerBound = q1 - 1000 * iqr
-  const upperBound = q3 + 1000 * iqr
+  const lowerBound = q1 - 1.5 * iqr
+  const upperBound = q3 + 1.5 * iqr
 
   // Filter out the outliers
   const filteredData = validSamples.filter(item => item.feeRate >= lowerBound && item.feeRate <= upperBound)
@@ -133,7 +133,7 @@ export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[],
     .sort((a, b) => a.confirmationTime - b.confirmationTime)
     .reduce<FeeRateTracker.TransactionFeeRate[]>((acc, cur) => {
       const last = acc[acc.length - 1]
-      if (!last || last.feeRate + 1000 * iqr >= cur.feeRate) {
+      if (!last || last.feeRate + 1.5 * iqr >= cur.feeRate) {
         return [...acc, cur]
       }
       return acc
