@@ -112,13 +112,28 @@ export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[],
   const SAMPLES_MIN_COUNT = 100
 
   const sampleCount = Math.max(SAMPLES_MIN_COUNT, Number.isNaN(TPM) ? 0 : Math.floor(TPM) * 10)
+  const validSamples = feeRates.filter(i => i.confirmationTime).sort((a, b) => a.feeRate - b.feeRate)
 
-  const samples = feeRates
-    .filter(i => i.confirmationTime)
+  // Calculate the first and third quartiles (Q1 and Q3)
+  const q1Index = Math.floor(validSamples.length * 0.25)
+  const q3Index = Math.floor(validSamples.length * 0.75)
+  const q1 = validSamples[q1Index].feeRate
+  const q3 = validSamples[q3Index].feeRate
+
+  // Calculate the Interquartile Range (IQR)
+  const iqr = q3 - q1
+  // // Define the lower and upper bounds for outliers
+  const lowerBound = q1 - 1000 * iqr
+  const upperBound = q3 + 1000 * iqr
+
+  // Filter out the outliers
+  const filteredData = validSamples.filter(item => item.feeRate >= lowerBound && item.feeRate <= upperBound)
+
+  const samples = filteredData
     .sort((a, b) => a.confirmationTime - b.confirmationTime)
     .reduce<FeeRateTracker.TransactionFeeRate[]>((acc, cur) => {
       const last = acc[acc.length - 1]
-      if (!last || last.feeRate >= cur.feeRate) {
+      if (!last || last.feeRate + 1000 * iqr >= cur.feeRate) {
         return [...acc, cur]
       }
       return acc
