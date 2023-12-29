@@ -53,7 +53,7 @@
     "@types/echarts": "4.9.22",
     "@types/eslint": "8.44.8",
     "@types/jest": "29.5.11",
-    "@types/lodash.debounce": "4.0.8",
+    "@types/lodash.debounce": "4.0.9",
     "@types/node": "16.18.68",
     "@types/react": "17.0.65",
     "@types/react-dom": "17.0.20",
