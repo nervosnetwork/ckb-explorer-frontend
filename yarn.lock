@@ -4015,10 +4015,10 @@
     "@storybook/types" "7.5.3"
     tiny-invariant "^1.3.1"
 
-"@storybook/addon-onboarding@1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-onboarding/-/addon-onboarding-1.0.9.tgz#dde1cfee31e474f92e816d54236c205c04881b76"
-  integrity sha512-HlHm05Py18XOf4g7abiWkvb2WteoHcRNk1PY3Wtsmjuu5aAAjBmp4mVEg59xEeA2HAMICZ2fb72NIpFlBvDN+g==
+"@storybook/addon-onboarding@1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-onboarding/-/addon-onboarding-1.0.10.tgz#62b914741c6902d4150d383ea548f3796d094cf6"
+  integrity sha512-tK7JjJYIpOM4LowBoIM/8ymYQ70qVRmu7pGqSOQ82AW15ob5u36HJ753y0hVH/KPj6k7J1aSgAEgVGXLmgwvKw==
   dependencies:
     "@storybook/telemetry" "^7.1.0"
     react-confetti "^6.1.0"
