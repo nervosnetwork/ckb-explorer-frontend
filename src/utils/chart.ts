@@ -113,12 +113,30 @@ export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[],
 
   const sampleCount = Math.max(SAMPLES_MIN_COUNT, Number.isNaN(TPM) ? 0 : Math.floor(TPM) * 10)
 
-  const samples = feeRates
-    .filter(i => i.confirmationTime)
-    .sort((a, b) => a.confirmationTime - b.confirmationTime)
+  const validSamples = feeRates.filter(i => i.confirmationTime).sort((a, b) => a.confirmationTime - b.confirmationTime)
+
+  const data: FeeRateTracker.TransactionFeeRate[] = JSON.parse(JSON.stringify(validSamples))
+  data.sort((a, b) => a.feeRate - b.feeRate)
+
+  // Calculate the first and third quartiles (Q1 and Q3)
+  const q1Index = Math.floor(data.length * 0.25)
+  const q3Index = Math.floor(data.length * 0.75)
+  const q1 = data[q1Index].feeRate
+  const q3 = data[q3Index].feeRate
+
+  // Calculate the Interquartile Range (IQR)
+  const iqr = q3 - q1
+  // // Define the lower and upper bounds for outliers
+  const lowerBound = q1 - 1000 * iqr
+  const upperBound = q3 + 1000 * iqr
+
+  // Filter out the outliers
+  const filteredData = data.filter(item => item.feeRate >= lowerBound && item.feeRate <= upperBound)
+
+  const samples = filteredData
     .reduce<FeeRateTracker.TransactionFeeRate[]>((acc, cur) => {
       const last = acc[acc.length - 1]
-      if (!last || last.feeRate >= cur.feeRate) {
+      if (!last || last.feeRate + 1000 * iqr >= cur.feeRate) {
         return [...acc, cur]
       }
       return acc
