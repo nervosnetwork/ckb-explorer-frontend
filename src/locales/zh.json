@@ -379,6 +379,7 @@
     "transaction": {
       "transaction": "交易",
       "transactions": "交易",
+      "pending_transactions": "待处理交易",
       "transaction_fee": "交易费",
       "fee_rate": "费率",
       "cell_deps": "CellDeps",
