@@ -497,4 +497,12 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     tag: 'JoyID',
     category: 'lock',
   },
+  {
+    codeHashes: ['0x25c29dc317811a6f6f3985a7a9ebc4838bd388d19d0feeecf0bcd60f6c0975bb'],
+    txHashes: ['0xbf6fb538763efec2a70a6a3dcb7242787087e1030c4e7d86585bc63a9d337f5f'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'xUDT',
+    category: 'lock',
+  },
 ]
