@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import variables from '../../../styles/variables.module.scss'
+
+const MARGIN_PER_ITEM_JUSTIFY = (56 - 8) / (1440 - 1024)
 
 export const MobileMenuItem = styled.div`
   display: flex;
@@ -30,32 +31,20 @@ export const HeaderMenuPanel = styled.div`
     color: white;
     display: flex;
     align-items: center;
-    padding-left: 60px;
+    margin-right: 56px;
     font-size: 14px;
     font-weight: regular;
 
-    @media (max-width: 1920px) {
-      padding-left: 40px;
+    @media (max-width: 1505px) {
+      margin-right: calc(56px - (1505px - 100vw) / 8);
     }
 
-    @media (max-width: ${variables.xxlBreakPoint}) {
-      padding-left: 24px;
+    @media (max-width: 1200px) {
+      margin-right: 20px;
     }
 
-    @media (max-width: 960px) {
-      padding-left: 16px;
-    }
-
-    @media (max-width: 900px) {
-      padding-left: 10px;
-    }
-
-    @media (max-width: 840px) {
-      padding-left: 4px;
-    }
-
-    @media (max-width: ${variables.mobileBreakPoint}) {
-      padding-left: 0;
+    @media (min-width: 1024px) and (max-width: 1044px) {
+      margin-right: calc(56px - ((1440px - 100vw) * ${MARGIN_PER_ITEM_JUSTIFY}));
     }
 
     &:hover {
