@@ -6,9 +6,9 @@ import BlockchainComp from '../BlockchainComp'
 
 export default ({ hideMobileMenu }: { hideMobileMenu: () => void }) => (
   <MobileMenusPanel>
-    <MenuItems />
-    <BlockchainComp />
+    <MenuItems isMobile />
+    <BlockchainComp isMobile />
     <LanguageMenu hideMobileMenu={hideMobileMenu} />
-    <SearchComp expanded hideMobileMenu={hideMobileMenu} />
+    <SearchComp hideMobileMenu={hideMobileMenu} />
   </MobileMenusPanel>
 )

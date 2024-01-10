@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useIsMobile } from '../../../hooks'
 import { MobileMenuItem, MobileMenuLink, HeaderMenuPanel } from './styled'
 import { isMainnet } from '../../../utils/chain'
 
@@ -69,9 +68,9 @@ const MenuItemLink = ({ menu }: { menu: MenuData }) => {
   )
 }
 
-export default memo(() => {
+export default memo(({ isMobile }: { isMobile: boolean }) => {
   const menuList = useMenuDataList()
-  return useIsMobile() ? (
+  return isMobile ? (
     <MobileMenuItem>
       {menuList
         .filter(menu => menu.name !== undefined)

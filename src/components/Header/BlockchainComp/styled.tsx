@@ -1,23 +1,14 @@
 import styled from 'styled-components'
-import variables from '../../../styles/variables.module.scss'
 
 export const HeaderBlockchainPanel = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
   margin-top: 1px;
-  margin-right: 60px;
+  margin-right: 49px;
   padding: 10px 0;
 
-  @media (max-width: 1920px) {
-    margin-right: 40px;
-  }
-
-  @media (max-width: ${variables.xxlBreakPoint}) {
-    margin-right: 24px;
-  }
-
-  @media (max-width: ${variables.mobileBreakPoint}) {
+  @media (max-width: 750px) {
     margin-right: 0;
   }
 
