@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
 import classNames from 'classnames'
 import { createBrowserHistory } from 'history'
@@ -8,7 +8,7 @@ import MenusComp from './MenusComp'
 import { SearchComp } from './SearchComp'
 import { LanguageDropdown } from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
-import { useElementSize, useIsMobile } from '../../hooks'
+import { useMediaQuery } from '../../utils/hook'
 import styles from './index.module.scss'
 import MaintainAlert from './MaintainAlert'
 import Sheet from './Sheet'
@@ -33,28 +33,6 @@ const MobileMenuComp: FC<{ mobileMenuVisible: boolean; setMobileMenuVisible: (va
         <div className="menuIconThird" />
       </div>
     </HeaderMobileMenuPanel>
-  )
-}
-
-const AutoExpand: FC<{
-  leftContent: ReactNode
-  expandableWidthRange: { minimum: number; maximum: number }
-  renderExpandable: (expanded: boolean, setExpanded: (expanded: boolean) => void) => ReactNode
-}> = ({ leftContent, expandableWidthRange, renderExpandable }) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const [_expanded, setExpanded] = useState(false)
-
-  const { width } = useElementSize(ref)
-  const canMinimumRender = width != null && width >= expandableWidthRange.minimum
-  const expanded = canMinimumRender || _expanded
-
-  return (
-    <div className={styles.autoExpand}>
-      {!_expanded && <div className={styles.content}>{leftContent}</div>}
-      <div ref={ref} className={styles.expandable} style={{ width: _expanded ? '100%' : expandableWidthRange.minimum }}>
-        {renderExpandable(expanded, setExpanded)}
-      </div>
-    </div>
   )
 }
 
@@ -96,7 +74,7 @@ const useRouterLocation = (callback: () => void) => {
 }
 
 export default () => {
-  const isMobile = useIsMobile()
+  const isMobile = useMediaQuery(`(max-width: 1023px)`)
   const { pathname } = useLocation()
   // TODO: This hard-coded implementation is not ideal, but currently the header is loaded before the page component,
   // so we can only handle it this way temporarily, otherwise there will be flickering during loading.
@@ -109,7 +87,7 @@ export default () => {
   return (
     <div
       className={classNames(styles.stickyContainer, {
-        [styles.expanded]: mobileMenuVisible,
+        [styles.expanded]: isMobile && mobileMenuVisible,
       })}
     >
       <MaintainAlert />
@@ -117,16 +95,13 @@ export default () => {
         <LogoComp />
         {!isMobile && (
           <>
-            <AutoExpand
-              leftContent={<MenusComp />}
-              expandableWidthRange={{ minimum: 320, maximum: 440 }}
-              renderExpandable={(expanded, setExpanded) =>
-                (defaultSearchBarVisible || isShowSearchBar) && (
-                  <SearchComp expanded={expanded} setExpanded={setExpanded} />
-                )
-              }
-            />
-            <BlockchainComp />
+            <div className={styles.autoExpand}>
+              <div className={styles.content}>
+                <MenusComp isMobile={isMobile} />
+              </div>
+              <div className={styles.expandable}>{(defaultSearchBarVisible || isShowSearchBar) && <SearchComp />}</div>
+            </div>
+            <BlockchainComp isMobile={isMobile} />
             <LanguageDropdown />
           </>
         )}
@@ -138,7 +113,7 @@ export default () => {
         )}
       </HeaderPanel>
       <Sheet />
-      {mobileMenuVisible && <MobileMenu hideMobileMenu={() => setMobileMenuVisible(false)} />}
+      {mobileMenuVisible && isMobile && <MobileMenu hideMobileMenu={() => setMobileMenuVisible(false)} />}
     </div>
   )
 }
