@@ -246,6 +246,14 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     tag: 'JoyID',
     category: 'lock',
   },
+  {
+    codeHashes: ['0x50bd8d6680b8b9cf98b73f3c08faf8b2a21914311954118ad6609be6e78a1b95'],
+    txHashes: ['0xc07844ce21b38e4b071dd0e1ee3b0e27afd8d7532491327f39b786343f558ab7-0'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'xUDT',
+    category: 'lock',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
@@ -499,7 +507,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x25c29dc317811a6f6f3985a7a9ebc4838bd388d19d0feeecf0bcd60f6c0975bb'],
-    txHashes: ['0xbf6fb538763efec2a70a6a3dcb7242787087e1030c4e7d86585bc63a9d337f5f'],
+    txHashes: ['0xbf6fb538763efec2a70a6a3dcb7242787087e1030c4e7d86585bc63a9d337f5f-0'],
     depType: 'code',
     hashType: 'type',
     tag: 'xUDT',
