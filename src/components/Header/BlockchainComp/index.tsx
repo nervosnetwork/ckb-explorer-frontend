@@ -7,7 +7,6 @@ import GreenDropUpIcon from '../../../assets/green_drop_up.png'
 import { HeaderBlockchainPanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
-import { useIsMobile } from '../../../hooks'
 import { ChainName, MAINNET_URL, ONE_DAY_MILLISECOND, TESTNET_URL } from '../../../constants/common'
 import { explorerService } from '../../../services/ExplorerService'
 import { cacheService } from '../../../services/CacheService'
@@ -115,9 +114,7 @@ const BlockchainMenu: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
   )
 }
 
-export default memo(() => {
-  const isMobile = useIsMobile()
-
+export default memo(({ isMobile }: { isMobile: boolean }) => {
   const query = useQuery(
     ['node_version'],
     async () => {
