@@ -10,7 +10,7 @@
     "@spore-sdk/core": "^0.1.0-beta.10",
     "@tanstack/react-query": "4.0.5",
     "antd": "4.24.5",
-    "axios": "1.6.3",
+    "axios": "1.6.5",
     "bignumber.js": "9.1.2",
     "camelcase": "7.0.1",
     "camelcase-keys": "7.0.2",
