@@ -105,7 +105,7 @@ const TransactionCardGroup: FC<{
           .filter(data => data.sortRule)
           .map((data: SortItemCardData<Transaction>) => (
             <TableTitleRowItem width="fit-content" key={typeof data.title === 'string' ? data.title : ''}>
-              <div>{data.title}</div>
+              {typeof data.title === 'function' ? null : <div>{data.title}</div>}
               {sortButton(data.sortRule)}
             </TableTitleRowItem>
           ))}
@@ -284,6 +284,9 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
   return (
     <QueryResult query={query}>
       {data => {
+        if (!data) {
+          return <div>{t('transaction.no_records')}</div>
+        }
         const totalPages = Math.min(Math.ceil(data.total / pageSize), MAX_PAGE_NUMBER)
         return (
           <>
