@@ -90,7 +90,7 @@ export function useBoolean(initialState: boolean): [
 
   const on = useCallback(() => setState(true), [])
   const off = useCallback(() => setState(false), [])
-  const toggle = useCallback(newState => {
+  const toggle = useCallback((newState?: boolean) => {
     setState(oldState => (newState != null ? newState : !oldState))
   }, [])
 

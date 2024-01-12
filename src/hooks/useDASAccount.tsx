@@ -26,7 +26,7 @@ interface PendingQuery {
 // and logic for aggregating multiple queries can actually be implemented in ExplorerService instead of relying on the Context.
 // However, the current implementation still uses Context because it provides
 // the possibility of implementing page-level and component-level accountMap caching in the future.
-export const DASQueryContextProvider: FC = ({ children }) => {
+export const DASQueryContextProvider: FC<React.PropsWithChildren> = ({ children }) => {
   const accountMap = useRef<DASAccountMap>({})
   const pendingQueries = useRef<PendingQuery[]>([])
 
