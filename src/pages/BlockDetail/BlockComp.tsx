@@ -9,7 +9,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { useIsMobile, useSearchParams } from '../../hooks'
 import { hexToUtf8 } from '../../utils/string'
-import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
+import { deprecatedAddrToNewAddr, isNumber, shannonToCkb } from '../../utils/util'
 import { BlockLinkPanel, BlockMinerRewardPanel, BlockMinerMessagePanel, BlockTransactionsPagination } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import MoreIcon from '../../assets/more.png'
@@ -90,7 +90,11 @@ const BlockMinerReward = ({
   )
 }
 
-export const BlockOverviewCard: FC<{ blockHeightOrHash: string; block: Block }> = ({ blockHeightOrHash, block }) => {
+export const BlockOverviewCard: FC<{
+  blockHeightOrHash: string
+  block: Block
+  blockHeight?: string | number
+}> = ({ blockHeightOrHash, blockHeight, block }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const tipBlockNumber = useLatestBlockNumber()
@@ -101,6 +105,9 @@ export const BlockOverviewCard: FC<{ blockHeightOrHash: string; block: Block }> 
     content: <AddressText>{block.transactionsRoot}</AddressText>,
   }
   const sentBlockNumber = `${Number(block.number) + DELAY_BLOCK_NUMBER}`
+  const blockNumber = Number(
+    !blockHeight || (typeof blockHeight === 'string' && !isNumber(blockHeight)) ? 0 : blockHeight,
+  )
   const overviewItems: CardCellInfo<'left' | 'right'>[] = [
     {
       title: t('block.block_height'),
@@ -108,16 +115,20 @@ export const BlockOverviewCard: FC<{ blockHeightOrHash: string; block: Block }> 
       content: (
         <div className={styles.blockNumber}>
           <Tooltip placement="top" title={t('block.view_prev_block')}>
-            <Link to={`/block/${+block.number - 1}`} className={styles.prev} data-disabled={+block.number <= 0}>
+            <Link
+              to={`/block/${blockNumber - 1}`}
+              className={styles.prev}
+              data-disabled={!blockHeight || +blockNumber <= 0}
+            >
               <LeftArrow />
             </Link>
           </Tooltip>
-          {localeNumberString(block.number)}
+          {localeNumberString(blockNumber)}
           <Tooltip title={t('block.view_next_block')}>
             <Link
-              to={`/block/${+block.number + 1}`}
+              to={`/block/${blockNumber + 1}`}
               className={styles.next}
-              data-disabled={+block.number >= +tipBlockNumber}
+              data-disabled={!blockHeight || +blockNumber >= +tipBlockNumber}
             >
               <LeftArrow />
             </Link>

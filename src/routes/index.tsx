@@ -249,7 +249,7 @@ type PageErrorBoundaryState = {
   }
 }
 
-type PageErrorBoundaryProps = {}
+type PageErrorBoundaryProps = React.PropsWithChildren<{}>
 
 class PageErrorBoundary extends Component<PageErrorBoundaryProps, PageErrorBoundaryState> {
   constructor(props: PageErrorBoundaryProps) {

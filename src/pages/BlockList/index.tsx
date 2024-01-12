@@ -202,7 +202,8 @@ export default () => {
   const total = data?.total ?? 0
   const totalPages = Math.ceil(total / pageSize)
 
-  const blockList = blocks.map(b => ({
+  // FIXME: remove the any type
+  const blockList = blocks.map((b: any) => ({
     ...b,
     minerHash: deprecatedAddrToNewAddr(b.minerHash),
   }))
