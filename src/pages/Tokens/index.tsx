@@ -2,6 +2,8 @@ import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { FC } from 'react'
+import BigNumber from 'bignumber.js'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import SortButton from '../../components/SortButton'
@@ -26,9 +28,22 @@ import styles from './styles.module.scss'
 import { useIsMobile, usePaginationParamsInPage, useSortParam } from '../../hooks'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
-import { UDT } from '../../models/UDT'
+import { OmigaInscriptionCollection, UDT, isOmigaInscriptionCollection } from '../../models/UDT'
 
-const TokenItem = ({ token, isLast }: { token: UDT; isLast?: boolean }) => {
+const TokenProgress: FC<{ token: OmigaInscriptionCollection }> = ({ token }) => {
+  return (
+    <span className={styles.progress}>
+      <span
+        className={styles.block}
+        style={{
+          width: `${BigNumber(token.totalAmount).div(BigNumber(token.expectedSupply)).toNumber() * 100}%`,
+        }}
+      />
+    </span>
+  )
+}
+
+const TokenItem = ({ token, isLast }: { token: UDT | OmigaInscriptionCollection; isLast?: boolean }) => {
   const { displayName, fullName, uan } = token
   const { t } = useTranslation()
 
@@ -37,6 +52,19 @@ const TokenItem = ({ token, isLast }: { token: UDT; isLast?: boolean }) => {
   const defaultName = t('udt.unknown_token')
   const isMobile = useIsMobile()
 
+  const mintStatus =
+    isOmigaInscriptionCollection(token) &&
+    (isMobile ? (
+      <TokensTitlePanel>
+        <span>{`${t('udt.status')}:`}</span>
+        <span>{t(`udt.mint_status_${token.mintStatus}`)}</span>
+      </TokensTitlePanel>
+    ) : (
+      <>
+        <span className={styles.mintStatus}>{t(`udt.mint_status_${token.mintStatus}`)}</span>
+        <TokenProgress token={token} />
+      </>
+    ))
   const transactions = isMobile ? (
     <TokensTitlePanel>
       <span>{`${t('udt.transactions')}:`}</span>
@@ -54,7 +82,7 @@ const TokenItem = ({ token, isLast }: { token: UDT; isLast?: boolean }) => {
     localeNumberString(token.addressesCount)
   )
 
-  const isKnown = Boolean(name) && token.published
+  const isKnown = (Boolean(name) && token.published) || isOmigaInscriptionCollection(token)
 
   return (
     <TokensTableItem>
@@ -64,25 +92,36 @@ const TokenItem = ({ token, isLast }: { token: UDT; isLast?: boolean }) => {
           <div>
             <TokensItemNamePanel>
               {isKnown ? (
-                <Link to={`/sudt/${token.typeHash}`}>
+                <Link
+                  className={styles.link}
+                  to={
+                    isOmigaInscriptionCollection(token) ? `/inscription/${token.typeHash}` : `/sudt/${token.typeHash}`
+                  }
+                >
                   {symbol}
-                  <span className={styles.name}>{name}</span>
+                  {!isOmigaInscriptionCollection(token) && <span className={styles.name}>{name}</span>}
                 </Link>
               ) : (
-                <span>
-                  {symbol}
-                  <span className={styles.name}>{defaultName}</span>
-                </span>
-              )}
-              {!isKnown && (
-                <Tooltip placement="bottom" title={t('udt.unknown_token_description')}>
-                  <img src={HelpIcon} alt="token icon" />
-                </Tooltip>
+                <>
+                  <span>
+                    {symbol}
+                    <span className={styles.name}>{defaultName}</span>
+                  </span>
+                  <Tooltip placement="bottom" title={t('udt.unknown_token_description')}>
+                    <img src={HelpIcon} alt="token icon" />
+                  </Tooltip>
+                </>
               )}
             </TokensItemNamePanel>
             {token.description && !isMobile && <div className="tokensItemDescription">{token.description}</div>}
           </div>
         </div>
+        {isOmigaInscriptionCollection(token) && (
+          <>
+            {isMobile && <TokenProgress token={token} />}
+            <div className="tokensItemMintStatus">{mintStatus}</div>
+          </>
+        )}
         <div className="tokensItemTransactions">{transactions}</div>
         <div className="tokensItemAddressCount">{addressCount}</div>
         {!isMobile && (
@@ -94,7 +133,7 @@ const TokenItem = ({ token, isLast }: { token: UDT; isLast?: boolean }) => {
   )
 }
 
-export default () => {
+const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
@@ -106,7 +145,11 @@ export default () => {
       data: tokens,
       total,
       pageSize,
-    } = await explorerService.api.fetchTokens(currentPage, _pageSize, sort ?? undefined)
+    } = await explorerService.api[isInscription ? 'fetchOmigaInscriptions' : 'fetchTokens'](
+      currentPage,
+      _pageSize,
+      sort ?? undefined,
+    )
     if (tokens.length === 0) {
       throw new Error('Tokens empty')
     }
@@ -124,13 +167,19 @@ export default () => {
     <Content>
       <TokensPanel className="container">
         <div className="tokensTitlePanel">
-          <span>{t('udt.tokens')}</span>
+          <span>{isInscription ? t('udt.inscriptions') : t('udt.tokens')}</span>
           <a rel="noopener noreferrer" target="_blank" href={udtSubmitEmail()}>
             {t('udt.submit_token_info')}
           </a>
         </div>
         <TokensTableTitle>
           {!isMobile && <span>{t('udt.uan_name')}</span>}
+          {isInscription && (
+            <span className={styles.colStatus}>
+              {t('udt.status')}
+              <SortButton field="mint_status" sortParam={sortParam} />
+            </span>
+          )}
           <span>
             {t('udt.transactions')}
             <SortButton field="transactions" sortParam={sortParam} />
@@ -166,3 +215,5 @@ export default () => {
     </Content>
   )
 }
+
+export default Tokens

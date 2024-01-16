@@ -2,9 +2,10 @@ import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { Popover } from 'antd'
+import { FC } from 'react'
 import Content from '../../components/Content'
-import { SimpleUDTContentPanel, UDTTransactionTitlePanel } from './styled'
-import SimpleUDTComp, { SimpleUDTOverviewCard } from './SimpleUDTComp'
+import { UDTContentPanel, UDTTransactionTitlePanel } from './styled'
+import UDTComp, { UDTOverviewCard } from './UDTComp'
 import { useIsMobile, usePaginationParamsInPage } from '../../hooks'
 import Filter from '../../components/Search/Filter'
 import { localeNumberString } from '../../utils/number'
@@ -23,7 +24,7 @@ enum TransactionType {
   Burn = 'destruction',
 }
 
-export const SimpleUDT = () => {
+export const UDT: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const { push } = useHistory()
@@ -35,8 +36,10 @@ export const SimpleUDT = () => {
   const filter = query.get('filter')
   const type = query.get('type')
 
-  const querySimpleUDT = useQuery(['simple-udt'], () => explorerService.api.fetchSimpleUDT(typeHash))
-  const udt = querySimpleUDT.data ?? defaultUDTInfo
+  const queryUDT = useQuery(['udt', isInscription], () =>
+    isInscription ? explorerService.api.fetchOmigaInscription(typeHash) : explorerService.api.fetchSimpleUDT(typeHash),
+  )
+  const udt = queryUDT.data ?? defaultUDTInfo
 
   const querySimpleUDTTransactions = useQuery(
     ['simple-udt-transactions', typeHash, currentPage, _pageSize, filter, type],
@@ -45,7 +48,7 @@ export const SimpleUDT = () => {
         data: transactions,
         total,
         pageSize: resPageSize,
-      } = await explorerService.api.fetchSimpleUDTTransactions({
+      } = await explorerService.api.fetchUDTTransactions({
         typeHash,
         page: currentPage,
         size: pageSize,
@@ -89,11 +92,12 @@ export const SimpleUDT = () => {
   ]
 
   const isFilteredByType = filterList.some(f => f.value === type)
+  const udtLinkPrefix = !isInscription ? '/sudt' : '/inscription'
 
   return (
     <Content>
-      <SimpleUDTContentPanel className="container">
-        <SimpleUDTOverviewCard typeHash={typeHash} udt={udt} />
+      <UDTContentPanel className="container">
+        <UDTOverviewCard typeHash={typeHash} udt={udt} />
 
         <UDTTransactionTitlePanel>
           <div className="udtTransactionContainer">
@@ -106,10 +110,10 @@ export const SimpleUDT = () => {
                 showReset={!!filter}
                 placeholder={t('udt.search_placeholder')}
                 onFilter={filter => {
-                  push(`/sudt/${typeHash}?${new URLSearchParams({ filter })}`)
+                  push(`${udtLinkPrefix}/${typeHash}?${new URLSearchParams({ filter })}`)
                 }}
                 onReset={() => {
-                  push(`/sudt/${typeHash}`)
+                  push(`${udtLinkPrefix}/${typeHash}`)
                 }}
               />
               <div className={styles.typeFilter} data-is-active={isFilteredByType}>
@@ -122,7 +126,7 @@ export const SimpleUDT = () => {
                       {filterList.map(f => (
                         <Link
                           key={f.value}
-                          to={`/sudt/${typeHash}?${new URLSearchParams({ type: f.value })}`}
+                          to={`${udtLinkPrefix}/${typeHash}?${new URLSearchParams({ type: f.value })}`}
                           data-is-active={f.value === type}
                         >
                           {f.title}
@@ -141,7 +145,7 @@ export const SimpleUDT = () => {
 
         <QueryResult query={querySimpleUDTTransactions} delayLoading>
           {data => (
-            <SimpleUDTComp
+            <UDTComp
               currentPage={currentPage}
               pageSize={pageSize}
               transactions={data?.transactions ?? []}
@@ -149,12 +153,13 @@ export const SimpleUDT = () => {
               onPageChange={setPage}
               filterNoResult={filterNoResult}
               id={typeHash}
+              isInscription={isInscription}
             />
           )}
         </QueryResult>
-      </SimpleUDTContentPanel>
+      </UDTContentPanel>
     </Content>
   )
 }
 
-export default SimpleUDT
+export default UDT

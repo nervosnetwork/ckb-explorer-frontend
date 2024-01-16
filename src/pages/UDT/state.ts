@@ -1,4 +1,4 @@
-import { UDT } from '../../models/UDT'
+import { UDT, OmigaInscriptionCollection, MintStatus } from '../../models/UDT'
 
 export const defaultUDTInfo: UDT = {
   symbol: '',
@@ -18,4 +18,13 @@ export const defaultUDTInfo: UDT = {
     codeHash: '',
     hashType: '',
   },
+  udtType: 'sudt',
+}
+
+export const defaultOmigaInscriptionInfo: OmigaInscriptionCollection = {
+  ...defaultUDTInfo,
+  mintStatus: MintStatus.Closed,
+  mintLimit: '0',
+  expectedSupply: '0',
+  inscriptionInfoId: '',
 }
