@@ -47,12 +47,12 @@ const useMenuDataList = () => {
           name: t('navbar.inscription'),
           url: '/inscriptions',
         },
+        {
+          type: LinkType.Inner,
+          name: t('navbar.nft_collections'),
+          url: '/nft-collections',
+        },
       ],
-    },
-    {
-      type: LinkType.Inner,
-      name: t('navbar.nft_collections'),
-      url: '/nft-collections',
     },
     {
       type: LinkType.Inner,
