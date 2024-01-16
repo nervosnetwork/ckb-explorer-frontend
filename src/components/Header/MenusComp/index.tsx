@@ -44,7 +44,7 @@ const useMenuDataList = () => {
         },
         {
           type: LinkType.Inner,
-          name: t('navbar.inscription'),
+          name: t('navbar.inscriptions'),
           url: '/inscriptions',
         },
         {

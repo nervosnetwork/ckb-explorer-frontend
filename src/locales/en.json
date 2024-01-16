@@ -167,7 +167,7 @@
       "faucet": "Faucet",
       "tokens": "Tokens",
       "sUDT": "sUDT",
-      "inscription": "Inscription",
+      "inscriptions": "Inscriptions",
       "docs": "Docs",
       "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash/Args",
       "search_by_name_placeholder": "Token Name",
