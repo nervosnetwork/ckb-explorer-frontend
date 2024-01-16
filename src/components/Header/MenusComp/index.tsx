@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { FC, memo } from 'react'
+import { FC, memo, PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dropdown } from 'antd'
 import classNames from 'classnames'
@@ -75,7 +75,7 @@ const useMenuDataList = () => {
   return list
 }
 
-const SubmenuDropdown: FC<{ menu: MenuData }> = ({ children, menu }) => {
+const SubmenuDropdown: FC<PropsWithChildren<{ menu: MenuData }>> = ({ children, menu }) => {
   return (
     <Dropdown
       overlay={
