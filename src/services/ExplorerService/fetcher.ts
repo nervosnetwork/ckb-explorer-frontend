@@ -12,7 +12,7 @@ import { Script } from '../../models/Script'
 import { Block } from '../../models/Block'
 import { Transaction } from '../../models/Transaction'
 import { Address } from '../../models/Address'
-import { UDT } from '../../models/UDT'
+import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
 
 async function v1Get<T>(...args: Parameters<typeof requesterV1.get>) {
   return requesterV1.get(...args).then(res => toCamelcase<Response.Response<T>>(res.data))
@@ -172,7 +172,7 @@ export const apiFetcher = {
       | Response.Wrapper<Transaction, SearchResultType.Transaction>
       | Response.Wrapper<Address, SearchResultType.Address>
       | Response.Wrapper<Address, SearchResultType.LockHash>
-      | Response.Wrapper<unknown, SearchResultType.UDT>
+      | Response.Wrapper<UDT, SearchResultType.UDT>
       | Response.Wrapper<Script & { scriptHash: string }, SearchResultType.TypeScript>
     >('suggest_queries', {
       params: {
@@ -545,7 +545,7 @@ export const apiFetcher = {
 
   fetchSimpleUDT: (typeHash: string) => v1GetUnwrapped<UDT>(`/udts/${typeHash}`),
 
-  fetchSimpleUDTTransactions: ({
+  fetchUDTTransactions: ({
     typeHash,
     page,
     size,
@@ -570,6 +570,18 @@ export const apiFetcher = {
 
   fetchTokens: (page: number, size: number, sort?: string) =>
     v1GetUnwrappedPagedList<UDT>(`/udts`, {
+      params: {
+        page,
+        page_size: size,
+        sort,
+      },
+    }),
+
+  fetchOmigaInscription: (typeHash: string) =>
+    v1GetUnwrapped<OmigaInscriptionCollection>(`/omiga_inscriptions/${typeHash}`),
+
+  fetchOmigaInscriptions: (page: number, size: number, sort?: string) =>
+    v1GetUnwrappedPagedList<OmigaInscriptionCollection>(`/omiga_inscriptions`, {
       params: {
         page,
         page_size: size,
@@ -933,4 +945,5 @@ export type UDTQueryResult = {
   symbol: string | null
   typeHash: string
   iconFile: string | null
+  udtType: UDT['udtType']
 }

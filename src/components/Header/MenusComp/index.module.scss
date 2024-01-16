@@ -1,0 +1,44 @@
+.submenu {
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
+
+  .link {
+    display: block;
+    padding: 12px 0;
+    border-top: 1px solid #e5e5e5;
+    line-height: 1;
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+}
+
+.submenuTrigger {
+  gap: 4px;
+
+  .icon {
+    transform: rotate(180deg);
+    transition: transform 0.1s;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  &:global(.ant-dropdown-open) {
+    .icon {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+.mobileSubmenuTrigger {
+  width: 100%;
+  justify-content: space-between;
+
+  .icon {
+    transform: rotate(180deg);
+    transition: transform 0.1s;
+  }
+}

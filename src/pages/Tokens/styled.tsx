@@ -66,6 +66,11 @@ export const TokensTableTitle = styled.div`
     text-align: right;
   }
 
+  > span:nth-child(5) {
+    flex: 1.8;
+    text-align: right;
+  }
+
   @media (max-width: ${variables.largeBreakPoint}) {
     > span:nth-child(1) {
       flex: 3.4;
@@ -103,7 +108,7 @@ export const TokensTableContent = styled.div`
   padding-bottom: 5px;
   background: #fff;
   color: #000;
-  margin-top: 4px;
+  margin: 4px auto;
 
   @media (max-width: ${variables.mobileBreakPoint}) {
     border-radius: 6px;
@@ -160,6 +165,24 @@ export const TokensTableItem = styled.div`
 
     @media (max-width: ${variables.largeBreakPoint}) {
       flex: 3.4;
+    }
+  }
+
+  .tokensItemMintStatus {
+    flex: 3;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    text-align: right;
+    color: #000;
+
+    @media (max-width: ${variables.largeBreakPoint}) {
+      flex: 2.5;
+    }
+
+    @media (max-width: ${variables.mobileBreakPoint}) {
+      margin-left: 30px;
+      margin-top: 3px;
     }
   }
 

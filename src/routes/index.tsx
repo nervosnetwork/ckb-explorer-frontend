@@ -12,7 +12,7 @@ const Transaction = lazy(() => import('../pages/Transaction'))
 const TransactionList = lazy(() => import('../pages/TransactionList'))
 const Address = lazy(() => import('../pages/Address'))
 const ScriptPage = lazy(() => import('../pages/Script'))
-const SimpleUDT = lazy(() => import('../pages/SimpleUDT'))
+const UDT = lazy(() => import('../pages/UDT'))
 const NftCollections = lazy(() => import('../pages/NftCollections'))
 const NftCollectionInfo = lazy(() => import('../pages/NftCollectionInfo'))
 const NftInfo = lazy(() => import('../pages/NftInfo'))
@@ -94,7 +94,13 @@ const routes: RouteProps[] = [
   },
   {
     path: '/sudt/:hash',
-    component: SimpleUDT,
+    component: UDT,
+  },
+  {
+    path: '/inscription/:hash',
+    render: routeProps => {
+      return <UDT {...routeProps} isInscription />
+    },
   },
   {
     path: '/nft-collections',
@@ -115,6 +121,12 @@ const routes: RouteProps[] = [
   {
     path: '/tokens',
     component: Tokens,
+  },
+  {
+    path: '/inscriptions',
+    render: routeProps => {
+      return <Tokens {...routeProps} isInscription />
+    },
   },
   {
     path: '/charts',

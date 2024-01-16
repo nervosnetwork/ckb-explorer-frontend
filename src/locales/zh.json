@@ -166,6 +166,8 @@
       "nervos_dao": "Nervos DAO",
       "faucet": "水龙头",
       "tokens": "代币",
+      "sUDT": "sUDT",
+      "inscription": "铭文",
       "docs": "文档",
       "search_placeholder": "区块/交易/地址/锁定脚本哈希/Type 脚本哈希/参数",
       "search_by_name_placeholder": "代币名称",
@@ -582,7 +584,15 @@
       "view-transfer-txns": "查看转帐交易",
       "view-burn-txns": "查看销毁交易",
       "address-or-hash": "交易哈希 / 地址",
-      "address": "地址"
+      "address": "地址",
+      "inscriptions": "铭文",
+      "status": "状态",
+      "progress": "进度",
+      "expected_supply": "预期供应量",
+      "mint_limit": "铸造限制",
+      "mint_status_minting": "铸造中",
+      "mint_status_closed": "已关闭",
+      "mint_status_rebase_start": "重铸开始"
     },
     "nft": {
       "nft_collection": "NFT 藏品",

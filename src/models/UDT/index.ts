@@ -16,4 +16,23 @@ export interface UDT {
   typeScript: Script
   displayName?: string
   uan?: string
+  // TODO: Not quite sure if there are only two types here, so add a string for now.
+  udtType: 'omiga_inscription' | 'sudt' | string
+}
+
+export enum MintStatus {
+  Minting = 'minting',
+  Closed = 'closed',
+  RebaseStart = 'rebase_start',
+}
+
+export interface OmigaInscriptionCollection extends UDT {
+  mintStatus: MintStatus
+  mintLimit: string
+  expectedSupply: string
+  inscriptionInfoId: string
+}
+
+export function isOmigaInscriptionCollection(udt: UDT): udt is OmigaInscriptionCollection {
+  return 'mintStatus' in udt && 'mintLimit' in udt && 'expectedSupply' in udt && 'inscriptionInfoId' in udt
 }

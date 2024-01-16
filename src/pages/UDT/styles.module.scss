@@ -1,6 +1,6 @@
 @import '../../styles/variables.module';
 
-.simpleUDTOverviewCard:not(
+.udtOverviewCard:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
   ) {
   padding-bottom: 20px;
@@ -45,6 +45,10 @@
     height: min-content;
     padding: 8px 0 12px;
   }
+}
+
+.noneName {
+  color: #999;
 }
 
 .openInNew {
