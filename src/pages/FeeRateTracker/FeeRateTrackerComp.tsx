@@ -53,27 +53,37 @@ export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: Fee
   const highFrs = allFrs.filter(r => r.confirmationTime <= avgConfirmationTime)
   const highConfirmationTime = getWeightedMedian(highFrs)
 
-  const feeRateList = [lowFrs, allFrs, highFrs].map(calcFeeRate).sort()
+  const list = [lowFrs, allFrs, highFrs].map(calcFeeRate)
+  let low = list[0]
+  let medium = list[1]
+  const high = list[2]
+
+  if (+medium.replace(/,/g, '') > +high.replace(/,/g, '')) {
+    medium = high
+  }
+  if (+low.replace(/,/g, '') > +medium.replace(/,/g, '')) {
+    low = medium
+  }
 
   const feeRateCards: FeeRateTracker.FeeRateCard[] = [
     {
       priority: t('fee_rate_tracker.low'),
       icon: <BikeIcon />,
-      feeRate: feeRateList[0],
+      feeRate: low,
       priorityClass: styles.low,
       confirmationTime: lowConfirmationTime,
     },
     {
       priority: t('fee_rate_tracker.average'),
       icon: <CarIcon />,
-      feeRate: feeRateList[1],
+      feeRate: medium,
       priorityClass: styles.average,
       confirmationTime: avgConfirmationTime,
     },
     {
       priority: t('fee_rate_tracker.high'),
       icon: <RocketIcon />,
-      feeRate: feeRateList[2],
+      feeRate: high,
       priorityClass: styles.high,
       confirmationTime: highConfirmationTime,
     },
