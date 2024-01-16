@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import { Tabs } from 'antd'
+import TabPane from 'antd/lib/tabs/TabPane'
 import SimpleButton from '../../components/SimpleButton'
 import { TransactionPanel } from '../../components/TransactionItem/styled'
 import variables from '../../styles/variables.module.scss'
@@ -83,6 +85,57 @@ export const AddressTransactionsPanel = styled.div`
   }
 `
 
+export const AddressAssetsTab = styled(Tabs)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 6px 6px 0 0;
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .ant-tabs-nav-operations {
+    display: none !important;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .ant-tabs-tab.ant-tabs-tab-active {
+    /* stylelint-disable-next-line selector-class-pattern */
+    .ant-tabs-tab-btn {
+      color: var(--primary-color);
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .ant-tabs-nav .ant-tabs-ink-bar {
+    height: 4px;
+    bottom: 3px;
+    background: transparent;
+
+    ::after {
+      content: ' ';
+      position: absolute;
+      left: 50%;
+      right: 0;
+      height: 100%;
+      max-width: 72px;
+      width: 100%;
+      background: linear-gradient(to right, var(--primary-color) 100%, transparent 100%);
+      transform: translateX(-50%);
+    }
+  }
+`
+
+export const AddressAssetsTabPane = styled(TabPane)``
+
+export const AddressAssetsTabPaneTitle = styled.span`
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  letter-spacing: 0;
+  text-align: left;
+`
+
 export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,6 +177,7 @@ export const AddressUDTItemPanel = styled.a`
   margin: 6px 15px;
   background: #fff;
   width: 260px;
+  border-radius: 4px;
 
   @media (max-width: ${variables.mobileBreakPoint}) {
     width: calc(100% - 30px);
@@ -137,6 +191,7 @@ export const AddressUDTItemPanel = styled.a`
     padding: 2px 8px;
     background: ${props => props.theme.primary};
     color: #fff;
+    border-radius: 4px 4px 0 0;
 
     span {
       text-transform: uppercase;
