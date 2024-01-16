@@ -1,29 +1,25 @@
-import axios, { AxiosResponse } from 'axios'
-import { useState, useEffect, FC } from 'react'
+import { useState, FC } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Radio } from 'antd'
-import { Base64 } from 'js-base64'
-import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService } from '../../services/ExplorerService'
-import { parseSporeCellData } from '../../utils/spore'
-import { localeNumberString, parseUDTAmount } from '../../utils/number'
-import { shannonToCkb, deprecatedAddrToNewAddr, handleNftImgError, patchMibaoImg } from '../../utils/util'
+import { localeNumberString } from '../../utils/number'
+import { shannonToCkb, deprecatedAddrToNewAddr } from '../../utils/util'
 import {
+  AddressAssetsTab,
+  AddressAssetsTabPane,
+  AddressAssetsTabPaneTitle,
   AddressLockScriptController,
   AddressLockScriptPanel,
   AddressTransactionsPanel,
   AddressUDTAssetsPanel,
-  AddressUDTItemPanel,
 } from './styled'
 import Capacity from '../../components/Capacity'
 import CKBTokenIcon from './ckb_token_icon.png'
-import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { ReactComponent as TimeDownIcon } from './time_down.svg'
 import { ReactComponent as TimeUpIcon } from './time_up.svg'
-import { sliceNftName } from '../../utils/string'
 import {
   OrderByType,
   useIsMobile,
@@ -47,105 +43,20 @@ import { omit } from '../../utils/object'
 import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
 import { Transaction } from '../../models/Transaction'
-import { Address, SUDT, UDTAccount } from '../../models/Address'
+import { Address, UDTAccount } from '../../models/Address'
 import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
 import { CardHeader } from '../../components/Card/CardHeader'
+import {
+  AddressCoTAComp,
+  AddressOmigaInscriptionComp,
+  AddressMNFTComp,
+  AddressSporeComp,
+  AddressSudtComp,
+} from './AddressAssetComp'
 
-const UDT_LABEL: Record<UDTAccount['udtType'], string> = {
-  sudt: 'sudt',
-  m_nft_token: 'm nft',
-  nrc_721_token: 'nrc 721',
-  cota: 'CoTA',
-  spore_cell: 'Spore',
-}
-
-const AddressUDTItem = ({ udtAccount }: { udtAccount: UDTAccount }) => {
-  const { t } = useTranslation()
-  const { symbol, uan, amount, udtIconFile, typeHash, udtType, collection, cota } = udtAccount
-  const isSudt = udtType === 'sudt'
-  const isSpore = udtType === 'spore_cell'
-  const isNft = ['m_nft_token', 'nrc_721_token', 'cota', 'spore_cell'].includes(udtType)
-  const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
-  const showDefaultIcon = () => setIcon(SUDTTokenIcon)
-
-  useEffect(() => {
-    if (udtIconFile && udtType === 'spore_cell') {
-      const sporeData = parseSporeCellData(udtIconFile)
-      if (sporeData.contentType.slice(0, 5) === 'image') {
-        const base64data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
-
-        setIcon(`data:${sporeData.contentType};base64,${base64data}`)
-      }
-      return
-    }
-
-    if (udtIconFile && udtType !== 'sudt' && udtType !== 'spore_cell') {
-      axios
-        .get(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
-        .then((res: AxiosResponse) => {
-          if (typeof res.data?.image === 'string') {
-            setIcon(res.data.image)
-          } else {
-            throw new Error('Image not found in metadata')
-          }
-        })
-        .catch((err: Error) => {
-          console.error(err.message)
-        })
-    }
-  }, [udtIconFile, udtType])
-
-  const sudtSymbol = uan || symbol
-
-  const isUnverified = udtType === 'nrc_721_token' && !symbol
-  const name = isSudt ? sudtSymbol : sliceNftName(symbol)
-  let property = ''
-  let href = ''
-
-  switch (true) {
-    case isSudt: {
-      property = parseUDTAmount(amount, (udtAccount as SUDT).decimal)
-      href = `/sudt/${typeHash}`
-      break
-    }
-    case !!cota: {
-      property = `#${cota?.tokenId}`
-      href = `/nft-collections/${cota?.cotaId}`
-      break
-    }
-    default: {
-      property = `#${amount}`
-      href = `/nft-collections/${collection?.typeHash}`
-    }
-  }
-  const coverQuery =
-    isSudt || isSpore
-      ? ''
-      : `?${new URLSearchParams({
-          size: 'small',
-          tid: cota?.cotaId?.toString() ?? amount,
-        })}`
-
-  return (
-    <AddressUDTItemPanel href={href} isLink={isSudt || isNft}>
-      <div className="addressUdtLabel">
-        {isUnverified ? `${t('udt.unverified')}: ` : null}
-        <span>{UDT_LABEL[udtType] ?? 'unknown'}</span>
-      </div>
-      <div className="addressUdtDetail">
-        <img
-          className="addressUdtItemIcon"
-          src={`${patchMibaoImg(icon)}${coverQuery}`}
-          alt="udt icon"
-          onError={isSudt ? showDefaultIcon : handleNftImgError}
-        />
-        <div className="addressUdtItemInfo">
-          <span>{isUnverified ? '?' : name}</span>
-          <span>{isUnverified ? '?' : property}</span>
-        </div>
-      </div>
-    </AddressUDTItemPanel>
-  )
+enum AssetInfo {
+  UDT = 1,
+  INSCRIPTION,
 }
 
 const lockScriptIcon = (show: boolean) => {
@@ -213,6 +124,27 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
   const { t } = useTranslation()
   const { udtAccounts = [] } = address
 
+  const [udts, inscriptions] = udtAccounts.reduce(
+    (acc, cur) => {
+      switch (cur.udtType) {
+        case 'sudt':
+        case 'spore_cell':
+        case 'm_nft_token':
+        case 'cota':
+        case 'nrc_721_token':
+          acc[0].push(cur)
+          break
+        case 'omiga_inscription':
+          acc[1].push(cur)
+          break
+        default:
+          break
+      }
+      return acc
+    },
+    [[] as UDTAccount[], [] as UDTAccount[]],
+  )
+
   const { data: initList } = useQuery(
     ['cota-list', address.addressHash],
     () => explorerService.api.fetchNFTItemByOwner(address.addressHash, 'cota'),
@@ -261,32 +193,70 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
 
       <CardCellsLayout type="leftSingle-right" cells={overviewItems} borderTop />
 
-      {udtAccounts.length || cotaList?.length ? (
+      {udts.length > 0 || (cotaList?.length && cotaList.length > 0) || inscriptions.length > 0 ? (
         <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
-          <span>{t('address.user_defined_token')}</span>
-          <div className="addressUdtAssetsGrid">
-            {udtAccounts.map(udt => (
-              <AddressUDTItem udtAccount={udt} key={udt.symbol + udt.udtType + udt.amount} />
-            ))}
-            {cotaList?.map(cota => (
-              <AddressUDTItem
-                udtAccount={{
-                  symbol: cota.collection.name,
-                  amount: '',
-                  typeHash: '',
-                  udtIconFile: cota.collection.icon_url ?? '',
-                  udtType: 'cota',
-                  cota: {
-                    cotaId: cota.collection.id,
-                    tokenId: Number(cota.token_id),
-                  },
-                  uan: undefined,
-                  collection: undefined,
-                }}
-                key={`${cota.collection.id}-${cota.token_id}`}
-              />
-            )) ?? null}
-          </div>
+          <AddressAssetsTab>
+            {(udts.length > 0 || cotaList?.length) && (
+              <AddressAssetsTabPane
+                tab={<AddressAssetsTabPaneTitle>{t('address.user_defined_token')}</AddressAssetsTabPaneTitle>}
+                key={AssetInfo.UDT}
+              >
+                <div className="addressUdtAssetsGrid">
+                  {udts.map(udt => {
+                    switch (udt.udtType) {
+                      case 'sudt':
+                        return <AddressSudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+
+                      case 'spore_cell':
+                        return <AddressSporeComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+
+                      case 'm_nft_token':
+                        return <AddressMNFTComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+                      default:
+                        return null
+                    }
+                  })}
+                  {cotaList?.map(cota => (
+                    <AddressCoTAComp
+                      account={{
+                        udtType: 'cota',
+                        symbol: cota.collection.name,
+                        udtIconFile: cota.collection.icon_url ?? '',
+                        cota: {
+                          cotaId: cota.collection.id,
+                          tokenId: Number(cota.token_id),
+                        },
+                      }}
+                      key={cota.collection.id + cota.token_id}
+                    />
+                  )) ?? null}
+                </div>
+              </AddressAssetsTabPane>
+            )}
+            {inscriptions.length > 0 && (
+              <AddressAssetsTabPane
+                tab={<AddressAssetsTabPaneTitle>{t('address.inscription')}</AddressAssetsTabPaneTitle>}
+                key={AssetInfo.INSCRIPTION}
+              >
+                <div className="addressUdtAssetsGrid">
+                  {inscriptions.map(inscription => {
+                    switch (inscription.udtType) {
+                      case 'omiga_inscription':
+                        return (
+                          <AddressOmigaInscriptionComp
+                            account={inscription}
+                            key={`${inscription.symbol + inscription.udtType + inscription.udtAmount}`}
+                          />
+                        )
+
+                      default:
+                        return null
+                    }
+                  })}
+                </div>
+              </AddressAssetsTabPane>
+            )}
+          </AddressAssetsTab>
         </AddressUDTAssetsPanel>
       ) : null}
 

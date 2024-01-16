@@ -368,6 +368,7 @@
       "hash_type": "Hash Type",
       "overview": "概览",
       "user_defined_token": "User Defined Token",
+      "inscription": "铭文",
       "confirmation": "确认区块",
       "confirmations": "确认区块",
       "unable_decode_address": "地址解析失败",
