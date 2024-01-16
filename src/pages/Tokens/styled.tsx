@@ -108,7 +108,7 @@ export const TokensTableContent = styled.div`
   padding-bottom: 5px;
   background: #fff;
   color: #000;
-  margin-top: 4px;
+  margin: 4px auto;
 
   @media (max-width: ${variables.mobileBreakPoint}) {
     border-radius: 6px;
