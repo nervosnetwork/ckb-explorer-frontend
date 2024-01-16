@@ -166,6 +166,8 @@
       "nervos_dao": "Nervos DAO",
       "faucet": "Faucet",
       "tokens": "Tokens",
+      "sUDT": "sUDT",
+      "inscription": "Inscription",
       "docs": "Docs",
       "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash/Args",
       "search_by_name_placeholder": "Token Name",
@@ -581,7 +583,15 @@
       "view-transfer-txns": "View Transfer Txns",
       "view-burn-txns": "View Burn Txns",
       "address-or-hash": "Transaction Hash / Address",
-      "address": "Address"
+      "address": "Address",
+      "inscriptions": "Inscriptions",
+      "status": "Status",
+      "progress": "Progress",
+      "expected_supply": "Expected Supply",
+      "mint_limit": "Mint Limit",
+      "mint_status_minting": "Minting",
+      "mint_status_closed": "Closed",
+      "mint_status_rebase_start": "Rebase Start"
     },
     "nft": {
       "nft_collection": "NFT Collection",

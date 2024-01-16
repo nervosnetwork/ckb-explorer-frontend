@@ -73,7 +73,7 @@ const handleSearchById = async (
         break
 
       case SearchResultType.UDT:
-        history.push(`/sudt/${query}`)
+        history.push(data.attributes.udtType === 'omiga_inscription' ? `/inscription/${query}` : `/sudt/${query}`)
         break
 
       default:

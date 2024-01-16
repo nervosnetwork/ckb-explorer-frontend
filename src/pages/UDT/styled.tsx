@@ -15,7 +15,7 @@ export const SUDTContentPanel = styled.div`
     padding: 20px;
   }
 `
-export const SimpleUDTContentPanel = styled.div`
+export const UDTContentPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +28,7 @@ export const SimpleUDTContentPanel = styled.div`
   }
 `
 
-export const SimpleUDTPendingRewardTitlePanel = styled.div`
+export const UDTPendingRewardTitlePanel = styled.div`
   display: flex;
   flex-direction: row;
 
@@ -54,7 +54,7 @@ export const SimpleUDTPendingRewardTitlePanel = styled.div`
   }
 `
 
-export const SimpleUDTLockScriptController = styled.div`
+export const UDTLockScriptController = styled.div`
   font-size: 16px;
   font-weight: 600;
   margin-top: 15px;
@@ -102,11 +102,11 @@ export const TypeScriptController = styled(SimpleButton)`
   }
 `
 
-export const SimpleUDTTransactionsPanel = styled.div`
+export const UDTTransactionsPanel = styled.div`
   width: 100%;
 `
 
-export const SimpleUDTTransactionsPagination = styled.div`
+export const UDTTransactionsPagination = styled.div`
   margin-top: 4px;
   width: 100%;
 `
