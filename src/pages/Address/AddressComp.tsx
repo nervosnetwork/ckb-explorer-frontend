@@ -1,4 +1,4 @@
-import { useState, FC } from 'react'
+import { useState, FC, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Radio } from 'antd'
@@ -187,6 +187,12 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
       tooltip: t('glossary.nervos_dao_compensation'),
     },
   ]
+
+  useEffect(() => {
+    if (!udts.length && !cotaList?.length && inscriptions.length) {
+      setActiveTab(AssetInfo.INSCRIPTION)
+    }
+  }, [udts.length, cotaList?.length, inscriptions.length])
 
   return (
     <Card className={styles.addressOverviewCard}>
