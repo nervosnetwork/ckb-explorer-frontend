@@ -107,6 +107,22 @@ export const AddressAssetsTab = styled(Tabs)`
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
+  .ant-tabs-tab-remove {
+    &:hover,
+    &:active {
+      color: var(--primary-color);
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .ant-tabs-tab-btn {
+    &:active,
+    &:focus {
+      color: var(--primary-color);
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
   .ant-tabs-nav .ant-tabs-ink-bar {
     height: 4px;
     bottom: 3px;
@@ -186,6 +202,8 @@ export const AddressUDTItemPanel = styled.a`
   pointer-events: ${(props: { isLink: boolean }) => (props.isLink ? 'auto' : 'none')};
 
   .addressUdtLabel {
+    text-overflow: ellipsis;
+    overflow: hidden;
     text-align: left;
     font-size: 12px;
     padding: 2px 8px;
