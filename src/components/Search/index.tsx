@@ -13,7 +13,7 @@ import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import debounce from 'lodash.debounce'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { ImageButton, SearchInputPanel, SearchPanel, SearchButton, SearchContainer } from './styled'
+import { ImageButton, SearchPanel, SearchButton, SearchContainer } from './styled'
 import { explorerService, Response } from '../../services/ExplorerService'
 import SearchLogo from '../../assets/search_black.png'
 import ClearLogo from '../../assets/clear.png'
@@ -27,6 +27,7 @@ import { SearchResultType } from '../../services/ExplorerService/fetcher'
 import styles from './index.module.scss'
 import { SearchByNameResults } from './SearchByNameResults'
 import { useSearchType } from '../../services/AppSettings/hooks'
+import { ReactComponent as SpinnerIcon } from './spinner.svg'
 
 const handleSearchById = async (
   searchValue: string,
@@ -48,6 +49,7 @@ const handleSearchById = async (
 
   try {
     const { data } = await explorerService.api.fetchSearchByIdResult(addPrefixForHash(query))
+    setInputLoading(false)
     onClear()
 
     const { type, attributes } = data
@@ -174,12 +176,18 @@ const Search: FC<{
   return (
     <SearchContainer>
       <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
-        <ImageButton>
-          <img src={SearchLogo} alt="search logo" />
-        </ImageButton>
+        {inputLoading ? (
+          <SpinnerIcon width="22px" height="22px" className={styles.spinner} />
+        ) : (
+          <ImageButton>
+            <img src={SearchLogo} alt="search logo" />
+          </ImageButton>
+        )}
+
         <SearchInput
           autoFocus={!isMobile}
-          value={inputLoading ? t('search.loading') : keyword}
+          loading={inputLoading}
+          value={keyword}
           onChange={event => setKeyword(event.target.value)}
           onEditEndedChange={setEditEnded}
           placeholder={isSearchByName ? t('navbar.search_by_name_placeholder') : t('navbar.search_placeholder')}
@@ -205,17 +213,21 @@ const Search: FC<{
 const SearchInput: FC<
   ComponentPropsWithoutRef<'input'> & {
     onEditEndedChange?: (editEnded: boolean) => void
+    loading?: boolean
   }
-> = ({ onEditEndedChange, value: propsValue, onChange: propsOnChange, onKeyUp: propsOnKeyUp, ...elprops }) => {
+> = ({ loading, onEditEndedChange, value: propsValue, onChange: propsOnChange, onKeyUp: propsOnKeyUp, ...elprops }) => {
   const [value, setValue] = useForkedState(propsValue)
 
   const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     event => {
+      if (loading) {
+        return
+      }
       setValue(event.target.value)
       propsOnChange?.(event)
       onEditEndedChange?.(event.target.value === '')
     },
-    [onEditEndedChange, propsOnChange, setValue],
+    [onEditEndedChange, propsOnChange, setValue, loading],
   )
 
   const onKeyUp: KeyboardEventHandler<HTMLInputElement> = useCallback(
@@ -229,7 +241,7 @@ const SearchInput: FC<
     [onEditEndedChange, propsOnKeyUp],
   )
 
-  return <SearchInputPanel value={value} onChange={onChange} onKeyUp={onKeyUp} {...elprops} />
+  return <input className={styles.searchInputPanel} value={value} onChange={onChange} onKeyUp={onKeyUp} {...elprops} />
 }
 
 export default Search

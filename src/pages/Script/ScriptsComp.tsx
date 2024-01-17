@@ -69,12 +69,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
             />
           ))
         ) : (
-          <div
-            style={{
-              textAlign: 'center',
-              padding: '20px',
-            }}
-          >
+          <div className={styles.loadingOrEmpty}>
             {transactionsQuery.isLoading && !previousTransactionEmpty ? t('nft.loading') : t(`nft.no_record`)}
           </div>
         )}

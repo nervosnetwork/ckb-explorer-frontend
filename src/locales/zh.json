@@ -367,7 +367,7 @@
       "args": "Args",
       "hash_type": "Hash Type",
       "overview": "概览",
-      "user_defined_token": "User Defined Token",
+      "user_defined_token": "Simple User Defined Token",
       "inscription": "铭文",
       "confirmation": "确认区块",
       "confirmations": "确认区块",
@@ -543,7 +543,7 @@
       "deposit_address_tooltip": "Nervos DAO 锁定余额不为零的地址"
     },
     "error": {
-      "maintain": "网络维护中，请稍后再试",
+      "maintain": "当前浏览器数据滞后，请以 ckb node 的数据为准。",
       "page_crashed_tip": "遇到了一些错误",
       "back_home": "前往首页"
     },
