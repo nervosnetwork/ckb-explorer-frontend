@@ -121,8 +121,9 @@ const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
 }
 
 export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { udtAccounts = [] } = address
+  const [activeTab, setActiveTab] = useState<AssetInfo>(AssetInfo.UDT)
 
   const [udts, inscriptions] = udtAccounts.reduce(
     (acc, cur) => {
@@ -195,10 +196,14 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
 
       {udts.length > 0 || (cotaList?.length && cotaList.length > 0) || inscriptions.length > 0 ? (
         <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
-          <AddressAssetsTab>
+          <AddressAssetsTab animated={false} key={i18n.language} activeKey={activeTab.toString()}>
             {(udts.length > 0 || cotaList?.length) && (
               <AddressAssetsTabPane
-                tab={<AddressAssetsTabPaneTitle>{t('address.user_defined_token')}</AddressAssetsTabPaneTitle>}
+                tab={
+                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.UDT)}>
+                    {t('address.user_defined_token')}
+                  </AddressAssetsTabPaneTitle>
+                }
                 key={AssetInfo.UDT}
               >
                 <div className="addressUdtAssetsGrid">
@@ -235,7 +240,11 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
             )}
             {inscriptions.length > 0 && (
               <AddressAssetsTabPane
-                tab={<AddressAssetsTabPaneTitle>{t('address.inscription')}</AddressAssetsTabPaneTitle>}
+                tab={
+                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.INSCRIPTION)}>
+                    {t('address.inscription')}
+                  </AddressAssetsTabPaneTitle>
+                }
                 key={AssetInfo.INSCRIPTION}
               >
                 <div className="addressUdtAssetsGrid">
