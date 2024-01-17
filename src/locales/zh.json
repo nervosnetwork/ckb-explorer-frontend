@@ -543,7 +543,7 @@
       "deposit_address_tooltip": "Nervos DAO 锁定余额不为零的地址"
     },
     "error": {
-      "maintain": "当前浏览器数据滞后，请以 ckb node 的数据为准。",
+      "maintain": "最新区块为 {{tip}}, 当前同步高度落后 {{lag}} 区块",
       "page_crashed_tip": "遇到了一些错误",
       "back_home": "前往首页"
     },
