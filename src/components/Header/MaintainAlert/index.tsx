@@ -8,8 +8,8 @@ import styles from './styles.module.scss'
 const { BACKUP_NODES: backupNodes } = config
 const thredhold = 20
 
-const getTipFromNode = (url: string) =>
-  axios<any, { result: string }>(url, {
+const getTipFromNode = (url: string): Promise<string> =>
+  axios<any, { data: { result: string } }>(url, {
     method: 'post',
     data: {
       jsonrpc: '2.0',
@@ -20,8 +20,7 @@ const getTipFromNode = (url: string) =>
     headers: {
       'Content-Type': 'application/json',
     },
-    // FIXME: type declaration
-  }).then((res: any) => res.data.result)
+  }).then(res => res.data.result)
 
 const MaintainAlert = () => {
   const { t } = useTranslation()
@@ -32,11 +31,15 @@ const MaintainAlert = () => {
       try {
         if (backupNodes.length === 0) return null
 
-        // FIXME: type declaration
-        const [tip1, tip2]: any = await Promise.allSettled(backupNodes.map(getTipFromNode))
-        if (!tip1.value && !tip2.value) return null
-        if (+tip1.value > +tip2.value) return +tip1.value
-        return +tip2.value
+        const [tip1, tip2]: PromiseSettledResult<string>[] = await Promise.allSettled(backupNodes.map(getTipFromNode))
+        if (tip1.status === 'fulfilled' && tip2.status === 'fulfilled') {
+          if (!tip1.value && !tip2.value) return null
+          if (+tip1.value > +tip2.value) return +tip1.value
+          return +tip2.value
+        }
+        if (tip1.status === 'fulfilled') return +tip1.value
+        if (tip2.status === 'fulfilled') return +tip2.value
+        return null
       } catch {
         return null
       }
@@ -44,9 +47,13 @@ const MaintainAlert = () => {
     { refetchInterval: 12 * 1000 },
   )
 
-  const isMaintained = tip && synced && tip - synced > thredhold
+  const lag = tip && synced ? tip - synced : 0
 
-  return isMaintained ? <div className={styles.container}>{t('error.maintain', { tip, lag: tip - synced })}</div> : null
+  return lag >= thredhold ? (
+    <div className={styles.container}>
+      {t('error.maintain', { tip: tip?.toLocaleString('en'), lag: lag.toLocaleString('en') })}
+    </div>
+  ) : null
 }
 
 export default MaintainAlert
