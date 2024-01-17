@@ -4,6 +4,7 @@
   display: inline-flex;
   align-items: flex-end;
   font-size: 1rem;
+  white-space: nowrap;
 
   span[data-role='dec'] {
     font-size: 0.875em;

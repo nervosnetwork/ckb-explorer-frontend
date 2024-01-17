@@ -44,9 +44,16 @@
 .reward {
   margin-top: 7px;
   height: 24px;
+
+  @media screen and (width <= $mobileBreakPoint) {
+    margin-top: 0;
+    height: auto;
+  }
 }
 
 .capacity {
+  margin-left: auto;
+
   span[data-role='dec'] {
     color: var(--decimal-color);
   }
