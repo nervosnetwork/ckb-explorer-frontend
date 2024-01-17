@@ -47,6 +47,8 @@
 }
 
 .capacity {
+  margin-left: auto;
+
   span[data-role='dec'] {
     color: var(--decimal-color);
   }
