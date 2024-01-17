@@ -6,7 +6,7 @@ import { useLatestBlockNumber } from '../../../services/ExplorerService'
 import styles from './styles.module.scss'
 
 const { BACKUP_NODES: backupNodes } = config
-const thredhold = 20
+const threshold = 20
 
 const getTipFromNode = (url: string): Promise<string> =>
   axios<any, { data: { result: string } }>(url, {
@@ -49,7 +49,7 @@ const MaintainAlert = () => {
 
   const lag = tip && synced ? tip - synced : 0
 
-  return lag >= thredhold ? (
+  return lag >= threshold ? (
     <div className={styles.container}>
       {t('error.maintain', { tip: tip?.toLocaleString('en'), lag: lag.toLocaleString('en') })}
     </div>
