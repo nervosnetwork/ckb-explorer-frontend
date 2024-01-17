@@ -542,7 +542,7 @@
       "deposit_address_tooltip": "Number of addresses with non-zero balance of Nervos DAO"
     },
     "error": {
-      "maintain": "The current browser data is delayed. Please refer to the ckb node data for accuracy.",
+      "maintain": "The tip block number {{tip}}, the current synced block lagging behind by {{lag}} blocks",
       "page_crashed_tip": "Oops! Some errors were encountered.",
       "back_home": "BACK HOME"
     },
