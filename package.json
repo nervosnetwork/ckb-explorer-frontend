@@ -78,7 +78,7 @@
     "eslint-plugin-unused-imports": "^3.0.0",
     "husky": "^8.0.0",
     "jest-styled-components": "^7.0.5",
-    "mockdate": "^2.0.5",
+    "mockdate": "^3.0.0",
     "postcss-scss": "4.0.9",
     "postcss-styled-syntax": "^0.6.0",
     "prettier": "^2.8.8",
