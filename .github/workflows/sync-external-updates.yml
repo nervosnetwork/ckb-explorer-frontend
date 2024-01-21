@@ -16,7 +16,7 @@ jobs:
 
       - name: Open PR from forked repo to origin one
         if: vars.EXTERNAL_REPO != ''
-        uses: actions/script@v6
+        uses: actions/script@v7
         with:
           script: |
             github.rest.pulls.create({
