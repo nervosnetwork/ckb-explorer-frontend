@@ -12,11 +12,11 @@ jobs:
       pull-requests: write # for opening PR
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Open PR from forked repo to origin one
         if: vars.EXTERNAL_REPO != ''
-        uses: actions/script@v6
+        uses: actions/script@v7
         with:
           script: |
             github.rest.pulls.create({
