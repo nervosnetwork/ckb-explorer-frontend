@@ -139,6 +139,7 @@ export const ConfirmationTimeFeeRateChart = ({
           formatter(params) {
             const feeRate: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
             const count: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[1] : params
+            if (!feeRate.value) return ''
             return `${t('fee_rate_tracker.fee_rate')}: ${feeRate.value?.toLocaleString('en')} shannons/kB<br />${t(
               'fee_rate_tracker.confirmation_time',
             )}: ${feeRate.name}<br />${t('fee_rate_tracker.count')}: ${count.value}`
