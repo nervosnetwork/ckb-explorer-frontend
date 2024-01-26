@@ -204,6 +204,18 @@ export const scripts = new Map<string, ScriptAttributes>([
       website: 'https://blog.cryptape.com/enhance-sudts-programmability-with-xudt#heading-xudt-cell',
     },
   ],
+  [
+    'Spore',
+    {
+      name: 'Spore',
+      description:
+        'Spore Protocol infuses digital assets with enduring value backed by tokenomics, redeemable at any time. Ensures true on-chain ownership, privacy, creative freedom and frictionless interaction.',
+      rfc: 'https://github.com/sporeprotocol/spore-contract/blob/master/docs/RFC.md',
+      code: 'https://github.com/sporeprotocol/spore-contract',
+      doc: 'https://docs.spore.pro/',
+      website: 'https://spore.pro/',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']
