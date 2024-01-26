@@ -4,7 +4,7 @@ export interface ContractHashTag {
   codeHashes: string[] // The code hashes whose hash type are type in mainnet and testnet are different
   txHashes: string[] //  mainnet and testnet contract tx hashes
   tag: string
-  category: 'lock' | 'type'
+  category?: 'lock' | 'type'
   depType: 'dep_group' | 'code'
   hashType: string
 }
@@ -253,6 +253,21 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     hashType: 'data1',
     tag: 'xUDT',
     category: 'lock',
+  },
+  {
+    codeHashes: ['0x4a4dce1df3dffff7f8b2cd7dff7303df3b6150c9788cb75dcf6747247132b9f5'],
+    txHashes: ['0x96b198fb5ddbd1eed57ed667068f1f1e55d07907b4c0dbd38675a69ea1b69824-0'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Spore',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0x7366a61534fa7c7e6225ecc0d828ea3b5366adec2b58206f2ee84995fe030075'],
+    txHashes: ['0xe464b7fb9311c5e2820e61c99afc615d6b98bdefbe318c34868c010cbd0dc938-0'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Spore Cluster',
   },
 ]
 
@@ -512,5 +527,46 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     hashType: 'type',
     tag: 'xUDT',
     category: 'lock',
+  },
+  {
+    codeHashes: [
+      '0x5e063b4c0e7abeaa6a428df3b693521a3050934cf3b0ae97a800d1bc31449398',
+      '0xbbad126377d45f90a8ee120da988a2d7332c78ba8fd679aab478a19d6c133494',
+    ],
+    txHashes: [
+      '0x06995b9fc19461a2bf9933e57b69af47a20bf0a5bc6c0ffcb85567a2c733f0a1-0',
+      '0xfd694382e621f175ddf81ce91ce2ecf8bfc027d53d7d31b8438f7d26fc37fd19-0',
+    ],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Spore',
+    category: 'type',
+  },
+  {
+    codeHashes: [
+      '0x7366a61534fa7c7e6225ecc0d828ea3b5366adec2b58206f2ee84995fe030075',
+      '0x598d793defef36e2eeba54a9b45130e4ca92822e1d193671f490950c3b856080',
+    ],
+    txHashes: [
+      '0xfbceb70b2e683ef3a97865bb88e082e3e5366ee195a9c826e3c07d1026792fcd-0',
+      '0x49551a20dfe39231e7db49431d26c9c08ceec96a29024eef3acc936deeb2ca76-0',
+    ],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Spore Cluster',
+  },
+  {
+    codeHashes: ['0xbe8b9ce3d05a32c4bb26fe71cd5fc1407ce91e3a8b9e8719be2ab072cef1454b'],
+    txHashes: ['0x0231ea581bbc38965e10a2659da326ae840c038a9d0d6849f458b51d94870104-0'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Spore Cluster Proxy',
+  },
+  {
+    codeHashes: ['0xc986099b41d79ca1b2a56ce5874bcda8175440a17298ea5e2bbc3897736b8c21'],
+    txHashes: ['0x53fdb9366637434ff685d0aca5e2a68a859b6fcaa4b608a7ecca0713fed0f5b7-0'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Spore Cluster Agent',
   },
 ]
