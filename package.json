@@ -62,7 +62,7 @@
     "@types/react-test-renderer": "^18.0.0",
     "@types/styled-components": "5.1.32",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
-    "@typescript-eslint/parser": "6.19.0",
+    "@typescript-eslint/parser": "6.19.1",
     "antd-dayjs-webpack-plugin": "^1.0.6",
     "babel-plugin-named-exports-order": "0.0.2",
     "create-react-app": "^5.0.0",
