@@ -555,7 +555,8 @@
       "end_page": "",
       "current_page": "Page",
       "of_page": "of",
-      "only_first_pages_visible": "Showing first {{pages}} pages"
+      "only_first_pages_visible": "Showing first {{pages}} pages",
+      "show_rows": "Show Rows"
     },
     "udt": {
       "sudt": "sUDT",

@@ -54,7 +54,7 @@ export const TransactionCellListTitlePanel = styled.div`
 
 export const TransactionCellListPanel = styled.div`
   width: 100%;
-  border-radius: 6px;
+  border-radius: 6px 6px 0 0;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   background-color: #fff;
   padding: 12px 20px 12px 40px;
