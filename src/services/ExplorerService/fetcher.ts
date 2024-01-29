@@ -98,7 +98,18 @@ export const apiFetcher = {
 
   fetchTransactionRaw: (hash: string) => requesterV2.get<unknown>(`transactions/${hash}/raw`).then(res => res.data),
 
-  fetchTransactionByHash: (hash: string) => v1GetUnwrapped<Transaction>(`transactions/${hash}`),
+  fetchTransactionByHash: (hash: string, displayCells: boolean = false) =>
+    v1GetUnwrapped<Transaction>(`transactions/${hash}?display_cells=${displayCells}`),
+
+  fetchCellsByTxHash: (hash: string, type: 'inputs' | 'outputs', page: Record<'no' | 'size', number>) =>
+    requesterV2
+      .get(`ckb_transactions/${hash}/display_${type}`, {
+        params: {
+          page: page.no,
+          page_size: page.size,
+        },
+      })
+      .then(res => toCamelcase<Response.Response<Cell[]>>(res.data)),
 
   fetchTransactionLiteDetailsByHash: (hash: string) =>
     requesterV2

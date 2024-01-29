@@ -18,6 +18,7 @@ export const ONE_HOUR_MILLISECOND = ONE_HOUR_SECOND * 1000
 export const ONE_MINUTE_SECOND = 60
 export const EPOCHS_PER_HALVING = 8760
 export const THEORETICAL_EPOCH_TIME = 1000 * 60 * 60 * 4 // 4 hours
+export const PAGE_SIZE = 10
 
 export function getPrimaryColor() {
   return isMainnet() ? '#00CC9B' : '#9A2CEC'

@@ -8,6 +8,7 @@ import RightGrey from './pagination_grey_right.png'
 import { useIsMobile } from '../../hooks'
 import SimpleButton from '../SimpleButton'
 import { HelpTip } from '../HelpTip'
+import styles from './index.module.scss'
 
 const Pagination = ({
   currentPage,
@@ -16,13 +17,17 @@ const Pagination = ({
   onChange,
   className,
   annotation,
+  pageSize,
+  presetPageSizes,
 }: {
   currentPage: number
   totalPages: number
   gotoPage?: number
-  onChange: (page: number) => void
+  onChange: (page: number, size?: number) => void
   className?: string
   annotation?: string
+  pageSize?: number
+  presetPageSizes?: number[]
 }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
@@ -74,6 +79,26 @@ const Pagination = ({
         <SimpleButton className="paginationLastButton" onClick={() => changePage(total)}>
           {t('pagination.last')}
         </SimpleButton>
+        {presetPageSizes ? (
+          <div className={styles.pageSizeSelector}>
+            <span>{`${t('pagination.show_rows')}:`}</span>
+            <div className={styles.pageSize}>{pageSize}</div>
+            <div role="menu">
+              {presetPageSizes.map(size => (
+                <div
+                  key={size}
+                  role="menuitem"
+                  tabIndex={0}
+                  data-is-selected={size === pageSize}
+                  onClick={() => onChange(current, size)}
+                  onKeyDown={() => onChange(current, size)}
+                >
+                  {size}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </PaginationLeftItem>
       <PaginationRightItem>
         <span className="paginationPageLabel">{t('pagination.page')}</span>
