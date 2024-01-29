@@ -4184,10 +4184,10 @@
     "@storybook/global" "^5.0.0"
     tiny-invariant "^1.3.1"
 
-"@storybook/addon-onboarding@1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-onboarding/-/addon-onboarding-1.0.10.tgz#62b914741c6902d4150d383ea548f3796d094cf6"
-  integrity sha512-tK7JjJYIpOM4LowBoIM/8ymYQ70qVRmu7pGqSOQ82AW15ob5u36HJ753y0hVH/KPj6k7J1aSgAEgVGXLmgwvKw==
+"@storybook/addon-onboarding@1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-onboarding/-/addon-onboarding-1.0.11.tgz#793540d3348c7c844a495db615c85720f393538a"
+  integrity sha512-0Sa7PJDsM6AANOWZX7vq3kgCbS9AZFjr3tfr3bLGfXviwIBKjoZDDdIErJkS3D4mNcDa78lYQvp3PTCKwLIJ9A==
   dependencies:
     "@storybook/telemetry" "^7.1.0"
     react-confetti "^6.1.0"
