@@ -16,15 +16,19 @@ const SCROLL_BOTTOM_OFFSET = 5
 const SCROLL_LOADING_TIME = 400
 
 export default ({
+  total,
   inputs,
   outputs,
   txHash,
   showReward,
+  startIndex,
 }: {
+  total?: number
   inputs?: Cell[]
   outputs?: Cell[]
   txHash?: string
   showReward?: boolean
+  startIndex: number
 }) => {
   const { t } = useTranslation()
   const [offset, setOffset] = useState(PAGE_CELL_COUNT)
@@ -53,18 +57,11 @@ export default ({
   const [isDeprecatedAddressesDisplayed, setIsDeprecatedAddressesDisplayed] = useIsDeprecatedAddressesDisplayed()
   const toggleDeprecatedAddressesDisplayed = () => setIsDeprecatedAddressesDisplayed(value => !value)
 
-  const cellsCount = () => {
-    if (inputs) {
-      return inputs.length
-    }
-    return outputs ? outputs.length : 0
-  }
-
   const cellTitle = () => {
     const title = inputs ? t('transaction.input') : t('transaction.output')
     return (
       <div className={styles.cellListTitle}>
-        {`${title} (${cellsCount()})`}
+        {`${title} (${total ?? '-'})`}
         <Tooltip placement="top" title={t(`address.view-deprecated-address`)}>
           <div className={styles.newAddrToggle} onClick={toggleDeprecatedAddressesDisplayed} role="presentation">
             {!isDeprecatedAddressesDisplayed ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
@@ -99,7 +96,7 @@ export default ({
                   key={cell.id}
                   cell={cell}
                   cellType={inputs ? CellType.Input : CellType.Output}
-                  index={index}
+                  index={index + startIndex}
                   txHash={txHash}
                   showReward={showReward}
                   isAddrNew={!isDeprecatedAddressesDisplayed}

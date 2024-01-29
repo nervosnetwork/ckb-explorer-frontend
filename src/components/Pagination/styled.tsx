@@ -82,6 +82,7 @@ export const PaginationLeftItem = styled.div`
     font-size: 12px;
     padding: 0 12px;
     margin-left: 20px;
+    white-space: nowrap;
 
     @media (max-width: ${variables.mobileBreakPoint}) {
       background: white;
