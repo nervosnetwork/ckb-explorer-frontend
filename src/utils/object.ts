@@ -13,3 +13,9 @@ export function omit<T extends Record<any, any>, U extends keyof T>(obj: T, keys
   })
   return newObj
 }
+
+export function omitNil<T extends Record<any, any>>(
+  obj: T,
+): { [K in keyof T]: null extends T[K] ? T[K] | undefined : T[K] } {
+  return Object.fromEntries(Object.entries(obj).filter(([, value]) => value != null)) as any
+}

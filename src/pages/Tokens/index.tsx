@@ -95,7 +95,9 @@ const TokenItem = ({ token, isLast }: { token: UDT | OmigaInscriptionCollection;
                 <Link
                   className={styles.link}
                   to={
-                    isOmigaInscriptionCollection(token) ? `/inscription/${token.typeHash}` : `/sudt/${token.typeHash}`
+                    isOmigaInscriptionCollection(token)
+                      ? `/inscription/${token.infoTypeHash}`
+                      : `/sudt/${token.typeHash}`
                   }
                 >
                   {symbol}

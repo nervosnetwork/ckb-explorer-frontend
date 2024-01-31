@@ -208,4 +208,4 @@ interface FetchStatusValue {
 // Unused currently
 export type FetchStatus = keyof FetchStatusValue
 
-export type SupportedExportTransactionType = 'address_transactions' | 'blocks' | 'udts' | 'nft'
+export type SupportedExportTransactionType = 'address_transactions' | 'blocks' | 'udts' | 'nft' | 'omiga_inscriptions'
