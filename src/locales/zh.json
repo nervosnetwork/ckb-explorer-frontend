@@ -594,7 +594,8 @@
       "mint_limit": "铸造限制",
       "mint_status_minting": "铸造中",
       "mint_status_closed": "已关闭",
-      "mint_status_rebase_start": "重铸开始"
+      "mint_status_rebase_start": "重铸开始",
+      "view_original": "查看原铭文"
     },
     "nft": {
       "nft_collection": "NFT 藏品",

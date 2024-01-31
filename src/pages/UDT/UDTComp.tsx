@@ -13,7 +13,7 @@ import AddressText from '../../components/AddressText'
 import PaginationWithRear from '../../components/PaginationWithRear'
 import { CsvExport } from '../../components/CsvExport'
 import { Transaction } from '../../models/Transaction'
-import { OmigaInscriptionCollection, UDT, isOmigaInscriptionCollection } from '../../models/UDT'
+import { OmigaInscriptionCollection, UDT, isOmigaInscriptionCollection, MintStatus } from '../../models/UDT'
 import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../components/Card'
 import { useIsMobile } from '../../hooks'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
@@ -25,6 +25,7 @@ import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
 import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import Script from '../../components/Script'
 import Capacity from '../../components/Capacity'
+import { ReactComponent as ViewOriginalIcon } from './view_original.svg'
 
 const typeScriptIcon = (show: boolean) => {
   if (show) {
@@ -166,6 +167,20 @@ export const UDTOverviewCard = ({ typeHash, udt }: { typeHash: string; udt: UDT 
         className={styles.cardHeader}
         title={!isMobile && cardTitle}
         hash={typeHash}
+        customActions={[
+          isOmigaInscriptionCollection(udt) && udt.mintStatus === MintStatus.RebaseStart ? (
+            <Tooltip placement="top" title={t('udt.view_original')}>
+              <Link
+                to={`/inscription/${udt.infoTypeHash}?view=original`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.viewOriginal}
+              >
+                <ViewOriginalIcon />
+              </Link>
+            </Tooltip>
+          ) : null,
+        ]}
         rightContent={!isMobile && modifyTokenInfo}
       />
 
@@ -189,6 +204,7 @@ export const UDTComp = ({
   filterNoResult,
   id,
   isInscription,
+  isViewOriginal,
 }: {
   currentPage: number
   pageSize: number
@@ -198,6 +214,7 @@ export const UDTComp = ({
   filterNoResult?: boolean
   id: string
   isInscription?: boolean
+  isViewOriginal?: boolean
 }) => {
   const { t } = useTranslation()
   const totalPages = Math.ceil(total / pageSize)
@@ -230,8 +247,9 @@ export const UDTComp = ({
           currentPage={currentPage}
           totalPages={totalPages}
           onChange={onPageChange}
-          // TODO: The backend has not yet implemented export support for Inscription (xUDT), so it is disabled for now.
-          rear={!isInscription && <CsvExport type="udts" id={id} />}
+          rear={
+            <CsvExport type={isInscription ? 'omiga_inscriptions' : 'udts'} id={id} isViewOriginal={isViewOriginal} />
+          }
         />
       </UDTTransactionsPagination>
     </>

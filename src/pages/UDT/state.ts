@@ -27,4 +27,5 @@ export const defaultOmigaInscriptionInfo: OmigaInscriptionCollection = {
   mintLimit: '0',
   expectedSupply: '0',
   inscriptionInfoId: '',
+  infoTypeHash: '',
 }
