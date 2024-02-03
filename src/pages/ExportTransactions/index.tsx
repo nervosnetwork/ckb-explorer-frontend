@@ -30,9 +30,12 @@ const ExportTransactions = () => {
     'end-date': endDateStr,
     'from-height': fromHeightStr,
     'to-height': toHeightStr,
-  } = useSearchParams('type', 'id', 'tab', 'start-date', 'end-date', 'from-height', 'to-height')
+    view,
+  } = useSearchParams('type', 'id', 'tab', 'start-date', 'end-date', 'from-height', 'to-height', 'view')
+  const isViewOriginal = view === 'original'
+
   function isTransactionCsvExportType(s?: string): s is SupportedExportTransactionType {
-    return !!s && ['address_transactions', 'blocks', 'udts', 'nft'].includes(s)
+    return !!s && ['address_transactions', 'blocks', 'udts', 'nft', 'omiga_inscriptions'].includes(s)
   }
 
   const type = isTransactionCsvExportType(typeStr) ? typeStr : 'blocks'
@@ -122,6 +125,7 @@ const ExportTransactions = () => {
         id,
         date: tab === 'date' ? { start: startDate, end: endDate } : undefined,
         block: tab === 'height' ? { from: fromHeight!, to: toHeight! } : undefined,
+        isViewOriginal,
       })
       .then((resp: string | null) => {
         setIsDownloading(false)

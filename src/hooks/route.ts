@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useCallback } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { ListPageParams, PageParams } from '../constants/common'
-import { omit } from '../utils/object'
+import { omit, omitNil } from '../utils/object'
 
 function getSearchParams<T extends string = string>(search: string, names?: T[]): Partial<Record<T, string>> {
   const urlSearchParams = new URLSearchParams(search)
@@ -76,7 +76,7 @@ export function useSortParam<T extends string>(
 }
 
 export function useUpdateSearchParams<T extends string>(): (
-  updater: (current: Partial<Record<T, string>>) => Partial<Record<T, string>>,
+  updater: (current: Partial<Record<T, string>>) => Partial<Record<T, string | null | undefined>>,
   replace?: boolean,
 ) => void {
   const history = useHistory()
@@ -85,7 +85,7 @@ export function useUpdateSearchParams<T extends string>(): (
   return useCallback(
     (updater, replace) => {
       const oldParams: Partial<Record<T, string>> = getSearchParams(search)
-      const newParams = updater(oldParams)
+      const newParams = omitNil(updater(oldParams))
       const newUrlSearchParams = new URLSearchParams(newParams as Record<string, string>)
       newUrlSearchParams.sort()
       const newQueryString = newUrlSearchParams.toString()

@@ -593,7 +593,8 @@
       "mint_limit": "Mint Limit",
       "mint_status_minting": "Minting",
       "mint_status_closed": "Closed",
-      "mint_status_rebase_start": "Rebase Start"
+      "mint_status_rebase_start": "Rebase Start",
+      "view_original": "View Original"
     },
     "nft": {
       "nft_collection": "NFT Collection",
