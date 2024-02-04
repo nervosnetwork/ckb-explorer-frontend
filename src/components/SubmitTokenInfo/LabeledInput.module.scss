@@ -1,0 +1,41 @@
+@import '../../styles/variables.module';
+
+.container {
+  font-size: 14px;
+
+  input {
+    width: 100%;
+    line-height: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+    background: white;
+
+    &[data-is-error='true'] {
+      border: 1px solid var(--accent-color);
+    }
+
+    &[disabled='true'] {
+      background: #f5f5f5;
+    }
+  }
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.labelRightAddon {
+  display: flex;
+  align-self: center;
+  margin-left: 4px;
+}
+
+.requiredIcon {
+  color: var(--accent-color);
+}

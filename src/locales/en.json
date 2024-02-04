@@ -544,7 +544,20 @@
     "error": {
       "maintain": "The tip block number {{tip}}, the current synced block lagging behind by {{lag}} blocks",
       "page_crashed_tip": "Oops! Some errors were encountered.",
-      "back_home": "BACK HOME"
+      "back_home": "BACK HOME",
+      "codes": {
+        "1026": "UDT is not found",
+        "1027": "Script code hash is invalid",
+        "1028": "Script hash type is invalid",
+        "1029": "Script is not found",
+        "1030": "UDT info is invalid",
+        "1031": "UDT verification is failed",
+        "1032": "UDT verification is not found",
+        "1033": "UDT has no contact email",
+        "1034": "Token has expired",
+        "1035": "Token is not matched",
+        "1036": "Token is requested too frequently"
+      }
     },
     "pagination": {
       "first": "First",
@@ -572,6 +585,7 @@
       "unknown_token": "Unknown Token",
       "unknown_amount": "Unknown Amount",
       "submit_token_info": "Submit Token Info",
+      "modify_token_info": "Modify Token Info",
       "unknown_token_description": "The token’s information is incomplete. If you are the owner of this token, please submit token info.",
       "tokens": "Tokens",
       "uan_name": "UAN & Name",
@@ -594,6 +608,11 @@
       "mint_status_minting": "Minting",
       "mint_status_closed": "Closed",
       "mint_status_rebase_start": "Rebase Start",
+      "email_vericode": "Email-Verification Code",
+      "report": "Report",
+      "vericode": "Verification Code",
+      "get_code": "Get Code",
+      "wrong_email": "Wrong Email? Click to report.",
       "view_original": "View Original"
     },
     "nft": {
@@ -706,6 +725,38 @@
       "block_number_should_be_positive": "block number should be positive",
       "too_many_blocks": "The selected range exceeds 5,000 blocks,please re-enter the block numbers",
       "fetch_processed_export_link_empty": "fetch processed export link empty"
+    },
+    "submit_token_info": {
+      "title": "Submit Token Info",
+      "token_type_scripts": "Token Type Scripts",
+      "token_type": "Token Type",
+      "token_type_tip": "Please select the Token Type based on the actual Cell type used for this SUDT.",
+      "token_type_placeholder": "Choose",
+      "args": "Args",
+      "args_tip": "Args is the Args field in the Cell data structure in CKB. Please provide the Args field from this SUDT Cell.",
+      "args_placeholder": "Enter Args",
+      "symbol": "Symbol",
+      "symbol_tip": "Symbol of the SUDT",
+      "symbol_placeholder": "Enter Symbol",
+      "name": "Name",
+      "name_tip": "Name of the SUDT",
+      "name_placeholder": "Enter Name",
+      "decimal": "Decimal",
+      "decimal_tip": "Decimal of the SUDT",
+      "decimal_placeholder": "Enter Decimal",
+      "description": "Description",
+      "description_tip": "Description of the SUDT",
+      "description_placeholder": "Enter Description",
+      "website": "Website",
+      "website_tip": "Website of the SUDT",
+      "website_placeholder": "Enter Website",
+      "creator_email": "Creator Email",
+      "creator_email_tip": "Email address of the creator of the SUDT project or organization. This is crucial for future updates to SUDT information.",
+      "creator_email_placeholder": "Enter Creator Email",
+      "logo": "Logo",
+      "logo_tip": "Token logo for the SUDT",
+      "logo_placeholder": "Upload",
+      "confirm": "Confirm"
     }
   }
 }

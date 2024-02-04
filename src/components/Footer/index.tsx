@@ -1,5 +1,6 @@
-import { ReactNode, memo, useMemo } from 'react'
+import { ReactNode, memo, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { SubmitTokenInfo } from '../SubmitTokenInfo'
 import { ReactComponent as XIcon } from './footer_X.svg'
 import { ReactComponent as MediumIcon } from './footer_medium.svg'
 import { ReactComponent as TelegramIcon } from './footer_telegram.svg'
@@ -9,7 +10,7 @@ import { ReactComponent as ForumIcon } from './footer_forum.svg'
 import { ReactComponent as Discord } from './footer_discord.svg'
 import { getCurrentYear } from '../../utils/date'
 import { FooterMenuPanel, FooterItemPanel, FooterImageItemPanel, FooterPanel } from './styled'
-import { udtSubmitEmail } from '../../utils/util'
+import styles from './index.module.scss'
 
 interface FooterLinkItem {
   label?: string
@@ -44,6 +45,7 @@ const FooterImageItem = ({ item }: { item: FooterLinkItem }) => {
 
 export default memo(() => {
   const [t] = useTranslation()
+  const [isTokenFormDisplayed, setIsTokenFormDisplayed] = useState<boolean>(false)
   const Footers = useMemo<FooterLink[]>(
     () => [
       {
@@ -73,10 +75,6 @@ export default memo(() => {
           {
             label: t('footer.faucet'),
             url: 'https://faucet.nervos.org/',
-          },
-          {
-            label: t('udt.submit_token_info'),
-            url: udtSubmitEmail(),
           },
         ],
       },
@@ -123,6 +121,11 @@ export default memo(() => {
     ],
     [t],
   )
+
+  const onSubmitToken = () => {
+    setIsTokenFormDisplayed(true)
+  }
+
   return (
     <FooterPanel>
       <FooterMenuPanel>
@@ -139,6 +142,9 @@ export default memo(() => {
             .map(item => (
               <FooterItem item={item} key={item.label} />
             ))}
+          <button type="button" onClick={onSubmitToken} className={styles.tokenFormBtn}>
+            {t('udt.submit_token_info')}
+          </button>
         </div>
         <div className="footerCommunity">
           {Footers[2].items.map(item => (
@@ -150,6 +156,7 @@ export default memo(() => {
         <span>{`Copyright © ${getCurrentYear()} Nervos Foundation. `}</span>
         <span>All Rights Reserved.</span>
       </div>
+      <SubmitTokenInfo isOpen={isTokenFormDisplayed} onClose={() => setIsTokenFormDisplayed(false)} />
     </FooterPanel>
   )
 })

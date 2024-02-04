@@ -1,3 +1,4 @@
+import { type HashType } from '@ckb-lumos/base'
 import { Script } from '../models/Script'
 
 export interface ContractHashTag {
@@ -6,7 +7,7 @@ export interface ContractHashTag {
   tag: string
   category?: 'lock' | 'type'
   depType: 'dep_group' | 'code'
-  hashType: string
+  hashType: HashType
 }
 
 export const ScriptTagExtraRules = new Map<string, (s: Script) => string>([
