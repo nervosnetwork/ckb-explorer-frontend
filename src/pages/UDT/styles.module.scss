@@ -103,3 +103,38 @@
     width: 100%;
   }
 }
+
+.modify {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 10rem;
+  height: 2.5rem;
+  margin-left: 8px;
+  border-radius: 4px;
+  color: #333;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--primary-color);
+
+    path {
+      stroke: var(--primary-color);
+    }
+  }
+
+  @media (width <= $mobileBreakPoint) {
+    width: 9.5rem;
+    height: 2rem;
+    font-size: 0.875rem;
+  }
+}
+
+.loading {
+  background: #fff;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}

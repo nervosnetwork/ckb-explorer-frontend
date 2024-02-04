@@ -32,31 +32,64 @@ export const TOKEN_EMAIL_ADDRESS = 'ckb-explorer@nervosnet.com'
 export const TOKEN_EMAIL_SUBJECT = 'Submit Token Info'
 export const TOKEN_EMAIL_BODY = `
 Title: Submit Token Information%0a%0d
----------- Submit sUDT Token Information ----------%0a%0d
-
-Type Script:%0a%0d
-    Code Hash:%0a%0d
-    Hash Type:%0a%0d
-    Args:%0a%0d
-
-Information:%0a%0d
-   Display Name:%0a%0d
-   UAN:%0a%0d
-   Decimal: 8 (default)%0a%0d
-   Description:%0a%0d
-   Website:%0a%0d
-   Icon File: attachment (40 x 40)%0a%0d
-   Other Info:%0a%0d%0a%0d
-
-Ref:%0a%0d
-1. UAN: https://github.com/nervosnetwork/rfcs/pull/335%0a%0d
-
 ---------- Submit NRC 721 Factory Information ----------%0a%0d
 
 Information:%0a%0d
    Deployment Tx Hash: %0a%0d
    Contract Source Code: %0a%0d
    Other Info:%0a%0d
+`
+
+export const REPORT_EMAIL_ADDRESS = 'ckb-explorer@nervosnet.com'
+export const REPORT_EMAIL_SUBJECT = 'Submit Token Info'
+export const REPORT_EMAIL_BODY_EN = `
+MagiCKBase Team,%0a%0d
+
+
+
+I am writing this email to notify you about an issue regarding the contact email address listed on your browser for our organization [incorrect/no longer available]. Here is the correct email address information (* indicates required fields):%0a%0d
+
+
+
+New Email Address*: [Your new email address]%0a%0d
+
+Organization/Company: [Your organization/company name, if applicable]%0a%0d
+
+NFT Issuer Address with Signature Information for "Request to Change Email Address": [If applicable]%0a%0d
+
+
+
+Alternate Email Address: [Your alternate email address, if any]%0a%0d
+
+——————————————————————————————————————————%0a%0d
+
+This template can be adjusted as necessary for your specific requirements. Before sending your email, please ensure to provide all the required information so that the MagickBase team can process your request swiftly and accurately.
+`
+
+export const REPORT_EMAIL_BODY_ZH = `
+MagiCKBase 团队，%0a%0d
+
+
+
+写此邮件是为了通知您关于我们在您的浏览器上列出的联系邮件地址 [错误/不再可用]。%0a%0d
+
+以下是我们的正确邮件地址信息（“*”为必填项。）：%0a%0d
+
+
+
+新邮件地址*：[新的邮件地址]%0a%0d
+
+组织/公司：[您的组织/公司名称，如果有]%0a%0d
+
+NFT issuer 地址对“请求修改电邮地址”的签名信息：[如果有]%0a%0d
+
+
+
+替代电子邮件地址：[替代电子邮件地址，如果有]%0a%0d
+
+——————————————————————————————————————————%0a%0d
+
+此模板可根据具体情况进行适当调整。在发送邮件时，请确保提供所有必要的信息，以便区块链浏览器的工作人员可以迅速且准确地处理您的请求。
 `
 
 export const HttpErrorCode = {

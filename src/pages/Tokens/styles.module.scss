@@ -103,6 +103,14 @@
   }
 }
 
+.submitTokenInfoBtn {
+  color: var(--primary-color);
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
 .tokensTable:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.'][_='']
   ) {
