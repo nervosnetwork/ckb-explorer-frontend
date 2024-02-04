@@ -31,6 +31,7 @@ export interface OmigaInscriptionCollection extends UDT {
   mintLimit: string
   expectedSupply: string
   inscriptionInfoId: string
+  infoTypeHash: string
 }
 
 export function isOmigaInscriptionCollection(udt: UDT): udt is OmigaInscriptionCollection {
