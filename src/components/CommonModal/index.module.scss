@@ -1,0 +1,27 @@
+.overlay {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: rgb(0 0 0 / 40%);
+}
+
+.container {
+  position: absolute;
+  z-index: 3;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 4px;
+  max-width: 90%;
+  box-shadow: 0 0 8px 0 rgb(0 0 0 / 20%);
+
+  @media screen and (width <= 750px) {
+    max-width: calc(100vw - 32px);
+  }
+}

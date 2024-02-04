@@ -18,6 +18,8 @@ export interface UDT {
   uan?: string
   // TODO: Not quite sure if there are only two types here, so add a string for now.
   udtType: 'omiga_inscription' | 'sudt' | string
+  operatorWebsite?: string
+  email?: string
 }
 
 export enum MintStatus {
