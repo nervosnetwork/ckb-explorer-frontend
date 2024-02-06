@@ -233,7 +233,6 @@ export const UDTOverviewCard = ({
       </Card>
       {tokenInfo && isModifyTokenInfoModalOpen ? (
         <SubmitTokenInfo
-          isOpen
           onClose={() => setIsModifyTokenInfoModalOpen(false)}
           initialInfo={tokenInfo}
           onSuccess={refetchUDT}
