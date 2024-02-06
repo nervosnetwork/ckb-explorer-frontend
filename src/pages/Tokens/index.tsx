@@ -420,7 +420,7 @@ const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
             onChange={setPage}
           />
         </TokensPanel>
-        <SubmitTokenInfo isOpen={isSubmitTokenInfoModalOpen} onClose={() => setIsSubmitTokenInfoModalOpen(false)} />
+        {isSubmitTokenInfoModalOpen ? <SubmitTokenInfo onClose={() => setIsSubmitTokenInfoModalOpen(false)} /> : null}
       </Content>
     </>
   )
