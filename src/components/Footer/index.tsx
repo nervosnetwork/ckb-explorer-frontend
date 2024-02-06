@@ -156,7 +156,7 @@ export default memo(() => {
         <span>{`Copyright © ${getCurrentYear()} Nervos Foundation. `}</span>
         <span>All Rights Reserved.</span>
       </div>
-      <SubmitTokenInfo isOpen={isTokenFormDisplayed} onClose={() => setIsTokenFormDisplayed(false)} />
+      {isTokenFormDisplayed ? <SubmitTokenInfo onClose={() => setIsTokenFormDisplayed(false)} /> : null}
     </FooterPanel>
   )
 })

@@ -101,11 +101,9 @@ const useCountdown = () => {
 
 export const SubmitTokenInfo = ({
   onClose,
-  isOpen,
   initialInfo,
   onSuccess,
 }: {
-  isOpen: boolean
   onClose: () => void
   initialInfo?: TokenInfo
   onSuccess?: Function
@@ -120,7 +118,7 @@ export const SubmitTokenInfo = ({
 
   const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
   const tokenTypeOptions = scriptDataList
-    .filter(scriptData => scriptData.tag.includes('sudt'))
+    .filter(scriptData => scriptData.tag === 'sudt')
     .sort((a, b) => a.tag.localeCompare(b.tag))
     .map(scriptData => ({ label: scripts.get(scriptData.tag)?.name ?? scriptData.tag, value: scriptData.tag }))
 
@@ -177,10 +175,8 @@ export const SubmitTokenInfo = ({
 
   useEffect(() => {
     // scroll to top when open modal
-    if (isOpen) {
-      window.scrollTo(0, 0)
-    }
-  }, [isOpen])
+    window.scrollTo(0, 0)
+  }, [])
 
   const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -238,15 +234,24 @@ export const SubmitTokenInfo = ({
     }
 
     setSubmitting(true)
-    const token = scriptDataList.find(scriptData => scriptData.tag === tokenInfo.tokenType)
-    if (!token) {
-      throw new Error(`tokenType ${tokenInfo.tokenType} is not found`)
+
+    let typeHash = ''
+    if (isModification) {
+      typeHash = tokenInfo.typeHash
+    } else {
+      const token = scriptDataList.find(scriptData => scriptData.tag === tokenInfo.tokenType)
+      if (!token) {
+        setToast({
+          message: `tokenType ${tokenInfo.tokenType} is not found`,
+        })
+        return
+      }
+      typeHash = utils.computeScriptHash({
+        codeHash: token.codeHashes[0],
+        hashType: token.hashType,
+        args: tokenInfo.args,
+      })
     }
-    const typeHash = utils.computeScriptHash({
-      codeHash: token.codeHashes[0],
-      hashType: token.hashType,
-      args: tokenInfo.args,
-    })
 
     const commonInfo = {
       symbol: tokenInfo.symbol,
@@ -292,7 +297,7 @@ export const SubmitTokenInfo = ({
   }
 
   return (
-    <CommonModal isOpen={isOpen} onClose={handleClose}>
+    <CommonModal isOpen onClose={handleClose}>
       <div className={styles.modalWrapper}>
         <div className={styles.contentWrapper}>
           <div className={styles.modalTitle}>

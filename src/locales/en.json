@@ -556,7 +556,8 @@
         "1033": "UDT has no contact email",
         "1034": "Token has expired",
         "1035": "Token is not matched",
-        "1036": "Token is requested too frequently"
+        "1036": "Token is requested too frequently",
+        "1037": "Token is required to update udt info"
       }
     },
     "pagination": {
