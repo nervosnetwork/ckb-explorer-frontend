@@ -1,179 +1,75 @@
 @import '../../../../styles/variables.module';
 
-.transactionLites {
+.container {
   width: 100%;
-  margin-top: 24px;
-
-  @media (width <= $mobileBreakPoint) {
-    margin-top: 20px;
-  }
+  margin-top: 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
+  overflow: hidden;
+  font-size: 1rem;
 }
 
-.transactionLiteBox {
-  .transactionLiteBoxHeader {
+.item {
+  background: #fff;
+
+  &:not(:last-child) {
+    margin-bottom: 4px;
+  }
+
+  padding: 1.25rem 2.5rem;
+
+  .address {
+    max-width: 100%;
+    margin-bottom: 0.75rem;
+  }
+
+  table {
     width: 100%;
-    height: auto;
-    margin-bottom: 16px;
-    overflow-x: hidden;
 
-    .transactionLiteBoxHeaderAddr {
-      width: 260px;
-      max-width: 400px;
-      display: inline-block;
-
-      div {
-        color: var(--primary-color);
-      }
+    td {
+      padding: 0.25rem 0;
     }
 
-    @media (width <= $mobileBreakPoint) {
-      .transactionLiteBoxHeaderAddr {
-        width: 200px;
-        display: inline-block;
+    @media screen and (width < $mobileBreakPoint) {
+      tr {
+        display: flex;
+        flex-direction: column;
       }
-    }
-
-    .tag {
-      background: #e8fff1;
-      color: var(--primary-color);
-      font-size: 12px;
-      padding: 2px 6px;
-      box-shadow: 0 4px 4px rgb(16 16 16 / 5%);
-      border: 1px solid #caffdf;
-      border-radius: 4px;
-      display: inline-block;
-      margin-left: 8px;
     }
   }
 
-  .transactionLiteBoxContent {
-    width: 100%;
-    height: auto;
+  .transfer {
+    display: flex;
 
-    div {
-      display: inline-block;
+    .label {
+      flex: 1;
     }
 
-    .nftId,
-    .add {
-      color: var(--primary-color);
-    }
-
-    .subtraction {
-      color: var(--accent-color);
-    }
-
-    .addressDetailLite {
-      text-align: right;
-      font-size: 14px;
-      column-gap: 6px;
-
-      & > div:last-child {
-        margin-left: 6px;
-      }
-    }
-
-    & > div {
-      width: 100%;
-      height: 22px;
-      margin-bottom: 12px;
+    .value {
       display: flex;
 
-      div {
-        flex: 1;
+      @media screen and (width < $mobileBreakPoint) {
+        font-size: 0.875rem;
 
-        .tag {
-          box-sizing: border-box;
-          background: #d7e5fd;
-          padding: 2px 6px;
-          border: 1px solid #b0cbfc;
-          border-radius: 4px;
-          font-size: 12px;
-          color: #333;
-          display: inline-block;
-          margin-right: 12px;
+        * {
+          font-size: inherit;
         }
       }
     }
-  }
 
-  .transactionLiteBoxContentMobile {
-    width: 100%;
-    height: auto;
-
-    div {
-      display: inline-block;
-      color: var(--primary-color);
+    .asset {
+      margin-right: 0.25rem;
     }
 
-    .transactionLiteMobileName {
-      p {
-        font-size: 16px;
-        color: var(--primary-text-color);
-      }
-    }
-
-    .transactionLiteMobileContent {
-      &:first-child {
-        text-align: left;
+    .asset,
+    .parenthesis {
+      &[data-diff-status='positive'] {
+        color: var(--primary-color);
       }
 
-      &:last-child {
-        text-align: right;
+      &[data-diff-status='negative'] {
+        color: var(--accent-color);
       }
     }
-
-    .tag {
-      box-sizing: border-box;
-      background: #d7e5fd;
-      padding: 2px 6px;
-      border: 1px solid #b0cbfc;
-      border-radius: 4px;
-      font-size: 12px;
-      color: #333;
-      margin-right: 12px;
-      float: left;
-    }
-
-    & > div {
-      width: 100%;
-      height: auto;
-    }
-  }
-}
-
-.udtAmount {
-  &[data-diff-status='positive'] {
-    color: var(--primary-color);
-
-    &::before {
-      content: '+';
-    }
-  }
-
-  &[data-diff-status='negative'] {
-    color: var(--accent-color);
-
-    &::before {
-      content: '-';
-    }
-  }
-}
-
-.ckbDiff {
-  &::before {
-    content: '(';
-  }
-
-  &::after {
-    content: ')';
-  }
-
-  &[data-diff-status='positive'] {
-    color: var(--primary-color);
-  }
-
-  &[data-diff-status='negative'] {
-    color: var(--accent-color);
   }
 }

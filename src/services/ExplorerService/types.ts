@@ -1,5 +1,3 @@
-import { Cell } from '../../models/Cell'
-
 export namespace Response {
   export interface Response<T> {
     data: T
@@ -174,28 +172,93 @@ export interface NervosDaoDepositor {
 
 export interface TransactionRecord {
   address: string
-  transfers: TransactionRecordTransfer[]
+  transfers: LiteTransfer.Transfer[]
 }
 
-export interface TransactionRecordTransfer {
-  capacity: string
-  cellType: Cell['cellType']
-
-  udtInfo?: {
-    symbol: string
-    amount: string
-    decimal: string
-    typeHash: string
-    published: boolean
-    displayName: string
-    uan: string
+export namespace LiteTransfer {
+  // Plain CKB Transfer
+  export interface CKBTransfer {
+    capacity: string
+    cellType: 'normal'
   }
 
-  mNftInfo?: {
-    className: string
-    tokenId: string // none 0x prefix hex number
-    total: string // decimal string
+  // MNFT
+  export interface NFTTransfer {
+    capacity: string
+    cellType: 'm_nft_token'
+    tokenId: string
+    collectionName: string
+    count: string
   }
+
+  export interface NFTClassTransfer {
+    capacity: string
+    cellType: 'm_nft_class'
+  }
+
+  export interface NFTIssuerTransfer {
+    capacity: string
+    cellType: 'm_nft_issuer'
+  }
+  // NRC 721
+  export interface NRC721Transfer {
+    capacity: string
+    cellType: 'nrc_721_token'
+    tokenId: string
+    collectionName: string
+    count: string
+  }
+
+  export interface NRC721FactoryTransfer {
+    capacity: string
+    cellType: 'nrc_721_factory'
+  }
+
+  // Spore
+  export interface SporeTransfer {
+    capacity: string
+    cellType: 'spore_cell'
+    tokenId: string
+    collectionName: string
+    count: string
+  }
+
+  export interface SporeClusterTransfer {
+    capacity: string
+    cellType: 'spore_cluster'
+  }
+
+  // udt
+  export interface UDTTransfer {
+    capacity: string
+    cellType: 'udt'
+    udtInfo: Record<'symbol' | 'decimal' | 'displayName' | 'typeHash' | 'uan' | 'amount', string>
+  }
+
+  // Cota
+  export interface CotaTransfer {
+    capacity: string
+    cellType: 'cota_regular'
+    cotaInfo: Record<'collectionName' | 'count' | 'tokenId', string>[]
+  }
+
+  export interface CotaRegistryTransfer {
+    capacity: string
+    cellType: 'cota_registry'
+  }
+
+  export type Transfer =
+    | CKBTransfer
+    | NFTTransfer
+    | NFTClassTransfer
+    | NFTIssuerTransfer
+    | NRC721Transfer
+    | NRC721FactoryTransfer
+    | SporeTransfer
+    | SporeClusterTransfer
+    | UDTTransfer
+    | CotaTransfer
+    | CotaRegistryTransfer
 }
 
 interface FetchStatusValue {
