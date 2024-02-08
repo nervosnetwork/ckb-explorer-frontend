@@ -465,7 +465,8 @@
       "lite": "Lite",
       "unknown_assets": "Unknown Assets",
       "mint": "Mint",
-      "no_records": "No records"
+      "no_records": "No records",
+      "data-being-processed": "Data is being processed, please wait..."
     },
     "block": {
       "block": "Block",
