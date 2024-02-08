@@ -21,7 +21,7 @@ import { Card, CardCell, CardCellInfo, CardCellsLayout, HashCardHeader } from '.
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
-import Filter from '../../components/Search/Filter'
+import Filter from '../../components/Filter'
 import { useLatestBlockNumber } from '../../services/ExplorerService'
 import { Block } from '../../models/Block'
 import { Transaction } from '../../models/Transaction'

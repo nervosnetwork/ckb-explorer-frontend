@@ -21,12 +21,12 @@ beforeEach(() => {
 
 test('show clear button when content is available', async () => {
   initI18n()
-  const { getByRole, getAllByRole } = render(
+  const { getByRole, queryByTitle } = render(
     <QueryClientProvider client={new QueryClient()}>
       <Search />
     </QueryClientProvider>,
   )
-  const getClearButton = () => getAllByRole('button')[2]
+  const getClearButton = () => queryByTitle('clear')
 
   const inputEl = getByRole('textbox') as HTMLInputElement
   expect(inputEl).toBeInstanceOf(HTMLInputElement)
@@ -42,7 +42,7 @@ test('show clear button when content is available', async () => {
   fireEvent.change(inputEl, { target: { value: 'test' } })
   const btn = getClearButton()
   expect(btn).toBeTruthy()
-  fireEvent.click(btn)
+  fireEvent.click(btn!)
   expect(inputEl.value).toBe('')
   expect(getClearButton()).toBeFalsy()
 })
