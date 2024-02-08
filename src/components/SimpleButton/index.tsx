@@ -8,12 +8,14 @@ const ButtonPanel = styled.div`
 export default ({
   id,
   className,
+  title,
   onClick,
   onMouseOver,
   children,
 }: {
   id?: string
   className?: string
+  title?: string
   onClick?: MouseEventHandler<HTMLDivElement>
   onMouseOver?: MouseEventHandler<HTMLDivElement>
   children: ReactNode | string
@@ -21,6 +23,7 @@ export default ({
   <ButtonPanel
     id={id}
     className={className}
+    title={title}
     role="button"
     tabIndex={-1}
     onKeyDown={() => {}}
