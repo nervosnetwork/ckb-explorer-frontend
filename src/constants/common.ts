@@ -143,6 +143,11 @@ export enum LayoutLiteProfessional {
   Lite = 'lite',
   Professional = 'professional',
 }
+export enum HashType {
+  DATA = 'data',
+  DATA1 = 'data1',
+  TYPE = 'type',
+}
 
 export const MAINNET_URL = `https://${config.BASE_URL}`
 export const TESTNET_URL = `https://${ChainName.Testnet}.${config.BASE_URL}`
