@@ -1,30 +1,11 @@
 @import '../../styles/variables.module';
 
-.byNameOrId {
-  // remove original button styles
-  border: none;
-  display: flex;
-  padding: 2px 8px;
-  justify-content: center;
-  align-items: center;
-  margin-right: 16px;
-  color: #666;
-  font-size: 14px;
-  opacity: 0.8;
-  cursor: pointer;
-  user-select: none;
-  border-radius: 2px;
-  background: #f0f0f0;
-  white-space: nowrap;
-}
-
 .searchInputPanel {
   position: relative;
   width: 100%;
   height: 100%;
   font-size: 14px;
-  padding-left: 10px;
-  padding-right: 20px;
+  padding: 0 8px;
   background: white;
   color: #333;
   border: 0 solid white;
@@ -47,9 +28,36 @@
   }
 }
 
-.spinner {
+.preIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
   margin-left: 8px;
+}
+
+.spinner {
   animation: rotate 2s linear infinite;
+}
+
+.clear {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.byNameOrId:not(
+    [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
+  ) {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  margin-left: 16px;
+  padding: 0 8px;
+  color: #666;
+  background: #f0f0f0;
+  border-radius: 2px;
 }
 
 @keyframes rotate {

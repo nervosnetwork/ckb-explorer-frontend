@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import SimpleButton from '../../SimpleButton'
-import variables from '../../../styles/variables.module.scss'
+import SimpleButton from '../SimpleButton'
+import variables from '../../styles/variables.module.scss'
 
 export const FilterPanel = styled.div`
   width: 600px;

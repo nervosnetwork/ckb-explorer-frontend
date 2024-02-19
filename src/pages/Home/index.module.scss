@@ -12,7 +12,6 @@
   .title {
     display: flex;
     align-items: center;
-    margin-right: 24px;
     font-weight: 800;
     font-size: 20px;
 
@@ -31,12 +30,12 @@
   }
 
   .search {
-    height: 38px;
-    width: 600px;
-    flex-grow: 2;
+    flex: 1;
+    margin-left: 16px;
 
     @media (width <= $extraLargeBreakPoint) {
       width: 100%;
+      margin-left: 0;
     }
   }
 }
