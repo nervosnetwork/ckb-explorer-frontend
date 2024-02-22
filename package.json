@@ -21,7 +21,6 @@
     "echarts": "4.9.0",
     "history": "5.3.0",
     "i18next": "20.6.1",
-    "js-base64": "^3.7.5",
     "jsbi": "3.2.5",
     "lint-staged": "^13.2.3",
     "lodash.debounce": "4.0.8",
