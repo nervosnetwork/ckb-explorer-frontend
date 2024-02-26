@@ -270,6 +270,14 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     hashType: 'data1',
     tag: 'Spore Cluster',
   },
+  {
+    codeHashes: ['0x9f3aeaf2fc439549cbc870c653374943af96a0658bd6b51be8d8983183e6f52f'],
+    txHashes: ['0xaa8ab7e97ed6a268be5d7e26d63d115fa77230e51ae437fc532988dd0c3ce10a-0x1'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Force Bridge',
+    category: 'lock',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [

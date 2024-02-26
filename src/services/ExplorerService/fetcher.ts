@@ -13,6 +13,7 @@ import { Block } from '../../models/Block'
 import { Transaction } from '../../models/Transaction'
 import { Address } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
+import { HashType } from '../../constants/common'
 
 async function v1Get<T>(...args: Parameters<typeof requesterV1.get>) {
   return requesterV1.get(...args).then(res => toCamelcase<Response.Response<T>>(res.data))
@@ -889,7 +890,7 @@ export interface ScriptInfo {
   scriptName: string
   scriptType: string
   codeHash: string
-  hashType: 'type' | 'data'
+  hashType: HashType
   capacityOfDeployedCells: string
   capacityOfReferringCells: string
   countOfTransactions: number

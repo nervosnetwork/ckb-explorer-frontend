@@ -18,6 +18,7 @@ import { explorerService } from '../../services/ExplorerService'
 import type { ScriptInfo } from '../../services/ExplorerService/fetcher'
 import { ScriptTab, ScriptTabPane, ScriptTabTitle } from './styled'
 import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
+import { HashType } from '../../constants/common'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -98,8 +99,11 @@ export const ScriptPage = () => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
-  const { codeHash, hashType: _hashType, tab } = useParams<{ codeHash: string; hashType: string; tab: ScriptTabType }>()
-  const hashType = _hashType === 'data' ? 'data' : 'type'
+  const { codeHash, hashType, tab } = useParams<{
+    codeHash: string
+    hashType: HashType
+    tab: ScriptTabType
+  }>()
   const { currentPage, pageSize } = usePaginationParamsInPage()
 
   const [countOfTransactions, setCountOfTransactions] = useState<number>(0)
@@ -122,7 +126,7 @@ export const ScriptPage = () => {
           scriptName: '',
           scriptType: '',
           codeHash,
-          hashType,
+          hashType: hashType as HashType,
           capacityOfDeployedCells: '0',
           capacityOfReferringCells: '0',
           countOfTransactions: 0,
@@ -136,6 +140,12 @@ export const ScriptPage = () => {
     setCountOfDeployedCells(scriptInfo.countOfDeployedCells)
     setCountOfReferringCells(scriptInfo.countOfReferringCells)
   }, [scriptInfo.countOfDeployedCells, scriptInfo.countOfReferringCells, scriptInfo.countOfTransactions])
+
+  useEffect(() => {
+    if (!Object.values(HashType).includes(hashType as HashType)) {
+      history.replace('/404')
+    }
+  }, [hashType, history])
 
   return (
     <Content>

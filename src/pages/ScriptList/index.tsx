@@ -216,6 +216,15 @@ export const scripts = new Map<string, ScriptAttributes>([
       website: 'https://spore.pro/',
     },
   ],
+  [
+    'Force Bridge',
+    {
+      name: 'Force Bridge',
+      description: 'Force Bridge Lock is compiled from the source code of Omnilock when it has not been released yet',
+      doc: 'https://github.com/Magickbase/ckb-explorer-public-issues/issues/532#issue-2097393857',
+      website: 'https://forcebridge.com/',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']

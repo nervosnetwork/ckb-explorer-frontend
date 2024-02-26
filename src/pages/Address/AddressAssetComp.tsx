@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { ReactEventHandler, useEffect, useState } from 'react'
-import { Base64 } from 'js-base64'
-import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import axios, { AxiosResponse } from 'axios'
 import { AddressUDTItemPanel } from './styled'
 import { CoTA, OmigaInscription, MNFT, NRC721, SUDT, Spore } from '../../models/Address'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { parseUDTAmount } from '../../utils/number'
 import { parseSporeCellData } from '../../utils/spore'
-import { handleNftImgError, patchMibaoImg } from '../../utils/util'
+import { handleNftImgError, hexToBase64, patchMibaoImg } from '../../utils/util'
 import { sliceNftName } from '../../utils/string'
 
 export const AddressAssetComp = ({
@@ -69,7 +67,7 @@ export const AddressSporeComp = ({ account }: { account: Spore }) => {
   if (udtIconFile) {
     const sporeData = parseSporeCellData(udtIconFile)
     if (sporeData.content.slice(0, 5) === 'image') {
-      const base64Data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
+      const base64Data = hexToBase64(sporeData.content)
       setIcon(`data:${sporeData.contentType};base64,${base64Data}`)
     }
   }

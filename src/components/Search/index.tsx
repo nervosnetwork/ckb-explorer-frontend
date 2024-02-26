@@ -13,127 +13,74 @@ import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import debounce from 'lodash.debounce'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { ImageButton, SearchPanel, SearchButton, SearchContainer } from './styled'
-import { explorerService, Response } from '../../services/ExplorerService'
-import SearchLogo from '../../assets/search_black.png'
-import ClearLogo from '../../assets/clear.png'
+import classNames from 'classnames'
+import { SearchPanel, SearchButton } from './styled'
+import { explorerService, Response, SearchResultType } from '../../services/ExplorerService'
 import { addPrefixForHash, containSpecialChar } from '../../utils/string'
 import { HttpErrorCode, SearchFailType } from '../../constants/common'
 import { useForkedState, useIsMobile } from '../../hooks'
 import { isChainTypeError } from '../../utils/chain'
 import { isAxiosError } from '../../utils/error'
-// TODO: Refactor is needed. Should not directly import anything from the descendants of ExplorerService.
-import { SearchResultType } from '../../services/ExplorerService/fetcher'
 import styles from './index.module.scss'
 import { SearchByNameResults } from './SearchByNameResults'
 import { useSearchType } from '../../services/AppSettings/hooks'
+import { ReactComponent as SearchIcon } from './search.svg'
 import { ReactComponent as SpinnerIcon } from './spinner.svg'
+import { ReactComponent as ClearIcon } from './clear.svg'
+import SimpleButton from '../SimpleButton'
 
-const handleSearchById = async (
-  searchValue: string,
-  setInputLoading: (loading: boolean) => void,
-  onClear: () => void,
-  history: ReturnType<typeof useHistory>,
-) => {
-  const query = searchValue.trim().replace(',', '') // remove front and end blank and ','
-  if (!query || containSpecialChar(query)) {
-    history.push(`/search/fail?q=${query}`)
-    return
-  }
-  if (isChainTypeError(query)) {
-    history.push(`/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`)
-    return
-  }
-
-  setInputLoading(true)
-
-  try {
-    const { data } = await explorerService.api.fetchSearchByIdResult(addPrefixForHash(query))
-    setInputLoading(false)
-    onClear()
-
-    const { type, attributes } = data
-    switch (type) {
-      case SearchResultType.TypeScript:
-        history.push(`/script/${attributes.scriptHash}/type`)
-        break
-
-      case SearchResultType.Block:
-        history.push(`/block/${attributes.blockHash}`)
-        break
-
-      case SearchResultType.Transaction:
-        history.push(`/transaction/${attributes.transactionHash}`)
-        break
-
-      case SearchResultType.Address:
-        history.push(`/address/${attributes.addressHash}`)
-        break
-
-      case SearchResultType.LockHash:
-        history.push(`/address/${attributes.lockHash}`)
-        break
-
-      case SearchResultType.UDT:
-        history.push(data.attributes.udtType === 'omiga_inscription' ? `/inscription/${query}` : `/sudt/${query}`)
-        break
-
-      default:
-        break
-    }
-  } catch (error) {
-    setInputLoading(false)
-
-    if (
-      isAxiosError(error) &&
-      error.response?.data &&
-      error.response.status === 404 &&
-      (error.response.data as Response.Error[]).find(
-        (errorData: Response.Error) => errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS,
-      )
-    ) {
-      onClear()
-      history.push(`/address/${query}`)
-    } else {
-      history.push(`/search/fail?q=${query}`)
-    }
-  }
-}
+// Currently, the API returns all search results, which could be extremely large in quantity.
+// Since the rendering component does not implement virtual scrolling, this leads to a significant decrease in page performance.
+// Therefore, here we are implementing a frontend-level limitation on the number of displayed results.
+const DISPLAY_COUNT = 10
 
 const Search: FC<{
   content?: string
   hasButton?: boolean
   onEditEnd?: () => void
 }> = memo(({ content, hasButton, onEditEnd: handleEditEnd }) => {
-  // Currently, the API returns all search results, which could be extremely large in quantity.
-  // Since the rendering component does not implement virtual scrolling, this leads to a significant decrease in page performance.
-  // Therefore, here we are implementing a frontend-level limitation on the number of displayed results.
-  const DISPLAY_COUNT = 10
-  const isMobile = useIsMobile()
+  const history = useHistory()
   const queryClient = useQueryClient()
   const { t } = useTranslation()
-  const [searchByType, setSearchByType] = useSearchType()
-  const [isSearchByName, setIsSearchByName] = useState(searchByType === 'name')
-  const history = useHistory()
-  const [keyword, setKeyword] = useState(content || '')
-  const [editEnded, setEditEnded] = useState(false)
-  const searchValue = keyword.trim()
-  const [inputLoading, setInputLoading] = useState(false)
+  const isMobile = useIsMobile()
+  const [searchType, setSearchType] = useSearchType()
+  const isSearchByName = searchType === 'name'
 
-  const toggleSearchType = () => {
-    const newIsSearchByNames = !isSearchByName
-    const searchTypePersistValue = newIsSearchByNames ? 'name' : 'id'
-    setSearchByType(searchTypePersistValue)
-    setIsSearchByName(newIsSearchByNames)
-    queryClient.resetQueries(['searchByName'])
-  }
+  const [keyword, setKeyword] = useState(content || '')
+  const [editEnded, _setEditEnded] = useState(false)
+  const searchValue = keyword.trim()
+
+  const setEditEnded = useCallback(
+    (value: boolean) => {
+      _setEditEnded(value)
+      if (value) handleEditEnd?.()
+    },
+    [handleEditEnd],
+  )
+
+  const {
+    refetch: refetchSearchById,
+    data: urlByIdSearch,
+    isFetching: isFetchingById,
+  } = useQuery(['searchById', searchValue], () => getURLByIdSearch(addPrefixForHash(searchValue)), {
+    enabled: false,
+    cacheTime: 0,
+  })
+
+  useEffect(() => {
+    if (urlByIdSearch) {
+      history.push(urlByIdSearch)
+    }
+  }, [history, urlByIdSearch])
 
   const {
     refetch: refetchSearchByName,
     data: searchByNameResults,
-    isFetching,
-  } = useQuery(['searchByName'], () => explorerService.api.fetchSearchByNameResult(searchValue), {
-    // we need to control the fetch timing manually
+    isFetching: isFetchingByName,
+    // TODO: Previously, for some reasons, 'searchValue' was not added to the 'search' key here.
+    // However, no problems were found in the tests after refactoring, so it has been added back for now.
+    // If problems occur later, you can confirm here again. If no problems are found after a period of time, this comment can be removed.
+  } = useQuery(['searchByName', searchValue], () => explorerService.api.fetchSearchByNameResult(searchValue), {
     enabled: false,
   })
 
@@ -142,71 +89,72 @@ const Search: FC<{
     [refetchSearchByName],
   )
 
-  const onClear = useCallback(() => {
-    setKeyword('')
+  const resetSearchByName = useCallback(() => {
     debouncedSearchByName.cancel()
-    queryClient.resetQueries(['searchByName'])
-    setEditEnded(true)
-  }, [debouncedSearchByName, queryClient])
+    queryClient.resetQueries(['searchByName', searchValue])
+  }, [debouncedSearchByName, queryClient, searchValue])
 
   useEffect(() => {
     if (isSearchByName) {
       if (!searchValue) {
-        debouncedSearchByName.cancel()
-        queryClient.resetQueries(['searchByName'])
-        return
+        resetSearchByName()
+      } else {
+        debouncedSearchByName()
       }
-
-      debouncedSearchByName()
       return
     }
 
     if (editEnded && !!searchValue) {
-      handleSearchById(searchValue, setInputLoading, onClear, history)
-    }
-  }, [debouncedSearchByName, editEnded, history, isSearchByName, onClear, queryClient, searchValue, t])
-
-  useEffect(() => {
-    if (editEnded) {
-      handleEditEnd?.()
+      refetchSearchById()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editEnded])
+  }, [editEnded, isSearchByName, searchValue])
+
+  const switchSearchType = useCallback(() => {
+    setSearchType(type => (type === 'name' ? 'id' : 'name'))
+    resetSearchByName()
+  }, [resetSearchByName, setSearchType])
+
+  const onClear = useCallback(() => {
+    setKeyword('')
+    resetSearchByName()
+    setEditEnded(true)
+  }, [resetSearchByName, setEditEnded])
 
   return (
-    <SearchContainer>
-      <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
-        {inputLoading ? (
-          <SpinnerIcon width="22px" height="22px" className={styles.spinner} />
-        ) : (
-          <ImageButton>
-            <img src={SearchLogo} alt="search logo" />
-          </ImageButton>
-        )}
+    <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
+      {isFetchingById ? (
+        <SpinnerIcon className={classNames(styles.preIcon, styles.spinner)} />
+      ) : (
+        <SearchIcon className={styles.preIcon} />
+      )}
 
-        <SearchInput
-          autoFocus={!isMobile}
-          loading={inputLoading}
-          value={keyword}
-          onChange={event => setKeyword(event.target.value)}
-          onEditEndedChange={setEditEnded}
-          placeholder={isSearchByName ? t('navbar.search_by_name_placeholder') : t('navbar.search_placeholder')}
-        />
-        <button type="button" className={styles.byNameOrId} onClick={toggleSearchType}>
-          {isSearchByName ? t('search.by_name') : t('search.by_id')}
-        </button>
-        {searchValue && (
-          <ImageButton onClick={onClear} isClear>
-            <img src={ClearLogo} alt="clearButton" />
-          </ImageButton>
-        )}
-        <SearchByNameResults
-          udtQueryResults={searchByNameResults ? searchByNameResults.slice(0, DISPLAY_COUNT) : null}
-          loading={isFetching}
-        />
-      </SearchPanel>
+      <SearchInput
+        autoFocus={!isMobile}
+        loading={isFetchingById}
+        value={keyword}
+        onChange={event => setKeyword(event.target.value)}
+        onEditEndedChange={setEditEnded}
+        placeholder={isSearchByName ? t('navbar.search_by_name_placeholder') : t('navbar.search_placeholder')}
+      />
+
+      {searchValue && (
+        <SimpleButton className={styles.clear} title="clear" onClick={onClear}>
+          <ClearIcon />
+        </SimpleButton>
+      )}
+      <SimpleButton className={styles.byNameOrId} onClick={switchSearchType}>
+        {isSearchByName ? t('search.by_name') : t('search.by_id')}
+      </SimpleButton>
       {hasButton && <SearchButton onClick={() => setEditEnded(true)}>{t('search.search')}</SearchButton>}
-    </SearchContainer>
+
+      {(isFetchingByName || searchByNameResults) && (
+        <SearchByNameResults
+          udtQueryResults={searchByNameResults?.slice(0, DISPLAY_COUNT) ?? []}
+          loading={isFetchingByName}
+        />
+      )}
+    </SearchPanel>
   )
 })
 
@@ -242,6 +190,57 @@ const SearchInput: FC<
   )
 
   return <input className={styles.searchInputPanel} value={value} onChange={onChange} onKeyUp={onKeyUp} {...elprops} />
+}
+
+const getURLByIdSearch = async (searchValue: string) => {
+  // TODO: Is this replace needed?
+  const query = searchValue.replace(',', '')
+  if (!query || containSpecialChar(query)) {
+    return `/search/fail?q=${query}`
+  }
+  if (isChainTypeError(query)) {
+    return `/search/fail?type=${SearchFailType.CHAIN_ERROR}&q=${query}`
+  }
+
+  try {
+    const { data } = await explorerService.api.fetchSearchByIdResult(addPrefixForHash(query))
+    const { type, attributes } = data
+    switch (type) {
+      case SearchResultType.TypeScript:
+        return `/script/${attributes.scriptHash}/type`
+
+      case SearchResultType.Block:
+        return `/block/${attributes.blockHash}`
+
+      case SearchResultType.Transaction:
+        return `/transaction/${attributes.transactionHash}`
+
+      case SearchResultType.Address:
+        return `/address/${attributes.addressHash}`
+
+      case SearchResultType.LockHash:
+        return `/address/${attributes.lockHash}`
+
+      case SearchResultType.UDT:
+        return data.attributes.udtType === 'omiga_inscription' ? `/inscription/${query}` : `/sudt/${query}`
+
+      default:
+        break
+    }
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response?.data &&
+      error.response.status === 404 &&
+      (error.response.data as Response.Error[]).find(
+        (errorData: Response.Error) => errorData.code === HttpErrorCode.NOT_FOUND_ADDRESS,
+      )
+    ) {
+      return `/address/${query}`
+    }
+
+    return `/search/fail?q=${query}`
+  }
 }
 
 export default Search

@@ -75,6 +75,20 @@ export default ({
       </div>
     )
   }
+  if (!cells.length) {
+    return (
+      <TransactionCellListPanel>
+        <TransactionCellListTitlePanel>
+          <div className="transactionCellListTitles">
+            <div>{cellTitle()}</div>
+            <div>{isCellbaseInput ? t('transaction.reward_info') : t('transaction.detail')}</div>
+            <div>{isCellbaseInput ? '' : t('transaction.capacity_amount')}</div>
+          </div>
+        </TransactionCellListTitlePanel>
+        <div className={styles.dataBeingProcessed}>{t('transaction.data-being-processed')}</div>
+      </TransactionCellListPanel>
+    )
+  }
 
   return (
     <TransactionCellListPanel>

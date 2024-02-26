@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import SearchBlack from '../../../assets/search_black.png'
-import ClearLogo from '../../../assets/clear.png'
+import SearchBlack from '../../assets/search_black.png'
+import ClearLogo from '../../assets/clear.png'
 import { FilterImage, FilterPanel, ResetButtonPanel, FilterInputPanel } from './styled'
 
 const Filter = ({

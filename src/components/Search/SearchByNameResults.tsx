@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
+import { FC } from 'react'
 import { UDTQueryResult } from '../../services/ExplorerService/fetcher'
 import styles from './SearchByNameResults.module.scss'
 import EllipsisMiddle from '../EllipsisMiddle'
@@ -7,51 +8,55 @@ import SmallLoading from '../Loading/SmallLoading'
 
 type Props = {
   loading?: boolean
-  udtQueryResults: UDTQueryResult[] | null
+  udtQueryResults: UDTQueryResult[]
 }
 
-export const SearchByNameResults = (props: Props) => {
-  const { udtQueryResults, loading } = props
-  if (loading) {
-    return (
-      <div className={styles.searchResultsPanelWrapper}>
+export const SearchByNameResults: FC<Props> = ({ udtQueryResults, loading }) => {
+  const { t } = useTranslation()
+
+  return (
+    <div className={styles.searchResultsPanelWrapper}>
+      {/* eslint-disable-next-line no-nested-ternary */}
+      {loading ? (
         <SmallLoading className={styles.loadingWrapper} />
-      </div>
-    )
-  }
-  if (udtQueryResults) {
-    return (
-      <div className={styles.searchResultsPanelWrapper}>
-        {udtQueryResults.length === 0 ? (
-          <EmptySearchByNameResult />
-        ) : (
-          udtQueryResults.map(item => {
-            return <SearchByNameResult key={item.typeHash} item={item} />
-          })
-        )}
-      </div>
-    )
-  }
-  return null
+      ) : udtQueryResults.length === 0 ? (
+        <div className={styles.empty}>{t('search.no_search_result')}</div>
+      ) : (
+        udtQueryResults.map(item => <SearchByNameResult key={item.typeHash} item={item} />)
+      )}
+    </div>
+  )
 }
 
-const EmptySearchByNameResult = () => {
+const SearchByNameResult: FC<{ item: UDTQueryResult }> = ({ item }) => {
   const { t } = useTranslation()
-  return <>{t('search.no_search_result')}</>
-}
-
-const SearchByNameResult = (props: { item: UDTQueryResult }) => {
-  const { t } = useTranslation()
-  const { item } = props
   const { typeHash, fullName, symbol, udtType } = item
   const displayName = symbol ?? fullName
+
   return (
     <a
       className={styles.searchResult}
       href={`${window.origin}/${udtType === 'omiga_inscription' ? 'inscription' : 'sudt'}/${typeHash}`}
     >
-      <EllipsisMiddle className={styles.tokenSymbol}>{displayName ?? t('udt.unknown_token')}</EllipsisMiddle>
-      <EllipsisMiddle className={classNames(styles.typeHash, 'monospace')}>{typeHash}</EllipsisMiddle>
+      <div className={styles.content}>
+        {/* TODO: Need to implement highlighting for the matched keywords. */}
+        <EllipsisMiddle
+          className={styles.tokenSymbol}
+          style={{ maxWidth: 'min(180px, 40%)' }}
+          useTextWidthForPlaceholderWidth
+          title={displayName}
+        >
+          {displayName ?? t('udt.unknown_token')}
+        </EllipsisMiddle>
+        <EllipsisMiddle
+          className={classNames(styles.typeHash, 'monospace')}
+          style={{ maxWidth: 'min(200px, 60%)' }}
+          useTextWidthForPlaceholderWidth
+          title={typeHash}
+        >
+          {typeHash}
+        </EllipsisMiddle>
+      </div>
     </a>
   )
 }
