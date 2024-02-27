@@ -866,6 +866,7 @@ export interface NFTCollection {
   items_count: number | null
   holders_count: number | null
   type_script: { code_hash: string; hash_type: 'data' | 'type'; args: string } | null
+  sn: string
 }
 
 export interface NFTItem {
