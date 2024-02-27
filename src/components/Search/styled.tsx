@@ -1,42 +1,21 @@
 import styled from 'styled-components'
-import SimpleButton from '../SimpleButton'
 import variables from '../../styles/variables.module.scss'
-
-export const SearchContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-`
 
 export const SearchPanel = styled.div`
   position: relative;
   margin: 0 auto;
   width: 100%;
-  height: ${(props: { moreHeight?: boolean; hasButton?: boolean }) => (props.moreHeight ? '38px' : '30px')};
-  text-align: center;
+  height: ${(props: { moreHeight?: boolean; hasButton?: boolean }) => (props.moreHeight ? '40px' : '32px')};
+  padding-right: ${(props: { moreHeight?: boolean; hasButton?: boolean }) => (props.hasButton ? '0' : '8px')};
   display: flex;
   align-items: center;
   justify-content: center;
   background: white;
   border: 0 solid white;
-  border-radius: ${(props: { hasButton?: boolean }) => (props.hasButton ? '4px 0 0 4px' : '4px')};
-  padding-right: 5px;
+  border-radius: 4px;
 
   @media (max-width: ${variables.mobileBreakPoint}) {
-    border-radius: 4px;
-  }
-`
-
-export const ImageButton = styled(SimpleButton)`
-  display: flex;
-  align-items: center;
-  margin: ${(props: { isClear?: boolean }) => (props.isClear ? '0 8px 0 0' : '0 0 0 8px')};
-  z-index: 2;
-
-  img {
-    width: ${(props: { isClear?: boolean }) => (props.isClear ? '12px' : '18px')};
-    height: ${(props: { isClear?: boolean }) => (props.isClear ? '12px' : '18px')};
-    margin: 0 auto;
+    padding-right: 8px;
   }
 `
 
@@ -70,10 +49,11 @@ export const SearchInputPanel = styled.input`
 `
 
 export const SearchButton = styled.div`
-  width: 80px;
-  height: 38px;
+  flex-shrink: 0;
+  width: 72px;
+  height: calc(100% - 4px);
+  margin: 2px 2px 2px 16px;
   border-radius: 0 4px 4px 0;
-  border: solid 1px #fff;
   background-color: #121212;
   text-align: center;
   line-height: 34px;

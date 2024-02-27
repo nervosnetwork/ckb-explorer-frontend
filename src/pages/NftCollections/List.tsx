@@ -178,6 +178,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
         {list.length ? (
           list.map(item => {
             let typeHash: string | null = null
+            const itemName: string = item.standard === 'spore' && item.creator === '' ? 'Unique items' : item.name
             try {
               if (item.type_script) {
                 typeHash = scriptToHash({
@@ -206,12 +207,12 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
                     )}
                     <Link
                       to={`/nft-collections/${typeHash || item.id}`}
-                      title={item.name}
+                      title={itemName}
                       style={{
                         color: primaryColor,
                       }}
                     >
-                      {item.name}
+                      {itemName}
                     </Link>
                   </div>
                 </td>
@@ -276,6 +277,7 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
         {list.length ? (
           list.map(item => {
             let typeHash: string | null = null
+            const itemName: string = item.standard === 'spore' && item.creator === '' ? 'Unique items' : item.name
             try {
               if (item.type_script) {
                 typeHash = scriptToHash({
@@ -304,12 +306,12 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
                     )}
                     <Link
                       to={`/nft-collections/${typeHash || item.id}`}
-                      title={item.name}
+                      title={itemName}
                       style={{
                         color: primaryColor,
                       }}
                     >
-                      {item.name}
+                      {itemName}
                     </Link>
                   </div>
                 </div>

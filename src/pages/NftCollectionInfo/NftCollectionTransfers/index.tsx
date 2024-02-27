@@ -2,15 +2,13 @@ import { FC, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
-import { Base64 } from 'js-base64'
-import { hexToBytes } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
 import { parseSporeCellData } from '../../../utils/spore'
 // TODO: Refactor is needed. Should not directly import anything from the descendants of ExplorerService.
 import type { TransferListRes, TransferRes } from '../../../services/ExplorerService/fetcher'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../../constants/common'
-import { handleNftImgError, patchMibaoImg } from '../../../utils/util'
+import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../../utils/util'
 import { explorerService } from '../../../services/ExplorerService'
 import { dayjs } from '../../../utils/date'
 import { useParsedDate, useTimestamp } from '../../../hooks'
@@ -114,7 +112,7 @@ const TransferTableRow: FC<{
     if (standard === 'spore' && cell && cell.data) {
       const sporeData = parseSporeCellData(cell.data)
       if (sporeData.contentType.slice(0, 5) === 'image') {
-        const base64data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
+        const base64data = hexToBase64(sporeData.content)
 
         return (
           <img
@@ -154,7 +152,7 @@ const TransferTableRow: FC<{
             }}
             className={styles.tokenId}
           >
-            {`id: ${item.item.token_id}`}
+            {`id: ${formatNftDisplayId(item.item.token_id, item.item.standard)}`}
           </Link>
         </div>
       </td>
@@ -243,7 +241,7 @@ const TransferCard: FC<{
     if (standard === 'spore' && cell && cell.data) {
       const sporeData = parseSporeCellData(cell.data)
       if (sporeData.contentType.slice(0, 5) === 'image') {
-        const base64data = Base64.fromUint8Array(hexToBytes(`0x${sporeData.content}`))
+        const base64data = hexToBase64(sporeData.content)
 
         return (
           <img
@@ -284,7 +282,7 @@ const TransferCard: FC<{
             textOverflow: 'ellipsis',
           }}
         >
-          {`id: ${item.item.token_id}`}
+          {`id: ${formatNftDisplayId(item.item.token_id, item.item.standard)}`}
         </Link>
       </div>
       <dl>

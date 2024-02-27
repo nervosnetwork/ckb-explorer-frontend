@@ -355,6 +355,28 @@ export function assertIsHashType(value: string): asserts value is HashType {
   }
 }
 
+export const formatNftDisplayId = (id: string, type: string | null) => {
+  switch (type) {
+    case 'spore': {
+      return `0x${BigNumber(id).toString(16).padStart(64, '0')}`
+    }
+    default: {
+      return id
+    }
+  }
+}
+
+export const hexToBase64 = (hexstring: string) => {
+  const str = hexstring
+    .match(/\w{2}/g)
+    ?.map(a => {
+      return String.fromCharCode(parseInt(a, 16))
+    })
+    .join('')
+  if (!str) return ''
+  return btoa(str)
+}
+
 export default {
   copyElementValue,
   shannonToCkb,
@@ -364,4 +386,6 @@ export default {
   deprecatedAddrToNewAddr,
   handleRedirectFromAggron,
   assertIsHashType,
+  formatNftDisplayId,
+  hexToBase64,
 }
