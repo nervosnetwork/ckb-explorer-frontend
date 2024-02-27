@@ -8,7 +8,7 @@ import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
-import { patchMibaoImg, handleNftImgError, hexToBase64 } from '../../utils/util'
+import { patchMibaoImg, handleNftImgError, hexToBase64, formatNftDisplayId } from '../../utils/util'
 import { parseSporeCellData } from '../../utils/spore'
 import { useSearchParams } from '../../hooks'
 
@@ -76,7 +76,14 @@ const NftInfo = () => {
       <div className={styles.overview}>
         {renderCover()}
         <div className={styles.info}>
-          <div className={styles.name}>{data ? `${data.collection.name} #${data.token_id}` : '-'}</div>
+          <div className={styles.name}>
+            {data
+              ? `${data.collection.name} ${data.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
+                  data.token_id,
+                  data.standard,
+                )}`
+              : '-'}
+          </div>
           <div className={styles.items}>
             <div className={styles.item}>
               <div>{t('nft.owner')}</div>
@@ -123,7 +130,10 @@ const NftInfo = () => {
             </div>
             <div className={styles.item}>
               <div>Token ID</div>
-              <div>{`#${data?.token_id}`}</div>
+              <div>{`${data?.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
+                data?.token_id ?? '',
+                data?.standard ?? null,
+              )}`}</div>
             </div>
             <div className={styles.item}>
               <div>{t('nft.standard')}</div>
