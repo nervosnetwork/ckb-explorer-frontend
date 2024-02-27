@@ -369,7 +369,7 @@ export const formatNftDisplayId = (id: string, type: string | null) => {
 export const hexToBase64 = (hexstring: string) => {
   const str = hexstring
     .match(/\w{2}/g)
-    ?.map(function (a) {
+    ?.map(a => {
       return String.fromCharCode(parseInt(a, 16))
     })
     .join('')
