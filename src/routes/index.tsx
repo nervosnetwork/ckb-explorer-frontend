@@ -332,7 +332,7 @@ const ComponentInContextProvided: FC = () => {
               // eslint-disable-next-line react/no-array-index-key
               <Route key={idx} exact {...route} path={`${path}${route.path}`} />
             ))}
-            <Redirect from="*" to="/404" />
+            <Redirect from="*" to={`${locale != null ? `/${locale}` : ''}/404`} />
           </Switch>
         </PageErrorBoundary>
         <Footer />
