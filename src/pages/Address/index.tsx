@@ -21,6 +21,7 @@ import { Card, HashCardHeader } from '../../components/Card'
 import { ReactComponent as ShareIcon } from './share.svg'
 import styles from './styles.module.scss'
 import { useDASAccount } from '../../hooks/useDASAccount'
+import { Link } from '../../components/Link'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
@@ -115,14 +116,14 @@ export const Address = () => {
                   placement="top"
                   title={t(`address.${newAddr === address ? 'visit-deprecated-address' : 'view-new-address'}`)}
                 >
-                  <a
-                    href={`${window.location.href.split('/address/')[0]}/address/${counterpartAddr}`}
+                  <Link
+                    className={styles.openInNew}
+                    to={`/address/${counterpartAddr}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={styles.openInNew}
                   >
                     <ShareIcon />
-                  </a>
+                  </Link>
                 </Tooltip>
               ) : null,
             ]}
