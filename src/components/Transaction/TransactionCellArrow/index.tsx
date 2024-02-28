@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { Link } from '../../Link'
 import { CellType } from '../../../constants/common'
 import RightGreenArrow from './right_green_arrow.png'
 import RightBlueArrow from './right_blue_arrow.png'

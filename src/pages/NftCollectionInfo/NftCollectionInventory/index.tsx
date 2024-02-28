@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { Link } from '../../../components/Link'
 import { parseSporeCellData } from '../../../utils/spore'
 import { ReactComponent as Cover } from '../../../assets/nft_cover.svg'
 import styles from './styles.module.scss'

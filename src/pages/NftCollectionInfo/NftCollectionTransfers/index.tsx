@@ -1,8 +1,8 @@
 import { FC, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { Link } from '../../../components/Link'
 import { parseSporeCellData } from '../../../utils/spore'
 // TODO: Refactor is needed. Should not directly import anything from the descendants of ExplorerService.
 import type { TransferListRes, TransferRes } from '../../../services/ExplorerService/fetcher'

@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import { useState, ReactNode, FC } from 'react'
-import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Trans, useTranslation } from 'react-i18next'
 import { Radio, Tooltip } from 'antd'
 import classNames from 'classnames'
+import { Link } from '../../../components/Link'
 import Capacity from '../../../components/Capacity'
 import HashTag from '../../../components/HashTag'
 import { HelpTip } from '../../../components/HelpTip'

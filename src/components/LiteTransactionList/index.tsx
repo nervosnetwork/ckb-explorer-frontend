@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
+import { Link } from '../Link'
 import type { Transaction } from '../../models/Transaction'
 import { useSearchParams } from '../../hooks'
 import styles from './LiteTransactionList.module.scss'
