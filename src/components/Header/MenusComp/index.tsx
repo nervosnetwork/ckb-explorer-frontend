@@ -141,7 +141,7 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
             </a>
           </SubmenuDropdown>
         ) : menu.type === LinkType.Inner ? (
-          <Link className="headerMenusItem" to={menu.url} key={menu.name}>
+          <Link className="headerMenusItem" to={menu.url ?? '/'} key={menu.name}>
             {menu.name}
           </Link>
         ) : (

@@ -34,18 +34,6 @@ export const useCurrentLanguage = (): SupportedLng => {
   return currentLanguage
 }
 
-export const useToggleLanguage = () => {
-  const currentLanguage = useCurrentLanguage()
-
-  return () => {
-    if (currentLanguage === 'zh') {
-      i18n.changeLanguage('en')
-    } else {
-      i18n.changeLanguage('zh')
-    }
-  }
-}
-
 export const useLanguageText = (payload?: { reverse: boolean }) => {
   const currentLanguage = useCurrentLanguage()
   const { t } = useTranslation()
@@ -53,8 +41,4 @@ export const useLanguageText = (payload?: { reverse: boolean }) => {
     return currentLanguage === 'zh' ? t('navbar.language_en') : t('navbar.language_zh')
   }
   return currentLanguage === 'en' ? t('navbar.language_en') : t('navbar.language_zh')
-}
-
-export const useOtherLanguageText = () => {
-  return useLanguageText({ reverse: true })
 }

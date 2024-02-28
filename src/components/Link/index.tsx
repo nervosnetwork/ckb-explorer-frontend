@@ -1,16 +1,24 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { ForwardedRef, forwardRef, useMemo } from 'react'
-import { Link as RouterLink, LinkProps as RouterLinkProps, useParams } from 'react-router-dom'
+import { Link as RouterLink, LinkProps as RouterLinkProps, useLocation, useParams } from 'react-router-dom'
 import * as H from 'history'
-import { SupportedLng } from '../../utils/i18n'
+import { SupportedLng, SupportedLngs } from '../../utils/i18n'
 
-export interface LinkProps<S> extends RouterLinkProps<S> {
-  lng?: SupportedLng
-}
+export type LinkProps<S> =
+  | (Omit<RouterLinkProps<S>, 'to'> & {
+      lng: SupportedLng
+      to?: string | ((location: H.Location) => string)
+    })
+  | {
+      lng?: SupportedLng
+      to: string | ((location: H.Location) => string)
+    }
 
-export const Link = forwardRef<HTMLAnchorElement, LinkProps<unknown>>((({ lng, to, ...props }, ref) => {
+export const Link = forwardRef<HTMLAnchorElement, LinkProps<unknown>>((({ lng, to: propsTo, ...props }, ref) => {
   const { locale } = useParams<{ locale?: string }>()
+  const { pathname } = useLocation()
 
+  const to = propsTo ?? removeI18nPrefix(pathname)
   const toWithPrefix = useMemo<RouterLinkProps['to']>(() => {
     if (typeof to === 'string') return addI18nPrefix(to, lng ?? locale)
 
@@ -25,4 +33,11 @@ function addI18nPrefix(url: string, lng?: string) {
   if (lng == null || !url.startsWith('/')) return url
 
   return `/${lng}${url}`
+}
+
+function removeI18nPrefix(url: string) {
+  const prefix = SupportedLngs.find(lng => url.startsWith(`/${lng}`))
+  if (prefix == null) return url
+
+  return url.slice(prefix.length + 1)
 }
