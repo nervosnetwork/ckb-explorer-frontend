@@ -615,7 +615,8 @@
       "vericode": "Verification Code",
       "get_code": "Get Code",
       "wrong_email": "Wrong Email? Click to report.",
-      "view_original": "View Original"
+      "view_original": "View Original",
+      "repeat_inscription_symbol": "This inscription is a duplicate with an earlier release of the same symbol."
     },
     "nft": {
       "nft_collection": "NFT Collection",

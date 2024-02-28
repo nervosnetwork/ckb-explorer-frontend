@@ -616,7 +616,8 @@
       "vericode": "验证码",
       "get_code": "获取验证码",
       "wrong_email": "不是这个邮箱? 提交报告",
-      "view_original": "查看原铭文"
+      "view_original": "查看原铭文",
+      "repeat_inscription_symbol": "此铭文与早期发布的铭文同名"
     },
     "nft": {
       "nft_collection": "NFT 藏品",

@@ -47,7 +47,7 @@
 
 .tokenInfo {
   display: grid;
-  grid-template-columns: min-content 8px min-content 16px auto;
+  grid-template-columns: 40px 16px min-content 16px auto;
   grid-template-rows: 20px;
   padding: 16px 0;
   border-bottom: 1px solid #f5f5f5;
@@ -55,6 +55,7 @@
   .icon {
     width: auto;
     height: 100%;
+    float: right;
   }
 
   .symbol {
@@ -178,8 +179,14 @@
 
     .container {
       display: flex;
+      position: relative;
       align-items: center;
       gap: 10px;
+
+      .warningIcon {
+        position: absolute;
+        right: 101%;
+      }
 
       .icon {
         width: 30px;
