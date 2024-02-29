@@ -43,6 +43,33 @@
 
     .label {
       flex: 1;
+      display: flex;
+      align-items: 4px;
+      gap: 6px;
+
+      span {
+        border-radius: 4px;
+        padding: 5px 8px;
+        font-size: 0.75rem;
+        line-height: 1;
+        color: #ffa800;
+        border: 1px solid #ffdba6;
+        background-color: #fffcf2;
+
+        &[data-category='normal'] {
+          display: none;
+        }
+
+        &[data-category='m_nft_class'],
+        &[data-category='cota_registry'],
+        &[data-category='spore_cluster'],
+        &[data-category='nrc_721_factory'],
+        &[data-category='omiga_inscription_info'] {
+          color: #346dff;
+          border: 1px solid #b0cbfc;
+          background-color: #d7e5fd;
+        }
+      }
     }
 
     .value {
@@ -63,6 +90,27 @@
 
     .asset,
     .parenthesis {
+      color: #999;
+
+      &[data-diff-status='positive'] {
+        color: var(--primary-color);
+      }
+
+      &[data-diff-status='negative'] {
+        color: var(--accent-color);
+      }
+    }
+  }
+
+  .multipleAsset {
+    display: flex;
+    justify-content: space-between;
+    background: rgb(250 250 250);
+    padding: 0 8px;
+
+    .asset {
+      color: #999;
+
       &[data-diff-status='positive'] {
         color: var(--primary-color);
       }

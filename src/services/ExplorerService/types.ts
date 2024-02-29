@@ -186,8 +186,10 @@ export namespace LiteTransfer {
   export interface NFTTransfer {
     capacity: string
     cellType: 'm_nft_token'
+    // FIXME: This is a typo in the api, should be fixed
+    toeknId?: string
     tokenId: string
-    collectionName: string
+    name: string
     count: string
   }
 
@@ -204,8 +206,10 @@ export namespace LiteTransfer {
   export interface NRC721Transfer {
     capacity: string
     cellType: 'nrc_721_token'
+    // FIXME: This is a typo in the api, should be fixed
+    toeknId?: string
     tokenId: string
-    collectionName: string
+    name: string
     count: string
   }
 
@@ -218,8 +222,10 @@ export namespace LiteTransfer {
   export interface SporeTransfer {
     capacity: string
     cellType: 'spore_cell'
+    // FIXME: This is a typo in the api, should be fixed
+    toeknId?: string
     tokenId: string
-    collectionName: string
+    name: string
     count: string
   }
 
@@ -239,7 +245,7 @@ export namespace LiteTransfer {
   export interface CotaTransfer {
     capacity: string
     cellType: 'cota_regular'
-    cotaInfo: Record<'collectionName' | 'count' | 'tokenId', string>[]
+    cotaInfo: Record<'name' | 'count' | 'tokenId', string>[]
   }
 
   export interface CotaRegistryTransfer {

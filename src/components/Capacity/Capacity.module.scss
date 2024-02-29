@@ -21,6 +21,8 @@
   }
 
   &[data-type='diff'] {
+    color: #999;
+
     &[data-diff-status='positive'] {
       color: var(--primary-color);
 
