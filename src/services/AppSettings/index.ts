@@ -1,8 +1,11 @@
 import { BehaviorSubject, Subscription, tap } from 'rxjs'
 import { PersistenceService, persistenceService } from '../PersistenceService'
+import CONFIG from '../../config'
+import { SupportedLng } from '../../utils/i18n'
 
 export const NAMESPACE_APP_SETTINGS = 'appSettings'
 
+export const KEY_DEFAULT_LANGUAGE = `${CONFIG.CHAIN_TYPE}_${NAMESPACE_APP_SETTINGS}_defaultLanguage`
 export const KEY_SEARCH_TYPE = `${NAMESPACE_APP_SETTINGS}_searchType`
 
 export class AppSettings {
