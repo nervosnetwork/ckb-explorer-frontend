@@ -38,7 +38,8 @@ const Search: FC<{
   content?: string
   hasButton?: boolean
   onEditEnd?: () => void
-}> = memo(({ content, hasButton, onEditEnd: handleEditEnd }) => {
+  onClear?: () => void
+}> = memo(({ content, hasButton, onEditEnd: handleEditEnd, onClear: handleClear }) => {
   const history = useHistory()
   const queryClient = useQueryClient()
   const { t } = useTranslation()
@@ -118,8 +119,8 @@ const Search: FC<{
   const onClear = useCallback(() => {
     setKeyword('')
     resetSearchByName()
-    setEditEnded(true)
-  }, [resetSearchByName, setEditEnded])
+    handleClear?.()
+  }, [resetSearchByName, handleClear])
 
   return (
     <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
