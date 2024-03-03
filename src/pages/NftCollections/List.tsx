@@ -188,7 +188,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
                 })
               }
             } catch {
-              // ignore
+              typeHash = item.sn
             }
             return (
               <tr key={item.id}>

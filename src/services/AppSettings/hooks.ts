@@ -20,10 +20,3 @@ function createPropSetter<T>(prop: BehaviorSubject<T>): Dispatch<SetStateAction<
 export function useSearchType() {
   return [useObservableState(appSettings.searchType$), createPropSetter(appSettings.searchType$)] as const
 }
-
-export function useIsDeprecatedAddressesDisplayed() {
-  return [
-    useObservableState(appSettings.isDeprecatedAddressesDisplayed$),
-    createPropSetter(appSettings.isDeprecatedAddressesDisplayed$),
-  ] as const
-}

@@ -159,7 +159,7 @@ export const UDTOverviewCard = ({
 
   const tokenInfo: TokenInfo = {
     tokenType: udt.udtType,
-    args: udt.typeScript.args,
+    args: udt.typeScript?.args ?? null,
     typeHash,
     symbol: udt.symbol,
     name: udt.displayName || udt.fullName,
@@ -188,7 +188,7 @@ export const UDTOverviewCard = ({
     </div>
   )
 
-  if (!udt.published) {
+  if (udt.udtType !== 'omiga_inscription' && !udt.published) {
     return (
       <div className={styles.loading}>
         <Loading show />

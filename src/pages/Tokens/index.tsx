@@ -1,4 +1,5 @@
 import { Table, Tooltip } from 'antd'
+import { WarningOutlined } from '@ant-design/icons'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { FC, Fragment, ReactNode, useState } from 'react'
@@ -71,7 +72,14 @@ const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) =
 
   return (
     <div key={token.typeHash} className={styles.tokenInfo}>
-      <img className={styles.icon} src={token.iconFile ? token.iconFile : SUDTTokenIcon} alt="token icon" />
+      <span>
+        {isOmigaInscriptionCollection(token) && !token.published && (
+          <Tooltip placement="topLeft" title={t('udt.repeat_inscription_symbol')} arrowPointAtCenter>
+            <WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />
+          </Tooltip>
+        )}
+        <img className={styles.icon} src={token.iconFile ? token.iconFile : SUDTTokenIcon} alt="token icon" />
+      </span>
       <span className={styles.symbol}>
         {isKnown ? (
           <Link
@@ -211,6 +219,14 @@ const TokenTable: FC<{
         const isKnown = (Boolean(name) && token.published) || isOmigaInscriptionCollection(token)
         return (
           <div className={styles.container}>
+            <div className={styles.warningIcon}>
+              {isOmigaInscriptionCollection(token) && !token.published && (
+                <Tooltip title={t('udt.repeat_inscription_symbol')}>
+                  <WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />
+                </Tooltip>
+              )}
+            </div>
+
             <img className={styles.icon} src={token.iconFile ? token.iconFile : SUDTTokenIcon} alt="token icon" />
             <div className={styles.right}>
               <div className={styles.symbolAndName}>
