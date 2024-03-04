@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Link } from '../Link'
 import styles from './styles.module.scss'
 import { ReactComponent as ExportIcon } from './export_icon.svg'
 import { SupportedExportTransactionType } from '../../services/ExplorerService'

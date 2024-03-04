@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { Link } from '../../../components/Link'
 import { getPrimaryColor } from '../../../constants/common'
 import { dayjs, useParseDate } from '../../../utils/date'
 import styles from './styles.module.scss'

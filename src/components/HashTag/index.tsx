@@ -1,9 +1,10 @@
+import { Link } from '../Link'
 import { TagPanel } from './styled'
 
 export default ({ content, category = 'lock' }: { content: string; category?: 'lock' | 'type' }) => (
   <TagPanel isLock={category === 'lock'}>
-    <a
-      href={`/scripts#${content}`}
+    <Link
+      to={`/scripts#${content}`}
       rel="noopener noreferrer"
       target="_blank"
       style={{
@@ -11,6 +12,6 @@ export default ({ content, category = 'lock' }: { content: string; category?: 'l
       }}
     >
       {content}
-    </a>
+    </Link>
   </TagPanel>
 )

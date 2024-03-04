@@ -110,6 +110,8 @@ module.exports = {
     'lines-between-class-members': 'off',
     // It looks like this rule has a bug, and it seems that typescript-eslint missed this rule when supporting eslint v8.
     '@typescript-eslint/lines-between-class-members': 'off',
+    'no-redeclare': 'off',
+    '@typescript-eslint/no-redeclare': 'error',
   },
   env: {
     jest: true,

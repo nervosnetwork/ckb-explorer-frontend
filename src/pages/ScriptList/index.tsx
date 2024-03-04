@@ -5,6 +5,7 @@ import Content from '../../components/Content'
 import styles from './styles.module.scss'
 import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
 import { isMainnet } from '../../utils/chain'
+import { Link } from '../../components/Link'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -257,13 +258,13 @@ const ScriptList: FC = () => {
                       </a>
                     ) : null,
                   )}
-                  <a
-                    href={`/script/${script.codeHashes[0]}/${script.hashType}`}
+                  <Link
+                    to={`/script/${script.codeHashes[0]}/${script.hashType}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     {t('script_list.link.detail')}
-                  </a>
+                  </Link>
                 </div>
                 <>
                   <h3>{`${t(`script_list.on_chain_data`)}:`}</h3>

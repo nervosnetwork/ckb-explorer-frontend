@@ -15,28 +15,13 @@ export const LanguagePanel = styled.div`
   color: #000;
   left: ${(props: { left: number; top: number }) => props.left}px;
   top: ${(props: { left: number; top: number }) => props.top}px;
-
-  .languageSelected {
-    width: 90%;
-    font-size: 12px;
-    height: 33px;
-    line-height: 33px;
-    margin: 3px 5% 0;
-    padding: 0 5%;
-    cursor: pointer;
-    border-radius: 3px;
-
-    &:hover {
-      background: #f1f1f1;
-    }
-  }
+  padding: 4px 2px;
 
   .languageNormal {
     width: 90%;
     font-size: 12px;
     height: 33px;
     line-height: 33px;
-    margin: 0 5% 3px;
     padding: 0 5%;
     cursor: pointer;
     border-radius: 3px;

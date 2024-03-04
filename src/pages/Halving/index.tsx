@@ -19,6 +19,7 @@ import { useCountdown, useHalving, useIsMobile, useEpochBlockMap } from '../../h
 import { getPrimaryColor, EPOCHS_PER_HALVING, THEORETICAL_EPOCH_TIME } from '../../constants/common'
 import styles from './index.module.scss'
 import { useCurrentLanguage } from '../../utils/i18n'
+import { Link } from '../../components/Link'
 
 function numberToOrdinal(number: number) {
   switch (number) {
@@ -107,9 +108,9 @@ export const HalvingCountdownPage = () => {
                 {t('symbol.char_space')}
                 {t('halving.activated')}{' '}
                 {getTargetBlockByHavingCount(halvingCount) ? (
-                  <a className={styles.textPrimary} href={`/block/${getTargetBlockByHavingCount(halvingCount)}`}>
+                  <Link className={styles.textPrimary} to={`/block/${getTargetBlockByHavingCount(halvingCount)}`}>
                     {new BigNumber(getTargetBlockByHavingCount(halvingCount)!).toFormat()}.
-                  </a>
+                  </Link>
                 ) : (
                   <SmallLoading />
                 )}
@@ -183,9 +184,9 @@ export const HalvingCountdownPage = () => {
                         dataIndex: 'height',
                         key: 'height',
                         render: block => (
-                          <a className={styles.textPrimary} href={`/block/${block}`}>
+                          <Link className={styles.textPrimary} to={`/block/${block}`}>
                             {new BigNumber(block).toFormat()}
-                          </a>
+                          </Link>
                         ),
                       },
                     ]}

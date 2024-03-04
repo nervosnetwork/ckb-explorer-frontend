@@ -1,7 +1,7 @@
 import { useState, ReactNode, FC } from 'react'
 import { Tooltip } from 'antd'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Link } from '../../../components/Link'
 import { CellType } from '../../../constants/common'
 import { parseUDTAmount } from '../../../utils/number'
 import { parseSimpleDate } from '../../../utils/date'
