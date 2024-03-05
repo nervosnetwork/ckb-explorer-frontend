@@ -9,6 +9,7 @@ import LoadingWhiteImage from '../../../assets/loading_white.gif'
 import halvingSuccessAni from './halving_success_ani.gif'
 import SimpleButton from '../../../components/SimpleButton'
 import { useCountdown, useHalving, useIsMobile } from '../../../hooks'
+import { Link } from '../../../components/Link'
 
 function numberToOrdinal(number: number) {
   switch (number) {
@@ -106,12 +107,12 @@ export const HalvingBanner = () => {
               )}`}
             </div>
           )}
-          <a href="/halving">
+          <Link to="/halving">
             <SimpleButton className={styles.learnMoreButton}>
               {learnMoreText()}
               <MoveIcon style={{ marginTop: 2 }} />
             </SimpleButton>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

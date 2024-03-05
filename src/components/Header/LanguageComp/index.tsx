@@ -1,4 +1,5 @@
 import { useState, useLayoutEffect, FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { HeaderLanguagePanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import WhiteDropdownIcon from '../../../assets/white_dropdown.png'
@@ -7,7 +8,8 @@ import BlueDropUpIcon from '../../../assets/blue_drop_up.png'
 import GreenDropUpIcon from '../../../assets/green_drop_up.png'
 import { isMainnet } from '../../../utils/chain'
 import LanDropdown from '../../Dropdown/Language'
-import { useCurrentLanguage, useLanguageText, useOtherLanguageText, useToggleLanguage } from '../../../utils/i18n'
+import { SupportedLngs, useCurrentLanguage, useLanguageText } from '../../../utils/i18n'
+import { Link } from '../../Link'
 
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon
@@ -58,10 +60,9 @@ export const LanguageDropdown = () => {
 }
 
 export const LanguageMenu: FC<{ hideMobileMenu: () => void }> = ({ hideMobileMenu }) => {
+  const { t } = useTranslation()
   const [showSubMenu, setShowSubMenu] = useState(false)
   const currentLanguageText = useLanguageText()
-  const otherLanguageText = useOtherLanguageText()
-  const toggleLanguage = useToggleLanguage()
 
   return (
     <MobileSubMenuPanel showSubMenu={false}>
@@ -78,27 +79,13 @@ export const LanguageMenu: FC<{ hideMobileMenu: () => void }> = ({ hideMobileMen
           src={showSubMenu ? WhiteDropUpIcon : WhiteDropdownIcon}
         />
       </SimpleButton>
-      {showSubMenu && (
-        <>
-          <SimpleButton
-            className="mobileMenusSubItem"
-            onClick={() => {
-              hideMobileMenu()
-            }}
-          >
-            {currentLanguageText}
-          </SimpleButton>
-          <SimpleButton
-            className="mobileMenusSubItem"
-            onClick={() => {
-              toggleLanguage()
-              hideMobileMenu()
-            }}
-          >
-            {otherLanguageText}
-          </SimpleButton>
-        </>
-      )}
+      {showSubMenu &&
+        SupportedLngs.map(lng => (
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
+          <Link key={lng} className="mobileMenusSubItem" lng={lng} onClick={hideMobileMenu}>
+            {t(`navbar.language_${lng}`)}
+          </Link>
+        ))}
     </MobileSubMenuPanel>
   )
 }

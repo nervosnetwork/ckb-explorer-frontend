@@ -78,12 +78,13 @@ export function useSortParam<T extends string>(
 export function useUpdateSearchParams<T extends string>(): (
   updater: (current: Partial<Record<T, string>>) => Partial<Record<T, string | null | undefined>>,
   replace?: boolean,
-) => void {
+  routing?: boolean,
+) => string {
   const history = useHistory()
   const { search, pathname, hash } = useLocation()
 
   return useCallback(
-    (updater, replace) => {
+    (updater, replace, routing = true) => {
       const oldParams: Partial<Record<T, string>> = getSearchParams(search)
       const newParams = omitNil(updater(oldParams))
       const newUrlSearchParams = new URLSearchParams(newParams as Record<string, string>)
@@ -91,11 +92,15 @@ export function useUpdateSearchParams<T extends string>(): (
       const newQueryString = newUrlSearchParams.toString()
       const to = `${pathname}${newQueryString ? `?${newQueryString}` : ''}${hash}`
 
-      if (replace) {
-        history.replace(to)
-      } else {
-        history.push(to)
+      if (routing) {
+        if (replace) {
+          history.replace(to)
+        } else {
+          history.push(to)
+        }
       }
+
+      return to
     },
     [hash, history, pathname, search],
   )

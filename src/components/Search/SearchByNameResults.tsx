@@ -5,6 +5,7 @@ import { UDTQueryResult } from '../../services/ExplorerService/fetcher'
 import styles from './SearchByNameResults.module.scss'
 import EllipsisMiddle from '../EllipsisMiddle'
 import SmallLoading from '../Loading/SmallLoading'
+import { Link } from '../Link'
 
 type Props = {
   loading?: boolean
@@ -34,9 +35,9 @@ const SearchByNameResult: FC<{ item: UDTQueryResult }> = ({ item }) => {
   const displayName = symbol ?? fullName
 
   return (
-    <a
+    <Link
       className={styles.searchResult}
-      href={`${window.origin}/${udtType === 'omiga_inscription' ? 'inscription' : 'sudt'}/${typeHash}`}
+      to={`/${udtType === 'omiga_inscription' ? 'inscription' : 'sudt'}/${typeHash}`}
     >
       <div className={styles.content}>
         {/* TODO: Need to implement highlighting for the matched keywords. */}
@@ -57,6 +58,6 @@ const SearchByNameResult: FC<{ item: UDTQueryResult }> = ({ item }) => {
           {typeHash}
         </EllipsisMiddle>
       </div>
-    </a>
+    </Link>
   )
 }

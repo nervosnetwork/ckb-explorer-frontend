@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
 import { Trans } from 'react-i18next'
+import { Link } from '../../Link'
 import { CellbasePanel } from './styled'
 import { CellType } from '../../../constants/common'
 import TransactionCellArrow from '../TransactionCellArrow'

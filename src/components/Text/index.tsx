@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
+import { Link } from '../Link'
 import CopyTooltipText from './CopyTooltipText'
 import { HighLightPanel } from './styled'
 

@@ -1,25 +1,24 @@
-import { useLanguageText, useOtherLanguageText, useToggleLanguage } from '../../../utils/i18n'
+import { useTranslation } from 'react-i18next'
+import { Fragment } from 'react'
+import { SupportedLngs } from '../../../utils/i18n'
 import { LanguagePanel } from './styled'
-import SimpleButton from '../../SimpleButton'
+import { Link } from '../../Link'
 
 export default ({ setShow, left, top }: { setShow: Function; left: number; top: number }) => {
-  const toggleLanguage = useToggleLanguage()
-  const hideDropdown = () => {
-    setShow(false)
-  }
-  const handleLanguage = () => {
-    hideDropdown()
-    toggleLanguage()
-  }
+  const { t } = useTranslation()
+  const hideDropdown = () => setShow(false)
+
   return (
     <LanguagePanel left={left} top={top} onMouseLeave={hideDropdown}>
-      <SimpleButton className="languageSelected" onClick={hideDropdown}>
-        {useLanguageText()}
-      </SimpleButton>
-      <div className="languageSeparate" />
-      <SimpleButton className="languageNormal" onClick={handleLanguage}>
-        {useOtherLanguageText()}
-      </SimpleButton>
+      {SupportedLngs.map((lng, idx) => (
+        <Fragment key={lng}>
+          {idx !== 0 && <div className="languageSeparate" />}
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <Link className="languageNormal" lng={lng} onClick={hideDropdown}>
+            {t(`navbar.language_${lng}`)}
+          </Link>
+        </Fragment>
+      ))}
     </LanguagePanel>
   )
 }
