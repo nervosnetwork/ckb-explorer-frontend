@@ -80,3 +80,29 @@
 .witnessInTransactionInfo {
   word-break: break-all;
 }
+
+.toggles {
+  display: flex;
+  gap: 12px;
+
+  .expandArrow {
+    margin-left: 4px;
+    transform: translateY(-2px) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    box-shadow: 1px 1px 1px 0 var(--primary-color);
+
+    &[data-expanded='true'] {
+      transform: translateY(5px) rotate(225deg);
+    }
+  }
+
+  .paramsToggle {
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+  }
+}
