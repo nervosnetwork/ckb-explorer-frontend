@@ -4,12 +4,13 @@ import JsonView from '@microlink/react-json-view'
 import Loading from '../AwesomeLoadings/Spinner'
 
 import { getTx } from '../../services/NodeService'
+import styles from './styles.module.scss'
 
 const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
   const { data, isLoading } = useQuery<{ result: { transaction: any } }>(['tx', hash], () => getTx(hash))
   if (isLoading) {
     return (
-      <div>
+      <div className={styles.loading}>
         <Loading />
       </div>
     )
@@ -25,6 +26,7 @@ const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
       iconStyle="square"
       displayDataTypes={false}
       style={{
+        borderRadius: 4,
         marginTop: 10,
         background: '#f5f5f5',
         padding: 8,
