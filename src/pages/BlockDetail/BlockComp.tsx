@@ -302,7 +302,7 @@ export const BlockComp = ({
   const totalPages = Math.ceil(total / pageSize)
   const { push } = useHistory()
   const { hash } = useLocation()
-  const { param: blockId } = useParams<{ param: string }>()
+  const { param: blockId, locale } = useParams<{ param: string; locale?: string }>()
 
   const { filter } = useSearchParams('filter')
 
@@ -319,10 +319,10 @@ export const BlockComp = ({
               defaultValue={filter ?? ''}
               placeholder={t('block.address_or_hash')}
               onFilter={filter => {
-                push(`/block/${blockId}?${new URLSearchParams({ filter })}`)
+                push(`/${locale}/block/${blockId}?${new URLSearchParams({ filter })}`)
               }}
               onReset={() => {
-                push(`/block/${blockId}`)
+                push(`/${locale}/block/${blockId}`)
               }}
             />
           }
