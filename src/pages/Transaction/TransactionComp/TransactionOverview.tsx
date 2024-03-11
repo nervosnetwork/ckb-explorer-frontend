@@ -152,7 +152,7 @@ export const TransactionOverviewCard: FC<{
   const feeWithFeeRateData: CardCellInfo = {
     title: `${t('transaction.transaction_fee')} | ${t('transaction.fee_rate')}`,
     content: (
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyItems: 'flex-end' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
         <Capacity capacity={shannonToCkb(transactionFee)} />
         <span
           style={{
