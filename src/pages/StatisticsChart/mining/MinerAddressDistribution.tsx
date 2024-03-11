@@ -92,13 +92,13 @@ const toCSV = (statisticMinerAddresses: ChartItem.MinerAddress[]) =>
   statisticMinerAddresses ? statisticMinerAddresses.map(data => [data.address, data.radio]) : []
 
 export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const [t] = useTranslation()
+  const [t, { language }] = useTranslation()
 
   const history = useHistory()
   const onClick = useCallback(
     (param: echarts.CallbackDataParams) => {
       if (param && param.data.title) {
-        history.push(`/address/${param.data.title}`)
+        history.push(`/${language}/address/${param.data.title}`)
       }
     },
     [history],

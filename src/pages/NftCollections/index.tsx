@@ -17,7 +17,10 @@ const submitTokenInfoUrl = udtSubmitEmail()
 
 const NftCollections = () => {
   const history = useHistory()
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const { search } = useLocation()
   const { page = '1', type } = useSearchParams('page', 'type')
   const { sort } = useNFTCollectionsSortParam()
@@ -35,7 +38,9 @@ const NftCollections = () => {
       return
     }
     const query = new URLSearchParams(search)
-    history.push(`/nft-collections?${new URLSearchParams({ ...Object.fromEntries(query), page: pageNo.toString() })}`)
+    history.push(
+      `/${language}/nft-collections?${new URLSearchParams({ ...Object.fromEntries(query), page: pageNo.toString() })}`,
+    )
   }
 
   return (

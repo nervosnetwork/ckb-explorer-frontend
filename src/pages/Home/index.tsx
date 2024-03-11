@@ -185,7 +185,10 @@ const TransactionList: FC<{ transactions: Transaction[]; tipBlockNumber: number 
 
 export default () => {
   const isMobile = useIsMobile()
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const isXL = useIsExtraLarge()
   const history = useHistory<RouteState>()
   const tipBlockNumber = useLatestBlockNumber()
@@ -291,7 +294,7 @@ export default () => {
           <TableMorePanel
             onClick={() => {
               history.push(
-                `/block/list`,
+                `/${language}/block/list`,
                 blocksQuery.data
                   ? {
                       type: 'BlockListPage',
@@ -315,7 +318,7 @@ export default () => {
           <TableMorePanel
             onClick={() => {
               history.push(
-                `/transaction/list`,
+                `/${language}/transaction/list`,
                 transactionsQuery.data
                   ? {
                       type: 'TransactionListPage',

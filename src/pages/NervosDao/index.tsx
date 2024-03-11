@@ -1,4 +1,4 @@
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import Content from '../../components/Content'
@@ -15,8 +15,7 @@ import { explorerService } from '../../services/ExplorerService'
 
 export const NervosDao = () => {
   const { push } = useHistory()
-  const [t] = useTranslation()
-  const { locale = 'en' } = useParams<{ locale?: string }>()
+  const [t, { language }] = useTranslation()
 
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
   const params = useSearchParams('tab', 'filter')
@@ -60,13 +59,13 @@ export const NervosDao = () => {
           <div className="nervosDaoTabBar">
             <SimpleButton
               className={tab === 'transactions' ? 'tabBarSelected' : 'tabBarNormal'}
-              onClick={() => push(`/${locale}/nervosdao?tab=transactions`)}
+              onClick={() => push(`/${language}/nervosdao?tab=transactions`)}
             >
               {t('nervos_dao.dao_tab_transactions')}
             </SimpleButton>
             <SimpleButton
               className={tab === 'depositors' ? 'tabBarSelected' : 'tabBarNormal'}
-              onClick={() => push(`/${locale}/nervosdao?tab=depositors`)}
+              onClick={() => push(`/${language}/nervosdao?tab=depositors`)}
             >
               {t('nervos_dao.dao_tab_depositors')}
             </SimpleButton>
@@ -77,10 +76,10 @@ export const NervosDao = () => {
             showReset={!!params.filter}
             placeholder={tab === 'depositors' ? t('search.addr') : `${t('search.tx')} / ${t('search.addr')}`}
             onFilter={filter => {
-              push(`/${locale}/nervosdao?${new URLSearchParams({ filter, tab })}`)
+              push(`/${language}/nervosdao?${new URLSearchParams({ filter, tab })}`)
             }}
             onReset={() => {
-              push(`/${locale}/nervosdao?${new URLSearchParams({ tab })}`)
+              push(`/${language}/nervosdao?${new URLSearchParams({ tab })}`)
             }}
           />
         </DaoTabBarPanel>

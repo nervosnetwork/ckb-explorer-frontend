@@ -277,7 +277,7 @@ export const SubmitTokenInfo = ({
       .then(() => {
         handleClose()
         if (!isModification) {
-          history.push(`/sudt/${id}`)
+          history.push(`/${language}/sudt/${id}`)
         }
         if (onSuccess) {
           onSuccess()

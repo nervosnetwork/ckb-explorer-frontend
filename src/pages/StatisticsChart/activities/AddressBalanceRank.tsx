@@ -111,7 +111,7 @@ const toCSV = (statisticAddressBalanceRanks: ChartItem.AddressBalanceRank[]) =>
 
 export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const history = useHistory()
-  const [t] = useTranslation()
+  const [t, { language }] = useTranslation()
 
   const [statisticAddressBalanceRanks, setStatisticAddressBalanceRanks] = useState<ChartItem.AddressBalanceRank[]>([])
   const handleClick = useCallback(
@@ -119,7 +119,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
       if (param && param.name && statisticAddressBalanceRanks.length > 0) {
         const address = getAddressWithRanking(statisticAddressBalanceRanks, param.name)
         if (address) {
-          history.push(`/address/${address}`)
+          history.push(`/${language}/address/${address}`)
         }
       }
     },

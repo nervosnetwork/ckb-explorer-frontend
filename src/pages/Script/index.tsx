@@ -96,7 +96,10 @@ type ScriptTabType = 'transactions' | 'deployed_cells' | 'referring_cells' | und
 
 export const ScriptPage = () => {
   const history = useHistory()
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
   const { codeHash, hashType, tab } = useParams<{
@@ -172,14 +175,14 @@ export const ScriptPage = () => {
             }
             if (key === 'deployed_cells') {
               history.push(
-                `/script/${codeHash}/${hashType}/deployed_cells?page=${pageOfDeployedCells}&size=${pageSize}`,
+                `/${language}/script/${codeHash}/${hashType}/deployed_cells?page=${pageOfDeployedCells}&size=${pageSize}`,
               )
             } else if (key === 'referring_cells') {
               history.push(
-                `/script/${codeHash}/${hashType}/referring_cells?page=${pageOfReferringCells}&size=${pageSize}`,
+                `/${language}/script/${codeHash}/${hashType}/referring_cells?page=${pageOfReferringCells}&size=${pageSize}`,
               )
             } else if (key === 'transactions') {
-              history.push(`/script/${codeHash}/${hashType}?page=${pageOfTransactions}&size=${pageSize}`)
+              history.push(`/${language}/script/${codeHash}/${hashType}?page=${pageOfTransactions}&size=${pageSize}`)
             }
           }}
           renderTabBar={(props, DefaultTabBar) => {

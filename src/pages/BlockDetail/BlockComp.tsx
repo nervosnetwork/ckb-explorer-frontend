@@ -69,6 +69,9 @@ const BlockMinerReward = ({
   sentBlockNumber?: string
 }) => {
   const history = useHistory()
+  const {
+    i18n: { language },
+  } = useTranslation()
   return (
     <BlockMinerRewardPanel sent={!!sentBlockNumber}>
       <div className="block__miner__reward_value">{value}</div>
@@ -80,7 +83,7 @@ const BlockMinerReward = ({
           onKeyDown={() => {}}
           onClick={() => {
             if (sentBlockNumber) {
-              history.push(`/block/${sentBlockNumber}#${CELL_BASE_ANCHOR}`)
+              history.push(`/${language}/block/${sentBlockNumber}#${CELL_BASE_ANCHOR}`)
             }
           }}
         >
@@ -298,11 +301,14 @@ export const BlockComp = ({
   transactions: Transaction[]
   total: number
 }) => {
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const totalPages = Math.ceil(total / pageSize)
   const { push } = useHistory()
   const { hash } = useLocation()
-  const { param: blockId, locale } = useParams<{ param: string; locale?: string }>()
+  const { param: blockId } = useParams<{ param: string }>()
 
   const { filter } = useSearchParams('filter')
 
@@ -319,10 +325,10 @@ export const BlockComp = ({
               defaultValue={filter ?? ''}
               placeholder={t('block.address_or_hash')}
               onFilter={filter => {
-                push(`/${locale}/block/${blockId}?${new URLSearchParams({ filter })}`)
+                push(`/${language}/block/${blockId}?${new URLSearchParams({ filter })}`)
               }}
               onReset={() => {
-                push(`/${locale}/block/${blockId}`)
+                push(`/${language}/block/${blockId}`)
               }}
             />
           }

@@ -22,7 +22,10 @@ import { CellBasicInfo, transformToTransaction } from '../../utils/transformer'
 import { usePrevious } from '../../hooks'
 
 export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
@@ -51,7 +54,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
   const totalPages = Math.ceil(total / size)
 
   const onChange = (page: number) => {
-    history.push(`/script/${codeHash}/${hashType}?page=${page}&size=${size}`)
+    history.push(`/${language}/script/${codeHash}/${hashType}?page=${page}&size=${size}`)
   }
 
   return (
@@ -113,7 +116,10 @@ export const ScriptCells = ({
   size: number
   cellType: 'deployed_cells' | 'referring_cells'
 }) => {
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const history = useHistory()
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
@@ -150,7 +156,7 @@ export const ScriptCells = ({
   const totalPages = Math.ceil(total / size)
 
   const onChange = (page: number) => {
-    history.push(`/script/${codeHash}/${hashType}/${cellType}?page=${page}&size=${size}`)
+    history.push(`/${language}/script/${codeHash}/${hashType}/${cellType}?page=${page}&size=${size}`)
   }
 
   return (
