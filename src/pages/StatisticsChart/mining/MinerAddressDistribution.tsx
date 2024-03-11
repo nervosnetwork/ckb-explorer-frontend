@@ -101,7 +101,7 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
         history.push(`/${language}/address/${param.data.title}`)
       }
     },
-    [history],
+    [history, language],
   )
 
   const isMobile = useIsMobile()
