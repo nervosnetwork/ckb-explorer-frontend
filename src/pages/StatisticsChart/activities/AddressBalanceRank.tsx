@@ -123,7 +123,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
         }
       }
     },
-    [statisticAddressBalanceRanks, history],
+    [statisticAddressBalanceRanks, history, language],
   )
 
   const adaptPCEllipsis = useAdaptPCEllipsis(60)
