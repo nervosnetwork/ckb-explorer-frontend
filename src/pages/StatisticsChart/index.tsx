@@ -1,5 +1,4 @@
 import { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
 import 'default-passive-events'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
@@ -30,6 +29,7 @@ import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution
 import { MinerVersionDistributionChart } from './mining/MinerVersionDistribution'
 import { useIsMobile } from '../../hooks'
 import { HelpTip } from '../../components/HelpTip'
+import { Link } from '../../components/Link'
 
 interface ChartData {
   title: string

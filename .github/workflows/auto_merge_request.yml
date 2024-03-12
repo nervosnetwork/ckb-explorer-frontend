@@ -2,6 +2,9 @@ name: Auto merge
 
 on: push
 
+permissions:
+  pull-requests: write
+
 jobs:
   merge-develop-into-testnet:
     if: ${{ github.ref == 'refs/heads/develop' }}
@@ -47,4 +50,3 @@ jobs:
           pr_reviewer: 'keith-cy'
           pr_label: 'auto-pr'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-

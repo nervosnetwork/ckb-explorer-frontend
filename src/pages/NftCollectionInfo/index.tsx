@@ -1,7 +1,8 @@
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Popover } from 'antd'
 import { TFunction, useTranslation } from 'react-i18next'
+import { Link } from '../../components/Link'
 import Content from '../../components/Content'
 import NftCollectionOverview from './NftCollectionOverview'
 import NftCollectionTransfers from './NftCollectionTransfers'
@@ -39,7 +40,10 @@ const PAGE_SIZE = 50
 const NftCollectionInfo = () => {
   const { id } = useParams<{ id: string }>()
   const history = useHistory()
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
   const { tab = tabs[0], page = '1' } = useSearchParams('tab', 'page', 'tx_type')
   const { type, filter, sort } = useSearchParams('type', 'filter', 'sort')
   const isMobile = useIsMobile()
@@ -83,7 +87,9 @@ const NftCollectionInfo = () => {
       return
     }
     const query = Object.fromEntries(new URLSearchParams(history.location.search))
-    history.push(`/nft-collections/${id}?${new URLSearchParams({ ...query, page: pageNo.toString() }).toString()}`)
+    history.push(
+      `/${language}/nft-collections/${id}?${new URLSearchParams({ ...query, page: pageNo.toString() }).toString()}`,
+    )
   }
 
   const holderList = rawHolders
@@ -148,10 +154,10 @@ const NftCollectionInfo = () => {
                 showReset={!!filter}
                 placeholder={t(tab === tabs[0] ? 'udt.address-or-hash' : 'udt.address')}
                 onFilter={filter => {
-                  history.push(`/nft-collections/${id}?${new URLSearchParams({ tab, filter })}`)
+                  history.push(`/${language}/nft-collections/${id}?${new URLSearchParams({ tab, filter })}`)
                 }}
                 onReset={() => {
-                  history.push(`/nft-collections/${id}?${new URLSearchParams({ tab })}`)
+                  history.push(`/${language}/nft-collections/${id}?${new URLSearchParams({ tab })}`)
                 }}
               />
             ) : null}

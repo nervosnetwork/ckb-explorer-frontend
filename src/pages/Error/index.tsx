@@ -4,6 +4,7 @@ import PCErrorImage from './error.png'
 import MobileErrorImage from './Mobile_error.png'
 import { useIsMobile } from '../../hooks'
 import styles from './index.module.scss'
+import { Link } from '../../components/Link'
 
 export default ({ errorMessage, errorDescription }: { errorMessage?: string; errorDescription?: string }) => {
   const isMobile = useIsMobile()
@@ -18,9 +19,9 @@ export default ({ errorMessage, errorDescription }: { errorMessage?: string; err
           <>
             <img className={styles.notErrorImage} src={isMobile ? MobileErrorImage : PCErrorImage} alt="error" />
             <div className={styles.pageCrashedTip}>{t('error.page_crashed_tip')}</div>
-            <a className={styles.backHome} href="/">
+            <Link className={styles.backHome} to="/">
               {t('error.back_home')}
-            </a>
+            </Link>
             {!isProduction && (
               <pre className={styles.pageCrashedError}>
                 {errorMessage}

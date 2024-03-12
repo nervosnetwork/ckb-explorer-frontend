@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { Key, ReactElement, ReactNode } from 'react'
-import { Link, LinkProps } from 'react-router-dom'
+import { LinkProps } from 'react-router-dom'
+import { Link } from '../../components/Link'
 import styles from './index.module.scss'
 
 export interface Column<T> {

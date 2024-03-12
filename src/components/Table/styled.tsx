@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link } from '../Link'
 import variables from '../../styles/variables.module.scss'
 
 export const TableTitleRow = styled.div`

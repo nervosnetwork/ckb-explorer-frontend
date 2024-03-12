@@ -27,7 +27,7 @@ export const UDT: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
 
   const updateSearchParams = useUpdateSearchParams<'filter' | 'page'>()
 
-  const queryUDT = useQuery(['udt', isInscription, isViewOriginal], () =>
+  const queryUDT = useQuery(['udt', isInscription, isViewOriginal, typeHash], () =>
     isInscription
       ? explorerService.api.fetchOmigaInscription(typeHash, isViewOriginal)
       : explorerService.api.fetchSimpleUDT(typeHash),

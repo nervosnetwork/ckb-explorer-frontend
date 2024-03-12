@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link } from '../Link'
 import SimpleButton from '../SimpleButton'
 
 const MARGIN_PER_ITEM_JUSTIFY = (56 - 8) / (1440 - 1024)

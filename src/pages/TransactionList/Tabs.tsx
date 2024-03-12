@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import classNames from 'classnames'
+import { Link } from '../../components/Link'
 import styles from './index.module.scss'
 
 interface TabItem {

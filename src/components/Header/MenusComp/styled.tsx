@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from '../../Link'
 
 const MARGIN_PER_ITEM_JUSTIFY = (56 - 8) / (1440 - 1024)
 
@@ -9,7 +10,7 @@ export const MobileMenuItem = styled.div`
   margin: 0 56px;
 `
 
-export const MobileMenuLink = styled.a`
+export const MobileMenuOuterLink = styled.a`
   color: white;
   display: flex;
   align-items: center;
@@ -23,6 +24,22 @@ export const MobileMenuLink = styled.a`
     color: ${props => props.theme.primary};
   }
 `
+
+export const MobileMenuInnerLink = styled(Link)`
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: regular;
+  margin-top: 22px;
+  height: 21px;
+
+  &:hover {
+    font-weight: medium;
+    color: ${props => props.theme.primary};
+  }
+`
+
 export const HeaderMenuPanel = styled.div`
   display: flex;
   align-items: center;

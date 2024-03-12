@@ -1,7 +1,8 @@
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { Link } from '../../components/Link'
 import NftItemTransfers from './NftItemTransfers'
 import Pagination from '../../components/Pagination'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
@@ -17,7 +18,11 @@ const primaryColor = getPrimaryColor()
 const NftInfo = () => {
   const { id, collection } = useParams<Record<'collection' | 'id', string>>()
   const history = useHistory()
-  const { t } = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
+
   const { page = '1' } = useSearchParams('page')
   const { data } = useQuery(['nft-item-info', collection, id], () =>
     explorerService.api.fetchNFTCollectionItem(collection, id),
@@ -32,7 +37,7 @@ const NftInfo = () => {
     if (pageNo === +page) {
       return
     }
-    history.push(`/nft-info/${collection}/${id}?page=${pageNo}`)
+    history.push(`/${language}/nft-info/${collection}/${id}?page=${pageNo}`)
   }
   const coverUrl = data?.icon_url || data?.collection.icon_url
 

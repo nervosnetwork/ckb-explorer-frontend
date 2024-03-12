@@ -1,22 +1,17 @@
 /* eslint-disable react/no-array-index-key */
 import { useState, ReactNode, FC } from 'react'
-import { Link } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Trans, useTranslation } from 'react-i18next'
 import { Radio, Tooltip } from 'antd'
 import classNames from 'classnames'
+import { Link } from '../../../components/Link'
 import Capacity from '../../../components/Capacity'
 import HashTag from '../../../components/HashTag'
 import { HelpTip } from '../../../components/HelpTip'
 import SimpleButton from '../../../components/SimpleButton'
 import ComparedToMaxTooltip from '../../../components/Tooltip/ComparedToMaxTooltip'
 import { LayoutLiteProfessional } from '../../../constants/common'
-import { isMainnet } from '../../../utils/chain'
 import { parseSimpleDate } from '../../../utils/date'
-import ArrowUpIcon from '../../../assets/arrow_up.png'
-import ArrowDownIcon from '../../../assets/arrow_down.png'
-import ArrowUpBlueIcon from '../../../assets/arrow_up_blue.png'
-import ArrowDownBlueIcon from '../../../assets/arrow_down_blue.png'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb, useFormatConfirmation, matchTxHash } from '../../../utils/util'
 import {
@@ -31,10 +26,11 @@ import {
 import { explorerService, useLatestBlockNumber } from '../../../services/ExplorerService'
 import { Transaction } from '../../../models/Transaction'
 import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../../components/Card'
+import RawTransactionView from '../../../components/RawTransactionView'
 import { ReactComponent as DownloadIcon } from './download.svg'
-import styles from './TransactionOverview.module.scss'
 import { useSetToast } from '../../../components/Toast'
 import { useIsMobile, useUpdateSearchParams } from '../../../hooks'
+import styles from './TransactionOverview.module.scss'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
@@ -46,13 +42,6 @@ const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number
     )}
   </TransactionBlockHeightPanel>
 )
-
-const transactionParamsIcon = (show: boolean) => {
-  if (show) {
-    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
-  }
-  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
-}
 
 const TransactionInfoItem = ({
   title,
@@ -118,7 +107,7 @@ export const TransactionOverviewCard: FC<{
   transaction: Transaction
   layout: LayoutLiteProfessional
 }> = ({ txHash, transaction, layout }) => {
-  const [showParams, setShowParams] = useState<boolean>(false)
+  const [detailTab, setDetailTab] = useState<'params' | 'raw' | null>(null)
   const tipBlockNumber = useLatestBlockNumber()
   const {
     blockNumber,
@@ -163,7 +152,7 @@ export const TransactionOverviewCard: FC<{
   const feeWithFeeRateData: CardCellInfo = {
     title: `${t('transaction.transaction_fee')} | ${t('transaction.fee_rate')}`,
     content: (
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
         <Capacity capacity={shannonToCkb(transactionFee)} />
         <span
           style={{
@@ -433,12 +422,24 @@ export const TransactionOverviewCard: FC<{
         <TransactionOverviewPanel>
           <CardCellsLayout type="left-right" cells={overviewItems} borderTop={!isMobile} />
           {isProfessional && (
-            <div className="transactionOverviewInfo">
-              <SimpleButton className="transactionOverviewParameters" onClick={() => setShowParams(!showParams)}>
-                <div>{t('transaction.transaction_parameters')}</div>
-                <img alt="transaction parameters" src={transactionParamsIcon(showParams)} />
-              </SimpleButton>
-              {showParams && (
+            <div>
+              <div className={styles.toggles}>
+                <SimpleButton
+                  className={styles.paramsToggle}
+                  onClick={() => setDetailTab(p => (p === 'params' ? null : 'params'))}
+                >
+                  <div>{t('transaction.transaction_parameters')}</div>
+                  <div className={styles.expandArrow} data-expanded={detailTab === 'params'} />
+                </SimpleButton>
+                <SimpleButton
+                  className={styles.paramsToggle}
+                  onClick={() => setDetailTab(p => (p === 'raw' ? null : 'raw'))}
+                >
+                  <div>{t('transaction.raw_transaction')}</div>
+                  <div className={styles.expandArrow} data-expanded={detailTab === 'raw'} />
+                </SimpleButton>
+              </div>
+              {detailTab === 'params' ? (
                 <div className="transactionOverviewParams">
                   {TransactionParams.map(item => (
                     <TransactionInfoItemPanel key={item.title}>
@@ -450,7 +451,8 @@ export const TransactionOverviewCard: FC<{
                     </TransactionInfoItemPanel>
                   ))}
                 </div>
-              )}
+              ) : null}
+              {detailTab === 'raw' ? <RawTransactionView hash={txHash} /> : null}
             </div>
           )}
         </TransactionOverviewPanel>

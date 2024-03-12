@@ -50,35 +50,6 @@ export const TransactionDiv = styled.div.attrs({
 export const TransactionOverviewPanel = styled.div`
   width: 100%;
 
-  .transactionOverviewInfo {
-    display: flex;
-    flex-direction: column;
-
-    .transactionOverviewParameters {
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      color: ${props => props.theme.primary};
-      display: flex;
-      align-items: center;
-
-      > img {
-        width: 12px;
-        height: 12px;
-        margin: 2px 0 0 5px;
-      }
-
-      @media (max-width: ${variables.mobileBreakPoint}) {
-        font-size: 14px;
-        margin-top: 8px;
-
-        > img {
-          margin: 0 0 0 5px;
-        }
-      }
-    }
-  }
-
   .transactionOverviewParams {
     background: #f5f5f5;
     margin-top: 8px;

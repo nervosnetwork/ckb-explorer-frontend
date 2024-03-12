@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo, useCallback, Dispatch, SetStateAction } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback, Dispatch, SetStateAction, DependencyList } from 'react'
 import {
   AddressPrefix,
   addressToScript,
@@ -10,6 +10,49 @@ import {
 import { interval, share } from 'rxjs'
 import { deprecatedAddrToNewAddr } from '../utils/util'
 import { useParseDate } from '../utils/date'
+
+export function useSyncEffect<T>(factory: () => T, deps: DependencyList): T
+export function useSyncEffect<T>(factory: () => T, cleanup: (creation: T) => void, deps: DependencyList): T
+export function useSyncEffect<T>(
+  factory: () => T,
+  ...restArgs: [DependencyList] | [(creation: T) => void, DependencyList]
+): T {
+  let cleanup: undefined | ((creation: T) => void)
+  let deps: DependencyList
+
+  if (restArgs.length === 1) {
+    ;[deps] = restArgs
+  } else {
+    ;[cleanup, deps] = restArgs
+  }
+
+  const { current } = useRef({
+    deps,
+    obj: undefined as undefined | T,
+    initialized: false,
+    cleanup,
+  })
+
+  // Cleanup when unmount.
+  useEffect(
+    () => () => {
+      if (current.initialized) current.cleanup?.(current.obj!)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  )
+
+  if (current.initialized === false || !depsAreSame(current.deps, deps)) {
+    if (current.initialized) current.cleanup?.(current.obj!)
+
+    current.deps = deps
+    current.obj = factory()
+    current.initialized = true
+    current.cleanup = cleanup
+  }
+
+  return current.obj!
+}
 
 /**
  * Returns the value of the argument from the previous render
@@ -212,6 +255,11 @@ export function useParsedDate(timestamp: number | string): string {
   const parseDate = useParseDate()
   const now = useTimestamp()
   return parseDate(timestamp, now)
+}
+
+function depsAreSame(oldDeps: DependencyList, deps: DependencyList): boolean {
+  if (oldDeps === deps) return true
+  return oldDeps.every((i, idx) => Object.is(i, deps[idx]))
 }
 
 export * from './browser'
