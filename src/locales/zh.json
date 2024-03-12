@@ -368,6 +368,8 @@
       "hash_type": "Hash Type",
       "overview": "概览",
       "user_defined_token": "Simple User Defined Token",
+      "cell": "Cell",
+      "cells": "Cells",
       "inscription": "铭文",
       "confirmation": "确认区块",
       "confirmations": "确认区块",

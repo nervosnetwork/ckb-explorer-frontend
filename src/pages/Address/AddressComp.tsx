@@ -46,6 +46,7 @@ import { Transaction } from '../../models/Transaction'
 import { Address, UDTAccount } from '../../models/Address'
 import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
 import { CardHeader } from '../../components/Card/CardHeader'
+import Cells from './Cells'
 import {
   AddressCoTAComp,
   AddressOmigaInscriptionComp,
@@ -57,6 +58,7 @@ import {
 enum AssetInfo {
   UDT = 1,
   INSCRIPTION,
+  CELLs,
 }
 
 const lockScriptIcon = (show: boolean) => {
@@ -188,11 +190,22 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
     },
   ]
 
+  const hasAssets = udts.length > 0 || (cotaList?.length && cotaList.length > 0)
+  const hasInscriptions = inscriptions.length > 0
+  const hasCells = +address.liveCellsCount > 0
+
   useEffect(() => {
-    if (!udts.length && !cotaList?.length && inscriptions.length) {
-      setActiveTab(AssetInfo.INSCRIPTION)
+    if (hasAssets) {
+      return
     }
-  }, [udts.length, cotaList?.length, inscriptions.length])
+    if (hasInscriptions) {
+      setActiveTab(AssetInfo.INSCRIPTION)
+      return
+    }
+    if (hasCells) {
+      setActiveTab(AssetInfo.CELLs)
+    }
+  }, [hasAssets, hasInscriptions, hasCells, setActiveTab])
 
   return (
     <Card className={styles.addressOverviewCard}>
@@ -200,7 +213,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
 
       <CardCellsLayout type="leftSingle-right" cells={overviewItems} borderTop />
 
-      {udts.length > 0 || (cotaList?.length && cotaList.length > 0) || inscriptions.length > 0 ? (
+      {hasAssets || hasInscriptions || hasCells ? (
         <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
           <AddressAssetsTab animated={false} key={i18n.language} activeKey={activeTab.toString()}>
             {(udts.length > 0 || cotaList?.length) && (
@@ -244,7 +257,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 </div>
               </AddressAssetsTabPane>
             )}
-            {inscriptions.length > 0 && (
+            {hasInscriptions ? (
               <AddressAssetsTabPane
                 tab={
                   <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.INSCRIPTION)}>
@@ -270,7 +283,22 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                   })}
                 </div>
               </AddressAssetsTabPane>
-            )}
+            ) : null}
+
+            {hasCells ? (
+              <AddressAssetsTabPane
+                tab={
+                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.CELLs)}>
+                    {t(`address.${+address.liveCellsCount > 1 ? 'cells' : 'cell'}`)}
+                  </AddressAssetsTabPaneTitle>
+                }
+                key={AssetInfo.CELLs}
+              >
+                <div className="addressUdtAssetsGrid">
+                  <Cells address={address.addressHash} count={+address.liveCellsCount} />
+                </div>
+              </AddressAssetsTabPane>
+            ) : null}
           </AddressAssetsTab>
         </AddressUDTAssetsPanel>
       ) : null}
@@ -410,3 +438,5 @@ export const AddressTransactions = ({
     </>
   )
 }
+
+// FIXME: plural in i18n not work, address.cell and address.cells
