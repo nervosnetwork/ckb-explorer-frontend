@@ -47,6 +47,7 @@
   .content {
     padding: 8px;
     display: flex;
+    line-height: 1;
 
     img {
       margin-right: 8px;
@@ -54,6 +55,12 @@
 
     .assetName {
       color: #666;
+    }
+
+    .fields {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
     }
   }
 }

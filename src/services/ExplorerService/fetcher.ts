@@ -94,7 +94,9 @@ export const apiFetcher = {
         published: boolean
         displayName: string
         uan: string
-        type: 'ckb' | 'udt' | 'nrc_721'
+        type: 'ckb' | 'udt' | 'nrc_721' | 'm_nft'
+        className: string
+        tokenId: string
       }
     }>(`address_live_cells/${address}`, {
       params: {

@@ -122,6 +122,12 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
               assetAmount = '-'
               break
             }
+            case 'm_nft': {
+              icon = SUDTTokenIcon
+              assetName = cell.extraInfo.className
+              assetAmount = `#${parseInt(cell.extraInfo.tokenId, 16)}`
+              break
+            }
             default: {
               icon = SUDTTokenIcon
               assetName = 'UNKNOWN'
@@ -138,7 +144,7 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
               </h5>
               <div className={styles.content}>
                 {icon ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
-                <div>
+                <div className={styles.fields}>
                   <div className={styles.assetName}>{assetName}</div>
                   <div>{assetAmount}</div>
                 </div>
