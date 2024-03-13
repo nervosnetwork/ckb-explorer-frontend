@@ -5,6 +5,7 @@ import { explorerService } from '../../services/ExplorerService'
 import styles from './cells.module.scss'
 import { shannonToCkb } from '../../utils/util'
 import { parseUDTAmount } from '../../utils/number'
+import { PAGE_SIZE } from '../../constants/common'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import CKBTokenIcon from './ckb_token_icon.png'
 
@@ -82,7 +83,9 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
         {cells.map(cell => {
           const ckb = Number(shannonToCkb(cell.capacity)).toLocaleString('en')
           const title = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
-          const link = `/transaction/${cell.txHash}`
+          const link = `/transaction/${cell.txHash}?${new URLSearchParams({
+            page_of_outputs: Math.ceil(+cell.cellIndex / PAGE_SIZE).toString(),
+          })}`
           const assetType: string = cell.extraInfo?.type ?? cell.cellType
           let icon = null
           let assetName = null
@@ -132,7 +135,6 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
               icon = SUDTTokenIcon
               assetName = 'UNKNOWN'
               assetAmount = '-'
-              // ignore
             }
           }
 
@@ -140,7 +142,7 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
             <li key={cell.txHash + cell.cellIndex} className={styles.card}>
               <h5>
                 <a href={link}>{title}</a>
-                <span>{`${ckb} CKB`}</span>
+                <span title={`${ckb} CKB`}>{`${ckb} CKB`}</span>
               </h5>
               <div className={styles.content}>
                 {icon ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
