@@ -5,6 +5,7 @@ import { explorerService } from '../../services/ExplorerService'
 import styles from './cells.module.scss'
 import { shannonToCkb } from '../../utils/util'
 import { parseUDTAmount } from '../../utils/number'
+import { PAGE_SIZE } from '../../constants/common'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import CKBTokenIcon from './ckb_token_icon.png'
 
@@ -82,7 +83,9 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
         {cells.map(cell => {
           const ckb = Number(shannonToCkb(cell.capacity)).toLocaleString('en')
           const title = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
-          const link = `/transaction/${cell.txHash}`
+          const link = `/transaction/${cell.txHash}?${new URLSearchParams({
+            page_of_outputs: Math.ceil(+cell.cellIndex / PAGE_SIZE).toString(),
+          })}`
           const assetType: string = cell.extraInfo?.type ?? cell.cellType
           let icon = null
           let assetName = null
