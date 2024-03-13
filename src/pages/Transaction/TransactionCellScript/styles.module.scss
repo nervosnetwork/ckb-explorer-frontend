@@ -1,0 +1,50 @@
+@import '../../../styles//variables.module.scss';
+
+.button {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  color: var(--primary-color);
+  font-size: 1rem;
+  margin: 0 1rem;
+  padding: 0 0.5rem;
+  white-space: nowrap;
+  width: 130px;
+  height: 40px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid currentcolor;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &:hover {
+    font-weight: bold;
+  }
+
+  &[data-role='copy-script'] {
+    svg {
+      path {
+        fill: currentcolor;
+      }
+    }
+  }
+
+  &[data-role='script-info'] {
+    background: var(--primary-color);
+    color: #fff;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  @media screen and (width < $largeBreakPoint) {
+    height: 30px;
+    font-size: 0.8rem;
+  }
+}

@@ -3,15 +3,14 @@ import { useState, ReactNode, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
+import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import { explorerService } from '../../../services/ExplorerService'
 import { hexToUtf8 } from '../../../utils/string'
 import {
-  TransactionDetailCopyButton,
   TransactionDetailContainer,
   TransactionDetailPanel,
   TransactionCellDetailPanel,
   TransactionCellInfoValuePanel,
-  TransactionDetailScriptButton,
   TransactionCellDetailTab,
   TransactionCellDetailPane,
   TransactionCellDetailTitle,
@@ -23,11 +22,13 @@ import { localeNumberString } from '../../../utils/number'
 import HashTag from '../../../components/HashTag'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
 import { ReactComponent as OuterLinkIcon } from './outer_link_icon.svg'
+import { ReactComponent as ScriptHashIcon } from './script_hash_icon.svg'
 import { HelpTip } from '../../../components/HelpTip'
 import { useSetToast } from '../../../components/Toast'
 import { CellBasicInfo } from '../../../utils/transformer'
 import { isAxiosError } from '../../../utils/error'
 import { Script } from '../../../models/Script'
+import styles from './styles.module.scss'
 
 enum CellInfo {
   LOCK = 1,
@@ -235,11 +236,30 @@ export default ({ cell, onClose }: TransactionCellScriptProps) => {
     },
   )
 
-  const onClickCopy = () => {
-    navigator.clipboard.writeText(getContentJSONWithSnakeCase(content)).then(
-      () => {
-        setToast({ message: t('common.copied') })
-      },
+  const onCopy = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+    const { role } = e.currentTarget.dataset
+
+    let v = ''
+
+    switch (role) {
+      case 'copy-script': {
+        v = getContentJSONWithSnakeCase(content)
+        break
+      }
+      case 'copy-script-hash': {
+        if (isScript(content)) {
+          v = scriptToHash(content as CKBComponents.Script)
+        }
+        break
+      }
+      default: {
+        // ignore
+      }
+    }
+    if (!v) return
+
+    navigator.clipboard.writeText(v).then(
+      () => setToast({ message: t('common.copied') }),
       error => {
         console.error(error)
       },
@@ -308,16 +328,29 @@ export default ({ cell, onClose }: TransactionCellScriptProps) => {
 
         {!isFetched || !content ? null : (
           <div className="transactionDetailCopy">
-            <TransactionDetailCopyButton onClick={onClickCopy}>
+            <button data-role="copy-script" className={styles.button} type="button" onClick={onCopy}>
               <div>{t('common.copy')}</div>
               <CopyIcon />
-            </TransactionDetailCopyButton>
+            </button>
 
             {isScript(content) ? (
-              <TransactionDetailScriptButton href={`/script/${content.codeHash}/${content.hashType}`} target="_blank">
-                <div>{t('scripts.script')}</div>
+              <button data-role="copy-script-hash" className={styles.button} type="button" onClick={onCopy}>
+                <div>Script Hash</div>
+                <ScriptHashIcon />
+              </button>
+            ) : null}
+
+            {isScript(content) ? (
+              <a
+                data-role="script-info"
+                className={styles.button}
+                href={`/script/${content.codeHash}/${content.hashType}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div>{`${t('scripts.script')} Info`}</div>
                 <OuterLinkIcon />
-              </TransactionDetailScriptButton>
+              </a>
             ) : null}
           </div>
         )}
