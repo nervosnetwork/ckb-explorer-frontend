@@ -13,7 +13,7 @@ interface ToastMessage {
 const getColor = (type: ToastMessage['type']) => {
   switch (type) {
     case 'success':
-      return '#3cc68a'
+      return 'var(--primary-color)'
     case 'warning':
       return '#ffae42'
     case 'danger':
