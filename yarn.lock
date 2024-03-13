@@ -3539,21 +3539,21 @@
     pump "^3.0.0"
     tar-fs "^2.1.1"
 
-"@nervosnetwork/ckb-sdk-utils@0.109.0":
-  version "0.109.0"
-  resolved "https://registry.yarnpkg.com/@nervosnetwork/ckb-sdk-utils/-/ckb-sdk-utils-0.109.0.tgz#4ac4b70f5649bd641c6cc35c70e0130f043cc98f"
-  integrity sha512-/lqq9qU2COhQZx6chfTzASbB+v9dFxX5WfdKpvMNvRT6tOHRGTVRgjBBS++GXLKpmn1934EJOlYOc6Peeo7g6g==
+"@nervosnetwork/ckb-sdk-utils@0.109.1":
+  version "0.109.1"
+  resolved "https://registry.yarnpkg.com/@nervosnetwork/ckb-sdk-utils/-/ckb-sdk-utils-0.109.1.tgz#f35d92a96b377f0e6979db609098227001a5e7a5"
+  integrity sha512-KK8w+JZGPt/Gq/Y0b87AuQp8mGR46fBSkqnjwASdBAi2rts9tJ6srEaZ3FVVa9LtjTlThQ120hex+mcyastrkQ==
   dependencies:
-    "@nervosnetwork/ckb-types" "0.109.0"
+    "@nervosnetwork/ckb-types" "0.109.1"
     bech32 "2.0.0"
     elliptic "6.5.4"
     jsbi "3.1.3"
     tslib "2.3.1"
 
-"@nervosnetwork/ckb-types@0.109.0":
-  version "0.109.0"
-  resolved "https://registry.yarnpkg.com/@nervosnetwork/ckb-types/-/ckb-types-0.109.0.tgz#efcd1d96f1d3e21b20bb0c9d38e80b83e90ef827"
-  integrity sha512-ZB3zpotHP8KDTex9Jxv7vi3sxVEqWijQjDmNA9laIEk01aoKVMyBZ09ByKuU46/88qgjmDsu3Ob7HqGaoFVtKQ==
+"@nervosnetwork/ckb-types@0.109.1":
+  version "0.109.1"
+  resolved "https://registry.yarnpkg.com/@nervosnetwork/ckb-types/-/ckb-types-0.109.1.tgz#1e8b0abe0ae0227306d6a3f65cb670bcd4cf276f"
+  integrity sha512-mD5mOCGa1JertKZekHSUVYwFPW27VJ0/MdwblWvEEK7pNIU6az+dLiIxgvl4TxR+j+7/GqmXNH1U59CM92y/wg==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
