@@ -17,7 +17,6 @@
 }
 
 .card {
-  flex-basis: 248px;
   min-height: 86px;
   background: #fff;
   border-radius: 4px;
@@ -35,12 +34,21 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    &:hover {
-      a {
+    a {
+      margin-right: 8px;
+
+      &:hover {
         font-weight: bold;
         color: #fff;
         text-decoration: underline;
       }
+    }
+
+    span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: default;
     }
   }
 

@@ -135,7 +135,6 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
               icon = SUDTTokenIcon
               assetName = 'UNKNOWN'
               assetAmount = '-'
-              // ignore
             }
           }
 
@@ -143,7 +142,7 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
             <li key={cell.txHash + cell.cellIndex} className={styles.card}>
               <h5>
                 <a href={link}>{title}</a>
-                <span>{`${ckb} CKB`}</span>
+                <span title={`${ckb} CKB`}>{`${ckb} CKB`}</span>
               </h5>
               <div className={styles.content}>
                 {icon ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
