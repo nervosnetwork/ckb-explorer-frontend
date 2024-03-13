@@ -9,6 +9,9 @@ import { getPrimaryColor } from '../../../constants/common'
 
 const primaryColor = getPrimaryColor()
 
+// TODO: add docs of this id
+const UNIQUE_ITEMS_CLUSTER_ID = '0xcf9e0cdbd169550492b29d3d1181d27048ab80126b797840965d2864607a892d'
+
 const NftCollectionOverview = ({ id }: { id: string }) => {
   const { t } = useTranslation()
   const { isLoading, data: info } = useQuery(['collection-info', id], () => explorerService.api.fetchNFTCollection(id))
@@ -47,28 +50,30 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
             : `${(info?.holders_count ?? 0).toLocaleString('en')}/${(info?.items_count ?? 0).toLocaleString('en')}`}
         </dd>
       </dl>
-      <dl>
-        <dt>{t(`nft.minter_address`)}</dt>
-        <dd>
-          {isLoading ? t(`nft.loading`) : null}
+      {id === UNIQUE_ITEMS_CLUSTER_ID ? null : (
+        <dl>
+          <dt>{t(`nft.minter_address`)}</dt>
+          <dd>
+            {isLoading ? t(`nft.loading`) : null}
 
-          {!isLoading && info?.creator ? (
-            <Tooltip title={info.creator}>
-              <Link
-                to={`/address/${info.creator}`}
-                title={info.creator}
-                className="monospace"
-                style={{
-                  color: primaryColor,
-                  fontWeight: 700,
-                }}
-              >{`${info.creator.slice(0, 12)}...${info.creator.slice(-12)}`}</Link>
-            </Tooltip>
-          ) : (
-            '-'
-          )}
-        </dd>
-      </dl>
+            {!isLoading && info?.creator ? (
+              <Tooltip title={info.creator}>
+                <Link
+                  to={`/address/${info.creator}`}
+                  title={info.creator}
+                  className="monospace"
+                  style={{
+                    color: primaryColor,
+                    fontWeight: 700,
+                  }}
+                >{`${info.creator.slice(0, 12)}...${info.creator.slice(-12)}`}</Link>
+              </Tooltip>
+            ) : (
+              '-'
+            )}
+          </dd>
+        </dl>
+      )}
     </div>
   )
 }
