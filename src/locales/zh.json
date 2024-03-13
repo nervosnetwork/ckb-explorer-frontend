@@ -609,6 +609,7 @@
       "view-burn-txns": "查看销毁交易",
       "address-or-hash": "交易哈希 / 地址",
       "address": "地址",
+      "inscription": "铭文",
       "inscriptions": "铭文",
       "status": "状态",
       "progress": "进度",

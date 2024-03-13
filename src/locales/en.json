@@ -608,6 +608,7 @@
       "view-burn-txns": "View Burn Txns",
       "address-or-hash": "Transaction Hash / Address",
       "address": "Address",
+      "inscription": "Inscription",
       "inscriptions": "Inscriptions",
       "status": "Status",
       "progress": "Progress",
