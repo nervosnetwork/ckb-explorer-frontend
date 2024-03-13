@@ -35,12 +35,25 @@
     text-overflow: ellipsis;
 
     a {
-      margin-right: 8px;
-
       &:hover {
         font-weight: bold;
         color: #fff;
         text-decoration: underline;
+      }
+    }
+
+    .copy {
+      appearance: none;
+      border: none;
+      background: none;
+      width: 14px;
+      cursor: pointer;
+      margin-right: 8px;
+      height: 14px;
+
+      svg {
+        pointer-events: none;
+        height: 14px;
       }
     }
 
@@ -49,6 +62,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
       cursor: default;
+      flex: 1;
+      text-align: right;
     }
   }
 
@@ -57,12 +72,36 @@
     display: flex;
     line-height: 1;
 
-    img {
+    img,
+    svg {
       margin-right: 8px;
     }
 
     .assetName {
       color: #666;
+    }
+
+    .attribute {
+      display: flex;
+    }
+
+    .copy {
+      appearance: none;
+      border: none;
+      background: none;
+      width: 14px;
+      cursor: pointer;
+
+      &:hover {
+        svg {
+          stroke: var(--primary-color);
+        }
+      }
+
+      svg {
+        pointer-events: none;
+        height: 14px;
+      }
     }
 
     .fields {
