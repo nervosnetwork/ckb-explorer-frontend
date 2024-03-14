@@ -1,9 +1,9 @@
-import { Transfer } from './types'
 import styles from './styles.module.scss'
 import { parseBTCAddress } from '../../../utils/bitcoin'
 import { TransactionRGBPPDigestTransferAsset } from './TransactionRGBPPDigestTransferAsset'
+import { TransactionRecord } from '../../../services/ExplorerService'
 
-export const TransactionRGBPPDigestTransfer = ({ transfer }: { transfer: Transfer }) => {
+export const TransactionRGBPPDigestTransfer = ({ transfer }: { transfer: TransactionRecord }) => {
   const address = parseBTCAddress(transfer.address)
 
   let addressType = ''
