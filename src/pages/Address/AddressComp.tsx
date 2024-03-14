@@ -125,7 +125,7 @@ const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
   )
 }
 
-export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
+export const AddressOverviewCard: FC<{ address: Address; isRGBPP: boolean }> = ({ address, isRGBPP }) => {
   const { t, i18n } = useTranslation()
   const { udtAccounts = [] } = address
   const [activeTab, setActiveTab] = useState<AssetInfo>(AssetInfo.UDT)
@@ -210,8 +210,6 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
     }
   }, [hasAssets, hasInscriptions, hasCells, setActiveTab])
 
-  const isRGBPP = true
-
   return (
     <Card className={styles.addressOverviewCard}>
       <div className={styles.cardTitle}>{t('address.overview')}</div>
@@ -237,7 +235,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                         case 'sudt':
                           return (
                             <AddressSudtComp
-                              isRGBPP={isRGBPP}
+                              isRGBPP={false}
                               account={udt}
                               key={udt.symbol + udt.udtType + udt.amount}
                             />
@@ -246,7 +244,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                         case 'spore_cell':
                           return (
                             <AddressSporeComp
-                              isRGBPP={isRGBPP}
+                              isRGBPP={false}
                               account={udt}
                               key={udt.symbol + udt.udtType + udt.amount}
                             />
@@ -255,7 +253,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                         case 'm_nft_token':
                           return (
                             <AddressMNFTComp
-                              isRGBPP={isRGBPP}
+                              isRGBPP={false}
                               account={udt}
                               key={udt.symbol + udt.udtType + udt.amount}
                             />
@@ -266,7 +264,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                     })}
                     {cotaList?.map(cota => (
                       <AddressCoTAComp
-                        isRGBPP={isRGBPP}
+                        isRGBPP={false}
                         account={{
                           udtType: 'cota',
                           symbol: cota.collection.name,
@@ -299,7 +297,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                         case 'omiga_inscription':
                           return (
                             <AddressOmigaInscriptionComp
-                              isRGBPP={isRGBPP}
+                              isRGBPP={false}
                               account={inscription}
                               key={`${inscription.symbol + inscription.udtType + inscription.udtAmount}`}
                             />
@@ -313,7 +311,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 </AddressUDTAssetsContent>
               </AddressAssetsTabPane>
             ) : null}
-            {(hasInscriptions || hasAssets) && (
+            {isRGBPP && (hasInscriptions || hasAssets) && (
               <AddressAssetsTabPane
                 tab={
                   <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.RGBPP)}>
@@ -327,18 +325,12 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                     {udts.map(udt => {
                       switch (udt.udtType) {
                         case 'sudt':
-                          return (
-                            <AddressSudtComp
-                              isRGBPP={isRGBPP}
-                              account={udt}
-                              key={udt.symbol + udt.udtType + udt.amount}
-                            />
-                          )
+                          return <AddressSudtComp isRGBPP account={udt} key={udt.symbol + udt.udtType + udt.amount} />
 
                         case 'spore_cell':
                           return (
                             <AddressSporeComp
-                              isRGBPP={isRGBPP}
+                              isRGBPP
                               account={udt}
                               udtLabel="nft"
                               key={udt.symbol + udt.udtType + udt.amount}
@@ -348,7 +340,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                         case 'm_nft_token':
                           return (
                             <AddressMNFTComp
-                              isRGBPP={isRGBPP}
+                              isRGBPP
                               account={udt}
                               udtLabel="nft"
                               key={udt.symbol + udt.udtType + udt.amount}
@@ -360,7 +352,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                     })}
                     {cotaList?.map(cota => (
                       <AddressCoTAComp
-                        isRGBPP={isRGBPP}
+                        isRGBPP
                         udtLabel="nft"
                         account={{
                           udtType: 'cota',
@@ -379,7 +371,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                         case 'omiga_inscription':
                           return (
                             <AddressOmigaInscriptionComp
-                              isRGBPP={isRGBPP}
+                              isRGBPP
                               account={inscription}
                               udtLabel="inscription"
                               key={`${inscription.symbol + inscription.udtType + inscription.udtAmount}`}
