@@ -29,7 +29,7 @@ body[data-chain-type='testnet'] {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Lato, sans-serif, Montserrat, 'PingFang SC', -apple-system;
+  font-family: Roboto, Lato, sans-serif, Montserrat, 'PingFang SC', -apple-system;
 }
 
 .monospace {
