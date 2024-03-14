@@ -73,7 +73,7 @@ const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) =
   return (
     <div key={token.typeHash} className={styles.tokenInfo}>
       <span>
-        {isOmigaInscriptionCollection(token) && !token.published && (
+        {isOmigaInscriptionCollection(token) && token.isRepeatedSymbol && (
           <Tooltip placement="topLeft" title={t('udt.repeat_inscription_symbol')} arrowPointAtCenter>
             <WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />
           </Tooltip>
@@ -220,7 +220,7 @@ const TokenTable: FC<{
         return (
           <div className={styles.container}>
             <div className={styles.warningIcon}>
-              {isOmigaInscriptionCollection(token) && !token.published && (
+              {isOmigaInscriptionCollection(token) && token.isRepeatedSymbol && (
                 <Tooltip title={t('udt.repeat_inscription_symbol')}>
                   <WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />
                 </Tooltip>
