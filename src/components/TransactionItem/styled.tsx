@@ -30,7 +30,7 @@ export const TransactionHashBlockPanel = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-bottom: 10px;
 
     @media (max-width: ${variables.mobileBreakPoint}) {
@@ -120,4 +120,18 @@ export const TransactionCellPanel = styled.div`
 
 export const FullPanel = styled.div`
   width: 100%;
+`
+
+export const RGBPlusPlus = styled.div`
+  color: rgb(51 51 51 / 100%);
+  display: flex;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 14px;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 22px;
+  background: linear-gradient(90.24deg, #ffd176 0.23%, #ffdb81 6.7%, #84ffcb 99.82%);
+  vertical-align: middle;
 `

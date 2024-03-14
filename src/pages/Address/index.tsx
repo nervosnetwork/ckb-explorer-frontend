@@ -22,6 +22,8 @@ import { ReactComponent as ShareIcon } from './share.svg'
 import styles from './styles.module.scss'
 import { useDASAccount } from '../../hooks/useDASAccount'
 import { Link } from '../../components/Link'
+import { isValidBTCAddress } from '../../utils/bitcoin'
+import config from '../../config'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
@@ -99,6 +101,11 @@ export const Address = () => {
     pending: pendingTransactionCountQuery.data?.total ?? '-',
   }
 
+  let isRGBPP = false
+  if (isValidBTCAddress(address)) {
+    isRGBPP = true
+  }
+
   const newAddr = useNewAddr(address)
   const deprecatedAddr = useDeprecatedAddr(address)
   const counterpartAddr = newAddr === address ? deprecatedAddr : newAddr
@@ -118,7 +125,7 @@ export const Address = () => {
                 >
                   <Link
                     className={styles.openInNew}
-                    to={`/address/${counterpartAddr}`}
+                    to={`${isRGBPP ? config.BTCOIN_EXPLORER : ''}/address/${counterpartAddr}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

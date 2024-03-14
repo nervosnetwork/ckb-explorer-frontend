@@ -5,7 +5,14 @@ import { ReactNode } from 'react'
 import { pick } from '../../utils/object'
 import { toCamelcase } from '../../utils/util'
 import { requesterV1, requesterV2 } from './requester'
-import { ChartItem, NervosDaoDepositor, Response, SupportedExportTransactionType, TransactionRecord } from './types'
+import {
+  ChartItem,
+  NervosDaoDepositor,
+  RGBDigest,
+  Response,
+  SupportedExportTransactionType,
+  TransactionRecord,
+} from './types'
 import { assert } from '../../utils/error'
 import { Cell } from '../../models/Cell'
 import { Script } from '../../models/Script'
@@ -138,6 +145,11 @@ export const apiFetcher = {
 
   fetchTransactionByHash: (hash: string, displayCells: boolean = false) =>
     v1GetUnwrapped<Transaction>(`transactions/${hash}?display_cells=${displayCells}`),
+
+  fetchRGBDigest: (hash: string) =>
+    requesterV2
+      .get(`ckb_transactions/${hash}/rgb_digest`)
+      .then(res => toCamelcase<Response.Response<RGBDigest>>(res.data)),
 
   fetchCellsByTxHash: (hash: string, type: 'inputs' | 'outputs', page: Record<'no' | 'size', number>) =>
     requesterV2
@@ -938,6 +950,7 @@ export interface ScriptInfo {
 }
 
 export interface CKBTransactionInScript {
+  rgbTransaction: boolean
   id: number
   txHash: string
   blockId: number

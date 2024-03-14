@@ -36,7 +36,9 @@
     "react-router-dom": "5.3.4",
     "react-scripts": "5.0.1",
     "sass": "1.70.0",
-    "styled-components": "5.3.11"
+    "styled-components": "5.3.11",
+    "bech32": "2.0.0",
+    "bs58": "5.0.0"
   },
   "devDependencies": {
     "@sentry/webpack-plugin": "2.10.3",
