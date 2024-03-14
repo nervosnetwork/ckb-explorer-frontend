@@ -63,7 +63,7 @@ const Search: FC<{
     refetch: refetchSearchById,
     data: urlByIdSearch,
     isFetching: isFetchingById,
-  } = useQuery(['searchById', searchValue], () => getURLByIdSearch(addPrefixForHash(searchValue)), {
+  } = useQuery(['searchById', searchValue], () => getURLByIdSearch(searchValue), {
     enabled: false,
     cacheTime: 0,
   })
@@ -194,8 +194,12 @@ const SearchInput: FC<
 }
 
 const getURLByIdSearch = async (searchValue: string) => {
+  // check whether is btc address
+  if (isBtcAddress(searchValue)) {
+    return `/address/${searchValue}`
+  }
   // TODO: Is this replace needed?
-  const query = searchValue.replace(',', '')
+  const query = addPrefixForHash(searchValue).replace(',', '')
   if (!query || containSpecialChar(query)) {
     return `/search/fail?q=${query}`
   }
@@ -225,6 +229,9 @@ const getURLByIdSearch = async (searchValue: string) => {
       case SearchResultType.UDT:
         return data.attributes.udtType === 'omiga_inscription' ? `/inscription/${query}` : `/sudt/${query}`
 
+      case SearchResultType.BTC_TX:
+        return `/transaction/${attributes.transactionHash}`
+
       default:
         break
     }
@@ -242,6 +249,11 @@ const getURLByIdSearch = async (searchValue: string) => {
 
     return `/search/fail?q=${query}`
   }
+}
+
+const isBtcAddress = (value: string) => {
+  // check Pay-to-Public-Key-Hash and SegWit
+  return /\b[13][a-km-zA-HJ-NP-Z1-9]{25,34}\b/.test(value) || /bc1[a-z0-9]{38,59}\b/.test(value)
 }
 
 export default Search
