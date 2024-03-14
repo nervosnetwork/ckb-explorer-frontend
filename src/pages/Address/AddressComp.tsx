@@ -404,9 +404,9 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 }
                 key={AssetInfo.CELLs}
               >
-                <div className="addressUdtAssetsGrid">
+                <AddressUDTAssetsList>
                   <Cells address={address.addressHash} count={+address.liveCellsCount} />
-                </div>
+                </AddressUDTAssetsList>
               </AddressAssetsTabPane>
             ) : null}
           </AddressAssetsTab>
