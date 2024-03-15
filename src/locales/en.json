@@ -297,7 +297,9 @@
       "nominal_rpc_description": "The nominal compensation rate provided by DAO when there is no burnt portion in the secondary issuance. The real compensation rate is always higher than the nominal compensation rate.",
       "secondary_issuance_description": "The secondary issuance is automatically divided into three parts, the compensation, the mining reward and the treasury (burnt by now). They are proportional to the DAO deposit, the storage occupation, and the rest of CKBytes.",
       "inflation_rate_description": "Nominal inflation rate: the inflation introduced by the the primary issuance and the secondary issuance. \nNominal APC: the anti-dilution compensation rate of Nervos DAO.\nReal inflation rate: the compound inflation rate that nominal inflation rate minus the nominal APC, which is gradually to zero.",
-      "node_count_in_total": "in total"
+      "node_count_in_total": "in total",
+      "ckb_amount": "CKB Amount",
+      "contract_resource_distributed": "Contract Resource Distributed"
     },
     "home": {
       "height": "Height",

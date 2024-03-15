@@ -296,7 +296,9 @@
       "nominal_rpc_description": "二级发行全部释放到市场上时的 DAO 名义补偿率，该数值会比实际补偿率偏低。",
       "secondary_issuance_description": "二级发行会被自动分成三部分，包括补偿、矿工奖励和财政部（目前为销毁）。他们分别与 DAO 存款量、存储占用量和其余部分的 CKB 成正比。",
       "inflation_rate_description": "名义通胀率：由一二级增发直接造成的增发比例\n名义补偿率：Nervos DAO 提供的反稀释补偿率\n实际通胀率：考虑补偿率下的实际通胀率，逐渐趋向于0",
-      "node_count_in_total": "总共"
+      "node_count_in_total": "总共",
+      "ckb_amount": "CKB 数量",
+      "contract_resource_distributed": "合约资源分布图"
     },
     "home": {
       "height": "高度",

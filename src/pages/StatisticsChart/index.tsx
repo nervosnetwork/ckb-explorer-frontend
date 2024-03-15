@@ -14,6 +14,7 @@ import { DifficultyChart } from './mining/Difficulty'
 import { HashRateChart } from './mining/HashRate'
 import { UncleRateChart } from './mining/UncleRate'
 import { BalanceDistributionChart } from './activities/BalanceDistribution'
+import { ContractResourceDistributedChart } from './activities/ContractResourceDistributed'
 import { TxFeeHistoryChart } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart } from './block/BlockTimeDistribution'
 import { EpochTimeDistributionChart } from './block/EpochTimeDistribution'
@@ -169,6 +170,12 @@ const useChartsData = () => {
           chart: <TxFeeHistoryChart isThumbnail />,
           path: '/charts/tx-fee-history',
           description: t('statistic.tx_fee_description'),
+        },
+        {
+          title: `${t('statistic.contract_resource_distributed')}`,
+          chart: <ContractResourceDistributedChart isThumbnail />,
+          path: '/charts/contract-resource-distributed',
+          description: t('statistic.contract_resource_distributed'),
         },
       ],
     },

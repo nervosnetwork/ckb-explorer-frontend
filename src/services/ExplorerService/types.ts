@@ -86,6 +86,14 @@ export namespace ChartItem {
     createdAtUnixtimestamp: string
   }
 
+  export interface ContractResourceDistributed {
+    name: string
+    codeHash: string
+    addressCount: string
+    capacityAmount: string
+    txCount: string
+  }
+
   export interface DifficultyUncleRateEpoch {
     epochNumber: string
     epochTime: string
