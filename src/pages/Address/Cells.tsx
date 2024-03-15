@@ -151,7 +151,7 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
             }
             case 'spore_cell': {
               icon = <SporeCellIcon />
-              assetName = 'Spore'
+              assetName = 'DOB'
               if (cell.data.length > ATTRIBUTE_LENGTH) {
                 attribute = `${cell.data.slice(0, ATTRIBUTE_LENGTH)}...`
               } else {

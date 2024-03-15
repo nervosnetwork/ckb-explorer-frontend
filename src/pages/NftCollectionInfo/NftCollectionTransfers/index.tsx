@@ -16,11 +16,13 @@ import { useCurrentLanguage } from '../../../utils/i18n'
 
 const primaryColor = getPrimaryColor()
 
+/* eslint-disable react/no-unused-prop-types */
 interface TransferCollectionProps {
   collection: string
   iconURL?: string | null
   list: TransferListRes['data']
   isLoading: boolean
+  standard?: string
 }
 
 const NftCollectionTransfers: FC<TransferCollectionProps> = props => {
@@ -32,14 +34,14 @@ const NftCollectionTransfers: FC<TransferCollectionProps> = props => {
 
   return (
     <div className={styles.list}>
-      <TransferTable {...props} iconURL={info?.icon_url} />
+      <TransferTable {...props} standard={info?.standard} iconURL={info?.icon_url} />
       <TransferCardGroup {...props} iconURL={info?.icon_url} />
     </div>
   )
 }
 NftCollectionTransfers.displayName = 'NftTransfers'
 
-const TransferTable: FC<TransferCollectionProps> = ({ collection, iconURL, list, isLoading }) => {
+const TransferTable: FC<TransferCollectionProps> = ({ standard, collection, iconURL, list, isLoading }) => {
   const [isShowInAge, setIsShowInAge] = useState(false)
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
@@ -49,7 +51,7 @@ const TransferTable: FC<TransferCollectionProps> = ({ collection, iconURL, list,
     <table>
       <thead>
         <tr>
-          <th>{t('nft.nft')}</th>
+          <th>{t(`nft.${standard === 'spore' ? 'dob' : 'nft'}`)}</th>
           <th>{t('nft.tx_hash')}</th>
           <th>{t('nft.action')}</th>
           <th>
@@ -123,11 +125,13 @@ const TransferTableRow: FC<{
           />
         )
       }
+      return <img src="/images/spore_placeholder.svg" alt="cover" loading="lazy" className={styles.icon} />
     }
 
     if (coverUrl) {
       return (
         <img
+          data-protocol={standard}
           src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.item.token_id}`}
           alt="cover"
           loading="lazy"

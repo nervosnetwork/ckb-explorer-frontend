@@ -16,6 +16,8 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
   const { t } = useTranslation()
   const { isLoading, data: info } = useQuery(['collection-info', id], () => explorerService.api.fetchNFTCollection(id))
 
+  const standard = info?.standard === 'spore' ? 'dob' : info?.standard
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -28,7 +30,11 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
             loading="lazy"
           />
         ) : (
-          <img alt="logo" src="/images/nft_placeholder.png" loading="lazy" />
+          <img
+            alt="logo"
+            src={info?.standard === 'spore' ? '/images/spore_placeholder.svg' : '/images/nft_placeholder.png'}
+            loading="lazy"
+          />
         )}
         <span>{isLoading ? t(`nft.loading`) : info?.name}</span>
       </div>
@@ -37,7 +43,7 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
         <dt>{t(`nft.standard`)}</dt>
         <dd>
           {isLoading ? t(`nft.loading`) : null}
-          {!isLoading && info?.standard ? t(`nft.${info?.standard}`) : `-`}
+          {!isLoading && standard ? t(`nft.${standard}`) : `-`}
         </dd>
       </dl>
       <dl>

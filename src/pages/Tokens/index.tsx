@@ -360,85 +360,34 @@ const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
   const totalPages = Math.ceil(total / pageSize)
 
   return (
-    // {/* <> */}
-    // {/*   <Content> */}
-    // {/*     <TokensPanel className="container"> */}
-    // {/*       <div className="tokensTitlePanel"> */}
-    // {/*         <span>{isInscription ? t('udt.inscriptions') : t('udt.tokens')}</span> */}
-    // {/*       </div> */}
-    // {/*       <TokensTableTitle> */}
-    // {/*         {!isMobile && <span>{t('udt.uan_name')}</span>} */}
-    // {/*         {isInscription && ( */}
-    // {/*           <span className={styles.colStatus}> */}
-    // {/*             {t('udt.status')} */}
-    // {/*             <SortButton field="mint_status" sortParam={sortParam} /> */}
-    // {/*           </span> */}
-    // {/*         )} */}
-    // {/*         <span> */}
-    // {/*           {t('udt.transactions')} */}
-    // {/*           <SortButton field="transactions" sortParam={sortParam} /> */}
-    // {/*         </span> */}
-    // {/*         <span> */}
-    // {/*           {t('udt.address_count')} */}
-    // {/*           <SortButton field="addresses_count" sortParam={sortParam} /> */}
-    // {/*         </span> */}
-    // {/*         <span> */}
-    // {/*           {t('udt.created_time')} */}
-    // {/*           <SortButton field="created_time" sortParam={sortParam} /> */}
-    // {/*         </span> */}
-    // {/*       </TokensTableTitle> */}
+    <Content>
+      <TokensPanel className="container">
+        <div className="tokensTitlePanel">
+          <span>{isInscription ? t('udt.inscriptions') : t('udt.tokens')}</span>
+          <button
+            type="button"
+            className={styles.submitTokenInfoBtn}
+            onClick={() => setIsSubmitTokenInfoModalOpen(true)}
+          >
+            {t('udt.submit_token_info')}
+          </button>
+        </div>
 
-    // {/*       <QueryResult */}
-    // {/*         query={query} */}
-    // {/*         errorRender={() => <TokensContentEmpty>{t('udt.tokens_empty')}</TokensContentEmpty>} */}
-    // {/*         loadingRender={() => ( */}
-    // {/*           <TokensLoadingPanel>{isMobile ? <SmallLoading /> : <Loading show />}</TokensLoadingPanel> */}
-    // {/*         )} */}
-    // {/*       > */}
-    // {/*         {data => ( */}
-    // {/*           <TokensTableContent> */}
-    // {/*             {data && */}
-    // {/*               data.tokens.map((token, index) => ( */}
-    // {/*                 <TokenItem key={token.typeHash} token={token} isLast={index === data.tokens.length - 1} /> */}
-    // {/*               ))} */}
-    // {/*           </TokensTableContent> */}
-    // {/*         )} */}
-    // {/*       </QueryResult> */}
+        {isMobile ? (
+          <TokensCard isInscription={isInscription} query={query} sortParam={sortParam} />
+        ) : (
+          <TokenTable isInscription={isInscription} query={query} sortParam={sortParam} />
+        )}
 
-    // {/*       <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setPage} /> */}
-    // {/*     </TokensPanel> */}
-    // {/*   </Content> */}
-    // {/* </> */}
-    <>
-      <Content>
-        <TokensPanel className="container">
-          <div className="tokensTitlePanel">
-            <span>{isInscription ? t('udt.inscriptions') : t('udt.tokens')}</span>
-            <button
-              type="button"
-              className={styles.submitTokenInfoBtn}
-              onClick={() => setIsSubmitTokenInfoModalOpen(true)}
-            >
-              {t('udt.submit_token_info')}
-            </button>
-          </div>
-
-          {isMobile ? (
-            <TokensCard isInscription={isInscription} query={query} sortParam={sortParam} />
-          ) : (
-            <TokenTable isInscription={isInscription} query={query} sortParam={sortParam} />
-          )}
-
-          <Pagination
-            className={styles.pagination}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onChange={setPage}
-          />
-        </TokensPanel>
-        {isSubmitTokenInfoModalOpen ? <SubmitTokenInfo onClose={() => setIsSubmitTokenInfoModalOpen(false)} /> : null}
-      </Content>
-    </>
+        <Pagination
+          className={styles.pagination}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChange={setPage}
+        />
+      </TokensPanel>
+      {isSubmitTokenInfoModalOpen ? <SubmitTokenInfo onClose={() => setIsSubmitTokenInfoModalOpen(false)} /> : null}
+    </Content>
   )
 }
 

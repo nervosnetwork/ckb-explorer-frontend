@@ -56,6 +56,7 @@ const NftCollectionInventory: React.FC<{
           />
         )
       }
+      return <img src="/images/spore_placeholder.svg" alt="cover" loading="lazy" className={styles.cover} />
     }
 
     if (coverUrl) {

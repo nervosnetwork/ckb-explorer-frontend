@@ -35,7 +35,7 @@ function useFilterList(): Record<'title' | 'value', string>[] {
     },
     {
       value: 'spore',
-      title: t('nft.spore'),
+      title: t('nft.dobs'),
     },
   ]
 }
@@ -140,7 +140,7 @@ const TypeInfo: React.FC<{ nft: NFTCollection }> = ({ nft: item }) => {
         />
       }
     >
-      {t(`nft.${item.standard}`)}
+      {t(`nft.${item.standard === 'spore' ? 'dobs' : item.standard}`)}
     </Tooltip>
   ) : (
     t(`nft.${item.standard}`)
@@ -302,7 +302,14 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
                         onError={handleNftImgError}
                       />
                     ) : (
-                      <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
+                      <img
+                        src={
+                          item.standard === 'spore' ? '/images/spore_placeholder.svg' : '/images/nft_placeholder.png'
+                        }
+                        alt="cover"
+                        loading="lazy"
+                        className={styles.icon}
+                      />
                     )}
                     <Link
                       to={`/nft-collections/${typeHash || item.id}`}

@@ -55,10 +55,12 @@ const NftInfo = () => {
             src={`data:${sporeData.contentType};base64,${base64data}`}
             alt="cover"
             loading="lazy"
+            data-protocol={standard}
             className={styles.cover}
           />
         )
       }
+      return <img src="/images/spore_placeholder.svg" alt="cover" loading="lazy" className={styles.cover} />
     }
 
     if (coverUrl) {
@@ -142,7 +144,9 @@ const NftInfo = () => {
             </div>
             <div className={styles.item}>
               <div>{t('nft.standard')}</div>
-              <div>{data ? t(`nft.${data.collection.standard}`) : '-'}</div>
+              <div>
+                {data ? t(`nft.${data.collection.standard === 'spore' ? 'dob' : data.collection.standard}`) : '-'}
+              </div>
             </div>
           </div>
         </div>

@@ -63,7 +63,7 @@ export const AddressSudtComp = ({ account }: { account: SUDT }) => {
 
 export const AddressSporeComp = ({ account }: { account: Spore }) => {
   const { symbol, amount, udtIconFile, collection } = account
-  const [icon, setIcon] = useState(udtIconFile)
+  const [icon, setIcon] = useState('/images/spore_placeholder.svg')
   if (udtIconFile) {
     const sporeData = parseSporeCellData(udtIconFile)
     if (sporeData.content.slice(0, 5) === 'image') {
@@ -77,8 +77,8 @@ export const AddressSporeComp = ({ account }: { account: Spore }) => {
       href={`/nft-collections/${collection?.typeHash}`}
       property={`id: ${id.slice(0, 8)}...${id.slice(-8)}`}
       name={sliceNftName(symbol)}
-      udtLabel="Spore"
-      icon={{ url: patchMibaoImg(icon), errorHandler: handleNftImgError }}
+      udtLabel="DOB"
+      icon={{ url: icon, errorHandler: handleNftImgError }}
     />
   )
 }
