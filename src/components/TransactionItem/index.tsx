@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
+import styles from './styles.module.scss'
 import RightArrowIcon from './input_arrow_output.png'
 import DownArrowIcon from './input_arrow_output_down.png'
 import { localeNumberString } from '../../utils/number'
@@ -124,36 +125,40 @@ const TransactionItem = ({
       {titleCard}
       <TransactionHashBlockPanel>
         <div className="transactionItemContent">
-          <AddressText
-            disableTooltip
-            className="transactionItemHash"
-            linkProps={{
-              to: `/transaction/${transaction.transactionHash}`,
-            }}
-          >
-            {transaction.transactionHash}
-          </AddressText>
-          {transaction.rgbTransaction && (
-            <SimpleButton
-              onClick={() => {
-                setShowModal(true)
+          <div className={styles.left}>
+            <AddressText
+              disableTooltip
+              className="transactionItemHash"
+              linkProps={{
+                to: `/transaction/${transaction.transactionHash}`,
               }}
             >
-              <RGBPlusPlus>
-                <span>RGB++</span>
-              </RGBPlusPlus>
-            </SimpleButton>
-          )}
-          <SimpleModal isShow={showModal} setIsShow={setShowModal}>
-            <TransactionRGBPPDigestModal
-              onClickClose={() => setShowModal(false)}
-              hash={transaction.transactionHash}
-              leapDirection={
-                inputRGBAmount > outputRGBAmount ? TransactionLeapDirection.OUT : TransactionLeapDirection.IN
-              }
-            />
-          </SimpleModal>
-          <Time tx={isBlock ? undefined : transaction} />
+              {transaction.transactionHash}
+            </AddressText>
+            {transaction.rgbTransaction && (
+              <SimpleButton
+                onClick={() => {
+                  setShowModal(true)
+                }}
+              >
+                <RGBPlusPlus>
+                  <span>RGB++</span>
+                </RGBPlusPlus>
+              </SimpleButton>
+            )}
+            <SimpleModal isShow={showModal} setIsShow={setShowModal}>
+              <TransactionRGBPPDigestModal
+                onClickClose={() => setShowModal(false)}
+                hash={transaction.transactionHash}
+                leapDirection={
+                  inputRGBAmount > outputRGBAmount ? TransactionLeapDirection.OUT : TransactionLeapDirection.IN
+                }
+              />
+            </SimpleModal>
+          </div>
+          <div className={styles.right}>
+            <Time tx={isBlock ? undefined : transaction} />
+          </div>
         </div>
       </TransactionHashBlockPanel>
       <TransactionCellPanel>

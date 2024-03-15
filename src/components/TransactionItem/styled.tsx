@@ -30,7 +30,7 @@ export const TransactionHashBlockPanel = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin-bottom: 10px;
 
     @media (max-width: ${variables.mobileBreakPoint}) {

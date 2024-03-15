@@ -6,6 +6,7 @@ import { TransactionLeapDirection } from './types'
 import { TransactionRGBPPDigestTransfer } from './TransactionRGBPPDigestTransfer'
 import { useSetToast } from '../../Toast'
 import { RGBDigest } from '../../../services/ExplorerService'
+import AddressText from '../../AddressText'
 
 export const TransactionRGBPPDigestContent = ({
   tx,
@@ -22,15 +23,19 @@ export const TransactionRGBPPDigestContent = ({
       <div className={styles.transactionInfo}>
         <div className={styles.left}>
           <span>{t('address.seal_tx_on_bitcoin')}</span>
-          <span className={styles.transactionHash}>{tx.txid}</span>
+          <AddressText className={styles.transactionHash} style={{ maxWidth: '319px' }}>
+            {tx.txid}
+          </AddressText>
           <span className={styles.blockConfirm}>({tx.confirmations} Bitcoin Confirmed)</span>
           <Tooltip placement="top" title={t(`address.leap_${leapDirection}_tip`)}>
             <span className={styles.leap}>{t(`address.leap_${leapDirection}`)}</span>
           </Tooltip>
         </div>
         <div className={styles.right}>
-          <span>Commitment:</span>
-          <span>{tx.commitment}</span>
+          <span className={styles.commitment}>Commitment:</span>
+          <AddressText style={{ maxWidth: '101px' }} className={styles.commitment}>
+            {tx.commitment}
+          </AddressText>
           <CopyIcon
             onClick={() => {
               navigator.clipboard.writeText(tx.commitment).then(

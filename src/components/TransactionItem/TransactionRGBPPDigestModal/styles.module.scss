@@ -1,9 +1,15 @@
+@import '../../../styles/variables.module';
+
 .container {
   background-color: #fff;
   margin: 15% auto;
   padding: 20px 40px;
   width: 75%;
   border-radius: 4px;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    padding: 16px;
+  }
 }
 
 .header {
@@ -27,16 +33,26 @@
 
 .script {
   margin-top: 16px;
+  flex-flow: column wrap;
   background-color: #eee;
   padding: 16px;
   border-radius: 4px;
+  display: flex;
+  gap: 8px;
 }
 
 .transactionInfo {
   display: flex;
   justify-content: space-between;
   gap: 8px;
+  flex-wrap: wrap;
   font-size: 16px;
+  width: 100%;
+
+  span {
+    word-wrap: break-word;
+    max-width: 100%;
+  }
 }
 
 .transactionHash {
@@ -47,16 +63,30 @@
 
 .blockConfirm {
   color: #666;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    font-size: 14px;
+  }
+}
+
+.commitment {
+  @media screen and (max-width: $mobileBreakPoint) {
+    font-size: 14px;
+  }
 }
 
 .addressInfo {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+  max-width: 100%;
 }
 
 .address {
   font-size: 16px;
   color: var(--primary-color);
+  max-width: 100%;
+  word-wrap: break-word;
   font-family: jetbrains-mono, monospace;
 }
 
@@ -72,8 +102,13 @@
 .asset {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
+  gap: 4px;
   font-size: 16px;
+  line-height: 19px;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    flex-direction: column;
+  }
 }
 
 .increase {
@@ -100,14 +135,18 @@
 
 .left {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
   gap: 8px;
+  max-width: 100%;
 }
 
 .right {
   display: flex;
+  flex-wrap: wrap;
   justify-self: self-end;
   justify-content: flex-start;
+  max-width: 100%;
   gap: 8px;
 }
 
