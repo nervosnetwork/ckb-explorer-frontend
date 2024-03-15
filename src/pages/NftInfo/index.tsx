@@ -9,8 +9,8 @@ import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
-import { patchMibaoImg, handleNftImgError, hexToBase64, formatNftDisplayId } from '../../utils/util'
-import { parseSporeCellData } from '../../utils/spore'
+import { patchMibaoImg, handleNftImgError, formatNftDisplayId } from '../../utils/util'
+import { getImgFromSporeCell } from '../../utils/spore'
 import { useSearchParams } from '../../hooks'
 
 const primaryColor = getPrimaryColor()
@@ -46,21 +46,8 @@ const NftInfo = () => {
     const standard = data?.standard
 
     if (standard === 'spore' && cell && cell.data) {
-      const sporeData = parseSporeCellData(cell.data)
-      if (sporeData.contentType.slice(0, 5) === 'image') {
-        const base64data = hexToBase64(sporeData.content)
-
-        return (
-          <img
-            src={`data:${sporeData.contentType};base64,${base64data}`}
-            alt="cover"
-            loading="lazy"
-            data-protocol={standard}
-            className={styles.cover}
-          />
-        )
-      }
-      return <img src="/images/spore_placeholder.svg" alt="cover" loading="lazy" className={styles.cover} />
+      const img = getImgFromSporeCell(cell.data)
+      return <img src={img} alt="cover" loading="lazy" className={styles.cover} />
     }
 
     if (coverUrl) {

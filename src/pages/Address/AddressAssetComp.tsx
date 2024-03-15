@@ -5,8 +5,8 @@ import { AddressUDTItemPanel } from './styled'
 import { CoTA, OmigaInscription, MNFT, NRC721, SUDT, Spore } from '../../models/Address'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { parseUDTAmount } from '../../utils/number'
-import { parseSporeCellData } from '../../utils/spore'
-import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../utils/util'
+import { getImgFromSporeCell } from '../../utils/spore'
+import { formatNftDisplayId, handleNftImgError, patchMibaoImg } from '../../utils/util'
 import { sliceNftName } from '../../utils/string'
 
 export const AddressAssetComp = ({
@@ -63,14 +63,7 @@ export const AddressSudtComp = ({ account }: { account: SUDT }) => {
 
 export const AddressSporeComp = ({ account }: { account: Spore }) => {
   const { symbol, amount, udtIconFile, collection } = account
-  const [icon, setIcon] = useState('/images/spore_placeholder.svg')
-  if (udtIconFile) {
-    const sporeData = parseSporeCellData(udtIconFile)
-    if (sporeData.content.slice(0, 5) === 'image') {
-      const base64Data = hexToBase64(sporeData.content)
-      setIcon(`data:${sporeData.contentType};base64,${base64Data}`)
-    }
-  }
+  const img = getImgFromSporeCell(udtIconFile)
   const id = formatNftDisplayId(amount, 'spore')
   return (
     <AddressAssetComp
@@ -78,7 +71,7 @@ export const AddressSporeComp = ({ account }: { account: Spore }) => {
       property={`id: ${id.slice(0, 8)}...${id.slice(-8)}`}
       name={sliceNftName(symbol)}
       udtLabel="DOB"
-      icon={{ url: icon, errorHandler: handleNftImgError }}
+      icon={{ url: img, errorHandler: handleNftImgError }}
     />
   )
 }

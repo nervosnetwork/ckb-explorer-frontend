@@ -3,12 +3,12 @@ import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
-import { parseSporeCellData } from '../../../utils/spore'
+import { getImgFromSporeCell } from '../../../utils/spore'
 // TODO: Refactor is needed. Should not directly import anything from the descendants of ExplorerService.
 import type { TransferListRes, TransferRes } from '../../../services/ExplorerService/fetcher'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../../constants/common'
-import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../../utils/util'
+import { formatNftDisplayId, handleNftImgError, patchMibaoImg } from '../../../utils/util'
 import { explorerService } from '../../../services/ExplorerService'
 import { dayjs } from '../../../utils/date'
 import { useParsedDate, useTimestamp } from '../../../hooks'
@@ -101,7 +101,10 @@ const TransferTableRow: FC<{
   isShowInAge?: boolean
 }> = ({ collection, item, iconURL, isShowInAge }) => {
   const { t } = useTranslation()
-  const coverUrl = item.item.icon_url ?? iconURL
+  let coverUrl = item.item.icon_url ?? iconURL
+  if (item.item.standard === 'spore' && item.item.cell?.data) {
+    coverUrl = getImgFromSporeCell(item.item.cell.data)
+  }
   const parsedBlockCreateAt = useParsedDate(item.transaction.block_timestamp)
   const now = useTimestamp()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -112,20 +115,8 @@ const TransferTableRow: FC<{
     const standard = item.item?.standard
 
     if (standard === 'spore' && cell && cell.data) {
-      const sporeData = parseSporeCellData(cell.data)
-      if (sporeData.contentType.slice(0, 5) === 'image') {
-        const base64data = hexToBase64(sporeData.content)
-
-        return (
-          <img
-            src={`data:${sporeData.contentType};base64,${base64data}`}
-            alt="cover"
-            loading="lazy"
-            className={styles.icon}
-          />
-        )
-      }
-      return <img src="/images/spore_placeholder.svg" alt="cover" loading="lazy" className={styles.icon} />
+      const img = getImgFromSporeCell(cell.data)
+      return <img src={img} alt="cover" loading="lazy" className={styles.icon} />
     }
 
     if (coverUrl) {
@@ -243,19 +234,8 @@ const TransferCard: FC<{
     const standard = item.item?.standard
 
     if (standard === 'spore' && cell && cell.data) {
-      const sporeData = parseSporeCellData(cell.data)
-      if (sporeData.contentType.slice(0, 5) === 'image') {
-        const base64data = hexToBase64(sporeData.content)
-
-        return (
-          <img
-            src={`data:${sporeData.contentType};base64,${base64data}`}
-            alt="cover"
-            loading="lazy"
-            className={styles.icon}
-          />
-        )
-      }
+      const img = getImgFromSporeCell(cell.data)
+      return <img src={img} alt="cover" loading="lazy" className={styles.icon} />
     }
 
     if (coverUrl) {

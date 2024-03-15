@@ -203,7 +203,14 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
                         onError={handleNftImgError}
                       />
                     ) : (
-                      <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
+                      <img
+                        src={
+                          item.standard === 'spore' ? '/images/spore_placeholder.svg' : '/images/nft_placeholder.png'
+                        }
+                        alt="cover"
+                        loading="lazy"
+                        className={styles.icon}
+                      />
                     )}
                     <Link
                       to={`/nft-collections/${typeHash || item.id}`}
