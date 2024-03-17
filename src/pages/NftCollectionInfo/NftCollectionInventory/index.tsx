@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
-import { parseSporeCellData } from '../../../utils/spore'
+import { getImgFromSporeCell } from '../../../utils/spore'
 import { ReactComponent as Cover } from '../../../assets/nft_cover.svg'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../../constants/common'
 import { explorerService } from '../../../services/ExplorerService'
-import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../../utils/util'
+import { formatNftDisplayId, handleNftImgError, patchMibaoImg } from '../../../utils/util'
 import type { NFTItem } from '../../../services/ExplorerService/fetcher'
 
 const primaryColor = getPrimaryColor()
@@ -43,19 +43,8 @@ const NftCollectionInventory: React.FC<{
     const standard = item?.standard
 
     if (standard === 'spore' && cell && cell.data) {
-      const sporeData = parseSporeCellData(cell.data)
-      if (sporeData.contentType.slice(0, 5) === 'image') {
-        const base64data = hexToBase64(sporeData.content)
-
-        return (
-          <img
-            src={`data:${sporeData.contentType};base64,${base64data}`}
-            alt="cover"
-            loading="lazy"
-            className={styles.cover}
-          />
-        )
-      }
+      const img = getImgFromSporeCell(cell.data)
+      return <img src={img} alt="cover" loading="lazy" className={styles.cover} />
     }
 
     if (coverUrl) {

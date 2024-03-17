@@ -1,5 +1,6 @@
 import { toBigEndian } from '@nervosnetwork/ckb-sdk-utils'
 import { hexToUtf8 } from './string'
+import { hexToBase64 } from './util'
 
 // parse spore cluster data guideline: https://github.com/sporeprotocol/spore-sdk/blob/beta/docs/recipes/handle-cell-data.md
 export function parseSporeClusterData(hexData: string) {
@@ -27,4 +28,24 @@ export function parseSporeCellData(hexData: string) {
   const clusterId = `0x${data.slice(clusterIdOffset + 8, -1)}`
 
   return { contentType, content, clusterId }
+}
+
+export const getImgFromSporeCell = (hexData: string) => {
+  const DEFAULT_URL = '/images/spore_placeholder.svg'
+  const { contentType, content } = parseSporeCellData(hexData)
+  if (contentType.startsWith('image')) {
+    const base64Data = hexToBase64(content)
+    return `data:${contentType};base64,${base64Data}`
+  }
+  if (contentType === 'application/json') {
+    try {
+      const raw: any = JSON.parse(hexToUtf8(`0x${content}`))
+      if (raw?.resource?.type?.startsWith('image')) {
+        return raw.resource?.url ?? DEFAULT_URL
+      }
+    } catch {
+      return DEFAULT_URL
+    }
+  }
+  return DEFAULT_URL
 }

@@ -3,12 +3,12 @@ import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
-import { parseSporeCellData } from '../../../utils/spore'
+import { getImgFromSporeCell } from '../../../utils/spore'
 // TODO: Refactor is needed. Should not directly import anything from the descendants of ExplorerService.
 import type { TransferListRes, TransferRes } from '../../../services/ExplorerService/fetcher'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../../constants/common'
-import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../../utils/util'
+import { formatNftDisplayId, handleNftImgError, patchMibaoImg } from '../../../utils/util'
 import { explorerService } from '../../../services/ExplorerService'
 import { dayjs } from '../../../utils/date'
 import { useParsedDate, useTimestamp } from '../../../hooks'
@@ -16,11 +16,13 @@ import { useCurrentLanguage } from '../../../utils/i18n'
 
 const primaryColor = getPrimaryColor()
 
+/* eslint-disable react/no-unused-prop-types */
 interface TransferCollectionProps {
   collection: string
   iconURL?: string | null
   list: TransferListRes['data']
   isLoading: boolean
+  standard?: string
 }
 
 const NftCollectionTransfers: FC<TransferCollectionProps> = props => {
@@ -32,14 +34,14 @@ const NftCollectionTransfers: FC<TransferCollectionProps> = props => {
 
   return (
     <div className={styles.list}>
-      <TransferTable {...props} iconURL={info?.icon_url} />
+      <TransferTable {...props} standard={info?.standard} iconURL={info?.icon_url} />
       <TransferCardGroup {...props} iconURL={info?.icon_url} />
     </div>
   )
 }
 NftCollectionTransfers.displayName = 'NftTransfers'
 
-const TransferTable: FC<TransferCollectionProps> = ({ collection, iconURL, list, isLoading }) => {
+const TransferTable: FC<TransferCollectionProps> = ({ standard, collection, iconURL, list, isLoading }) => {
   const [isShowInAge, setIsShowInAge] = useState(false)
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
@@ -49,7 +51,7 @@ const TransferTable: FC<TransferCollectionProps> = ({ collection, iconURL, list,
     <table>
       <thead>
         <tr>
-          <th>{t('nft.nft')}</th>
+          <th>{t(`nft.${standard === 'spore' ? 'dob' : 'nft'}`)}</th>
           <th>{t('nft.tx_hash')}</th>
           <th>{t('nft.action')}</th>
           <th>
@@ -99,7 +101,10 @@ const TransferTableRow: FC<{
   isShowInAge?: boolean
 }> = ({ collection, item, iconURL, isShowInAge }) => {
   const { t } = useTranslation()
-  const coverUrl = item.item.icon_url ?? iconURL
+  let coverUrl = item.item.icon_url ?? iconURL
+  if (item.item.standard === 'spore' && item.item.cell?.data) {
+    coverUrl = getImgFromSporeCell(item.item.cell.data)
+  }
   const parsedBlockCreateAt = useParsedDate(item.transaction.block_timestamp)
   const now = useTimestamp()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,24 +115,14 @@ const TransferTableRow: FC<{
     const standard = item.item?.standard
 
     if (standard === 'spore' && cell && cell.data) {
-      const sporeData = parseSporeCellData(cell.data)
-      if (sporeData.contentType.slice(0, 5) === 'image') {
-        const base64data = hexToBase64(sporeData.content)
-
-        return (
-          <img
-            src={`data:${sporeData.contentType};base64,${base64data}`}
-            alt="cover"
-            loading="lazy"
-            className={styles.icon}
-          />
-        )
-      }
+      const img = getImgFromSporeCell(cell.data)
+      return <img src={img} alt="cover" loading="lazy" className={styles.icon} />
     }
 
     if (coverUrl) {
       return (
         <img
+          data-protocol={standard}
           src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.item.token_id}`}
           alt="cover"
           loading="lazy"
@@ -239,19 +234,8 @@ const TransferCard: FC<{
     const standard = item.item?.standard
 
     if (standard === 'spore' && cell && cell.data) {
-      const sporeData = parseSporeCellData(cell.data)
-      if (sporeData.contentType.slice(0, 5) === 'image') {
-        const base64data = hexToBase64(sporeData.content)
-
-        return (
-          <img
-            src={`data:${sporeData.contentType};base64,${base64data}`}
-            alt="cover"
-            loading="lazy"
-            className={styles.icon}
-          />
-        )
-      }
+      const img = getImgFromSporeCell(cell.data)
+      return <img src={img} alt="cover" loading="lazy" className={styles.icon} />
     }
 
     if (coverUrl) {

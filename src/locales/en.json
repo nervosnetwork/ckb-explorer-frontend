@@ -637,6 +637,8 @@
       "nrc_721": "NRC 721",
       "cota": "CoTA",
       "spore": "Spore",
+      "dob": "DOB",
+      "dobs": "DOBs",
       "loading": "Loading...",
       "nft": "NFT",
       "tx_hash": "Tx",

@@ -224,15 +224,15 @@ const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       break
     }
     case 'spore_cluster': {
-      detailTitle = t('transaction.spore_cluster')
+      detailTitle = t('nft.dob')
       detailIcon = SporeCellIcon
-      tooltip = detailTitle
+      tooltip = t('transaction.spore_cluster')
       break
     }
     case 'spore_cell': {
-      detailTitle = t('transaction.spore')
+      detailTitle = t('nft.dob')
       detailIcon = SporeCellIcon
-      tooltip = detailTitle
+      tooltip = t('transaction.spore')
       break
     }
     default:

@@ -101,7 +101,7 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
       <div className={styles.toolbar}>UTXO: {count.toLocaleString('en')}</div>
       <ul>
         {cells.map(cell => {
-          const ckb = Number(shannonToCkb(cell.capacity)).toLocaleString('en')
+          const ckb = new BigNumber(shannonToCkb(+cell.capacity)).toFormat()
           const title = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
           const link = `/transaction/${cell.txHash}?${new URLSearchParams({
             page_of_outputs: Math.ceil(+cell.cellIndex / PAGE_SIZE).toString(),
@@ -151,7 +151,7 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
             }
             case 'spore_cell': {
               icon = <SporeCellIcon />
-              assetName = 'Spore'
+              assetName = 'DOB'
               if (cell.data.length > ATTRIBUTE_LENGTH) {
                 attribute = `${cell.data.slice(0, ATTRIBUTE_LENGTH)}...`
               } else {

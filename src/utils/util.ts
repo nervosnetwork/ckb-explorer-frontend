@@ -156,6 +156,12 @@ export const handleRedirectFromAggron = () => {
 }
 
 export const handleNftImgError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+  const img = e.currentTarget
+  const { protocol } = img.dataset
+  if (protocol === 'spore') {
+    img.src = '/images/spore_placeholder.png'
+    return
+  }
   e.currentTarget.src = '/images/nft_placeholder.png'
 }
 
