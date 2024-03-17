@@ -28,4 +28,5 @@ export const defaultOmigaInscriptionInfo: OmigaInscriptionCollection = {
   expectedSupply: '0',
   inscriptionInfoId: '',
   infoTypeHash: '',
+  isRepeatedSymbol: false,
 }
