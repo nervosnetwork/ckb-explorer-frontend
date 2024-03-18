@@ -34,6 +34,7 @@ export interface OmigaInscriptionCollection extends UDT {
   expectedSupply: string
   inscriptionInfoId: string
   infoTypeHash: string
+  isRepeatedSymbol: boolean
 }
 
 export function isOmigaInscriptionCollection(udt: UDT): udt is OmigaInscriptionCollection {
