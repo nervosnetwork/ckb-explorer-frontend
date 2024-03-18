@@ -9,6 +9,7 @@ export interface LockInfo {
 }
 
 export interface Address {
+  bitcoinAddress?: string
   addressHash: string
   lockHash: string
   balance: string

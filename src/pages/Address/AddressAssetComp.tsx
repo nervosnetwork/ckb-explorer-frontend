@@ -48,14 +48,14 @@ export const AddressAssetComp = ({
   )
 }
 
-export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP: boolean }) => {
+export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP?: boolean }) => {
   const { symbol, decimal, amount, typeHash, udtIconFile, uan } = account
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
 
   useEffect(() => {})
   return (
     <AddressAssetComp
-      isRGBPP={isRGBPP}
+      isRGBPP={isRGBPP ?? false}
       href={`/sudt/${typeHash}`}
       property={parseUDTAmount(amount, decimal)}
       name={uan || symbol}
@@ -65,21 +65,13 @@ export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP: 
   )
 }
 
-export const AddressSporeComp = ({
-  account,
-  isRGBPP,
-  udtLabel,
-}: {
-  account: Spore
-  isRGBPP: boolean
-  udtLabel?: string
-}) => {
+export const AddressSporeComp = ({ account, isRGBPP }: { account: Spore; isRGBPP?: boolean }) => {
   const { symbol, amount, udtIconFile, collection } = account
   const img = getImgFromSporeCell(udtIconFile)
   const id = formatNftDisplayId(amount, 'spore')
   return (
     <AddressAssetComp
-      isRGBPP={isRGBPP}
+      isRGBPP={isRGBPP ?? false}
       href={`/nft-collections/${collection?.typeHash}`}
       property={`id: ${id.slice(0, 8)}...${id.slice(-8)}`}
       name={sliceNftName(symbol)}
@@ -95,7 +87,7 @@ export const AddressMNFTComp = ({
   udtLabel,
 }: {
   account: MNFT
-  isRGBPP: boolean
+  isRGBPP?: boolean
   udtLabel?: string
 }) => {
   const { symbol, amount, udtIconFile, collection } = account
@@ -118,7 +110,7 @@ export const AddressMNFTComp = ({
 
   return (
     <AddressAssetComp
-      isRGBPP={isRGBPP}
+      isRGBPP={isRGBPP ?? false}
       href={`/nft-collections/${collection?.typeHash}`}
       property={`#${amount}`}
       name={sliceNftName(symbol)}
@@ -140,7 +132,7 @@ export const AddressNRC721Comp = ({
   udtLabel,
 }: {
   account: NRC721
-  isRGBPP: boolean
+  isRGBPP?: boolean
   udtLabel?: string
 }) => {
   const { symbol, amount, udtIconFile, collection } = account
@@ -163,7 +155,7 @@ export const AddressNRC721Comp = ({
 
   return (
     <AddressAssetComp
-      isRGBPP={isRGBPP}
+      isRGBPP={isRGBPP ?? false}
       href={`/nft-collections/${collection?.typeHash}`}
       property={!symbol ? '?' : `#${amount}`}
       name={!symbol ? '?' : sliceNftName(symbol)}
@@ -186,7 +178,7 @@ export const AddressCoTAComp = ({
   udtLabel,
 }: {
   account: CoTA
-  isRGBPP: boolean
+  isRGBPP?: boolean
   udtLabel?: string
 }) => {
   const { symbol, udtIconFile, cota } = account
@@ -209,7 +201,7 @@ export const AddressCoTAComp = ({
 
   return (
     <AddressAssetComp
-      isRGBPP={isRGBPP}
+      isRGBPP={isRGBPP ?? false}
       href={`/nft-collections/${cota?.cotaId}`}
       property={`#${cota?.tokenId}`}
       name={sliceNftName(symbol)}
@@ -231,14 +223,14 @@ export const AddressOmigaInscriptionComp = ({
   udtLabel,
 }: {
   account: OmigaInscription
-  isRGBPP: boolean
+  isRGBPP?: boolean
   udtLabel?: string
 }) => {
   const { decimal, expectedSupply, mintStatus, amount, symbol, typeHash, udtAmount } = account
   const { t } = useTranslation()
   return (
     <AddressAssetComp
-      isRGBPP={isRGBPP}
+      isRGBPP={isRGBPP ?? false}
       href={`/inscription/${typeHash}`}
       name={parseUDTAmount(amount, decimal)}
       property={`${t(`udt.mint_status_${mintStatus}`)}(${parseUDTAmount(udtAmount, decimal)}/${parseUDTAmount(

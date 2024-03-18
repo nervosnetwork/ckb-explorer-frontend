@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Tooltip } from 'antd'
 import { FC } from 'react'
-import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
+import { Address as AddressInfo } from '../../models/Address'
 import Content from '../../components/Content'
 import { AddressContentPanel } from './styled'
 import { AddressTransactions, AddressOverviewCard } from './AddressComp'
@@ -25,7 +25,8 @@ import { useDASAccount } from '../../hooks/useDASAccount'
 import { Link } from '../../components/Link'
 import { isValidBTCAddress } from '../../utils/bitcoin'
 import config from '../../config'
-import { matchScript } from '../../utils/util'
+import { defaultAddressInfo } from './state'
+import { BTCAddressOverviewCard } from './BTCAddressComp'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
@@ -39,6 +40,29 @@ export const Address = () => {
   const isPendingTxListActive = txStatus === 'pending'
 
   const addressInfoQuery = useQuery(['address_info', address], () => explorerService.api.fetchAddressInfo(address))
+
+  const isRGBPP = isValidBTCAddress(address)
+
+  let addressInfo: AddressInfo | undefined
+  if (isRGBPP) {
+    addressInfo = addressInfoQuery.data?.[0]
+  } else {
+    addressInfo = addressInfoQuery.data?.reduce((acc, cur) => {
+      return {
+        ...cur,
+        ...{
+          daoCompensation: acc.daoCompensation + cur.daoCompensation,
+          daoDeposit: acc.daoDeposit + cur.daoDeposit,
+          interest: acc.interest + cur.interest,
+          liveCellsCount: acc.liveCellsCount + cur.liveCellsCount,
+          minedBlocksCount: acc.minedBlocksCount + cur.minedBlocksCount,
+          pendingRewardBlocksCount: acc.pendingRewardBlocksCount + cur.pendingRewardBlocksCount,
+          transactionsCount: acc.transactionsCount + cur.transactionsCount,
+          udtAccounts: acc.udtAccounts ? acc.udtAccounts.concat(cur.udtAccounts ?? []) : cur.udtAccounts,
+        },
+      }
+    }, defaultAddressInfo)
+  }
 
   const listQueryKey = [
     isPendingTxListActive ? 'address_pending_transactions' : 'address_transactions',
@@ -98,20 +122,9 @@ export const Address = () => {
     committed:
       addressInfoQuery.isFetched && addressInfoQuery.data
         ? // FIXME: this type conversion could be removed once the type declaration of Transaction is fixed
-          Number(addressInfoQuery.data.transactionsCount) ?? '-'
+          Number(addressInfo?.transactionsCount) ?? '-'
         : '-',
     pending: pendingTransactionCountQuery.data?.total ?? '-',
-  }
-
-  let isRGBPP = false
-  if (isValidBTCAddress(address)) {
-    isRGBPP = true
-  } else {
-    const script = addressToScript(address)
-    const tag = matchScript(script.codeHash, script.hashType)
-    if (tag && tag.tag === 'rgb++') {
-      isRGBPP = true
-    }
   }
 
   const newAddr = useNewAddr(address)
@@ -123,7 +136,7 @@ export const Address = () => {
       <AddressContentPanel className="container">
         <Card>
           <HashCardHeader
-            title={addressInfoQuery.data?.type === 'LockHash' ? t('address.lock_hash') : t('address.address')}
+            title={addressInfo?.type === 'LockHash' ? t('address.lock_hash') : t('address.address')}
             hash={address}
             customActions={[
               counterpartAddr ? (
@@ -142,15 +155,11 @@ export const Address = () => {
                 </Tooltip>
               ) : null,
             ]}
-            rightContent={
-              addressInfoQuery.data?.addressHash && <DASInfo address={addressInfoQuery.data?.addressHash} />
-            }
+            rightContent={addressInfo?.addressHash && <DASInfo address={addressInfo?.addressHash} />}
           />
         </Card>
 
-        <QueryResult query={addressInfoQuery} delayLoading>
-          {data => (data ? <AddressOverviewCard address={data} isRGBPP={isRGBPP} /> : <div />)}
-        </QueryResult>
+        <AddressOverView isRGBPP={isRGBPP} addressInfo={addressInfo} />
 
         <QueryResult query={addressTransactionsQuery} delayLoading>
           {data => (
@@ -167,6 +176,18 @@ export const Address = () => {
       </AddressContentPanel>
     </Content>
   )
+}
+
+const AddressOverView = ({ isRGBPP, addressInfo }: { isRGBPP: boolean; addressInfo?: AddressInfo }) => {
+  if (addressInfo) {
+    if (isRGBPP) {
+      return <BTCAddressOverviewCard address={addressInfo} />
+    }
+
+    return <AddressOverviewCard address={addressInfo} />
+  }
+
+  return <div />
 }
 
 const DASInfo: FC<{ address: string }> = ({ address }) => {
