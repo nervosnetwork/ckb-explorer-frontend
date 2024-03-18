@@ -80,6 +80,25 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
           </dd>
         </dl>
       )}
+      {info?.standard === 'spore' && id !== UNIQUE_ITEMS_CLUSTER_ID ? (
+        <dl>
+          <dt>{t(`nft.cluster_id`)}</dt>
+          <dd>
+            {isLoading ? t(`nft.loading`) : null}
+
+            {!isLoading && info?.type_script?.args ? (
+              <Tooltip title={info.type_script.args}>
+                <span title={info.type_script.args} className="monospace">{`${info.type_script.args.slice(
+                  0,
+                  12,
+                )}...${info.type_script.args.slice(-12)}`}</span>
+              </Tooltip>
+            ) : (
+              '-'
+            )}
+          </dd>
+        </dl>
+      ) : null}
     </div>
   )
 }

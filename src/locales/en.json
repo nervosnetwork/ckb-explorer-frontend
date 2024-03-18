@@ -641,6 +641,7 @@
       "dobs": "DOBs",
       "loading": "Loading...",
       "nft": "NFT",
+      "cluster_id": "Cluster ID",
       "tx_hash": "Tx",
       "age": "Age",
       "from": "From",

@@ -642,6 +642,7 @@
       "dobs": "DOBs",
       "loading": "加载中...",
       "nft": "NFT",
+      "cluster_id": "Cluster ID",
       "tx_hash": "交易",
       "age": "时间",
       "from": "发送方",
