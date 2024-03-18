@@ -86,8 +86,11 @@
   font-size: 16px;
   color: var(--primary-color);
   max-width: 100%;
-  word-wrap: break-word;
   font-family: jetbrains-mono, monospace;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    word-wrap: break-word;
+  }
 }
 
 .addressType {
