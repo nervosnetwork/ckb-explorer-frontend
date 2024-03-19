@@ -50,8 +50,12 @@ export const TransactionRGBPPDigestContent = ({
           />
         </div>
       </div>
-      {(tx.transfers ?? []).map(transfer =>
-        transfer && transfer.address ? <TransactionRGBPPDigestTransfer transfer={transfer} /> : null,
+      {tx.transfers ? (
+        tx.transfers.map(transfer =>
+          transfer && transfer.address ? <TransactionRGBPPDigestTransfer transfer={transfer} /> : null,
+        )
+      ) : (
+        <div className={styles.noRecords}>no</div>
       )}
     </div>
   )
