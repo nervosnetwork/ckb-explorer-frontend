@@ -9,7 +9,7 @@ export interface CellDep {
 }
 
 export interface Transaction {
-  isRGBTransaction: boolean
+  isRgbTransaction: boolean
   transactionHash: string
   // FIXME: this type declaration should be fixed by adding a transformation between internal state and response of API
   blockNumber: number | string

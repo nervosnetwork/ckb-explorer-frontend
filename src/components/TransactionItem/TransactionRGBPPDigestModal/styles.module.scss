@@ -114,12 +114,16 @@
   }
 }
 
-.increase {
-  color: var(--primary-color);
-}
+.amount {
+  &[data-diff-status='positive'] {
+    color: var(--primary-color);
+  }
 
-.decrease {
-  color: #fa504f;
+  &[data-diff-status='negative'] {
+    color: #fa504f;
+  }
+
+  color: var(--primary-color);
 }
 
 .leap {
