@@ -49,6 +49,7 @@ export enum SearchResultType {
   LockHash = 'lock_hash',
   UDT = 'udt',
   TypeScript = 'type_script',
+  LockScript = 'lock_script',
 }
 
 export const apiFetcher = {
@@ -222,6 +223,7 @@ export const apiFetcher = {
       | Response.Wrapper<Address, SearchResultType.LockHash>
       | Response.Wrapper<UDT, SearchResultType.UDT>
       | Response.Wrapper<Script & { scriptHash: string }, SearchResultType.TypeScript>
+      | Response.Wrapper<Script, SearchResultType.LockScript>
     >('suggest_queries', {
       params: {
         q: param,
