@@ -81,15 +81,7 @@ export const AddressSporeComp = ({ account, isRGBPP }: { account: Spore; isRGBPP
   )
 }
 
-export const AddressMNFTComp = ({
-  account,
-  isRGBPP,
-  udtLabel,
-}: {
-  account: MNFT
-  isRGBPP?: boolean
-  udtLabel?: string
-}) => {
+export const AddressMNFTComp = ({ account, isRGBPP }: { account: MNFT; isRGBPP?: boolean }) => {
   const { symbol, amount, udtIconFile, collection } = account
   const [icon, setIcon] = useState(udtIconFile)
 
@@ -114,7 +106,7 @@ export const AddressMNFTComp = ({
       href={`/nft-collections/${collection?.typeHash}`}
       property={`#${amount}`}
       name={sliceNftName(symbol)}
-      udtLabel={udtLabel ?? 'm nft'}
+      udtLabel="m nft"
       icon={{
         url: `${patchMibaoImg(icon)}?${new URLSearchParams({
           size: 'small',
@@ -126,15 +118,7 @@ export const AddressMNFTComp = ({
   )
 }
 
-export const AddressNRC721Comp = ({
-  account,
-  isRGBPP,
-  udtLabel,
-}: {
-  account: NRC721
-  isRGBPP?: boolean
-  udtLabel?: string
-}) => {
+export const AddressNRC721Comp = ({ account, isRGBPP }: { account: NRC721; isRGBPP?: boolean }) => {
   const { symbol, amount, udtIconFile, collection } = account
   const [icon, setIcon] = useState(udtIconFile)
 
@@ -160,7 +144,7 @@ export const AddressNRC721Comp = ({
       property={!symbol ? '?' : `#${amount}`}
       name={!symbol ? '?' : sliceNftName(symbol)}
       isUnverified={!symbol}
-      udtLabel={udtLabel ?? 'nrc 721'}
+      udtLabel="nrc 721"
       icon={{
         url: `${patchMibaoImg(icon)}?${new URLSearchParams({
           size: 'small',
@@ -172,15 +156,7 @@ export const AddressNRC721Comp = ({
   )
 }
 
-export const AddressCoTAComp = ({
-  account,
-  isRGBPP,
-  udtLabel,
-}: {
-  account: CoTA
-  isRGBPP?: boolean
-  udtLabel?: string
-}) => {
+export const AddressCoTAComp = ({ account, isRGBPP }: { account: CoTA; isRGBPP?: boolean }) => {
   const { symbol, udtIconFile, cota } = account
   const [icon, setIcon] = useState(udtIconFile)
 
@@ -205,7 +181,7 @@ export const AddressCoTAComp = ({
       href={`/nft-collections/${cota?.cotaId}`}
       property={`#${cota?.tokenId}`}
       name={sliceNftName(symbol)}
-      udtLabel={udtLabel ?? 'CoTA'}
+      udtLabel="CoTA"
       icon={{
         url: `${patchMibaoImg(icon)}?${new URLSearchParams({
           size: 'small',
@@ -217,16 +193,8 @@ export const AddressCoTAComp = ({
   )
 }
 
-export const AddressOmigaInscriptionComp = ({
-  account,
-  isRGBPP,
-  udtLabel,
-}: {
-  account: OmigaInscription
-  isRGBPP?: boolean
-  udtLabel?: string
-}) => {
-  const { decimal, expectedSupply, mintStatus, amount, symbol, typeHash, udtAmount } = account
+export const AddressOmigaInscriptionComp = ({ account, isRGBPP }: { account: OmigaInscription; isRGBPP?: boolean }) => {
+  const { decimal, expectedSupply, mintStatus, amount, typeHash, udtAmount } = account
   const { t } = useTranslation()
   return (
     <AddressAssetComp
@@ -237,7 +205,7 @@ export const AddressOmigaInscriptionComp = ({
         expectedSupply,
         decimal,
       )})`}
-      udtLabel={udtLabel ?? symbol}
+      udtLabel="Omiga"
     />
   )
 }

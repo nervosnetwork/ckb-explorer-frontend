@@ -331,14 +331,7 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
                           return <AddressSporeComp isRGBPP account={udt} key={udt.symbol + udt.udtType + udt.amount} />
 
                         case 'm_nft_token':
-                          return (
-                            <AddressMNFTComp
-                              isRGBPP
-                              account={udt}
-                              udtLabel="nft"
-                              key={udt.symbol + udt.udtType + udt.amount}
-                            />
-                          )
+                          return <AddressMNFTComp isRGBPP account={udt} key={udt.symbol + udt.udtType + udt.amount} />
                         default:
                           return null
                       }
@@ -346,7 +339,6 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
                     {cotaList?.map(cota => (
                       <AddressCoTAComp
                         isRGBPP
-                        udtLabel="nft"
                         account={{
                           udtType: 'cota',
                           symbol: cota.collection.name,
@@ -366,7 +358,6 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
                             <AddressOmigaInscriptionComp
                               isRGBPP
                               account={inscription}
-                              udtLabel="inscription"
                               key={`${inscription.symbol + inscription.udtType + inscription.udtAmount}`}
                             />
                           )
