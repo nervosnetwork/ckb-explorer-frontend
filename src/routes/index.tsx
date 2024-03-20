@@ -44,6 +44,9 @@ const MinerVersionDistributionChart = lazy(() => import('../pages/StatisticsChar
 const TransactionCountChart = lazy(() => import('../pages/StatisticsChart/activities/TransactionCount'))
 const AddressCountChart = lazy(() => import('../pages/StatisticsChart/activities/AddressCount'))
 const CellCountChart = lazy(() => import('../pages/StatisticsChart/activities/CellCount'))
+const ContractResourceDistributedChart = lazy(
+  () => import('../pages/StatisticsChart/activities/ContractResourceDistributed'),
+)
 const AddressBalanceRankChart = lazy(() => import('../pages/StatisticsChart/activities/AddressBalanceRank'))
 const BalanceDistributionChart = lazy(() => import('../pages/StatisticsChart/activities/BalanceDistribution'))
 const TxFeeHistoryChart = lazy(() => import('../pages/StatisticsChart/activities/TxFeeHistory'))
@@ -207,6 +210,11 @@ const routes: RouteProps[] = [
     path: '/charts/tx-fee-history',
     component: TxFeeHistoryChart,
   },
+  {
+    path: '/charts/contract-resource-distributed',
+    component: ContractResourceDistributedChart,
+  },
+
   {
     path: '/charts/block-time-distribution',
     component: BlockTimeDistributionChart,

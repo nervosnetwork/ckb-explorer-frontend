@@ -145,6 +145,10 @@ export const apiFetcher = {
     }),
 
   fetchTransactionRaw: (hash: string) => requesterV2.get<unknown>(`transactions/${hash}/raw`).then(res => res.data),
+  fetchContractResourceDistributed: () =>
+    requesterV2
+      .get(`statistics/contract_resource_distributed`)
+      .then(res => toCamelcase<ChartItem.ContractResourceDistributed[]>(res.data)),
 
   fetchTransactionByHash: (hash: string, displayCells: boolean = false) =>
     v1GetUnwrapped<Transaction>(`transactions/${hash}?display_cells=${displayCells}`),
