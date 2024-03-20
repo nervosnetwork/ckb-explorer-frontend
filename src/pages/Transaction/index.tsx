@@ -54,21 +54,22 @@ export default () => {
   const searchParams = useSearchParams('layout')
   const layout = searchParams.layout === Lite ? Lite : Professional
 
-  const { data } = useQuery(['rgb-digest', txHash], () => explorerService.api.fetchRGBDigest(txHash))
-
   const inputRGBAmount = computeRGBPPCellAmount(transaction.displayInputs)
   const outputRGBAmount = computeRGBPPCellAmount(transaction.displayOutputs)
-
-  const isRGB = !!(data && data.data)
 
   return (
     <Content>
       <TransactionPanel className="container">
-        <TransactionOverviewCard txHash={txHash} transaction={transaction} layout={layout} isRGB={isRGB} />
+        <TransactionOverviewCard
+          txHash={txHash}
+          transaction={transaction}
+          layout={layout}
+          isRGB={transaction.isRgbTransaction}
+        />
 
-        {isRGB && (
+        {transaction.isRgbTransaction && (
           <RGBDigestComp
-            tx={data.data}
+            hash={txHash}
             leapDirection={
               inputRGBAmount > outputRGBAmount ? TransactionLeapDirection.OUT : TransactionLeapDirection.IN
             }
