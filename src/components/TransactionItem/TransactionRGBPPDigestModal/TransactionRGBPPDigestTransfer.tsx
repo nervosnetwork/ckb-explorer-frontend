@@ -2,7 +2,6 @@ import styles from './styles.module.scss'
 import { parseBTCAddress } from '../../../utils/bitcoin'
 import { TransactionRGBPPDigestTransferAsset } from './TransactionRGBPPDigestTransferAsset'
 import { TransactionRecord } from '../../../services/ExplorerService'
-import AddressText from '../../AddressText'
 
 export const TransactionRGBPPDigestTransfer = ({ transfer }: { transfer: TransactionRecord }) => {
   const address = parseBTCAddress(transfer.address)
@@ -15,14 +14,12 @@ export const TransactionRGBPPDigestTransfer = ({ transfer }: { transfer: Transac
   return (
     <div className={styles.script}>
       <div className={styles.addressInfo}>
-        <AddressText className={styles.address}>{transfer.address}</AddressText>
+        <span className={styles.address}>{transfer.address}</span>
         <span className={styles.addressType}>{addressType}</span>
       </div>
-      <div>
-        {transfer.transfers.map(transfer => (
-          <TransactionRGBPPDigestTransferAsset transfer={transfer} />
-        ))}
-      </div>
+      {transfer.transfers.map(transfer => (
+        <TransactionRGBPPDigestTransferAsset transfer={transfer} />
+      ))}
     </div>
   )
 }
