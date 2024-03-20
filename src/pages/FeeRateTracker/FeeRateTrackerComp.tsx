@@ -11,7 +11,6 @@ import { ReactComponent as RocketIcon } from './rocket.svg'
 import { ChartColor } from '../../constants/common'
 import { useCurrentLanguage } from '../../utils/i18n'
 import type { FeeRateTracker } from '../../services/ExplorerService/fetcher'
-import { handleAxis } from '../../utils/chart'
 
 const textStyleInChart: echarts.EChartOption.TextStyle = {
   color: '#999999',
@@ -370,14 +369,14 @@ export const LastNDaysTransactionFeeRateChart = ({
           data: sortedLastNDaysTransactionFeeRates.map(r => dayjs(r.date).format('MM/DD')),
         },
         yAxis: {
-          type: 'log',
+          type: 'value',
           nameLocation: 'end',
           nameTextStyle: { ...textStyleInChart, color: colors[0] },
           axisLabel: {
             ...textStyleInChart,
             color: colors[0],
             margin: 2,
-            formatter: (value: string) => handleAxis(new BigNumber(value)),
+            formatter: (v: number) => `${(v / 1000).toLocaleString('en')}k`,
           },
           axisLine: {
             lineStyle: {
@@ -392,7 +391,7 @@ export const LastNDaysTransactionFeeRateChart = ({
               color: '#e5e5e5',
             },
           },
-          name: `${t('fee_rate_tracker.fee_rate')}(shannons/kB) ${t('statistic.log')}`,
+          name: `${t('fee_rate_tracker.fee_rate')}(shannons/kB)`,
         },
         series: [
           {
