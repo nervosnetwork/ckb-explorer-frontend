@@ -283,5 +283,11 @@ export interface RGBDigest {
   txId: string
   confirmations: number
   commitment: string
-  transfers: TransactionRecord[]
+  transfers: {
+    address: string
+    transfers: {
+      capacity: string
+      cellType: string
+    }[]
+  }[]
 }
