@@ -62,16 +62,25 @@ const Time: React.FC<{ tx?: Transaction }> = ({ tx }) => {
   return null
 }
 
-const computeRGBPPCellAmount = (cells: Cell[]) =>
-  cells.filter(cell => {
-    const script = addressToScript(cell.addressHash)
+const computeRGBPPCellAmount = (cells: Cell[]) => {
+  return cells.reduce((cur, cell) => {
     try {
+      const script = addressToScript(cell.addressHash)
+      if (!script) {
+        return cur
+      }
+
       const tag = matchScript(script.codeHash, script.hashType)
-      return tag?.tag === 'rgb++'
+      if (tag?.tag === 'rgb++') {
+        return cur + 1
+      }
     } catch (e) {
-      return false
+      return cur
     }
-  })
+
+    return cur
+  }, 0)
+}
 
 const TransactionItem = ({
   transaction,
