@@ -380,11 +380,7 @@
       "visit-deprecated-address": "View in deprecated address format",
       "view-deprecated-address": "Display deprecated addresses",
       "displaying-deprecated-address": "Displaying in deprecated address format",
-      "current-address": "Current Address",
-      "transaction_rgbpp_digest": "RGB++ Digest",
-      "seal_tx_on_bitcoin": "Seal Tx On Bitcoin",
-      "leap_in": "Leap In",
-      "leap_out": "Leap Out"
+      "current-address": "Current Address"
     },
     "transaction": {
       "transaction": "Transaction",
