@@ -380,13 +380,7 @@
       "visit-deprecated-address": "View in deprecated address format",
       "view-deprecated-address": "Display deprecated addresses",
       "displaying-deprecated-address": "Displaying in deprecated address format",
-      "current-address": "Current Address",
-      "transaction_rgbpp_digest": "RGB++ Digest",
-      "seal_tx_on_bitcoin": "Seal Tx On Bitcoin",
-      "leap_in": "Leap In",
-      "leap_out": "Leap Out",
-      "leap_in_tip": "This RGB++ transaction is marked as \"Leap In\", indicating that the number of cells with RGB++ lock in the output exceeds the number of cells with RGB++ lock in the input.",
-      "leap_out_tip": "This RGB++ transaction is marked as \"Leap Out\", indicating that the number of cells with RGB++ lock in the input exceeds the number of cells with RGB++ lock in the output."
+      "current-address": "Current Address"
     },
     "transaction": {
       "transaction": "Transaction",
@@ -476,8 +470,6 @@
       },
       "professional": "Professional",
       "lite": "Lite",
-      "rgb_digest": "RGB++ Digest",
-      "transaction_details": "Transaction Details",
       "unknown_assets": "Unknown Assets",
       "mint": "Mint",
       "no_records": "No records",

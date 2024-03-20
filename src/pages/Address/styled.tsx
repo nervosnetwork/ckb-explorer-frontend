@@ -218,6 +218,7 @@ export const AddressUDTItemPanel = styled.a`
       font-size: 12px;
       font-family: jetbrains-mono, sans-serif;
       font-weight: 500;
+      color: #000;
     }
   }
 

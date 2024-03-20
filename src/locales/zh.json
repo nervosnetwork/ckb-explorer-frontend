@@ -380,13 +380,7 @@
       "visit-deprecated-address": "查看废弃地址格式",
       "view-deprecated-address": "展示旧地址格式",
       "displaying-deprecated-address": "正在以旧格式地址展示",
-      "current-address": "当前地址",
-      "transaction_rgbpp_digest": "RGB++ Digest",
-      "seal_tx_on_bitcoin": "Seal Tx On Bitcoin",
-      "leap_in": "Leap In",
-      "leap_out": "Leap Out",
-      "leap_in_tip": "本笔 RGB++ 交易被标记为\"Leap In\"，即存在一般 CKB 资产转化为 RGB++ 资产。",
-      "leap_out_tip": "本笔 RGB++ 交易被标记为\"Leap In\"，即存在 RGB++ 资产转化为一般 CKB 资产。"
+      "current-address": "当前地址"
     },
     "transaction": {
       "transaction": "交易",
@@ -476,8 +470,6 @@
       },
       "professional": "专业版",
       "lite": "精简版",
-      "rgb_digest": "RGB++ Digest",
-      "transaction_details": "交易详情",
       "unknown_assets": "未知资产",
       "mint": "铸造",
       "no_records": "没有记录",

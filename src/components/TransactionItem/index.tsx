@@ -1,24 +1,16 @@
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
-import styles from './styles.module.scss'
 import RightArrowIcon from './input_arrow_output.png'
 import DownArrowIcon from './input_arrow_output_down.png'
 import { localeNumberString } from '../../utils/number'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionIncome from './TransactionIncome'
-import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel, RGBPlusPlus } from './styled'
+import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import { CellType } from '../../constants/common'
 import AddressText from '../AddressText'
 import { useIsExtraLarge, useParsedDate } from '../../hooks'
 import { Transaction } from '../../models/Transaction'
-import SimpleButton from '../SimpleButton'
-import SimpleModal from '../Modal'
-import TransactionRGBPPDigestModal from './TransactionRGBPPDigestModal'
-import { TransactionLeapDirection } from './TransactionRGBPPDigestModal/types'
-import { matchScript } from '../../utils/util'
-import { Cell } from '../../models/Cell'
 
 export interface CircleCorner {
   top?: boolean
@@ -62,17 +54,6 @@ const Time: React.FC<{ tx?: Transaction }> = ({ tx }) => {
   return null
 }
 
-const computeRGBPPCellAmount = (cells: Cell[]) =>
-  cells.filter(cell => {
-    const script = addressToScript(cell.addressHash)
-    try {
-      const tag = matchScript(script.codeHash, script.hashType)
-      return tag?.tag === 'rgb++'
-    } catch (e) {
-      return false
-    }
-  })
-
 const TransactionItem = ({
   transaction,
   address,
@@ -94,7 +75,6 @@ const TransactionItem = ({
   const isXL = useIsExtraLarge()
   const { t } = useTranslation()
   const ref = useRef<HTMLDivElement>(null)
-  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     const el = ref.current
@@ -108,48 +88,21 @@ const TransactionItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const inputRGBAmount = computeRGBPPCellAmount(transaction.displayInputs)
-  const outputRGBAmount = computeRGBPPCellAmount(transaction.displayOutputs)
-
   return (
     <TransactionPanel ref={ref} circleCorner={circleCorner}>
       {titleCard}
       <TransactionHashBlockPanel>
         <div className="transactionItemContent">
-          <div className={styles.left}>
-            <AddressText
-              disableTooltip
-              className="transactionItemHash"
-              linkProps={{
-                to: `/transaction/${transaction.transactionHash}`,
-              }}
-            >
-              {transaction.transactionHash}
-            </AddressText>
-            {transaction.isRgbTransaction && (
-              <SimpleButton
-                onClick={() => {
-                  setShowModal(true)
-                }}
-              >
-                <RGBPlusPlus>
-                  <span>RGB++</span>
-                </RGBPlusPlus>
-              </SimpleButton>
-            )}
-            <SimpleModal isShow={showModal} setIsShow={setShowModal}>
-              <TransactionRGBPPDigestModal
-                onClickClose={() => setShowModal(false)}
-                hash={transaction.transactionHash}
-                leapDirection={
-                  inputRGBAmount > outputRGBAmount ? TransactionLeapDirection.OUT : TransactionLeapDirection.IN
-                }
-              />
-            </SimpleModal>
-          </div>
-          <div className={styles.right}>
-            <Time tx={isBlock ? undefined : transaction} />
-          </div>
+          <AddressText
+            disableTooltip
+            className="transactionItemHash"
+            linkProps={{
+              to: `/transaction/${transaction.transactionHash}`,
+            }}
+          >
+            {transaction.transactionHash}
+          </AddressText>
+          <Time tx={isBlock ? undefined : transaction} />
         </div>
       </TransactionHashBlockPanel>
       <TransactionCellPanel>

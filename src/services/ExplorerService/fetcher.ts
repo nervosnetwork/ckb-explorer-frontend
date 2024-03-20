@@ -5,19 +5,12 @@ import { ReactNode } from 'react'
 import { pick } from '../../utils/object'
 import { toCamelcase } from '../../utils/util'
 import { requesterV1, requesterV2 } from './requester'
-import {
-  ChartItem,
-  NervosDaoDepositor,
-  RGBDigest,
-  Response,
-  SupportedExportTransactionType,
-  TransactionRecord,
-} from './types'
+import { ChartItem, NervosDaoDepositor, Response, SupportedExportTransactionType, TransactionRecord } from './types'
 import { assert } from '../../utils/error'
 import { Cell } from '../../models/Cell'
 import { Script } from '../../models/Script'
 import { Block } from '../../models/Block'
-import { BtcTx, Transaction } from '../../models/Transaction'
+import { Transaction } from '../../models/Transaction'
 import { Address } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
 import { HashType } from '../../constants/common'
@@ -57,7 +50,6 @@ export enum SearchResultType {
   UDT = 'udt',
   TypeScript = 'type_script',
   LockScript = 'lock_script',
-  BtcTx = 'bitcoin_transaction',
 }
 
 export const apiFetcher = {
@@ -73,14 +65,12 @@ export const apiFetcher = {
   fetchLatestBlocks: (size: number) => apiFetcher.fetchBlocks(1, size),
 
   fetchAddressInfo: (address: string) =>
-    v1GetWrappedList<Address>(`addresses/${address}`).then((wrapper): Address[] => {
-      return wrapper.map(
-        (item): Address => ({
-          ...item.attributes,
-          type: item.type === 'lock_hash' ? 'LockHash' : 'Address',
-        }),
-      )
-    }),
+    v1GetWrapped<Address>(`addresses/${address}`).then(
+      (wrapper): Address => ({
+        ...wrapper.attributes,
+        type: wrapper.type === 'lock_hash' ? 'LockHash' : 'Address',
+      }),
+    ),
 
   // sort field, block_timestamp, capacity
   // sort type, asc, desc
@@ -148,11 +138,6 @@ export const apiFetcher = {
 
   fetchTransactionByHash: (hash: string, displayCells: boolean = false) =>
     v1GetUnwrapped<Transaction>(`transactions/${hash}?display_cells=${displayCells}`),
-
-  fetchRGBDigest: (hash: string) =>
-    requesterV2
-      .get(`ckb_transactions/${hash}/rgb_digest`)
-      .then(res => toCamelcase<Response.Response<RGBDigest>>(res.data)),
 
   fetchCellsByTxHash: (hash: string, type: 'inputs' | 'outputs', page: Record<'no' | 'size', number>) =>
     requesterV2
@@ -237,7 +222,6 @@ export const apiFetcher = {
       | Response.Wrapper<Address, SearchResultType.Address>
       | Response.Wrapper<Address, SearchResultType.LockHash>
       | Response.Wrapper<UDT, SearchResultType.UDT>
-      | Response.Wrapper<BtcTx, SearchResultType.BtcTx>
       | Response.Wrapper<Script & { scriptHash: string }, SearchResultType.TypeScript>
       | Response.Wrapper<Script, SearchResultType.LockScript>
     >('suggest_queries', {
@@ -954,7 +938,6 @@ export interface ScriptInfo {
 }
 
 export interface CKBTransactionInScript {
-  rgbTransaction: boolean
   id: number
   txHash: string
   blockId: number

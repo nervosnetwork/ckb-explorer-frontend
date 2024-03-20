@@ -18,15 +18,6 @@ export const ScriptTagExtraRules = new Map<string, (s: Script) => string>([
 ])
 
 export const MainnetContractHashTags: ContractHashTag[] = [
-  // FIXME should update when the mainnet rgb++ contract is deployed
-  {
-    codeHashes: ['0xd23761b364210735c19c60561d213fb3beae2fd6172743719eff6920e020baac'],
-    txHashes: ['0x4dcf3f3b09efac8995d6cbee87c5345e812d310094651e0c3d9a730f32dc9263-0'],
-    depType: 'dep_group',
-    hashType: 'type',
-    tag: 'rgb++',
-    category: 'lock',
-  },
   {
     codeHashes: ['0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8'],
     txHashes: ['0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-0'],
@@ -290,15 +281,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
-  // FIXME should update when the testnet rgb++ contract is deployed
-  {
-    codeHashes: ['0xd23761b364210735c19c60561d213fb3beae2fd6172743719eff6920e020baac'],
-    txHashes: ['0x4dcf3f3b09efac8995d6cbee87c5345e812d310094651e0c3d9a730f32dc9263-0'],
-    depType: 'dep_group',
-    hashType: 'type',
-    tag: 'rgb++',
-    category: 'lock',
-  },
   {
     codeHashes: ['0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8'],
     txHashes: ['0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37-0'],

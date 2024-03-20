@@ -17,7 +17,7 @@ export const TransactionDiv = styled.div.attrs({
 
   .transactionInputs {
     width: 100%;
-    margin-top: 4px;
+    margin-top: 24px;
 
     @media (max-width: ${variables.mobileBreakPoint}) {
       margin-top: 20px;

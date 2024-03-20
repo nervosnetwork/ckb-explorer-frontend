@@ -14,6 +14,7 @@ import {
   AddressLockScriptController,
   AddressLockScriptPanel,
   AddressTransactionsPanel,
+  AddressUDTAssetsContent,
   AddressUDTAssetsList,
   AddressUDTAssetsPanel,
 } from './styled'
@@ -60,6 +61,7 @@ enum AssetInfo {
   UDT = 1,
   INSCRIPTION,
   CELLs,
+  RGBPP,
 }
 
 const lockScriptIcon = (show: boolean) => {
@@ -208,6 +210,8 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
     }
   }, [hasAssets, hasInscriptions, hasCells, setActiveTab])
 
+  const isRGBPP = true
+
   return (
     <Card className={styles.addressOverviewCard}>
       <div className={styles.cardTitle}>{t('address.overview')}</div>
@@ -226,36 +230,57 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 }
                 key={AssetInfo.UDT}
               >
-                <div className="addressUdtAssetsGrid">
-                  {udts.map(udt => {
-                    switch (udt.udtType) {
-                      case 'sudt':
-                        return <AddressSudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+                <AddressUDTAssetsContent>
+                  <AddressUDTAssetsList>
+                    {udts.map(udt => {
+                      switch (udt.udtType) {
+                        case 'sudt':
+                          return (
+                            <AddressSudtComp
+                              isRGBPP={isRGBPP}
+                              account={udt}
+                              key={udt.symbol + udt.udtType + udt.amount}
+                            />
+                          )
 
-                      case 'spore_cell':
-                        return <AddressSporeComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+                        case 'spore_cell':
+                          return (
+                            <AddressSporeComp
+                              isRGBPP={isRGBPP}
+                              account={udt}
+                              key={udt.symbol + udt.udtType + udt.amount}
+                            />
+                          )
 
-                      case 'm_nft_token':
-                        return <AddressMNFTComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
-                      default:
-                        return null
-                    }
-                  })}
-                  {cotaList?.map(cota => (
-                    <AddressCoTAComp
-                      account={{
-                        udtType: 'cota',
-                        symbol: cota.collection.name,
-                        udtIconFile: cota.collection.icon_url ?? '',
-                        cota: {
-                          cotaId: cota.collection.id,
-                          tokenId: Number(cota.token_id),
-                        },
-                      }}
-                      key={cota.collection.id + cota.token_id}
-                    />
-                  )) ?? null}
-                </div>
+                        case 'm_nft_token':
+                          return (
+                            <AddressMNFTComp
+                              isRGBPP={isRGBPP}
+                              account={udt}
+                              key={udt.symbol + udt.udtType + udt.amount}
+                            />
+                          )
+                        default:
+                          return null
+                      }
+                    })}
+                    {cotaList?.map(cota => (
+                      <AddressCoTAComp
+                        isRGBPP={isRGBPP}
+                        account={{
+                          udtType: 'cota',
+                          symbol: cota.collection.name,
+                          udtIconFile: cota.collection.icon_url ?? '',
+                          cota: {
+                            cotaId: cota.collection.id,
+                            tokenId: Number(cota.token_id),
+                          },
+                        }}
+                        key={cota.collection.id + cota.token_id}
+                      />
+                    )) ?? null}
+                  </AddressUDTAssetsList>
+                </AddressUDTAssetsContent>
               </AddressAssetsTabPane>
             )}
             {hasInscriptions ? (
@@ -267,24 +292,108 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 }
                 key={AssetInfo.INSCRIPTION}
               >
-                <div className="addressUdtAssetsGrid">
-                  {inscriptions.map(inscription => {
-                    switch (inscription.udtType) {
-                      case 'omiga_inscription':
-                        return (
-                          <AddressOmigaInscriptionComp
-                            account={inscription}
-                            key={`${inscription.symbol + inscription.udtType + inscription.udtAmount}`}
-                          />
-                        )
+                <AddressUDTAssetsContent>
+                  <AddressUDTAssetsList>
+                    {inscriptions.map(inscription => {
+                      switch (inscription.udtType) {
+                        case 'omiga_inscription':
+                          return (
+                            <AddressOmigaInscriptionComp
+                              isRGBPP={isRGBPP}
+                              account={inscription}
+                              key={`${inscription.symbol + inscription.udtType + inscription.udtAmount}`}
+                            />
+                          )
 
-                      default:
-                        return null
-                    }
-                  })}
-                </div>
+                        default:
+                          return null
+                      }
+                    })}
+                  </AddressUDTAssetsList>
+                </AddressUDTAssetsContent>
               </AddressAssetsTabPane>
             ) : null}
+            {(hasInscriptions || hasAssets) && (
+              <AddressAssetsTabPane
+                tab={
+                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.RGBPP)}>
+                    {t('address.rgb_plus_plus')}
+                  </AddressAssetsTabPaneTitle>
+                }
+                key={AssetInfo.RGBPP}
+              >
+                <AddressUDTAssetsContent>
+                  <AddressUDTAssetsList>
+                    {udts.map(udt => {
+                      switch (udt.udtType) {
+                        case 'sudt':
+                          return (
+                            <AddressSudtComp
+                              isRGBPP={isRGBPP}
+                              account={udt}
+                              key={udt.symbol + udt.udtType + udt.amount}
+                            />
+                          )
+
+                        case 'spore_cell':
+                          return (
+                            <AddressSporeComp
+                              isRGBPP={isRGBPP}
+                              account={udt}
+                              udtLabel="nft"
+                              key={udt.symbol + udt.udtType + udt.amount}
+                            />
+                          )
+
+                        case 'm_nft_token':
+                          return (
+                            <AddressMNFTComp
+                              isRGBPP={isRGBPP}
+                              account={udt}
+                              udtLabel="nft"
+                              key={udt.symbol + udt.udtType + udt.amount}
+                            />
+                          )
+                        default:
+                          return null
+                      }
+                    })}
+                    {cotaList?.map(cota => (
+                      <AddressCoTAComp
+                        isRGBPP={isRGBPP}
+                        udtLabel="nft"
+                        account={{
+                          udtType: 'cota',
+                          symbol: cota.collection.name,
+                          udtIconFile: cota.collection.icon_url ?? '',
+                          cota: {
+                            cotaId: cota.collection.id,
+                            tokenId: Number(cota.token_id),
+                          },
+                        }}
+                        key={cota.collection.id + cota.token_id}
+                      />
+                    )) ?? null}
+                    {inscriptions.map(inscription => {
+                      switch (inscription.udtType) {
+                        case 'omiga_inscription':
+                          return (
+                            <AddressOmigaInscriptionComp
+                              isRGBPP={isRGBPP}
+                              account={inscription}
+                              udtLabel="inscription"
+                              key={`${inscription.symbol + inscription.udtType + inscription.udtAmount}`}
+                            />
+                          )
+
+                        default:
+                          return null
+                      }
+                    })}
+                  </AddressUDTAssetsList>
+                </AddressUDTAssetsContent>
+              </AddressAssetsTabPane>
+            )}
 
             {hasCells ? (
               <AddressAssetsTabPane
@@ -295,9 +404,9 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 }
                 key={AssetInfo.CELLs}
               >
-                <AddressUDTAssetsList>
+                <div className="addressUdtAssetsGrid">
                   <Cells address={address.addressHash} count={+address.liveCellsCount} />
-                </AddressUDTAssetsList>
+                </div>
               </AddressAssetsTabPane>
             ) : null}
           </AddressAssetsTab>
