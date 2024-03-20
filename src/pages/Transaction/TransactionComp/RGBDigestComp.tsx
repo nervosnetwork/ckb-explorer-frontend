@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Card } from '../../../components/Card'
 import styles from './TransactionDetailsHeader.module.scss'
 import { TransactionRGBPPDigestContent } from '../../../components/TransactionItem/TransactionRGBPPDigestModal/TransactionRGBPPDigestContent'
+import { RGBDigest } from '../../../services/ExplorerService'
 import { TransactionLeapDirection } from '../../../components/TransactionItem/TransactionRGBPPDigestModal/types'
 
-export const RGBDigestComp = ({ hash, leapDirection }: { hash: string; leapDirection: TransactionLeapDirection }) => {
+export const RGBDigestComp = ({ tx, leapDirection }: { tx: RGBDigest; leapDirection: TransactionLeapDirection }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -15,7 +16,7 @@ export const RGBDigestComp = ({ hash, leapDirection }: { hash: string; leapDirec
         </div>
       </Card>
       <Card className={styles.digestContent}>
-        <TransactionRGBPPDigestContent hash={hash} leapDirection={leapDirection} />
+        <TransactionRGBPPDigestContent tx={tx} leapDirection={leapDirection} />
       </Card>
     </>
   )
