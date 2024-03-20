@@ -22,7 +22,7 @@ export const TransactionRGBPPDigestContent = ({
       <div className={styles.transactionInfo}>
         <div className={styles.left}>
           <span>{t('address.seal_tx_on_bitcoin')}</span>
-          <span className={styles.transactionHash}>{tx.txid}</span>
+          <span className={styles.transactionHash}>{tx.txId}</span>
           <span className={styles.blockConfirm}>({tx.confirmations} Bitcoin Confirmed)</span>
           <Tooltip placement="top" title={t(`address.leap_${leapDirection}_tip`)}>
             <span className={styles.leap}>{t(`address.leap_${leapDirection}`)}</span>
