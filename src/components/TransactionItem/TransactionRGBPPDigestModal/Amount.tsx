@@ -21,11 +21,7 @@ export const Amount = ({
   return (
     <div className={className}>
       {brackets && '('}
-      <span className={styles.integer}>{integer}</span>.
-      <span className={styles.decimal}>
-        {decimal ?? '00000000'}
-        {brackets && 'CKB'}
-      </span>
+      <span className={styles.integer}>{integer}</span>.<span className={styles.decimal}>{decimal}</span>
       {brackets && ')'}
     </div>
   )
