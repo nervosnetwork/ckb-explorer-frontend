@@ -28,7 +28,6 @@ import { ReactComponent as SearchIcon } from './search.svg'
 import { ReactComponent as SpinnerIcon } from './spinner.svg'
 import { ReactComponent as ClearIcon } from './clear.svg'
 import SimpleButton from '../SimpleButton'
-import { isValidBTCAddress } from '../../utils/bitcoin'
 
 // Currently, the API returns all search results, which could be extremely large in quantity.
 // Since the rendering component does not implement virtual scrolling, this leads to a significant decrease in page performance.
@@ -64,7 +63,7 @@ const Search: FC<{
     refetch: refetchSearchById,
     data: urlByIdSearch,
     isFetching: isFetchingById,
-  } = useQuery(['searchById', searchValue], () => getURLByIdSearch(searchValue), {
+  } = useQuery(['searchById', searchValue], () => getURLByIdSearch(addPrefixForHash(searchValue)), {
     enabled: false,
     cacheTime: 0,
   })
@@ -195,12 +194,8 @@ const SearchInput: FC<
 }
 
 const getURLByIdSearch = async (searchValue: string) => {
-  // check whether is btc address
-  if (isValidBTCAddress(searchValue)) {
-    return `/address/${searchValue}`
-  }
   // TODO: Is this replace needed?
-  const query = addPrefixForHash(searchValue).replace(',', '')
+  const query = searchValue.replace(',', '')
   if (!query || containSpecialChar(query)) {
     return `/search/fail?q=${query}`
   }
@@ -237,9 +232,6 @@ const getURLByIdSearch = async (searchValue: string) => {
 
       case SearchResultType.UDT:
         return data.attributes.udtType === 'omiga_inscription' ? `/inscription/${query}` : `/sudt/${query}`
-
-      case SearchResultType.BtcTx:
-        return `/transaction/${attributes.ckbTransactionHash}`
 
       default:
         break

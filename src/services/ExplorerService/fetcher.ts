@@ -17,7 +17,7 @@ import { assert } from '../../utils/error'
 import { Cell } from '../../models/Cell'
 import { Script } from '../../models/Script'
 import { Block } from '../../models/Block'
-import { BtcTx, Transaction } from '../../models/Transaction'
+import { Transaction } from '../../models/Transaction'
 import { Address } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
 import { HashType } from '../../constants/common'
@@ -57,7 +57,6 @@ export enum SearchResultType {
   UDT = 'udt',
   TypeScript = 'type_script',
   LockScript = 'lock_script',
-  BtcTx = 'bitcoin_transaction',
 }
 
 export const apiFetcher = {
@@ -237,7 +236,6 @@ export const apiFetcher = {
       | Response.Wrapper<Address, SearchResultType.Address>
       | Response.Wrapper<Address, SearchResultType.LockHash>
       | Response.Wrapper<UDT, SearchResultType.UDT>
-      | Response.Wrapper<BtcTx, SearchResultType.BtcTx>
       | Response.Wrapper<Script & { scriptHash: string }, SearchResultType.TypeScript>
       | Response.Wrapper<Script, SearchResultType.LockScript>
     >('suggest_queries', {

@@ -36,9 +36,3 @@ export interface Transaction {
   maxCycles: number | null
   createTimestamp?: number
 }
-
-export interface BtcTx {
-  txId: string
-  transactionHash: string
-  ckbTransactionHash: string
-}
