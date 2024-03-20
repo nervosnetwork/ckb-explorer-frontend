@@ -10,7 +10,7 @@ export const Amount = ({
   diffStatus: DiffStatus
   brackets?: boolean
 }) => {
-  const [integer, decimal = '00000000'] = amount.split('.')
+  const [integer, decimal] = amount.split('.')
   let className = ''
   if (diffStatus === 'negative') {
     className = styles.decrease
@@ -23,7 +23,7 @@ export const Amount = ({
       {brackets && '('}
       <span className={styles.integer}>{integer}</span>.
       <span className={styles.decimal}>
-        {decimal}
+        {decimal ?? '00000000'}
         {brackets && 'CKB'}
       </span>
       {brackets && ')'}
