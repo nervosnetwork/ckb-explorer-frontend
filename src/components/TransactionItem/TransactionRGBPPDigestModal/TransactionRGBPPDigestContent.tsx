@@ -37,7 +37,20 @@ export const TransactionRGBPPDigestContent = ({
       <div className={styles.transactionInfo}>
         <div className={styles.left}>
           <span>{t('address.seal_tx_on_bitcoin')}</span>
-          <AddressText className={styles.transactionHash} style={{ maxWidth: '319px' }}>
+          <AddressText
+            className={styles.transactionHash}
+            style={{ maxWidth: '319px' }}
+            onClick={() => {
+              navigator.clipboard.writeText(data.data.txid).then(
+                () => {
+                  setToast({ message: t('common.copied') })
+                },
+                error => {
+                  console.error(error)
+                },
+              )
+            }}
+          >
             {data.data.txid}
           </AddressText>
           <span className={styles.blockConfirm}>({data.data.confirmations} Bitcoin Confirmed)</span>
