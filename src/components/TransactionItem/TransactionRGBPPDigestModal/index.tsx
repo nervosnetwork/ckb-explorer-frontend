@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import styles from './styles.module.scss'
-import CloseIcon from '../../../assets/modal_close.png'
+import { ReactComponent as CloseIcon } from '../../../assets/close_icon.svg'
 import { explorerService } from '../../../services/ExplorerService'
 import { TransactionRGBPPDigestContent } from './TransactionRGBPPDigestContent'
 import { TransactionLeapDirection } from './types'
@@ -23,9 +23,7 @@ const TransactionRGBPPDigestModal = ({
     <div className={styles.container}>
       <div className={styles.header}>
         <span className={styles.left}>{t('address.transaction_rgbpp_digest')}</span>
-        <button onClick={() => onClickClose()} type="button">
-          <img src={CloseIcon} alt="close icon" />
-        </button>
+        <CloseIcon className={styles.right} onClick={() => onClickClose()} />
       </div>
       {data && <TransactionRGBPPDigestContent tx={data.data} leapDirection={leapDirection} />}
     </div>
