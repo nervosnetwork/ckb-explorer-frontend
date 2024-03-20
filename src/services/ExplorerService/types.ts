@@ -278,16 +278,3 @@ interface FetchStatusValue {
 export type FetchStatus = keyof FetchStatusValue
 
 export type SupportedExportTransactionType = 'address_transactions' | 'blocks' | 'udts' | 'nft' | 'omiga_inscriptions'
-
-export interface RGBDigest {
-  txId: string
-  confirmations: number
-  commitment: string
-  transfers: {
-    address: string
-    transfers: {
-      capacity: string
-      cellType: string
-    }[]
-  }[]
-}
