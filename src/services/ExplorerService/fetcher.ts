@@ -72,14 +72,12 @@ export const apiFetcher = {
   fetchLatestBlocks: (size: number) => apiFetcher.fetchBlocks(1, size),
 
   fetchAddressInfo: (address: string) =>
-    v1GetWrappedList<Address>(`addresses/${address}`).then((wrapper): Address[] => {
-      return wrapper.map(
-        (item): Address => ({
-          ...item.attributes,
-          type: item.type === 'lock_hash' ? 'LockHash' : 'Address',
-        }),
-      )
-    }),
+    v1GetWrapped<Address>(`addresses/${address}`).then(
+      (wrapper): Address => ({
+        ...wrapper.attributes,
+        type: wrapper.type === 'lock_hash' ? 'LockHash' : 'Address',
+      }),
+    ),
 
   // sort field, block_timestamp, capacity
   // sort type, asc, desc
