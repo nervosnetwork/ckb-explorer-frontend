@@ -19,8 +19,8 @@ const TransactionRGBPPDigestModal = ({
     <div className={styles.container}>
       <div className={styles.header}>
         <span className={styles.left}>{t('address.transaction_rgbpp_digest')}</span>
-        <button onClick={() => onClickClose()} type="button">
-          <img src={CloseIcon} alt="close icon" />
+        <button onClick={() => onClickClose()} type="button" className={styles.buttonClose}>
+          <img src={CloseIcon} alt="close icon" style={{ width: '100%' }} />
         </button>
       </div>
       <TransactionRGBPPDigestContent leapDirection={leapDirection} hash={hash} />
