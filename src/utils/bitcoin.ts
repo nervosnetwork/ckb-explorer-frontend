@@ -15,14 +15,9 @@ export enum BTCAddressType {
   P2TR = 'P2TR',
 }
 
-export enum BTCAddressEncodeType {
-  Bech32 = 'Bech32',
-  Base58 = 'Base58',
-}
-
 export interface Address {
   type: BTCAddressType
-  encodeType: BTCAddressEncodeType
+  isBech32: boolean
   address: string
   network: BTCNetwork
 }
@@ -70,7 +65,7 @@ export const parseBTCAddress = (address: string): Address | undefined => {
   }
 
   return {
-    encodeType: BTCAddressEncodeType.Base58,
+    isBech32: false,
     address,
     network,
     type: addressType,
@@ -123,7 +118,7 @@ export const parseBech32Address = (address: string): Address | undefined => {
   }
 
   return {
-    encodeType: BTCAddressEncodeType.Bech32,
+    isBech32: true,
     address,
     network,
     type: addressType,

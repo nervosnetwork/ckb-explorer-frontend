@@ -7,11 +7,16 @@ import AddressText from '../../AddressText'
 export const TransactionRGBPPDigestTransfer = ({ transfer }: { transfer: TransactionRecord }) => {
   const address = parseBTCAddress(transfer.address)
 
-  return address ? (
+  let addressType = ''
+  if (address) {
+    addressType = address.isBech32 ? `Bech32 (${address.type})` : `Base58 (${address.type})`
+  }
+
+  return (
     <div className={styles.script}>
       <div className={styles.addressInfo}>
         <AddressText className={styles.address}>{transfer.address}</AddressText>
-        <span className={styles.addressType}>{`${address.encodeType} (${address.type})`}</span>
+        <span className={styles.addressType}>{addressType}</span>
       </div>
       <div>
         {transfer.transfers.map(transfer => (
@@ -19,5 +24,5 @@ export const TransactionRGBPPDigestTransfer = ({ transfer }: { transfer: Transac
         ))}
       </div>
     </div>
-  ) : null
+  )
 }
