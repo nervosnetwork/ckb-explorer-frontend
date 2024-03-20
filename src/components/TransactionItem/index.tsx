@@ -126,7 +126,7 @@ const TransactionItem = ({
             >
               {transaction.transactionHash}
             </AddressText>
-            {transaction.isRgbTransaction && (
+            {transaction.isRGBTransaction && (
               <SimpleButton
                 onClick={() => {
                   setShowModal(true)

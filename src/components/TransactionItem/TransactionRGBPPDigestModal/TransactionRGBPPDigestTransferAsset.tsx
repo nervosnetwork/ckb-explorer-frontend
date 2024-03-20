@@ -18,10 +18,7 @@ export const TransactionRGBPPDigestTransferAsset = ({ transfer }: { transfer: Li
       name = 'CKB'
       break
     case 'udt':
-      name =
-        transfer.udtInfo.uan ||
-        transfer.udtInfo.symbol ||
-        `${t('udt.unknown_token')} #${transfer.udtInfo.typeHash.substring(transfer.udtInfo.typeHash.length - 4)}`
+      name = transfer.udtInfo.uan || transfer.udtInfo.symbol
       break
     case 'spore_cell':
       name = transfer.name

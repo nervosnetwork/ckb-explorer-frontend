@@ -114,16 +114,12 @@
   }
 }
 
-.amount {
-  &[data-diff-status='positive'] {
-    color: var(--primary-color);
-  }
-
-  &[data-diff-status='negative'] {
-    color: #fa504f;
-  }
-
+.increase {
   color: var(--primary-color);
+}
+
+.decrease {
+  color: #fa504f;
 }
 
 .leap {
