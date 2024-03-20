@@ -18,7 +18,6 @@ export const ScriptTagExtraRules = new Map<string, (s: Script) => string>([
 ])
 
 export const MainnetContractHashTags: ContractHashTag[] = [
-  // FIXME should update when the mainnet rgb++ contract is deployed
   {
     codeHashes: ['0xd23761b364210735c19c60561d213fb3beae2fd6172743719eff6920e020baac'],
     txHashes: ['0x4dcf3f3b09efac8995d6cbee87c5345e812d310094651e0c3d9a730f32dc9263-0'],
@@ -290,7 +289,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
-  // FIXME should update when the testnet rgb++ contract is deployed
   {
     codeHashes: ['0xd23761b364210735c19c60561d213fb3beae2fd6172743719eff6920e020baac'],
     txHashes: ['0x4dcf3f3b09efac8995d6cbee87c5345e812d310094651e0c3d9a730f32dc9263-0'],
