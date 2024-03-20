@@ -169,7 +169,7 @@
       "sUDT": "sUDT",
       "inscriptions": "Inscriptions",
       "docs": "Docs",
-      "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash/Args",
+      "search_placeholder": "Block/Transaction/Address/Code Hash/Lock Hash/Type Hash/Args",
       "search_by_name_placeholder": "Token Name",
       "mainnet": "LINA",
       "testnet": "TESTNET",
