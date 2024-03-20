@@ -2,7 +2,7 @@
 import { useState, ReactNode, FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { Trans, useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
+import { Radio, Tooltip } from 'antd'
 import classNames from 'classnames'
 import { Link } from '../../../components/Link'
 import Capacity from '../../../components/Capacity'
@@ -29,7 +29,7 @@ import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../../co
 import RawTransactionView from '../../../components/RawTransactionView'
 import { ReactComponent as DownloadIcon } from './download.svg'
 import { useSetToast } from '../../../components/Toast'
-import { useIsMobile } from '../../../hooks'
+import { useIsMobile, useUpdateSearchParams } from '../../../hooks'
 import styles from './TransactionOverview.module.scss'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
@@ -106,8 +106,7 @@ export const TransactionOverviewCard: FC<{
   txHash: string
   transaction: Transaction
   layout: LayoutLiteProfessional
-  isRGB?: boolean
-}> = ({ txHash, transaction, layout, isRGB }) => {
+}> = ({ txHash, transaction, layout }) => {
   const [detailTab, setDetailTab] = useState<'params' | 'raw' | null>(null)
   const tipBlockNumber = useLatestBlockNumber()
   const {
@@ -377,6 +376,32 @@ export const TransactionOverviewCard: FC<{
     link.remove()
   }
 
+  const defaultLayout = LayoutLiteProfessional.Professional
+  const updateSearchParams = useUpdateSearchParams<'layout'>()
+  const onChangeLayout = (layoutType: LayoutLiteProfessional) => {
+    updateSearchParams(params =>
+      layoutType === defaultLayout
+        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
+        : { ...params, layout: layoutType },
+    )
+  }
+
+  const professionalLiteBox = (
+    <div className={styles.professionalLiteBox}>
+      <Radio.Group
+        className={styles.layoutButtons}
+        options={[
+          { label: t('transaction.professional'), value: LayoutLiteProfessional.Professional },
+          { label: t('transaction.lite'), value: LayoutLiteProfessional.Lite },
+        ]}
+        onChange={({ target: { value } }) => onChangeLayout(value)}
+        value={layout}
+        optionType="button"
+        buttonStyle="solid"
+      />
+    </div>
+  )
+
   return (
     <Card className={styles.transactionOverviewCard}>
       <HashCardHeader
@@ -389,14 +414,9 @@ export const TransactionOverviewCard: FC<{
             </SimpleButton>
           </Tooltip>,
         ]}
-        rightContent={
-          isRGB ? (
-            <div className={styles.rgbPlus}>
-              <span>RGB++</span>
-            </div>
-          ) : null
-        }
+        rightContent={!isMobile && professionalLiteBox}
       />
+      {isMobile && professionalLiteBox}
 
       {(txStatus !== 'committed' || blockTimestamp > 0) && (
         <TransactionOverviewPanel>

@@ -50,9 +50,9 @@ export const TransactionRGBPPDigestContent = ({
           />
         </div>
       </div>
-      {(tx.transfers ?? []).map(transfer =>
-        transfer && transfer.address ? <TransactionRGBPPDigestTransfer transfer={transfer} /> : null,
-      )}
+      {(tx.transfers ?? []).map(transfer => (
+        <TransactionRGBPPDigestTransfer transfer={transfer} />
+      ))}
     </div>
   )
 }
