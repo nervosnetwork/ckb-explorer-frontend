@@ -145,8 +145,6 @@ export const AddressAssetsTab = styled(Tabs)`
 export const AddressAssetsTabPane = styled(TabPane)``
 
 export const AddressAssetsTabPaneTitle = styled.span`
-  font-family: Roboto, sans-serif;
-  color: #000;
   font-size: 16px;
   font-weight: 500;
   line-height: 19px;
@@ -154,37 +152,34 @@ export const AddressAssetsTabPaneTitle = styled.span`
   text-align: left;
 `
 
-export const AddressUDTAssetsList = styled.div`
-  overflow-y: scroll;
-  width: 100%;
-  display: flex;
-  gap: 16px;
-  background-color: #f1f1f1;
-  flex-flow: row wrap;
-
-  @media (min-width: ${variables.extraLargeBreakPoint}) {
-    max-height: 153px;
-  }
-
-  @media (max-width: ${variables.extraLargeBreakPoint}) {
-    max-height: 252px;
-  }
-`
-
-export const AddressUDTAssetsContent = styled.div`
-  background-color: #f1f1f1;
-  padding: 16px 25px;
-  width: 100%;
-  display: flex;
-  gap: 16px;
-  flex-flow: row wrap;
-  max-height: 400px;
-`
-
 export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
+  > span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+  }
+
+  .addressUdtAssetsGrid {
+    margin-top: 10px;
+    background-color: #f1f1f1;
+    padding: 6px 25px;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    overflow-y: scroll;
+
+    @media (min-width: ${variables.extraLargeBreakPoint}) {
+      max-height: 220px;
+    }
+
+    @media (max-width: ${variables.extraLargeBreakPoint}) {
+      max-height: 310px;
+    }
+  }
 
   @media (max-width: ${variables.mobileBreakPoint}) {
     padding-top: 16px;
@@ -195,6 +190,7 @@ export const AddressUDTAssetsPanel = styled.div`
 export const AddressUDTItemPanel = styled.a`
   display: flex;
   flex-direction: column;
+  margin: 6px 15px;
   background: #fff;
   width: 260px;
   border-radius: 4px;
@@ -211,14 +207,12 @@ export const AddressUDTItemPanel = styled.a`
     text-align: left;
     font-size: 12px;
     padding: 2px 8px;
+    background: ${props => props.theme.primary};
+    color: #fff;
     border-radius: 4px 4px 0 0;
 
     span {
       text-transform: uppercase;
-      font-size: 12px;
-      font-family: jetbrains-mono, sans-serif;
-      font-weight: 500;
-      color: #000;
     }
   }
 
@@ -227,13 +221,6 @@ export const AddressUDTItemPanel = styled.a`
     padding: 8px;
     align-items: center;
     line-height: 20px;
-
-    span {
-      font-size: 14px;
-      font-family: Roboto, sans-serif;
-      font-weight: 500;
-      color: #000;
-    }
   }
 
   .addressUdtItemIcon {

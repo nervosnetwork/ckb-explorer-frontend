@@ -6,16 +6,6 @@
 }
 
 @font-face {
-  font-family: digital-clock-font;
+  font-family:digital-clock-font;
   src: url('./digital-7.ttf');
-}
-
-@font-face {
-  font-family: jetbrains-mono;
-  src: url('./JetBrainsMono-Regular.ttf');
-}
-
-@font-face {
-  font-family: Roboto;
-  src: url('./Roboto-Regular.ttf');
 }
