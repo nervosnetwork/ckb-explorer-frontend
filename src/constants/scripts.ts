@@ -19,10 +19,10 @@ export const ScriptTagExtraRules = new Map<string, (s: Script) => string>([
 
 export const MainnetContractHashTags: ContractHashTag[] = [
   {
-    codeHashes: ['0xd23761b364210735c19c60561d213fb3beae2fd6172743719eff6920e020baac'],
-    txHashes: ['0x4dcf3f3b09efac8995d6cbee87c5345e812d310094651e0c3d9a730f32dc9263-0'],
-    depType: 'dep_group',
+    codeHashes: ['0x7f5a09b8bd0e85bcf2ccad96411ccba2f289748a1c16900b0635c2ed9126f288'],
+    txHashes: ['0x053fdb4ed3181eab3a3a5f05693b53a8cdec0a24569e16369f444bac48be7de9-0'],
     hashType: 'type',
+    depType: 'code',
     tag: 'rgb++',
     category: 'lock',
   },
@@ -290,10 +290,10 @@ export const MainnetContractHashTags: ContractHashTag[] = [
 
 export const TestnetContractHashTags: ContractHashTag[] = [
   {
-    codeHashes: ['0xd23761b364210735c19c60561d213fb3beae2fd6172743719eff6920e020baac'],
-    txHashes: ['0x4dcf3f3b09efac8995d6cbee87c5345e812d310094651e0c3d9a730f32dc9263-0'],
-    depType: 'dep_group',
+    codeHashes: ['0x7f5a09b8bd0e85bcf2ccad96411ccba2f289748a1c16900b0635c2ed9126f288'],
+    txHashes: ['0x053fdb4ed3181eab3a3a5f05693b53a8cdec0a24569e16369f444bac48be7de9-0'],
     hashType: 'type',
+    depType: 'code',
     tag: 'rgb++',
     category: 'lock',
   },

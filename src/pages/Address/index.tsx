@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Tooltip } from 'antd'
 import { FC } from 'react'
-import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import Content from '../../components/Content'
 import { AddressContentPanel } from './styled'
 import { AddressTransactions, AddressOverviewCard } from './AddressComp'
@@ -25,7 +24,6 @@ import { useDASAccount } from '../../hooks/useDASAccount'
 import { Link } from '../../components/Link'
 import { isValidBTCAddress } from '../../utils/bitcoin'
 import config from '../../config'
-import { matchScript } from '../../utils/util'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
@@ -106,12 +104,6 @@ export const Address = () => {
   let isRGBPP = false
   if (isValidBTCAddress(address)) {
     isRGBPP = true
-  } else {
-    const script = addressToScript(address)
-    const tag = matchScript(script.codeHash, script.hashType)
-    if (tag && tag.tag === 'rgb++') {
-      isRGBPP = true
-    }
   }
 
   const newAddr = useNewAddr(address)
@@ -149,7 +141,7 @@ export const Address = () => {
         </Card>
 
         <QueryResult query={addressInfoQuery} delayLoading>
-          {data => (data ? <AddressOverviewCard address={data} isRGBPP={isRGBPP} /> : <div />)}
+          {data => (data ? <AddressOverviewCard address={data} /> : <div />)}
         </QueryResult>
 
         <QueryResult query={addressTransactionsQuery} delayLoading>
