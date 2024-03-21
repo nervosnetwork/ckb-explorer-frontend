@@ -16,6 +16,22 @@
   box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
 }
 
+.ellipsisText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.highlightText {
+  white-space: nowrap;
+  overflow: hidden;
+  display: flex;
+}
+
+.highlight {
+  color: var(--primary-color);
+}
+
 .empty {
   padding: 28px 0;
   text-align: center;
@@ -31,6 +47,7 @@
   cursor: pointer;
 
   &:hover {
+    color: #000;
     background: #f5f5f5;
   }
 }
