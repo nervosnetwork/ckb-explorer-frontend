@@ -151,6 +151,7 @@ const Search: FC<{
 
       {(isFetchingByName || searchByNameResults) && (
         <SearchByNameResults
+          keyword={keyword}
           udtQueryResults={searchByNameResults?.slice(0, DISPLAY_COUNT) ?? []}
           loading={isFetchingByName}
         />
