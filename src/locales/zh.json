@@ -169,7 +169,7 @@
       "sUDT": "sUDT",
       "inscriptions": "铭文",
       "docs": "文档",
-      "search_placeholder": "区块/交易/地址/Code Hash/锁定脚本哈希/Type 脚本哈希/Args 参数",
+      "search_placeholder": "区块/交易/地址/锁定脚本哈希/Type 脚本哈希/Args 参数",
       "search_by_name_placeholder": "代币名称",
       "mainnet": "LINA",
       "testnet": "测试网",
