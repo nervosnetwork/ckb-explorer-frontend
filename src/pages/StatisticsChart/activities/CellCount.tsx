@@ -86,6 +86,7 @@ const useOption = (
         }
       : undefined,
     legend: {
+      icon: 'roundRect',
       data: isThumbnail
         ? []
         : [
