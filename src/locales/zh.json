@@ -329,7 +329,8 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum"
+      "forum": "Forum",
+      "api-doc": "API 文档"
     },
     "search": {
       "loading": "加载中...",

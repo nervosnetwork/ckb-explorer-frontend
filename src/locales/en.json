@@ -329,7 +329,8 @@
       "telegram": "Telegram",
       "reddit": "Reddit",
       "youtube": "YouTube",
-      "forum": "Forum"
+      "forum": "Forum",
+      "api-doc": "API Documentation"
     },
     "search": {
       "loading": "Loading...",
