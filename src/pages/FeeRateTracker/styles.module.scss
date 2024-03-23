@@ -156,6 +156,7 @@
     }
 
     .chart {
+      position: relative;
       height: 100%;
       width: 100%;
       font-size: 13px;
@@ -211,5 +212,19 @@
         }
       }
     }
+  }
+}
+
+.scaleSelector {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 8px;
+
+  input[type='radio'] {
+    accent-color: #5824fb;
   }
 }
