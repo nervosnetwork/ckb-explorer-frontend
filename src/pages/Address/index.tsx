@@ -22,6 +22,7 @@ import { ReactComponent as ShareIcon } from './share.svg'
 import styles from './styles.module.scss'
 import { useDASAccount } from '../../hooks/useDASAccount'
 import { Link } from '../../components/Link'
+import Qrcode from '../../components/Qrcode'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
@@ -111,6 +112,7 @@ export const Address = () => {
             title={addressInfoQuery.data?.type === 'LockHash' ? t('address.lock_hash') : t('address.address')}
             hash={address}
             customActions={[
+              <Qrcode text={address} />,
               counterpartAddr ? (
                 <Tooltip
                   placement="top"

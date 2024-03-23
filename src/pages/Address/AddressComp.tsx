@@ -156,12 +156,17 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
     },
   )
 
-  const { data: cotaList } = useQuery(['cota-list', initList?.pagination.series], () =>
-    Promise.all(
-      (initList?.pagination.series ?? []).map(p =>
-        explorerService.api.fetchNFTItemByOwner(address.addressHash, 'cota', p),
-      ),
-    ).then(resList => resList.flatMap(res => res.data)),
+  const { data: cotaList } = useQuery(
+    ['cota-list', initList?.pagination?.series],
+    () =>
+      Promise.all(
+        (initList?.pagination.series ?? []).map(p =>
+          explorerService.api.fetchNFTItemByOwner(address.addressHash, 'cota', p),
+        ),
+      ).then(resList => resList.flatMap(res => res.data)),
+    {
+      enabled: !!initList?.pagination?.series?.length,
+    },
   )
 
   const overviewItems: CardCellInfo<'left' | 'right'>[] = [
