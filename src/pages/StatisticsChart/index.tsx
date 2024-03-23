@@ -14,6 +14,7 @@ import { DifficultyChart } from './mining/Difficulty'
 import { HashRateChart } from './mining/HashRate'
 import { UncleRateChart } from './mining/UncleRate'
 import { BalanceDistributionChart } from './activities/BalanceDistribution'
+// import { ContractResourceDistributedChart } from './activities/ContractResourceDistributed'
 import { TxFeeHistoryChart } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart } from './block/BlockTimeDistribution'
 import { EpochTimeDistributionChart } from './block/EpochTimeDistribution'
@@ -145,7 +146,7 @@ const useChartsData = () => {
           title: `${t('statistic.address_count')}`,
           chart: <AddressCountChart isThumbnail />,
           path: '/charts/address-count',
-          description: t('statistic.address_count_description'),
+          description: t('statistic.address_count_description_description'),
         },
         {
           title: t('statistic.cell_count'),
@@ -170,6 +171,12 @@ const useChartsData = () => {
           path: '/charts/tx-fee-history',
           description: t('statistic.tx_fee_description'),
         },
+        // {
+        //   title: `${t('statistic.contract_resource_distributed')}`,
+        //   chart: <ContractResourceDistributedChart isThumbnail />,
+        //   path: '/charts/contract-resource-distributed',
+        //   description: t('statistic.contract_resource_distributed_description'),
+        // },
       ],
     },
     {

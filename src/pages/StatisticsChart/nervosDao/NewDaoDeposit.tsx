@@ -82,6 +82,7 @@ const useOption = (
       : undefined,
     grid: isThumbnail ? gridThumbnail : grid,
     legend: {
+      icon: 'roundRect',
       data: isThumbnail
         ? []
         : [

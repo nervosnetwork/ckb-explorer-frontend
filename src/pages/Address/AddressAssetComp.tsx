@@ -35,7 +35,15 @@ export const AddressAssetComp = ({
         <span>{udtLabel}</span>
       </div>
       <div className="addressUdtDetail">
-        {icon && <img className="addressUdtItemIcon" src={icon.url} alt="udt icon" onError={icon.errorHandler} />}
+        {icon && (
+          <img
+            className="addressUdtItemIcon"
+            src={icon.url}
+            alt={`${udtLabel} icon`}
+            data-asset-type={udtLabel}
+            onError={icon.errorHandler}
+          />
+        )}
         <div className="addressUdtItemInfo">
           <span>{name}</span>
           <span>{property}</span>
