@@ -68,6 +68,7 @@ const useOption = (
       : undefined,
     legend: !isThumbnail
       ? {
+          icon: 'roundRect',
           data: [
             {
               name: t('statistic.daily_moving_average'),
