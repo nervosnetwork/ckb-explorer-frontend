@@ -112,6 +112,7 @@ module.exports = {
     '@typescript-eslint/lines-between-class-members': 'off',
     'no-redeclare': 'off',
     '@typescript-eslint/no-redeclare': 'error',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
   env: {
     jest: true,
