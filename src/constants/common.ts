@@ -1,4 +1,3 @@
-import { isMainnet } from '../utils/chain'
 import config from '../config'
 
 export const BLOCK_POLLING_TIME = 4000
@@ -20,12 +19,14 @@ export const EPOCHS_PER_HALVING = 8760
 export const THEORETICAL_EPOCH_TIME = 1000 * 60 * 60 * 4 // 4 hours
 export const PAGE_SIZE = 10
 
+export const IS_MAINNET = config.CHAIN_TYPE === 'mainnet'
+
 export function getPrimaryColor() {
-  return isMainnet() ? '#00CC9B' : '#9A2CEC'
+  return IS_MAINNET ? '#00CC9B' : '#9A2CEC'
 }
 
 export function getSecondaryColor() {
-  return isMainnet() ? '#00CC9B' : '#9A2CEC'
+  return IS_MAINNET ? '#00CC9B' : '#9A2CEC'
 }
 
 export const TOKEN_EMAIL_ADDRESS = 'ckb-explorer@nervosnet.com'

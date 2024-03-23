@@ -1,9 +1,8 @@
 import BigNumber from 'bignumber.js'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
-import styles from './styles.module.scss'
 import { ReactChartCore } from '../StatisticsChart/common'
 import { ReactComponent as BikeIcon } from './bike.svg'
 import { ReactComponent as CarIcon } from './car.svg'
@@ -12,6 +11,7 @@ import { ChartColor } from '../../constants/common'
 import { useCurrentLanguage } from '../../utils/i18n'
 import type { FeeRateTracker } from '../../services/ExplorerService/fetcher'
 import { handleAxis } from '../../utils/chart'
+import styles from './styles.module.scss'
 
 const textStyleInChart: echarts.EChartOption.TextStyle = {
   color: '#999999',
@@ -335,81 +335,108 @@ export const LastNDaysTransactionFeeRateChart = ({
 }: {
   lastNDaysTransactionFeeRates: FeeRateTracker.LastNDaysTransactionFeeRate[]
 }) => {
+  const [scaleType, setScaleType] = useState<'linear' | 'log'>('log')
   const { t } = useTranslation()
   const sortedLastNDaysTransactionFeeRates = lastNDaysTransactionFeeRates
     .filter(r => dayjs(r.date).isValid())
     .sort((a, b) => (dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1))
 
+  const onScaleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setScaleType(e.target.value as 'linear' | 'log')
+  }
+
   return (
-    <ReactChartCore
-      option={{
-        color: ChartColor.moreColors,
-        tooltip: {
-          trigger: 'item',
-          position: 'top',
-          textStyle: textStyleOfTooltip,
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          formatter(params) {
-            const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
-            const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
-            return `${t('fee_rate_tracker.date')}: ${feeRate ? dayjs(feeRate.date).format('YYYY/MM/DD') : ''}<br />${t(
-              'fee_rate_tracker.average_fee_rate',
-            )}: ${param.value?.toLocaleString('en')} shannons/kB`
+    <>
+      <ReactChartCore
+        option={{
+          color: ChartColor.moreColors,
+          tooltip: {
+            trigger: 'item',
+            position: 'top',
+            textStyle: textStyleOfTooltip,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            formatter(params) {
+              const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
+              const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
+              return `${t('fee_rate_tracker.date')}: ${
+                feeRate ? dayjs(feeRate.date).format('YYYY/MM/DD') : ''
+              }<br />${t('fee_rate_tracker.average_fee_rate')}: ${param.value?.toLocaleString('en')} shannons/kB`
+            },
           },
-        },
-        xAxis: {
-          type: 'category',
-          name: `${t('fee_rate_tracker.date')}`,
-          nameGap: 32,
-          nameLocation: 'middle',
-          nameTextStyle: textStyleInChart,
-          axisLabel: textStyleInChart,
-          axisTick: {
-            show: false,
+          xAxis: {
+            type: 'category',
+            name: `${t('fee_rate_tracker.date')}`,
+            nameGap: 32,
+            nameLocation: 'middle',
+            nameTextStyle: textStyleInChart,
+            axisLabel: textStyleInChart,
+            axisTick: {
+              show: false,
+            },
+            data: sortedLastNDaysTransactionFeeRates.map(r => dayjs(r.date).format('MM/DD')),
           },
-          data: sortedLastNDaysTransactionFeeRates.map(r => dayjs(r.date).format('MM/DD')),
-        },
-        yAxis: {
-          type: 'log',
-          nameLocation: 'end',
-          nameTextStyle: { ...textStyleInChart, color: colors[0] },
-          axisLabel: {
-            ...textStyleInChart,
-            color: colors[0],
-            margin: 2,
-            formatter: (value: string) => handleAxis(new BigNumber(value)),
-          },
-          axisLine: {
-            lineStyle: {
+          yAxis: {
+            type: scaleType === 'log' ? 'log' : 'value',
+            nameLocation: 'end',
+            nameTextStyle: { ...textStyleInChart, color: colors[0] },
+            axisLabel: {
+              ...textStyleInChart,
               color: colors[0],
+              margin: 2,
+              formatter: (value: string) => handleAxis(new BigNumber(value)),
             },
-          },
-          axisTick: {
-            show: false,
-          },
-          splitLine: {
-            lineStyle: {
-              color: '#e5e5e5',
+            axisLine: {
+              lineStyle: {
+                color: colors[0],
+              },
             },
+            axisTick: {
+              show: false,
+            },
+            splitLine: {
+              lineStyle: {
+                color: '#e5e5e5',
+              },
+            },
+            name: `${t('fee_rate_tracker.fee_rate')}(shannons/kB) ${scaleType === 'log' ? t('statistic.log') : ''}`,
           },
-          name: `${t('fee_rate_tracker.fee_rate')}(shannons/kB) ${t('statistic.log')}`,
-        },
-        series: [
-          {
-            data: sortedLastNDaysTransactionFeeRates.map(r => Math.round(Number(r.feeRate) * 1000)),
-            type: 'line',
+          series: [
+            {
+              data: sortedLastNDaysTransactionFeeRates.map(r => Math.round(Number(r.feeRate) * 1000)),
+              type: 'line',
+            },
+          ],
+          grid: {
+            containLabel: true,
           },
-        ],
-        grid: {
-          containLabel: true,
-        },
-      }}
-      notMerge
-      lazyUpdate
-      style={{
-        height: '100%',
-        width: '100%',
-      }}
-    />
+        }}
+        notMerge
+        lazyUpdate
+        style={{
+          height: '100%',
+          width: '100%',
+        }}
+      />
+      <div className={styles.scaleSelector}>
+        <input
+          type="radio"
+          id="linear"
+          name="scaleType"
+          value="linear"
+          checked={scaleType === 'linear'}
+          onChange={onScaleTypeChange}
+        />
+        <label htmlFor="linear">Linear Scale</label>
+        <input
+          type="radio"
+          id="log"
+          name="scaleType"
+          value="log"
+          checked={scaleType === 'log'}
+          onChange={onScaleTypeChange}
+        />
+        <label htmlFor="log">Log Scale</label>
+      </div>
+    </>
   )
 }
