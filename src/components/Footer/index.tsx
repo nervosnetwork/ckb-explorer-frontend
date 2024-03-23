@@ -76,6 +76,10 @@ export default memo(() => {
             label: t('footer.faucet'),
             url: 'https://faucet.nervos.org/',
           },
+          {
+            label: t('footer.api-doc'),
+            url: 'https://ckb-explorer.readme.io/reference/transaction',
+          },
         ],
       },
       {
