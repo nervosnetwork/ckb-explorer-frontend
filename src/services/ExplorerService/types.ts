@@ -287,3 +287,35 @@ interface FetchStatusValue {
 export type FetchStatus = keyof FetchStatusValue
 
 export type SupportedExportTransactionType = 'address_transactions' | 'blocks' | 'udts' | 'nft' | 'omiga_inscriptions'
+
+export interface Script {
+  codeHash: string
+  args: string
+  hashType: string
+}
+
+export interface LiveCell {
+  cellType: string
+  txHash: string
+  cellIndex: number
+  typeHash: string
+  data: string
+  capacity: string
+  occupiedCapacity: string
+  blockTimestamp: string
+  blockNumber: string
+  typeScript: Script
+  lockScript: Script
+  extraInfo: {
+    symbol: string
+    amount: string
+    decimal: string
+    typeHash: string
+    published: boolean
+    displayName: string
+    uan: string
+    type: 'ckb' | 'udt' | 'nrc_721' | 'm_nft'
+    className: string
+    tokenId: string
+  }
+}

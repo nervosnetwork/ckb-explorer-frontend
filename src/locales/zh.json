@@ -775,6 +775,10 @@
       "logo_tip": "SUDT 的代币 logo",
       "logo_placeholder": "上传",
       "confirm": "确认"
+    },
+    "sort": {
+      "time": "按时间排序",
+      "capacity": "按 Capacity 排序"
     }
   }
 }
