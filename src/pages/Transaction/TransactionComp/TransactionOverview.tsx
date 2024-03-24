@@ -1,28 +1,17 @@
 /* eslint-disable react/no-array-index-key */
-import { useState, ReactNode, FC } from 'react'
+import { useState, FC } from 'react'
 import BigNumber from 'bignumber.js'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Radio, Tooltip } from 'antd'
-import classNames from 'classnames'
 import { Link } from '../../../components/Link'
 import Capacity from '../../../components/Capacity'
-import HashTag from '../../../components/HashTag'
-import { HelpTip } from '../../../components/HelpTip'
 import SimpleButton from '../../../components/SimpleButton'
 import ComparedToMaxTooltip from '../../../components/Tooltip/ComparedToMaxTooltip'
 import { LayoutLiteProfessional } from '../../../constants/common'
 import { parseSimpleDate } from '../../../utils/date'
 import { localeNumberString } from '../../../utils/number'
-import { shannonToCkb, useFormatConfirmation, matchTxHash } from '../../../utils/util'
-import {
-  TransactionBlockHeightPanel,
-  TransactionInfoContentItem,
-  TransactionInfoContentPanel,
-  TransactionOverviewPanel,
-  TransactionInfoItemPanel,
-  TransactionInfoContentContainer,
-  TransactionInfoContentTitle,
-} from './styled'
+import { shannonToCkb, useFormatConfirmation } from '../../../utils/util'
+import { TransactionBlockHeightPanel, TransactionOverviewPanel } from './styled'
 import { explorerService, useLatestBlockNumber } from '../../../services/ExplorerService'
 import { Transaction } from '../../../models/Transaction'
 import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../../components/Card'
@@ -31,6 +20,7 @@ import { ReactComponent as DownloadIcon } from './download.svg'
 import { useSetToast } from '../../../components/Toast'
 import { useIsMobile, useUpdateSearchParams } from '../../../hooks'
 import styles from './TransactionOverview.module.scss'
+import TransactionParameters from '../../../components/TransactionParameters'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
@@ -43,65 +33,6 @@ const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number
   </TransactionBlockHeightPanel>
 )
 
-const TransactionInfoItem = ({
-  title,
-  tooltip,
-  value,
-  valueTooltip,
-  linkUrl,
-  tag,
-}: {
-  title?: string
-  tooltip?: string
-  value: string | ReactNode
-  valueTooltip?: string
-  linkUrl?: string
-  tag?: ReactNode
-}) => (
-  <TransactionInfoContentItem>
-    <TransactionInfoContentTitle>
-      {title ? (
-        <>
-          <span>{title}</span>
-          {tooltip && <HelpTip title={tooltip} />}
-          <span>:</span>
-        </>
-      ) : (
-        ''
-      )}
-    </TransactionInfoContentTitle>
-    <TransactionInfoContentContainer className="monospace">
-      <div className="">
-        {linkUrl ? (
-          <Link to={linkUrl} className="monospace">
-            {value}
-          </Link>
-        ) : (
-          value
-        )}
-        {valueTooltip && <HelpTip title={valueTooltip} />}
-      </div>
-      {tag && <div>{tag}</div>}
-    </TransactionInfoContentContainer>
-  </TransactionInfoContentItem>
-)
-
-const TransactionInfoItemWrapper = ({
-  title,
-  tooltip,
-  value,
-  linkUrl,
-}: {
-  title?: string
-  tooltip?: string
-  value: string | ReactNode
-  linkUrl?: string
-}) => (
-  <TransactionInfoContentPanel>
-    <TransactionInfoItem title={title} tooltip={tooltip} value={value} linkUrl={linkUrl} />
-  </TransactionInfoContentPanel>
-)
-
 export const TransactionOverviewCard: FC<{
   txHash: string
   transaction: Transaction
@@ -111,9 +42,6 @@ export const TransactionOverviewCard: FC<{
   const tipBlockNumber = useLatestBlockNumber()
   const {
     blockNumber,
-    cellDeps,
-    headerDeps,
-    witnesses,
     blockTimestamp,
     transactionFee,
     txStatus,
@@ -269,94 +197,6 @@ export const TransactionOverviewCard: FC<{
   if (isProfessional) {
     overviewItems.push(liteTxSizeData, liteTxCyclesData)
   }
-  const TransactionParams = [
-    {
-      title: t('transaction.cell_deps'),
-      tooltip: (
-        <Trans
-          i18nKey="glossary.cell_deps"
-          components={{
-            link1: (
-              // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
-              <a
-                href="https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0022-transaction-structure/0022-transaction-structure.md#code-locating"
-                target="_blank"
-                rel="noreferrer"
-              />
-            ),
-          }}
-        />
-      ),
-      content:
-        cellDeps && cellDeps.length > 0 ? (
-          cellDeps.map(cellDep => {
-            const {
-              outPoint: { txHash, index },
-              depType,
-            } = cellDep
-            const hashTag = matchTxHash(txHash, index)
-            return (
-              <TransactionInfoContentPanel key={`${txHash}${index}`}>
-                <TransactionInfoItem
-                  title={t('transaction.out_point_tx_hash')}
-                  tooltip={t('glossary.out_point_tx_hash')}
-                  value={txHash}
-                  linkUrl={`/transaction/${txHash}`}
-                  tag={hashTag && <HashTag content={hashTag.tag} category={hashTag.category} />}
-                />
-                <TransactionInfoItem
-                  title={t('transaction.out_point_index')}
-                  tooltip={t('glossary.out_point_index')}
-                  value={index}
-                />
-                <TransactionInfoItem
-                  title={t('transaction.dep_type')}
-                  tooltip={t('glossary.dep_type')}
-                  value={depType}
-                  valueTooltip={depType === 'dep_group' ? t('glossary.dep_group') : undefined}
-                />
-              </TransactionInfoContentPanel>
-            )
-          })
-        ) : (
-          <TransactionInfoItemWrapper title="CellDep" value="[ ]" />
-        ),
-    },
-    {
-      title: t('transaction.header_deps'),
-      tooltip: t('glossary.header_deps'),
-      content:
-        headerDeps && headerDeps.length > 0 ? (
-          headerDeps.map(headerDep => (
-            <TransactionInfoItemWrapper
-              key={headerDep}
-              title={t('transaction.header_dep')}
-              value={headerDep}
-              linkUrl={`/block/${headerDep}`}
-            />
-          ))
-        ) : (
-          <TransactionInfoItemWrapper title={t('transaction.header_dep')} value="[ ]" />
-        ),
-    },
-    {
-      title: t('transaction.witnesses'),
-      tooltip: t('glossary.witnesses'),
-      content:
-        witnesses && witnesses.length > 0 ? (
-          witnesses.map((witness, index) => (
-            <TransactionInfoItemWrapper
-              key={`${witness}-${index}`}
-              title="Witness"
-              tooltip={t('glossary.witness')}
-              value={<div className={classNames(styles.witnessInTransactionInfo, 'monospace')}>{witness}</div>}
-            />
-          ))
-        ) : (
-          <TransactionInfoItemWrapper title="Witness" tooltip={t('glossary.witness')} value="[ ]" />
-        ),
-    },
-  ]
 
   const setToast = useSetToast()
 
@@ -439,19 +279,7 @@ export const TransactionOverviewCard: FC<{
                   <div className={styles.expandArrow} data-expanded={detailTab === 'raw'} />
                 </SimpleButton>
               </div>
-              {detailTab === 'params' ? (
-                <div className="transactionOverviewParams">
-                  {TransactionParams.map(item => (
-                    <TransactionInfoItemPanel key={item.title}>
-                      <div className="transactionInfoTitle">
-                        <span>{item.title}</span>
-                        {item.tooltip && <HelpTip title={item.tooltip} />}
-                      </div>
-                      <div className="transactionInfoValue">{item.content}</div>
-                    </TransactionInfoItemPanel>
-                  ))}
-                </div>
-              ) : null}
+              {detailTab === 'params' ? <TransactionParameters hash={txHash} /> : null}
               {detailTab === 'raw' ? <RawTransactionView hash={txHash} /> : null}
             </div>
           )}

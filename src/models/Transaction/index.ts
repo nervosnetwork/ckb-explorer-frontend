@@ -20,9 +20,6 @@ export interface Transaction {
   version: number
   displayInputs: Cell[]
   displayOutputs: Cell[]
-  cellDeps: CellDep[]
-  headerDeps: string[]
-  witnesses: string[]
   liveCellChanges: string
   capacityInvolved: string
   txStatus: string
