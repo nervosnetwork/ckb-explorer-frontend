@@ -7,7 +7,7 @@ import { getTx } from '../../services/NodeService'
 import styles from './styles.module.scss'
 
 const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
-  const { data, isLoading } = useQuery<{ result: { transaction: any } }>(['tx', hash], () => getTx(hash))
+  const { data, isLoading } = useQuery(['tx', hash], () => getTx(hash))
   if (isLoading) {
     return (
       <div className={styles.loading}>
@@ -16,6 +16,7 @@ const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
     )
   }
   if (!data?.result?.transaction) return <div>{`Transaction ${hash} not loaded`}</div>
+
   return (
     <JsonView
       src={data.result.transaction}
@@ -41,8 +42,10 @@ const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
           case 'code_hash': {
             const [, index, lockType] = select.namespace
             if (!index || !lockType) return
-            const script = data.result.transaction.outputs[index][lockType]
-            window.open(`/script/${script.code_hash}/${script.hash_type}`, '_blank')
+            const script = data.result.transaction?.outputs[index as any][lockType as 'lock' | 'type']
+            if (script) {
+              window.open(`/script/${script.code_hash}/${script.hash_type}`, '_blank')
+            }
             break
           }
           default: {
