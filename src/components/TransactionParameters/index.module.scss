@@ -108,7 +108,9 @@
       margin-bottom: 4px;
       padding-right: 4px;
     }
+  }
 
+  @media (width <= 1150px) {
     .value {
       display: block;
     }
