@@ -18,8 +18,8 @@ import {
 } from './styled'
 import Capacity from '../../components/Capacity'
 import CKBTokenIcon from './ckb_token_icon.png'
-import { ReactComponent as TimeDownIcon } from './time_down.svg'
-import { ReactComponent as TimeUpIcon } from './time_up.svg'
+import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
+import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import {
   OrderByType,
   useIsMobile,

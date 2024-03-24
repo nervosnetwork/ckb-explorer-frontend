@@ -774,6 +774,10 @@
       "logo_tip": "Token logo for the SUDT",
       "logo_placeholder": "Upload",
       "confirm": "Confirm"
+    },
+    "sort": {
+      "time": "Sort by time",
+      "capacity": "Sort by capacity"
     }
   }
 }
