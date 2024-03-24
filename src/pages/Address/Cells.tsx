@@ -2,6 +2,7 @@ import { type FC, useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { Tooltip } from 'antd'
 import { explorerService, LiveCell } from '../../services/ExplorerService'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import CKBTokenIcon from './ckb_token_icon.png'
@@ -10,11 +11,24 @@ import { ReactComponent as TypeHashIcon } from './type_script.svg'
 import { ReactComponent as DataIcon } from './data.svg'
 import { ReactComponent as SporeCluterIcon } from './spore_cluster.svg'
 import { ReactComponent as SporeCellIcon } from './spore_cell.svg'
+import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
+import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
+import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
+import { ReactComponent as ListIcon } from './list.svg'
+import { ReactComponent as GridIcon } from './grid.svg'
 import { parseUDTAmount } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
 import { useSetToast } from '../../components/Toast'
 import { PAGE_SIZE } from '../../constants/common'
 import styles from './cells.module.scss'
+import SmallLoading from '../../components/Loading/SmallLoading'
+
+enum Sort {
+  TimeAsc = 'block_timestamp.asc',
+  TimeDesc = 'block_timestamp.desc',
+  CapacityAsc = 'capacity.asc',
+  CapacityDesc = 'capacity.desc',
+}
 
 const fetchCells = async ({
   address,
@@ -40,8 +54,8 @@ const ATTRIBUTE_LENGTH = 18
 
 const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
   const setToast = useSetToast()
-
   const { t } = useTranslation()
+
   const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     e.preventDefault()
@@ -86,6 +100,13 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
       }
       icon = CKBTokenIcon
       assetName = 'CKB'
+      attribute = ckb
+      detailInfo = BigNumber(cell.capacity).toFormat({ groupSeparator: '' })
+      break
+    }
+    case 'nervos_dao_deposit': {
+      icon = CKBTokenIcon
+      assetName = 'Nervos DAO'
       attribute = ckb
       detailInfo = BigNumber(cell.capacity).toFormat({ groupSeparator: '' })
       break
@@ -175,7 +196,9 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
 }
 
 const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
-  const [params] = useState(initialPageParams)
+  const { t } = useTranslation()
+  const [params, setParams] = useState(initialPageParams)
+  const [isDisplayedAsList, setIsDisplayedAsList] = useState(true)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
@@ -188,6 +211,14 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
       },
     },
   )
+
+  const handleSortChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
+    const { sort } = e.currentTarget.dataset
+    if (!sort) return
+    setParams(p => ({ ...p, sort }))
+  }
 
   const isListDisplayed = count && data
 
@@ -213,21 +244,57 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
     }
   }, [isListDisplayed, fetchNextPage])
 
-  if (!isListDisplayed) {
-    return null
-  }
-
-  const cells = data.pages.map(page => page.data).flat()
+  const cells = data?.pages.map(page => page.data).flat() ?? []
 
   return (
     <div className={styles.container}>
-      <div className={styles.toolbar}>UTXO: {count.toLocaleString('en')}</div>
+      <div className={styles.toolbar}>
+        <div>UTXO: {count.toLocaleString('en')}</div>
+        <div className={styles.filters}>
+          <Tooltip placement="top" title={t('sort.time')}>
+            <button
+              type="button"
+              data-sort={params.sort === Sort.TimeAsc ? Sort.TimeDesc : Sort.TimeAsc}
+              onClick={handleSortChange}
+              data-is-active={params.sort === Sort.TimeAsc || params.sort === Sort.TimeDesc}
+              style={{
+                display: 'none', // FIXME: wait for api fix
+              }}
+            >
+              {params.sort === Sort.TimeAsc ? <TimeUpIcon /> : <TimeDownIcon />}
+            </button>
+          </Tooltip>
+          <Tooltip placement="top" title={t('sort.capacity')}>
+            <button
+              type="button"
+              data-sort={params.sort === Sort.CapacityAsc ? Sort.CapacityDesc : Sort.CapacityAsc}
+              onClick={handleSortChange}
+              title={t('sort.capacity')}
+            >
+              <SortIcon data-current-sort={params.sort} className={styles.capacitySortIcon} />
+            </button>
+          </Tooltip>
+          <button
+            type="button"
+            onClick={() => setIsDisplayedAsList(i => !i)}
+            style={{
+              display: 'none', // TODO PRD should be updated
+            }}
+          >
+            {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
+          </button>
+        </div>
+      </div>
       <ul>
         {cells.map(cell => (
           <Cell cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
         ))}
       </ul>
-      {isFetchingNextPage ? <span className={styles.loading}>Loading...</span> : null}
+      {isFetchingNextPage ? (
+        <span className={styles.loading}>
+          <SmallLoading />
+        </span>
+      ) : null}
       {!hasNextPage || isFetchingNextPage ? null : (
         <div className={styles.loadMore} ref={loadMoreRef}>
           <button type="button" onClick={() => fetchNextPage()}>
