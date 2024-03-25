@@ -104,9 +104,10 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
       detailInfo = BigNumber(cell.capacity).toFormat({ groupSeparator: '' })
       break
     }
-    case 'nervos_dao_deposit': {
+    case 'nervos_dao_deposit':
+    case 'nervos_dao_withdrawing': {
       icon = CKBTokenIcon
-      assetName = 'Nervos DAO'
+      assetName = assetType === 'nervos_dao_deposit' ? 'Nervos DAO' : 'Nervos DAO Withdrawing'
       attribute = ckb
       detailInfo = BigNumber(cell.capacity).toFormat({ groupSeparator: '' })
       break
