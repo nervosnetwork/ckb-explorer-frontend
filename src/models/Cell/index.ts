@@ -81,6 +81,7 @@ export interface Cell$NoExtra extends Cell$Base {
     | 'spore_cluster'
     | 'spore_cell'
     | 'nrc_721_factory'
+    | 'omiga_inscription'
   extraInfo?: never
 }
 
@@ -109,4 +110,16 @@ export interface Cell$Nrc721Token extends Cell$Base {
   extraInfo: Nrc721TokenInfo
 }
 
-export type Cell = Cell$NoExtra | Cell$UDT | Cell$NftIssuer | Cell$NftClass | Cell$NftToken | Cell$Nrc721Token
+export interface Omiga$XUDT extends Cell$Base {
+  cellType: 'omiga_inscription'
+  extraInfo: Record<'amount' | 'decimal' | 'name' | 'symbol', string>
+}
+
+export type Cell =
+  | Cell$NoExtra
+  | Cell$UDT
+  | Cell$NftIssuer
+  | Cell$NftClass
+  | Cell$NftToken
+  | Cell$Nrc721Token
+  | Omiga$XUDT

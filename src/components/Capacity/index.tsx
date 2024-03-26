@@ -6,7 +6,7 @@ interface CapacityProps {
   capacity: string
   type?: 'value' | 'diff'
   layout?: 'responsive' | 'fixed'
-  unit?: 'CKB' | null
+  unit?: 'CKB' | string | null
   display?: 'full' | 'short'
 }
 
