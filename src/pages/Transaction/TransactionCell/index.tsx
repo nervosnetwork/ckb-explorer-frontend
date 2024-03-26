@@ -235,6 +235,12 @@ const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       tooltip = t('transaction.spore')
       break
     }
+    case 'omiga_inscription': {
+      detailTitle = 'xUDT'
+      detailIcon = UDTTokenIcon
+      tooltip = detailTitle
+      break
+    }
     default:
       break
   }
@@ -284,6 +290,12 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
       return <span>{`${parseUDTAmount(udtInfo.amount, udtInfo.decimal)} ${udtInfo.uan || udtInfo.symbol}`}</span>
     }
     return <span>{`${t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}</span>
+  }
+  if (cell.cellType === 'omiga_inscription') {
+    const info = cell.extraInfo
+    if (info?.decimal && info?.amount && info?.symbol) {
+      return <span>{`${parseUDTAmount(info.amount, info.decimal)} ${info.symbol}`}</span>
+    }
   }
   return <Capacity capacity={shannonToCkb(cell.capacity)} layout="responsive" />
 }
