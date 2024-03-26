@@ -218,6 +218,17 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: Cell; cellType: Cel
     return <TransactionCellUDT cell={cell} />
   }
 
+  if (cell.cellType === 'omiga_inscription') {
+    const info = cell.extraInfo
+    if (info?.amount && info.decimal && info.symbol) {
+      return (
+        <div className="transactionCellWithoutIcon">
+          <Capacity capacity={parseUDTAmount(info.amount, info.decimal)} unit={info.symbol} display="short" />
+        </div>
+      )
+    }
+  }
+
   return (
     <div className="transactionCellWithoutIcon">
       <Capacity capacity={shannonToCkb(cell.capacity)} />
