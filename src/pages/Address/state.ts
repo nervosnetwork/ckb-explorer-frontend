@@ -1,4 +1,4 @@
-import { Address } from '../../models/Address'
+import { Address, AddressType } from '../../models/Address'
 
 export const defaultAddressInfo: Address = {
   addressHash: '',
@@ -15,7 +15,7 @@ export const defaultAddressInfo: Address = {
     codeHash: '',
     hashType: '',
   },
-  type: '',
+  type: AddressType.Unknown,
   lockInfo: {
     status: 'unlocked',
     epochNumber: '0',

@@ -18,7 +18,7 @@ import { Cell } from '../../models/Cell'
 import { Script } from '../../models/Script'
 import { Block } from '../../models/Block'
 import { Transaction } from '../../models/Transaction'
-import { Address } from '../../models/Address'
+import { Address, AddressType } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
 import { HashType } from '../../constants/common'
 
@@ -71,13 +71,26 @@ export const apiFetcher = {
 
   fetchLatestBlocks: (size: number) => apiFetcher.fetchBlocks(1, size),
 
-  fetchAddressInfo: (address: string) =>
-    v1GetWrapped<Address>(`addresses/${address}`).then(
-      (wrapper): Address => ({
-        ...wrapper.attributes,
-        type: wrapper.type === 'lock_hash' ? 'LockHash' : 'Address',
-      }),
-    ),
+  fetchAddressInfo: async (address: string) => {
+    const res = await v1GetWrapped<Address[] | Address>(`addresses/${address}`).then(wrapper => {
+      let addr: Response.Wrapper<Address> | null = null
+      // This transform is for compatibility with the rgbpp API which may return an array of addresses
+
+      if (Array.isArray(wrapper)) {
+        addr = wrapper.find(addr => addr.attributes.addressHash === address)
+      } else {
+        addr = wrapper as Response.Wrapper<Address>
+      }
+      if (!addr) {
+        throw new Error('Address not found')
+      }
+      return {
+        ...addr.attributes,
+        type: addr.type === 'lock_hash' ? AddressType.LockHash : AddressType.Address,
+      }
+    })
+    return res
+  },
 
   // sort field, block_timestamp, capacity
   // sort type, asc, desc
