@@ -123,7 +123,7 @@ const TransactionCellIndexAddress = ({
             <TransactionCellArrow cell={cell} cellType={cellType} />
           </span>
         )}
-        <Addr address={address} isCellBase={cell.fromCellbase} />
+        <Addr address={cell.rgbInfo?.address ?? address} isCellBase={cell.fromCellbase} />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {since ? (
           <Tooltip

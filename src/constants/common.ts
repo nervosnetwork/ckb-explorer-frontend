@@ -18,7 +18,6 @@ export const ONE_MINUTE_SECOND = 60
 export const EPOCHS_PER_HALVING = 8760
 export const THEORETICAL_EPOCH_TIME = 1000 * 60 * 60 * 4 // 4 hours
 export const PAGE_SIZE = 10
-
 export const IS_MAINNET = config.CHAIN_TYPE === 'mainnet'
 
 export function getPrimaryColor() {

@@ -90,7 +90,6 @@ export default () => {
         [styles.expanded]: isMobile && mobileMenuVisible,
       })}
     >
-      <MaintainAlert />
       <HeaderPanel>
         <LogoComp />
         {!isMobile && (
@@ -112,6 +111,7 @@ export default () => {
           </>
         )}
       </HeaderPanel>
+      <MaintainAlert />
       <Sheet />
       {mobileMenuVisible && isMobile && <MobileMenu hideMobileMenu={() => setMobileMenuVisible(false)} />}
     </div>

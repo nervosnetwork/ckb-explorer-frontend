@@ -23,7 +23,7 @@ import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import Filter from '../../components/Filter'
-import { useLatestBlockNumber } from '../../services/ExplorerService'
+import { RawBtcRPC, useLatestBlockNumber } from '../../services/ExplorerService'
 import { Block } from '../../models/Block'
 import { Transaction } from '../../models/Transaction'
 import { CardHeader } from '../../components/Card/CardHeader'
@@ -298,7 +298,7 @@ export const BlockComp = ({
   onPageChange: (page: number) => void
   currentPage: number
   pageSize: number
-  transactions: Transaction[]
+  transactions: (Transaction & { btcTx: RawBtcRPC.BtcTx | null })[]
   total: number
 }) => {
   const {

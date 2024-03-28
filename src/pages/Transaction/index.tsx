@@ -10,6 +10,8 @@ import { LayoutLiteProfessional } from '../../constants/common'
 import { TransactionCompLite } from './TransactionComp/TransactionLite/TransactionLite'
 import { TransactionComp } from './TransactionComp/TransactionComp'
 import { TransactionOverviewCard } from './TransactionComp/TransactionOverview'
+import { TransactionDetailsHeader } from './TransactionComp/TransactionDetailsHeader'
+import { RGBDigestComp } from './TransactionComp/RGBDigestComp'
 
 export default () => {
   const { Professional, Lite } = LayoutLiteProfessional
@@ -31,7 +33,16 @@ export default () => {
   return (
     <Content>
       <TransactionPanel className="container">
-        <TransactionOverviewCard txHash={txHash} transaction={transaction} layout={layout} />
+        <TransactionOverviewCard
+          txHash={txHash}
+          transaction={transaction}
+          layout={layout}
+          isRGB={transaction.isRgbTransaction}
+        />
+
+        {transaction.isRgbTransaction && <RGBDigestComp hash={txHash} txid={transaction.rgbTxid ?? undefined} />}
+
+        <TransactionDetailsHeader layout={layout} />
 
         {layout === Professional ? (
           <QueryResult query={query} delayLoading>
