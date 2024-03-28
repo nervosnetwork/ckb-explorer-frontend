@@ -15,17 +15,18 @@ export enum AddressType {
 }
 
 export interface Address {
+  bitcoinAddress?: string
   addressHash: string
   lockHash: string
   balance: string
   balanceOccupied: string
-  transactionsCount: number
+  transactionsCount: string
   lockScript: Script
-  pendingRewardBlocksCount: number
+  pendingRewardBlocksCount: string
   type: AddressType
-  daoDeposit: number
-  interest: number
-  daoCompensation: number
+  daoDeposit: string
+  interest: string
+  daoCompensation: string
   lockInfo: LockInfo
   liveCellsCount: string
   minedBlocksCount: string

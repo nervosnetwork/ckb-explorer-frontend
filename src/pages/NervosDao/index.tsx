@@ -26,11 +26,7 @@ export const NervosDao = () => {
   const queryNervosDaoTransactions = useQuery(
     ['nervos-dao-transactions', currentPage, _pageSize, params.filter],
     async () => {
-      const {
-        data: transactions,
-        total,
-        pageSize,
-      } = await explorerService.api.fetchNervosDaoTransactionsByFilter({
+      const { transactions, total, pageSize } = await explorerService.api.fetchNervosDaoTransactionsByFilter({
         filter: params.filter,
         page: currentPage,
         size: _pageSize,

@@ -226,6 +226,14 @@ export const scripts = new Map<string, ScriptAttributes>([
       website: 'https://forcebridge.com/',
     },
   ],
+  [
+    'RGB++',
+    {
+      name: 'RGB++',
+      description: 'RGB++ Lock',
+      doc: 'https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']

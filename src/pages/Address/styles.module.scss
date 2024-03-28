@@ -1,5 +1,15 @@
 @import '../../styles/variables.module';
 
+.rgbpp {
+  background: linear-gradient(90.24deg, #ffd176 0.23%, #ffdb81 6.7%, #84ffcb 99.82%);
+  color: black;
+}
+
+.normal {
+  background: var(--primary-color);
+  color: white;
+}
+
 .addressOverviewCard:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
   ) {
@@ -279,4 +289,23 @@
   align-items: center;
   height: 3rem;
   font-size: 1rem;
+}
+
+.assetCardList {
+  margin-top: 10px;
+  background-color: #f1f1f1;
+  padding: 6px 25px;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  overflow-y: scroll;
+  gap: 1rem;
+
+  @media (width >= $extraLargeBreakPoint) {
+    max-height: 220px;
+  }
+
+  @media (width <= $extraLargeBreakPoint) {
+    max-height: 310px;
+  }
 }

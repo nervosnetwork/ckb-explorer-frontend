@@ -33,7 +33,7 @@ export const HashCardHeader: FC<HashCardHeaderProps> = ({ title, hash, customAct
     </SimpleButton>
   )
 
-  const actions: ReactNode[] = [hash && copyAction, ...(customActions ?? [])]
+  const actions: ReactNode[] = [hash && copyAction, ...(customActions ?? [])].filter(v => v)
 
   const hashFontClass = isMobile ? styles.small : ''
 

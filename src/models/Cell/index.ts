@@ -64,6 +64,11 @@ export interface Cell$Base {
     raw: string
     median_timestamp?: string
   }
+  rgbInfo?: {
+    address: string
+    index: string
+    txid: string
+  }
 }
 
 export interface Cell$NoExtra extends Cell$Base {

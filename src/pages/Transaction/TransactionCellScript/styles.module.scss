@@ -48,3 +48,21 @@
     font-size: 0.8rem;
   }
 }
+
+.btcUtxo {
+  display: flex;
+  height: 20px;
+  padding-left: 8px;
+  align-items: center;
+  color: var(--btc-primary-color) !important;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  border-radius: 4px;
+  border: 1px solid var(--btc-primary-color);
+  background: var(--btc-secondary-color);
+  cursor: pointer;
+
+  svg {
+    height: 0.75rem;
+  }
+}

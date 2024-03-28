@@ -5,6 +5,7 @@ import Pagination from '../../../components/Pagination'
 import { PageParams } from '../../../constants/common'
 import { deprecatedAddrToNewAddr } from '../../../utils/util'
 import { Transaction } from '../../../models/Transaction'
+import { RawBtcRPC } from '../../../services/ExplorerService'
 
 export default ({
   currentPage = 1,
@@ -16,7 +17,7 @@ export default ({
 }: {
   currentPage: number
   pageSize: number
-  transactions: Transaction[]
+  transactions: (Transaction & { btcTx: RawBtcRPC.BtcTx | null })[]
   total: number
   onPageChange: (page: number) => void
   filterNoResult?: boolean
@@ -46,7 +47,7 @@ export default ({
   return (
     <>
       {txList.map(
-        (transaction: Transaction, index: number) =>
+        (transaction, index) =>
           transaction && (
             <TransactionItem
               key={transaction.transactionHash}

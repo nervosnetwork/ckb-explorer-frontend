@@ -34,14 +34,19 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
 
   const transactionsQuery = useQuery(['scripts_ckb_transactions', codeHash, hashType, page, size], async () => {
     try {
-      const { data } = await explorerService.api.fetchScriptCKBTransactions(codeHash, hashType, page, size)
+      const { transactions, total } = await explorerService.api.fetchScriptCKBTransactions(
+        codeHash,
+        hashType,
+        page,
+        size,
+      )
 
-      if (data == null || data.ckbTransactions == null || data.ckbTransactions.length === 0) {
+      if (!transactions.length) {
         setTransactionsEmpty(true)
       }
       return {
-        total: data.meta.total,
-        ckbTransactions: data.ckbTransactions,
+        total,
+        ckbTransactions: transactions,
       }
     } catch (error) {
       setTransactionsEmpty(true)
