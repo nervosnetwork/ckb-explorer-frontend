@@ -267,16 +267,12 @@ export namespace LiteTransfer {
     cellType: 'omiga_inscription'
     name: string
     count: string
-    udtInfo?: {
-      amount: string
-      decimal: string
-      symbol: string
-    }
+    udtInfo: Record<'symbol' | 'decimal' | 'displayName' | 'typeHash' | 'uan' | 'amount', string>
   }
   export interface XudtTransfer {
     capacity: string
     cellType: 'xudt'
-    udtInfo: Record<'amount' | 'decimal' | 'displayName' | 'symbol' | 'typeHash' | 'uan', string>
+    udtInfo: Record<'symbol' | 'decimal' | 'displayName' | 'typeHash' | 'uan' | 'amount', string>
   }
 
   export type Transfer =
