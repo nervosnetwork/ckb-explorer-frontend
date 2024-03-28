@@ -3,9 +3,11 @@
 .container {
   padding: 0 2rem;
   background: #fff;
+  max-width: 100%;
 
   table {
     width: 100%;
+    max-width: 100%;
 
     th,
     td {
@@ -107,10 +109,14 @@
             content: attr(title);
             font-size: 1rem;
             color: #666;
-            margin-bottom: 0.5rem;
           }
         }
       }
     }
   }
+}
+
+.transactionHash {
+  display: flex;
+  gap: 8px;
 }

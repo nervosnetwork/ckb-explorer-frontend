@@ -1,0 +1,166 @@
+@import '../../../styles/variables.module';
+
+.container {
+  position: relative;
+  width: 100%;
+  cursor: default;
+  background: var(--btc-secondary-color);
+  background-clip: border-box;
+  padding: 1.5rem 2.5rem;
+
+  .btcIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  a {
+    color: var(--primary-color);
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+
+    time {
+      white-space: nowrap;
+    }
+
+    @media screen and (width <= $mobileBreakPoint) {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  .txid {
+    display: flex;
+    flex: 1;
+    gap: 0.5em;
+    font-size: 1em;
+    margin: 0;
+    overflow: hidden;
+
+    a {
+      flex: 1;
+      overflow: hidden;
+      max-width: 68ch;
+    }
+  }
+
+  .utxos {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 4em;
+    white-space: nowrap;
+
+    .direction {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      transform: rotate(-90deg);
+      transition: transform 0.3s;
+      padding: 4px;
+    }
+
+    .inputs,
+    .outputs {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    @media (width <= $extraLargeBreakPoint) {
+      flex-direction: column;
+      gap: 0;
+
+      .direction {
+        transform: rotate(0);
+        align-self: center;
+      }
+    }
+  }
+
+  .input,
+  .output {
+    display: flex;
+    gap: 1em;
+    justify-content: space-between;
+    align-items: center;
+
+    & > a {
+      flex-shrink: 1;
+      overflow: hidden;
+    }
+
+    .btcAttr {
+      display: flex;
+      gap: 0.5em;
+      align-items: center;
+      cursor: default;
+
+      .btcValue {
+        span:nth-child(2) {
+          color: #999;
+          font-size: 0.875em;
+        }
+      }
+
+      .newSeal {
+        display: flex;
+        align-items: center;
+      }
+
+      svg {
+        color: #999;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  .newSeal {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+
+    &:hover {
+      svg {
+        color: var(--primary-color);
+      }
+
+      svg:first-child {
+        transform: rotateY(0.5turn);
+      }
+
+      svg:last-child {
+        transform: rotateY(0) rotateZ(0.5turn);
+      }
+    }
+
+    svg {
+      transition: transform 0.3s;
+      pointer-events: none;
+      backface-visibility: hidden;
+      position: absolute;
+      background: var(--btc-secondary-color);
+
+      &:last-child {
+        transform: rotateY(0.5turn) rotateZ(0.5turn);
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+
+  .iconPlaceholder {
+    width: 24px;
+  }
+}

@@ -212,7 +212,7 @@ export default () => {
   const transactionsQuery = useQuery(
     ['latest_transactions'],
     async () => {
-      const { data: transactions, total } = await explorerService.api.fetchLatestTransactions(ListPageParams.PageSize)
+      const { transactions, total } = await explorerService.api.fetchLatestTransactions(ListPageParams.PageSize)
       return {
         transactions,
         total,

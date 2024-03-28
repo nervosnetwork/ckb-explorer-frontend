@@ -249,16 +249,21 @@ const TransactionCell = ({ cell, address, cellType }: { cell: Cell; address?: st
 
   let addressText = t('address.unable_decode_address')
   let highLight = false
-  if (cell.addressHash) {
+  if (cell.rgbInfo?.address) {
+    addressText = cell.rgbInfo.address
+  } else if (cell.addressHash) {
     addressText = cell.addressHash
-    highLight = cell.addressHash !== address
   }
+  highLight = addressText !== address
 
   return (
     <TransactionCellPanel highLight={highLight}>
       <div className="transactionCellAddress">
         {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
-        <AddressTextWithAlias address={addressText} to={highLight ? `/address/${cell.addressHash}` : undefined} />
+        <AddressTextWithAlias
+          address={addressText}
+          to={highLight ? `/address/${cell.rgbInfo?.address || cell.addressHash}` : undefined}
+        />
         {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
         {!highLight && !isMobile && (
           <Tooltip placement="top" title={`${t('address.current-address')} `}>

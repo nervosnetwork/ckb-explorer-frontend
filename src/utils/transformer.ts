@@ -1,10 +1,15 @@
 import { Cell } from '../models/Cell'
 import { Transaction } from '../models/Transaction'
+import { RawBtcRPC } from '../services/ExplorerService'
 import type { CellInScript, CKBTransactionInScript } from '../services/ExplorerService/fetcher'
 
 // TODO: move to models
-export const transformToTransaction = (tx: CKBTransactionInScript): Transaction => {
+export const transformToTransaction = (
+  tx: CKBTransactionInScript & { btcTx: RawBtcRPC.BtcTx | null },
+): Transaction & { btcTx: RawBtcRPC.BtcTx | null } => {
   return {
+    isRgbTransaction: tx.rgbTransaction,
+    rgbTxid: tx.rgbTxid,
     transactionHash: tx.txHash,
     blockNumber: tx.blockNumber,
     blockTimestamp: tx.blockTimestamp,
@@ -13,6 +18,7 @@ export const transformToTransaction = (tx: CKBTransactionInScript): Transaction 
     displayInputs: tx.displayInputs,
     displayOutputs: tx.displayOutputs,
     txStatus: tx.txStatus,
+    btcTx: tx.btcTx,
 
     // defaults
     income: '',

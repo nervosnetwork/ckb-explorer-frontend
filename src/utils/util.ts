@@ -5,7 +5,13 @@ import BigNumber from 'bignumber.js'
 import { scriptToAddress, addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
 import { HashType } from '@ckb-lumos/base'
-import { MAX_CONFIRMATION, TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY, TOKEN_EMAIL_ADDRESS } from '../constants/common'
+import {
+  MAX_CONFIRMATION,
+  TOKEN_EMAIL_SUBJECT,
+  TOKEN_EMAIL_BODY,
+  TOKEN_EMAIL_ADDRESS,
+  IS_MAINNET,
+} from '../constants/common'
 import {
   ContractHashTag,
   MainnetContractHashTags,
@@ -125,6 +131,23 @@ export const matchTxHash = (txHash: string, index: number | string): ContractHas
     return MainnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
   }
   return TestnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
+}
+
+export const getBtcUtxo = (script: Script) => {
+  const scriptSet = IS_MAINNET ? MainnetContractHashTags : TestnetContractHashTags
+
+  // FIXME: should not use tag as index
+  const INDEX_TAG = 'RGB++'
+  const rgbppScript = scriptSet.find(s => s.tag === INDEX_TAG)
+  if (!rgbppScript) return
+  if (rgbppScript.hashType !== script.hashType || !rgbppScript.codeHashes.includes(script.codeHash)) return
+  const INDEX_BYTE_SIZE = 4
+  const TXID_BYTE_SIZE = 32
+  const d = 2 * INDEX_BYTE_SIZE + 2
+  const [index, txid] = [script.args.slice(2, d), script.args.slice(d, d + TXID_BYTE_SIZE * 2)].map(v =>
+    v.match(/\w{2}/g)?.reverse().join(''),
+  )
+  return { txid, index }
 }
 
 export const udtSubmitEmail = () =>

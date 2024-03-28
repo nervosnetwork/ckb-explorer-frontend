@@ -1,0 +1,246 @@
+@import '../../../styles/variables.module';
+
+.container {
+  background-color: #fff;
+  padding: 20px 40px;
+  width: 75%;
+  margin: 15% auto;
+  border-radius: 4px;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    width: 90%;
+    padding: 16px;
+    margin: 178px auto;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  > span {
+    font-family: Roboto, sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: #333;
+  }
+}
+
+.content {
+  background-color: #fafafa;
+  margin-top: 16px;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.script {
+  margin-top: 16px;
+  flex-flow: column wrap;
+  background-color: #eee;
+  padding: 16px;
+  border-radius: 4px;
+  display: flex;
+  gap: 8px;
+}
+
+.transactionInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+
+  .txid,
+  .commitment {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    flex-wrap: nowrap;
+  }
+
+  .txid {
+    gap: 8px;
+
+    a {
+      color: var(--primary-color);
+      overflow: hidden;
+      flex: 1;
+      flex-shrink: 1;
+      max-width: 63ch;
+    }
+  }
+
+  .commitment {
+    gap: 8px;
+    justify-content: flex-end;
+
+    .commitmentText {
+      flex: 1;
+      flex-shrink: 0;
+      overflow: hidden;
+      max-width: 63ch;
+    }
+  }
+
+  @media screen and (width <= $extraLargeBreakPoint) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: stretch;
+    gap: 6px;
+
+    .commitment {
+      justify-content: flex-start;
+    }
+  }
+}
+
+.blockConfirm {
+  color: #666;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    font-size: 14px;
+  }
+}
+
+.addressInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.address {
+  font-size: 16px;
+  color: var(--primary-color);
+  max-width: 100%;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    word-wrap: break-word;
+  }
+}
+
+.addressType {
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  color: #666;
+  line-height: 14px;
+}
+
+.asset {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 16px;
+  line-height: 19px;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    flex-direction: column;
+  }
+}
+
+.amount {
+  &[data-diff-status='positive'] {
+    color: var(--primary-color);
+  }
+
+  &[data-diff-status='negative'] {
+    color: #fa504f;
+  }
+
+  color: var(--primary-color);
+}
+
+.close {
+  width: 16px;
+  height: 16px;
+}
+
+.leap {
+  border: 1px solid #b0fcd3;
+  border-radius: 4px;
+  background-color: #e8fff1;
+  color: #23bc98;
+  padding: 5px 8px;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.leap:hover {
+  cursor: pointer;
+}
+
+.decimal {
+  font-size: 14px;
+}
+
+.integer {
+  font-size: 16px;
+}
+
+.noRecords {
+  display: flex;
+  background: #fff;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  font-size: 1rem;
+}
+
+.digestLoading {
+  padding: 20px 0;
+
+  @media (max-width: $mobileBreakPoint) {
+    padding: 10px 0;
+  }
+}
+
+.buttonClose {
+  border: none;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+}
+
+.action {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  color: #999;
+  flex-shrink: 0;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+.token {
+  color: #999;
+  margin-right: 0.25rem;
+
+  &[data-diff-status='positive'] {
+    color: var(--primary-color);
+  }
+
+  &[data-diff-status='negative'] {
+    color: var(--accent-color);
+  }
+}
+
+.closeIcon {
+  &:hover {
+    cursor: pointer;
+  }
+
+  width: 100%;
+}

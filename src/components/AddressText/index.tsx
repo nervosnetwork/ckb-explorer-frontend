@@ -17,6 +17,8 @@ const AddressText: FC<{
   linkProps?: LinkProps
   monospace?: boolean
   useTextWidthForPlaceholderWidth?: boolean
+  style?: React.CSSProperties
+  onClick?: () => void
 }> = ({
   children: address,
   fontKey,
@@ -26,6 +28,8 @@ const AddressText: FC<{
   linkProps,
   monospace = true,
   useTextWidthForPlaceholderWidth = true,
+  style,
+  onClick,
 }) => {
   const [isTruncated, truncatedCtl] = useBoolean(false)
 
@@ -36,6 +40,8 @@ const AddressText: FC<{
       title={<CopyTooltipText content={address} />}
     >
       <EllipsisMiddle
+        onClick={onClick}
+        style={style}
         useTextWidthForPlaceholderWidth={useTextWidthForPlaceholderWidth}
         fontKey={fontKey}
         className={classNames(
@@ -52,7 +58,7 @@ const AddressText: FC<{
     </Tooltip>
   )
 
-  if (linkProps != null) {
+  if (linkProps != null && linkProps.to !== window.location.pathname) {
     const { className, ...props } = linkProps
     return (
       <Link className={classNames(styles.link, containerClass, className)} {...props}>

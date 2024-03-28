@@ -10,6 +10,8 @@ body {
   --table-separator-color: #f5f5f5;
   --decimal-color: #999;
   --input-bg-color: #f5f5f5;
+  --btc-primary-color: #fb992c;
+  --btc-secondary-color: #fff5e2;
 
   margin: 0;
   padding: 0;
@@ -29,7 +31,7 @@ body[data-chain-type='testnet'] {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Lato, sans-serif, Montserrat, 'PingFang SC', -apple-system;
+  font-family: Roboto, Lato, sans-serif, Montserrat, 'PingFang SC', -apple-system;
 }
 
 .monospace {

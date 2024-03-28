@@ -94,32 +94,19 @@ export const AddressAssetsTab = styled(Tabs)`
   border-radius: 6px 6px 0 0;
 
   /* stylelint-disable-next-line selector-class-pattern */
-  .ant-tabs-nav-operations {
-    display: none !important;
-  }
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  .ant-tabs-tab.ant-tabs-tab-active {
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-tabs-tab-btn {
-      color: var(--primary-color);
-    }
-  }
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  .ant-tabs-tab-remove {
-    &:hover,
-    &:active {
-      color: var(--primary-color);
-    }
-  }
-
-  /* stylelint-disable-next-line selector-class-pattern */
   .ant-tabs-tab-btn {
     &:active,
     &:focus {
       color: var(--primary-color);
     }
+  }
+  /* stylelint-disable-next-line selector-class-pattern */
+  .ant-tabs-tab {
+    color: #000;
+  }
+  /* stylelint-disable-next-line selector-class-pattern */
+  .ant-tabs-tab-active span {
+    color: var(--primary-color);
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
@@ -145,6 +132,8 @@ export const AddressAssetsTab = styled(Tabs)`
 export const AddressAssetsTabPane = styled(TabPane)``
 
 export const AddressAssetsTabPaneTitle = styled.span`
+  font-family: Roboto, sans-serif;
+  color: inherit;
   font-size: 16px;
   font-weight: 500;
   line-height: 19px;
@@ -152,34 +141,20 @@ export const AddressAssetsTabPaneTitle = styled.span`
   text-align: left;
 `
 
+export const AddressUDTAssetsContent = styled.div`
+  background-color: #f1f1f1;
+  padding: 16px 25px;
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  flex-flow: row wrap;
+  max-height: 400px;
+`
+
 export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
-  > span {
-    font-size: 14px;
-    font-weight: 600;
-    color: #000;
-  }
-
-  .addressUdtAssetsGrid {
-    margin-top: 10px;
-    background-color: #f1f1f1;
-    padding: 6px 25px;
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    overflow-y: scroll;
-
-    @media (min-width: ${variables.extraLargeBreakPoint}) {
-      max-height: 220px;
-    }
-
-    @media (max-width: ${variables.extraLargeBreakPoint}) {
-      max-height: 310px;
-    }
-  }
 
   @media (max-width: ${variables.mobileBreakPoint}) {
     padding-top: 16px;
@@ -190,7 +165,6 @@ export const AddressUDTAssetsPanel = styled.div`
 export const AddressUDTItemPanel = styled.a`
   display: flex;
   flex-direction: column;
-  margin: 6px 15px;
   background: #fff;
   width: 260px;
   border-radius: 4px;
@@ -207,12 +181,13 @@ export const AddressUDTItemPanel = styled.a`
     text-align: left;
     font-size: 12px;
     padding: 2px 8px;
-    background: ${props => props.theme.primary};
-    color: #fff;
     border-radius: 4px 4px 0 0;
 
     span {
       text-transform: uppercase;
+      font-size: 12px;
+      font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+      font-weight: 500;
     }
   }
 
@@ -221,6 +196,13 @@ export const AddressUDTItemPanel = styled.a`
     padding: 8px;
     align-items: center;
     line-height: 20px;
+
+    span {
+      font-size: 14px;
+      font-family: Roboto, sans-serif;
+      font-weight: 500;
+      color: #000;
+    }
   }
 
   .addressUdtItemIcon {

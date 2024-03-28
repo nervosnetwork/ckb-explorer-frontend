@@ -1,0 +1,32 @@
+@import '../../styles/variables.module';
+
+.left {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.right {
+  display: flex;
+  flex-wrap: wrap;
+  justify-self: self-end;
+  justify-content: flex-start;
+  max-width: 100%;
+  gap: 8px;
+}
+
+.direction {
+  transform: rotate(-90deg);
+  transition: transform 0.5s;
+  margin: 16px;
+
+  @media screen and (width <=$extraLargeBreakPoint) {
+    transform: rotate(0deg);
+  }
+}
+
+.btcTxContent {
+  width: 100%;
+}

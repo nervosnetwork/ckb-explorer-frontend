@@ -262,6 +262,19 @@ export namespace LiteTransfer {
     cellType: 'cota_registry'
   }
 
+  export interface OmigaTransfer {
+    capacity: string
+    cellType: 'omiga_inscription'
+    name: string
+    count: string
+    udtInfo: Record<'symbol' | 'decimal' | 'displayName' | 'typeHash' | 'uan' | 'amount', string>
+  }
+  export interface XudtTransfer {
+    capacity: string
+    cellType: 'xudt'
+    udtInfo: Record<'symbol' | 'decimal' | 'displayName' | 'typeHash' | 'uan' | 'amount', string>
+  }
+
   export type Transfer =
     | CKBTransfer
     | NFTTransfer
@@ -274,6 +287,8 @@ export namespace LiteTransfer {
     | UDTTransfer
     | CotaTransfer
     | CotaRegistryTransfer
+    | OmigaTransfer
+    | XudtTransfer
 }
 
 interface FetchStatusValue {
@@ -287,6 +302,39 @@ interface FetchStatusValue {
 export type FetchStatus = keyof FetchStatusValue
 
 export type SupportedExportTransactionType = 'address_transactions' | 'blocks' | 'udts' | 'nft' | 'omiga_inscriptions'
+
+export interface RGBDigest {
+  txid: string
+  confirmations: number
+  commitment: string
+  transfers: TransactionRecord[]
+}
+
+export namespace RawBtcRPC {
+  interface Utxo {
+    value: number
+    scriptPubKey: {
+      asm: string
+      address: string
+    }
+  }
+  interface Vin {
+    txid: string
+    prevout: Utxo
+    vout: number
+  }
+
+  interface Vout extends Utxo {}
+
+  export interface BtcTx {
+    txid: string
+    hash: string
+    vin: Vin[]
+    vout: Vout[]
+    blocktime: number
+    confirmations: number
+  }
+}
 
 export interface Script {
   codeHash: string

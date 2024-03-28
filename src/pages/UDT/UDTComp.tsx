@@ -29,6 +29,7 @@ import Capacity from '../../components/Capacity'
 import { ReactComponent as EditIcon } from './edit.svg'
 import { ReactComponent as ViewOriginalIcon } from './view_original.svg'
 import Loading from '../../components/Loading'
+import { RawBtcRPC } from '../../services/ExplorerService'
 
 const typeScriptIcon = (show: boolean) => {
   if (show) {
@@ -255,7 +256,7 @@ export const UDTComp = ({
 }: {
   currentPage: number
   pageSize: number
-  transactions: Transaction[]
+  transactions: (Transaction & { btcTx: RawBtcRPC.BtcTx | null })[]
   total: number
   onPageChange: (page: number) => void
   filterNoResult?: boolean
@@ -277,7 +278,7 @@ export const UDTComp = ({
     <>
       <UDTTransactionsPanel>
         {transactions.map(
-          (transaction: Transaction, index: number) =>
+          (transaction, index) =>
             transaction && (
               <TransactionItem
                 transaction={transaction}

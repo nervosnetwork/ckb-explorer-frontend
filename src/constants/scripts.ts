@@ -578,4 +578,11 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     hashType: 'data1',
     tag: 'Spore Cluster Agent',
   },
+  {
+    codeHashes: ['0xaddb21cf401d1a609e60198f850c4417ff03f98462ba4a3f101fa2741f481228'],
+    txHashes: ['0x934f3f7cd08166cf9922187f5abb4e20327a3e599630e5acd1e790842ddd2237-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'RGB++',
+  },
 ]

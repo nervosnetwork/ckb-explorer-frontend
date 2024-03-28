@@ -249,7 +249,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
       const [, type] = queryKey
       switch (type) {
         case 'pending': {
-          const { data: transactions, total } = await explorerService.api.fetchPendingTransactions(
+          const { transactions, total } = await explorerService.api.fetchPendingTransactions(
             currentPage,
             pageSize,
             sort,
@@ -258,7 +258,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
         }
         case 'confirmed':
         default: {
-          const { data: transactions, total } = await explorerService.api.fetchTransactions(currentPage, pageSize, sort)
+          const { transactions, total } = await explorerService.api.fetchTransactions(currentPage, pageSize, sort)
           return { transactions, total }
         }
       }

@@ -29,7 +29,7 @@ export const TransactionHashBlockPanel = styled.div`
   .transactionItemContent {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     justify-content: space-between;
     margin-bottom: 10px;
 

@@ -17,7 +17,8 @@ import {
 } from './styled'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import CloseIcon from './modal_close.png'
-import { getContractHashTag } from '../../../utils/util'
+import config from '../../../config'
+import { getBtcUtxo, getContractHashTag } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import HashTag from '../../../components/HashTag'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
@@ -28,6 +29,7 @@ import { useSetToast } from '../../../components/Toast'
 import { CellBasicInfo } from '../../../utils/transformer'
 import { isAxiosError } from '../../../utils/error'
 import { Script } from '../../../models/Script'
+import { ReactComponent as CompassIcon } from './compass.svg'
 import styles from './styles.module.scss'
 
 enum CellInfo {
@@ -153,6 +155,7 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
 
   if (isScript(content)) {
     const hashTag = getContractHashTag(content)
+    const btcUtxo = getBtcUtxo(content)
     return (
       <>
         <JSONKeyValueView title={`"${t('transaction.script_code_hash')}": `} value={content.codeHash} />
@@ -167,6 +170,21 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
         )}
         <JSONKeyValueView title={`"${t('transaction.script_hash_type')}": `} value={content.hashType} />
         <JSONKeyValueView title={`"${t('transaction.script_args')}": `} value={content.args} />
+        {btcUtxo ? (
+          <JSONKeyValueView
+            value={
+              <a
+                href={`${config.BITCOIN_EXPLORER}/tx/${btcUtxo.txid}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.btcUtxo}
+              >
+                BTC UTXO
+                <CompassIcon />
+              </a>
+            }
+          />
+        ) : null}
       </>
     )
   }
