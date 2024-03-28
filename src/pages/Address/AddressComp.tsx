@@ -138,7 +138,10 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
           acc[0].push(cur)
           break
         case 'omiga_inscription':
-          acc[1].push(cur)
+          if (cur.mintStatus !== 'rebase_start' || cur.amount !== '0') {
+            // FIXME: remove this condition after the backend fix the data
+            acc[1].push(cur)
+          }
           break
         default:
           break
