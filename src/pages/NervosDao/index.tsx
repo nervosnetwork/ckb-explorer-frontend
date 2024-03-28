@@ -8,6 +8,7 @@ import Filter from '../../components/Filter'
 import DepositorRank from './DepositorRank'
 import { usePaginationParamsInPage, useSearchParams } from '../../hooks'
 import DaoOverview from './DaoOverview'
+import DaoBanner from './DaoBanner'
 import SimpleButton from '../../components/SimpleButton'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultNervosDaoInfo } from './state'
@@ -54,6 +55,7 @@ export const NervosDao = () => {
   return (
     <Content>
       <DaoContentPanel className="container">
+        <DaoBanner estimatedApc={queryNervosDao.data?.estimatedApc ?? defaultNervosDaoInfo.estimatedApc} />
         <DaoOverview nervosDao={queryNervosDao.data ?? defaultNervosDaoInfo} />
         <DaoTabBarPanel>
           <div className="nervosDaoTabBar">
@@ -83,7 +85,6 @@ export const NervosDao = () => {
             }}
           />
         </DaoTabBarPanel>
-
         {tab === 'transactions' ? (
           <QueryResult query={queryNervosDaoTransactions} delayLoading>
             {data => (

@@ -1,0 +1,96 @@
+@import '../../../styles/variables.module';
+
+.bannerContainer {
+  height: 280px;
+  width: 100%;
+  border-radius: 4px;
+  background: #000;
+  color: #fff;
+  background-image: url('./banner_bg.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+
+  .content {
+    margin-top: 64px;
+    margin-left: calc((100% - 570px) / 4);
+    max-width: 570px;
+
+    p {
+      margin: 0;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    .description {
+      font-size: 14px;
+      margin-top: 16px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+    }
+  }
+
+  .btn {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 14px;
+
+    .icon {
+      path {
+        fill: #fff;
+      }
+    }
+
+    &:hover {
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+
+      .icon {
+        path {
+          fill: var(--primary-color);
+        }
+      }
+    }
+  }
+}
+
+@media (width <= $mobileBreakPoint) {
+  .bannerContainer {
+    height: auto;
+    background-image: url('./banner_bg_mobile.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    .content {
+      margin-top: 32px;
+      margin-bottom: 27px;
+      max-width: 100%;
+      margin-left: 16px;
+
+      .actions {
+        flex-direction: column;
+
+        .btn {
+          width: 160px;
+        }
+      }
+    }
+  }
+}
