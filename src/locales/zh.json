@@ -797,6 +797,18 @@
     "sort": {
       "time": "按时间排序",
       "capacity": "按 Capacity 排序"
+    },
+    "decoder": {
+      "view-data-as": "选择解码格式",
+      "utf-8": "UTF-8",
+      "hex-number": "Hex Number",
+      "address": "Address",
+      "little-endian": "Little Endian",
+      "token-info": "Token Info",
+      "xudt-data": "XUDT Data",
+      "json": "JSON",
+      "select-x-from-y": "从 {{y}} 字符起选择了 {{x}} 个字符",
+      "fail-to-decode": "未能以 {{decode}} 格式解码"
     }
   }
 }
