@@ -213,7 +213,7 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
 }
 
 const CellInfoValueJSONView = ({ content, state }: { content: CellInfoValue; state: CellInfo }) => (
-  <TransactionCellInfoValuePanel isData={state === CellInfo.DATA}>
+  <TransactionCellInfoValuePanel data-is-decodable="true" isData={state === CellInfo.DATA}>
     <span>{'{'}</span>
     <CellInfoValueRender content={content} />
     <span>{'}'}</span>

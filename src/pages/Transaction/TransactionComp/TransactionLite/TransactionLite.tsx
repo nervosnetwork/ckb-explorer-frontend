@@ -35,7 +35,7 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
     <div className={styles.container}>
       {txList.map(item => (
         <div key={item.address} className={styles.item}>
-          <div>
+          <div data-is-decodable="true">
             <div className={styles.address}>
               <Addr address={item.address} isCellBase={isCellbase} />
             </div>

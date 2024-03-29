@@ -796,6 +796,18 @@
     "sort": {
       "time": "Sort by time",
       "capacity": "Sort by capacity"
+    },
+    "decoder": {
+      "view-data-as": "View data as",
+      "utf-8": "UTF-8",
+      "hex-number": "Hex Number",
+      "address": "Address",
+      "little-endian": "Little Endian",
+      "token-info": "Token Info",
+      "xudt-data": "XUDT Data",
+      "json": "JSON",
+      "select-x-from-y": "Selected {{x}} chars from {{y}}",
+      "fail-to-decode": "Fail to decode as {{decode}}"
     }
   }
 }
