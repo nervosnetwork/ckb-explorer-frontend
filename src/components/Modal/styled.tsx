@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ModalPanel = styled.div`
   display: block;
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   left: 0;
   top: 0;
   width: 100%;

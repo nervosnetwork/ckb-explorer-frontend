@@ -125,7 +125,13 @@
   }
 
   .action {
+    color: #999;
+    cursor: pointer;
     flex-shrink: 0;
+
+    &:hover {
+      color: var(--primary-color);
+    }
   }
 
   @media (width <= 1300px) {
