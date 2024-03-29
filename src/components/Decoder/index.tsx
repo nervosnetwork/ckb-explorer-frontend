@@ -7,14 +7,16 @@ import { hexToUtf8 } from '../../utils/string'
 import { useSetToast } from '../Toast'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import styles from './styles.module.scss'
+import { parseSporeCellData } from '../../utils/spore'
 
 enum DecodeMethod {
   LittleEndian = 'little-endian',
   HexNumber = 'hex-number',
   Utf8 = 'utf-8',
   Address = 'address',
-  TOKEN_INFO = 'token-info',
-  XUDT_DATA = 'xudt-data',
+  TokenInfo = 'token-info',
+  XudtData = 'xudt-data',
+  Spore = 'spore',
   JSON = 'json',
 }
 
@@ -164,10 +166,10 @@ const Decoder = () => {
           }
           return new BigNumber(v).toFormat()
         }
-        case DecodeMethod.TOKEN_INFO: {
+        case DecodeMethod.TokenInfo: {
           return JSON.stringify(hexToTokenInfo(v), null, 2)
         }
-        case DecodeMethod.XUDT_DATA: {
+        case DecodeMethod.XudtData: {
           return JSON.stringify(hexToXudtData(v), null, 2)
         }
         case DecodeMethod.LittleEndian: {
@@ -175,6 +177,13 @@ const Decoder = () => {
         }
         case DecodeMethod.Address: {
           return JSON.stringify(addressToScript(v), null, 2)
+        }
+        case DecodeMethod.Spore: {
+          const data = parseSporeCellData(v)
+          if (data.contentType === 'application/json') {
+            data.content = JSON.parse(hexToUtf8(`0x${data.content}`))
+          }
+          return JSON.stringify(data, null, 2)
         }
         case DecodeMethod.JSON: {
           const raw = JSON.parse(v)

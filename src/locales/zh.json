@@ -806,6 +806,7 @@
       "little-endian": "Little Endian",
       "token-info": "Token Info",
       "xudt-data": "XUDT Data",
+      "spore": "Spore",
       "json": "JSON",
       "select-x-from-y": "从 {{y}} 字符起选择了 {{x}} 个字符",
       "fail-to-decode": "未能以 {{decode}} 格式解码"
