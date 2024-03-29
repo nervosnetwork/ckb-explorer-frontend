@@ -52,7 +52,9 @@
 .btcUtxo {
   display: flex;
   height: 20px;
-  padding-left: 8px;
+  padding: 0 8px;
+  gap: 4px;
+  justify-content: center;
   align-items: center;
   color: var(--btc-primary-color) !important;
   font-size: 0.75rem;
@@ -61,8 +63,21 @@
   border: 1px solid var(--btc-primary-color);
   background: var(--btc-secondary-color);
   cursor: pointer;
+  box-sizing: border-box;
+  line-height: 1;
+
+  a {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
 
   svg {
+    width: 0.75rem;
     height: 0.75rem;
+  }
+
+  @media screen and (width <= $mobileBreakPoint) {
+    height: 1rem;
   }
 }
