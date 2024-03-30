@@ -33,7 +33,9 @@ const ScriptComp = ({ script }: { script: Script }) => {
         <code>{script.hashType}</code>
       </ScriptItem>
       <ScriptItem title={t('address.args')} tooltip={t('glossary.args')}>
-        <span className="monospace">{script.args}</span>
+        <span className="monospace" data-is-decodable="true">
+          {script.args}
+        </span>
       </ScriptItem>
     </ScriptPanel>
   )
