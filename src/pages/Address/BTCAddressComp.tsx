@@ -59,6 +59,10 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
     }
   }, [hasAssets, hasCells, setActiveTab])
 
+  if (!address.bitcoinAddressHash) {
+    return null
+  }
+
   return (
     <Card className={styles.addressOverviewCard}>
       <div className={styles.cardTitle}>{t('address.overview')}</div>
@@ -76,7 +80,7 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
                 key={AssetInfo.CELLs}
               >
                 <div className={styles.assetCardList}>
-                  <Cells address={address.addressHash} count={+address.liveCellsCount} />
+                  <Cells address={address.bitcoinAddressHash} count={+address.liveCellsCount} />
                 </div>
               </AddressAssetsTabPane>
             ) : null}

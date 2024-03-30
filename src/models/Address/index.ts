@@ -15,7 +15,7 @@ export enum AddressType {
 }
 
 export interface Address {
-  bitcoinAddress?: string
+  bitcoinAddressHash?: string
   addressHash: string
   lockHash: string
   balance: string
