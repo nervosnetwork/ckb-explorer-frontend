@@ -20,7 +20,7 @@ enum DecodeMethod {
   JSON = 'json',
 }
 
-const WIDTH = 500
+const SIZE = 500
 
 const prefixHex = (str: string) => {
   let s = str.toLowerCase()
@@ -35,14 +35,15 @@ const prefixHex = (str: string) => {
   return `0x${s}`
 }
 
-const leToNum = (v: string) => {
+const leToBe = (v: string) => {
+  // to big endian
   const bytes = v.slice(2).match(/\w{2}/g)
   if (!bytes) return ''
-  const val = `0x${bytes.reverse().join('')}`
-  if (Number.isNaN(+val)) {
+  const be = `0x${bytes.reverse().join('')}`
+  if (Number.isNaN(+be)) {
     throw new Error('Invalid little-endian')
   }
-  return new BigNumber(val).toFormat()
+  return be
 }
 
 const hexToTokenInfo = (v: string) => {
@@ -60,15 +61,18 @@ const hexToTokenInfo = (v: string) => {
 
 const hexToXudtData = (v: string) => {
   const amount = v.slice(0, 34)
-  const res: Partial<Record<'amount' | 'data', string>> = {
-    amount: leToNum(amount),
+  const res: Partial<Record<'AMOUNT' | 'DATA', string>> = {
+    AMOUNT: new BigNumber(leToBe(amount)).toFormat({ groupSeparator: '' }),
   }
   const data = v.slice(34)
   if (data) {
-    res.data = data
+    res.DATA = data
   }
   return res
 }
+
+const jsonToList = (json: Record<string, any>) =>
+  Object.entries(json).reduce((acc, cur) => `${acc}\n${cur[0]}:${cur[1]}`, '')
 
 const Decoder = () => {
   const [selection, setSelection] = useState<{
@@ -104,17 +108,18 @@ const Decoder = () => {
         const range = selection.getRangeAt(0)
         const rect = range.getBoundingClientRect()
         let x = rect.left + window.pageXOffset
-        if (rect.width > WIDTH) {
-          x = rect.right - WIDTH
-        } else if (rect.right + WIDTH > window.innerWidth) {
-          x = window.innerWidth - WIDTH - 20
+        if (rect.width > SIZE) {
+          x = rect.right - SIZE
+        } else if (rect.right + SIZE > window.innerWidth) {
+          x = window.innerWidth - SIZE - 20
+        }
+        let y = rect.bottom + window.pageYOffset + 4
+        if (y + SIZE + 20 > window.innerHeight) {
+          y = rect.top + 20
         }
         setSelection({
           text: selectionText,
-          position: {
-            x,
-            y: rect.bottom + window.pageYOffset + 4,
-          },
+          position: { x, y },
           index: range.startOffset,
         })
       }, 16)
@@ -137,18 +142,8 @@ const Decoder = () => {
     }
   }
 
-  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-    e.preventDefault()
-    const { detail } = e.currentTarget.dataset
-    if (!detail) return
-    navigator.clipboard.writeText(detail).then(() => {
-      setToast({ message: t('common.copied') })
-    })
-  }
-
-  const decoded = useMemo(() => {
-    if (!selection?.text) return ''
+  const decoded: { display: string; copy: string | object | null } = useMemo(() => {
+    if (!selection?.text) return { display: '', copy: null }
 
     const v = prefixHex(selection.text)
 
@@ -158,52 +153,81 @@ const Decoder = () => {
           if (Number.isNaN(+v)) {
             throw new Error('Invalid hex string')
           }
-          return hexToUtf8(v)
+          const str = hexToUtf8(v)
+          return { display: str, copy: str }
         }
         case DecodeMethod.HexNumber: {
           if (Number.isNaN(+v)) {
             throw new Error('Invalid hex number')
           }
-          return new BigNumber(v).toFormat()
+          const num = new BigNumber(v)
+          return { display: num.toFormat(), copy: num.toFormat({ groupSeparator: '' }) }
         }
         case DecodeMethod.TokenInfo: {
-          return JSON.stringify(hexToTokenInfo(v), null, 2)
+          const info = hexToTokenInfo(v)
+          return { display: jsonToList(info), copy: info }
         }
         case DecodeMethod.XudtData: {
-          return JSON.stringify(hexToXudtData(v), null, 2)
+          const info = hexToXudtData(v)
+          const tmp = {
+            ...info,
+            AMOUNT: info.AMOUNT ? new BigNumber(info.AMOUNT).toFormat() : info.AMOUNT,
+          }
+          return { display: jsonToList(tmp), copy: info }
         }
         case DecodeMethod.LittleEndian: {
-          return leToNum(v)
+          const be = leToBe(v)
+          const int = new BigNumber(be)
+          return {
+            display: `HEX: ${be}\nINT: ${int.toFormat()}`,
+            copy: {
+              HEX: be,
+              INT: int.toFormat({ groupSeparator: '' }),
+            },
+          }
         }
         case DecodeMethod.Address: {
-          return JSON.stringify(addressToScript(v), null, 2)
+          const script = addressToScript(v)
+          return { display: JSON.stringify(script, null, 2), copy: script }
         }
         case DecodeMethod.Spore: {
           const data = parseSporeCellData(v)
           if (data.contentType === 'application/json') {
             data.content = JSON.parse(hexToUtf8(`0x${data.content}`))
           }
-          return JSON.stringify(data, null, 2)
+          return { display: jsonToList(data), copy: data }
         }
         case DecodeMethod.JSON: {
-          const raw = JSON.parse(v)
-          if (!raw) return ''
-          return JSON.stringify(raw, null, 2)
+          const raw: object = JSON.parse(hexToUtf8(v))
+          if (!raw) return { display: '', copy: null }
+          return { display: JSON.stringify(raw, null, 2), copy: raw }
         }
         default: {
           throw new Error('Invalid decode method')
         }
       }
     } catch (e) {
-      return t(`decoder.fail-to-decode`, { decode: t(`decoder.${decodeMethod}`) })
+      return { display: t(`decoder.fail-to-decode`, { decode: t(`decoder.${decodeMethod}`) }), copy: null }
     }
   }, [decodeMethod, selection, t])
+
+  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
+    const elm = e.target
+    if (!(elm instanceof HTMLElement)) return
+    const { detail } = elm.dataset
+    if (!detail) return
+    navigator.clipboard.writeText(detail).then(() => {
+      setToast({ message: t('common.copied') })
+    })
+  }
 
   if (!selection) return null
   return createPortal(
     <div
       className={styles.container}
-      style={{ maxWidth: WIDTH, left: selection.position.x, top: selection.position.y }}
+      style={{ maxWidth: SIZE, maxHeight: SIZE, left: selection.position.x, top: selection.position.y }}
       data-role="decoder"
     >
       <div className={styles.head}>
@@ -220,10 +244,27 @@ const Decoder = () => {
         </div>
       </div>
       <div className={styles.body}>
-        <pre>{decoded}</pre>
-        <button type="button" className={styles.copy} onClick={handleCopy} data-detail={decoded}>
-          <CopyIcon />
-        </button>
+        <pre>{decoded.display}</pre>
+        {typeof decoded.copy === 'string' ? (
+          <button type="button" className={styles.copy} onClick={handleCopy} data-detail={decoded.copy}>
+            <CopyIcon />
+          </button>
+        ) : null}
+        {decoded.copy && typeof decoded.copy !== 'string' ? (
+          <button type="button" className={styles.copy} onClick={handleCopy} data-detail={JSON.stringify(decoded.copy)}>
+            <CopyIcon />
+            <ul>
+              <li data-detail={JSON.stringify(decoded.copy)}>All</li>
+              {Object.entries(decoded.copy || {}).map(([key, value]) => {
+                return (
+                  <li key={key} data-detail={value}>
+                    {key}
+                  </li>
+                )
+              })}
+            </ul>
+          </button>
+        ) : null}
         <div className={styles.count}>
           {t('decoder.select-x-from-y', { x: selection.text.length, y: selection.index })}
         </div>
