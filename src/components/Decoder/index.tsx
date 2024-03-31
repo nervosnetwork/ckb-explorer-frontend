@@ -147,6 +147,13 @@ const Decoder = () => {
 
     const v = prefixHex(selection.text)
 
+    if (v === '0x') {
+      return {
+        display: '',
+        copy: null,
+      }
+    }
+
     try {
       switch (decodeMethod) {
         case DecodeMethod.Utf8: {
