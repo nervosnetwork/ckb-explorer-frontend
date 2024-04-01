@@ -648,6 +648,21 @@
       "view_original": "查看原铭文",
       "repeat_inscription_symbol": "此铭文与早期发布的铭文同名"
     },
+    "xudt": {
+      "xudt": "xUDT",
+      "xudts": "xUDTs",
+      "name": "名称",
+      "symbol": "符号",
+      "total_amount": "总量",
+      "issuer": "发行人",
+      "type_script": "Type Script",
+      "holder_addresses": "用户数",
+      "decimal": "小数位",
+      "transactions": "24小时交易数",
+      "address_count": "用户数",
+      "created_time": "创建时间",
+      "tokens_empty": "目前没有 xUDT。"
+    },
     "nft": {
       "nft_collection": "NFT 藏品",
       "collection_name": "藏品名称",

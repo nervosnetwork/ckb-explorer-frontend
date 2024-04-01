@@ -647,6 +647,21 @@
       "view_original": "View Original",
       "repeat_inscription_symbol": "This inscription is a duplicate with an earlier release of the same symbol."
     },
+    "xudt": {
+      "xudt": "xUDT",
+      "xudts": "xUDTs",
+      "name": "Name",
+      "symbol": "Symbol",
+      "total_amount": "Total Amount",
+      "issuer": "Issuer",
+      "type_script": "Type Script",
+      "holder_addresses": "Holder Addresses",
+      "decimal": "Decimal",
+      "transactions": "24hr Transactions",
+      "address_count": "Address Count",
+      "created_time": "Created Time",
+      "tokens_empty": "There are no xUDTs at this time."
+    },
     "nft": {
       "nft_collection": "NFT Collection",
       "collection_name": "Collection Name",
