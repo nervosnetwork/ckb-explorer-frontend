@@ -198,7 +198,10 @@ const Decoder = () => {
         case DecodeMethod.BTCTimeLock: {
           const res = parseBtcTimeLockArgs(v)
           return {
-            display: jsonToList(res),
+            display: jsonToList({
+              ...res,
+              script: JSON.stringify(res.script, null, 2),
+            }),
             copy: res,
           }
         }
