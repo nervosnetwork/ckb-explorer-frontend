@@ -1,7 +1,6 @@
-import { FC, useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router'
+import { FC, useEffect, useState } from 'react'
+import { useHistory, useLocation } from 'react-router'
 import classNames from 'classnames'
-import { createBrowserHistory } from 'history'
 import LogoIcon from './ckb_logo.png'
 import { HeaderPanel, HeaderEmptyPanel, HeaderMobileMenuPanel, HeaderLogoPanel } from './styled'
 import MenusComp from './MenusComp'
@@ -54,35 +53,23 @@ export function useIsShowSearchBarInHeader() {
   return counter > 0
 }
 
-const useRouterLocation = (callback: () => void) => {
-  const history = createBrowserHistory()
-  const savedCallback = useRef(() => {})
-  useEffect(() => {
-    savedCallback.current = callback
-  })
-  useEffect(() => {
-    const currentCallback = () => {
-      savedCallback.current()
-    }
-    const listen = history.listen(() => {
-      currentCallback()
-    })
-    return () => {
-      listen()
-    }
-  }, [history])
-}
-
 export default () => {
   const isMobile = useMediaQuery(`(max-width: 1023px)`)
   const { pathname } = useLocation()
+  const history = useHistory()
   // TODO: This hard-coded implementation is not ideal, but currently the header is loaded before the page component,
   // so we can only handle it this way temporarily, otherwise there will be flickering during loading.
   const defaultSearchBarVisible = pathname !== '/' && pathname !== '/search/fail'
   const isShowSearchBar = useIsShowSearchBarInHeader()
   const [mobileMenuVisible, setMobileMenuVisible] = useState(false)
 
-  useRouterLocation(() => setMobileMenuVisible(false))
+  useEffect(() => {
+    const unregister = history.listen(() => {
+      setMobileMenuVisible(false)
+    })
+
+    return () => unregister()
+  }, [history])
 
   return (
     <div
