@@ -241,6 +241,12 @@ const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       tooltip = detailTitle
       break
     }
+    case 'xudt': {
+      detailTitle = 'xUDT'
+      detailIcon = UDTTokenIcon
+      tooltip = detailTitle
+      break
+    }
     default:
       break
   }
