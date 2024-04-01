@@ -805,6 +805,7 @@
       "little-endian": "Little Endian",
       "token-info": "Token Info",
       "xudt-data": "XUDT Data",
+      "btc-time-lock": "BTC Time Lock",
       "spore": "Spore",
       "json": "JSON",
       "select-x-from-y": "Selected {{x}} chars from {{y}}",

@@ -292,6 +292,13 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     hashType: 'data1',
     tag: 'Unique Cell',
   },
+  {
+    codeHashes: ['0x70d64497a075bd651e98ac030455ea200637ee325a12ad08aff03f1a117e5a62'],
+    txHashes: ['0x6257bf4297ee75fcebe2654d8c5f8d93bc9fc1b3dc62b8cef54ffe166162e996-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'BTC Time Lock',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
@@ -605,5 +612,12 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'Unique Cell',
+  },
+  {
+    codeHashes: ['0x28af93094395eb9d6ddabcca367efffebf92ceae9f974bbb594f5c5fcdeecb8c'],
+    txHashes: ['0x9cf9eb953dceba5fb394df3a9ae23ea624afa9ac5e8dcac80051acd2e4561d8e-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'BTC Time Lock',
   },
 ]

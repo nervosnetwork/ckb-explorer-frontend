@@ -18,7 +18,7 @@ import {
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import CloseIcon from './modal_close.png'
 import config from '../../../config'
-import { getBtcUtxo, getContractHashTag } from '../../../utils/util'
+import { getBtcTimeLockInfo, getBtcUtxo, getContractHashTag } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import HashTag from '../../../components/HashTag'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
@@ -156,6 +156,7 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
   if (isScript(content)) {
     const hashTag = getContractHashTag(content)
     const btcUtxo = getBtcUtxo(content)
+    const btcTimeLockInfo = btcUtxo ? getBtcTimeLockInfo(content) : null
     return (
       <>
         <JSONKeyValueView title={`"${t('transaction.script_code_hash')}": `} value={content.codeHash} />
@@ -180,6 +181,22 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
                 className={styles.btcUtxo}
               >
                 BTC UTXO
+                <CompassIcon />
+              </a>
+            }
+          />
+        ) : null}
+
+        {btcTimeLockInfo ? (
+          <JSONKeyValueView
+            value={
+              <a
+                href={`${config.BITCOIN_EXPLORER}/tx/${btcTimeLockInfo.txid}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.btcUtxo}
+              >
+                {`${btcTimeLockInfo.after} confirmations after BTC Tx`}
                 <CompassIcon />
               </a>
             }

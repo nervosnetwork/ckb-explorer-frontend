@@ -8,6 +8,7 @@ import { useSetToast } from '../Toast'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import styles from './styles.module.scss'
 import { parseSporeCellData } from '../../utils/spore'
+import { parseBtcTimeLockArgs } from '../../utils/rgbpp'
 
 enum DecodeMethod {
   LittleEndian = 'little-endian',
@@ -16,6 +17,7 @@ enum DecodeMethod {
   Address = 'address',
   TokenInfo = 'token-info',
   XudtData = 'xudt-data',
+  BTCTimeLock = 'btc-time-lock',
   Spore = 'spore',
   JSON = 'json',
 }
@@ -191,6 +193,13 @@ const Decoder = () => {
               HEX: be,
               INT: int.toFormat({ groupSeparator: '' }),
             },
+          }
+        }
+        case DecodeMethod.BTCTimeLock: {
+          const res = parseBtcTimeLockArgs(v)
+          return {
+            display: jsonToList(res),
+            copy: res,
           }
         }
         case DecodeMethod.Address: {
