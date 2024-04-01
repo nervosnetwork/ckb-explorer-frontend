@@ -22,6 +22,7 @@ import { Block } from '../../models/Block'
 import { BtcTx, Transaction } from '../../models/Transaction'
 import { Address, AddressType } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
+import { XUDT } from '../../models/Xudt'
 import { HashType } from '../../constants/common'
 
 async function v1Get<T>(...args: Parameters<typeof requesterV1.get>) {
@@ -690,6 +691,47 @@ export const apiFetcher = {
         sort,
       },
     }),
+
+  fetchXudt: (typeHash: string) => v1GetUnwrapped<XUDT>(`/xudts/${typeHash}`),
+
+  fetchXudts: (page: number, size: number, sort?: string) =>
+    v1GetUnwrappedPagedList<XUDT>(`/xudts`, {
+      params: {
+        page,
+        page_size: size,
+        sort,
+      },
+    }),
+
+  // TODO: This API is not supported yet, use fetchUDTTransactions instead
+  // fetchXudtTransactions: async ({
+  //   typeHash,
+  //   page,
+  //   size,
+  //   filter,
+  // }: {
+  //   typeHash: string
+  //   page: number
+  //   size: number
+  //   filter?: string | null
+  // }) => {
+  //   const res = await v1GetUnwrappedPagedList<Transaction>(`/xudt_transactions/${typeHash}`, {
+  //     params: {
+  //       page,
+  //       page_size: size,
+  //       address_hash: filter?.startsWith('0x') ? undefined : filter,
+  //       tx_hash: filter?.startsWith('0x') ? filter : undefined,
+  //     },
+  //   })
+
+  //   const transactions = await mergeBtcTxList(res.data)
+
+  //   return {
+  //     transactions,
+  //     pageSize: res.pageSize,
+  //     total: res.total,
+  //   }
+  // },
 
   fetchOmigaInscription: (typeHash: string, isViewOriginal: boolean) =>
     v1GetUnwrapped<OmigaInscriptionCollection>(
