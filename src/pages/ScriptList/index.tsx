@@ -243,6 +243,14 @@ export const scripts = new Map<string, ScriptAttributes>([
       code: 'https://github.com/ckb-cell/unique-cell/',
     },
   ],
+  [
+    'BTC Time Lock',
+    {
+      name: 'BTC Time Lock',
+      description: 'A lock require n confirmations of Bitcoin transaction to unlock the cell.',
+      doc: 'https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/locscript-design-prd-cn.md#btc_time_lock',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']
