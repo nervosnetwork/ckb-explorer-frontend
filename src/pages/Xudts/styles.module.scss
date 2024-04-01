@@ -1,0 +1,252 @@
+@import '../../styles/variables.module';
+
+.link {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+.filterSortCard:not(
+    [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
+  ) {
+  padding: 16px;
+}
+
+.sortOption {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+}
+
+.table {
+  display: block;
+
+  @media screen and (width <= $mobileBreakPoint) {
+    display: none;
+  }
+}
+
+.cards {
+  display: none;
+
+  @media screen and (width <= $mobileBreakPoint) {
+    display: block;
+  }
+}
+
+.tokensCard {
+  margin-top: 10px;
+  padding: 0 24px;
+  font-size: 14px;
+  color: #333;
+}
+
+.tokenInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .title {
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+    align-items: flex-end;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 12px;
+      color: #999;
+    }
+  }
+
+  dl {
+    margin: 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+
+    // font-weight: 200;
+    gap: 16px;
+
+    dt,
+    dd {
+      font-weight: inherit;
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+}
+
+.tokensTable:not(
+    [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.'][_='']
+  ) {
+  $paddingX: 40px;
+
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  font-size: 14px;
+  color: #333;
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  :global(.ant-table-row) {
+    &:hover td {
+      background: unset;
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+
+    thead tr {
+      border-bottom: 4px solid #e5e5e5;
+    }
+
+    tbody tr {
+      position: relative;
+
+      &:not(:last-child)::after {
+        content: ' ';
+        position: absolute;
+        bottom: 0;
+        left: $paddingX;
+        display: block;
+        width: calc(100% - $paddingX * 2);
+        height: 1px;
+        background: #e5e5e5;
+      }
+    }
+
+    th {
+      background: #fff;
+      font-weight: 600;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    th,
+    td {
+      border-bottom: 0;
+
+      &:first-child {
+        padding-left: $paddingX;
+      }
+
+      &:last-child {
+        padding-right: $paddingX;
+      }
+    }
+  }
+
+  .colName {
+    width: 40%;
+
+    .container {
+      display: flex;
+      position: relative;
+      align-items: center;
+      gap: 10px;
+
+      .warningIcon {
+        position: absolute;
+        right: 101%;
+      }
+
+      .icon {
+        width: 30px;
+        height: 30px;
+      }
+
+      .right {
+        .symbolAndName {
+          display: flex;
+          align-items: center;
+          line-height: normal;
+          font-size: 14px;
+          color: #333;
+
+          .name {
+            margin-left: 8px;
+            font-size: 12px;
+            color: #999;
+          }
+
+          .helpIcon {
+            width: 16px;
+            height: 16px;
+            margin-left: 4px;
+          }
+        }
+
+        .description {
+          line-height: normal;
+          font-size: 12px;
+          color: #666;
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+
+  .colStatus {
+    min-width: 240px;
+
+    .container {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #000;
+
+      .mintStatus {
+        width: 88px;
+      }
+    }
+  }
+
+  .colTransactions {
+    min-width: 200px;
+  }
+
+  .colAddressCount {
+    min-width: 170px;
+  }
+
+  .colCreatedTime {
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  .loading {
+    position: static;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin: 0;
+  }
+}
+
+.pagination {
+  border-top: 4px solid #e5e5e5;
+
+  @media (width <= $mobileBreakPoint) {
+    border-top: 0;
+    margin-top: 20px;
+    border-radius: 4px;
+    box-shadow: none;
+  }
+}
