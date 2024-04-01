@@ -285,6 +285,13 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     hashType: 'type',
     tag: 'RGB++',
   },
+  {
+    codeHashes: ['0xcc2518c2c1384f2473c96f63c4e74074984296f358512ee7f54c848d4c135040'],
+    txHashes: ['0x9c344c947fc7c31221774c3cc03af3ef5a0e472497305f7da796216696bee4c8-0'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Unique Cell',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
@@ -591,5 +598,12 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'RGB++',
+  },
+  {
+    codeHashes: ['0xd3de6166f7bb89f0c016ef8c7ce196f8d8c1fc44d133ca8c1d910373a4970d13'],
+    txHashes: ['0x2415ee81413fa9dd82245db054c19eb1ae2191185e2cb18ed1262947aec323c3-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Unique Cell',
   },
 ]
