@@ -169,7 +169,7 @@
       "sUDT": "sUDT",
       "inscriptions": "Inscriptions",
       "docs": "Docs",
-      "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash/Args",
+      "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash/Args/BTC Address/BTC Txid",
       "search_by_name_placeholder": "Token Name",
       "mainnet": "LINA",
       "testnet": "TESTNET",
@@ -336,7 +336,7 @@
       "loading": "Loading...",
       "no_search_result": "Oops! Your search did not match any record.",
       "empty_result": "Oops! Your search did not match any record. \n\nPlease make sure input contains only one of the following items:\n",
-      "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Lock Hash/ Type Hash/ Args",
+      "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Lock Hash/ Type Hash/ Args/ BTC Address/ BTC Txid",
       "address_type_testnet_error": "Testnet address detected，please goto",
       "address_type_mainnet_error": "Mainnet address detected，please goto",
       "address_type_testnet_url": "testnet explorer",
@@ -358,6 +358,7 @@
       "lock_script": "Lock Script",
       "balance": "Balance",
       "live_cells": "Live Cells",
+      "live_cell_tab": "Live Cell(s)",
       "block_mined": "Block Mined",
       "occupied": "Occupied",
       "dao_deposit": "Nervos DAO Deposit",
@@ -374,6 +375,7 @@
       "user_defined_token": "User Defined Token",
       "cell": "Cell",
       "cells": "Cells",
+      "rgb_plus_plus": "RGB++",
       "inscription": "Inscription",
       "confirmation": "Confirmation",
       "confirmations": "Confirmations",
@@ -383,9 +385,17 @@
       "visit-deprecated-address": "View in deprecated address format",
       "view-deprecated-address": "Display deprecated addresses",
       "displaying-deprecated-address": "Displaying in deprecated address format",
-      "current-address": "Current Address"
+      "current-address": "Current Address",
+      "transaction_rgbpp_digest": "RGB++ Digest",
+      "seal_tx_on_bitcoin": "Seal Tx On Bitcoin",
+      "leap_in": "Leap In",
+      "leap_out": "Leap Out",
+      "leap_in_tip": "This RGB++ transaction is marked as \"Leap In\", indicating that the number of cells with RGB++ lock in the output exceeds the number of cells with RGB++ lock in the input.",
+      "leap_out_tip": "This RGB++ transaction is marked as \"Leap Out\", indicating that the number of cells with RGB++ lock in the input exceeds the number of cells with RGB++ lock in the output.",
+      "view_in_btc_explorer": "View in Bitcoin Explorer"
     },
     "transaction": {
+      "view_rgbpp_digest": "View RGB++ Digest",
       "transaction": "Transaction",
       "transactions": "Transactions",
       "pending_transactions": "Pending Transactions",
@@ -440,7 +450,9 @@
       "cota": "CoTA",
       "spore_cluster": "Spore Cluster",
       "spore": "Spore",
+      "omiga_inscription": "Inscription",
       "joy_id": "JoyID",
+      "xudt": "xUDT",
       "unknown_nft": "anonymous",
       "nft_limited": "Limited",
       "nft_unlimited": "Unlimited",
@@ -473,10 +485,16 @@
       },
       "professional": "Professional",
       "lite": "Lite",
+      "rgb_digest": "RGB++ Digest",
+      "transaction_details": "Transaction Details",
       "unknown_assets": "Unknown Assets",
       "mint": "Mint",
       "no_records": "No records",
-      "data-being-processed": "Data is being processed, please wait..."
+      "data-being-processed": "Data is being processed, please wait...",
+      "view-btc-utxos": "BTC UTXOs",
+      "view-btc-tx": "View BTC Tx",
+      "isomorphic-binding-with-index": "Isomorphic bound to CKB Tx {{index}}",
+      "isomorphic-binding-with-index-commitment": "Isomorphic bound to CKB Tx {{index}}\n\nCommitment:\n{{commitment}}"
     },
     "block": {
       "block": "Block",
@@ -778,6 +796,19 @@
     "sort": {
       "time": "Sort by time",
       "capacity": "Sort by capacity"
+    },
+    "decoder": {
+      "view-data-as": "View data as",
+      "utf-8": "UTF-8",
+      "hex-number": "Hex Number",
+      "address": "Address",
+      "little-endian": "Little Endian",
+      "token-info": "Token Info",
+      "xudt-data": "XUDT Data",
+      "spore": "Spore",
+      "json": "JSON",
+      "select-x-from-y": "Selected {{x}} chars from {{y}}",
+      "fail-to-decode": "Fail to decode as {{decode}}"
     }
   }
 }

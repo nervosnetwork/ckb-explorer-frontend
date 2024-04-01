@@ -226,6 +226,23 @@ export const scripts = new Map<string, ScriptAttributes>([
       website: 'https://forcebridge.com/',
     },
   ],
+  [
+    'RGB++',
+    {
+      name: 'RGB++',
+      description: 'RGB++ Lock',
+      doc: 'https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/',
+    },
+  ],
+  [
+    'Unique Cell',
+    {
+      name: 'Unique Cell',
+      description:
+        'A unique cell can be created on the Nervos CKB through TypeID which makes sure the unique cell cannot be updated or destroyed.',
+      code: 'https://github.com/ckb-cell/unique-cell/',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']

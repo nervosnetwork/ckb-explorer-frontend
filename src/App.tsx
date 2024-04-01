@@ -6,6 +6,7 @@ import Toast from './components/Toast'
 import { isMainnet } from './utils/chain'
 import { DASQueryContextProvider } from './hooks/useDASAccount'
 import { getPrimaryColor, getSecondaryColor } from './constants/common'
+import Decoder from './components/Decoder'
 
 const appStyle = {
   width: '100vw',
@@ -25,16 +26,19 @@ const App = () => {
   )
 
   return (
-    <ThemeProvider theme={theme}>
-      <div style={appStyle} data-net={isMainnet() ? 'mainnet' : 'testnet'}>
-        <QueryClientProvider client={queryClient}>
-          <DASQueryContextProvider>
-            <Routers />
-            <Toast />
-          </DASQueryContextProvider>
-        </QueryClientProvider>
-      </div>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <div style={appStyle} data-net={isMainnet() ? 'mainnet' : 'testnet'}>
+          <QueryClientProvider client={queryClient}>
+            <DASQueryContextProvider>
+              <Routers />
+              <Toast />
+            </DASQueryContextProvider>
+          </QueryClientProvider>
+        </div>
+      </ThemeProvider>
+      <Decoder />
+    </>
   )
 }
 

@@ -138,7 +138,7 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
         witnesses.map((witness, index) => {
           const key = `${witness}-${index}`
           return (
-            <div className={styles.fieldSet} key={key}>
+            <div className={styles.fieldSet} key={key} data-is-decodable="true">
               <Field
                 title="Witness"
                 tooltip={t('glossary.witness')}

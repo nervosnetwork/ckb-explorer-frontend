@@ -9,6 +9,8 @@ export interface CellDep {
 }
 
 export interface Transaction {
+  isRgbTransaction: boolean
+  rgbTxid: string | null
   transactionHash: string
   // FIXME: this type declaration should be fixed by adding a transformation between internal state and response of API
   blockNumber: number | string
@@ -31,4 +33,10 @@ export interface Transaction {
   maxCyclesInEpoch: number | null
   maxCycles: number | null
   createTimestamp?: number
+}
+
+export interface BtcTx {
+  txId: string
+  transactionHash: string
+  ckbTransactionHash: string
 }

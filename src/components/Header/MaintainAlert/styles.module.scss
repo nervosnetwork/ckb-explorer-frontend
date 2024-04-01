@@ -1,10 +1,7 @@
 @import '../../../styles/variables.module';
 
 .container {
-  position: fixed;
-  top: var(--navbar-height);
-  left: 0;
-  width: 100%;
+  position: sticky;
   color: #fff;
   font-size: 14px;
   font-weight: 450;

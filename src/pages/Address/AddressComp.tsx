@@ -4,7 +4,7 @@ import { Radio } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../components/Link'
 import TransactionItem from '../../components/TransactionItem/index'
-import { explorerService } from '../../services/ExplorerService'
+import { explorerService, RawBtcRPC } from '../../services/ExplorerService'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb, deprecatedAddrToNewAddr } from '../../utils/util'
 import {
@@ -138,7 +138,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
           acc[0].push(cur)
           break
         case 'omiga_inscription':
-          if (cur.mintStatus !== 'rebase_start' || cur.amount !== '0') {
+          if (cur.amount !== '0') {
             // FIXME: remove this condition after the backend fix the data
             acc[1].push(cur)
           }
@@ -224,6 +224,20 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
       {hasAssets || hasInscriptions || hasCells ? (
         <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
           <AddressAssetsTab animated={false} key={i18n.language} activeKey={activeTab.toString()}>
+            {hasCells ? (
+              <AddressAssetsTabPane
+                tab={
+                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.CELLs)}>
+                    {t('address.live_cell_tab')}
+                  </AddressAssetsTabPaneTitle>
+                }
+                key={AssetInfo.CELLs}
+              >
+                <div className={styles.assetCardList}>
+                  <Cells address={address.addressHash} count={+address.liveCellsCount} />
+                </div>
+              </AddressAssetsTabPane>
+            ) : null}
             {(udts.length > 0 || cotaList?.length) && (
               <AddressAssetsTabPane
                 tab={
@@ -233,7 +247,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 }
                 key={AssetInfo.UDT}
               >
-                <div className="addressUdtAssetsGrid">
+                <div className={styles.assetCardList}>
                   {udts.map(udt => {
                     switch (udt.udtType) {
                       case 'sudt':
@@ -274,7 +288,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 }
                 key={AssetInfo.INSCRIPTION}
               >
-                <div className="addressUdtAssetsGrid">
+                <div className={styles.assetCardList}>
                   {inscriptions.map(inscription => {
                     switch (inscription.udtType) {
                       case 'omiga_inscription':
@@ -289,21 +303,6 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                         return null
                     }
                   })}
-                </div>
-              </AddressAssetsTabPane>
-            ) : null}
-
-            {hasCells ? (
-              <AddressAssetsTabPane
-                tab={
-                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.CELLs)}>
-                    {t(`address.${+address.liveCellsCount > 1 ? 'cells' : 'cell'}`)}
-                  </AddressAssetsTabPaneTitle>
-                }
-                key={AssetInfo.CELLs}
-              >
-                <div className="addressUdtAssetsGrid">
-                  <Cells address={address.addressHash} count={+address.liveCellsCount} />
                 </div>
               </AddressAssetsTabPane>
             ) : null}
@@ -324,7 +323,7 @@ export const AddressTransactions = ({
   meta: { counts },
 }: {
   address: string
-  transactions: Transaction[]
+  transactions: (Transaction & { btcTx: RawBtcRPC.BtcTx | null })[]
   timeOrderBy: OrderByType
   meta: { counts: Record<'committed' | 'pending', number | '-'> }
 }) => {
@@ -423,7 +422,7 @@ export const AddressTransactions = ({
           <LiteTransactionList address={address} list={transactions} />
         ) : (
           <>
-            {txList.map((transaction: Transaction, index: number) => (
+            {txList.map((transaction, index) => (
               <TransactionItem
                 address={address}
                 transaction={transaction}

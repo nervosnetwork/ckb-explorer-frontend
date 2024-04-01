@@ -40,7 +40,7 @@ export const UDT: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
     async () => {
       assert(udtTypeHash)
       const {
-        data: transactions,
+        transactions,
         total,
         pageSize: resPageSize,
       } = await explorerService.api.fetchUDTTransactions({

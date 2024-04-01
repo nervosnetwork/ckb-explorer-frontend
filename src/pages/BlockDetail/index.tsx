@@ -26,15 +26,12 @@ export default () => {
     async () => {
       assert(blockHash != null)
       try {
-        const {
-          data: transactions,
-          total,
-          pageSize,
-        } = await explorerService.api.fetchTransactionsByBlockHash(blockHash, {
+        const { transactions, total, pageSize } = await explorerService.api.fetchTransactionsByBlockHash(blockHash, {
           page: currentPage,
           size: pageSizeParam,
           filter,
         })
+
         return { transactions, total, pageSize }
       } catch (e) {
         console.error(e)
