@@ -278,6 +278,13 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     tag: 'Force Bridge',
     category: 'lock',
   },
+  {
+    codeHashes: ['0xbc6c568a1a0d0a09f6844dc9d74ddb4343c32143ff25f727c59edf4fb72d6936'],
+    txHashes: ['0x04c5c3e69f1aa6ee27fb9de3d15a81704e387ab3b453965adbe0b6ca343c6f41-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'RGB++',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
