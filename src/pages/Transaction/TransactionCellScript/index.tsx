@@ -156,7 +156,7 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
   if (isScript(content)) {
     const hashTag = getContractHashTag(content)
     const btcUtxo = getBtcUtxo(content)
-    const btcTimeLockInfo = btcUtxo ? getBtcTimeLockInfo(content) : null
+    const btcTimeLockInfo = !btcUtxo ? getBtcTimeLockInfo(content) : null
     return (
       <>
         <JSONKeyValueView title={`"${t('transaction.script_code_hash')}": `} value={content.codeHash} />
