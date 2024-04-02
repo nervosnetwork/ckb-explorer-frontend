@@ -108,24 +108,15 @@ export const apiFetcher = {
 
   fetchLatestBlocks: (size: number) => apiFetcher.fetchBlocks(1, size),
 
-  fetchAddressInfo: async (address: string) => {
-    const res = await v1GetWrapped<Address[] | Address>(`addresses/${address}`).then(wrapper => {
-      let addrList: Response.Wrapper<Address>[] = []
-      // This transform is for compatibility with the rgbpp API which may return an array of addresses
-
-      if (Array.isArray(wrapper)) {
-        addrList = wrapper
-      } else {
-        addrList.push(wrapper as Response.Wrapper<Address>)
-      }
-
-      return addrList.map(addr => ({
-        ...addr.attributes,
-        type: addr.type === 'lock_hash' ? AddressType.LockHash : AddressType.Address,
-      }))
-    })
-    return res
-  },
+  fetchAddressInfo: (address: string) =>
+    v1GetWrappedList<Address>(`addresses/${address}`).then((wrapper): Address[] => {
+      return wrapper.map(
+        (item): Address => ({
+          ...item.attributes,
+          type: item.type === 'lock_hash' ? AddressType.LockHash : AddressType.Address,
+        }),
+      )
+    }),
 
   // sort field, block_timestamp, capacity
   // sort type, asc, desc
