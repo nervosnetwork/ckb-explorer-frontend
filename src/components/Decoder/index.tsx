@@ -74,7 +74,7 @@ const hexToXudtData = (v: string) => {
 }
 
 const jsonToList = (json: Record<string, any>) =>
-  Object.entries(json).reduce((acc, cur) => `${acc}\n${cur[0]}:${cur[1]}`, '')
+  Object.entries(json).reduce((acc, cur) => `${acc}\n${cur[0]}: ${cur[1]}`, '')
 
 const Decoder = () => {
   const [selection, setSelection] = useState<{
