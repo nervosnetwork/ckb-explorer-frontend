@@ -25,7 +25,7 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
 
   const [udts, inscriptions] = udtAccounts.reduce(
     (acc, cur) => {
-      switch (cur.udtType) {
+      switch (cur?.udtType) {
         case 'sudt':
         case 'spore_cell':
         case 'm_nft_token':
