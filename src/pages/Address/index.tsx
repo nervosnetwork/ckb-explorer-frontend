@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Tooltip } from 'antd'
 import { FC, useMemo } from 'react'
+import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Address as AddressInfo } from '../../models/Address'
 import Content from '../../components/Content'
 import { AddressContentPanel } from './styled'
@@ -46,7 +47,11 @@ export const Address = () => {
 
   let addressInfo: AddressInfo | undefined
   if (!isRGBPP) {
-    addressInfo = addressInfoQuery.data?.[0]
+    addressInfo = addressInfoQuery.data?.[0] ?? {
+      ...defaultAddressInfo,
+      addressHash: address,
+      lockScript: addressToScript(address),
+    }
   } else {
     addressInfo = addressInfoQuery.data?.reduce((acc, cur) => {
       return {
