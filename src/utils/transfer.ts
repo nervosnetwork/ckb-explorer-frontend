@@ -130,10 +130,10 @@ export const getTransfer = (transfer: LiteTransfer.Transfer): TransferRecord => 
           }
         }
         const decimal = +transfer.udtInfo.decimal
-        let item = decimal ? parseUDTAmount(transfer.udtInfo.amount, decimal) : transfer.udtInfo.amount
+        let amount = decimal ? parseUDTAmount(transfer.udtInfo.amount, decimal) : transfer.udtInfo.amount
         const diffStatus = getDiffStatus(+transfer.udtInfo.amount)
         if (diffStatus === 'positive') {
-          item = `+${item}`
+          amount = `+${amount}`
         }
         return {
           label: transfer.udtInfo.symbol || 'Unknown',
@@ -141,8 +141,8 @@ export const getTransfer = (transfer: LiteTransfer.Transfer): TransferRecord => 
           category: transfer.cellType,
           capacity: transfer.capacity,
           asset: {
-            amount: transfer.udtInfo.amount,
-            item,
+            amount,
+            item: transfer.udtInfo.symbol || 'Unknown',
             diffStatus,
           },
         }
