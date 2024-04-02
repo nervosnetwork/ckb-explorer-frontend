@@ -37,12 +37,11 @@ const useMenuDataList = () => {
       type: LinkType.Inner,
       name: t('navbar.tokens'),
       children: [
-        // TODO: wait for API
-        // {
-        //   type: LinkType.Inner,
-        //   name: t('navbar.xUDT'),
-        //   url: '/xudts',
-        // },
+        {
+          type: LinkType.Inner,
+          name: t('navbar.xUDT'),
+          url: '/xudts',
+        },
         {
           type: LinkType.Inner,
           name: t('navbar.sUDT'),
