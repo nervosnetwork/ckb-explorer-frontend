@@ -56,7 +56,7 @@ export const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, is
         </Tooltip>
 
         <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
-          <Link to={`/address/${address}`} className="monospace TransactionItemCell_text__RoMn0">
+          <Link to={`/address/${address}`} className="monospace">
             {alias}
           </Link>
         </Tooltip>
