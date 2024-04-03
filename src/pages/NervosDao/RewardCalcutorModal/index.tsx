@@ -111,7 +111,7 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
 
           <div className={styles.divider} />
           <div className={styles.modalContent}>
-            <h2>{t('nervos_dao.you_deposit')}</h2>
+            <h2>{t('nervos_dao.deposit_amount')}</h2>
             <Input
               value={
                 /\.$/.test(depositValue)
@@ -122,17 +122,17 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
               suffix="CKB"
               onChange={handleDepositChange}
             />
-            <h2>{t('nervos_dao.you_can_withdraw')}</h2>
+            <h2>{t('nervos_dao.estimated_compensation')}</h2>
             <p>{t(`nervos_dao.estimated_rewards`, { days: 30 })}</p>
             <Input
-              value={localeNumberString(monthReward.plus(depositValue).toFixed(MAX_DECIMAL_DIGITS))}
+              value={localeNumberString(monthReward.toFixed(MAX_DECIMAL_DIGITS))}
               className={styles.input}
               suffix="CKB"
               disabled
             />
             <p>{t(`nervos_dao.estimated_rewards`, { days: 360 })}</p>
             <Input
-              value={localeNumberString(yearReward.plus(depositValue).toFixed(MAX_DECIMAL_DIGITS))}
+              value={localeNumberString(yearReward.toFixed(MAX_DECIMAL_DIGITS))}
               className={styles.input}
               suffix="CKB"
               disabled
