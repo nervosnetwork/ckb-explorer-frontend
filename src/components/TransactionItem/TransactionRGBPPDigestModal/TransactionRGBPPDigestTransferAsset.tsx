@@ -24,6 +24,7 @@ export const TransactionRGBPPDigestTransferAsset = ({ transfer }: { transfer: Li
         `${t('udt.unknown_token')} #${transfer.udtInfo.typeHash.substring(transfer.udtInfo.typeHash.length - 4)}`
       break
     case 'xudt': {
+      name = transfer.udtInfo?.displayName || 'xUDT'
       break
     }
     case 'omiga_inscription': {
