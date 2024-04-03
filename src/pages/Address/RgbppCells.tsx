@@ -54,7 +54,6 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
   }
 
   const ckb = new BigNumber(shannonToCkb(+cell.capacity)).toFormat()
-  const title = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
   const link = `/transaction/${cell.txHash}?${new URLSearchParams({
     page_of_outputs: Math.ceil(+cell.cellIndex / PAGE_SIZE).toString(),
   })}`
@@ -167,19 +166,17 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
       attribute = '-'
     }
   }
-  const outPoint = {
-    tx_hash: cell.txHash,
-    index: `0x${cell.cellIndex.toString(16)}`,
-  }
 
   return (
     <li key={cell.txHash + cell.cellIndex} className={styles.card}>
-      <h5>
-        <a href={link}>{title}</a>
+      <h5
+        style={{
+          background: `linear-gradient(90.24deg,#ffd176 .23%,#ffdb81 6.7%,#84ffcb 99.82%)`,
+          color: '#333',
+        }}
+      >
+        <a href={link}>RGB++</a>
 
-        <button type="button" className={styles.copy} data-detail={JSON.stringify(outPoint)} onClick={handleCopy}>
-          <CopyIcon />
-        </button>
         <span title={`${ckb} CKB`}>{`${ckb} CKB`}</span>
       </h5>
       <div className={styles.content}>
