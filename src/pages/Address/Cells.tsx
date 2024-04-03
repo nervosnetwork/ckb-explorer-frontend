@@ -123,6 +123,9 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
     }
     case 'xudt': {
       icon = SUDTTokenIcon
+      if (!cell.extraInfo) {
+        break
+      }
       assetName = cell.extraInfo.symbol || 'xUDT'
       attribute = cell.extraInfo.decimal
         ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
