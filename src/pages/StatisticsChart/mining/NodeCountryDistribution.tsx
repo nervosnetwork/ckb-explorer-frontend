@@ -5,7 +5,7 @@ import { getPeers, RawPeer } from '../../../services/NodeProbService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
-const Colors: string[] = ['#4527a0', '#512da8', '#5e35b1', '#673ab7', '#7e57c2', '#9575cd']
+const Colors: string[] = ['#6839fb', '#794ffb', '#8a65fc', '#9a7bfc', '#ab91fd']
 
 interface CountryRecord {
   country: string
