@@ -3,7 +3,7 @@ import { ReactEventHandler, useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 import styles from './styles.module.scss'
 import { AddressUDTItemPanel } from './styled'
-import { CoTA, OmigaInscription, MNFT, NRC721, SUDT, Spore } from '../../models/Address'
+import { CoTA, OmigaInscription, MNFT, NRC721, SUDT, XUDT, Spore } from '../../models/Address'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { parseUDTAmount } from '../../utils/number'
 import { getImgFromSporeCell } from '../../utils/spore'
@@ -53,6 +53,23 @@ export const AddressAssetComp = ({
         </div>
       </div>
     </AddressUDTItemPanel>
+  )
+}
+
+export const AddressXudtComp = ({ account, isRGBPP }: { account: XUDT; isRGBPP?: boolean }) => {
+  const { symbol, decimal, amount, typeHash, udtIconFile, uan } = account
+  const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
+
+  useEffect(() => {})
+  return (
+    <AddressAssetComp
+      isRGBPP={isRGBPP ?? false}
+      href={`/sudt/${typeHash}`}
+      property={parseUDTAmount(amount, decimal)}
+      name={uan || symbol}
+      udtLabel="sudt"
+      icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(SUDTTokenIcon) }}
+    />
   )
 }
 

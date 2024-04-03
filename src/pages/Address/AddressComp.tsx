@@ -130,6 +130,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
   const [udts, inscriptions] = udtAccounts.reduce(
     (acc, cur) => {
       switch (cur?.udtType) {
+        case 'xudt':
         case 'sudt':
         case 'spore_cell':
         case 'm_nft_token':

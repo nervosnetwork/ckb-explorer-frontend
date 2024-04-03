@@ -11,7 +11,13 @@ import styles from './styles.module.scss'
 import { Address, UDTAccount } from '../../models/Address'
 import { Card } from '../../components/Card'
 import Cells from './Cells'
-import { AddressOmigaInscriptionComp, AddressMNFTComp, AddressSporeComp, AddressSudtComp } from './AddressAssetComp'
+import {
+  AddressOmigaInscriptionComp,
+  AddressMNFTComp,
+  AddressSporeComp,
+  AddressSudtComp,
+  AddressXudtComp,
+} from './AddressAssetComp'
 
 enum AssetInfo {
   CELLs,
@@ -26,6 +32,7 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
   const [udts, inscriptions] = udtAccounts.reduce(
     (acc, cur) => {
       switch (cur?.udtType) {
+        case 'xudt':
         case 'sudt':
         case 'spore_cell':
         case 'm_nft_token':
@@ -97,6 +104,8 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
                   <div className={styles.assetCardList}>
                     {udts.map(udt => {
                       switch (udt.udtType) {
+                        case 'xudt':
+                          return <AddressXudtComp isRGBPP account={udt} key={udt.symbol + udt.udtType + udt.amount} />
                         case 'sudt':
                           return <AddressSudtComp isRGBPP account={udt} key={udt.symbol + udt.udtType + udt.amount} />
 
