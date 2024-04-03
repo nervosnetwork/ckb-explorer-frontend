@@ -286,8 +286,8 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     tag: 'RGB++',
   },
   {
-    codeHashes: [],
-    txHashes: [],
+    codeHashes: ['0x2c8c11c985da60b0a330c61a85507416d6382c130ba67f0c47ab071e00aec628'],
+    txHashes: ['0x67524c01c0cb5492e499c7c7e406f2f9d823e162d6b0cf432eacde0c9808c2ad-0'],
     depType: 'code',
     hashType: 'data1',
     tag: 'Unique Cell',
