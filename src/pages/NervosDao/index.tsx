@@ -13,7 +13,6 @@ import SimpleButton from '../../components/SimpleButton'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultNervosDaoInfo } from './state'
 import { explorerService } from '../../services/ExplorerService'
-import { IS_MAINNET } from '../../constants/common'
 
 export const NervosDao = () => {
   const { push } = useHistory()
@@ -52,9 +51,7 @@ export const NervosDao = () => {
   return (
     <Content>
       <DaoContentPanel className="container">
-        {IS_MAINNET ? null : (
-          <DaoBanner estimatedApc={queryNervosDao.data?.estimatedApc ?? defaultNervosDaoInfo.estimatedApc} />
-        )}
+        <DaoBanner estimatedApc={queryNervosDao.data?.estimatedApc ?? defaultNervosDaoInfo.estimatedApc} />
         <DaoOverview nervosDao={queryNervosDao.data ?? defaultNervosDaoInfo} />
         <DaoTabBarPanel>
           <div className="nervosDaoTabBar">
