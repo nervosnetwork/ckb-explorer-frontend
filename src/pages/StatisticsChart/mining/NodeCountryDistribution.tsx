@@ -5,18 +5,7 @@ import { getPeers, RawPeer } from '../../../services/NodeProbService'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { ChartColorConfig } from '../../../constants/common'
 
-const Colors = [
-  '#069ECD',
-  '#69C7D4',
-  '#AACFE9',
-  '#29B97A',
-  '#66CC99',
-  '#228159',
-  '#525860',
-  '#74808E',
-  '#9DA6B0',
-  '#FBB04C',
-]
+const Colors: string[] = ['#4527a0', '#512da8', '#5e35b1', '#673ab7', '#7e57c2', '#9575cd']
 
 interface CountryRecord {
   country: string
@@ -63,8 +52,14 @@ const useOption = (
         show: false,
       }
 
+  const colors = [chartColor.colors[0], ...Colors]
+  if (list.length > colors.length) {
+    const diff = list.length - colors.length
+    const base = colors[colors.length - 1]
+    colors.push(...Array.from({ length: diff }, (_, idx) => `${base}${(255 - idx * 10).toString(16)}`))
+  }
   return {
-    color: [chartColor.colors[0], ...Colors],
+    color: colors,
     tooltip,
     grid: isThumbnail ? gridThumbnail : grid,
     legend: {
@@ -87,7 +82,7 @@ const useOption = (
             shadowColor: 'rgba(0, 0, 0, 0.5)',
           },
         },
-        data: list.map(data => {
+        data: list.slice(0, isThumbnail ? 10 : undefined).map(data => {
           const country = data.country === 'others' ? t(`statistic.others`) : data.country
           return {
             name: `${country} (${data.percent}%)`,
@@ -106,10 +101,12 @@ const fetchData = async (): Promise<CountryRecord[]> => {
     acc[cur.country] = (acc[cur.country] || 0) + 1
     return acc
   }, {})
-  return Object.entries(result).map(v => ({
-    country: v[0],
-    percent: +(((v[1] as number) * 100) / list.length).toFixed(2),
-  }))
+  return Object.entries(result)
+    .sort((a, b) => +b[1] - +a[1])
+    .map(v => ({
+      country: v[0],
+      percent: +(((v[1] as number) * 100) / list.length).toFixed(2),
+    }))
 }
 
 const toCSV = (countryList: CountryRecord[]) => countryList?.map(r => [r.country, `${r.percent}%`]) ?? []

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from '../../config'
-import { NETWORK } from '../../constants/common'
+import { IS_MAINNET } from '../../constants/common'
 
 const { PROB_NODE: node } = config
 
@@ -12,7 +12,7 @@ export const getPeers = (): Promise<RawPeer[]> => {
   return axios
     .get(`${node}/peer`, {
       params: {
-        network: NETWORK,
+        network: IS_MAINNET ? 'minara' : 'pudge',
         offline_timeout: 10080,
         unknown_offline_timeout: 10080,
       },
