@@ -27,6 +27,8 @@ const BtcTransaction: FC<{
     return msg?.slice('OP_RETURN '.length) ?? null
   }, [tx.vout])
 
+  const viewMore = tx.vout.length > 10
+
   return (
     <div className={styles.container}>
       <BtcIcon className={styles.btcIcon} />
@@ -84,7 +86,7 @@ const BtcTransaction: FC<{
         </div>
         <DirectionIcon className={styles.direction} />
         <div className={styles.outputs}>
-          {tx.vout.map((output, idx) => {
+          {tx.vout.slice(0, 10).map((output, idx) => {
             const key = `${tx.txid}-${idx}`
             const [int, dec] = output.value.toString().split('.')
             const boundIndex = boundCellIndex[key]
@@ -128,6 +130,13 @@ const BtcTransaction: FC<{
               </div>
             )
           })}
+          {viewMore ? (
+            <div style={{ marginTop: 4 }}>
+              <a href={`${config.BITCOIN_EXPLORER}/tx/${tx.txid}`} rel="noopener noreferrer" target="_blank">
+                View more in BTC Explorer
+              </a>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
