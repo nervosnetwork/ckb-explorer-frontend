@@ -52,6 +52,7 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
     e.preventDefault()
     const y = +e.currentTarget.value
     if (y < 1) {
+      setYears(1)
       return
     }
     setYears(y)
@@ -177,7 +178,8 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
                     axisLabel: {
                       formatter: (value: string) => `${value} CKB`,
                     },
-                    boundaryGap: ['20%', '20%'],
+                    boundaryGap: ['0%', '20%'],
+                    min: v => v.min,
                   },
                   series: [
                     {
@@ -185,14 +187,14 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
                         BigNumber(depositValue)
                           .multipliedBy(BigNumber(1 + +estimatedApc / 100).exponentiatedBy(i + 1))
                           .minus(depositValue)
-                          .toFixed(8, BigNumber.ROUND_DOWN),
+                          .toFixed(2, BigNumber.ROUND_DOWN),
                       ),
                       type: 'line',
                       stack: 'withdrawal',
                       areaStyle: {},
                       label: {
                         normal: {
-                          show: years <= 5,
+                          show: years <= 10,
                           position: 'top',
                           formatter: '{c} CKB',
                         },
