@@ -28,6 +28,7 @@ import { InflationRateChart } from './monetary/InflationRate'
 import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
 import { MinerVersionDistributionChart } from './mining/MinerVersionDistribution'
+import { NodeCountryDistributionChart } from './mining/NodeCountryDistribution'
 import { useIsMobile } from '../../hooks'
 import { HelpTip } from '../../components/HelpTip'
 import { Link } from '../../components/Link'
@@ -131,6 +132,11 @@ const useChartsData = () => {
           title: `${t('statistic.miner_version_distribution')}`,
           chart: <MinerVersionDistributionChart isThumbnail />,
           path: '/charts/miner-version-distribution',
+        },
+        {
+          title: `${t('statistic.node_country_distribution')}`,
+          chart: <NodeCountryDistributionChart isThumbnail />,
+          path: '/charts/node-country-distribution',
         },
       ],
     },

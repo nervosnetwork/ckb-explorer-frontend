@@ -301,7 +301,9 @@
       "node_count_in_total": "in total",
       "ckb_amount": "CKB Amount",
       "contract_resource_distributed": "Contract Resource Distribution",
-      "contract_resource_distributed_description": "The x axis represents contract's unique address count, the y axis represents the contract's CKB amount, the symbol size represents the contract's transaction count."
+      "contract_resource_distributed_description": "The x axis represents contract's unique address count, the y axis represents the contract's CKB amount, the symbol size represents the contract's transaction count.",
+      "country": "Country/Region",
+      "node_country_distribution": "Nodes distribution by Country/Region"
     },
     "home": {
       "height": "Height",
