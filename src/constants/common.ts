@@ -157,5 +157,6 @@ export const TESTNET_URL = `https://${ChainName.Testnet}.${config.BASE_URL}`
 
 export const TYPE_ID_CODE_HASH = '0x00000000000000000000000000000000000000000000000000545950455f4944'
 
+export const NETWORK = config.CHAIN_TYPE === 'testnet' ? 'pudge' : 'minara'
 export const NERVOS_DAO_RFC_URL =
   'https://www.github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md'

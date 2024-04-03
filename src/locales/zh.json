@@ -300,7 +300,9 @@
       "node_count_in_total": "总共",
       "ckb_amount": "CKB 数量",
       "contract_resource_distributed": "合约资源分布图",
-      "contract_resource_distributed_description": "横轴表示合约的唯一地址数量, 纵轴是合约的 CKB 数量, 图标大小代表合约的交易数量"
+      "contract_resource_distributed_description": "横轴表示合约的唯一地址数量, 纵轴是合约的 CKB 数量, 图标大小代表合约的交易数量",
+      "country": "国家（地区）",
+      "node_country_distribution": "节点国家(地区)分布图"
     },
     "home": {
       "height": "高度",
