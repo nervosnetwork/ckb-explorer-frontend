@@ -182,8 +182,9 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
                   series: [
                     {
                       data: Array.from({ length: years }, (_, i) =>
-                        yearReward
+                        BigNumber(depositValue)
                           .multipliedBy(BigNumber(1 + +estimatedApc / 100).exponentiatedBy(i + 1))
+                          .minus(depositValue)
                           .toFixed(8, BigNumber.ROUND_DOWN),
                       ),
                       type: 'line',
