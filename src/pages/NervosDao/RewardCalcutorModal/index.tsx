@@ -52,6 +52,11 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
     e.preventDefault()
     const y = +e.currentTarget.value
     if (y < 1) {
+      setYears(1)
+      return
+    }
+    if (y > 200) {
+      setYears(200)
       return
     }
     setYears(y)
@@ -110,7 +115,7 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
 
           <div className={styles.divider} />
           <div className={styles.modalContent}>
-            <h2>{t('nervos_dao.you_deposit')}</h2>
+            <h2>{t('nervos_dao.deposit_amount')}</h2>
             <Input
               value={
                 /\.$/.test(depositValue)
@@ -121,17 +126,17 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
               suffix="CKB"
               onChange={handleDepositChange}
             />
-            <h2>{t('nervos_dao.you_can_withdraw')}</h2>
+            <h2>{t('nervos_dao.estimated_compensation')}</h2>
             <p>{t(`nervos_dao.estimated_rewards`, { days: 30 })}</p>
             <Input
-              value={localeNumberString(monthReward.plus(depositValue).toFixed(MAX_DECIMAL_DIGITS))}
+              value={localeNumberString(monthReward.toFixed(MAX_DECIMAL_DIGITS))}
               className={styles.input}
               suffix="CKB"
               disabled
             />
             <p>{t(`nervos_dao.estimated_rewards`, { days: 360 })}</p>
             <Input
-              value={localeNumberString(yearReward.plus(depositValue).toFixed(MAX_DECIMAL_DIGITS))}
+              value={localeNumberString(yearReward.toFixed(MAX_DECIMAL_DIGITS))}
               className={styles.input}
               suffix="CKB"
               disabled
@@ -150,11 +155,11 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
 
             <h2 className={styles.years}>
               {t('nervos_dao.estimated_rewards_in_years')}
-              <input onChange={handleYearChange} value={years} type="number" min="1" />
+              <input onChange={handleYearChange} value={years} type="number" min="1" max="200" />
               {t('nervos_dao.years')}
             </h2>
             <div className={styles.chartWap}>
-              <p className={styles.yTitle}>{t('nervos_dao.rewards')}</p>
+              <p className={styles.yTitle}>{t('nervos_dao.total_compensation')}</p>
               <ReactChartCore
                 option={{
                   color: IS_MAINNET ? ['#00cc9b'] : ['#9a2cec'],
@@ -177,21 +182,23 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
                     axisLabel: {
                       formatter: (value: string) => `${value} CKB`,
                     },
-                    boundaryGap: ['20%', '20%'],
+                    boundaryGap: ['0%', '20%'],
+                    min: v => v.min,
                   },
                   series: [
                     {
                       data: Array.from({ length: years }, (_, i) =>
-                        yearReward
+                        BigNumber(depositValue)
                           .multipliedBy(BigNumber(1 + +estimatedApc / 100).exponentiatedBy(i + 1))
-                          .toFixed(8, BigNumber.ROUND_DOWN),
+                          .minus(depositValue)
+                          .toFixed(2, BigNumber.ROUND_DOWN),
                       ),
                       type: 'line',
                       stack: 'withdrawal',
                       areaStyle: {},
                       label: {
                         normal: {
-                          show: years <= 5,
+                          show: years <= 10,
                           position: 'top',
                           formatter: '{c} CKB',
                         },
