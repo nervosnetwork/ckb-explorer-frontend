@@ -422,6 +422,17 @@ export const hexToBase64 = (hexstring: string) => {
   return btoa(str)
 }
 
+export const ckbToShannon = (amount: string = '0') => {
+  if (Number.isNaN(+amount)) {
+    return `${amount} ckb`
+  }
+  const [integer = '0', decimal = ''] = amount.split('.')
+  const decimalLength = 10 ** decimal.length
+  const num = integer + decimal
+
+  return (BigInt(num) * BigInt(1e8 / decimalLength)).toString()
+}
+
 export default {
   copyElementValue,
   shannonToCkb,

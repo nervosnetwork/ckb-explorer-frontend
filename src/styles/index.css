@@ -92,6 +92,16 @@ a {
   white-space: pre-wrap;
 }
 
+.ant-input:focus {
+  border-color: none;
+}
+
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper:focus {
+  border-color: #e5e5e5 !important;
+  box-shadow: none;
+}
+
 a:hover,
 .ant-btn-primary:hover,
 .ant-tabs-tab:hover {

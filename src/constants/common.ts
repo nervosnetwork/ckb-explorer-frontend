@@ -18,6 +18,9 @@ export const ONE_MINUTE_SECOND = 60
 export const EPOCHS_PER_HALVING = 8760
 export const THEORETICAL_EPOCH_TIME = 1000 * 60 * 60 * 4 // 4 hours
 export const PAGE_SIZE = 10
+export const MIN_DEPOSIT_AMOUNT = 102
+export const MAX_DECIMAL_DIGITS = 8
+
 export const IS_MAINNET = config.CHAIN_TYPE === 'mainnet'
 
 export function getPrimaryColor() {
@@ -153,3 +156,6 @@ export const MAINNET_URL = `https://${config.BASE_URL}`
 export const TESTNET_URL = `https://${ChainName.Testnet}.${config.BASE_URL}`
 
 export const TYPE_ID_CODE_HASH = '0x00000000000000000000000000000000000000000000000000545950455f4944'
+
+export const NERVOS_DAO_RFC_URL =
+  'https://www.github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md'
