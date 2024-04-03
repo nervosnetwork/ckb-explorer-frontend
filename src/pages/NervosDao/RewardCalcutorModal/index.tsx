@@ -155,7 +155,7 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
               {t('nervos_dao.years')}
             </h2>
             <div className={styles.chartWap}>
-              <p className={styles.yTitle}>{t('nervos_dao.rewards')}</p>
+              <p className={styles.yTitle}>{t('nervos_dao.total_compensation')}</p>
               <ReactChartCore
                 option={{
                   color: IS_MAINNET ? ['#00cc9b'] : ['#9a2cec'],
