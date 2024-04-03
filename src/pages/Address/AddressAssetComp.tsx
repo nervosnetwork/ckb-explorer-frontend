@@ -64,10 +64,10 @@ export const AddressXudtComp = ({ account, isRGBPP }: { account: XUDT; isRGBPP?:
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
-      href={`/sudt/${typeHash}`}
+      href={`/xudt/${typeHash}`}
       property={parseUDTAmount(amount, decimal)}
       name={uan || symbol}
-      udtLabel="sudt"
+      udtLabel="xudt"
       icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(SUDTTokenIcon) }}
     />
   )
