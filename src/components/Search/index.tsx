@@ -192,7 +192,16 @@ const SearchInput: FC<
     [onEditEndedChange, propsOnKeyUp],
   )
 
-  return <input className={styles.searchInputPanel} value={value} onChange={onChange} onKeyUp={onKeyUp} {...elprops} />
+  return (
+    <input
+      enterKeyHint="search"
+      className={styles.searchInputPanel}
+      value={value}
+      onChange={onChange}
+      onKeyUp={onKeyUp}
+      {...elprops}
+    />
+  )
 }
 
 const getURLByIdSearch = async (searchValue: string) => {
