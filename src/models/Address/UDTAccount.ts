@@ -1,3 +1,13 @@
+export interface XUDT {
+  symbol: string
+  decimal: string
+  amount: string
+  typeHash: string
+  udtIconFile: string
+  uan: string
+  udtType: 'xudt'
+}
+
 export interface SUDT {
   symbol: string
   decimal: string
@@ -59,4 +69,4 @@ export interface OmigaInscription {
   udtType: 'omiga_inscription'
 }
 
-export type UDTAccount = SUDT | MNFT | NRC721 | CoTA | Spore | OmigaInscription
+export type UDTAccount = XUDT | SUDT | MNFT | NRC721 | CoTA | Spore | OmigaInscription
