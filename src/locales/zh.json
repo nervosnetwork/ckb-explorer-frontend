@@ -455,6 +455,7 @@
       "unknown_nft": "匿名",
       "nft_limited": "限量",
       "nft_unlimited": "不限量",
+      "ckb": "CKB",
       "udt_cell": "代币 Cell",
       "udt": "UDT",
       "cota_regular": "CoTA Regular Cell",

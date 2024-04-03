@@ -441,6 +441,7 @@
       "ckb_capacity": "CKB Capacity",
       "nervos_dao_deposit": "Nervos DAO Deposit",
       "nervos_dao_withdraw": "Nervos DAO Withdraw",
+      "ckb": "CKB",
       "udt_cell": "UDT Cell",
       "udt": "UDT",
       "spore_cell": "Spore Cell",

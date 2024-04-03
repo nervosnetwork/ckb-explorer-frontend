@@ -175,7 +175,7 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
           color: '#333',
         }}
       >
-        <a href={link}>RGB++</a>
+        <a href={link}>{t(`transaction.${assetType}`)}</a>
 
         <span title={`${ckb} CKB`}>{`${ckb} CKB`}</span>
       </h5>
