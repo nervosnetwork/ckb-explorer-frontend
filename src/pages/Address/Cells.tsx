@@ -123,14 +123,12 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
     }
     case 'xudt': {
       icon = SUDTTokenIcon
-      if (!cell.extraInfo) {
-        break
-      }
-      assetName = cell.extraInfo.symbol || 'xUDT'
-      attribute = cell.extraInfo.decimal
-        ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
-        : 'Unknown UDT amount'
-      detailInfo = cell.extraInfo.amount
+      assetName = cell.extraInfo?.symbol || 'xUDT'
+      attribute =
+        cell.extraInfo?.decimal && cell.extraInfo?.amount
+          ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
+          : 'Unknown xUDT amount'
+      detailInfo = cell.extraInfo?.amount
       break
     }
     case 'omiga_inscription': {
