@@ -55,6 +55,10 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
       setYears(1)
       return
     }
+    if (y > 200) {
+      setYears(200)
+      return
+    }
     setYears(y)
   }
   if (!estimatedApc) {
@@ -151,7 +155,7 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
 
             <h2 className={styles.years}>
               {t('nervos_dao.estimated_rewards_in_years')}
-              <input onChange={handleYearChange} value={years} type="number" min="1" />
+              <input onChange={handleYearChange} value={years} type="number" min="1" max="200" />
               {t('nervos_dao.years')}
             </h2>
             <div className={styles.chartWap}>
