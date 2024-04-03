@@ -83,7 +83,8 @@ const Decoder = () => {
     index: number
   } | null>(null)
   const [decodeMethod, setDecodeMethod] = useState<DecodeMethod>(DecodeMethod.LittleEndian)
-  const timerRef = useRef<NodeJS.Timer | null>(null)
+  const debounceTimerRef = useRef<NodeJS.Timer | null>(null)
+  const modeCacheTimerRef = useRef<NodeJS.Timer | null>(null)
 
   const { t } = useTranslation()
 
@@ -91,13 +92,16 @@ const Decoder = () => {
 
   useEffect(() => {
     const handleSelectChange = () => {
-      if (timerRef.current) clearTimeout(timerRef.current)
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
+      if (modeCacheTimerRef.current) clearTimeout(modeCacheTimerRef.current)
 
-      timerRef.current = setTimeout(() => {
+      debounceTimerRef.current = setTimeout(() => {
         const selection = window.getSelection()
         if (!selection || selection.isCollapsed) {
           setSelection(null)
-          setDecodeMethod(DecodeMethod.LittleEndian)
+          modeCacheTimerRef.current = setTimeout(() => {
+            setDecodeMethod(DecodeMethod.LittleEndian)
+          }, 10_000)
           return
         }
         const selectionText = selection.toString().trim()
@@ -135,6 +139,7 @@ const Decoder = () => {
   const handleDecodeMethodChange = (e: React.SyntheticEvent<HTMLUListElement>) => {
     e.stopPropagation()
     e.preventDefault()
+    if (modeCacheTimerRef.current) clearTimeout(modeCacheTimerRef.current)
     const elm = e.target
 
     if (elm instanceof HTMLLIElement) {
