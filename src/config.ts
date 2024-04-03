@@ -4,4 +4,5 @@ export default {
   BASE_URL: process.env.REACT_APP_BASE_URL || 'explorer.nervos.org/',
   BACKUP_NODES: process.env.REACT_APP_BACKUP_NODES?.split(',') || [],
   BITCOIN_EXPLORER: process.env.REACT_APP_BITCOIN_EXPLORER || 'https://mempool.space',
+  PROB_NODE: process.env.REACT_APP_PROB_NODE || 'https://api-nodes.magickbase.com',
 }

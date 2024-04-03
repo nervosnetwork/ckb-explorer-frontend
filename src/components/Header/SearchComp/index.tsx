@@ -7,7 +7,9 @@ export const SearchComp: FC<{
   hideMobileMenu?: () => void
 }> = memo(({ hideMobileMenu }) => {
   const onEditEnd = useCallback(() => {
-    hideMobileMenu?.()
+    if (hideMobileMenu) {
+      setTimeout(() => hideMobileMenu(), 100)
+    }
   }, [hideMobileMenu])
 
   return (
