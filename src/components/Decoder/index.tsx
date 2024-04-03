@@ -121,7 +121,7 @@ const Decoder = () => {
         }
         let y = rect.bottom + window.pageYOffset + 4
         if (y + SIZE + 20 > window.innerHeight) {
-          y = rect.top + 20
+          y = window.innerHeight - SIZE - 20
         }
         setSelection({
           text: selectionText,
