@@ -29,6 +29,10 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
           acc[0].push(cur)
           break
         case 'xudt':
+          if (cur.amount !== '0') {
+            acc[0].push(cur)
+          }
+          break
         case 'omiga_inscription':
           if (cur.amount !== '0') {
             // FIXME: remove this condition after backend fix
