@@ -1,24 +1,12 @@
 import { useState, FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  AddressAssetsTab,
-  AddressAssetsTabPane,
-  AddressAssetsTabPaneTitle,
-  // AddressUDTAssetsContent,
-  AddressUDTAssetsPanel,
-} from './styled'
+import { AddressAssetsTab, AddressAssetsTabPane, AddressAssetsTabPaneTitle, AddressUDTAssetsPanel } from './styled'
 import styles from './styles.module.scss'
 import { Address, UDTAccount } from '../../models/Address'
 import { Card } from '../../components/Card'
 import Cells from './Cells'
-import RgbppCells from './RgbppCells'
-// import {
-//   AddressOmigaInscriptionComp,
-//   AddressMNFTComp,
-//   AddressSporeComp,
-//   AddressSudtComp,
-//   AddressXudtComp,
-// } from './AddressAssetComp'
+import RgbppAssets from './RgbppAssets'
+// import RgbppAssets from './RgbppAssets'
 
 enum AssetInfo {
   CELLs,
@@ -102,44 +90,13 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
                 key={AssetInfo.RGBPP}
               >
                 <div className={styles.assetCardList}>
-                  <RgbppCells address={address.bitcoinAddressHash} count={+address.liveCellsCount} />
+                  <RgbppAssets
+                    address={address.bitcoinAddressHash}
+                    count={+address.liveCellsCount}
+                    udts={udts}
+                    inscriptions={inscriptions}
+                  />
                 </div>
-                {/* <AddressUDTAssetsContent> */}
-                {/*   <div className={styles.assetCardList}> */}
-                {/*     {udts.map(udt => { */}
-                {/*       switch (udt.udtType) { */}
-                {/*         case 'xudt': */}
-                {/*           return <AddressXudtComp isRGBPP account={udt} key={udt.symbol + udt.udtType + udt.amount} /> */}
-                {/*         case 'sudt': */}
-                {/*           return <AddressSudtComp isRGBPP account={udt} key={udt.symbol + udt.udtType + udt.amount} /> */}
-
-                {/*         case 'spore_cell': */}
-                {/*           return <AddressSporeComp isRGBPP account={udt} key={udt.symbol + udt.udtType + udt.amount} /> */}
-
-                {/*         case 'm_nft_token': */}
-                {/*           return <AddressMNFTComp isRGBPP account={udt} key={udt.symbol + udt.udtType + udt.amount} /> */}
-                {/*         default: */}
-                {/*           return null */}
-                {/*       } */}
-                {/*     })} */}
-
-                {/*     {inscriptions.map(inscription => { */}
-                {/*       switch (inscription.udtType) { */}
-                {/*         case 'omiga_inscription': */}
-                {/*           return ( */}
-                {/*             <AddressOmigaInscriptionComp */}
-                {/*               isRGBPP */}
-                {/*               account={inscription} */}
-                {/*               key={`${inscription.symbol + inscription.udtType + inscription.udtAmount}`} */}
-                {/*             /> */}
-                {/*           ) */}
-
-                {/*         default: */}
-                {/*           return null */}
-                {/*       } */}
-                {/*     })} */}
-                {/*   </div> */}
-                {/* </AddressUDTAssetsContent> */}
               </AddressAssetsTabPane>
             ) : null}
           </AddressAssetsTab>

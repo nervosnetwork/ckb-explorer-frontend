@@ -297,6 +297,14 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
     }
     return <span>{`${t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}</span>
   }
+
+  if (cell.cellType === 'xudt') {
+    const info = cell.extraInfo
+    if (info?.decimal && info?.amount && info?.symbol) {
+      return <span>{`${parseUDTAmount(info.amount, info.decimal)} ${info.symbol}`}</span>
+    }
+  }
+
   if (cell.cellType === 'omiga_inscription') {
     const info = cell.extraInfo
     if (info?.decimal && info?.amount && info?.symbol) {

@@ -141,16 +141,6 @@ export const AddressAssetsTabPaneTitle = styled.span`
   text-align: left;
 `
 
-export const AddressUDTAssetsContent = styled.div`
-  background-color: #f1f1f1;
-  padding: 16px 25px;
-  width: 100%;
-  display: flex;
-  gap: 16px;
-  flex-flow: row wrap;
-  max-height: 400px;
-`
-
 export const AddressUDTAssetsPanel = styled.div`
   display: flex;
   flex-direction: column;
@@ -159,83 +149,5 @@ export const AddressUDTAssetsPanel = styled.div`
   @media (max-width: ${variables.mobileBreakPoint}) {
     padding-top: 16px;
     border-top: 1px solid #f5f5f5;
-  }
-`
-
-export const AddressUDTItemPanel = styled.a`
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  width: 260px;
-  border-radius: 4px;
-
-  @media (max-width: ${variables.mobileBreakPoint}) {
-    width: calc(100% - 30px);
-  }
-
-  pointer-events: ${(props: { isLink: boolean }) => (props.isLink ? 'auto' : 'none')};
-
-  .addressUdtLabel {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    text-align: left;
-    font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 4px 4px 0 0;
-
-    span {
-      text-transform: uppercase;
-      font-size: 12px;
-      font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-      font-weight: 500;
-    }
-  }
-
-  .addressUdtDetail {
-    display: flex;
-    padding: 8px;
-    align-items: center;
-    line-height: 20px;
-
-    span {
-      font-size: 14px;
-      font-family: Roboto, sans-serif;
-      font-weight: 500;
-      color: #000;
-    }
-  }
-
-  .addressUdtItemIcon {
-    display: flex;
-    align-items: center;
-    width: 40px;
-    min-width: 40px;
-    height: 40px;
-    margin-right: 8px;
-    object-fit: cover;
-  }
-
-  .addressUdtItemInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-
-    > span {
-      font-size: 14px;
-      color: #000;
-      white-space: nowrap;
-      overflow-x: hidden;
-      text-overflow: ellipsis;
-      max-width: 196px;
-
-      @media (max-width: ${variables.mobileBreakPoint}) {
-        max-width: calc(100% - 42px);
-      }
-    }
-
-    > span:nth-child(1) {
-      margin-bottom: 1px;
-    }
   }
 `

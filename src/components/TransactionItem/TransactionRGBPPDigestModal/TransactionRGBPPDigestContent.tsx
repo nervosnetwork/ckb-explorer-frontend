@@ -131,13 +131,15 @@ export const TransactionRGBPPDigestContent = ({
           </div>
         ) : null}
       </div>
-      {transfers.size ? (
-        [...transfers.entries()].map(([address, transfers]) => (
-          <TransactionRGBPPDigestTransfer address={address} transfers={transfers} />
-        ))
-      ) : (
-        <div className={styles.noRecords}>{t('transaction.no_records')}</div>
-      )}
+      <div className={styles.list}>
+        {transfers.size ? (
+          [...transfers.entries()].map(([address, transfers]) => (
+            <TransactionRGBPPDigestTransfer address={address} transfers={transfers} />
+          ))
+        ) : (
+          <div className={styles.noRecords}>{t('transaction.no_records')}</div>
+        )}
+      </div>
     </div>
   )
 }

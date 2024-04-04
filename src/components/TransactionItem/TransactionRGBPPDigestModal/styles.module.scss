@@ -237,6 +237,16 @@
   }
 }
 
+.list {
+  max-height: 540px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+
+  & > div {
+    scroll-snap-align: center;
+  }
+}
+
 .closeIcon {
   &:hover {
     cursor: pointer;

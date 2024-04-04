@@ -2,6 +2,7 @@ import { type FC, useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { Tooltip } from 'antd'
 import { explorerService, LiveCell } from '../../services/ExplorerService'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import CKBTokenIcon from './ckb_token_icon.png'
@@ -10,12 +11,16 @@ import { ReactComponent as TypeHashIcon } from './type_script.svg'
 import { ReactComponent as DataIcon } from './data.svg'
 import { ReactComponent as SporeCluterIcon } from './spore_cluster.svg'
 import { ReactComponent as SporeCellIcon } from './spore_cell.svg'
+import { ReactComponent as MergedAssetIcon } from './merged_assets.svg'
+import { ReactComponent as AssetItemsIcon } from './asset_items.svg'
+import SmallLoading from '../../components/Loading/SmallLoading'
 import { parseUDTAmount } from '../../utils/number'
 import { getContractHashTag, shannonToCkb } from '../../utils/util'
 import { useSetToast } from '../../components/Toast'
 import { PAGE_SIZE } from '../../constants/common'
-import styles from './cells.module.scss'
-import SmallLoading from '../../components/Loading/SmallLoading'
+import styles from './rgbppAssets.module.scss'
+import MergedAssetList from './MergedAssetList'
+import { UDTAccount } from '../../models/Address'
 
 const fetchCells = async ({
   address,
@@ -39,7 +44,7 @@ const initialPageParams = { size: 10, sort: 'capacity.desc' }
 
 const ATTRIBUTE_LENGTH = 18
 
-const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
+const AssetItem: FC<{ cell: LiveCell }> = ({ cell }) => {
   const setToast = useSetToast()
   const { t } = useTranslation()
 
@@ -175,7 +180,7 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
           color: '#333',
         }}
       >
-        <a href={link}>RGB++</a>
+        <a href={link}>{t(`transaction.${assetType}`)}</a>
 
         <span title={`${ckb} CKB`}>{`${ckb} CKB`}</span>
       </h5>
@@ -198,7 +203,7 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
   )
 }
 
-const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
+const RgbAssetItems: FC<{ address: string; count: number }> = ({ address, count }) => {
   const [params] = useState(initialPageParams)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
@@ -206,7 +211,7 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
     ['address live cells', address, params.size, params.sort],
     ({ pageParam = 1 }) => fetchCells({ ...params, address, page: pageParam }),
     {
-      getNextPageParam: lastPage => {
+      getNextPageParam: (lastPage: any) => {
         if (lastPage.data.length < params.size) return false
         return lastPage.nextPage
       },
@@ -245,10 +250,10 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
   })
 
   return (
-    <div className={styles.container} style={{ paddingTop: 16 }}>
+    <>
       <ul>
         {rgbppCells.map(cell => (
-          <Cell cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
+          <AssetItem cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
         ))}
       </ul>
       {isFetchingNextPage ? (
@@ -263,7 +268,38 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
           </button>
         </div>
       )}
+    </>
+  )
+}
+
+const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscriptions: UDTAccount[] }> = ({
+  address,
+  count,
+  udts,
+  inscriptions,
+}) => {
+  const [isMerged, setIsMerged] = useState(true)
+  const { t } = useTranslation()
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.toolbar}>
+        <div>{t(`address.${isMerged ? 'view-as-merged-assets' : 'view-as-asset-items'}`)}</div>
+        <div className={styles.filters}>
+          <Tooltip placement="top" title={t(`address.${isMerged ? 'view-as-asset-items' : 'view-as-merged-assets'}`)}>
+            <button type="button" onClick={() => setIsMerged(i => !i)}>
+              {isMerged ? <AssetItemsIcon /> : <MergedAssetIcon />}
+            </button>
+          </Tooltip>
+        </div>
+      </div>
+      {isMerged ? (
+        <MergedAssetList udts={udts} inscriptions={inscriptions} />
+      ) : (
+        <RgbAssetItems address={address} count={count} />
+      )}
     </div>
   )
 }
-export default Cells
+
+export default RgbAssets

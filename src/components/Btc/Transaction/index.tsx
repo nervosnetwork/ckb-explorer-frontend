@@ -13,6 +13,8 @@ import { ReactComponent as ViewNewSeal } from './view-new-seal.svg'
 import { ReactComponent as BtcIcon } from './btc.svg'
 import { ReactComponent as DirectionIcon } from '../../../assets/direction.svg'
 
+const MAX_ITEMS = 10
+
 const BtcTransaction: FC<{
   tx: RawBtcRPC.BtcTx
   boundCellIndex: Record<string, number>
@@ -27,7 +29,7 @@ const BtcTransaction: FC<{
     return msg?.slice('OP_RETURN '.length) ?? null
   }, [tx.vout])
 
-  const viewMore = tx.vout.length > 10
+  const [viewMoreInputs, viewMoreOutputs] = [tx.vin, tx.vout].map(v => v.length > MAX_ITEMS)
 
   return (
     <div className={styles.container}>
@@ -51,7 +53,7 @@ const BtcTransaction: FC<{
       ) : null}
       <div className={styles.utxos}>
         <div className={styles.inputs}>
-          {tx.vin.map(input => {
+          {tx.vin.slice(0, MAX_ITEMS).map(input => {
             if (!input.prevout) return null
             const key = `${input?.txid}-${input.vout}`
             const [int, dec] = input.prevout.value.toString().split('.')
@@ -83,10 +85,17 @@ const BtcTransaction: FC<{
               </div>
             )
           })}
+          {viewMoreInputs ? (
+            <div style={{ marginTop: 4 }}>
+              <a href={`${config.BITCOIN_EXPLORER}/tx/${tx.txid}`} rel="noopener noreferrer" target="_blank">
+                View more in BTC Explorer
+              </a>
+            </div>
+          ) : null}
         </div>
         <DirectionIcon className={styles.direction} />
         <div className={styles.outputs}>
-          {tx.vout.slice(0, 10).map((output, idx) => {
+          {tx.vout.slice(0, MAX_ITEMS).map((output, idx) => {
             const key = `${tx.txid}-${idx}`
             const [int, dec] = output.value.toString().split('.')
             const boundIndex = boundCellIndex[key]
@@ -130,7 +139,7 @@ const BtcTransaction: FC<{
               </div>
             )
           })}
-          {viewMore ? (
+          {viewMoreOutputs ? (
             <div style={{ marginTop: 4 }}>
               <a href={`${config.BITCOIN_EXPLORER}/tx/${tx.txid}`} rel="noopener noreferrer" target="_blank">
                 View more in BTC Explorer
