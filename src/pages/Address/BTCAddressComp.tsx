@@ -21,7 +21,6 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
   const [udts, inscriptions] = udtAccounts.reduce(
     (acc, cur) => {
       switch (cur?.udtType) {
-        case 'xudt':
         case 'sudt':
         case 'spore_cell':
         case 'm_nft_token':
@@ -29,6 +28,7 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
         case 'nrc_721_token':
           acc[0].push(cur)
           break
+        case 'xudt':
         case 'omiga_inscription':
           if (cur.amount !== '0') {
             // FIXME: remove this condition after backend fix
