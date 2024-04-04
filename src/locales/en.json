@@ -395,7 +395,9 @@
       "leap_out": "Leap Out",
       "leap_in_tip": "This RGB++ transaction is marked as \"Leap In\", indicating that the number of cells with RGB++ lock in the output exceeds the number of cells with RGB++ lock in the input.",
       "leap_out_tip": "This RGB++ transaction is marked as \"Leap Out\", indicating that the number of cells with RGB++ lock in the input exceeds the number of cells with RGB++ lock in the output.",
-      "view_in_btc_explorer": "View in Bitcoin Explorer"
+      "view_in_btc_explorer": "View in Bitcoin Explorer",
+      "view-as-asset-items": "View Asset Distribution",
+      "view-as-merged-assets": "View Asset Amounts(CKB excluded)"
     },
     "transaction": {
       "view_rgbpp_digest": "View RGB++ Digest",

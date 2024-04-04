@@ -70,3 +70,5 @@ export interface OmigaInscription {
 }
 
 export type UDTAccount = XUDT | SUDT | MNFT | NRC721 | CoTA | Spore | OmigaInscription
+export type FT = XUDT | SUDT
+export type NFT = MNFT | NRC721 | Spore

@@ -1,0 +1,70 @@
+.container {
+  min-width: 250px;
+  min-height: 86px;
+  background: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary-color);
+    color: #fff;
+    height: 1.875rem;
+    padding: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &[data-is-rgbpp='true'] {
+      background: linear-gradient(90.24deg, #ffd176 0.23%, #ffdb81 6.7%, #84ffcb 99.82%);
+      color: #333;
+    }
+  }
+
+  .content {
+    padding: 8px;
+    display: flex;
+    line-height: 1;
+
+    img,
+    svg {
+      margin-right: 8px;
+      width: 40px;
+    }
+
+    .assetName {
+      font-weight: 500;
+    }
+
+    .attribute {
+      display: flex;
+    }
+
+    .copy {
+      appearance: none;
+      border: none;
+      background: none;
+      width: 14px;
+      cursor: pointer;
+
+      &:hover {
+        svg {
+          stroke: var(--primary-color);
+        }
+      }
+
+      svg {
+        pointer-events: none;
+        height: 14px;
+      }
+    }
+
+    .fields {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+  }
+}

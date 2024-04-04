@@ -395,7 +395,9 @@
       "leap_out": "Leap Out",
       "leap_in_tip": "本笔 RGB++ 交易被标记为\"Leap In\"，即存在一般 CKB 资产转化为 RGB++ 资产。",
       "leap_out_tip": "本笔 RGB++ 交易被标记为\"Leap In\"，即存在 RGB++ 资产转化为一般 CKB 资产。",
-      "view_in_btc_explorer": "在 Bitcoin 浏览器查看"
+      "view_in_btc_explorer": "在 Bitcoin 浏览器查看",
+      "view-as-asset-items": "查看资产分布",
+      "view-as-merged-assets": "查看资产合计(不含 CKB)"
     },
     "transaction": {
       "view_rgbpp_digest": "查看 RGB++ 摘要",

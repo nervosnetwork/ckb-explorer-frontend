@@ -53,6 +53,7 @@ import {
   AddressMNFTComp,
   AddressSporeComp,
   AddressSudtComp,
+  AddressXudtComp,
 } from './AddressAssetComp'
 
 enum AssetInfo {
@@ -239,7 +240,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 </div>
               </AddressAssetsTabPane>
             ) : null}
-            {(udts.length > 0 || cotaList?.length) && (
+            {hasAssets && (
               <AddressAssetsTabPane
                 tab={
                   <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.UDT)}>
@@ -251,6 +252,9 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 <div className={styles.assetCardList}>
                   {udts.map(udt => {
                     switch (udt.udtType) {
+                      case 'xudt':
+                        return <AddressXudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+
                       case 'sudt':
                         return <AddressSudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
 

@@ -1,14 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { ReactEventHandler, useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
-import styles from './styles.module.scss'
-import { AddressUDTItemPanel } from './styled'
 import { CoTA, OmigaInscription, MNFT, NRC721, SUDT, XUDT, Spore } from '../../models/Address'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { parseUDTAmount } from '../../utils/number'
 import { getImgFromSporeCell } from '../../utils/spore'
 import { formatNftDisplayId, handleNftImgError, patchMibaoImg } from '../../utils/util'
 import { sliceNftName } from '../../utils/string'
+import styles from './addressAssetComp.module.scss'
 
 export const AddressAssetComp = ({
   href,
@@ -32,27 +31,21 @@ export const AddressAssetComp = ({
 }) => {
   const { t } = useTranslation()
   return (
-    <AddressUDTItemPanel href={href} isLink={!!href}>
-      <div className={`addressUdtLabel ${isRGBPP ? styles.rgbpp : styles.normal}`}>
+    <a href={href} className={styles.container}>
+      <h5 className={styles.head} data-is-rgbpp={isRGBPP}>
         {isUnverified ? `${t('udt.unverified')}: ` : null}
         <span>{udtLabel}</span>
-      </div>
-      <div className="addressUdtDetail">
-        {icon && (
-          <img
-            className="addressUdtItemIcon"
-            src={icon.url}
-            alt={`${udtLabel} icon`}
-            data-asset-type={udtLabel}
-            onError={icon.errorHandler}
-          />
-        )}
-        <div className="addressUdtItemInfo">
-          <span>{name}</span>
-          <span>{property}</span>
+      </h5>
+      <div className={styles.content}>
+        {icon && <img src={icon.url} alt={`${udtLabel} icon`} data-asset-type={udtLabel} onError={icon.errorHandler} />}
+        <div className={styles.fields}>
+          <div className={styles.assetName}>{name}</div>
+          <div className={styles.attribute} title={property}>
+            {property}
+          </div>
         </div>
       </div>
-    </AddressUDTItemPanel>
+    </a>
   )
 }
 
@@ -67,7 +60,7 @@ export const AddressXudtComp = ({ account, isRGBPP }: { account: XUDT; isRGBPP?:
       href={`/xudt/${typeHash}`}
       property={parseUDTAmount(amount, decimal)}
       name={uan || symbol}
-      udtLabel="xudt"
+      udtLabel="xUDT"
       icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(SUDTTokenIcon) }}
     />
   )
@@ -84,7 +77,7 @@ export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP?:
       href={`/sudt/${typeHash}`}
       property={parseUDTAmount(amount, decimal)}
       name={uan || symbol}
-      udtLabel="sudt"
+      udtLabel="sUDT"
       icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(SUDTTokenIcon) }}
     />
   )
@@ -131,7 +124,7 @@ export const AddressMNFTComp = ({ account, isRGBPP }: { account: MNFT; isRGBPP?:
       href={`/nft-collections/${collection?.typeHash}`}
       property={`#${amount}`}
       name={sliceNftName(symbol)}
-      udtLabel="m nft"
+      udtLabel="m-NFT"
       icon={{
         url: `${patchMibaoImg(icon)}?${new URLSearchParams({
           size: 'small',
@@ -169,7 +162,7 @@ export const AddressNRC721Comp = ({ account, isRGBPP }: { account: NRC721; isRGB
       property={!symbol ? '?' : `#${amount}`}
       name={!symbol ? '?' : sliceNftName(symbol)}
       isUnverified={!symbol}
-      udtLabel="nrc 721"
+      udtLabel="NRC 721"
       icon={{
         url: `${patchMibaoImg(icon)}?${new URLSearchParams({
           size: 'small',
