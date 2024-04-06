@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { SmartChartPage } from '../common'
@@ -29,6 +31,38 @@ const useOption = (
     color: chartColor.colors,
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
+
+    tooltip: !isThumbnail
+      ? {
+          trigger: 'axis',
+          formatter: dataList => {
+            if (!Array.isArray(dataList)) return ''
+            const params = dataList[0]
+            if (!params) return ''
+            if (!Array.isArray(params.value)) return ''
+            const [addrCount, ckbAmount, txCount, codeHash, tag, hashType] = params.value
+            const script = tag || `<div style="white-space: pre">Code Hash: ${codeHash}\nHash Type: ${hashType}</div>`
+            return `<table>
+                      <tr>
+                        <td>Script: </td>
+                        <td>${script}</td>
+                      </tr>
+                      <tr>
+                        <td>Addresses: </td>
+                        <td>${Number(addrCount).toLocaleString('en')}</td>
+                      </tr>
+                      <tr>
+                        <td>CKB: </td>
+                        <td>${Number(ckbAmount).toLocaleString('en')}</td>
+                      </tr>
+                      <tr>
+                        <td>Transactions: </td>
+                        <td>${Number(txCount).toLocaleString('en')}</td>
+                      </tr>
+                    </table>`
+          },
+        }
+      : undefined,
     xAxis: [
       {
         name: isMobile || isThumbnail ? '' : t('statistic.address_count'),
@@ -48,15 +82,7 @@ const useOption = (
         },
       },
     ],
-    tooltip: {
-      position: 'top',
-      enterable: true,
-      formatter: (params: any) => {
-        return `<a href=${window.location.origin}/script/${params.value[3]}/${params.value[5]} target=_blank>${
-          params.value[4] || params.value[3]
-        }</a>`
-      },
-    },
+    // TODO: add visual map when txs/24h is ready
     series: [
       {
         type: 'scatter',
@@ -95,12 +121,28 @@ const toCSV = (statisticContractResourceDistributed: ChartItem.ContractResourceD
     : []
 
 export const ContractResourceDistributedChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
-  const [t] = useTranslation()
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation()
+  const history = useHistory()
+
+  const handleClick = useCallback(
+    (params: echarts.CallbackDataParams) => {
+      const codeHash = params.value[3]
+      const hashType = params.value[5]
+      const url = `/script/${language}/${codeHash}/${hashType}`
+      history.push(url)
+    },
+    [history, language],
+  )
+
   return (
     <SmartChartPage
       title={t('statistic.contract_resource_distributed')}
       description={t('statistic.contract_resource_distributed_description')}
       isThumbnail={isThumbnail}
+      chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
       fetchData={explorerService.api.fetchContractResourceDistributed}
       getEChartOption={useOption}
       toCSV={toCSV}
