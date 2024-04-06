@@ -75,7 +75,7 @@ const MergedAssetList: FC<{
       nfts: Array.from(nftMap.values()),
       omigas: Array.from(omigaMap.values()),
     }
-  }, [])
+  }, [inscriptions, udts])
 
   return (
     <div className={styles.container}>
