@@ -131,7 +131,7 @@ export const ContractResourceDistributedChart = ({ isThumbnail = false }: { isTh
     (params: echarts.CallbackDataParams) => {
       const codeHash = params.value[3]
       const hashType = params.value[5]
-      const url = `/script/${language}/${codeHash}/${hashType}`
+      const url = `/${language}/script/${codeHash}/${hashType}`
       history.push(url)
     },
     [history, language],
