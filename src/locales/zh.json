@@ -852,7 +852,8 @@
       "spore": "Spore",
       "json": "JSON",
       "select-x-from-y": "从 {{y}} 字符起选择了 {{x}} 个字符",
-      "fail-to-decode": "未能以 {{decode}} 格式解码"
+      "fail-to-decode": "未能以 {{decode}} 格式解码",
+      "text-too-long": "文本过长, 仅支持解码 {{limit}} 字符"
     }
   }
 }
