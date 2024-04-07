@@ -22,7 +22,8 @@ enum DecodeMethod {
   JSON = 'json',
 }
 
-const SIZE = 500
+const DIALOG_SIZE = 500
+const TEXT_LIMIT = 4096
 
 const prefixHex = (str: string) => {
   let s = str.toLowerCase()
@@ -114,14 +115,14 @@ const Decoder = () => {
         const range = selection.getRangeAt(0)
         const rect = range.getBoundingClientRect()
         let x = rect.left + window.pageXOffset
-        if (rect.width > SIZE) {
-          x = rect.right - SIZE
-        } else if (rect.right + SIZE > window.innerWidth) {
-          x = window.innerWidth - SIZE - 20
+        if (rect.width > DIALOG_SIZE) {
+          x = rect.right - DIALOG_SIZE
+        } else if (rect.right + DIALOG_SIZE > window.innerWidth) {
+          x = window.innerWidth - DIALOG_SIZE - 20
         }
         let y = rect.bottom + window.pageYOffset + 4
-        if (y + SIZE + 20 > window.innerHeight) {
-          y = window.innerHeight - SIZE - 20
+        if (y + DIALOG_SIZE + 20 > window.innerHeight) {
+          y = window.innerHeight - DIALOG_SIZE - 20
         }
         setSelection({
           text: selectionText,
@@ -157,6 +158,13 @@ const Decoder = () => {
     if (v === '0x') {
       return {
         display: '',
+        copy: null,
+      }
+    }
+
+    if (v.length > TEXT_LIMIT + 2) {
+      return {
+        display: t('decoder.text-too-long', { limit: TEXT_LIMIT }),
         copy: null,
       }
     }
@@ -249,7 +257,7 @@ const Decoder = () => {
   return createPortal(
     <div
       className={styles.container}
-      style={{ maxWidth: SIZE, maxHeight: SIZE, left: selection.position.x, top: selection.position.y }}
+      style={{ maxWidth: DIALOG_SIZE, maxHeight: DIALOG_SIZE, left: selection.position.x, top: selection.position.y }}
       data-role="decoder"
     >
       <div className={styles.head}>
