@@ -851,7 +851,8 @@
       "spore": "Spore",
       "json": "JSON",
       "select-x-from-y": "Selected {{x}} chars from {{y}}",
-      "fail-to-decode": "Fail to decode as {{decode}}"
+      "fail-to-decode": "Fail to decode as {{decode}}",
+      "text-too-long": "Text too long, only {{limit}} chars can be decoded"
     }
   }
 }
