@@ -7,6 +7,7 @@
     "@ckb-lumos/base": "0.21.0-next.1",
     "@microlink/react-json-view": "1.23.0",
     "@nervosnetwork/ckb-sdk-utils": "0.109.1",
+    "@rgbpp-sdk/ckb": "0.0.0-snap-20240408100333",
     "@sentry/react": "7.94.1",
     "@sentry/tracing": "7.94.1",
     "@spore-sdk/core": "0.2.0-beta.3",
