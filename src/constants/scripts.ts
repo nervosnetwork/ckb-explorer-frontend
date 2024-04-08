@@ -607,8 +607,8 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     tag: 'RGB++',
   },
   {
-    codeHashes: ['0xd3de6166f7bb89f0c016ef8c7ce196f8d8c1fc44d133ca8c1d910373a4970d13'],
-    txHashes: ['0x2415ee81413fa9dd82245db054c19eb1ae2191185e2cb18ed1262947aec323c3-0'],
+    codeHashes: ['0x8e341bcfec6393dcd41e635733ff2dca00a6af546949f70c57a706c0f344df8b'],
+    txHashes: ['0xff91b063c78ed06f10a1ed436122bd7d671f9a72ef5f5fa28d05252c17cf4cef-0'],
     depType: 'code',
     hashType: 'type',
     tag: 'Unique Cell',
