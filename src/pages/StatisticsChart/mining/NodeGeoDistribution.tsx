@@ -6,6 +6,7 @@ import echarts from 'echarts/lib/echarts'
 import Loading from '../../../components/Loading/SmallLoading'
 import { getPeers, RawPeer } from '../../../services/NodeProbService'
 import { getPrimaryColor, IS_MAINNET } from '../../../constants/common'
+import styles from './nodeGeoDistribution.module.scss'
 
 const LAUNCH_TIME_OF_MAINNET = 0x16e70e6985c
 
@@ -151,10 +152,9 @@ export const NodeGeoDistribution = ({ isThumbnail = false }: { isThumbnail?: boo
   if (isThumbnail) {
     return (
       <div
+        className={styles.thumbnail}
         style={{
-          width: '100%',
-          height: 200,
-          background: `center / cover url(/images/chart/geo_cover_${IS_MAINNET ? 'mainnet' : 'testnet'}.png)`,
+          backgroundImage: `url(/images/chart/geo_cover_${IS_MAINNET ? 'mainnet' : 'testnet'}.png)`,
         }}
       />
     )
@@ -168,7 +168,7 @@ export const NodeGeoDistribution = ({ isThumbnail = false }: { isThumbnail?: boo
     return <div>Fail to load data</div>
   }
 
-  return <div style={{ width: '100vw', height: '100vh' }} ref={containerRef} />
+  return <div className={styles.container} ref={containerRef} />
 }
 
 export default NodeGeoDistribution
