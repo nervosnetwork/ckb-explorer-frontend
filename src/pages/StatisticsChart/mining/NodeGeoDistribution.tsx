@@ -152,7 +152,7 @@ export const NodeGeoDistribution = ({ isThumbnail = false }: { isThumbnail?: boo
     return (
       <div
         style={{
-          width: 280,
+          width: '100%',
           height: 200,
           background: `center / cover url(/images/chart/geo_cover_${IS_MAINNET ? 'mainnet' : 'testnet'}.png)`,
         }}
