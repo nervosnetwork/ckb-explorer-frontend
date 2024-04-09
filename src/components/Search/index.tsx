@@ -48,32 +48,17 @@ const Search: FC<{
   const [searchType, setSearchType] = useSearchType()
   const isSearchByName = searchType === 'name'
 
-  const [keyword, setKeyword] = useState(content || '')
-  const [editEnded, _setEditEnded] = useState(false)
+  const [keyword, _setKeyword] = useState(content || '')
   const searchValue = keyword.trim()
 
-  const setEditEnded = useCallback(
-    (value: boolean) => {
-      _setEditEnded(value)
-      if (value) handleEditEnd?.()
+  const { refetch: refetchSearchById, isFetching: isFetchingById } = useQuery(
+    ['searchById', searchValue],
+    () => getURLByIdSearch(searchValue),
+    {
+      enabled: false,
+      cacheTime: 0,
     },
-    [handleEditEnd],
   )
-
-  const {
-    refetch: refetchSearchById,
-    data: urlByIdSearch,
-    isFetching: isFetchingById,
-  } = useQuery(['searchById', searchValue], () => getURLByIdSearch(searchValue), {
-    enabled: false,
-    cacheTime: 0,
-  })
-
-  useEffect(() => {
-    if (urlByIdSearch) {
-      history.push(urlByIdSearch)
-    }
-  }, [history, urlByIdSearch])
 
   const {
     refetch: refetchSearchByName,
@@ -86,6 +71,23 @@ const Search: FC<{
     enabled: false,
   })
 
+  const handleSearch = () => {
+    if (isSearchByName && searchByNameResults) {
+      const item = searchByNameResults[0]
+      const url = `/${item.udtType === 'omiga_inscription' ? 'inscription' : 'sudt'}/${item.typeHash}`
+      history.push(url)
+      handleEditEnd?.()
+      return
+    }
+
+    if (!isSearchByName && searchValue) {
+      refetchSearchById().then(res => {
+        history.push(res.data ?? `/search/fail?q=${searchValue}`)
+        handleEditEnd?.()
+      })
+    }
+  }
+
   const debouncedSearchByName = useMemo(
     () => debounce(refetchSearchByName, 1000, { trailing: true }),
     [refetchSearchByName],
@@ -97,20 +99,11 @@ const Search: FC<{
   }, [debouncedSearchByName, queryClient, searchValue])
 
   useEffect(() => {
-    if (isSearchByName) {
-      if (!searchValue) {
-        resetSearchByName()
-      } else {
-        debouncedSearchByName()
-      }
-      return
-    }
-
-    if (editEnded && !!searchValue) {
-      refetchSearchById()
+    if (isSearchByName && searchValue) {
+      debouncedSearchByName()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editEnded, isSearchByName, searchValue])
+  }, [isSearchByName, searchValue])
 
   const switchSearchType = useCallback(() => {
     setSearchType(type => (type === 'name' ? 'id' : 'name'))
@@ -118,10 +111,14 @@ const Search: FC<{
   }, [resetSearchByName, setSearchType])
 
   const onClear = useCallback(() => {
-    setKeyword('')
     resetSearchByName()
     handleClear?.()
   }, [resetSearchByName, handleClear])
+
+  const setKeyword = (value: string) => {
+    if (value === '') onClear()
+    _setKeyword(value)
+  }
 
   return (
     <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
@@ -136,21 +133,21 @@ const Search: FC<{
         loading={isFetchingById}
         value={keyword}
         onChange={event => setKeyword(event.target.value)}
-        onEditEndedChange={setEditEnded}
+        onEnter={handleSearch}
         placeholder={isSearchByName ? t('navbar.search_by_name_placeholder') : t('navbar.search_placeholder')}
       />
 
       {searchValue && (
-        <SimpleButton className={styles.clear} title="clear" onClick={onClear}>
+        <SimpleButton className={styles.clear} title="clear" onClick={() => setKeyword('')}>
           <ClearIcon />
         </SimpleButton>
       )}
       <SimpleButton className={styles.byNameOrId} onClick={switchSearchType}>
         {isSearchByName ? t('search.by_name') : t('search.by_id')}
       </SimpleButton>
-      {hasButton && <SearchButton onClick={() => setEditEnded(true)}>{t('search.search')}</SearchButton>}
+      {hasButton && <SearchButton onClick={handleSearch}>{t('search.search')}</SearchButton>}
 
-      {(isFetchingByName || searchByNameResults) && (
+      {isSearchByName && (isFetchingByName || searchByNameResults) && (
         <SearchByNameResults
           keyword={keyword}
           udtQueryResults={searchByNameResults?.slice(0, DISPLAY_COUNT) ?? []}
@@ -163,10 +160,10 @@ const Search: FC<{
 
 const SearchInput: FC<
   ComponentPropsWithoutRef<'input'> & {
-    onEditEndedChange?: (editEnded: boolean) => void
+    onEnter?: () => void
     loading?: boolean
   }
-> = ({ loading, onEditEndedChange, value: propsValue, onChange: propsOnChange, onKeyUp: propsOnKeyUp, ...elprops }) => {
+> = ({ loading, onEnter, value: propsValue, onChange: propsOnChange, onKeyUp: propsOnKeyUp, ...elprops }) => {
   const [value, setValue] = useForkedState(propsValue)
 
   const onChange: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -176,20 +173,19 @@ const SearchInput: FC<
       }
       setValue(event.target.value)
       propsOnChange?.(event)
-      onEditEndedChange?.(event.target.value === '')
     },
-    [onEditEndedChange, propsOnChange, setValue, loading],
+    [propsOnChange, setValue, loading],
   )
 
   const onKeyUp: KeyboardEventHandler<HTMLInputElement> = useCallback(
     event => {
       const isEnter = event.keyCode === 13
       if (isEnter) {
-        onEditEndedChange?.(true)
+        onEnter?.()
       }
       propsOnKeyUp?.(event)
     },
-    [onEditEndedChange, propsOnKeyUp],
+    [onEnter, propsOnKeyUp],
   )
 
   return (

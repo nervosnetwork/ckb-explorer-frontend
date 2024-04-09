@@ -265,6 +265,7 @@
       "city": "City",
       "node_count": "Node Count",
       "node_distribution": "Node Distribution",
+      "node_geo_distribution": "Node Geo Distribution",
       "total_supply": "Total Supply",
       "circulating_supply": "Circulating Supply",
       "burnt": "Burnt",
