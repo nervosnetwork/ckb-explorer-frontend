@@ -264,6 +264,7 @@
       "city": "城市",
       "node_count": "节点数量",
       "node_distribution": "节点分布",
+      "node_geo_distribution": "节点地理分布",
       "total_supply": "总供给量",
       "circulating_supply": "总流通量",
       "burnt": "销毁量",

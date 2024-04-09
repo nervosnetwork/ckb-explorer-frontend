@@ -44,6 +44,7 @@ const UncleRateChart = lazy(() => import('../pages/StatisticsChart/mining/UncleR
 const MinerAddressDistributionChart = lazy(() => import('../pages/StatisticsChart/mining/MinerAddressDistribution'))
 const MinerVersionDistributionChart = lazy(() => import('../pages/StatisticsChart/mining/MinerVersionDistribution'))
 const NodeCountryDistributionChart = lazy(() => import('../pages/StatisticsChart/mining/NodeCountryDistribution'))
+const NodeGeoDistributionChart = lazy(() => import('../pages/StatisticsChart/mining/NodeGeoDistribution'))
 const TransactionCountChart = lazy(() => import('../pages/StatisticsChart/activities/TransactionCount'))
 const AddressCountChart = lazy(() => import('../pages/StatisticsChart/activities/AddressCount'))
 const CellCountChart = lazy(() => import('../pages/StatisticsChart/activities/CellCount'))
@@ -188,6 +189,10 @@ const routes: RouteProps[] = [
   {
     path: '/charts/node-country-distribution',
     component: NodeCountryDistributionChart,
+  },
+  {
+    path: '/charts/node-geo-distribution',
+    component: NodeGeoDistributionChart,
   },
   {
     path: '/charts/transaction-count',
