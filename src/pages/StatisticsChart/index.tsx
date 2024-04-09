@@ -29,6 +29,7 @@ import { LiquidityChart } from './monetary/Liquidity'
 import { MinerAddressDistributionChart } from './mining/MinerAddressDistribution'
 import { MinerVersionDistributionChart } from './mining/MinerVersionDistribution'
 import { NodeCountryDistributionChart } from './mining/NodeCountryDistribution'
+import NodeGeoDistributionChart from './mining/NodeGeoDistribution'
 import { useIsMobile } from '../../hooks'
 import { HelpTip } from '../../components/HelpTip'
 import { Link } from '../../components/Link'
@@ -137,6 +138,11 @@ const useChartsData = () => {
           title: `${t('statistic.node_country_distribution')}`,
           chart: <NodeCountryDistributionChart isThumbnail />,
           path: '/charts/node-country-distribution',
+        },
+        {
+          title: `${t('statistic.node_geo_distribution')}`,
+          chart: <NodeGeoDistributionChart isThumbnail />,
+          path: '/charts/node-geo-distribution',
         },
       ],
     },
