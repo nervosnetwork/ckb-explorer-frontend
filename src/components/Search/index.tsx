@@ -16,6 +16,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { SearchPanel, SearchButton } from './styled'
 import { explorerService, Response, SearchResultType } from '../../services/ExplorerService'
+import { getReverseAddresses } from '../../services/DidService'
+import { ethToCKb as DidEthToCkb } from '../../utils/did'
 import { addPrefixForHash, containSpecialChar } from '../../utils/string'
 import { HttpErrorCode, SearchFailType, TYPE_ID_CODE_HASH } from '../../constants/common'
 import { useForkedState, useIsMobile } from '../../hooks'
@@ -204,6 +206,16 @@ const getURLByIdSearch = async (searchValue: string) => {
   // check whether is btc address
   if (isValidBTCAddress(searchValue)) {
     return `/address/${searchValue}`
+  }
+  if (/\w*\.bit$/.test(searchValue)) {
+    // search .bit name
+    const list = await getReverseAddresses(searchValue)
+    const ETH_COIN_TYPE = '60'
+    const ethAddr = list?.find(item => item.key_info.coin_type === ETH_COIN_TYPE)
+    if (ethAddr) {
+      const ckbAddr = DidEthToCkb(ethAddr.key_info.key)
+      return `/address/${ckbAddr}`
+    }
   }
   // TODO: Is this replace needed?
   const query = addPrefixForHash(searchValue).replace(',', '')
