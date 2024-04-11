@@ -91,7 +91,7 @@ export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XU
       content: xudt?.fullName ?? '-',
     },
     {
-      title: t('xudt.owner'),
+      title: issuerOnBtc ? t('xudt.issuer') : t('xudt.owner'),
       contentWrapperClass: styles.addressWidthModify,
       content: issuer ? <IssuerContent address={issuerOnBtc ?? issuer} /> : '-',
     },

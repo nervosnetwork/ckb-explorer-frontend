@@ -683,6 +683,7 @@
       "name": "Name",
       "symbol": "Symbol",
       "total_amount": "Total Amount",
+      "issuer": "Issuer",
       "owner": "Manager",
       "type_script": "Type Script",
       "holder_addresses": "Holder Addresses",

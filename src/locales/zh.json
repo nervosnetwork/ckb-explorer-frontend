@@ -684,6 +684,7 @@
       "name": "名称",
       "symbol": "符号",
       "total_amount": "总量",
+      "issuer": "发行人",
       "owner": "治理人",
       "type_script": "Type Script",
       "holder_addresses": "用户数",
