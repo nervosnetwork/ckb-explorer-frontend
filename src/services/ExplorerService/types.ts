@@ -331,8 +331,8 @@ export namespace RawBtcRPC {
     hash: string
     vin: Vin[]
     vout: Vout[]
-    blocktime: number
-    confirmations: number
+    blocktime?: number
+    confirmations?: number
   }
 }
 

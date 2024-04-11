@@ -22,7 +22,7 @@ const BtcTransaction: FC<{
 }> = ({ tx, boundCellIndex, showId = true }) => {
   const { t } = useTranslation()
 
-  const time = dayjs(tx.blocktime * 1000)
+  const time = tx.blocktime ? dayjs(tx.blocktime * 1000) : null
 
   const commitment = useMemo(() => {
     const msg = tx.vout.find(v => v.scriptPubKey.asm.includes('OP_RETURN'))?.scriptPubKey.asm
@@ -46,9 +46,13 @@ const BtcTransaction: FC<{
               <EllipsisMiddle className="monospace" text={tx.txid} />
             </a>
           </h3>
-          <time dateTime={time.toISOString()}>{`${tx.confirmations.toLocaleString('en')} Confirmations (${time.format(
-            'YYYY-MM-DD hh:mm:ss',
-          )})`}</time>
+          {time && tx.confirmations ? (
+            <time dateTime={time.toISOString()}>{`${tx.confirmations.toLocaleString('en')} Confirmations (${time.format(
+              'YYYY-MM-DD hh:mm:ss',
+            )})`}</time>
+          ) : (
+            <div>{t('transaction.loading')}</div>
+          )}
         </div>
       ) : null}
       <div className={styles.utxos}>
