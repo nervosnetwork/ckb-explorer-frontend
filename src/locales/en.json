@@ -170,7 +170,7 @@
       "sUDT": "sUDT",
       "inscriptions": "Inscriptions",
       "docs": "Docs",
-      "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash/Args/BTC Address/BTC Txid",
+      "search_placeholder": "Block/Transaction/Address/Lock Hash/Type Hash/Args/BTC Address/BTC Txid/DID",
       "search_by_name_placeholder": "Token Name",
       "mainnet": "LINA",
       "testnet": "TESTNET",
@@ -340,7 +340,7 @@
       "loading": "Loading...",
       "no_search_result": "Oops! Your search did not match any record.",
       "empty_result": "Oops! Your search did not match any record. \n\nPlease make sure input contains only one of the following items:\n",
-      "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Lock Hash/ Type Hash/ Args/ BTC Address/ BTC Txid",
+      "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Lock Hash/ Type Hash/ Args/ BTC Address/ BTC Txid/DID",
       "address_type_testnet_error": "Testnet address detected，please goto",
       "address_type_mainnet_error": "Mainnet address detected，please goto",
       "address_type_testnet_url": "testnet explorer",
@@ -501,7 +501,8 @@
       "view-btc-utxos": "BTC UTXOs",
       "view-btc-tx": "View BTC Tx",
       "isomorphic-binding-with-index": "Isomorphic bound to CKB Tx {{index}}",
-      "isomorphic-binding-with-index-commitment": "Isomorphic bound to CKB Tx {{index}}\n\nCommitment:\n{{commitment}}"
+      "isomorphic-binding-with-index-commitment": "Isomorphic bound to CKB Tx {{index}}\n\nCommitment:\n{{commitment}}",
+      "loading": "Loading..."
     },
     "block": {
       "block": "Block",
@@ -636,6 +637,7 @@
       "uan": "UAN",
       "total_amount": "Total Amount",
       "issuer": "Issuer",
+      "owner": "Manager",
       "type_script": "Type Script",
       "holder_addresses": "Holder Addresses",
       "decimal": "Decimal",
@@ -682,6 +684,7 @@
       "symbol": "Symbol",
       "total_amount": "Total Amount",
       "issuer": "Issuer",
+      "owner": "Manager",
       "type_script": "Type Script",
       "holder_addresses": "Holder Addresses",
       "decimal": "Decimal",

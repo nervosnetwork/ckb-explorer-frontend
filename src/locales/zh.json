@@ -170,7 +170,7 @@
       "sUDT": "sUDT",
       "inscriptions": "铭文",
       "docs": "文档",
-      "search_placeholder": "区块/交易/地址/锁定脚本哈希/Type 脚本哈希/Args 参数/BTC 地址/BTC 交易 id",
+      "search_placeholder": "区块/交易/地址/锁定脚本哈希/Type 脚本哈希/Args 参数/BTC 地址/BTC 交易 id/DID",
       "search_by_name_placeholder": "代币名称",
       "mainnet": "LINA",
       "testnet": "测试网",
@@ -340,7 +340,7 @@
       "loading": "加载中...",
       "no_search_result": "哎呀！搜索失败。",
       "empty_result": "哎呀！搜索失败。\n\n请确保输入内容仅包含以下选项中的一个：\n",
-      "empty_result_items": "区块高度/ 区块哈希/ 交易哈希/ 地址/ 锁定脚本哈希/ Type 脚本哈希/ 参数/ BTC 地址/ BTC 交易 id",
+      "empty_result_items": "区块高度/ 区块哈希/ 交易哈希/ 地址/ 锁定脚本哈希/ Type 脚本哈希/ 参数/ BTC 地址/ BTC 交易 id/DID",
       "address_type_testnet_error": "检测到测试链地址，请跳转",
       "address_type_mainnet_error": "检测到主网地址，请跳转",
       "address_type_testnet_url": "测试链浏览器查询",
@@ -501,7 +501,8 @@
       "view-btc-utxos": "BTC UTXOs",
       "view-btc-tx": "查看 BTC 交易",
       "isomorphic-binding-with-index": "与CKB Tx {{index}} 同构绑定",
-      "isomorphic-binding-with-index-commitment": "与 CKB Tx {{index}} 同构绑定\n\nCommitment:\n{{commitment}}"
+      "isomorphic-binding-with-index-commitment": "与 CKB Tx {{index}} 同构绑定\n\nCommitment:\n{{commitment}}",
+      "loading": "Loading..."
     },
     "block": {
       "block": "区块",
@@ -636,6 +637,7 @@
       "uan": "UAN",
       "symbol": "代币符号",
       "issuer": "发行人",
+      "owner": "治理人",
       "type_script": "Type Script",
       "total_amount": "总量",
       "holder_addresses": "持币用户数",
@@ -683,6 +685,7 @@
       "symbol": "符号",
       "total_amount": "总量",
       "issuer": "发行人",
+      "owner": "治理人",
       "type_script": "Type Script",
       "holder_addresses": "用户数",
       "decimal": "小数位",

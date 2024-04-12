@@ -1,12 +1,14 @@
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { FC, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Link } from '../../components/Link'
 import TransactionItem from '../../components/TransactionItem/index'
 import { UDTTransactionsPagination, UDTTransactionsPanel, TypeScriptController, UDTNoResultPanel } from './styled'
 import { parseUDTAmount } from '../../utils/number'
 import { ReactComponent as OpenInNew } from '../../assets/open_in_new.svg'
-import { deprecatedAddrToNewAddr } from '../../utils/util'
+import { deprecatedAddrToNewAddr, getBtcUtxo } from '../../utils/util'
 import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
 import PaginationWithRear from '../../components/PaginationWithRear'
@@ -22,6 +24,7 @@ import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import Script from '../../components/Script'
 import { RawBtcRPC } from '../../services/ExplorerService'
 import { XUDT } from '../../models/Xudt'
+import { getBtcTxList } from '../../services/ExplorerService/fetcher'
 
 const typeScriptIcon = (show: boolean) => {
   if (show) {
@@ -61,8 +64,26 @@ const IssuerContent: FC<{ address: string }> = ({ address }) => {
 export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XUDT | undefined }) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  // const { fullName, issuerAddress, symbol, addressesCount, decimal, totalAmount, typeScript } = xudt
   const [showType, setShowType] = useState(false)
+
+  const issuer = xudt?.issuerAddress
+
+  const { data: issuerOnBtc } = useQuery(
+    ['btc-addr', issuer],
+    async () => {
+      if (!issuer) return null
+      const btcUtxo = getBtcUtxo(addressToScript(issuer))
+      if (!btcUtxo?.txid || btcUtxo?.index === undefined) return null
+
+      const { txid, index } = btcUtxo
+      const btcTx = await getBtcTxList([txid]).then(res => res[txid])
+      return btcTx?.vout[parseInt(index, 16)]?.scriptPubKey?.address ?? null
+    },
+    {
+      initialData: null,
+      enabled: !!issuer,
+    },
+  )
 
   const items: CardCellInfo<'left' | 'right'>[] = [
     {
@@ -70,9 +91,9 @@ export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XU
       content: xudt?.fullName ?? '-',
     },
     {
-      title: t('xudt.issuer'),
+      title: issuerOnBtc ? t('xudt.issuer') : t('xudt.owner'),
       contentWrapperClass: styles.addressWidthModify,
-      content: xudt ? <IssuerContent address={xudt.issuerAddress} /> : '-',
+      content: issuer ? <IssuerContent address={issuerOnBtc ?? issuer} /> : '-',
     },
     {
       title: t('xudt.holder_addresses'),

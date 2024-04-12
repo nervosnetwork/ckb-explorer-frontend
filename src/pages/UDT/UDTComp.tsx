@@ -99,7 +99,7 @@ export const UDTOverviewCard = ({
           content: displayName || fullName,
         },
         {
-          title: t('udt.issuer'),
+          title: t('udt.owner'),
           contentWrapperClass: styles.addressWidthModify,
           content: <IssuerContent address={issuerAddress} />,
         },

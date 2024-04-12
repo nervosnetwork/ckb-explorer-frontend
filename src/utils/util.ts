@@ -134,6 +134,7 @@ export const matchTxHash = (txHash: string, index: number | string): ContractHas
   return TestnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
 }
 
+// return txid and index of btc utxo, in hex string without 0x
 export const getBtcUtxo = (script: Script) => {
   const scriptSet = IS_MAINNET ? MainnetContractHashTags : TestnetContractHashTags
 

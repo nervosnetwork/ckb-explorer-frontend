@@ -63,7 +63,7 @@ export enum SearchResultType {
   BtcTx = 'bitcoin_transaction',
 }
 
-const getBtcTxList = (idList: string[]): Promise<Record<string, RawBtcRPC.BtcTx>> => {
+export const getBtcTxList = (idList: string[]): Promise<Record<string, RawBtcRPC.BtcTx>> => {
   if (idList.length === 0) return Promise.resolve({})
 
   return requesterV2
