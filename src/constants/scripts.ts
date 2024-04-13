@@ -560,10 +560,12 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: [
+      '0x685a60219309029d01310311dba953d67029170ca4848a4ff638e57002130a0d',
       '0x5e063b4c0e7abeaa6a428df3b693521a3050934cf3b0ae97a800d1bc31449398',
       '0xbbad126377d45f90a8ee120da988a2d7332c78ba8fd679aab478a19d6c133494',
     ],
     txHashes: [
+      '0x5e8d2a517d50fd4bb4d01737a7952a1f1d35c8afc77240695bb569cd7d9d5a1f-0',
       '0x06995b9fc19461a2bf9933e57b69af47a20bf0a5bc6c0ffcb85567a2c733f0a1-0',
       '0xfd694382e621f175ddf81ce91ce2ecf8bfc027d53d7d31b8438f7d26fc37fd19-0',
     ],
@@ -574,10 +576,12 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: [
+      '0x0bbe768b519d8ea7b96d58f1182eb7e6ef96c541fbd9526975077ee09f049058',
       '0x7366a61534fa7c7e6225ecc0d828ea3b5366adec2b58206f2ee84995fe030075',
       '0x598d793defef36e2eeba54a9b45130e4ca92822e1d193671f490950c3b856080',
     ],
     txHashes: [
+      '0xcebb174d6e300e26074aea2f5dbd7f694bb4fe3de52b6dfe205e54f90164510a-0',
       '0xfbceb70b2e683ef3a97865bb88e082e3e5366ee195a9c826e3c07d1026792fcd-0',
       '0x49551a20dfe39231e7db49431d26c9c08ceec96a29024eef3acc936deeb2ca76-0',
     ],
@@ -586,15 +590,27 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     tag: 'Spore Cluster',
   },
   {
-    codeHashes: ['0xbe8b9ce3d05a32c4bb26fe71cd5fc1407ce91e3a8b9e8719be2ab072cef1454b'],
-    txHashes: ['0x0231ea581bbc38965e10a2659da326ae840c038a9d0d6849f458b51d94870104-0'],
+    codeHashes: [
+      '0x4349889bda064adab8f49f7dd8810d217917f7df28e9b2a1df0b74442399670a',
+      '0xbe8b9ce3d05a32c4bb26fe71cd5fc1407ce91e3a8b9e8719be2ab072cef1454b',
+    ],
+    txHashes: [
+      '0xc5a41d58155b11ecd87a5a49fdcb6e83bd6684d3b72b2f3686f081945461c156-0',
+      '0x0231ea581bbc38965e10a2659da326ae840c038a9d0d6849f458b51d94870104-0',
+    ],
     depType: 'code',
     hashType: 'data1',
     tag: 'Spore Cluster Proxy',
   },
   {
-    codeHashes: ['0xc986099b41d79ca1b2a56ce5874bcda8175440a17298ea5e2bbc3897736b8c21'],
-    txHashes: ['0x53fdb9366637434ff685d0aca5e2a68a859b6fcaa4b608a7ecca0713fed0f5b7-0'],
+    codeHashes: [
+      '0x923e997654b2697ee3f77052cb884e98f28799a4270fd412c3edb8f3987ca622',
+      '0xc986099b41d79ca1b2a56ce5874bcda8175440a17298ea5e2bbc3897736b8c21',
+    ],
+    txHashes: [
+      '0x52210232292d10c51b48e72a2cea60d8f0a08c2680a97a8ee7ca0a39379f0036-0',
+      '0x53fdb9366637434ff685d0aca5e2a68a859b6fcaa4b608a7ecca0713fed0f5b7-0',
+    ],
     depType: 'code',
     hashType: 'data1',
     tag: 'Spore Cluster Agent',
