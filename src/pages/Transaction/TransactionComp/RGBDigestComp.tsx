@@ -87,7 +87,9 @@ export const RGBDigestComp = ({ hash, txid }: { hash: string; txid?: string }) =
         <TransactionRGBPPDigestContent hash={hash} leapDirection={direction} />
         <div className={styles.btcTxContent}>
           {isBtcTxLoading ? <SmallLoading /> : null}
-          {btcTx ? <BtcTransaction tx={btcTx} showId={false} boundCellIndex={boundCellIndex} /> : null}
+          {btcTx?.vout.some(v => v.scriptPubKey.asm.includes('OP_RETURN')) ? (
+            <BtcTransaction tx={btcTx} showId={false} boundCellIndex={boundCellIndex} />
+          ) : null}
         </div>
       </Card>
     </>
