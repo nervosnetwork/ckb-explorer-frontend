@@ -223,7 +223,7 @@ const Decoder = () => {
         case DecodeMethod.Spore: {
           const data = parseSporeCellData(v)
           if (data.contentType === 'application/json') {
-            data.content = JSON.parse(hexToUtf8(`0x${data.content}`))
+            data.content = JSON.stringify(JSON.parse(hexToUtf8(`0x${data.content}`)), null, 2)
           }
           return { display: jsonToList(data), copy: data }
         }
