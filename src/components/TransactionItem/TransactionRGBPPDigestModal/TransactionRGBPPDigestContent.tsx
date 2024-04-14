@@ -95,7 +95,7 @@ export const TransactionRGBPPDigestContent = ({
     <div className={styles.content}>
       <div className={styles.transactionInfo}>
         <div className={styles.txid}>
-          <span>{t('address.seal_tx_on_bitcoin')}</span>
+          <span>{t(data.data.commitment ? 'address.seal_tx_on_bitcoin' : 'address.tx_on_bitcoin')}</span>
           {data.data.txid && (
             <AddressText
               linkProps={{

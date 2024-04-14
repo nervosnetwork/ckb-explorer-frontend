@@ -392,6 +392,7 @@
       "current-address": "当前地址",
       "transaction_rgbpp_digest": "RGB++ Digest",
       "seal_tx_on_bitcoin": "Seal Tx On Bitcoin",
+      "tx_on_bitcoin": "Tx On Bitcoin",
       "leap_in": "Leap In",
       "leap_out": "Leap Out",
       "leap_in_tip": "本笔 RGB++ 交易被标记为\"Leap In\"，即存在一般 CKB 资产转化为 RGB++ 资产。",
