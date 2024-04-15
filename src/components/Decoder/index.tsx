@@ -120,7 +120,7 @@ const Decoder = () => {
         } else if (rect.right + DIALOG_SIZE > window.innerWidth) {
           x = window.innerWidth - DIALOG_SIZE - 20
         }
-        const y = rect.bottom
+        const y = rect.bottom + window.pageYOffset + 4
         setSelection({
           text: selectionText,
           position: { x, y },
