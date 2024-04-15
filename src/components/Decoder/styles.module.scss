@@ -1,7 +1,7 @@
 .container {
   min-width: 300px;
   background: #fff;
-  position: absolute;
+  position: fixed;
   user-select: none;
   border-radius: 4px;
   box-shadow: 0 2px 10px 0 #eee;
@@ -97,6 +97,7 @@
       white-space: break-spaces;
       font-family: Roboto, Lato, sans-serif, Montserrat, 'PingFang SC', -apple-system;
       max-height: 300px;
+      pointer-events: auto;
     }
 
     .count {
