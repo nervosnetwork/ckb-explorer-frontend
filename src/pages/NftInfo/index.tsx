@@ -14,6 +14,7 @@ import { getImgFromSporeCell } from '../../utils/spore'
 import { useSearchParams } from '../../hooks'
 
 const primaryColor = getPrimaryColor()
+const UNIQUE_ITEM_LABEL = 'Unique Item'
 
 const NftInfo = () => {
   const { id, collection } = useParams<Record<'collection' | 'id', string>>()
@@ -72,10 +73,9 @@ const NftInfo = () => {
         <div className={styles.info}>
           <div className={styles.name}>
             {data
-              ? `${data.collection.name} ${data.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
-                  data.token_id,
-                  data.standard,
-                )}`
+              ? `${data.collection.name ?? UNIQUE_ITEM_LABEL} ${
+                  data.standard === 'spore' ? '' : '#'
+                }${formatNftDisplayId(data.token_id, data.standard)}`
               : '-'}
           </div>
           <div className={styles.items}>
