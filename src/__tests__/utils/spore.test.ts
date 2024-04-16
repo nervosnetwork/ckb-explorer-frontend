@@ -17,11 +17,21 @@ describe('Parse Spore cell data', () => {
     globalThis.TextDecoder = undefined as any
   })
 
-  it('parse spore cell data', async () => {
+  it('parse spore cell data of webp', async () => {
     const result = parseSporeCellData(sporeCellData)
 
     expect(result.contentType).toBe('image/webp')
-    expect(result.clusterId).toBe('0xd4d9d5b2ba21d63f0e6f9f4bb811397fceaf088722fd951b42b8a164269672')
+    expect(result.clusterId).toBe('0xd4d9d5b2ba21d63f0e6f9f4bb811397fceaf088722fd951b42b8a1642696724b')
+  })
+
+  it('parse spore cell data of text', () => {
+    // https://docs.spore.pro/recipes/Data/handle-spore-data
+    const DATA =
+      '0x58000000100000001e000000340000000a000000746578742f706c61696e1200000074657374696e6720706c61696e20746578742000000021a30f2b2f4927dbd6fd3917990af0dbb868438f44184e84d515f9af84ae4861'
+    const result = parseSporeCellData(DATA)
+    expect(result.contentType).toBe('text/plain')
+    expect(result.content).toBe('74657374696e6720706c61696e2074657874')
+    expect(result.clusterId).toBe('0x21a30f2b2f4927dbd6fd3917990af0dbb868438f44184e84d515f9af84ae4861')
   })
 
   it('parse spore cluster data', async () => {
