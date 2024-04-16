@@ -120,10 +120,7 @@ const Decoder = () => {
         } else if (rect.right + DIALOG_SIZE > window.innerWidth) {
           x = window.innerWidth - DIALOG_SIZE - 20
         }
-        let y = rect.bottom + window.pageYOffset + 4
-        if (y + DIALOG_SIZE + 20 > window.innerHeight) {
-          y = window.innerHeight - DIALOG_SIZE - 20
-        }
+        const y = rect.bottom + window.pageYOffset + 4
         setSelection({
           text: selectionText,
           position: { x, y },
@@ -257,7 +254,12 @@ const Decoder = () => {
   return createPortal(
     <div
       className={styles.container}
-      style={{ maxWidth: DIALOG_SIZE, maxHeight: DIALOG_SIZE, left: selection.position.x, top: selection.position.y }}
+      style={{
+        maxWidth: DIALOG_SIZE,
+        maxHeight: DIALOG_SIZE,
+        left: selection.position.x,
+        top: selection.position.y,
+      }}
       data-role="decoder"
     >
       <div className={styles.head}>
