@@ -93,29 +93,29 @@ export const TransactionRGBPPDigestContent = ({
 
   return (
     <div className={styles.content}>
-      <div className={styles.transactionInfo}>
-        <div className={styles.txid}>
-          <span>{t(data.data.commitment ? 'address.seal_tx_on_bitcoin' : 'address.tx_on_bitcoin')}</span>
-          {data.data.txid && (
-            <AddressText
-              linkProps={{
-                to: `/transaction/${hash}`,
-              }}
-              className={styles.address}
-            >
-              {data.data.txid}
-            </AddressText>
-          )}
-          {data.data.confirmations && (
-            <span className={styles.blockConfirm}>({data.data.confirmations} Confirmations on Bitcoin)</span>
-          )}
-          {leapDirection !== TransactionLeapDirection.NONE ? (
-            <Tooltip placement="top" title={t(`address.leap_${leapDirection}_tip`)}>
-              <span className={styles.leap}>{t(`address.leap_${leapDirection}`)}</span>
-            </Tooltip>
-          ) : null}
-        </div>
-        {data.data.commitment ? (
+      {data.data.commitment ? (
+        <div className={styles.transactionInfo}>
+          <div className={styles.txid}>
+            <span>{t('address.seal_tx_on_bitcoin')}</span>
+            {data.data.txid && (
+              <AddressText
+                linkProps={{
+                  to: `/transaction/${hash}`,
+                }}
+                className={styles.address}
+              >
+                {data.data.txid}
+              </AddressText>
+            )}
+            {data.data.confirmations && (
+              <span className={styles.blockConfirm}>({data.data.confirmations} Confirmations on Bitcoin)</span>
+            )}
+            {leapDirection !== TransactionLeapDirection.NONE ? (
+              <Tooltip placement="top" title={t(`address.leap_${leapDirection}_tip`)}>
+                <span className={styles.leap}>{t(`address.leap_${leapDirection}`)}</span>
+              </Tooltip>
+            ) : null}
+          </div>
           <div className={styles.commitment}>
             <span>Commitment:</span>
             <EllipsisMiddle text={data.data.commitment} className={styles.commitmentText} />
@@ -129,8 +129,8 @@ export const TransactionRGBPPDigestContent = ({
               <CopyIcon />
             </SimpleButton>
           </div>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
       <div className={styles.list}>
         {transfers.size ? (
           [...transfers.entries()].map(([address, transfers]) => (

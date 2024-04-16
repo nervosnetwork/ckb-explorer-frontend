@@ -28,13 +28,15 @@
 
 .content {
   background-color: #fafafa;
-  margin-top: 16px;
   border-radius: 4px;
   padding: 16px;
 }
 
 .script {
-  margin-top: 16px;
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+
   flex-flow: column wrap;
   background-color: #eee;
   padding: 16px;
@@ -52,6 +54,7 @@
   font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
+  margin-bottom: 1rem;
 
   .txid,
   .commitment {
