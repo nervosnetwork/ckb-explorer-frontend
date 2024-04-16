@@ -4,13 +4,13 @@ import { hexToBase64 } from './util'
 
 // parse spore cluster data guideline: https://github.com/sporeprotocol/spore-sdk/blob/beta/docs/recipes/handle-cell-data.md
 export function parseSporeClusterData(hexData: string) {
-  const data = hexData.slice(2, -1)
+  const data = hexData.replace(/^0x/g, '')
 
   const nameOffset = Number(toBigEndian(`0x${data.slice(8, 16)}`)) * 2
   const descriptionOffset = Number(toBigEndian(`0x${data.slice(16, 24)}`)) * 2
 
   const name = hexToUtf8(`0x${data.slice(nameOffset + 8, descriptionOffset)}`)
-  const description = hexToUtf8(`0x${data.slice(descriptionOffset + 8, -1)}`)
+  const description = hexToUtf8(`0x${data.slice(descriptionOffset + 8)}`)
 
   return { name, description }
 }

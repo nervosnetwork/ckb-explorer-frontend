@@ -38,6 +38,6 @@ describe('Parse Spore cell data', () => {
     const result = parseSporeClusterData(sporeClusterData)
 
     expect(result.name).toBe('CKBExplorer')
-    expect(result.description).toBe('For Tes')
+    expect(result.description).toBe('For Test')
   })
 })
