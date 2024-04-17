@@ -63,11 +63,20 @@ const SearchByNameResult: FC<{ keyword?: string; item: UDTQueryResult }> = ({ it
     )
   }
 
+  let to = ''
+  if (udtType === 'omiga_inscription') {
+    to = `/inscription/${typeHash}`
+  } else if (udtType === 'sudt') {
+    to = `/sudt/${typeHash}`
+  } else if (udtType === 'xudt') {
+    to = `/xudt/${typeHash}`
+  } else if (['m_nft_token', 'cota', 'spore_cell', 'nrc_721_token'].includes(udtType)) {
+    to = `/nft-collections/${typeHash}`
+  }
+  if (!to) return null
+
   return (
-    <Link
-      className={styles.searchResult}
-      to={`/${udtType === 'omiga_inscription' ? 'inscription' : 'sudt'}/${typeHash}`}
-    >
+    <Link className={styles.searchResult} to={to}>
       <div className={styles.content}>
         {!displayName ? t('udt.unknown_token') : HighlightText(displayName, keyword)}
         <EllipsisMiddle

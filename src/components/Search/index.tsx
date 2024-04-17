@@ -76,7 +76,15 @@ const Search: FC<{
   const handleSearch = () => {
     if (isSearchByName && searchByNameResults) {
       const item = searchByNameResults[0]
-      const url = `/${item.udtType === 'omiga_inscription' ? 'inscription' : 'sudt'}/${item.typeHash}`
+      let url = ''
+      if (item.udtType === 'omiga_inscription') {
+        url = `/inscription/${item.typeHash}`
+      } else if (item.udtType === 'sudt') {
+        url = `/sudt/${item.typeHash}`
+      } else if (item.udtType === 'xudt') {
+        url = `/xudt/${item.typeHash}`
+      }
+      if (!url) return
       history.push(url)
       handleEditEnd?.()
       return
@@ -254,7 +262,16 @@ const getURLByIdSearch = async (searchValue: string) => {
         return `/address/${attributes.lockHash}`
 
       case SearchResultType.UDT:
-        return data.attributes.udtType === 'omiga_inscription' ? `/inscription/${query}` : `/sudt/${query}`
+        if (attributes.udtType === 'omiga_inscription') {
+          return `/inscription/${query}`
+        }
+        if (attributes.udtType === 'sudt') {
+          return `/sudt/${query}`
+        }
+        if (attributes.udtType === 'xudt') {
+          return `/xudt/${query}`
+        }
+        break
 
       case SearchResultType.BtcTx:
         return `/transaction/${attributes.ckbTransactionHash}`
