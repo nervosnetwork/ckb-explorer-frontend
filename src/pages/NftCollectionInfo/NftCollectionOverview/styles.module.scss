@@ -34,8 +34,13 @@
 }
 
 .desc {
-  padding: 20px 0;
+  margin: 20px 0;
   color: #494949;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  overflow: hidden;
 }
 
 @media (width <= $extraLargeBreakPoint) {
