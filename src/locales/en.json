@@ -165,6 +165,7 @@
       "fee_rate": "Fee Rate",
       "nervos_dao": "Nervos DAO",
       "faucet": "Faucet",
+      "rgbpp": "RGB++",
       "tokens": "Tokens",
       "xUDT": "xUDT",
       "sUDT": "sUDT",
@@ -209,6 +210,9 @@
       "testnet": "Testnet"
     },
     "statistic": {
+      "transaction_num": "Transaction Count",
+      "new_btc_address": "New BTC Address",
+      "rgbpp_transaction_list": "RGB++ Transaction List",
       "transaction_count": "Transaction Count",
       "address_count": "Unique Addresses Used",
       "total_dao_deposit_depositor": "Total Nervos DAO Deposit & Accrued Total Depositors",
@@ -400,6 +404,20 @@
       "view_in_btc_explorer": "View in Bitcoin Explorer",
       "view-as-asset-items": "View Asset Distribution",
       "view-as-merged-assets": "View Asset Amounts(CKB excluded)"
+    },
+    "rgbpp": {
+      "transaction": {
+        "ckb_txid": "CKB_TXID",
+        "block_number": "Block Number",
+        "confirmation": "Confirmation",
+        "confirmations": "Confirmations",
+        "time": "Time",
+        "type": "Type",
+        "rgbpp_cell_change": "RGB++ Cell Change",
+        "btc_txid": "BTC TXID",
+        "cell": "Cell",
+        "cells": "Cells"
+      }
     },
     "transaction": {
       "view_rgbpp_digest": "View RGB++ Digest",

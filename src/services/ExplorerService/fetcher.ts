@@ -416,6 +416,9 @@ export const apiFetcher = {
   fetchStatisticTotalDaoDeposit: () =>
     v1GetUnwrappedList<ChartItem.TotalDaoDeposit>('/daily_statistics/total_depositors_count-total_dao_deposit'),
 
+  fetchStatisticBitcoin: () =>
+    requesterV2(`/bitcoin_statistics`).then((res: AxiosResponse) => toCamelcase<ChartItem.Bitcoin[]>(res.data.data)),
+
   fetchStatisticNewDaoDeposit: () =>
     v1GetUnwrappedList<ChartItem.NewDaoDeposit>('/daily_statistics/daily_dao_deposit-daily_dao_depositors_count'),
 
@@ -494,6 +497,26 @@ export const apiFetcher = {
   fetchStatisticMinerVersionDistribution: () =>
     requesterV2(`/blocks/ckb_node_versions`).then((res: AxiosResponse) =>
       toCamelcase<{ data: { version: string; blocksCount: number }[] }>(res.data),
+    ),
+
+  fetchRGBTransactions: async (page: number, size: number, sort?: string, leapDirection?: string) =>
+    requesterV2('/rgb_transactions', {
+      params: {
+        page,
+        page_size: size,
+        sort,
+        leap_direction: leapDirection,
+      },
+    }).then((res: AxiosResponse) =>
+      toCamelcase<{
+        data: {
+          ckbTransactions: RGBTransaction[]
+        }
+        meta: {
+          total: number
+          pageSize: number
+        }
+      }>(res.data),
     ),
 
   fetchStatisticTransactionFees: () =>
@@ -1137,4 +1160,14 @@ type SubmitTokenInfoParams = {
   display_name?: string
   uan?: string
   token?: string
+}
+
+export interface RGBTransaction {
+  txHash: string
+  blockId: number
+  blockNumber: number
+  blockTimestamp: number
+  leapDirection: string
+  rgbCellChanges: number
+  rgbTxid: string
 }

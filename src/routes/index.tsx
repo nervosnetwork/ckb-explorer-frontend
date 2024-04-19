@@ -15,6 +15,7 @@ import Footer from '../components/Footer'
 import { isChainTypeError } from '../utils/chain'
 import { SupportedLngs } from '../utils/i18n'
 import { useSyncEffect } from '../hooks'
+import RGBPPTransactionList from '../pages/RGBPP/TransactionList'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -290,6 +291,10 @@ const routes: RouteProps[] = [
   {
     path: '/export-transactions',
     component: ExportTransactions,
+  },
+  {
+    path: '/rgbpp/transaction/list',
+    component: RGBPPTransactionList,
   },
 ]
 
