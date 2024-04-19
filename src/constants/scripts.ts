@@ -630,8 +630,8 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     tag: 'Unique Cell',
   },
   {
-    codeHashes: ['0x28af93094395eb9d6ddabcca367efffebf92ceae9f974bbb594f5c5fcdeecb8c'],
-    txHashes: ['0x9cf9eb953dceba5fb394df3a9ae23ea624afa9ac5e8dcac80051acd2e4561d8e-0'],
+    codeHashes: ['0x00cdf8fab0f8ac638758ebf5ea5e4052b1d71e8a77b9f43139718621f6849326'],
+    txHashes: ['0xde0f87878a97500f549418e5d46d2f7704c565a262aa17036c9c1c13ad638529-0'],
     depType: 'code',
     hashType: 'type',
     tag: 'BTC Time Lock',
