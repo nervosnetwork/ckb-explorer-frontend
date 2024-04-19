@@ -9,6 +9,7 @@ export interface CellDep {
 }
 
 export interface Transaction {
+  isBtcTimeLock: boolean
   isRgbTransaction: boolean
   rgbTxid: string | null
   transactionHash: string
