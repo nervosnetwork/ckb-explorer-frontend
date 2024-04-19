@@ -96,6 +96,7 @@ export function useMediaQuery(query: string): boolean {
 }
 
 export const mobileBreakPoint = Number(variables.mobileBreakPoint.replace('px', ''))
+export const useIsXXLBreakPoint = () => useMediaQuery(`(max-width: ${variables.xxlBreakPoint})`)
 export const useIsMobile = () => useMediaQuery(`(max-width: ${variables.mobileBreakPoint})`)
 export const useIsExtraLarge = (exact = false) => {
   const isMobile = useIsMobile()

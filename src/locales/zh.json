@@ -165,6 +165,7 @@
       "fee_rate": "费率",
       "nervos_dao": "Nervos DAO",
       "faucet": "水龙头",
+      "rgbpp": "RGB++",
       "tokens": "代币",
       "xUDT": "xUDT",
       "sUDT": "sUDT",
@@ -209,6 +210,9 @@
       "testnet": "Testnet"
     },
     "statistic": {
+      "transaction_num": "交易数量",
+      "new_btc_address": "新赠BTC地址",
+      "rgbpp_transaction_list": "RGB++ 交易列表",
       "transaction_count": "交易数量",
       "address_count": "已使用的地址数",
       "total_dao_deposit_depositor": "Nervos DAO 锁定总额 & 累计锁定地址数",
@@ -400,6 +404,20 @@
       "view_in_btc_explorer": "在 Bitcoin 浏览器查看",
       "view-as-asset-items": "查看资产分布",
       "view-as-merged-assets": "查看资产合计(不含 CKB)"
+    },
+    "rgbpp": {
+      "transaction": {
+        "ckb_txid": "CKB 交易ID",
+        "block_number": "区块序号",
+        "confirmation": "确认数",
+        "confirmations": "确认数",
+        "time": "时间",
+        "type": "类型",
+        "rgbpp_cell_change": "RGB++ Cell 变化",
+        "btc_txid": "BTC 交易",
+        "cell": "Cell",
+        "cells": "Cells"
+      }
     },
     "transaction": {
       "view_rgbpp_digest": "查看 RGB++ 摘要",

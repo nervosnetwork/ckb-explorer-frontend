@@ -61,6 +61,11 @@ const useMenuDataList = () => {
     },
     {
       type: LinkType.Inner,
+      name: t('navbar.rgbpp'),
+      url: '/rgbpp/transaction/list',
+    },
+    {
+      type: LinkType.Inner,
       name: t('navbar.charts'),
       url: '/charts',
     },

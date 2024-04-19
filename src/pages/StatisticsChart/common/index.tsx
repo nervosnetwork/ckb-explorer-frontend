@@ -119,7 +119,9 @@ const ChartPage = ({
   children,
   description,
   data,
+  style,
 }: {
+  style?: CSSProperties
   title: string
   children: ReactNode
   description?: string
@@ -133,7 +135,11 @@ const ChartPage = ({
     .replace(/\s+/g, '-')
   return (
     <Content>
-      <ChartDetailTitle className="container">
+      <ChartDetailTitle
+        className="container"
+        // TODO: refactor
+        style={{ borderTopLeftRadius: style?.borderRadius, borderTopRightRadius: style?.borderRadius }}
+      >
         <div className="chartDetailTitlePanel">
           <span>{title}</span>
           {description && <HelpTip placement="bottom" title={description} iconProps={{ alt: 'chart help' }} />}
@@ -150,7 +156,13 @@ const ChartPage = ({
           </a>
         )}
       </ChartDetailTitle>
-      <ChartDetailPanel className="container">{children}</ChartDetailPanel>
+      <ChartDetailPanel
+        className="container"
+        // TODO: refactor
+        style={{ borderBottomLeftRadius: style?.borderRadius, borderBottomRightRadius: style?.borderRadius }}
+      >
+        {children}
+      </ChartDetailPanel>
     </Content>
   )
 }
@@ -169,8 +181,9 @@ export interface SmartChartPageProps<T> {
     isMobile: boolean,
     isThumbnail?: boolean,
   ) => echarts.EChartOption
-  toCSV: (dataList: T[]) => (string | number)[][]
+  toCSV?: (dataList: T[]) => (string | number)[][]
   queryKey?: string
+  style?: CSSProperties
 }
 
 export function SmartChartPage<T>({
@@ -184,6 +197,7 @@ export function SmartChartPage<T>({
   getEChartOption,
   toCSV,
   queryKey,
+  style,
 }: SmartChartPageProps<T>): ReactElement {
   const isMobile = useIsMobile()
 
@@ -200,13 +214,13 @@ export function SmartChartPage<T>({
   const content = query.isLoading ? (
     <ChartLoading show isThumbnail={isThumbnail} />
   ) : (
-    <ReactChartCore option={option} isThumbnail={isThumbnail} {...chartProps} />
+    <ReactChartCore option={option} isThumbnail={isThumbnail} {...chartProps} style={style} />
   )
 
   return isThumbnail ? (
     content
   ) : (
-    <ChartPage title={title} description={description} data={toCSV(dataList)}>
+    <ChartPage title={title} description={description} data={toCSV?.(dataList)} style={style}>
       {content}
       {note != null && <ChartNotePanel>{note}</ChartNotePanel>}
     </ChartPage>
