@@ -1071,7 +1071,8 @@ export interface ScriptInfo {
 }
 
 export interface CKBTransactionInScript {
-  rgbTransaction: boolean
+  isBtcTimeLock: boolean
+  isRgbTransaction: boolean
   rgbTxid: string | null
   id: number
   txHash: string
