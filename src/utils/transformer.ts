@@ -8,7 +8,8 @@ export const transformToTransaction = (
   tx: CKBTransactionInScript & { btcTx: RawBtcRPC.BtcTx | null },
 ): Transaction & { btcTx: RawBtcRPC.BtcTx | null } => {
   return {
-    isRgbTransaction: tx.rgbTransaction,
+    isBtcTimeLock: tx.isBtcTimeLock,
+    isRgbTransaction: tx.isRgbTransaction,
     rgbTxid: tx.rgbTxid,
     transactionHash: tx.txHash,
     blockNumber: tx.blockNumber,
