@@ -153,7 +153,7 @@ const TransactionItem = ({
         </TransactionCellPanel>
         {address && <TransactionIncome income={transaction.income} />}
       </TransactionPanel>
-      {transaction.btcTx?.vout.some(v => v.scriptPubKey.asm.includes('OP_RETURN')) ? (
+      {transaction.isRgbTransaction && transaction.btcTx?.vout.some(v => v.scriptPubKey.asm.includes('OP_RETURN')) ? (
         <div className={styles.btcTxContent}>
           <BtcTransaction tx={transaction.btcTx} boundCellIndex={boundCellIndex} />
         </div>
