@@ -60,7 +60,7 @@ const AssetItem: FC<{ cell: LiveCell }> = ({ cell }) => {
 
   const ckb = new BigNumber(shannonToCkb(+cell.capacity)).toFormat()
   const link = `/transaction/${cell.txHash}?${new URLSearchParams({
-    page_of_outputs: Math.ceil(+cell.cellIndex + 1 / PAGE_SIZE).toString(),
+    page_of_outputs: Math.ceil((+cell.cellIndex + 1) / PAGE_SIZE).toString(),
   })}`
   const assetType: string = cell.extraInfo?.type ?? cell.cellType
   let icon: string | React.ReactElement | null = null
