@@ -24,6 +24,7 @@ import { Address, AddressType } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
 import { XUDT } from '../../models/Xudt'
 import { HashType } from '../../constants/common'
+import { Dob, getDobs } from '../DobsService'
 
 async function v1Get<T>(...args: Parameters<typeof requesterV1.get>) {
   return requesterV1.get(...args).then(res => toCamelcase<Response.Response<T>>(res.data))
@@ -805,8 +806,8 @@ export const apiFetcher = {
       })
       .then(res => res.data),
 
-  fetchNFTCollectionItems: (id: string, page: string) =>
-    requesterV2
+  fetchNFTCollectionItems: async (id: string, page: string) => {
+    const res = await requesterV2
       .get<{
         data: NFTItem[]
         pagination: {
@@ -821,10 +822,33 @@ export const apiFetcher = {
           page,
         },
       })
-      .then(res => res.data),
-
-  fetchNFTCollectionItem: (collectionId: string, id: string) =>
-    requesterV2.get<NFTItem>(`nft/collections/${collectionId}/items/${id}`).then(res => res.data),
+      .then(r => r.data)
+    const sporeIds = res.data.filter(i => i.standard === 'spore').map(i => i.type_script?.args)
+    if (sporeIds.length) {
+      const dobs = await getDobs(sporeIds)
+      if (dobs?.length) {
+        sporeIds.forEach((id, idx) => {
+          const item = res.data.find(item => item.type_script?.args === id && item.standard === 'spore')
+          const dob = dobs[idx]
+          if (item && dob) {
+            item.dob = dob
+          }
+        })
+      }
+    }
+    return res
+  },
+  fetchNFTCollectionItem: async (collectionId: string, id: string) => {
+    const res = await requesterV2.get<NFTItem>(`nft/collections/${collectionId}/items/${id}`).then(r => r.data)
+    if (res.standard === 'spore' && res.type_script?.args) {
+      const dobs = await getDobs([res.type_script.args])
+      const dob = dobs?.[0]
+      if (dob) {
+        res.dob = dob
+      }
+    }
+    return res
+  },
 
   fetchNFTItemByOwner: (owner: string, standard: string, page?: string) =>
     requesterV2
@@ -917,15 +941,15 @@ export const apiFetcher = {
         >(res.data),
       ),
 
-  fetchNFTCollectionTransferList: (
+  fetchNFTCollectionTransferList: async (
     id: string,
     page: string,
     tokenId?: string | null,
     transferAction?: string | null,
     addressHash?: string | null,
     txHash?: string | null,
-  ) =>
-    requesterV2
+  ) => {
+    const res = await requesterV2
       .get<TransferListRes>(`/nft/transfers`, {
         params: {
           page,
@@ -936,7 +960,24 @@ export const apiFetcher = {
           tx_hash: txHash,
         },
       })
-      .then(res => res.data),
+      .then(r => r.data)
+
+    const sporeIds = res.data.filter(i => i.item.standard === 'spore').map(i => i.item.type_script?.args)
+    if (sporeIds.length) {
+      const dobs = await getDobs(sporeIds)
+      if (dobs?.length) {
+        sporeIds.forEach((id, idx) => {
+          const item = res.data.find(i => i.item.type_script?.args === id && i.item.standard === 'spore')
+          const dob = dobs[idx]
+          if (item && dob) {
+            item.item.dob = dob
+          }
+        })
+      }
+    }
+
+    return res
+  },
 
   fetchDASAccounts: async (addresses: string[]): Promise<DASAccountMap> => {
     const { data } = await requesterV2.post<Record<string, string>>('das_accounts', {
@@ -1032,6 +1073,8 @@ export interface NFTItem {
   collection: NFTCollection
   name: string | null
   metadata_url: string | null
+  type_script: Record<'code_hash' | 'hash_type' | 'args' | 'script_hash', string>
+  dob?: Dob
 }
 
 export interface ScriptInfo {
