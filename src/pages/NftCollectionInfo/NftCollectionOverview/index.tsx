@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
@@ -17,6 +18,17 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
   const { isLoading, data: info } = useQuery(['collection-info', id], () => explorerService.api.fetchNFTCollection(id))
 
   const standard = info?.standard === 'spore' ? 'dob' : info?.standard
+
+  const desc = useMemo(() => {
+    if (!info?.description) return '-'
+    try {
+      const parsed = JSON.parse(info.description)
+      if ('description' in parsed) return parsed.description
+      return info.description
+    } catch {
+      return info.description
+    }
+  }, [info?.description])
 
   return (
     <div className={styles.container}>
@@ -38,7 +50,7 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
         )}
         <span>{isLoading ? t(`nft.loading`) : info?.name}</span>
       </div>
-      <div className={styles.desc}>{info?.description}</div>
+      <div className={styles.desc}>{desc}</div>
       <dl>
         <dt>{t(`nft.standard`)}</dt>
         <dd>
