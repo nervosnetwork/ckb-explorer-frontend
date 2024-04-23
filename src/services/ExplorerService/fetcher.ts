@@ -25,6 +25,7 @@ import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
 import { XUDT } from '../../models/Xudt'
 import { HashType } from '../../constants/common'
 import { Dob, getDobs } from '../DobsService'
+import { isDob0 } from '../../utils/spore'
 
 async function v1Get<T>(...args: Parameters<typeof requesterV1.get>) {
   return requesterV1.get(...args).then(res => toCamelcase<Response.Response<T>>(res.data))
@@ -846,7 +847,7 @@ export const apiFetcher = {
         },
       })
       .then(r => r.data)
-    const sporeIds = res.data.filter(i => i.standard === 'spore').map(i => i.type_script?.args)
+    const sporeIds = res.data.filter(i => isDob0(i)).map(i => i.type_script?.args)
     if (sporeIds.length) {
       const dobs = await getDobs(sporeIds)
       if (dobs?.length) {
@@ -863,7 +864,7 @@ export const apiFetcher = {
   },
   fetchNFTCollectionItem: async (collectionId: string, id: string) => {
     const res = await requesterV2.get<NFTItem>(`nft/collections/${collectionId}/items/${id}`).then(r => r.data)
-    if (res.standard === 'spore' && res.type_script?.args) {
+    if (isDob0(res) && res.type_script?.args) {
       const dobs = await getDobs([res.type_script.args])
       const dob = dobs?.[0]
       if (dob) {
@@ -985,7 +986,7 @@ export const apiFetcher = {
       })
       .then(r => r.data)
 
-    const sporeIds = res.data.filter(i => i.item.standard === 'spore').map(i => i.item.type_script?.args)
+    const sporeIds = res.data.filter(i => isDob0(i.item)).map(i => i.item.type_script?.args)
     if (sporeIds.length) {
       const dobs = await getDobs(sporeIds)
       if (dobs?.length) {
