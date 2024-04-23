@@ -8,7 +8,7 @@ import { getImgFromSporeCell } from '../../../utils/spore'
 import type { TransferListRes, TransferRes } from '../../../services/ExplorerService/fetcher'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../../constants/common'
-import { formatNftDisplayId, handleNftImgError, patchMibaoImg } from '../../../utils/util'
+import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../../utils/util'
 import { explorerService } from '../../../services/ExplorerService'
 import { dayjs } from '../../../utils/date'
 import { useParsedDate, useTimestamp } from '../../../hooks'
@@ -113,6 +113,26 @@ const TransferTableRow: FC<{
   const renderCover = () => {
     const cell = item.item?.cell
     const standard = item.item?.standard
+
+    if (item.item.dob) {
+      const { dob } = item.item
+      const src = dob.asset?.startsWith('0x')
+        ? `data:${dob.media_type};base64,${hexToBase64(dob.asset.slice(2))}`
+        : dob.asset
+
+      return (
+        <img
+          src={src}
+          alt="cover"
+          loading="lazy"
+          className={styles.icon}
+          style={{
+            background: dob['prev.bgcolor'] ?? 'transparent',
+            padding: 2,
+          }}
+        />
+      )
+    }
 
     if (standard === 'spore' && cell && cell.data) {
       const img = getImgFromSporeCell(cell.data)
@@ -232,6 +252,25 @@ const TransferCard: FC<{
   const renderCover = () => {
     const cell = item.item?.cell
     const standard = item.item?.standard
+
+    if (item.item?.dob) {
+      const { dob } = item.item
+      const src = dob.asset?.startsWith('0x')
+        ? `data:${dob.media_type};base64,${hexToBase64(dob.asset.slice(2))}`
+        : dob.asset
+
+      return (
+        <img
+          src={src}
+          alt="cover"
+          loading="lazy"
+          className={styles.icon}
+          style={{
+            background: dob['prev.bgcolor'] ?? 'transparent',
+          }}
+        />
+      )
+    }
 
     if (standard === 'spore' && cell && cell.data) {
       const img = getImgFromSporeCell(cell.data)

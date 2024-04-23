@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { ReactEventHandler, useEffect, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
+import BigNumber from 'bignumber.js'
 import { CoTA, OmigaInscription, MNFT, NRC721, SUDT, XUDT, Spore } from '../../models/Address'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { parseUDTAmount } from '../../utils/number'
 import { getImgFromSporeCell } from '../../utils/spore'
-import { formatNftDisplayId, handleNftImgError, patchMibaoImg } from '../../utils/util'
+import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../utils/util'
+import { getDobs } from '../../services/DobsService'
 import { sliceNftName } from '../../utils/string'
 import styles from './addressAssetComp.module.scss'
 
@@ -27,6 +29,7 @@ export const AddressAssetComp = ({
   icon?: {
     url: string
     errorHandler: ReactEventHandler<HTMLImageElement>
+    bgColor?: string
   }
 }) => {
   const { t } = useTranslation()
@@ -37,7 +40,15 @@ export const AddressAssetComp = ({
         <span>{udtLabel}</span>
       </h5>
       <div className={styles.content}>
-        {icon && <img src={icon.url} alt={`${udtLabel} icon`} data-asset-type={udtLabel} onError={icon.errorHandler} />}
+        {icon && (
+          <img
+            src={icon.url}
+            alt={`${udtLabel} icon`}
+            data-asset-type={udtLabel}
+            onError={icon.errorHandler}
+            style={{ background: icon.bgColor ?? 'unset' }}
+          />
+        )}
         <div className={styles.fields}>
           <div className={styles.assetName}>{name}</div>
           <div className={styles.attribute} title={property}>
@@ -85,8 +96,27 @@ export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP?:
 
 export const AddressSporeComp = ({ account, isRGBPP }: { account: Spore; isRGBPP?: boolean }) => {
   const { symbol, amount, udtIconFile, collection } = account
-  const img = getImgFromSporeCell(udtIconFile)
+  const [img, setImg] = useState<{ img: string; bgColor?: string }>({
+    img: getImgFromSporeCell(udtIconFile),
+  })
   const id = formatNftDisplayId(amount, 'spore')
+  useEffect(() => {
+    const id = `0x${BigNumber(amount).toString(16)}`
+    getDobs([id]).then(dobs => {
+      if (dobs?.[0]) {
+        const dob = dobs[0]
+        const img = dob.asset?.startsWith('0x')
+          ? `data:${dob.media_type};base64,${hexToBase64(dob.asset.slice(2))}`
+          : dob.asset
+        if (img) {
+          setImg({
+            img,
+            bgColor: dob['prev.bgcolor'],
+          })
+        }
+      }
+    })
+  }, [amount, setImg])
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
@@ -94,7 +124,7 @@ export const AddressSporeComp = ({ account, isRGBPP }: { account: Spore; isRGBPP
       property={`id: ${id.slice(0, 8)}...${id.slice(-8)}`}
       name={sliceNftName(symbol)}
       udtLabel="DOB"
-      icon={{ url: img, errorHandler: handleNftImgError }}
+      icon={{ url: img.img ?? '', bgColor: img.bgColor, errorHandler: handleNftImgError }}
     />
   )
 }

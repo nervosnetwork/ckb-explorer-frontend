@@ -9,7 +9,7 @@ import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
-import { patchMibaoImg, handleNftImgError, formatNftDisplayId } from '../../utils/util'
+import { patchMibaoImg, handleNftImgError, formatNftDisplayId, hexToBase64 } from '../../utils/util'
 import { getImgFromSporeCell } from '../../utils/spore'
 import { useSearchParams } from '../../hooks'
 
@@ -45,6 +45,25 @@ const NftInfo = () => {
   const renderCover = () => {
     const cell = data?.cell
     const standard = data?.standard
+
+    if (data?.dob) {
+      const { dob } = data
+      const src = dob.asset?.startsWith('0x')
+        ? `data:${dob.media_type};base64,${hexToBase64(dob.asset.slice(2))}`
+        : dob.asset
+
+      return (
+        <img
+          src={src}
+          alt="cover"
+          loading="lazy"
+          className={styles.cover}
+          style={{
+            background: dob['prev.bgcolor'] ?? 'transparent',
+          }}
+        />
+      )
+    }
 
     if (standard === 'spore' && cell && cell.data) {
       const img = getImgFromSporeCell(cell.data)
