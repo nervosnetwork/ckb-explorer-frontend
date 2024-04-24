@@ -21,4 +21,5 @@ export interface Dob {
   'prev.bgcolor': string | undefined
   'prev.type': string
   protocol: string
+  [key: string]: string | undefined
 }

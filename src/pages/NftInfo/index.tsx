@@ -12,6 +12,7 @@ import styles from './styles.module.scss'
 import { patchMibaoImg, handleNftImgError, formatNftDisplayId, hexToBase64 } from '../../utils/util'
 import { getImgFromSporeCell } from '../../utils/spore'
 import { useSearchParams } from '../../hooks'
+import DobTraits from '../../components/DobTraits'
 
 const primaryColor = getPrimaryColor()
 const UNIQUE_ITEM_LABEL = 'Unique Item'
@@ -41,13 +42,10 @@ const NftInfo = () => {
     history.push(`/${language}/nft-info/${collection}/${id}?page=${pageNo}`)
   }
   const coverUrl = data?.icon_url || data?.collection.icon_url
+  const dob = data?.dob
 
   const renderCover = () => {
-    const cell = data?.cell
-    const standard = data?.standard
-
-    if (data?.dob) {
-      const { dob } = data
+    if (dob) {
       const src = dob.asset?.startsWith('0x')
         ? `data:${dob.media_type};base64,${hexToBase64(dob.asset.slice(2))}`
         : dob.asset
@@ -64,6 +62,8 @@ const NftInfo = () => {
         />
       )
     }
+    const cell = data?.cell
+    const standard = data?.standard
 
     if (standard === 'spore' && cell && cell.data) {
       const img = getImgFromSporeCell(cell.data)
@@ -154,6 +154,12 @@ const NftInfo = () => {
                 {data ? t(`nft.${data.collection.standard === 'spore' ? 'dob' : data.collection.standard}`) : '-'}
               </div>
             </div>
+            {dob ? (
+              <div className={styles.item}>
+                <div>{t('nft.traits')}</div>
+                <DobTraits dob={dob} />
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
