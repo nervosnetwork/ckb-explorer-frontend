@@ -39,7 +39,7 @@ const useOption = (
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 155 : 110)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${dataList[0].data[0]}</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}\
-          ${widthSpan(t('statistic.address_count'))} ${handleAxis(dataList[0].data[1])}</div>`
+          ${widthSpan(t('statistic.address_count'))} ${handleAxis(dataList[0].data[1], 2)}</div>`
             return result
           },
         }
