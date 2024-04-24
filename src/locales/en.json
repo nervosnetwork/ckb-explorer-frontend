@@ -750,7 +750,8 @@
       "activity": "Activity",
       "toggle-age": "Switch time format",
       "all-type": "All Type",
-      "traits": "Traits"
+      "traits": "Traits",
+      "no-traits": "No Traits"
     },
     "script_list": {
       "title": "Scripts",

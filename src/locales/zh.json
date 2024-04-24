@@ -751,7 +751,8 @@
       "activity": "活动",
       "toggle-age": "切换时间格式",
       "all-type": "所有类型",
-      "traits": "特征"
+      "traits": "特征",
+      "no-traits": "没有特征"
     },
     "script_list": {
       "title": "脚本",
