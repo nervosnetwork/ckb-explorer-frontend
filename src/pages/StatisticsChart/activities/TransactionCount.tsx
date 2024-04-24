@@ -44,7 +44,7 @@ const useOption =
               }</div>`
               result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(
                 t('statistic.transaction_count'),
-              )} ${handleAxis(dataList[0].data[1])}</div>`
+              )} ${handleAxis(dataList[0].data[1], 2)}</div>`
               return result
             },
           }
