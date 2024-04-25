@@ -749,7 +749,9 @@
       },
       "activity": "Activity",
       "toggle-age": "Switch time format",
-      "all-type": "All Type"
+      "all-type": "All Type",
+      "traits": "Traits",
+      "no-traits": "No Traits"
     },
     "script_list": {
       "title": "Scripts",

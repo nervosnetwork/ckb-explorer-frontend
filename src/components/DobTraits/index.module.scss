@@ -1,0 +1,51 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 12ch);
+  grid-gap: 8px;
+  padding: 0.5rem;
+  max-height: 220px;
+  overflow: auto !important;
+
+  dl {
+    margin: 0;
+    border: 1px solid #eee;
+    box-shadow: 0 0 5px rgb(0 0 0 / 10%);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+
+      dt {
+        font-size: 0.8rem;
+      }
+
+      dd {
+        font-size: 1.325rem;
+      }
+    }
+  }
+
+  dt {
+    font-size: 0.875rem;
+    font-weight: 100;
+    color: #aaa;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 900;
+    line-height: 1.325rem;
+    font-size: 1.25rem;
+  }
+
+  dt,
+  dd {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: default;
+    transition: font-size 0.3s;
+  }
+}
