@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { Dob } from '../../services/DobsService'
 import styles from './index.module.scss'
 
-const HIDDEN_KEY = ['prev.type', 'prev.bg', 'prev.bgcolor', 'asset', 'media_type', 'protocol']
+const HIDDEN_KEY = ['prev.type', 'prev.bg', 'prev.bgcolor', 'asset', 'media_type', 'protocol', 'dob_id', 'dob_dna']
 
 const DobTraits: FC<{ dob: Dob }> = ({ dob }) => {
   const { t } = useTranslation()
