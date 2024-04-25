@@ -157,7 +157,7 @@ export const getTransfer = (transfer: LiteTransfer.Transfer): TransferRecord => 
           category: transfer.cellType,
           capacity: transfer.capacity,
           asset: {
-            amount: transfer.count,
+            amount: '',
             item,
             diffStatus,
           },
@@ -191,7 +191,7 @@ export const getTransfer = (transfer: LiteTransfer.Transfer): TransferRecord => 
           category: transfer.cellType,
           capacity: transfer.capacity,
           asset: {
-            amount: transfer.count,
+            amount: '',
             item,
             diffStatus,
           },
@@ -220,7 +220,7 @@ export const getTransfer = (transfer: LiteTransfer.Transfer): TransferRecord => 
           capacity: transfer.capacity,
           asset: {
             item,
-            amount: transfer.count,
+            amount: '',
             diffStatus,
           },
         }
@@ -245,7 +245,7 @@ export const getTransfer = (transfer: LiteTransfer.Transfer): TransferRecord => 
             capacity: transfer.capacity,
             asset: {
               item,
-              amount: transfer.cotaInfo[0].count,
+              amount: '',
               diffStatus,
             },
           }
