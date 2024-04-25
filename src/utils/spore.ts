@@ -53,3 +53,15 @@ export const getImgFromSporeCell = (hexData: string) => {
   }
   return DEFAULT_URL
 }
+
+export const isDob0 = (item: { standard: string | null; cell: { data: string | null } | null }) => {
+  if (item.standard !== 'spore') return false
+  if (!item.cell?.data) return false
+  try {
+    const parsed = parseSporeCellData(item.cell.data)
+    return parsed.contentType === 'dob/0'
+  } catch {
+    // ignore
+  }
+  return false
+}

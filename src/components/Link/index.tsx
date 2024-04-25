@@ -15,6 +15,9 @@ export type LinkProps<S> =
     }
 
 export const Link = forwardRef<HTMLAnchorElement, LinkProps<unknown>>((({ lng, to: propsTo, ...props }, ref) => {
+  if (typeof propsTo === 'string' && propsTo.startsWith('http')) {
+    return <RouterLink ref={ref} {...props} to={{ pathname: propsTo }} target="_blank" />
+  }
   const { locale } = useParams<{ locale?: string }>()
   const { pathname } = useLocation()
 

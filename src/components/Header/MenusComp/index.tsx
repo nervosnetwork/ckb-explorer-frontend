@@ -4,9 +4,9 @@ import { Dropdown } from 'antd'
 import classNames from 'classnames'
 import { Link } from '../../Link'
 import { MobileMenuItem, MobileMenuOuterLink, HeaderMenuPanel, MobileMenuInnerLink } from './styled'
-import { isMainnet } from '../../../utils/chain'
 import styles from './index.module.scss'
 import { ReactComponent as ArrowIcon } from './arrow.svg'
+import { IS_MAINNET } from '../../../constants/common'
 
 export enum LinkType {
   Inner,
@@ -61,6 +61,11 @@ const useMenuDataList = () => {
     },
     {
       type: LinkType.Inner,
+      name: t('navbar.rgbpp'),
+      url: '/rgbpp/transaction/list',
+    },
+    {
+      type: LinkType.Inner,
       name: t('navbar.charts'),
       url: '/charts',
     },
@@ -70,12 +75,14 @@ const useMenuDataList = () => {
       url: '/fee-rate-tracker',
     },
   ]
-  if (!isMainnet()) {
+  if (!IS_MAINNET) {
     list.push({
       type: LinkType.Outer,
       name: t('navbar.faucet'),
       url: 'https://faucet.nervos.org/',
     })
+  } else {
+    list.splice(3, 1)
   }
   return list
 }

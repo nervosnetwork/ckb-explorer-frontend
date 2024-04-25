@@ -40,6 +40,12 @@ export namespace ChartItem {
     createdAtUnixtimestamp: string
   }
 
+  export interface Bitcoin {
+    timestamp: number
+    transactionsCount: number
+    addressesCount: number
+  }
+
   export interface TotalDaoDeposit {
     totalDaoDeposit: string
     totalDepositorsCount: string
