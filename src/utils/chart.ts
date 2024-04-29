@@ -106,13 +106,25 @@ export const parseInterval = (max: number, min: number) => {
 // This is a hotfix to avoid outliers in production environment, final algorithm will be decided later at
 // https://github.com/Magickbase/ckb-explorer-public-issues/issues/394
 // TODO: add tests for the sample function
-export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[], TPM: number) => {
+export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[], TPM: number, avgBlockTime = 12) => {
   if (feeRates.length === 0) return feeRates
 
   const SAMPLES_MIN_COUNT = 100
 
   const sampleCount = Math.max(SAMPLES_MIN_COUNT, Number.isNaN(TPM) ? 0 : Math.floor(TPM) * 10)
   const validSamples = feeRates.filter(i => i.confirmationTime).sort((a, b) => a.feeRate - b.feeRate)
+
+  // check if lowest fee rate has ideal confirmation time
+  const lowests = validSamples.slice(0, SAMPLES_MIN_COUNT)
+  const avgOfLowests = lowests.reduce((acc, cur) => acc + cur.confirmationTime, 0) / validSamples.length
+
+  const ACCEPTABLE_CONFIRMATION_TIME = 2 * avgBlockTime
+
+  if (avgOfLowests <= ACCEPTABLE_CONFIRMATION_TIME) {
+    return lowests
+  }
+
+  // if lowest fee rate doesn't hit acceptable confirmation time, sample by iqrs
 
   // Calculate the first and third quartiles (Q1 and Q3)
   const q1Index = Math.floor(validSamples.length * 0.25)

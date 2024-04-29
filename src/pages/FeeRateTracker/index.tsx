@@ -64,6 +64,7 @@ const FeeRateTrackerPage = () => {
                   transactionFeeRates={getFeeRateSamples(
                     transactionFeesStatistic.transactionFeeRates,
                     Number(statistics.transactionsCountPerMinute),
+                    Number(statistics.averageBlockTime) / 1000,
                   )}
                 />
               ) : (
