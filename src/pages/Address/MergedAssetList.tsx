@@ -82,9 +82,9 @@ const MergedAssetList: FC<{
       {fts.map(ft => {
         switch (ft.udtType) {
           case 'xudt':
-            return <AddressXudtComp isRGBPP account={ft} key={ft.symbol + ft.udtType + ft.amount} />
+            return <AddressXudtComp isRGBPP account={ft} key={ft.typeHash} />
           case 'sudt':
-            return <AddressSudtComp isRGBPP account={ft} key={ft.symbol + ft.udtType + ft.amount} />
+            return <AddressSudtComp isRGBPP account={ft} key={ft.typeHash} />
           default:
             return null
         }

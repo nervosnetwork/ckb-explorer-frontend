@@ -242,17 +242,26 @@ const RgbAssetItems: FC<{ address: string; count: number }> = ({ address, count 
     }
   }, [isListDisplayed, fetchNextPage])
 
-  const cells = data?.pages.map(page => page.data).flat() ?? []
-
-  const rgbppCells = cells.filter(cell => {
-    const info = getContractHashTag(cell.lockScript)
-    return info?.tag === 'RGB++'
-  })
+  const cells =
+    data?.pages
+      .map(page => page.data)
+      .flat()
+      .filter(cell => {
+        const info = getContractHashTag(cell.lockScript)
+        return info?.tag === 'RGB++'
+      })
+      .reduce((acc, cur) => {
+        // remove repeated cells
+        if (acc.find(c => c.txHash === cur.txHash && c.cellIndex === cur.cellIndex)) {
+          return acc
+        }
+        return [...acc, cur]
+      }, [] as LiveCell[]) ?? []
 
   return (
     <>
       <ul>
-        {rgbppCells.map(cell => (
+        {cells.map(cell => (
           <AssetItem cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
         ))}
       </ul>
