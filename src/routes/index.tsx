@@ -71,6 +71,7 @@ const LiquidityChart = lazy(() => import('../pages/StatisticsChart/monetary/Liqu
 const ScriptList = lazy(() => import('../pages/ScriptList'))
 const FeeRateTracker = lazy(() => import('../pages/FeeRateTracker'))
 const ExportTransactions = lazy(() => import('../pages/ExportTransactions'))
+const AddressConversion = lazy(() => import('../pages/Tools/AddressConversion'))
 
 const routes: RouteProps[] = [
   {
@@ -295,6 +296,10 @@ const routes: RouteProps[] = [
   {
     path: '/rgbpp/transaction/list',
     component: RGBPPTransactionList,
+  },
+  {
+    path: '/tools/address-conversion',
+    component: AddressConversion,
   },
 ]
 

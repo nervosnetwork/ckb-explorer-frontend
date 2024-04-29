@@ -1,0 +1,17 @@
+.copy {
+  appearance: none;
+  border: none;
+  background: none;
+  width: 14px;
+  cursor: pointer;
+  height: 14px;
+  margin-left: 4px;
+  margin-top: -4px;
+  vertical-align: middle;
+  display: inline;
+  color: var(--primary-color);
+
+  svg {
+    pointer-events: none;
+  }
+}
