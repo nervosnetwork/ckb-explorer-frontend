@@ -10,6 +10,18 @@
   }
 }
 
+.tags {
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+  gap: 8px;
+
+  @media (width <= $mobileBreakPoint) {
+    margin-bottom: 16px;
+  }
+}
+
 .cardTitle {
   display: flex;
   gap: 8px;
@@ -41,9 +53,14 @@
 }
 
 .cardHeader {
+  height: 28px !important;
+  margin-top: 24px;
+  margin-bottom: 8px;
+
   @media (width <= $mobileBreakPoint) {
-    height: min-content;
-    padding: 8px 0 12px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    height: 17px !important;
   }
 }
 

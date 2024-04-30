@@ -714,7 +714,17 @@
       "transactions": "24小时交易数",
       "address_count": "用户数",
       "created_time": "创建时间",
-      "tokens_empty": "目前没有 xUDT。"
+      "tokens_empty": "目前没有 xUDT。",
+      "invalid": "无效",
+      "suspicious": "可疑",
+      "out-of-length-range": "超长",
+      "duplicate": "重复",
+      "layer-1-asset": "Layer 1 资产",
+      "layer-2-asset": "Layer 2 资产",
+      "verified-on": "Platform 平台认证",
+      "supply-limited": "有限供应资产",
+      "supply-unlimited": "无限供应资产",
+      "rgbpp-compatible": "RGB++兼容"
     },
     "nft": {
       "nft_collection": "NFT 藏品",
