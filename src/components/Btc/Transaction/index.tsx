@@ -48,7 +48,7 @@ const BtcTransaction: FC<{
           </h3>
           {time && tx.confirmations ? (
             <time dateTime={time.toISOString()}>{`${tx.confirmations.toLocaleString('en')} Confirmations (${time.format(
-              'YYYY-MM-DD hh:mm:ss',
+              'YYYY-MM-DD HH:mm:ss',
             )})`}</time>
           ) : (
             <div>{t('transaction.loading')}</div>
