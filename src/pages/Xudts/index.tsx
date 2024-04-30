@@ -20,6 +20,7 @@ import { QueryResult } from '../../components/QueryResult'
 import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
 import { Card } from '../../components/Card'
 import { BooleanT } from '../../utils/array'
+import XUDTTag from '../../components/XUDTTag'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -37,29 +38,42 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
       name: t('xudt.address_count'),
       value: localeNumberString(token.addressesCount),
     },
+    {
+      name: t('xudt.created_time'),
+      value: token.createdAt ? parseDateNoTime(Number(token.createdAt) / 1000, false, '-') : null,
+    },
   ].filter(BooleanT())
 
   return (
-    <div key={token.typeHash} className={styles.tokenInfo}>
-      <div className={styles.title}>
-        {token.published ? (
-          <>
+    <Card key={token.typeHash} className={styles.tokensCard}>
+      {token.published && (
+        <dl className={styles.tokenInfo}>
+          <dt className={styles.title}>Name</dt>
+          <dd>
             <Link className={styles.link} to={`/xudt/${token.typeHash}`}>
               {symbol}
             </Link>
-            {token.fullName ? <span>{token.fullName}</span> : null}
-          </>
-        ) : (
-          symbol
-        )}
-      </div>
+          </dd>
+        </dl>
+      )}
+      {token.published && (
+        <dl className={styles.tokenInfo}>
+          <dt className={styles.title}>Symbol</dt>
+          {token.fullName ? <dd className={styles.value}>{token.fullName}</dd> : null}
+        </dl>
+      )}
       {fields.map(field => (
-        <dl key={field.name}>
-          <dt>{field.name}</dt>
-          <dd>{field.value}</dd>
+        <dl className={styles.tokenInfo}>
+          <dt className={styles.title}>{field.name}</dt>
+          <dd className={styles.value}>{field.value}</dd>
         </dl>
       ))}
-    </div>
+      <div className={styles.tokenInfo} style={{ flexDirection: 'row' }}>
+        {token.xudtTags?.map(tag => (
+          <XUDTTag tagName={tag} />
+        ))}
+      </div>
+    </Card>
   )
 }
 
@@ -108,11 +122,11 @@ export function TokensCard({
         )}
       >
         {data => (
-          <Card className={styles.tokensCard}>
+          <div>
             {data?.tokens.map(token => (
               <TokenInfo key={token.typeHash} token={token} />
             ))}
-          </Card>
+          </div>
         )}
       </QueryResult>
     </>
@@ -138,18 +152,26 @@ const TokenTable: FC<{
       className: styles.colName,
       render: (_, token) => {
         const symbol = token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
+        const tags = token.xudtTags ?? []
         return (
           <div className={styles.container}>
             <div className={styles.right}>
               <div className={styles.symbolAndName}>
                 {token.published ? (
-                  <Link className={styles.link} to={`/xudt/${token.typeHash}`}>
-                    {symbol}
+                  <>
+                    <Link className={styles.link} to={`/xudt/${token.typeHash}`}>
+                      {symbol}
+                    </Link>
                     <span className={styles.name}>{token.fullName}</span>
-                  </Link>
+                  </>
                 ) : (
                   symbol
                 )}
+              </div>
+              <div className={styles.tags}>
+                {tags.map(tag => (
+                  <XUDTTag tagName={tag} />
+                ))}
               </div>
             </div>
           </div>

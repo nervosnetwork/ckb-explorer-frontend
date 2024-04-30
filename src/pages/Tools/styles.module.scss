@@ -1,0 +1,96 @@
+@import '../../styles/variables.module';
+
+.toolsContainer {
+  display: flex;
+  margin-top: 25px;
+  margin-bottom: 40px;
+}
+
+.toolsSidebar {
+  display: none;
+
+  @media (width > $mobileBreakPoint) {
+    display: block;
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+.toolsMain {
+  display: block;
+  width: 100%;
+
+  @media (width > $mobileBreakPoint) {
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
+}
+
+.toolMenuBar {
+  display: block;
+
+  @media (width > $mobileBreakPoint) {
+    display: none;
+  }
+}
+
+.siderCardItem {
+  cursor: pointer;
+  user-select: none;
+}
+
+.siderCardItemActive {
+  .siderCardTab {
+    font-weight: bold;
+  }
+}
+
+.siderCardTab {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.submenu {
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
+
+  .link {
+    display: block;
+    padding: 12px 0;
+    border-top: 1px solid #e5e5e5;
+    line-height: 1;
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+}
+
+.menuButton {
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  padding: 16px;
+  background-color: #fff;
+  color: #000;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+
+  .icon {
+    transform: rotate(180deg);
+    transition: transform 0.1s;
+    height: 14px;
+    margin-left: auto;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  &:global(.ant-dropdown-open) {
+    .icon {
+      transform: rotate(0deg);
+    }
+  }
+}

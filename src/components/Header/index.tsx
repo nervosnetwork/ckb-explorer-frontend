@@ -3,9 +3,8 @@ import { useHistory, useLocation } from 'react-router'
 import classNames from 'classnames'
 import LogoIcon from './ckb_logo.png'
 import { HeaderPanel, HeaderEmptyPanel, HeaderMobileMenuPanel, HeaderLogoPanel } from './styled'
-import MenusComp from './MenusComp'
+import MenusComp, { MoreMenu } from './MenusComp'
 import { SearchComp } from './SearchComp'
-import { LanguageDropdown } from './LanguageComp'
 import BlockchainComp from './BlockchainComp'
 import { useMediaQuery } from '../../hooks'
 import styles from './index.module.scss'
@@ -88,7 +87,7 @@ export default () => {
               <div className={styles.expandable}>{(defaultSearchBarVisible || isShowSearchBar) && <SearchComp />}</div>
             </div>
             <BlockchainComp isMobile={isMobile} />
-            <LanguageDropdown />
+            <MoreMenu />
           </>
         )}
         {isMobile && (

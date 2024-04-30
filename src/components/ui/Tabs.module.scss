@@ -1,0 +1,50 @@
+.tabsList {
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  gap: 0.25rem;
+
+  &::before {
+    border-bottom: 1px solid #f0f0f0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.tabsTrigger {
+  display: inline-flex;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  cursor: pointer;
+
+  &:first-child {
+    margin-left: 0.25rem;
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  &[data-state='active'] {
+    margin-bottom: -1px;
+    z-index: 2;
+    background: #fff;
+    border-bottom: solid 2px #fff;
+  }
+}
+
+.tabsContent {
+  margin-top: 1rem;
+}

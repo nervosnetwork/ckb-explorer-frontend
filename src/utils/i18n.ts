@@ -1,4 +1,5 @@
 import i18n from 'i18next'
+import { useHistory, useLocation } from 'react-router-dom'
 import { initReactI18next, useTranslation } from 'react-i18next'
 import en from '../locales/en.json'
 import zh from '../locales/zh.json'
@@ -41,4 +42,32 @@ export const useLanguageText = (payload?: { reverse: boolean }) => {
     return currentLanguage === 'zh' ? t('navbar.language_en') : t('navbar.language_zh')
   }
   return currentLanguage === 'en' ? t('navbar.language_en') : t('navbar.language_zh')
+}
+
+export const useChangeLanguage = () => {
+  const { pathname } = useLocation()
+  const history = useHistory()
+
+  const changeLanguage = (lng: string) => {
+    const to = removeI18nPrefix(pathname)
+    const toWithPrefix = addI18nPrefix(to, lng)
+    history.push(toWithPrefix)
+  }
+
+  return {
+    changeLanguage,
+  }
+}
+
+export function addI18nPrefix(url: string, lng?: string) {
+  if (lng == null || !url.startsWith('/')) return url
+
+  return `/${lng}${url}`
+}
+
+export function removeI18nPrefix(url: string) {
+  const prefix = SupportedLngs.find(lng => url.startsWith(`/${lng}`))
+  if (prefix == null) return url
+
+  return url.slice(prefix.length + 1)
 }

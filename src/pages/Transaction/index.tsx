@@ -32,7 +32,7 @@ export default () => {
 
   return (
     <Content>
-      <TransactionPanel className="container">
+      <TransactionPanel>
         <TransactionOverviewCard
           txHash={txHash}
           transaction={transaction}

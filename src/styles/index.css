@@ -12,6 +12,7 @@ body {
   --input-bg-color: #f5f5f5;
   --btc-primary-color: #fb992c;
   --btc-secondary-color: #fff5e2;
+  --antd-wave-shadow-color: var(--primary-color);
 
   margin: 0;
   padding: 0;
@@ -102,6 +103,37 @@ a {
 .ant-input-affix-wrapper:focus {
   border-color: #e5e5e5 !important;
   box-shadow: none;
+}
+
+.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active,
+.ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab-active {
+  color: var(--primary-color);
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
+.ant-tabs-tab-btn:focus,
+.ant-tabs-tab-remove:focus,
+.ant-tabs-tab-btn:active,
+.ant-tabs-tab-remove:active {
+  color: var(--primary-color);
+}
+
+.ant-radio-checked .ant-radio-inner {
+  border-color: var(--primary-color);
+}
+
+.ant-radio-inner::after {
+  background-color: var(--primary-color);
+}
+
+.ant-radio-checked::after {
+  border-color: var(--primary-color);
+}
+
+.ant-radio-wrapper:hover .ant-radio,
+.ant-radio:hover .ant-radio-inner,
+.ant-radio-input:focus + .ant-radio-inner {
+  border-color: var(--primary-color);
 }
 
 a:hover,
