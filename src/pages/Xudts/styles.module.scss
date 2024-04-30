@@ -1,5 +1,12 @@
 @import '../../styles/variables.module';
 
+dl,
+dd,
+dt {
+  margin: 0;
+  padding: 0;
+}
+
 .link {
   display: flex;
   align-items: center;
@@ -41,52 +48,54 @@
 
 .tokensCard {
   margin-top: 10px;
-  padding: 0 24px;
+  padding: 16px;
   font-size: 14px;
+  box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
   color: #333;
 }
 
 .tokenInfo {
   display: flex;
   flex-direction: column;
-  padding: 16px 20px;
+  gap: 8px;
+
+  &:first-child {
+    @media (width <= $mobileBreakPoint) {
+      margin-top: 16px;
+    }
+  }
+
+  &:last-child {
+    @media (width <= $mobileBreakPoint) {
+      margin-bottom: 16px;
+    }
+  }
 
   &:not(:last-child) {
     border-bottom: 1px solid #f5f5f5;
+    padding-bottom: 16px;
+  }
+
+  &:not(:first-child) {
+    margin-top: 16px;
   }
 
   .title {
-    display: flex;
-    gap: 8px;
-    white-space: nowrap;
-    align-items: flex-end;
-
-    span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 12px;
-      color: #999;
-    }
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--666666, #666);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 
-  dl {
-    margin: 12px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    white-space: nowrap;
-
-    // font-weight: 200;
-    gap: 16px;
-
-    dt,
-    dd {
-      font-weight: inherit;
-    }
-
-    dd {
-      margin: 0;
-    }
+  .value {
+    color: var(--333333, #333);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
   }
 }
 
@@ -172,15 +181,26 @@
       }
 
       .right {
+        display: flex;
+        align-items: center;
+
+        .tags {
+          flex-wrap: wrap;
+          display: flex;
+          gap: 8px;
+          margin-left: 8px;
+        }
+
         .symbolAndName {
           display: flex;
-          align-items: center;
+          flex-direction: column;
+          align-items: left;
           line-height: normal;
           font-size: 14px;
           color: #333;
 
           .name {
-            margin-left: 8px;
+            margin-top: 2px;
             font-size: 12px;
             color: #999;
           }

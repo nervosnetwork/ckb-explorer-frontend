@@ -25,6 +25,7 @@ import Script from '../../components/Script'
 import { RawBtcRPC } from '../../services/ExplorerService'
 import { XUDT } from '../../models/Xudt'
 import { getBtcTxList } from '../../services/ExplorerService/fetcher'
+import XUDTTag from '../../components/XUDTTag'
 
 const typeScriptIcon = (show: boolean) => {
   if (show) {
@@ -122,6 +123,12 @@ export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XU
       into smaller components. Then, implement a completely new variant or freely assemble them externally. */}
         {isMobile && cardTitle}
         <HashCardHeader className={styles.cardHeader} title={!isMobile && cardTitle} hash={typeHash} />
+
+        <div className={styles.tags}>
+          {xudt?.xudtTags?.map(tag => (
+            <XUDTTag tagName={tag} />
+          ))}
+        </div>
 
         <CardCellsLayout type="left-right" cells={items} borderTop />
 

@@ -713,7 +713,17 @@
       "transactions": "24hr Transactions",
       "address_count": "Address Count",
       "created_time": "Created Time",
-      "tokens_empty": "There are no xUDTs at this time."
+      "tokens_empty": "There are no xUDTs at this time.",
+      "invalid": "Invalid",
+      "suspicious": "Suspicious",
+      "out-of-length-range": "Out Of Length Range",
+      "duplicate": "Duplicate",
+      "layer-1-asset": "Layer 1 Asset",
+      "layer-2-asset": "Layer 2 Asset",
+      "verified-on": "Verified On Platform",
+      "supply-limited": "Supply Limited",
+      "supply-unlimited": "Supply Unlimited",
+      "rgbpp-compatible": "RGB++ Compatible"
     },
     "nft": {
       "nft_collection": "NFT Collection",

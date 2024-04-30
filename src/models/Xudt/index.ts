@@ -13,4 +13,5 @@ export interface XUDT {
   typeHash: string
   typeScript: Script
   udtType: 'xudt'
+  xudtTags?: string[]
 }
