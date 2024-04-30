@@ -1,4 +1,7 @@
 .container {
+  appearance: none;
+  font-size: 0.75rem;
+  line-height: 1;
   border-radius: 4px;
   display: flex;
   padding: 4px;
@@ -6,6 +9,8 @@
   align-items: center;
   gap: 4px;
   white-space: nowrap;
+  outline: none;
+  cursor: pointer;
 
   &[data-type='supply-limited'] {
     border-color: #fcdeb0;

@@ -14,7 +14,7 @@ import { localeNumberString } from '../../utils/number'
 import Loading from '../../components/Loading'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import styles from './styles.module.scss'
-import { usePaginationParamsInPage, useSortParam } from '../../hooks'
+import { usePaginationParamsInPage, useSearchParams, useSortParam } from '../../hooks'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
@@ -230,16 +230,17 @@ const TokenTable: FC<{
 
 const Xudts = () => {
   const { t } = useTranslation()
+  const { tags } = useSearchParams('tags')
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
   const sortParam = useSortParam<SortField>(undefined, 'transactions.desc')
   const { sort } = sortParam
 
-  const query = useQuery(['xudts', currentPage, _pageSize, sort], async () => {
+  const query = useQuery(['xudts', currentPage, _pageSize, sort, tags], async () => {
     const {
       data: tokens,
       total,
       pageSize,
-    } = await explorerService.api.fetchXudts(currentPage, _pageSize, sort ?? undefined)
+    } = await explorerService.api.fetchXudts(currentPage, _pageSize, sort ?? undefined, tags)
     if (tokens.length === 0) {
       throw new Error('Tokens empty')
     }

@@ -710,12 +710,13 @@ export const apiFetcher = {
 
   fetchXudt: (typeHash: string) => v1GetUnwrapped<XUDT>(`/xudts/${typeHash}`),
 
-  fetchXudts: (page: number, size: number, sort?: string) =>
+  fetchXudts: (page: number, size: number, sort?: string, tags?: string) =>
     v1GetUnwrappedPagedList<XUDT>(`/xudts`, {
       params: {
         page,
         page_size: size,
         sort,
+        tags,
       },
     }),
 
