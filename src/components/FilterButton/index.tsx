@@ -33,7 +33,7 @@ export function FilterButton({
         </div>
       }
     >
-      <FilterIcon />
+      <FilterIcon className={styles.filter} />
     </Popover>
   )
 }

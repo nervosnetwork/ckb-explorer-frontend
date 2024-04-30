@@ -18,7 +18,12 @@ const XUDTTag = ({ tagName }: { tagName: string }) => {
     const search = new URLSearchParams(window.location.search)
     const tags = search.get('tags')?.split(',') ?? []
     if (tags.includes(tag)) {
-      search.set('tags', tags.filter(t => t !== tag).join(','))
+      const newTags = tags.filter(t => t !== tag)
+      if (newTags.length) {
+        search.set('tags', newTags.join(','))
+      } else {
+        search.delete('tags')
+      }
     } else {
       search.set('tags', [...tags, tag].join(','))
     }

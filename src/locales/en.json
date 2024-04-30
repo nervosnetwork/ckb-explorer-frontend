@@ -410,7 +410,8 @@
     },
     "rgbpp": {
       "transaction": {
-        "ckb_txid": "CKB_TXID",
+        "ckb_tx": "CKB Tx",
+        "btc_tx": "BTC Tx",
         "block_number": "Block Number",
         "confirmation": "Confirmation",
         "confirmations": "Confirmations",
@@ -419,7 +420,8 @@
         "rgbpp_cell_change": "RGB++ Cell Change",
         "btc_txid": "BTC TXID",
         "cell": "Cell",
-        "cells": "Cells"
+        "cells": "Cells",
+        "view_on_bitcoin_explorer": "View on Bitcoin Explorer"
       }
     },
     "transaction": {

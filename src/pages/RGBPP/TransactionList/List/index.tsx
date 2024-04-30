@@ -127,7 +127,10 @@ const RGBTransactionList: React.FC<{ list: Transaction[] }> = ({ list }) => {
                   </td>
                   <td className={styles.hash} title={t('rgbpp.transaction.btc_txid')}>
                     {item.btcTxId ? (
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 4 }}>
+                      <div
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}
+                        title={t('rgbpp.transaction.view_on_bitcoin_explorer')}
+                      >
                         <AddressText
                           style={{ marginLeft: 'auto' }}
                           disableTooltip
@@ -141,6 +144,7 @@ const RGBTransactionList: React.FC<{ list: Transaction[] }> = ({ list }) => {
                           href={`${config.BITCOIN_EXPLORER}/tx/${item.btcTxId}`}
                           target="_blank"
                           rel="noopener noreferrer"
+                          style={{ display: 'flex', alignItems: 'center' }}
                         >
                           <ShareIcon />
                         </a>
@@ -201,13 +205,13 @@ const getFilterList = (t: TFunction): Record<'key' | 'title' | 'value' | 'to', s
 
 const getTableHeaders = (t: TFunction): TableHeader[] => {
   return [
-    { title: t('rgbpp.transaction.ckb_txid'), key: 'ckb-txid' },
+    { title: t('rgbpp.transaction.ckb_tx'), key: 'ckb-txid' },
     { title: t('rgbpp.transaction.block_number'), key: 'block-number' },
     { title: t('rgbpp.transaction.confirmation'), key: 'confirmation' },
     { title: t('rgbpp.transaction.time'), key: 'time', order: 'time' },
     { title: t('rgbpp.transaction.type'), key: 'type', filter: 'leap_direction' },
     { title: t('rgbpp.transaction.rgbpp_cell_change'), key: 'cell-change' },
-    { title: t('rgbpp.transaction.btc_txid'), key: 'btc-txid' },
+    { title: t('rgbpp.transaction.btc_tx'), key: 'btc-txid' },
   ]
 }
 

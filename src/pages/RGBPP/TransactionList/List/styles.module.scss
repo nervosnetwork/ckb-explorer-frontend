@@ -46,6 +46,8 @@
       text-align: left;
       max-width: 100%;
       line-height: 19px;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       &:first-child {
         padding-left: 2em;
@@ -65,6 +67,15 @@
       th {
         font-size: 16px;
         font-weight: 400;
+
+        svg {
+          line-height: 4rem;
+          vertical-align: middle;
+        }
+
+        &:last-child {
+          text-align: right;
+        }
       }
 
       padding: 10px;

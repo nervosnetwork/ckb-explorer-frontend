@@ -410,7 +410,8 @@
     },
     "rgbpp": {
       "transaction": {
-        "ckb_txid": "CKB 交易ID",
+        "ckb_tx": "CKB 交易",
+        "btc_tx": "BTC 交易",
         "block_number": "区块序号",
         "confirmation": "确认数",
         "confirmations": "确认数",
@@ -419,7 +420,8 @@
         "rgbpp_cell_change": "RGB++ Cell 变化",
         "btc_txid": "BTC 交易",
         "cell": "Cell",
-        "cells": "Cells"
+        "cells": "Cells",
+        "view_on_bitcoin_explorer": "在 Bitcoin 浏览器查看"
       }
     },
     "transaction": {

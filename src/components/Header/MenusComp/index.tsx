@@ -94,8 +94,6 @@ const useMenuDataList = () => {
       name: t('navbar.faucet'),
       url: 'https://faucet.nervos.org/',
     })
-  } else {
-    list.splice(3, 1)
   }
   return list
 }
