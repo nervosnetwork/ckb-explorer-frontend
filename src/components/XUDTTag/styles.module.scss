@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;
 
   &[data-type='supply-limited'] {
     border-color: #fcdeb0;
@@ -43,21 +44,15 @@
   }
 
   &[data-type='layer-1-asset'] {
-    border-color: #e8b0fc;
-    background: #f1d7fd;
-
-    span {
-      color: #ae4cf7;
-    }
+    border-color: var(--btc-primary-dimmed-color);
+    background: var(--btc-secondary-color);
+    color: var(--btc-primary-color);
   }
 
   &[data-type='layer-2-asset'] {
-    border-color: #e8b0fc;
-    background: #f1d7fd;
-
-    span {
-      color: #ae4cf7;
-    }
+    border-color: var(--primary-dimmed-color);
+    background: var(--secondary-color);
+    color: var(--primary-color);
   }
 
   &[data-type='verified-on-platform'] {
