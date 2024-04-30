@@ -2,7 +2,7 @@
 import { ForwardedRef, forwardRef, useMemo } from 'react'
 import { Link as RouterLink, LinkProps as RouterLinkProps, useLocation, useParams } from 'react-router-dom'
 import * as H from 'history'
-import { SupportedLng, SupportedLngs } from '../../utils/i18n'
+import { SupportedLng, addI18nPrefix, removeI18nPrefix } from '../../utils/i18n'
 
 export type LinkProps<S> =
   | (Omit<RouterLinkProps<S>, 'to'> & {
@@ -31,16 +31,3 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps<unknown>>((({ lng, t
   return <RouterLink ref={ref} {...props} to={toWithPrefix} />
   // The `as` here is to allow the generic type to be correctly inferred.
 }) as <S>(props: LinkProps<S>, ref: ForwardedRef<HTMLAnchorElement>) => JSX.Element)
-
-function addI18nPrefix(url: string, lng?: string) {
-  if (lng == null || !url.startsWith('/')) return url
-
-  return `/${lng}${url}`
-}
-
-function removeI18nPrefix(url: string) {
-  const prefix = SupportedLngs.find(lng => url.startsWith(`/${lng}`))
-  if (prefix == null) return url
-
-  return url.slice(prefix.length + 1)
-}

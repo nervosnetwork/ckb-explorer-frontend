@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const ContentPanel = styled.div`
   width: 100%;
-  overflow-x: hidden;
   flex: 1;
   background: #ededed;
 `

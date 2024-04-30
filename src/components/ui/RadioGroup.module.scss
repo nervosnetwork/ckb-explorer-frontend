@@ -1,0 +1,42 @@
+.radioGroup {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.radioGroupItem {
+  aspect-ratio: 1 / 1;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-style: solid;
+  width: 1rem;
+  height: 1rem;
+  transition: all 0.2s;
+  background-color: #f0f0f0;
+  cursor: pointer;
+
+  &[data-state='checked'] {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  &:focus {
+    outline-style: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.radioGroupIndicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radioGroupIndicatorIcon {
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: var(--primary-color);
+}

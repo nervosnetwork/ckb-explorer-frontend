@@ -2,6 +2,7 @@
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
+const webpack = require('webpack')
 
 module.exports = function override(config) {
   if (config.ignoreWarnings == null) {
@@ -58,6 +59,18 @@ module.exports = function override(config) {
       }
     }
   }
+
+  // for lumos at https://lumos-website.vercel.app/recipes/cra-vite-webpack-or-other#create-react-app
+  config.resolve.fallback = {
+    ...config.resolve.fallback,
+    crypto: require.resolve('crypto-browserify'),
+    buffer: require.resolve('buffer'),
+    path: false,
+    fs: false,
+    stream: false,
+  }
+
+  config.plugins = [...config.plugins, new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] })]
 
   return config
 }

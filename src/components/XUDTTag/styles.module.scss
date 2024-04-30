@@ -1,0 +1,109 @@
+.container {
+  border-radius: 4px;
+  display: flex;
+  padding: 4px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+
+  &[data-type='supply-limited'] {
+    border-color: #fcdeb0;
+    background: #fdf5d7;
+
+    span {
+      color: #caac0f;
+    }
+  }
+
+  &[data-type='out-of-length-range'] {
+    border-color: #b0cbfc;
+    background: #d7e5fd;
+
+    span {
+      color: #346dff;
+    }
+  }
+
+  &[data-type='invalid'] {
+    border-color: #ccc;
+    background: #f0f0f0;
+
+    span {
+      color: #666;
+    }
+  }
+
+  &[data-type='duplicate'] {
+    border-color: #ffdba6;
+    background: #fffcf2;
+
+    span {
+      color: #ffa800;
+    }
+  }
+
+  &[data-type='layer-1-asset'] {
+    border-color: #e8b0fc;
+    background: #f1d7fd;
+
+    span {
+      color: #ae4cf7;
+    }
+  }
+
+  &[data-type='layer-2-asset'] {
+    border-color: #e8b0fc;
+    background: #f1d7fd;
+
+    span {
+      color: #ae4cf7;
+    }
+  }
+
+  &[data-type='verified-on-platform'] {
+    border-color: #99e6ca;
+    background: #d7fdf2;
+
+    span {
+      color: #00bb8e;
+    }
+  }
+
+  &[data-type='supply-unlimited'] {
+    border-color: #b0e1fc;
+    background: #d2f7ff;
+
+    span {
+      color: #00a7cc;
+    }
+  }
+
+  &[data-type='rgbpp-compatible'] {
+    border: none;
+    background: linear-gradient(90deg, #ffd176 0.23%, #ffdb81 6.7%, #84ffcb 99.82%);
+
+    span {
+      color: #333;
+    }
+  }
+
+  &[data-type='suspicious'] {
+    background: #ffe8e8;
+    border-color: #ff9c9c;
+
+    span {
+      color: #fa504f;
+    }
+  }
+
+  span {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+}
+
+.normal {
+  border: 1px solid;
+}

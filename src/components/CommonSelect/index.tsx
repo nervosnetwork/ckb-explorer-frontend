@@ -74,8 +74,8 @@ function CommonSelect({ options, onChange, defaultValue, placeholder, className 
 
   return (
     <OutsideClickHandler onOutsideClick={() => setIsExpanded(false)}>
-      <div className={classNames(styles.select, className)}>
-        <div onClick={toggleExpand} className={styles.value}>
+      <div onClick={toggleExpand} className={classNames(styles.select, className)}>
+        <div className={styles.value}>
           {value ?? placeholder}
           <img src={Arrow} alt="arrow" className={styles.arrow} data-is-flipped={isExpanded} />
         </div>
