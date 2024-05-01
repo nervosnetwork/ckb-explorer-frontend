@@ -422,7 +422,8 @@
         "cell": "Cell",
         "cells": "Cells",
         "view_on_bitcoin_explorer": "View on Bitcoin Explorer"
-      }
+      },
+      "amount": "Amount"
     },
     "transaction": {
       "view_rgbpp_digest": "View RGB++ Digest",

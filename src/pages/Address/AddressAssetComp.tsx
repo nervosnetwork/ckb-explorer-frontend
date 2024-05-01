@@ -94,7 +94,16 @@ export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP?:
   )
 }
 
-export const AddressSporeComp = ({ account, isRGBPP }: { account: Spore; isRGBPP?: boolean }) => {
+export const AddressSporeComp = ({
+  account,
+  isRGBPP,
+  isMerged = false,
+}: {
+  account: Spore
+  isRGBPP?: boolean
+  isMerged?: boolean
+}) => {
+  const { t } = useTranslation()
   const { symbol, amount, udtIconFile, collection } = account
   const [img, setImg] = useState<{ img: string; bgColor?: string }>({
     img: getImgFromSporeCell(udtIconFile),
@@ -121,7 +130,9 @@ export const AddressSporeComp = ({ account, isRGBPP }: { account: Spore; isRGBPP
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
       href={`/nft-collections/${collection?.typeHash}`}
-      property={`id: ${id.slice(0, 8)}...${id.slice(-8)}`}
+      property={
+        isMerged ? `${t('rgbpp.amount')}: ${(+amount).toLocaleString('en')}` : `id: ${id.slice(0, 8)}...${id.slice(-8)}`
+      }
       name={sliceNftName(symbol)}
       udtLabel="DOB"
       icon={{ url: img.img ?? '', bgColor: img.bgColor, errorHandler: handleNftImgError }}
@@ -166,7 +177,16 @@ export const AddressMNFTComp = ({ account, isRGBPP }: { account: MNFT; isRGBPP?:
   )
 }
 
-export const AddressNRC721Comp = ({ account, isRGBPP }: { account: NRC721; isRGBPP?: boolean }) => {
+export const AddressNRC721Comp = ({
+  account,
+  isRGBPP,
+  isMerged = false,
+}: {
+  account: NRC721
+  isRGBPP?: boolean
+  isMerged?: boolean
+}) => {
+  const { t } = useTranslation()
   const { symbol, amount, udtIconFile, collection } = account
   const [icon, setIcon] = useState(udtIconFile)
 
@@ -185,12 +205,17 @@ export const AddressNRC721Comp = ({ account, isRGBPP }: { account: NRC721; isRGB
       })
   }, [udtIconFile])
 
+  let name = !symbol ? '?' : sliceNftName(symbol)
+  if (isMerged) {
+    name = `${t('rgbpp.amount')}: ${(+amount).toLocaleString('en')}`
+  }
+
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
       href={`/nft-collections/${collection?.typeHash}`}
       property={!symbol ? '?' : `#${amount}`}
-      name={!symbol ? '?' : sliceNftName(symbol)}
+      name={name}
       isUnverified={!symbol}
       udtLabel="NRC 721"
       icon={{

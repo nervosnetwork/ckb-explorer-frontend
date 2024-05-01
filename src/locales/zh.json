@@ -422,7 +422,8 @@
         "cell": "Cell",
         "cells": "Cells",
         "view_on_bitcoin_explorer": "在 Bitcoin 浏览器查看"
-      }
+      },
+      "amount": "数量"
     },
     "transaction": {
       "view_rgbpp_digest": "查看 RGB++ 摘要",

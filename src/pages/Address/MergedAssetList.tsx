@@ -45,11 +45,11 @@ const MergedAssetList: FC<{
         if (!id) return
         const item = nftMap.get(id)
         if (!item) {
-          nftMap.set(id, udt)
+          nftMap.set(id, { ...udt, amount: '1' })
         } else {
           nftMap.set(id, {
             ...item,
-            amount: BigNumber(item.amount).plus(udt.amount).toFormat({}),
+            amount: `${+item.amount + 1}`,
           })
         }
       }
@@ -93,9 +93,9 @@ const MergedAssetList: FC<{
       {nfts.map(nft => {
         switch (nft.udtType) {
           case 'spore_cell':
-            return <AddressSporeComp isRGBPP account={nft} key={nft.symbol + nft.udtType + nft.amount} />
+            return <AddressSporeComp isRGBPP isMerged account={nft} key={nft.symbol + nft.udtType + nft.amount} />
           case 'nrc_721_token':
-            return <AddressNRC721Comp isRGBPP account={nft} key={nft.symbol + nft.udtType + nft.amount} />
+            return <AddressNRC721Comp isRGBPP isMerged account={nft} key={nft.symbol + nft.udtType + nft.amount} />
           case 'm_nft_token':
             return <AddressMNFTComp isRGBPP account={nft} key={nft.symbol + nft.udtType + nft.amount} />
           default:
