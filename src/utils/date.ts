@@ -52,9 +52,8 @@ export const parseTimeNoSecond = (millisecond: number | string) => {
 }
 
 export const parseDateNoTime = (timestamp: number | string | Date, noYear = false, connector = '/') => {
-  const date = timestamp instanceof Date ? timestamp : new Date(Number(timestamp) * 1000)
-  const year = noYear ? '' : `${date.getFullYear()}${connector}`
-  return `${year}${formatData(date.getMonth() + 1)}${connector}${formatData(date.getDate())}`
+  const fmt = noYear ? `MM${connector}DD` : `YYYY${connector}MM${connector}DD`
+  return dayjs(+timestamp * 1000).format(fmt)
 }
 
 export const useParseDate = () => {
