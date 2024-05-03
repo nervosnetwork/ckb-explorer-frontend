@@ -66,7 +66,7 @@ const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) =
     },
     isOmigaInscriptionCollection(token) && {
       name: t('udt.created_time'),
-      value: dayjs(token.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+      value: dayjs(+token.createdAt).format('YYYY-MM-DD'),
     },
   ].filter(BooleanT())
 
@@ -306,7 +306,7 @@ const TokenTable: FC<{
         </>
       ),
       className: styles.colCreatedTime,
-      render: (_, token) => dayjs(token.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+      render: (_, token) => dayjs(+token.createdAt).format('YYYY-MM-DD'),
     },
   ]
   const columns = nullableColumns.filter(BooleanT())
