@@ -4,6 +4,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { FC, Fragment, ReactNode, useState } from 'react'
 import BigNumber from 'bignumber.js'
+import dayjs from 'dayjs'
 import { ColumnGroupType, ColumnType } from 'antd/lib/table'
 import { Link } from '../../components/Link'
 import Content from '../../components/Content'
@@ -11,7 +12,6 @@ import Pagination from '../../components/Pagination'
 import SortButton from '../../components/SortButton'
 import { TokensPanel, TokensContentEmpty, TokensLoadingPanel } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
-import { parseDateNoTime } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import Loading from '../../components/Loading'
@@ -66,7 +66,7 @@ const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) =
     },
     isOmigaInscriptionCollection(token) && {
       name: t('udt.created_time'),
-      value: parseDateNoTime(Number(token.createdAt) / 1000, false, '-'),
+      value: dayjs(token.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
   ].filter(BooleanT())
 
@@ -306,7 +306,7 @@ const TokenTable: FC<{
         </>
       ),
       className: styles.colCreatedTime,
-      render: (_, token) => parseDateNoTime(Number(token.createdAt) / 1000, false, '-'),
+      render: (_, token) => dayjs(token.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     },
   ]
   const columns = nullableColumns.filter(BooleanT())

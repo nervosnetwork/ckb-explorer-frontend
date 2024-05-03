@@ -3,13 +3,13 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { FC, ReactNode } from 'react'
 import { ColumnGroupType, ColumnType } from 'antd/lib/table'
+import dayjs from 'dayjs'
 import type { XUDT } from '../../models/Xudt'
 import { Link } from '../../components/Link'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import SortButton from '../../components/SortButton'
 import { TokensPanel, TokensContentEmpty, TokensLoadingPanel } from './styled'
-import { parseDateNoTime } from '../../utils/date'
 import { localeNumberString } from '../../utils/number'
 import Loading from '../../components/Loading'
 import SmallLoading from '../../components/Loading/SmallLoading'
@@ -40,7 +40,7 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
     },
     {
       name: t('xudt.created_time'),
-      value: token.createdAt ? parseDateNoTime(Number(token.createdAt) / 1000, false, '-') : null,
+      value: token.createdAt ? dayjs(+token.createdAt).format('YYYY-MM-DD') : null,
     },
   ].filter(BooleanT())
 
@@ -206,7 +206,7 @@ const TokenTable: FC<{
         </>
       ),
       className: styles.colCreatedTime,
-      render: (_, token) => parseDateNoTime(Number(token.createdAt) / 1000, false, '-'),
+      render: (_, token) => dayjs(+token.createdAt).format('YYYY-MM-DD'),
     },
   ]
   const columns = nullableColumns.filter(BooleanT())

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { TFunction, useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/chart'
-import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { shannonToCkbDecimal } from '../../../utils/util'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
@@ -92,7 +92,7 @@ const useOption =
       ],
       dataset: {
         source: statisticTxFeeHistories.map(d => [
-          parseDateNoTime(d.createdAtUnixtimestamp),
+          dayjs(+d.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
           shannonToCkbDecimal(d.totalTxFee, 4),
         ]),
       },

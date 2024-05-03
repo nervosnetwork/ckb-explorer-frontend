@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import {
   DATA_ZOOM_CONFIG,
@@ -8,7 +9,6 @@ import {
   assertSerialsItem,
   parseNumericAbbr,
 } from '../../../utils/chart'
-import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
@@ -178,7 +178,7 @@ const useOption = (
     ],
     dataset: {
       source: statisticTotalSupplies.map(data => [
-        parseDateNoTime(data.createdAtUnixtimestamp),
+        dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
         new BigNumber(shannonToCkb(data.circulatingSupply)).toFixed(0),
         new BigNumber(shannonToCkb(data.lockedCapacity)).toFixed(0),
         new BigNumber(shannonToCkb(data.burnt)).toFixed(0),

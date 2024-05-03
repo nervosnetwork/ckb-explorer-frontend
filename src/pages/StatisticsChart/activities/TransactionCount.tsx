@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import BigNumber from 'bignumber.js'
+import dayjs from 'dayjs'
 import { TFunction, useTranslation } from 'react-i18next'
 import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/chart'
-import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartColorConfig, IS_MAINNET } from '../../../constants/common'
@@ -91,7 +91,7 @@ const useOption =
       ],
       dataset: {
         source: statisticTransactionCounts.map(data => [
-          parseDateNoTime(data.createdAtUnixtimestamp),
+          dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
           new BigNumber(data.transactionsCount).toNumber(),
         ]),
       },

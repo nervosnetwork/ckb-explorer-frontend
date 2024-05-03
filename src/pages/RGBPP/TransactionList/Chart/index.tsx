@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 import styles from './styles.module.scss'
 import { DATA_ZOOM_CONFIG, assertIsArray, parseNumericAbbr } from '../../../../utils/chart'
-import { parseDateNoTime } from '../../../../utils/date'
 import { tooltipColor, SmartChartPage } from '../../../StatisticsChart/common'
 import { ChartItem, explorerService } from '../../../../services/ExplorerService'
 import { ChartColorConfig } from '../../../../constants/common'
@@ -102,7 +102,7 @@ const useOption = (
         nameGap: 30,
         type: 'category',
         boundaryGap: false,
-        data: dataset.map(data => parseDateNoTime(data.timestamp)),
+        data: dataset.map(data => dayjs(data.timestamp * 1000).format('YYYY/MM/DD')),
       },
     ],
     yAxis: [

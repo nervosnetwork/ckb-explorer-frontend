@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import {
   DATA_ZOOM_CONFIG,
@@ -8,7 +9,6 @@ import {
   assertSerialsItem,
   handleAxis,
 } from '../../../utils/chart'
-import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ChartColorConfig } from '../../../constants/common'
@@ -171,7 +171,7 @@ const useOption = (
     ],
     dataset: {
       source: statisticCellCounts.map(data => [
-        parseDateNoTime(data.createdAtUnixtimestamp),
+        dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
         new BigNumber(data.allCellsCount).toFixed(0),
         new BigNumber(data.deadCellsCount).toFixed(0),
         new BigNumber(data.liveCellsCount).toFixed(0),

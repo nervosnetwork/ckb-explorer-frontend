@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/chart'
-import { parseDateNoTime } from '../../../utils/date'
 import { handleHashRate } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
@@ -86,7 +86,7 @@ const useOption = (
     ],
     dataset: {
       source: statisticHashRates.map(data => [
-        parseDateNoTime(data.createdAtUnixtimestamp),
+        dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
         new BigNumber(data.avgHashRate).toNumber(),
       ]),
       dimensions: ['timestamp', 'value'],

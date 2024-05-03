@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { parseDateNoTime, parseSimpleDate, parseSimpleDateNoSecond } from '../../../utils/date'
+import dayjs from 'dayjs'
+import { parseSimpleDate, parseSimpleDateNoSecond } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { DATA_ZOOM_CONFIG, assertIsArray, assertSerialsItem } from '../../../utils/chart'
@@ -93,7 +94,7 @@ const useOption = (
           show: false,
         },
         axisLabel: {
-          formatter: (value: string) => parseDateNoTime(new Date(value)),
+          formatter: (value: string) => dayjs(value).format('YYYY/MM/DD'),
         },
       },
     ],
