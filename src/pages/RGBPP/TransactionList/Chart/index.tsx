@@ -36,15 +36,15 @@ const useOption = (
     const data = new Map<string, Omit<ChartItem.Bitcoin, 'timestamp'>>()
 
     statisticBitcoin.forEach(item => {
-      const day = new Date(item.timestamp).toLocaleDateString()
-      if (data.has(day)) {
-        const v = data.get(day)!
-        data.set(day, {
+      const date = dayjs(item.timestamp).format('YYYY/MM/DD')
+      if (data.has(date)) {
+        const v = data.get(date)!
+        data.set(date, {
           addressesCount: v.addressesCount + item.addressesCount,
           transactionsCount: v.transactionsCount + item.transactionsCount,
         })
       } else {
-        data.set(day, {
+        data.set(date, {
           addressesCount: item.addressesCount,
           transactionsCount: item.transactionsCount,
         })
