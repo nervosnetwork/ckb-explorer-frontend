@@ -4,7 +4,7 @@ import 'echarts/lib/component/title'
 import echarts from 'echarts/lib/echarts'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { parseDateNoTime } from '../../../utils/date'
+import dayjs from 'dayjs'
 import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
@@ -46,7 +46,7 @@ const useOption = () => {
           },
           data: statisticAverageBlockTimes.map(data => data.timestamp),
           axisLabel: {
-            formatter: (value: string) => parseDateNoTime(value, true),
+            formatter: (value: string) => dayjs(Number(value) * 1000).format('MM/DD'),
           },
           boundaryGap: false,
         },

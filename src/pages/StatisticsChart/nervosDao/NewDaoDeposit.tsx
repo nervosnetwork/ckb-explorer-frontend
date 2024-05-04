@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import {
   DATA_ZOOM_CONFIG,
@@ -8,7 +9,6 @@ import {
   assertSerialsItem,
   parseNumericAbbr,
 } from '../../../utils/chart'
-import { parseDateNoTime } from '../../../utils/date'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { isMainnet } from '../../../utils/chain'
 import { tooltipWidth, tooltipColor, SeriesItem, SmartChartPage } from '../common'
@@ -170,7 +170,7 @@ const useOption = (
     ],
     dataset: {
       source: statisticNewDaoDeposits.map(data => [
-        parseDateNoTime(data.createdAtUnixtimestamp),
+        dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
         new BigNumber(shannonToCkb(data.dailyDaoDeposit)).toFixed(0),
         new BigNumber(data.dailyDaoDepositorsCount).toNumber().toString(),
       ]),

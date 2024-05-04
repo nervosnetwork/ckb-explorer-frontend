@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
-import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import {
   DATA_ZOOM_CONFIG,
@@ -162,7 +162,7 @@ const useOption = (
     ],
     dataset: {
       source: statisticSecondaryIssuance.map(data => [
-        parseDateNoTime(data.createdAtUnixtimestamp),
+        dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
         data.treasuryAmount,
         data.miningReward,
         data.depositCompensation,

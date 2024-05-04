@@ -51,11 +51,6 @@ export const parseTimeNoSecond = (millisecond: number | string) => {
   return `${hour} h ${minute} m`
 }
 
-export const parseDateNoTime = (timestamp: number | string | Date, noYear = false, connector = '/') => {
-  const fmt = noYear ? `MM${connector}DD` : `YYYY${connector}MM${connector}DD`
-  return dayjs(+timestamp * 1000).format(fmt)
-}
-
 export const useParseDate = () => {
   const { t } = useTranslation()
   return (timestamp: number | string, now = new Date().getTime()) => {

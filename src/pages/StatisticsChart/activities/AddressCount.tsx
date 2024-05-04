@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/chart'
-import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useCurrentLanguage } from '../../../utils/i18n'
@@ -88,7 +88,7 @@ const useOption = (
     ],
     dataset: {
       source: statisticAddressCounts.map(data => [
-        parseDateNoTime(data.createdAtUnixtimestamp),
+        dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
         new BigNumber(data.addressesCount).toNumber(),
       ]),
     },

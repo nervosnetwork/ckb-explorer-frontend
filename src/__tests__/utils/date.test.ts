@@ -4,7 +4,6 @@ import {
   formatData,
   parseTime,
   parseTimeNoSecond,
-  parseDateNoTime,
   parseDiffDate,
   parseHourFromMinute,
   parseHourFromMillisecond,
@@ -33,16 +32,6 @@ describe('Date methods tests', () => {
   it('parse time no second', async () => {
     expect(parseTimeNoSecond(13465691)).toBe('3 h 44 m')
     expect(parseTimeNoSecond(19895691)).toBe('5 h 31 m')
-  })
-
-  it('parse date no time', async () => {
-    expect(parseDateNoTime(1588734510)).toBe('2020/05/06')
-    expect(parseDateNoTime(1588734510, true)).toBe('05/06')
-    expect(parseDateNoTime(1576157854)).toBe('2019/12/12')
-    expect(parseDateNoTime(1576157854, false)).toBe('2019/12/12')
-    expect(parseDateNoTime(1576157854, true)).toBe('12/12')
-    expect(parseDateNoTime(1576157854, false, '-')).toBe('2019-12-12')
-    expect(parseDateNoTime(1576157854, true, '-')).toBe('12-12')
   })
 
   it('parse diff date', async () => {

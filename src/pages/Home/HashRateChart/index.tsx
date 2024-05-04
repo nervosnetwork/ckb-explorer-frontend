@@ -2,11 +2,11 @@ import { memo, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/title'
+import dayjs from 'dayjs'
 import echarts from 'echarts/lib/echarts'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { handleAxis } from '../../../utils/chart'
-import { parseDateNoTime } from '../../../utils/date'
 import SmallLoading from '../../../components/Loading/SmallLoading'
 import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
@@ -46,7 +46,7 @@ const useOption = () => {
           },
           data: statisticHashRates.map(data => data.createdAtUnixtimestamp),
           axisLabel: {
-            formatter: (value: string) => parseDateNoTime(value, true),
+            formatter: (value: string) => dayjs(+value * 1000).format('MM/DD'),
           },
           boundaryGap: false,
         },

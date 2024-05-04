@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { parseDateNoTime } from '../../../utils/date'
+import dayjs from 'dayjs'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
@@ -97,7 +97,7 @@ const useOption = (
     ],
     dataset: {
       source: statisticUncleRates.map(data => [
-        parseDateNoTime(data.createdAtUnixtimestamp),
+        dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
         (+data.uncleRate * 100).toFixed(2),
       ]),
     },

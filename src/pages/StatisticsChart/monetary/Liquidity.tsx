@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 import { useCurrentLanguage } from '../../../utils/i18n'
-import { parseDateNoTime } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import {
   DATA_ZOOM_CONFIG,
@@ -169,7 +169,7 @@ const useOption = (
     ],
     dataset: {
       source: statisticLiquidity.map(data => [
-        parseDateNoTime(data.createdAtUnixtimestamp),
+        dayjs(+data.createdAtUnixtimestamp * 1000).format('YYYY/MM/DD'),
         shannonToCkb(data.liquidity),
         shannonToCkb(data.daoDeposit),
         shannonToCkb(data.circulatingSupply),

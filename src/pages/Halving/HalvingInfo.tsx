@@ -91,7 +91,7 @@ export const HalvingInfo = () => {
 
       <div className={styles.epochInfoItem}>
         <strong className={styles.epochInfoValue}>
-          {dayjs(estimatedDate).format('YYYY.MM.DD hh:mm:ss')}
+          {dayjs(estimatedDate).format('YYYY.MM.DD HH:mm:ss')}
           <Tooltip
             color="#fff"
             overlayInnerStyle={{ color: '#333333' }}
