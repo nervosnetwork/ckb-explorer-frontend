@@ -83,11 +83,11 @@ const RGBTransactionList: React.FC<{ list: Transaction[] }> = ({ list }) => {
             list.map(item => {
               let leapDirection = '/'
               if (item.type === TransactionLeapDirection.IN) {
-                leapDirection = 'Leap In'
+                leapDirection = t('address.leap_in')
               }
 
               if (item.type === TransactionLeapDirection.OUT) {
-                leapDirection = 'Leap Out'
+                leapDirection = t('address.leap_out')
               }
 
               return (
