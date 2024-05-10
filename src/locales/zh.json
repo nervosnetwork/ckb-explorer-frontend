@@ -406,7 +406,13 @@
       "leap_out_tip": "本笔 RGB++ 交易被标记为\"L2 → L1\"，即存在 RGB++ 资产转化为一般 CKB 资产。",
       "view_in_btc_explorer": "在 Bitcoin 浏览器查看",
       "view-as-asset-items": "查看资产分布",
-      "view-as-merged-assets": "查看资产合计(不含 CKB)"
+      "view-as-merged-assets": "查看资产合计(不含 CKB)",
+      "block-height": "区块高度",
+      "out-point": "Out Point",
+      "capacity": "Capacity",
+      "type": "类型",
+      "amount": "数量",
+      "detail": "详情"
     },
     "rgbpp": {
       "transaction": {

@@ -349,6 +349,7 @@ export interface Script {
 }
 
 export interface LiveCell {
+  id: string
   cellType: string
   txHash: string
   cellIndex: number

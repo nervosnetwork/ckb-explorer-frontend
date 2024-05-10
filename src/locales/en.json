@@ -406,7 +406,13 @@
       "leap_out_tip": "This RGB++ transaction is marked as \"L2 → L1\", indicating that the number of cells with RGB++ lock in the input exceeds the number of cells with RGB++ lock in the output.",
       "view_in_btc_explorer": "View in Bitcoin Explorer",
       "view-as-asset-items": "View Asset Distribution",
-      "view-as-merged-assets": "View Asset Amounts(CKB excluded)"
+      "view-as-merged-assets": "View Asset Amounts(CKB excluded)",
+      "block-height": "Block Height",
+      "out-point": "Out Point",
+      "capacity": "Capacity(CKB)",
+      "type": "Type",
+      "amount": "Amount",
+      "detail": "Detail"
     },
     "rgbpp": {
       "transaction": {
