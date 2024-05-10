@@ -2569,6 +2569,20 @@
     js-xxhash "^1.0.4"
     lodash.isequal "^4.5.0"
 
+"@ckb-lumos/base@0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@ckb-lumos/base/-/base-0.22.2.tgz#337dac666bf3b20eb78b3545fbeb3249292e7bf7"
+  integrity sha512-nosUCSa5rTV2IzxbEpqzrvUeQNXB66mgA0h40+QEdnE/gV/s4ke83AScrTAxWkErJy1G/sToIHCc2kWwO95DfQ==
+  dependencies:
+    "@ckb-lumos/bi" "0.22.2"
+    "@ckb-lumos/codec" "0.22.2"
+    "@ckb-lumos/toolkit" "0.22.2"
+    "@types/blake2b" "^2.1.0"
+    "@types/lodash.isequal" "^4.5.5"
+    blake2b "^2.1.3"
+    js-xxhash "^1.0.4"
+    lodash.isequal "^4.5.0"
+
 "@ckb-lumos/bi@0.21.1":
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/bi/-/bi-0.21.1.tgz#dfaa0968a9ffd990c1c4fcfc0711f20f09eb0485"
@@ -2587,6 +2601,13 @@
   version "0.22.1"
   resolved "https://registry.npmjs.org/@ckb-lumos/bi/-/bi-0.22.1.tgz#bdc523b39d1d63e1d6c25dc63a2351e95d2b5f4e"
   integrity sha512-kK2ZY/cVaiIFfmsp/hTH+78HCVKYcT4/knax8HDg1OTBq5LXXnUiL/+xaWY1F0yJr2FZI4ACOK6XZbXT//LVTA==
+  dependencies:
+    jsbi "^4.1.0"
+
+"@ckb-lumos/bi@0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@ckb-lumos/bi/-/bi-0.22.2.tgz#af3f3b9afdaf363bc33a168ec4fefc5579029093"
+  integrity sha512-F+dLC/tE+xdtNuGgJxlDqbgX/f8azg1tvIFTR5mu7Vhz08nkFgnA+Z+yC0t/I3fDwwH4p/SlGP/yducrsfVTqw==
   dependencies:
     jsbi "^4.1.0"
 
@@ -2623,6 +2644,13 @@
   integrity sha512-caOsKpwdqaiyxO+aLzZb2g1QgraWo/6Szk7qGfHjMV+MjdDK/YuWuGZz807DjQpvLuLPcoKJlxpRcJ+CTrYC1g==
   dependencies:
     "@ckb-lumos/bi" "0.22.1"
+
+"@ckb-lumos/codec@0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@ckb-lumos/codec/-/codec-0.22.2.tgz#038afd6e7b5dcb072b19973ce4d64a110b66dfa3"
+  integrity sha512-P5SyhT2qkJwCwcHF3yMLInE0z3wWHDkqJNbSM2Q9oyu0+9kjMQfexNia3T+atBl2M7ELFzN5WvttojYr6DrCwQ==
+  dependencies:
+    "@ckb-lumos/bi" "0.22.2"
 
 "@ckb-lumos/common-scripts@0.22.0-next.5", "@ckb-lumos/common-scripts@^0.22.0-next.4":
   version "0.22.0-next.5"
@@ -2772,6 +2800,13 @@
   integrity sha512-jJFxlD+I3hVSGfYmm1xCpy0NMOzd/9BF+cil4XnBWXim8Cux7h7rqsLayMOIaJ/hdzgqI9ZKfsQsApaSZXCIWA==
   dependencies:
     "@ckb-lumos/bi" "0.22.1"
+
+"@ckb-lumos/toolkit@0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@ckb-lumos/toolkit/-/toolkit-0.22.2.tgz#54087a8947ae4de7cd0e91d955f273accca37d30"
+  integrity sha512-HmKz2dGQeaW2XDqkvjJfLv50VQWGKbthg2RDfIxGsZyjveluRROTyuHP1akypy4pqF8TApGLsXci2MaHCRau+w==
+  dependencies:
+    "@ckb-lumos/bi" "0.22.2"
 
 "@ckb-lumos/transaction-manager@0.22.0-next.5":
   version "0.22.0-next.5"

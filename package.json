@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "4.8.1",
-    "@ckb-lumos/base": "0.22.1",
+    "@ckb-lumos/base": "0.22.2",
     "@ckb-lumos/config-manager": "0.22.1",
     "@ckb-lumos/helpers": "0.22.1",
     "@microlink/react-json-view": "1.23.0",
