@@ -16,6 +16,11 @@
   padding: 20px 40px;
 }
 
+.btcTxContent {
+  margin-top: 8px;
+  border-radius: 6px;
+}
+
 .headerContent {
   display: flex;
   justify-content: space-between;
@@ -91,13 +96,6 @@
 .viewBtcTxContainer {
   margin-top: 1rem;
   font-size: 1rem;
-
-  .btcTxContent {
-    margin-top: 0.5rem;
-    padding: 1rem;
-    background: #fafafa;
-    border-radius: 6px;
-  }
 
   &[open] {
     .expandArrow {
