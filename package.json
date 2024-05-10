@@ -15,7 +15,7 @@
     "@rgbpp-sdk/ckb": "0.0.0-snap-20240408100333",
     "@sentry/react": "7.94.1",
     "@sentry/tracing": "7.94.1",
-    "@spore-sdk/core": "0.2.0-beta.3",
+    "@spore-sdk/core": "0.2.0-beta.8",
     "@tanstack/react-query": "4.0.5",
     "antd": "4.24.5",
     "axios": "1.6.7",

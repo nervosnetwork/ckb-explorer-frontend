@@ -2541,7 +2541,7 @@
     js-xxhash "^1.0.4"
     lodash.isequal "^4.5.0"
 
-"@ckb-lumos/base@0.22.0-next.5", "@ckb-lumos/base@^0.22.0-next.4":
+"@ckb-lumos/base@0.22.0-next.5":
   version "0.22.0-next.5"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/base/-/base-0.22.0-next.5.tgz#600a1b9c6b481b6ce40772a1a32aa668522c994e"
   integrity sha512-2I4f/zJm3Bdz/5soXo35vDh98Vffp2clO8n1ZeZRsUtBZUtvAGNbggC4J8/0a/yFw3cStaOJ1Tztla5E0hP+xA==
@@ -2576,7 +2576,7 @@
   dependencies:
     jsbi "^4.1.0"
 
-"@ckb-lumos/bi@0.22.0-next.5", "@ckb-lumos/bi@^0.22.0-next.4":
+"@ckb-lumos/bi@0.22.0-next.5":
   version "0.22.0-next.5"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/bi/-/bi-0.22.0-next.5.tgz#51d45aa79cf0246c336e89c4b92fb9e792697207"
   integrity sha512-hfh9PQDLJeZedlJ6qBVxx2MR9ndU0XyIl53vh1I+S4SGmvl/z2PGEY06vN34nkjmZ/1c87/KW+sL2Cpii0IxGg==
@@ -2610,7 +2610,7 @@
   dependencies:
     "@ckb-lumos/bi" "0.21.1"
 
-"@ckb-lumos/codec@0.22.0-next.5", "@ckb-lumos/codec@^0.22.0-next.4":
+"@ckb-lumos/codec@0.22.0-next.5":
   version "0.22.0-next.5"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/codec/-/codec-0.22.0-next.5.tgz#4bf2ccd9fb36f1874c38457da116dc52a1b32f4b"
   integrity sha512-AVvREoEc0zSbGSdFZOph1WL9QtUKUjQ2PABpApROMTqDCryG9/FpBrInjm2y50USZlwcEE3+ocEqFqJjfuTXKQ==
@@ -2624,7 +2624,7 @@
   dependencies:
     "@ckb-lumos/bi" "0.22.2"
 
-"@ckb-lumos/common-scripts@0.22.0-next.5", "@ckb-lumos/common-scripts@^0.22.0-next.4":
+"@ckb-lumos/common-scripts@0.22.0-next.5":
   version "0.22.0-next.5"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/common-scripts/-/common-scripts-0.22.0-next.5.tgz#3151331b24867b198d99e236bbfc976aa8a67bd4"
   integrity sha512-DXGwyc0pmrq0fj+NflDBeBgJSL2bNAVHpULpbUncDUPIBJf9IFyMDSZUgzX6hYjTX0WA07e5CEFo5wwHb24Dmw==
@@ -2640,7 +2640,7 @@
     bs58 "^5.0.0"
     immutable "^4.3.0"
 
-"@ckb-lumos/config-manager@0.22.0-next.5", "@ckb-lumos/config-manager@^0.22.0-next.4":
+"@ckb-lumos/config-manager@0.22.0-next.5":
   version "0.22.0-next.5"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/config-manager/-/config-manager-0.22.0-next.5.tgz#45e10c45ca85282ae122be32269789b6a3d98a17"
   integrity sha512-kicoRgPP9DPxA90que/+9R0iQgiIJQNreZv1/EJ+4GDOj/pFb0iBbTEQxF3zXtLKjnZoMTqTQH7e4CAV0ZftSA==
@@ -2714,7 +2714,7 @@
     cross-fetch "^3.1.5"
     events "^3.3.0"
 
-"@ckb-lumos/lumos@0.22.0-next.5", "@ckb-lumos/lumos@^0.22.0-next.4":
+"@ckb-lumos/lumos@0.22.0-next.5":
   version "0.22.0-next.5"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/lumos/-/lumos-0.22.0-next.5.tgz#689513d2743235b047cdb395934777de2690d9cb"
   integrity sha512-Dv+MKa664zsD9Nxrnor04Hb52MNcwgtEutgzdlE+qtAB/skp6P0NVnU9uQF7RiYHNpdmUe8PROlkzB4jaKz9NA==
@@ -2732,7 +2732,7 @@
     "@ckb-lumos/toolkit" "0.22.0-next.5"
     "@ckb-lumos/transaction-manager" "0.22.0-next.5"
 
-"@ckb-lumos/rpc@0.22.0-next.5", "@ckb-lumos/rpc@^0.22.0-next.4":
+"@ckb-lumos/rpc@0.22.0-next.5":
   version "0.22.0-next.5"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/rpc/-/rpc-0.22.0-next.5.tgz#7b3de0738cb02a06ff87ffd33abde0742ec68fc2"
   integrity sha512-ohH5kj/iiyKaTksgWCc4STwnEON9cCC2tPf3eP7XUaJ9ZO01ahOZ9C85NccBoK2lOqcLrZag3Y0LDQWw+eFbBg==
@@ -3124,11 +3124,6 @@
   version "8.56.0"
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.56.0.tgz#ef20350fec605a7f7035a01764731b2de0f3782b"
   integrity sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==
-
-"@exact-realty/multipart-parser@^1.0.9":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@exact-realty/multipart-parser/-/multipart-parser-1.0.13.tgz#024ba7df1fcb8400ecd3a004156e0a9f3ab7ba8b"
-  integrity sha512-BGnB0VVn18dkz85rvBmp/CyxAMvUcVrsNf3qw8Fdx80V6+MsQUTxRdQnC0PzLIxbN8PKGFs8afd+ur8V1JLv8g==
 
 "@fal-works/esbuild-plugin-global-externals@^2.1.2":
   version "2.1.2"
@@ -4348,20 +4343,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@spore-sdk/core@0.2.0-beta.3":
-  version "0.2.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@spore-sdk/core/-/core-0.2.0-beta.3.tgz#63040447e03e7f684f4e6bca2d343778089fa90f"
-  integrity sha512-hyoo1HdvU7xWPDd+ASWeJGOfcher3QMFE+JcZWd54/vmOIQNlq2V9vLIptuoyn7wQRcJC1uU68fpd+C1AecGBw==
-  dependencies:
-    "@ckb-lumos/base" "^0.22.0-next.4"
-    "@ckb-lumos/bi" "^0.22.0-next.4"
-    "@ckb-lumos/codec" "^0.22.0-next.4"
-    "@ckb-lumos/common-scripts" "^0.22.0-next.4"
-    "@ckb-lumos/config-manager" "^0.22.0-next.4"
-    "@ckb-lumos/lumos" "^0.22.0-next.4"
-    "@ckb-lumos/rpc" "^0.22.0-next.4"
-    "@exact-realty/multipart-parser" "^1.0.9"
-    lodash "^4.17.21"
+"@spore-sdk/core@0.2.0-beta.8":
+  version "0.2.0-beta.8"
+  resolved "https://registry.yarnpkg.com/@spore-sdk/core/-/core-0.2.0-beta.8.tgz#eb528372c6c571f93261c6adda6a6b03e262d963"
+  integrity sha512-2u0e544JDQMVnJOcO3QK9G7yNrbj6nju8PH78k7+/cf9EbOltDudZCpU3YpgffsdMOKhfmpY8xCAq4w/+Jjm1Q==
 
 "@storybook/addon-actions@7.6.19":
   version "7.6.19"
