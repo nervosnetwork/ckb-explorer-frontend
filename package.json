@@ -25,7 +25,7 @@
     "camelcase": "7.0.1",
     "camelcase-keys": "7.0.2",
     "classnames": "2.5.1",
-    "dayjs": "1.11.10",
+    "dayjs": "1.11.11",
     "default-passive-events": "2.0.0",
     "echarts": "4.9.0",
     "echarts-gl": "1.1.2",
