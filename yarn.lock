@@ -2692,6 +2692,18 @@
     "@types/deep-freeze-strict" "^1.1.0"
     deep-freeze-strict "^1.1.1"
 
+"@ckb-lumos/config-manager@0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@ckb-lumos/config-manager/-/config-manager-0.22.2.tgz#03f04dedf413a5bcfefa98e71f11dd4da7779fba"
+  integrity sha512-LJ4p80VrCHh178Ks4wW1rEyHC/JWtZxrFiwHinA9aG6aOm2Z9hbZO0/ZKoS5pLfW0gxP2+ZHA3oMVt0UJhlTKA==
+  dependencies:
+    "@ckb-lumos/base" "0.22.2"
+    "@ckb-lumos/bi" "0.22.2"
+    "@ckb-lumos/codec" "0.22.2"
+    "@ckb-lumos/rpc" "0.22.2"
+    "@types/deep-freeze-strict" "^1.1.0"
+    deep-freeze-strict "^1.1.1"
+
 "@ckb-lumos/hd@0.22.0-next.5":
   version "0.22.0-next.5"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/hd/-/hd-0.22.0-next.5.tgz#eb47b596a7d964826a4e3f6dccfde3abea3f345c"
@@ -2777,6 +2789,16 @@
   dependencies:
     "@ckb-lumos/base" "0.22.1"
     "@ckb-lumos/bi" "0.22.1"
+    abort-controller "^3.0.0"
+    cross-fetch "^3.1.5"
+
+"@ckb-lumos/rpc@0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@ckb-lumos/rpc/-/rpc-0.22.2.tgz#5c8030ae2d5bf1fa4b7e118216a74ec7129e09ef"
+  integrity sha512-c2SX0ooDJO3dV2JOTTQtKZs0k+dHst+NHfbYJ6mYWApcZWx2nG4bQR3CQFMIKnd5CKYP/r2JuaonDkcRH9vmzw==
+  dependencies:
+    "@ckb-lumos/base" "0.22.2"
+    "@ckb-lumos/bi" "0.22.2"
     abort-controller "^3.0.0"
     cross-fetch "^3.1.5"
 
