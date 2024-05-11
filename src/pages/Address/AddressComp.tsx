@@ -271,7 +271,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
 
                       case 'nrc_721_token':
                         return <AddressNRC721Comp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
-                        
+
                       default:
                         return null
                     }
