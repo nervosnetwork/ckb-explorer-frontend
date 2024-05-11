@@ -259,8 +259,7 @@ const getURLByIdSearch = async (searchValue: string) => {
         return `/address/${attributes.addressHash}`
 
       case SearchResultType.LockHash:
-        return `/address/${attributes.lockHash}`
-
+        return `/address/${attributes.addressHash}`
       case SearchResultType.UDT:
         if (attributes.udtType === 'omiga_inscription') {
           return `/inscription/${query}`

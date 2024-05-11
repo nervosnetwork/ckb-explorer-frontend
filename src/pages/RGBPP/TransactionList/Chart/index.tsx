@@ -50,8 +50,8 @@ const useOption = (
         })
       }
     })
-    return Array.from(data.entries()).map(([day, { addressesCount, transactionsCount }]) => ({
-      timestamp: new Date(day).getTime() / 1000, // Convert to seconds because data comes from ruby are in seconds
+    return Array.from(data.entries()).map(([date, { addressesCount, transactionsCount }]) => ({
+      date,
       addressesCount,
       transactionsCount,
     }))
@@ -102,7 +102,7 @@ const useOption = (
         nameGap: 30,
         type: 'category',
         boundaryGap: false,
-        data: dataset.map(data => dayjs(data.timestamp * 1000).format('YYYY/MM/DD')),
+        data: dataset.map(data => data.date),
       },
     ],
     yAxis: [
