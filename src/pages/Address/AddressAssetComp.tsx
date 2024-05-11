@@ -10,6 +10,7 @@ import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } fro
 import { getDobs } from '../../services/DobsService'
 import { sliceNftName } from '../../utils/string'
 import styles from './addressAssetComp.module.scss'
+import EllipsisMiddle from '../../components/EllipsisMiddle'
 
 export const AddressAssetComp = ({
   href,
@@ -51,9 +52,7 @@ export const AddressAssetComp = ({
         )}
         <div className={styles.fields}>
           <div className={styles.assetName}>{name}</div>
-          <div className={styles.attribute} title={property}>
-            {property}
-          </div>
+          <EllipsisMiddle className={styles.attribute} text={property} />
         </div>
       </div>
     </a>
@@ -177,16 +176,7 @@ export const AddressMNFTComp = ({ account, isRGBPP }: { account: MNFT; isRGBPP?:
   )
 }
 
-export const AddressNRC721Comp = ({
-  account,
-  isRGBPP,
-  isMerged = false,
-}: {
-  account: NRC721
-  isRGBPP?: boolean
-  isMerged?: boolean
-}) => {
-  const { t } = useTranslation()
+export const AddressNRC721Comp = ({ account, isRGBPP }: { account: NRC721; isRGBPP?: boolean }) => {
   const { symbol, amount, udtIconFile, collection } = account
   const [icon, setIcon] = useState(udtIconFile)
 
@@ -205,17 +195,12 @@ export const AddressNRC721Comp = ({
       })
   }, [udtIconFile])
 
-  let name = !symbol ? '?' : sliceNftName(symbol)
-  if (isMerged) {
-    name = `${t('rgbpp.amount')}: ${(+amount).toLocaleString('en')}`
-  }
-
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
       href={`/nft-collections/${collection?.typeHash}`}
-      property={!symbol ? '?' : `#${amount}`}
-      name={name}
+      property={`id: ${amount}`}
+      name={!symbol ? '?' : sliceNftName(`${symbol} #${collection.typeHash.slice(2, 5)}`)}
       isUnverified={!symbol}
       udtLabel="NRC 721"
       icon={{

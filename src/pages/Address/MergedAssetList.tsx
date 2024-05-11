@@ -95,7 +95,7 @@ const MergedAssetList: FC<{
           case 'spore_cell':
             return <AddressSporeComp isRGBPP isMerged account={nft} key={nft.symbol + nft.udtType + nft.amount} />
           case 'nrc_721_token':
-            return <AddressNRC721Comp isRGBPP isMerged account={nft} key={nft.symbol + nft.udtType + nft.amount} />
+            return <AddressNRC721Comp isRGBPP account={nft} key={nft.symbol + nft.udtType + nft.amount} />
           case 'm_nft_token':
             return <AddressMNFTComp isRGBPP account={nft} key={nft.symbol + nft.udtType + nft.amount} />
           default:
