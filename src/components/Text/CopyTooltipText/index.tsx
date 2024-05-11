@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { copyElementValue } from '../../../utils/util'
 import SimpleButton from '../../SimpleButton'
 import { useSetToast } from '../../Toast'
 
@@ -12,9 +11,10 @@ export default ({ content }: { content: string }) => {
       id={`copy__content__${content}`}
       onClick={event => {
         event.stopPropagation()
-        copyElementValue(document.getElementById(`copy__content__${content}`))
-        setToast({ message: t('common.copied') })
         event.preventDefault()
+        navigator.clipboard.writeText(content).then(() => {
+          setToast({ message: t('common.copied') })
+        })
       }}
     >
       {content}
