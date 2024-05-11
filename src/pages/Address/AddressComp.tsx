@@ -54,6 +54,7 @@ import {
   AddressSporeComp,
   AddressSudtComp,
   AddressXudtComp,
+  AddressNRC721Comp,
 } from './AddressAssetComp'
 
 enum AssetInfo {
@@ -267,6 +268,10 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
 
                       case 'm_nft_token':
                         return <AddressMNFTComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+
+                      case 'nrc_721_token':
+                        return <AddressNRC721Comp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+
                       default:
                         return null
                     }

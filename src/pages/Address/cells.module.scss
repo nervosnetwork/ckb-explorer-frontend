@@ -125,6 +125,11 @@
 
     .attribute {
       display: flex;
+
+      &Content {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
 
     .copy {
@@ -147,6 +152,7 @@
     }
 
     .fields {
+      min-width: 0;
       display: flex;
       flex-direction: column;
       justify-content: space-around;

@@ -4,6 +4,7 @@
   background: #fff;
   border-radius: 4px;
   overflow: hidden;
+  max-width: 287px;
 
   .head {
     display: flex;
@@ -39,7 +40,9 @@
     }
 
     .attribute {
-      display: flex;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .copy {
@@ -62,6 +65,8 @@
     }
 
     .fields {
+      width: 100%;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       justify-content: space-around;

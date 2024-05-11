@@ -22,6 +22,7 @@ import { useSetToast } from '../../components/Toast'
 import { PAGE_SIZE } from '../../constants/common'
 import styles from './cells.module.scss'
 import SmallLoading from '../../components/Loading/SmallLoading'
+import { sliceNftName } from '../../utils/string'
 
 enum Sort {
   TimeAsc = 'block_timestamp.asc',
@@ -164,8 +165,10 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
     }
     case 'nrc_721': {
       icon = SUDTTokenIcon
-      assetName = 'NRC 721'
-      attribute = '-'
+      assetName = !cell.extraInfo.symbol
+        ? '?'
+        : sliceNftName(`${cell.extraInfo.symbol} #${cell.extraInfo.typeHash.slice(0, 3)}`)
+      attribute = cell.extraInfo.amount
       break
     }
     case 'm_nft': {
@@ -201,7 +204,7 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
         <div className={styles.fields}>
           <div className={styles.assetName}>{assetName}</div>
           <div className={styles.attribute} title={detailInfo ?? attribute}>
-            {attribute}
+            <div className={styles.attributeContent}>{attribute}</div>
             {detailInfo ? (
               <button type="button" className={styles.copy} data-detail={detailInfo} onClick={handleCopy}>
                 <CopyIcon />
