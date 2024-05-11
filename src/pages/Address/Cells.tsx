@@ -22,6 +22,7 @@ import styles from './cells.module.scss'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { TransactionCellInfo } from '../Transaction/TransactionCell'
 import { CellBasicInfo } from '../../utils/transformer'
+import { sliceNftName } from '../../utils/string'
 
 enum Sort {
   TimeAsc = 'block_timestamp.asc',
@@ -146,8 +147,10 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     }
     case 'nrc_721': {
       icon = SUDTTokenIcon
-      assetName = 'NRC 721'
-      attribute = '-'
+      assetName = !cell.extraInfo.symbol
+        ? '?'
+        : sliceNftName(`${cell.extraInfo.symbol} #${cell.extraInfo.typeHash.slice(0, 3)}`)
+      attribute = cell.extraInfo.amount
       break
     }
     case 'm_nft': {
