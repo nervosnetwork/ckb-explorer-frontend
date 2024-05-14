@@ -111,7 +111,7 @@
     "timezone-mock": "^1.1.4",
     "ts-jest": "29.1.2",
     "typescript": "4.9.5",
-    "webpack": "5.90.1"
+    "webpack": "5.91.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
