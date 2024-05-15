@@ -9319,7 +9319,7 @@ document.contains@^1.0.1:
   dependencies:
     define-properties "^1.1.3"
 
-doiuse@^6.0.1:
+doiuse@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/doiuse/-/doiuse-6.0.2.tgz#0161e68a0bbc9525d3cebdfcbe5adb90023793e2"
   integrity sha512-eBTs23NOX+EAYPr4RbCR6J4DRW/TML3uMo37y0X1whlkersDYFCk9HmCl09KX98cis22VKsV1QaxfVNauJ3NBw==
@@ -15073,7 +15073,7 @@ postcss@^8.3.5, postcss@^8.4.18, postcss@^8.4.19, postcss@^8.4.4:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postcss@^8.4.16, postcss@^8.4.21:
+postcss@^8.4.21:
   version "8.4.30"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.30.tgz#0e0648d551a606ef2192a26da4cabafcc09c1aa7"
   integrity sha512-7ZEao1g4kd68l97aWG/etQKPKq07us0ieSZ2TnFDk11i0ZfDW2AwKHYU8qv4MZKqN2fdBfg+7q0ES06UA73C1g==
@@ -15082,7 +15082,7 @@ postcss@^8.4.16, postcss@^8.4.21:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-postcss@^8.4.38:
+postcss@^8.4.32, postcss@^8.4.38:
   version "8.4.38"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.38.tgz#b387d533baf2054288e337066d81c6bee9db9e0e"
   integrity sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==
@@ -17467,14 +17467,13 @@ stylelint-config-styled-components@^0.1.1:
   resolved "https://registry.yarnpkg.com/stylelint-config-styled-components/-/stylelint-config-styled-components-0.1.1.tgz#b408388d7c687833ab4be4c4e6522d97d2827ede"
   integrity sha512-z5Xz/9GmvxO6e/DLzBMwkB85zHxEEjN6K7Cj80Bi+o/9vR9eS3GX3E9VuMnX9WLFYulqbqLtTapGGY28JBiy9Q==
 
-stylelint-no-unsupported-browser-features@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/stylelint-no-unsupported-browser-features/-/stylelint-no-unsupported-browser-features-7.0.0.tgz#91834a0f285da7f91116515d79c4b03531ba5d44"
-  integrity sha512-O5VYlBhr+lpJ6jeTJSy+SMbHJhW5h5EJxsoicYcTi/07m45V/CF1mQidwRQLjv8y9BFQMpioWz60O89IkmbaNw==
+stylelint-no-unsupported-browser-features@8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/stylelint-no-unsupported-browser-features/-/stylelint-no-unsupported-browser-features-8.0.1.tgz#a372ff4056a40a85f3c89b96af6ecbb80bf47783"
+  integrity sha512-tc8Xn5DaqJhxTmbA4H8gZbYdAz027NfuSZv5+cVieQb7BtBrF/1/iKYdpcGwXPl3GtqkQrisiXuGqKkKnzWcLw==
   dependencies:
-    doiuse "^6.0.1"
-    lodash "^4.17.15"
-    postcss "^8.4.16"
+    doiuse "^6.0.2"
+    postcss "^8.4.32"
 
 stylelint-processor-styled-components@^1.10.0:
   version "1.10.0"
