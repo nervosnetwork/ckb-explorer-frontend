@@ -16,6 +16,10 @@ const ToolsContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
       label: t('tools.address_conversion'),
       url: '/tools/address-conversion',
     },
+    {
+      label: t('tools.hasher'),
+      url: '/tools/hasher',
+    },
     // {
     //   label: t('tools.molecule_parser'),
     //   url: '/tools/molecule-parser',
