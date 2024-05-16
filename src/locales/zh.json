@@ -902,9 +902,11 @@
       "address_rfc": "CKB 地址格式 RFC",
       "address_to_script": "Address to Script",
       "script_to_address": "Script to Address",
+      "script_to_hash": "Script to Hash",
       "please_enter": "请输入",
       "molecule_parser": "Molecule 解析",
-      "broadcast_transaction": "广播交易"
+      "broadcast_transaction": "广播交易",
+      "hasher": "Hasher"
     }
   }
 }
