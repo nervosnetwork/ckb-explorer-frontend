@@ -23,19 +23,6 @@ import { Script } from '../models/Script'
 import { Cell } from '../models/Cell'
 import { parseBtcTimeLockArgs } from './rgbpp'
 
-export const copyElementValue = (component: any) => {
-  if (!component) return
-  const selection = window.getSelection()
-  if (selection) {
-    const range = document.createRange()
-    range.selectNodeContents(component)
-    selection.removeAllRanges()
-    selection.addRange(range)
-    document.execCommand('Copy')
-    selection.removeAllRanges()
-  }
-}
-
 export const shannonToCkbDecimal = (value: BigNumber | string | number, decimal?: number) => {
   if (!value) return 0
   const bigValue = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value
@@ -435,7 +422,6 @@ export const ckbToShannon = (amount: string = '0') => {
 }
 
 export default {
-  copyElementValue,
   shannonToCkb,
   toCamelcase,
   useFormatConfirmation,

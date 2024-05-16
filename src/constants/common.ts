@@ -148,8 +148,9 @@ export enum LayoutLiteProfessional {
 }
 export enum HashType {
   DATA = 'data',
-  DATA1 = 'data1',
   TYPE = 'type',
+  DATA1 = 'data1',
+  DATA2 = 'data2',
 }
 
 export const MAINNET_URL = `https://${config.BASE_URL}`

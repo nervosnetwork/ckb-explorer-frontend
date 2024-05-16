@@ -72,6 +72,7 @@ const ScriptList = lazy(() => import('../pages/ScriptList'))
 const FeeRateTracker = lazy(() => import('../pages/FeeRateTracker'))
 const ExportTransactions = lazy(() => import('../pages/ExportTransactions'))
 const AddressConversion = lazy(() => import('../pages/Tools/AddressConversion'))
+const Hasher = lazy(() => import('../pages/Tools/Hasher'))
 
 const routes: RouteProps[] = [
   {
@@ -300,6 +301,10 @@ const routes: RouteProps[] = [
   {
     path: '/tools/address-conversion',
     component: AddressConversion,
+  },
+  {
+    path: '/tools/hasher',
+    component: Hasher,
   },
 ]
 
