@@ -905,7 +905,9 @@
       "please_enter": "Please enter",
       "molecule_parser": "Molecule Parser",
       "broadcast_transaction": "Broadcast Transaction",
-      "hasher": "Hasher"
+      "hasher": "Hasher",
+      "referred-in-type-script": "Referred in Type Script?",
+      "visit-it": "Visit it"
     }
   }
 }

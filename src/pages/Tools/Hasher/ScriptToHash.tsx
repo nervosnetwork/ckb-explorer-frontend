@@ -92,9 +92,9 @@ export const ScriptToHash: React.FC = () => {
             </a>
           </div>
           <div className={styles.typeScriptPage}>
-            Referred to in Type Script?
+            {t(`tools.referred-in-type-script`)}
             <a href={`/script/${hash}/type`} target="_blank" rel="noopener noreferrer">
-              Visit it
+              {t('tools.visit-it')}
             </a>
           </div>
         </div>
