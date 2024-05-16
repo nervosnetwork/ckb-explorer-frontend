@@ -85,9 +85,17 @@ export const ScriptToHash: React.FC = () => {
 
       {hash ? (
         <div className={styles.console}>
-          <strong>Script Hash:</strong>
-          <div>
-            <CopyableText>{hash}</CopyableText>
+          <div className={styles.item}>
+            <strong>Script Hash:</strong>
+            <a href={`/script/${script.codeHash}/${script.hashType}`} target="_blank" rel="noopener noreferrer">
+              <CopyableText>{hash}</CopyableText>
+            </a>
+          </div>
+          <div className={styles.typeScriptPage}>
+            Referred to in Type Script?
+            <a href={`/script/${hash}/type`} target="_blank" rel="noopener noreferrer">
+              Visit it
+            </a>
           </div>
         </div>
       ) : null}
