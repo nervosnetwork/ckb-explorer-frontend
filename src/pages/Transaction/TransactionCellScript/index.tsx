@@ -175,7 +175,7 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
           <JSONKeyValueView
             value={
               <a
-                href={`${config.BITCOIN_EXPLORER}/tx/${btcUtxo.txid}`}
+                href={`${config.BITCOIN_EXPLORER}/tx/${btcUtxo.txid}#vout=${parseInt(btcUtxo.index!, 16)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.btcUtxo}
