@@ -1,0 +1,56 @@
+@import '../../../styles/variables.module';
+
+.input {
+  width: 100%;
+  line-height: 100%;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #e5e5e5;
+  background: white;
+  outline-color: var(--primary-color);
+  height: 200px;
+
+  &[disabled='true'] {
+    background: #f5f5f5;
+  }
+}
+
+.console {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 16px;
+}
+
+.value {
+  display: flex;
+  align-items: flex-start;
+  white-space: nowrap;
+  margin-bottom: 16px;
+  gap: 16px;
+
+  label {
+    flex-basis: 100px;
+    flex-shrink: 0;
+    padding-top: 12px;
+  }
+
+  @media screen and (width <= $mobileBreakPoint) {
+    flex-direction: column;
+
+    label {
+      flex-basis: auto;
+      padding-top: 0;
+    }
+
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+.error {
+  color: var(--accent-color);
+  font-size: 12px;
+}

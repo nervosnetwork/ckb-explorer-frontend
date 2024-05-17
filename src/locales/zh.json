@@ -907,8 +907,12 @@
       "molecule_parser": "Molecule 解析",
       "broadcast_transaction": "广播交易",
       "hasher": "Hasher",
-      "referred-in-type-script": "在 Type Script 中引用?",
-      "visit-it": "访问"
+      "referred_in_type_script": "在 Type Script 中引用?",
+      "visit_it": "访问",
+      "hash160": "Hash160",
+      "data": "Data",
+      "data_to_hash": "Data to Hash",
+      "data_hash": "Data Hash"
     }
   }
 }

@@ -906,8 +906,12 @@
       "molecule_parser": "Molecule Parser",
       "broadcast_transaction": "Broadcast Transaction",
       "hasher": "Hasher",
-      "referred-in-type-script": "Referred in Type Script?",
-      "visit-it": "Visit it"
+      "referred_in_type_script": "Referred in Type Script?",
+      "visit_it": "Visit it",
+      "hash160": "Hash160",
+      "data": "Data",
+      "data_to_hash": "Data to Hash",
+      "data_hash": "Data Hash"
     }
   }
 }
