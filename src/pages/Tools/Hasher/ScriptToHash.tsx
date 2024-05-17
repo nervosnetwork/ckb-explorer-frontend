@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { type Script, utils } from '@ckb-lumos/base'
 import { RadioGroup, RadioGroupItem } from '../../../components/ui/RadioGroup'
 import { HashType } from '../../../constants/common'
-import styles from './styles.module.scss'
+import styles from './scriptToHash.module.scss'
 import CopyableText from '../../../components/CopyableText'
 
 const debounceInput = (fn: Function, delay = 300) => {
@@ -92,9 +92,9 @@ export const ScriptToHash: React.FC = () => {
             </a>
           </div>
           <div className={styles.typeScriptPage}>
-            {t(`tools.referred-in-type-script`)}
+            {t(`tools.referred_in_type_script`)}
             <a href={`/script/${hash}/type`} target="_blank" rel="noopener noreferrer">
-              {t('tools.visit-it')}
+              {t('tools.visit_it')}
             </a>
           </div>
         </div>
