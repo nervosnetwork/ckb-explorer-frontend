@@ -906,7 +906,7 @@
       "molecule_parser": "Molecule Parser",
       "broadcast_transaction": "Broadcast Transaction",
       "hasher": "Hasher",
-      "referred_in_type_script": "Referred in Type Script?",
+      "referred_in_script": "Referred in Script?",
       "visit_it": "Visit it",
       "hash160": "Hash160",
       "data": "Data",

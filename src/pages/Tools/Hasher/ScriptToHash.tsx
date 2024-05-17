@@ -91,8 +91,8 @@ export const ScriptToHash: React.FC = () => {
               <CopyableText>{hash}</CopyableText>
             </a>
           </div>
-          <div className={styles.typeScriptPage}>
-            {t(`tools.referred_in_type_script`)}
+          <div className={styles.scriptPage}>
+            {t(`tools.referred_in_script`)}
             <a href={`/script/${hash}/type`} target="_blank" rel="noopener noreferrer">
               {t('tools.visit_it')}
             </a>
