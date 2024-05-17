@@ -48,8 +48,25 @@ export const DataToHash: React.FC = () => {
 
       {hash ? (
         <div className={styles.console}>
-          <strong>{t('tools.data_hash')}</strong>
-          <CopyableText>{hash}</CopyableText>
+          <div className={styles.item}>
+            <strong>{t('tools.data_hash')}</strong>
+            <CopyableText>{hash}</CopyableText>
+          </div>
+          <div className={styles.scriptPage}>
+            {t(`tools.referred_in_script`)}
+            &nbsp; As
+            <a href={`/script/${hash}/data`} target="_blank" rel="noopener noreferrer">
+              Data
+            </a>
+            or
+            <a href={`/script/${hash}/data1`} target="_blank" rel="noopener noreferrer">
+              Data1
+            </a>
+            or
+            <a href={`/script/${hash}/data2`} target="_blank" rel="noopener noreferrer">
+              Data2
+            </a>
+          </div>
         </div>
       ) : null}
       {error ? <span className={styles.error}>{error}</span> : null}
