@@ -71,15 +71,17 @@
     color: #fff;
     height: 1.875rem;
     padding: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 
     span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: default;
-      flex: 1;
+      &:first-child {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &:last-child {
+        flex-shrink: 0;
+      }
     }
   }
 

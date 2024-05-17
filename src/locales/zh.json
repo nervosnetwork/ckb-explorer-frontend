@@ -885,7 +885,9 @@
     },
     "sort": {
       "time": "按时间排序",
-      "capacity": "按 Capacity 排序"
+      "capacity": "按 Capacity 排序",
+      "card": "按卡片样式展示",
+      "list": "按列表样式展示"
     },
     "decoder": {
       "view-data-as": "选择解码格式",

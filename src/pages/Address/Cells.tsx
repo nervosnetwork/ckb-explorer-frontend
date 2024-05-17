@@ -168,7 +168,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
 
   const outPointStr = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
   const parsedBlockCreateAt = parseSimpleDateNoSecond(cell.blockTimestamp)
-  const title = `${cell.id}: ${ckb} CKB (${parsedBlockCreateAt})`
+  const title = `${cell.id}: ${ckb} `
   const cellInfo = {
     ...cell,
     id: Number(cell.id),
@@ -183,6 +183,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     attribute,
     detailInfo,
     title,
+    parsedBlockCreateAt,
     cellInfo,
   }
 }
@@ -190,12 +191,17 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
 const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
   const { t } = useTranslation()
 
-  const { title, icon, assetName, attribute, detailInfo, cellInfo } = getCellDetails(cell, t)
+  const { title, parsedBlockCreateAt, icon, assetName, attribute, detailInfo, cellInfo } = getCellDetails(cell, t)
 
   return (
     <li key={cell.txHash + cell.cellIndex} className={styles.card}>
       <TransactionCellInfo cell={cellInfo} isDefaultStyle={false}>
-        <h5>{title}</h5>
+        <Tooltip placement="top" title={`${title} CKB (${parsedBlockCreateAt})`}>
+          <h5>
+            <span>{title}</span>
+            <span> CKB ({parsedBlockCreateAt})</span>
+          </h5>
+        </Tooltip>
 
         <div className={styles.content}>
           {typeof icon === 'string' ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
@@ -234,7 +240,7 @@ const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
                 <td>{cell.blockNumber}</td>
                 <td>{outPointStr}</td>
                 <td>{ckb}</td>
-                <td>{cell.extraInfo.type}</td>
+                <td>{cell.extraInfo?.type}</td>
                 <td>
                   {attribute} {assetName}
                 </td>
@@ -326,9 +332,11 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
               <SortIcon data-current-sort={params.sort} className={styles.capacitySortIcon} />
             </button>
           </Tooltip>
-          <button type="button" onClick={() => setIsDisplayedAsList(i => !i)}>
-            {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
-          </button>
+          <Tooltip placement="top" title={isDisplayedAsList ? t('sort.card') : t('sort.list')}>
+            <button type="button" onClick={() => setIsDisplayedAsList(i => !i)}>
+              {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
+            </button>
+          </Tooltip>
         </div>
       </div>
       {isDisplayedAsList ? (
