@@ -359,7 +359,18 @@
       "addr": "地址",
       "reset": "复位",
       "by_name": "按名称",
-      "by_id": "按 ID"
+      "by_id": "按 ID",
+      "block": "区块",
+      "ckb_transaction": "交易",
+      "address": "地址",
+      "lock_hash": "Lock 哈希",
+      "udt": "UDT",
+      "type_script": "类型脚本",
+      "lock_script": "锁定脚本",
+      "bitcoin_transaction": "BTC 交易",
+      "bitcoin_address": "BTC 地址",
+      "token_collection": "藏品",
+      "did": "分布式数字身份（DID）"
     },
     "address": {
       "address": "地址",

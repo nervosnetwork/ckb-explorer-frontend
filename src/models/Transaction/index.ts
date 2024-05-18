@@ -37,7 +37,7 @@ export interface Transaction {
 }
 
 export interface BtcTx {
-  txId: string
+  txid: string
   transactionHash: string
   ckbTransactionHash: string
 }
