@@ -922,7 +922,11 @@
       "hash160": "Hash160",
       "data": "Data",
       "data_to_hash": "Data to Hash",
-      "data_hash": "Data Hash"
+      "data_hash": "Data Hash",
+      "broadcast_tx": "Broadcast Tx",
+      "tx_to_broadcast": "Tx to Broadcast",
+      "broadcast": "Broadcast",
+      "tx_hash": "Tx Hash"
     }
   }
 }
