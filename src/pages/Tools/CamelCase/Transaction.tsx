@@ -46,8 +46,12 @@ const Transaction = () => {
       case 'to-camel-case': {
         if (!snakeCase.value) return
         try {
+          const v = JSON.parse(snakeCase.value)
+          if (typeof v !== 'object') {
+            throw new Error('Invalid Object')
+          }
           setCamelCase({
-            value: JSON.stringify(resultFormatter.toTransaction(JSON.parse(snakeCase.value))),
+            value: JSON.stringify(resultFormatter.toTransaction(v)),
             error: '',
           })
         } catch (e) {
@@ -63,8 +67,12 @@ const Transaction = () => {
       case 'to-snake-case': {
         if (!camelCase.value) return
         try {
+          const v = JSON.parse(camelCase.value)
+          if (typeof v !== 'object') {
+            throw new Error('Invalid Object')
+          }
           setSnakeCase({
-            value: JSON.stringify(paramsFormatter.toRawTransaction(JSON.parse(camelCase.value))),
+            value: JSON.stringify(paramsFormatter.toRawTransaction(v)),
             error: '',
           })
         } catch (e) {
