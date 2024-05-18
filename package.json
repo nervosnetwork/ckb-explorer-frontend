@@ -9,6 +9,7 @@
     "@ckb-lumos/helpers": "0.22.2",
     "@ckb-lumos/lumos": "^0.22.2",
     "@microlink/react-json-view": "1.23.0",
+    "@nervosnetwork/ckb-sdk-rpc": "0.109.1",
     "@nervosnetwork/ckb-sdk-utils": "0.109.1",
     "@radix-ui/react-icons": "1.3.0",
     "@radix-ui/react-radio-group": "1.1.3",

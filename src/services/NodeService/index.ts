@@ -23,6 +23,17 @@ export const getTx = async (hash: string): Promise<{ result: { transaction: Node
     .catch(() => null)
 }
 
+export const sendTransaction = async (tx: NodeRpc.RawTransaction) => {
+  const body = {
+    id: 1,
+    jsonrpc: '2.0',
+    method: 'send_transaction',
+    params: [tx, 'passthrough'],
+  }
+
+  return axios.post(node, body).then(res => res.data)
+}
+
 namespace NodeRpc {
   interface Script {
     code_hash: string
