@@ -926,7 +926,11 @@
       "broadcast_tx": "Broadcast Tx",
       "tx_to_broadcast": "Tx to Broadcast",
       "broadcast": "Broadcast",
-      "tx_hash": "Tx Hash"
+      "tx_hash": "Tx Hash",
+      "snake_case_and_camel_case": "Snake Case ↔  Camel Case",
+      "transaction": "Transaction",
+      "tx_in_snake_case": "Transaction in Snake Case",
+      "tx_in_camel_case": "Transaction in Camel Case"
     }
   }
 }

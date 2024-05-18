@@ -74,6 +74,7 @@ const ExportTransactions = lazy(() => import('../pages/ExportTransactions'))
 const AddressConversion = lazy(() => import('../pages/Tools/AddressConversion'))
 const Hasher = lazy(() => import('../pages/Tools/Hasher'))
 const BroadcastTx = lazy(() => import('../pages/Tools/BroadcastTx'))
+const CamelCase = lazy(() => import('../pages/Tools/CamelCase'))
 
 const routes: RouteProps[] = [
   {
@@ -310,6 +311,10 @@ const routes: RouteProps[] = [
   {
     path: '/tools/broadcast-tx',
     component: BroadcastTx,
+  },
+  {
+    path: '/tools/snake-case-and-camel-case',
+    component: CamelCase,
   },
 ]
 
