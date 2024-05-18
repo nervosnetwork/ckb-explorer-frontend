@@ -923,7 +923,11 @@
       "hash160": "Hash160",
       "data": "Data",
       "data_to_hash": "Data to Hash",
-      "data_hash": "Data Hash"
+      "data_hash": "Data Hash",
+      "broadcast_tx": "广播交易",
+      "tx_to_broadcast": "待广播交易",
+      "broadcast": "广播",
+      "tx_hash": "交易哈希"
     }
   }
 }

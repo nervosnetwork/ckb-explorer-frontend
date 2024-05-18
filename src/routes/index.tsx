@@ -73,6 +73,7 @@ const FeeRateTracker = lazy(() => import('../pages/FeeRateTracker'))
 const ExportTransactions = lazy(() => import('../pages/ExportTransactions'))
 const AddressConversion = lazy(() => import('../pages/Tools/AddressConversion'))
 const Hasher = lazy(() => import('../pages/Tools/Hasher'))
+const BroadcastTx = lazy(() => import('../pages/Tools/BroadcastTx'))
 
 const routes: RouteProps[] = [
   {
@@ -305,6 +306,10 @@ const routes: RouteProps[] = [
   {
     path: '/tools/hasher',
     component: Hasher,
+  },
+  {
+    path: '/tools/broadcast-tx',
+    component: BroadcastTx,
   },
 ]
 
