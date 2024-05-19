@@ -259,7 +259,7 @@ const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
 const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
   const { t } = useTranslation()
   const [params, setParams] = useState(initialPageParams)
-  const [isDisplayedAsList, setIsDisplayedAsList] = useState(true)
+  const [isDisplayedAsList, setIsDisplayedAsList] = useState(false)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
