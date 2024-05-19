@@ -112,7 +112,7 @@ const TokenTable: FC<{ udts: UDTAccount[]; cotaList: NFTItem[] }> = ({ udts, cot
 
 const DefinedTokens: FC<{ udts: UDTAccount[]; cotaList?: NFTItem[] }> = ({ udts, cotaList = [] }) => {
   const { t } = useTranslation()
-  const [isDisplayedAsList, setIsDisplayedAsList] = useState(true)
+  const [isDisplayedAsList, setIsDisplayedAsList] = useState(false)
 
   const count = useMemo(() => udts.length + cotaList.length, [udts, cotaList])
 

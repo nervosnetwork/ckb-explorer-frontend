@@ -366,7 +366,7 @@ const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscri
 }) => {
   const [isMerged, setIsMerged] = useState(true)
   const { t } = useTranslation()
-  const [isDisplayedAsList, setIsDisplayedAsList] = useState(true)
+  const [isDisplayedAsList, setIsDisplayedAsList] = useState(false)
 
   return (
     <div className={styles.container}>
