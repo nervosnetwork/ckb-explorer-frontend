@@ -203,7 +203,7 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
           </h5>
         </Tooltip>
 
-        <div className={styles.content}>
+        <div className={styles.cellContent}>
           {typeof icon === 'string' ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
           {icon && typeof icon !== 'string' ? icon : null}
           <div className={styles.fields}>
@@ -339,28 +339,31 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
           </Tooltip>
         </div>
       </div>
-      {isDisplayedAsList ? (
-        <CellTable cells={cells} />
-      ) : (
-        <ul>
-          {cells.map(cell => (
-            <Cell cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
-          ))}
-        </ul>
-      )}
 
-      {isFetchingNextPage ? (
-        <span className={styles.loading}>
-          <SmallLoading />
-        </span>
-      ) : null}
-      {!hasNextPage || isFetchingNextPage ? null : (
-        <div className={styles.loadMore} ref={loadMoreRef}>
-          <button type="button" onClick={() => fetchNextPage()}>
-            Load more
-          </button>
-        </div>
-      )}
+      <div className={styles.content}>
+        {isDisplayedAsList ? (
+          <CellTable cells={cells} />
+        ) : (
+          <ul>
+            {cells.map(cell => (
+              <Cell cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
+            ))}
+          </ul>
+        )}
+
+        {isFetchingNextPage ? (
+          <span className={styles.loading}>
+            <SmallLoading />
+          </span>
+        ) : null}
+        {!hasNextPage || isFetchingNextPage ? null : (
+          <div className={styles.loadMore} ref={loadMoreRef}>
+            <button type="button" onClick={() => fetchNextPage()}>
+              Load more
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

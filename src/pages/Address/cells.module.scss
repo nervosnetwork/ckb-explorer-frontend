@@ -49,6 +49,10 @@
     }
   }
 
+  .content {
+    overflow-x: scroll;
+  }
+
   ul {
     list-style: none;
     padding: 0;
@@ -85,7 +89,7 @@
     }
   }
 
-  .content {
+  .cellContent {
     padding: 8px;
     display: flex;
     line-height: 1;
