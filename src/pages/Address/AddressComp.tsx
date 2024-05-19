@@ -47,15 +47,8 @@ import { Address, UDTAccount } from '../../models/Address'
 import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
 import { CardHeader } from '../../components/Card/CardHeader'
 import Cells from './Cells'
-import {
-  AddressCoTAComp,
-  AddressOmigaInscriptionComp,
-  AddressMNFTComp,
-  AddressSporeComp,
-  AddressSudtComp,
-  AddressXudtComp,
-  AddressNRC721Comp,
-} from './AddressAssetComp'
+import DefinedTokens from './DefinedTokens'
+import { AddressOmigaInscriptionComp } from './AddressAssetComp'
 
 enum AssetInfo {
   UDT = 1,
@@ -255,41 +248,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                 key={AssetInfo.UDT}
               >
                 <div className={styles.assetCardList}>
-                  {udts.map(udt => {
-                    switch (udt.udtType) {
-                      case 'xudt':
-                        return <AddressXudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
-
-                      case 'sudt':
-                        return <AddressSudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
-
-                      case 'spore_cell':
-                        return <AddressSporeComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
-
-                      case 'm_nft_token':
-                        return <AddressMNFTComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
-
-                      case 'nrc_721_token':
-                        return <AddressNRC721Comp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
-
-                      default:
-                        return null
-                    }
-                  })}
-                  {cotaList?.map(cota => (
-                    <AddressCoTAComp
-                      account={{
-                        udtType: 'cota',
-                        symbol: cota.collection.name,
-                        udtIconFile: cota.collection.icon_url ?? '',
-                        cota: {
-                          cotaId: cota.collection.id,
-                          tokenId: Number(cota.token_id),
-                        },
-                      }}
-                      key={cota.collection.id + cota.token_id}
-                    />
-                  )) ?? null}
+                  <DefinedTokens udts={udts} cotaList={cotaList} />
                 </div>
               </AddressAssetsTabPane>
             )}

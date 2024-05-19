@@ -155,6 +155,40 @@
   }
 }
 
+.tableContainer {
+  table {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+
+    th,
+    td {
+      border: 1px solid #e5e5e5;
+      text-align: center;
+      padding: 0 24px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    th {
+      height: 40px;
+    }
+
+    td {
+      height: 48px;
+    }
+  }
+
+  .cellInfo {
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+}
+
 .loading {
   display: flex;
   justify-content: center;

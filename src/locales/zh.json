@@ -412,7 +412,10 @@
       "capacity": "Capacity",
       "type": "类型",
       "amount": "数量",
-      "detail": "详情"
+      "detail": "详情",
+      "asset": "资产",
+      "view-asset": "查看资产",
+      "cell-info": "Cell详情"
     },
     "rgbpp": {
       "transaction": {

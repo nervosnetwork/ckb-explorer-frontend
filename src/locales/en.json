@@ -412,7 +412,10 @@
       "capacity": "Capacity(CKB)",
       "type": "Type",
       "amount": "Amount",
-      "detail": "Detail"
+      "detail": "Detail",
+      "asset": "Asset",
+      "view-asset": "View Asset",
+      "cell-info": "Cell Info"
     },
     "rgbpp": {
       "transaction": {
