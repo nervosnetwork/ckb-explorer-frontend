@@ -25,7 +25,7 @@ export const HighlightText: FC<HighlightTextProps> = ({ text, keyword, ...props 
   useEffect(() => {
     // eslint-disable-next-line no-console
     // console.log('HighlightText useEffect', text, keyword, resizedWidth)
-    if (!ref.current) return
+    if (!ref.current || !text || !keyword) return
     const minSideLen = 3
     const wrapperWidth = resizedWidth ?? ref.current.clientWidth
     const measureText = createTextWidthMeasurer(ref.current)
