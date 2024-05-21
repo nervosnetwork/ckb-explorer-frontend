@@ -1,0 +1,92 @@
+@import '../../../styles/variables.module';
+
+.input {
+  width: 100%;
+  line-height: 100%;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #e5e5e5;
+  background: white;
+  outline-color: var(--primary-color);
+  height: 200px;
+
+  &[disabled='true'] {
+    background: #f5f5f5;
+  }
+}
+
+.console {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 16px;
+
+  .item,
+  .scriptPage {
+    display: flex;
+    gap: 8px;
+    word-break: break-all;
+    align-items: center;
+
+    strong {
+      white-space: nowrap;
+      flex-basis: 100px;
+      flex-shrink: 0;
+    }
+
+    @media screen and (max-width: $mobileBreakPoint) {
+      strong {
+        flex-basis: auto;
+      }
+
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  .scriptPage {
+    display: flex;
+    gap: 4px;
+    margin-left: 108px;
+    font-size: 12px;
+
+    a {
+      color: var(--primary-color);
+    }
+
+    @media screen and (max-width: $mobileBreakPoint) {
+      flex-direction: row;
+      margin-left: 0;
+    }
+  }
+}
+
+.value {
+  display: flex;
+  align-items: flex-start;
+  white-space: nowrap;
+  margin-bottom: 16px;
+  gap: 16px;
+
+  label {
+    flex-basis: 100px;
+    flex-shrink: 0;
+    padding-top: 12px;
+  }
+
+  @media screen and (width <= $mobileBreakPoint) {
+    flex-direction: column;
+
+    label {
+      flex-basis: auto;
+      padding-top: 0;
+    }
+
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+.error {
+  color: var(--accent-color);
+  font-size: 12px;
+}

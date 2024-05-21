@@ -97,5 +97,5 @@ export const explorerService = new ExplorerService(cacheService)
 
 export * from './hooks'
 export * from './types'
-export type { APIFetcher, APIReturn } from './fetcher'
+export type { APIFetcher, APIReturn, AggregateSearchResult } from './fetcher'
 export { SearchResultType } from './fetcher'
