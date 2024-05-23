@@ -5,6 +5,8 @@ const { DOBS_SERVICE_URL: dobsServiceUrl } = config
 export const getDobs = async (sporeIds: string[]): Promise<Dob[] | null> => {
   if (!dobsServiceUrl) return null
 
+  if (!sporeIds.length) return []
+
   return fetch(`${dobsServiceUrl}/api/dobs/0`, {
     method: 'POST',
     body: JSON.stringify({ ids: sporeIds.join(',') }),

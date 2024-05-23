@@ -4,6 +4,7 @@ import { FC, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Link } from '../../components/Link'
+import { CsvExport } from '../../components/CsvExport'
 import TransactionItem from '../../components/TransactionItem/index'
 import { UDTTransactionsPagination, UDTTransactionsPanel, TypeScriptController, UDTNoResultPanel } from './styled'
 import { parseUDTAmount } from '../../utils/number'
@@ -148,6 +149,7 @@ export const UDTComp = ({
   transactions,
   total,
   onPageChange,
+  xudt,
   filterNoResult,
 }: {
   currentPage: number
@@ -155,6 +157,7 @@ export const UDTComp = ({
   transactions: (Transaction & { btcTx: RawBtcRPC.BtcTx | null })[]
   total: number
   onPageChange: (page: number) => void
+  xudt?: XUDT
   filterNoResult?: boolean
 }) => {
   const { t } = useTranslation()
@@ -184,7 +187,12 @@ export const UDTComp = ({
         )}
       </UDTTransactionsPanel>
       <UDTTransactionsPagination>
-        <PaginationWithRear currentPage={currentPage} totalPages={totalPages} onChange={onPageChange} rear={null} />
+        <PaginationWithRear
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChange={onPageChange}
+          rear={xudt ? <CsvExport link={`/export-xudt-holders?id=${xudt.typeHash}`} /> : null}
+        />
       </UDTTransactionsPagination>
     </>
   )

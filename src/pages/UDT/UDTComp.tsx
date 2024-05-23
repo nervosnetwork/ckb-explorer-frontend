@@ -296,7 +296,11 @@ export const UDTComp = ({
           totalPages={totalPages}
           onChange={onPageChange}
           rear={
-            <CsvExport type={isInscription ? 'omiga_inscriptions' : 'udts'} id={id} isViewOriginal={isViewOriginal} />
+            <CsvExport
+              link={`/export-transactions?type=${isInscription ? 'omiga_inscriptions' : 'udts'}&id=${id}${
+                isViewOriginal ? '&view=original' : ''
+              }`}
+            />
           }
         />
       </UDTTransactionsPagination>

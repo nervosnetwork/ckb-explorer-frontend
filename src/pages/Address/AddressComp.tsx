@@ -454,7 +454,11 @@ export const AddressTransactions = ({
         currentPage={currentPage}
         totalPages={totalPages}
         onChange={setPage}
-        rear={isPendingListActive ? null : <CsvExport type="address_transactions" id={address} />}
+        rear={
+          isPendingListActive ? null : (
+            <CsvExport link={`/export-transactions?type=address_transactions&id=${address}`} />
+          )
+        }
       />
     </>
   )

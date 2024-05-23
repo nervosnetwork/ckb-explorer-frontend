@@ -199,7 +199,7 @@ const NftCollectionInfo = () => {
               currentPage={transferListRes?.pagination.page ?? 1}
               totalPages={transferListRes?.pagination.last ?? 1}
               onChange={handlePageChange}
-              rear={<CsvExport type="nft" id={id} />}
+              rear={<CsvExport link={`/export-transactions?type=nft&id=${id}`} />}
             />
           </>
         ) : null}
