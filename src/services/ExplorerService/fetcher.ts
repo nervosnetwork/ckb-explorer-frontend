@@ -49,7 +49,7 @@ const v1GetUnwrappedPagedList = <T>(...args: Parameters<typeof v1GetWrapped>) =>
   v1Get<Response.Wrapper<T>[]>(...args).then(res => {
     assert(res.meta, 'Unexpected paged list response')
     return {
-      data: res.data.map(wrapper => ({ ...wrapper.attributes, id: wrapper.id })),
+      data: res.data.map(wrapper => ({ ...wrapper.attributes, cellId: wrapper.id })),
       ...res.meta,
     }
   })

@@ -168,11 +168,11 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
 
   const outPointStr = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
   const parsedBlockCreateAt = parseSimpleDateNoSecond(cell.blockTimestamp)
-  const title = `${cell.id}: ${ckb} `
+  const title = `${cell.cellId}: ${ckb} `
   const cellInfo = {
     ...cell,
-    id: Number(cell.id),
-    isGenesisOutput: false,
+    id: Number(cell.cellId),
+    isGenesisOutput: Number(cell.blockNumber) === 0,
   } as CellBasicInfo
 
   return {

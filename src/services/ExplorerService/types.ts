@@ -349,7 +349,7 @@ export interface Script {
 }
 
 export interface LiveCell {
-  id: string
+  cellId: string
   cellType: string
   txHash: string
   cellIndex: number
