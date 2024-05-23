@@ -36,6 +36,7 @@ const StatisticsChart = lazy(() => import('../pages/StatisticsChart'))
 const Tokens = lazy(() => import('../pages/Tokens'))
 const Xudts = lazy(() => import('../pages/Xudts'))
 const Xudt = lazy(() => import('../pages/Xudt'))
+const XudtExport = lazy(() => import('../pages/XudtExport'))
 const Halving = lazy(() => import('../pages/Halving'))
 const DifficultyHashRateChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyHashRate'))
 const DifficultyUncleRateEpochChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyUncleRateEpoch'))
@@ -291,6 +292,10 @@ const routes: RouteProps[] = [
   {
     path: '/error',
     component: ErrorPage,
+  },
+  {
+    path: '/export-xudt-holders',
+    component: XudtExport,
   },
   {
     path: '/export-transactions',
