@@ -14,6 +14,10 @@
 .digestContent {
   margin-top: 4px;
   padding: 20px 40px;
+
+  @media screen and (max-width: $extraLargeBreakPoint) {
+    padding: 0;
+  }
 }
 
 .btcTxContent {
