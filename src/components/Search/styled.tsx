@@ -14,6 +14,16 @@ export const SearchPanel = styled.div`
   border: 0 solid white;
   border-radius: 4px;
 
+  [data-role='search-result-list'] {
+    display: none;
+  }
+
+  &:focus-within {
+    [data-role='search-result-list'] {
+      display: flex;
+    }
+  }
+
   @media (max-width: ${variables.mobileBreakPoint}) {
     padding-right: 8px;
   }
