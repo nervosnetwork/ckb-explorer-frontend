@@ -760,6 +760,14 @@ export const apiFetcher = {
       },
     }),
 
+  fetchXudtHoders: ({ id, number }: { id: string; number: number }) => {
+    return requesterV1
+      .get(`/xudts/snapshot`, {
+        params: { id, number },
+      })
+      .then(res => toCamelcase<string>(res.data))
+  },
+
   fetchXudt: (typeHash: string) => v1GetUnwrapped<XUDT>(`/xudts/${typeHash}`),
 
   fetchXudts: (page: number, size: number, sort?: string, tags?: string) =>

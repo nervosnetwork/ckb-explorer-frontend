@@ -1,0 +1,380 @@
+@import '../../styles/variables.module';
+
+.containerPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (width <= $mobileBreakPoint) {
+    margin: 0;
+  }
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+
+  @media (width <= $mobileBreakPoint) {
+    margin-top: 20px;
+    width: calc(100% - 32px);
+    justify-content: start;
+  }
+
+  > span {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+
+    @media (width <= $mobileBreakPoint) {
+      font-size: 20px;
+      line-height: normal;
+    }
+  }
+
+  > span:first-child {
+    color: #333;
+  }
+
+  > span:last-child {
+    color: #999;
+  }
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+
+  > div {
+    width: 60%;
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #333;
+  }
+
+  @media (width <= $mobileBreakPoint) {
+    display: none;
+  }
+}
+
+.exportPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 24px;
+  margin-bottom: 80px;
+  width: 70%;
+  min-width: 342px;
+  border-radius: 4px;
+  background: white;
+
+  @media (width <= $mobileBreakPoint) {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    width: calc(100% - 32px);
+  }
+
+  > div {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .exportHeader {
+    flex-direction: column;
+
+    > div:first-child {
+      padding-top: 24px;
+      padding-bottom: 4px;
+
+      @media (width <= $mobileBreakPoint) {
+        padding: 16px 0;
+      }
+
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .exportDescription {
+      font-weight: 400;
+      text-align: center;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    :global(div.ant-tabs-nav-wrap) {
+      justify-content: center;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    :global(div.ant-tabs-tab) {
+      width: 120px;
+      margin-left: 90px;
+      margin-right: 90px;
+      padding: 20px 0;
+      justify-content: center;
+      align-items: center;
+
+      @media (width <= $mobileBreakPoint) {
+        width: 80px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 8px 0;
+      }
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    :global(div.ant-tabs-ink-bar) {
+      background: var(--primary-color);
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    :global(.ant-tabs-tab .ant-tabs-tab-btn) {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #333;
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      color: #333;
+    }
+
+    @media (width <= $mobileBreakPoint) {
+      margin-top: 12px;
+    }
+  }
+
+  .dateOrBlockPanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    color: #666;
+
+    @media (width <= $mobileBreakPoint) {
+      margin-top: 8px;
+      flex-direction: column;
+
+      > div:nth-child(2) {
+        margin-top: 24px;
+      }
+    }
+
+    .datePickerPanel,
+    .heightInputPanel {
+      margin-left: 24px;
+      margin-right: 24px;
+      display: flex;
+      flex-direction: column;
+      width: 40%;
+      max-width: 256px;
+
+      @media (width <= $mobileBreakPoint) {
+        margin-left: 16px;
+        margin-right: 16px;
+      }
+
+      :global {
+        /* stylelint-disable-next-line selector-class-pattern */
+        .ant-picker {
+          border-radius: 4px;
+          box-shadow: none;
+
+          /* stylelint-disable-next-line selector-class-pattern */
+          &.ant-picker-focused,
+          &:hover {
+            border-color: var(--primary-color);
+          }
+        }
+
+        /* stylelint-disable-next-line selector-class-pattern */
+        .ant-input-number-affix-wrapper {
+          border-radius: 4px;
+          box-shadow: none;
+
+          /* stylelint-disable-next-line selector-class-pattern */
+          &.ant-input-number-affix-wrapper-focused,
+          &:hover {
+            border-color: var(--primary-color);
+          }
+        }
+      }
+
+      @media (width <= $mobileBreakPoint) {
+        width: 100%;
+        max-width: 312px;
+      }
+
+      > div:first-child {
+        margin-bottom: 12px;
+
+        @media (width <= $mobileBreakPoint) {
+          margin-bottom: 8px;
+        }
+      }
+
+      > div:last-child {
+        width: 100%;
+
+        input {
+          text-align: center;
+        }
+      }
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    :global(.ant-picker-input) {
+      flex-direction: row-reverse;
+
+      > input {
+        text-align: center;
+      }
+    }
+  }
+
+  .note {
+    display: flex;
+    justify-content: center;
+    color: #999;
+    line-height: 24px;
+
+    > div {
+      background: white;
+      text-align: center;
+      padding-top: 56px;
+      padding-bottom: 40px;
+
+      @media (width <= $mobileBreakPoint) {
+        padding: 24px 8px 16px;
+        max-width: 312px;
+      }
+    }
+  }
+
+  .hint {
+    margin-top: 16px;
+
+    > div {
+      padding: 12px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 16px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+
+      > svg {
+        min-width: 14px;
+        min-height: 14px;
+        margin-right: 8px;
+        margin-top: 3px;
+      }
+
+      &.noHint {
+        visibility: hidden;
+      }
+
+      &.successHint,
+      &.errorHint {
+        width: 100%;
+        border-radius: 8px;
+        max-width: 560px;
+        font-size: 14px;
+
+        @media (width <= $mobileBreakPoint) {
+          max-width: 312px;
+        }
+      }
+
+      &.successHint {
+        border: 1px solid rgb(0 204 155 / 100%);
+        background: rgb(230 252 247 / 100%);
+        color: rgb(0 204 155 / 100%);
+
+        path {
+          fill: rgb(0 204 155 / 100%);
+        }
+      }
+
+      .hintText {
+        line-height: 20px;
+        word-break: break-all;
+      }
+
+      &.errorHint {
+        border: 1px solid #ffa6a6;
+        background: #fff2f2;
+        color: #fa504f;
+      }
+    }
+  }
+
+  .downloadButton {
+    > button {
+      text-align: center;
+      margin-top: 32px;
+      margin-bottom: 56px;
+      width: 152px;
+      height: 48px;
+
+      &[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      @media (width <= $mobileBreakPoint) {
+        margin-top: 20px;
+        margin-bottom: 24px;
+      }
+
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 14px 40px;
+      cursor: pointer;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+    }
+  }
+}
+
+.calendar {
+  :global {
+    /* stylelint-disable-next-line selector-class-pattern */
+    .ant-picker-cell-selected .ant-picker-cell-inner {
+      background-color: var(--primary-color);
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .ant-picker-cell-today .ant-picker-cell-inner {
+      &::before {
+        border: 1px solid var(--primary-color);
+      }
+    }
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .ant-picker-today-btn {
+      &,
+      &:hover,
+      &:active {
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+.textCernter {
+  text-align: center;
+}
