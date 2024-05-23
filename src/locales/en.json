@@ -763,6 +763,7 @@
       "transfer-list": "Transfers",
       "holder-list": "Holders",
       "transactions": "24hr Transactions",
+      "created_time": "Created Time",
       "holder": "Holder",
       "minted": "Minted",
       "owner": "Owner",

@@ -1133,6 +1133,7 @@ export interface NFTCollection {
   holders_count: number | null
   type_script: { code_hash: string; hash_type: 'data' | 'type'; args: string } | null
   sn: string
+  timestamp: number
 }
 
 export interface NFTItem {
