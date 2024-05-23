@@ -54,7 +54,7 @@ export const AggregateSearchResults: FC<Props> = ({ keyword = '', results, loadi
   })()
 
   return (
-    <div className={styles.searchResultsPanelWrapper}>
+    <div className={styles.searchResultsPanelWrapper} data-role="search-result-list">
       {!loading && Object.keys(categories).length > 0 && (
         <div className={styles.searchCategoryFilter}>
           {(Object.keys(categories) as SearchResultType[]).map(category => (

@@ -43,7 +43,8 @@
     border-bottom: none;
   }
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     .content,
     .boxContent {
       background: #f5f5f5;
