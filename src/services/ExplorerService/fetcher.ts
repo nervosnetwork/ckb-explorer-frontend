@@ -1039,15 +1039,18 @@ export const apiFetcher = {
       })
       .then(r => r.data)
 
-    const sporeIds = res.data.filter(i => isDob0(i.item)).map(i => i.item.type_script?.args)
+    const sporeIds = [...new Set(res.data.filter(i => isDob0(i.item)).map(i => i.item.type_script?.args))]
     if (sporeIds.length) {
       const dobs = await getDobs(sporeIds)
       if (dobs?.length) {
         sporeIds.forEach((id, idx) => {
-          const item = res.data.find(i => i.item.type_script?.args === id && i.item.standard === 'spore')
+          const items = res.data.filter(i => i.item.type_script?.args === id && i.item.standard === 'spore')
           const dob = dobs[idx]
-          if (item && dob) {
-            item.item.dob = dob
+          if (items.length && dob) {
+            items.forEach(i => {
+              // eslint-disable-next-line no-param-reassign
+              i.item.dob = dob
+            })
           }
         })
       }
