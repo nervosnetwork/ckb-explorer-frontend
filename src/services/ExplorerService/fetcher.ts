@@ -760,6 +760,14 @@ export const apiFetcher = {
       },
     }),
 
+  fetchXudtHoders: ({ id, number }: { id: string; number: number }) => {
+    return requesterV1
+      .get(`/xudts/snapshot`, {
+        params: { id, number },
+      })
+      .then(res => toCamelcase<string>(res.data))
+  },
+
   fetchXudt: (typeHash: string) => v1GetUnwrapped<XUDT>(`/xudts/${typeHash}`),
 
   fetchXudts: (page: number, size: number, sort?: string, tags?: string) =>
@@ -1136,6 +1144,7 @@ export interface NFTCollection {
   holders_count: number | null
   type_script: { code_hash: string; hash_type: 'data' | 'type'; args: string } | null
   sn: string
+  timestamp: number
 }
 
 export interface NFTItem {
