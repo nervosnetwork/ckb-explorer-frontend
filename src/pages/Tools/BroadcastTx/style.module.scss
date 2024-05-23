@@ -1,0 +1,116 @@
+@import '../../../styles/variables.module';
+
+.panel {
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  margin-top: 5px;
+  padding: 16px;
+  background-color: #fff;
+  color: #000;
+}
+
+.panelTitle {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.input {
+  label {
+    font-weight: 500;
+  }
+
+  textarea {
+    width: 100%;
+    line-height: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #e5e5e5;
+    background: white;
+    outline-color: var(--primary-color);
+    height: 200px;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--primary-color);
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.console {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 16px;
+
+  strong {
+    padding-right: 8px;
+  }
+
+  a {
+    color: var(--primary-color);
+  }
+}
+
+.error {
+  color: var(--accent-color);
+  font-size: 12px;
+}
+
+.loading {
+  position: relative;
+  width: 164px;
+  height: 164px;
+  border-radius: 50%;
+  animation: rotate 1.75s linear infinite;
+  color: var(--primary-color);
+
+  &::before {
+    content: 'CKB';
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 40px;
+    border: 1px solid var(--primary-color);
+    border-width: 2px 1px;
+    border-radius: 2px;
+    box-sizing: border-box;
+    transform: rotate(-149deg) translate(-15px, -40px);
+    transform-origin: top right;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    background-size: 10px 12px, 1px 30px, 1px 30px;
+    background-repeat: no-repeat;
+    background-position: center, 12px 0, 3px 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 4px;
+    left: 20px;
+    top: 47px;
+    border-radius: 50%;
+    color: #fff;
+    box-shadow: -4px 7px 2px, -7px 16px 3px 1px, -11px 24px 4px 1px, -6px 24px 4px 1px, -14px 35px 6px 2px,
+      -5px 36px 8px 2px, -5px 45px 8px 2px, -14px 49px 8px 2px, 6px 60px 11px 1px, -11px 66px 11px 1px, 11px 75px 13px,
+      -1px 82px 15px;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(15deg);
+    }
+
+    to {
+      transform: rotate(375deg);
+    }
+  }
+}

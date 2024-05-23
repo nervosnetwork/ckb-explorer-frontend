@@ -359,7 +359,18 @@
       "addr": "地址",
       "reset": "复位",
       "by_name": "按名称",
-      "by_id": "按 ID"
+      "by_id": "按 ID",
+      "block": "区块",
+      "ckb_transaction": "交易",
+      "address": "地址",
+      "lock_hash": "Lock 哈希",
+      "udt": "UDT",
+      "type_script": "类型脚本",
+      "lock_script": "锁定脚本",
+      "bitcoin_transaction": "BTC 交易",
+      "bitcoin_address": "BTC 地址",
+      "token_collection": "藏品",
+      "did": "分布式数字身份（DID）"
     },
     "address": {
       "address": "地址",
@@ -915,8 +926,20 @@
       "molecule_parser": "Molecule 解析",
       "broadcast_transaction": "广播交易",
       "hasher": "Hasher",
-      "referred-in-type-script": "在 Type Script 中引用?",
-      "visit-it": "访问"
+      "referred_in_script": "在 Script 中引用?",
+      "visit_it": "访问",
+      "hash160": "Hash160",
+      "data": "Data",
+      "data_to_hash": "Data to Hash",
+      "data_hash": "Data Hash",
+      "broadcast_tx": "广播交易",
+      "tx_to_broadcast": "待广播交易",
+      "broadcast": "广播",
+      "tx_hash": "交易哈希",
+      "snake_case_and_camel_case": "Snake Case ↔  Camel Case",
+      "transaction": "交易",
+      "tx_in_snake_case": "Snake Case 格式交易",
+      "tx_in_camel_case": "Camel Case 格式交易"
     }
   }
 }

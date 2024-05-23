@@ -20,6 +20,14 @@ const ToolsContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
       label: t('tools.hasher'),
       url: '/tools/hasher',
     },
+    {
+      label: t('tools.snake_case_and_camel_case'),
+      url: '/tools/snake-case-and-camel-case',
+    },
+    {
+      label: t('tools.broadcast_tx'),
+      url: '/tools/broadcast-tx',
+    },
     // {
     //   label: t('tools.molecule_parser'),
     //   url: '/tools/molecule-parser',

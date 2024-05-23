@@ -359,7 +359,18 @@
       "addr": "Address",
       "reset": "Reset",
       "by_name": "by name",
-      "by_id": "by ID"
+      "by_id": "by ID",
+      "block": "Block",
+      "ckb_transaction": "Transaction",
+      "address": "Address",
+      "lock_hash": "Lock Hash",
+      "udt": "UDT",
+      "type_script": "Type Script",
+      "lock_script": "Lock Script",
+      "bitcoin_transaction": "BTC TX",
+      "bitcoin_address": "BTC Address",
+      "token_collection": "Token Collection",
+      "did": "DID"
     },
     "address": {
       "address": "Address",
@@ -914,8 +925,20 @@
       "molecule_parser": "Molecule Parser",
       "broadcast_transaction": "Broadcast Transaction",
       "hasher": "Hasher",
-      "referred-in-type-script": "Referred in Type Script?",
-      "visit-it": "Visit it"
+      "referred_in_script": "Referred in Script?",
+      "visit_it": "Visit it",
+      "hash160": "Hash160",
+      "data": "Data",
+      "data_to_hash": "Data to Hash",
+      "data_hash": "Data Hash",
+      "broadcast_tx": "Broadcast Tx",
+      "tx_to_broadcast": "Tx to Broadcast",
+      "broadcast": "Broadcast",
+      "tx_hash": "Tx Hash",
+      "snake_case_and_camel_case": "Snake Case ↔  Camel Case",
+      "transaction": "Transaction",
+      "tx_in_snake_case": "Transaction in Snake Case",
+      "tx_in_camel_case": "Transaction in Camel Case"
     }
   }
 }
