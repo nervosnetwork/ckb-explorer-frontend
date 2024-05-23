@@ -59,7 +59,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
   let attribute = null
   let detailInfo = null
 
-  const utxo = `${cell.txHash.slice(0, 4)}...${cell.txHash.slice(-3)}:${cell.cellIndex + 1}`
+  const utxo = `${cell.txHash.slice(0, 4)}...${cell.txHash.slice(-3)}:${cell.cellIndex}`
 
   switch (assetType) {
     case 'ckb': {
@@ -167,7 +167,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
 
   const cellInfo = {
     ...cell,
-    id: Number(cell.id),
+    id: Number(cell.cellId),
     isGenesisOutput: false,
   } as CellBasicInfo
 
