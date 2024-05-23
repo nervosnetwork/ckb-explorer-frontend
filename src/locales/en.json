@@ -408,7 +408,7 @@
       "view-as-asset-items": "View Asset Distribution",
       "view-as-merged-assets": "View Asset Amounts(CKB excluded)",
       "block-height": "Block Height",
-      "out-point": "Out Point",
+      "out-point": "OutPoint",
       "capacity": "Capacity(CKB)",
       "type": "Type",
       "amount": "Amount",
