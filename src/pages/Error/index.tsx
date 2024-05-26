@@ -1,3 +1,4 @@
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import PCErrorImage from './error.png'
@@ -6,7 +7,13 @@ import { useIsMobile } from '../../hooks'
 import styles from './index.module.scss'
 import { Link } from '../../components/Link'
 
-export default ({ errorMessage, errorDescription }: { errorMessage?: string; errorDescription?: string }) => {
+export default ({
+  errorMessage,
+  errorDescription,
+}: {
+  errorMessage?: string
+  errorDescription?: React.ErrorInfo['componentStack']
+}) => {
   const isMobile = useIsMobile()
   const [t] = useTranslation()
 

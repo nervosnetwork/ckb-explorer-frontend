@@ -19,6 +19,9 @@
 }
 
 .options {
+  z-index: 1;
+  max-height: 200px;
+  overflow-y: scroll;
   position: absolute;
   left: 0;
   top: 45px;
