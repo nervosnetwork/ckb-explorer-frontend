@@ -8,13 +8,14 @@ import Arrow from '../../assets/arrow_down_black.png'
 type Option = Record<'label' | 'value', string>
 type Props = {
   options: Option[]
+  value?: string
   onChange: (value: string) => void
   defaultValue?: string
   placeholder?: string
   className?: string
 }
 
-function CommonSelect({ options, onChange, defaultValue, placeholder, className }: Props) {
+function CommonSelect({ options, onChange, value: parentValue, defaultValue, placeholder, className }: Props) {
   const defaultLabel = options.find(option => option.value === defaultValue)?.label
   const [value, setValue] = useState(defaultLabel)
   const [isExpanded, setIsExpanded] = useState(false)
@@ -76,7 +77,7 @@ function CommonSelect({ options, onChange, defaultValue, placeholder, className 
     <OutsideClickHandler onOutsideClick={() => setIsExpanded(false)}>
       <div onClick={toggleExpand} className={classNames(styles.select, className)}>
         <div className={styles.value}>
-          {value ?? placeholder}
+          {parentValue ?? value ?? placeholder}
           <img src={Arrow} alt="arrow" className={styles.arrow} data-is-flipped={isExpanded} />
         </div>
         {isExpanded && (

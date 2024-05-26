@@ -28,14 +28,10 @@ const ToolsContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
       label: t('tools.broadcast_tx'),
       url: '/tools/broadcast-tx',
     },
-    // {
-    //   label: t('tools.molecule_parser'),
-    //   url: '/tools/molecule-parser',
-    // },
-    // {
-    //   label: t('tools.broadcast_transaction'),
-    //   url: '/tools/broadcast-transaction',
-    // },
+    {
+      label: t('tools.molecule_parser'),
+      url: '/tools/molecule-parser',
+    },
   ]
 
   return (
