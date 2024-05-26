@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { createParser } from '@ckb-lumos/molecule'
+import { HelpTip } from '../../../components/HelpTip'
 import { blockchainSchema, builtinCodecs, mergeBuiltinCodecs } from './constants'
 import { Alert, AlertTitle, AlertDescription } from '../../../components/ui/Alert'
 import styles from './styles.module.scss'
@@ -11,11 +12,11 @@ type Props = {
 
 export const Molecule: React.FC<Props> = ({ updateCodecMap }) => {
   const [showAlert, setShowAlert] = React.useState(false)
-  const [parseErrorMsg, setParseErrorMsg] = React.useState<string>('')
   const [inputMol, setInputMol] = useState('')
+  const [parseErrorMsg, setParseErrorMsg] = React.useState<string>('')
   const [parseSuccess, setParseSuccess] = useState(false)
 
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     const parser = createParser()
     try {
       // get user input schema, and append with primitive schema
@@ -33,15 +34,19 @@ export const Molecule: React.FC<Props> = ({ updateCodecMap }) => {
       updateCodecMap({})
       console.error('error is:', error)
     }
-  }
-  const handleChange = (e: any) => {
-    setInputMol(e.target.value)
+  }, [inputMol, setParseErrorMsg, setShowAlert, setParseSuccess, updateCodecMap])
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputMol(e.currentTarget.value)
   }
 
   return (
     <div style={{ marginBottom: 16 }}>
       <div className={styles.field} style={{ marginBottom: 16 }}>
-        <label htmlFor="input-schema">Input schema(mol)</label>
+        <label htmlFor="input-schema">
+          Input schema(mol)
+          <HelpTip title="Uint8/16/.../512, Byte32, BytesVec, Bytes, BytesVec, BytesOpt are used as primitive schemas, please do not override." />
+        </label>
         <div className={styles.content}>
           <textarea
             id="input-schema"
