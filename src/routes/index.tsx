@@ -1,4 +1,4 @@
-import { Suspense, lazy, Component, FC } from 'react'
+import React, { Suspense, lazy, Component, FC } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -76,6 +76,7 @@ const AddressConversion = lazy(() => import('../pages/Tools/AddressConversion'))
 const Hasher = lazy(() => import('../pages/Tools/Hasher'))
 const BroadcastTx = lazy(() => import('../pages/Tools/BroadcastTx'))
 const CamelCase = lazy(() => import('../pages/Tools/CamelCase'))
+const MoleculeParser = lazy(() => import('../pages/Tools/MoleculeParser'))
 
 const routes: RouteProps[] = [
   {
@@ -321,13 +322,15 @@ const routes: RouteProps[] = [
     path: '/tools/snake-case-and-camel-case',
     component: CamelCase,
   },
+  {
+    path: '/tools/molecule-parser',
+    component: MoleculeParser,
+  },
 ]
 
 type PageErrorBoundaryState = {
   error?: Error | null
-  info: {
-    componentStack?: string
-  }
+  info: React.ErrorInfo
 }
 
 type PageErrorBoundaryProps = React.PropsWithChildren<{}>

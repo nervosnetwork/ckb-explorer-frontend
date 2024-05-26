@@ -19,7 +19,9 @@ const AddressText: FC<{
   useTextWidthForPlaceholderWidth?: boolean
   style?: React.CSSProperties
   onClick?: () => void
+  ellipsisMiddle?: boolean
 }> = ({
+  ellipsisMiddle = true,
   children: address,
   fontKey,
   className,
@@ -39,22 +41,28 @@ const AddressText: FC<{
       placement="top"
       title={<CopyTooltipText content={address} />}
     >
-      <EllipsisMiddle
-        onClick={onClick}
-        style={style}
-        useTextWidthForPlaceholderWidth={useTextWidthForPlaceholderWidth}
-        fontKey={fontKey}
-        className={classNames(
-          {
-            monospace,
-          },
-          linkProps == null && containerClass,
-          className,
-        )}
-        onTruncateStateChange={truncatedCtl.toggle}
-      >
-        {address}
-      </EllipsisMiddle>
+      {ellipsisMiddle ? (
+        <EllipsisMiddle
+          onClick={onClick}
+          style={style}
+          useTextWidthForPlaceholderWidth={useTextWidthForPlaceholderWidth}
+          fontKey={fontKey}
+          className={classNames(
+            {
+              monospace,
+            },
+            linkProps == null && containerClass,
+            className,
+          )}
+          onTruncateStateChange={truncatedCtl.toggle}
+        >
+          {address}
+        </EllipsisMiddle>
+      ) : (
+        <span className={className} style={{ wordBreak: 'break-all', maxWidth: '100%' }}>
+          {address}
+        </span>
+      )}
     </Tooltip>
   )
 
