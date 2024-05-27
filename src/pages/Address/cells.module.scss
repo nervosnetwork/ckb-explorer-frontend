@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .container {
   width: 100%;
   overflow: scroll;
@@ -51,6 +53,14 @@
 
   .content {
     overflow-x: scroll;
+
+    @media (width >= $extraLargeBreakPoint) {
+      max-height: 220px;
+    }
+
+    @media (width <= $extraLargeBreakPoint) {
+      max-height: 310px;
+    }
   }
 
   ul {
@@ -146,6 +156,12 @@
     background: #fff;
     border: 1px solid #e5e5e5;
 
+    thead tr th {
+      background: #fff;
+      position: sticky;
+      top: -1px;
+    }
+
     th,
     td {
       border: 1px solid #e5e5e5;
@@ -162,6 +178,16 @@
     td {
       height: 48px;
     }
+  }
+}
+
+.detail {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #666;
+
+  &:hover {
+    color: var(--primary-color);
   }
 }
 

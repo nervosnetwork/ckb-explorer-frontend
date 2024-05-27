@@ -226,9 +226,11 @@ const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
     <div className={styles.tableContainer}>
       <table>
         <thead>
-          {headers.map(header => (
-            <th key={header.key}>{header.title}</th>
-          ))}
+          <tr>
+            {headers.map(header => (
+              <th key={header.key}>{header.title}</th>
+            ))}
+          </tr>
         </thead>
         <tbody>
           {cells.map((cell, index) => {
@@ -242,10 +244,12 @@ const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
                 <td>{ckb}</td>
                 <td>{cell.extraInfo?.type}</td>
                 <td>
-                  {attribute} {assetName}
+                  {attribute} {attribute === 'Unknown amount' ? '' : assetName}
                 </td>
                 <td>
-                  <TransactionCellInfo cell={cellInfo}>{t('address.detail')}</TransactionCellInfo>
+                  <TransactionCellInfo cell={cellInfo} isDefaultStyle={false}>
+                    <span className={styles.detail}>{t('address.detail')}</span>
+                  </TransactionCellInfo>
                 </td>
               </tr>
             )
