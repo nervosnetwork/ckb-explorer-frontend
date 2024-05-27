@@ -85,7 +85,7 @@ const TokenTable: FC<{ udts: UDTAccount[]; cotaList: NFTItem[] }> = ({ udts, cot
               <tr key={key}>
                 <td>{index + 1}</td>
                 <td>{type}</td>
-                <td>{asset}</td>
+                <td>{asset || '/'}</td>
                 <td>{amount}</td>
                 <td>
                   <a href={href}>{t('address.view-asset')}</a>
