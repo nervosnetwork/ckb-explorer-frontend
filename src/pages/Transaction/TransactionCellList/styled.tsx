@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import variables from '../../../styles/variables.module.scss'
 
 export const TransactionCellListTitlePanel = styled.div`
@@ -65,21 +65,6 @@ export const TransactionCellListPanel = styled.div`
 `
 
 export const TransactionCellsPanel = styled.div`
-  ${(props: { isScroll: boolean }) =>
-    props.isScroll &&
-    css`
-      padding-top: 10px;
-
-      .transactionCellListContainer {
-        max-height: 600px;
-        overflow-y: scroll;
-
-        @media (min-width: ${variables.mobileBreakPoint}) {
-          max-height: 400px;
-        }
-      }
-    `};
-
   .transactionCellTitle {
     color: #000;
     font-weight: 600;
