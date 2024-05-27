@@ -26,9 +26,11 @@ const TokenTable: FC<{ udts: UDTAccount[]; cotaList: NFTItem[] }> = ({ udts, cot
     <div className={styles.tableContainer}>
       <table>
         <thead>
-          {headers.map(header => (
-            <th key={header.key}>{header.title}</th>
-          ))}
+          <tr>
+            {headers.map(header => (
+              <th key={header.key}>{header.title}</th>
+            ))}
+          </tr>
         </thead>
         <tbody>
           {udts.map((udt, index) => {

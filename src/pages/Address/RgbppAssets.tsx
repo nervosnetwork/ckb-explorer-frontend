@@ -212,7 +212,7 @@ const AssetItem: FC<{ cell: LiveCell }> = ({ cell }) => {
 
         <span title={`${ckb} CKB`}>{`${ckb} CKB`}</span>
       </h5>
-      <div className={styles.content}>
+      <div className={styles.itemContent}>
         {typeof icon === 'string' ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
         {icon && typeof icon !== 'string' ? icon : null}
         <div className={styles.fields}>
@@ -239,9 +239,11 @@ const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
     <div className={styles.tableContainer}>
       <table>
         <thead>
-          {headers.map(header => (
-            <th key={header.key}>{header.title}</th>
-          ))}
+          <tr>
+            {headers.map(header => (
+              <th key={header.key}>{header.title}</th>
+            ))}
+          </tr>
         </thead>
         <tbody>
           {cells.map((cell, index) => {
@@ -397,17 +399,20 @@ const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscri
           </Tooltip>
         </div>
       </div>
-      {isDisplayedAsList ? (
-        <RgbAssetItems address={address} count={count} isDisplayedAsList={isDisplayedAsList} />
-      ) : (
-        <>
-          {isMerged ? (
-            <MergedAssetList udts={udts} inscriptions={inscriptions} />
-          ) : (
-            <RgbAssetItems address={address} count={count} isDisplayedAsList={isDisplayedAsList} />
-          )}
-        </>
-      )}
+
+      <div className={styles.content}>
+        {isDisplayedAsList ? (
+          <RgbAssetItems address={address} count={count} isDisplayedAsList={isDisplayedAsList} />
+        ) : (
+          <>
+            {isMerged ? (
+              <MergedAssetList udts={udts} inscriptions={inscriptions} />
+            ) : (
+              <RgbAssetItems address={address} count={count} isDisplayedAsList={isDisplayedAsList} />
+            )}
+          </>
+        )}
+      </div>
     </div>
   )
 }

@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .container {
   width: 100%;
   overflow: scroll;
@@ -46,6 +48,18 @@
           }
         }
       }
+    }
+  }
+
+  .content {
+    overflow-x: scroll;
+
+    @media (width >= $extraLargeBreakPoint) {
+      max-height: 220px;
+    }
+
+    @media (width <= $extraLargeBreakPoint) {
+      max-height: 310px;
     }
   }
 
@@ -110,7 +124,7 @@
     }
   }
 
-  .content {
+  .itemContent {
     padding: 8px;
     display: flex;
     line-height: 1;
@@ -160,6 +174,12 @@
     width: 100%;
     background: #fff;
     border: 1px solid #e5e5e5;
+
+    thead tr th {
+      background: #fff;
+      position: sticky;
+      top: -1px;
+    }
 
     th,
     td {
