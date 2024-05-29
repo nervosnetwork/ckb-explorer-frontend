@@ -43,6 +43,7 @@ import { useDASAccount } from '../../../hooks/useDASAccount'
 import styles from './styles.module.scss'
 import AddressText from '../../../components/AddressText'
 import { Cell } from '../../../models/Cell'
+import { CellBasicInfo } from '../../../utils/transformer'
 
 export const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, isCellBase }) => {
   const alias = useDASAccount(address)
@@ -171,7 +172,7 @@ const useParseNftInfo = (cell: Cell) => {
   }
 }
 
-const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
+export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   const { t } = useTranslation()
   let detailTitle = t('transaction.ckb_capacity')
   let detailIcon
@@ -266,12 +267,20 @@ const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   )
 }
 
-const TransactionCellInfo = ({ cell, children }: { cell: Cell; children: string | ReactNode }) => {
+export const TransactionCellInfo = ({
+  cell,
+  children,
+  isDefaultStyle = true,
+}: {
+  cell: CellBasicInfo
+  children: string | ReactNode
+  isDefaultStyle?: boolean
+}) => {
   const [showModal, setShowModal] = useState(false)
   return (
     <TransactionCellInfoPanel>
       <SimpleButton
-        className="transactionCellInfoContent"
+        className={isDefaultStyle ? 'transactionCellInfoContent' : ''}
         onClick={() => {
           setShowModal(true)
         }}
@@ -279,6 +288,7 @@ const TransactionCellInfo = ({ cell, children }: { cell: Cell; children: string 
         <div>{children}</div>
         <div className="transactionCellInfoSeparate" />
       </SimpleButton>
+
       <SimpleModal isShow={showModal} setIsShow={setShowModal}>
         <TransactionCellDetailModal>
           <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />

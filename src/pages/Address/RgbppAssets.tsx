@@ -1,8 +1,10 @@
 import { type FC, useState, useRef, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { TFunction, useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
+import { ReactComponent as ListIcon } from './list.svg'
+import { ReactComponent as GridIcon } from './grid.svg'
 import { explorerService, LiveCell } from '../../services/ExplorerService'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import CKBTokenIcon from './ckb_token_icon.png'
@@ -14,6 +16,7 @@ import { ReactComponent as SporeCellIcon } from './spore_cell.svg'
 import { ReactComponent as MergedAssetIcon } from './merged_assets.svg'
 import { ReactComponent as AssetItemsIcon } from './asset_items.svg'
 import SmallLoading from '../../components/Loading/SmallLoading'
+import { TransactionCellInfo } from '../Transaction/TransactionCell'
 import { parseUDTAmount } from '../../utils/number'
 import { getContractHashTag, shannonToCkb } from '../../utils/util'
 import { useSetToast } from '../../components/Toast'
@@ -21,6 +24,7 @@ import { PAGE_SIZE } from '../../constants/common'
 import styles from './rgbppAssets.module.scss'
 import MergedAssetList from './MergedAssetList'
 import { UDTAccount } from '../../models/Address'
+import { CellBasicInfo } from '../../utils/transformer'
 
 const fetchCells = async ({
   address,
@@ -44,20 +48,7 @@ const initialPageParams = { size: 10, sort: 'capacity.desc' }
 
 const ATTRIBUTE_LENGTH = 18
 
-const AssetItem: FC<{ cell: LiveCell }> = ({ cell }) => {
-  const setToast = useSetToast()
-  const { t } = useTranslation()
-
-  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-    e.preventDefault()
-    const { detail } = e.currentTarget.dataset
-    if (!detail) return
-    navigator.clipboard.writeText(detail).then(() => {
-      setToast({ message: t('common.copied') })
-    })
-  }
-
+const getCellDetails = (cell: LiveCell, t: TFunction) => {
   const ckb = new BigNumber(shannonToCkb(+cell.capacity)).toFormat()
   const link = `/transaction/${cell.txHash}?${new URLSearchParams({
     page_of_outputs: Math.ceil((+cell.cellIndex + 1) / PAGE_SIZE).toString(),
@@ -67,6 +58,8 @@ const AssetItem: FC<{ cell: LiveCell }> = ({ cell }) => {
   let assetName = null
   let attribute = null
   let detailInfo = null
+
+  const utxo = `${cell.txHash.slice(0, 4)}...${cell.txHash.slice(-3)}:${cell.cellIndex}`
 
   switch (assetType) {
     case 'ckb': {
@@ -172,6 +165,41 @@ const AssetItem: FC<{ cell: LiveCell }> = ({ cell }) => {
     }
   }
 
+  const cellInfo = {
+    ...cell,
+    id: Number(cell.cellId),
+    isGenesisOutput: false,
+  } as CellBasicInfo
+
+  return {
+    link,
+    assetType,
+    ckb,
+    detailInfo,
+    icon,
+    assetName,
+    attribute,
+    cellInfo,
+    utxo,
+  }
+}
+
+const AssetItem: FC<{ cell: LiveCell }> = ({ cell }) => {
+  const setToast = useSetToast()
+  const { t } = useTranslation()
+
+  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
+    const { detail } = e.currentTarget.dataset
+    if (!detail) return
+    navigator.clipboard.writeText(detail).then(() => {
+      setToast({ message: t('common.copied') })
+    })
+  }
+
+  const { link, assetType, ckb, detailInfo, icon, assetName, attribute } = getCellDetails(cell, t)
+
   return (
     <li key={cell.txHash + cell.cellIndex} className={styles.card}>
       <h5
@@ -184,7 +212,7 @@ const AssetItem: FC<{ cell: LiveCell }> = ({ cell }) => {
 
         <span title={`${ckb} CKB`}>{`${ckb} CKB`}</span>
       </h5>
-      <div className={styles.content}>
+      <div className={styles.itemContent}>
         {typeof icon === 'string' ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
         {icon && typeof icon !== 'string' ? icon : null}
         <div className={styles.fields}>
@@ -203,7 +231,54 @@ const AssetItem: FC<{ cell: LiveCell }> = ({ cell }) => {
   )
 }
 
-const RgbAssetItems: FC<{ address: string; count: number }> = ({ address, count }) => {
+const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
+  const { t } = useTranslation()
+  const headers = getTableHeaders(t)
+
+  return (
+    <div className={styles.tableContainer}>
+      <table>
+        <thead>
+          <tr>
+            {headers.map(header => (
+              <th key={header.key}>{header.title}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {cells.map((cell, index) => {
+            const { utxo, link, assetType, ckb, assetName, attribute, cellInfo } = getCellDetails(cell, t)
+            return (
+              <tr key={cell.txHash + cell.cellIndex}>
+                <td>{index + 1}</td>
+                <td>
+                  <a href={link}>{utxo}</a>
+                </td>
+                <td>{assetType}</td>
+                <td>{assetName}</td>
+                <td>
+                  {attribute} {assetName}
+                </td>
+                <td>{ckb}</td>
+                <td>
+                  <TransactionCellInfo cell={cellInfo} isDefaultStyle={false}>
+                    <span className={styles.cellInfo}>{t('address.cell-info')}</span>
+                  </TransactionCellInfo>
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+const RgbAssetItems: FC<{ address: string; count: number; isDisplayedAsList: boolean }> = ({
+  address,
+  count,
+  isDisplayedAsList,
+}) => {
   const [params] = useState(initialPageParams)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
@@ -260,11 +335,15 @@ const RgbAssetItems: FC<{ address: string; count: number }> = ({ address, count 
 
   return (
     <>
-      <ul>
-        {cells.map(cell => (
-          <AssetItem cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
-        ))}
-      </ul>
+      {isDisplayedAsList ? (
+        <CellTable cells={cells} />
+      ) : (
+        <ul>
+          {cells.map(cell => (
+            <AssetItem cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
+          ))}
+        </ul>
+      )}
       {isFetchingNextPage ? (
         <span className={styles.loading}>
           <SmallLoading />
@@ -289,6 +368,7 @@ const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscri
 }) => {
   const [isMerged, setIsMerged] = useState(true)
   const { t } = useTranslation()
+  const [isDisplayedAsList, setIsDisplayedAsList] = useState(false)
 
   return (
     <div className={styles.container}>
@@ -296,19 +376,62 @@ const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscri
         <div>{t(`address.${isMerged ? 'view-as-merged-assets' : 'view-as-asset-items'}`)}</div>
         <div className={styles.filters}>
           <Tooltip placement="top" title={t(`address.${isMerged ? 'view-as-asset-items' : 'view-as-merged-assets'}`)}>
-            <button type="button" onClick={() => setIsMerged(i => !i)}>
+            <button
+              type="button"
+              onClick={() => {
+                setIsMerged(i => !i)
+                setIsDisplayedAsList(false)
+              }}
+            >
               {isMerged ? <AssetItemsIcon /> : <MergedAssetIcon />}
+            </button>
+          </Tooltip>
+          <Tooltip placement="top" title={isDisplayedAsList ? t('sort.card') : t('sort.list')}>
+            <button
+              type="button"
+              onClick={() => {
+                setIsDisplayedAsList(i => !i)
+                setIsMerged(false)
+              }}
+            >
+              {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
             </button>
           </Tooltip>
         </div>
       </div>
-      {isMerged ? (
-        <MergedAssetList udts={udts} inscriptions={inscriptions} />
-      ) : (
-        <RgbAssetItems address={address} count={count} />
-      )}
+
+      <div className={styles.content}>
+        {isDisplayedAsList ? (
+          <RgbAssetItems address={address} count={count} isDisplayedAsList={isDisplayedAsList} />
+        ) : (
+          <>
+            {isMerged ? (
+              <MergedAssetList udts={udts} inscriptions={inscriptions} />
+            ) : (
+              <RgbAssetItems address={address} count={count} isDisplayedAsList={isDisplayedAsList} />
+            )}
+          </>
+        )}
+      </div>
     </div>
   )
 }
 
 export default RgbAssets
+
+const getTableHeaders = (t: TFunction): TableHeader[] => {
+  return [
+    { title: '#', key: 'index' },
+    { title: 'UTXO', key: 'utxo' },
+    { title: t('address.type'), key: 'type' },
+    { title: t('address.asset'), key: 'asset' },
+    { title: t('address.amount'), key: 'amount' },
+    { title: t('address.capacity'), key: 'capacity' },
+    { title: '', key: 'action' },
+  ]
+}
+
+interface TableHeader {
+  title: string
+  key: string
+}

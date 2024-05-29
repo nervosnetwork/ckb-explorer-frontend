@@ -285,17 +285,9 @@
   margin-top: 10px;
   background-color: #f1f1f1;
   padding: 6px 25px;
+  border-radius: 4px;
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  overflow-y: scroll;
   gap: 1rem;
-
-  @media (width >= $extraLargeBreakPoint) {
-    max-height: 220px;
-  }
-
-  @media (width <= $extraLargeBreakPoint) {
-    max-height: 310px;
-  }
 }
