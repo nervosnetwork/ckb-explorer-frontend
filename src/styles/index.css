@@ -16,6 +16,8 @@ body {
   --btc-primary-dimmed-color: #ffdba6;
   --btc-secondary-color: #fff5e2;
   --antd-wave-shadow-color: var(--primary-color);
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 210 40% 98%;
 
   margin: 0;
   padding: 0;

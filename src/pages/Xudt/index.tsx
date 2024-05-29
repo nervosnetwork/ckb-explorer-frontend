@@ -96,6 +96,7 @@ export const Xudt = () => {
               total={data?.total ?? 0}
               onPageChange={setPage}
               filterNoResult={filterNoResult}
+              xudt={xudt}
             />
           )}
         </QueryResult>

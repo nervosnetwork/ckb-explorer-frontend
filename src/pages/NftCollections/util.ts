@@ -1,7 +1,7 @@
 import { includes } from '../../utils/array'
 import { useSortParam } from '../../hooks'
 
-const NFTSortByTypes = ['transactions', 'holder', 'minted'] as const
+const NFTSortByTypes = ['transactions', 'holder', 'minted', 'timestamp'] as const
 type NFTSortByType = (typeof NFTSortByTypes)[number]
 
 export const useNFTCollectionsSortParam = () =>

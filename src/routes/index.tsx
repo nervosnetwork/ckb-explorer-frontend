@@ -1,4 +1,4 @@
-import { Suspense, lazy, Component, FC } from 'react'
+import React, { Suspense, lazy, Component, FC } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -36,6 +36,7 @@ const StatisticsChart = lazy(() => import('../pages/StatisticsChart'))
 const Tokens = lazy(() => import('../pages/Tokens'))
 const Xudts = lazy(() => import('../pages/Xudts'))
 const Xudt = lazy(() => import('../pages/Xudt'))
+const XudtExport = lazy(() => import('../pages/XudtExport'))
 const Halving = lazy(() => import('../pages/Halving'))
 const DifficultyHashRateChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyHashRate'))
 const DifficultyUncleRateEpochChart = lazy(() => import('../pages/StatisticsChart/mining/DifficultyUncleRateEpoch'))
@@ -75,6 +76,7 @@ const AddressConversion = lazy(() => import('../pages/Tools/AddressConversion'))
 const Hasher = lazy(() => import('../pages/Tools/Hasher'))
 const BroadcastTx = lazy(() => import('../pages/Tools/BroadcastTx'))
 const CamelCase = lazy(() => import('../pages/Tools/CamelCase'))
+const MoleculeParser = lazy(() => import('../pages/Tools/MoleculeParser'))
 
 const routes: RouteProps[] = [
   {
@@ -293,6 +295,10 @@ const routes: RouteProps[] = [
     component: ErrorPage,
   },
   {
+    path: '/export-xudt-holders',
+    component: XudtExport,
+  },
+  {
     path: '/export-transactions',
     component: ExportTransactions,
   },
@@ -316,13 +322,15 @@ const routes: RouteProps[] = [
     path: '/tools/snake-case-and-camel-case',
     component: CamelCase,
   },
+  {
+    path: '/tools/molecule-parser',
+    component: MoleculeParser,
+  },
 ]
 
 type PageErrorBoundaryState = {
   error?: Error | null
-  info: {
-    componentStack?: string
-  }
+  info: React.ErrorInfo
 }
 
 type PageErrorBoundaryProps = React.PropsWithChildren<{}>
