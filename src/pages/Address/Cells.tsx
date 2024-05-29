@@ -1,12 +1,11 @@
 import { type FC, useState, useRef, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { TFunction, useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { explorerService, LiveCell } from '../../services/ExplorerService'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import CKBTokenIcon from './ckb_token_icon.png'
-import { ReactComponent as CopyIcon } from './copy.svg'
 import { ReactComponent as TypeHashIcon } from './type_script.svg'
 import { ReactComponent as DataIcon } from './data.svg'
 import { ReactComponent as SporeCluterIcon } from './spore_cluster.svg'
@@ -18,10 +17,11 @@ import { ReactComponent as ListIcon } from './list.svg'
 import { ReactComponent as GridIcon } from './grid.svg'
 import { parseUDTAmount } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
-import { useSetToast } from '../../components/Toast'
-import { PAGE_SIZE } from '../../constants/common'
+import { parseSimpleDateNoSecond } from '../../utils/date'
 import styles from './cells.module.scss'
 import SmallLoading from '../../components/Loading/SmallLoading'
+import { TransactionCellInfo } from '../Transaction/TransactionCell'
+import { CellBasicInfo } from '../../utils/transformer'
 import { sliceNftName } from '../../utils/string'
 
 enum Sort {
@@ -53,31 +53,13 @@ const initialPageParams = { size: 10, sort: 'capacity.desc' }
 
 const ATTRIBUTE_LENGTH = 18
 
-const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
-  const setToast = useSetToast()
-  const { t } = useTranslation()
-
-  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-    e.preventDefault()
-    const { detail } = e.currentTarget.dataset
-    if (!detail) return
-    navigator.clipboard.writeText(detail).then(() => {
-      setToast({ message: t('common.copied') })
-    })
-  }
-
+const getCellDetails = (cell: LiveCell, t: TFunction) => {
   const ckb = new BigNumber(shannonToCkb(+cell.capacity)).toFormat()
-  const title = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
-  const link = `/transaction/${cell.txHash}?${new URLSearchParams({
-    page_of_outputs: Math.ceil((+cell.cellIndex + 1) / PAGE_SIZE).toString(),
-  })}`
   const assetType: string = cell.extraInfo?.type ?? cell.cellType
   let icon: string | React.ReactElement | null = null
   let assetName = null
   let attribute = null
   let detailInfo = null
-
   switch (assetType) {
     case 'ckb': {
       if (cell.typeHash) {
@@ -183,44 +165,105 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
       attribute = '-'
     }
   }
-  const outPoint = {
-    tx_hash: cell.txHash,
-    index: `0x${cell.cellIndex.toString(16)}`,
+
+  const outPointStr = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
+  const parsedBlockCreateAt = parseSimpleDateNoSecond(cell.blockTimestamp)
+  const title = `${cell.cellId}: ${ckb} `
+  const cellInfo = {
+    ...cell,
+    id: Number(cell.cellId),
+    isGenesisOutput: Number(cell.blockNumber) === 0,
+  } as CellBasicInfo
+
+  return {
+    ckb,
+    outPointStr,
+    icon,
+    assetName,
+    attribute,
+    detailInfo,
+    title,
+    parsedBlockCreateAt,
+    cellInfo,
   }
+}
+
+const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
+  const { t } = useTranslation()
+
+  const { title, parsedBlockCreateAt, icon, assetName, attribute, detailInfo, cellInfo } = getCellDetails(cell, t)
 
   return (
     <li key={cell.txHash + cell.cellIndex} className={styles.card}>
-      <h5>
-        <a href={link}>{title}</a>
+      <TransactionCellInfo cell={cellInfo} isDefaultStyle={false}>
+        <Tooltip placement="top" title={`${title} CKB (${parsedBlockCreateAt})`}>
+          <h5>
+            <span>{title}</span>
+            <span> CKB ({parsedBlockCreateAt})</span>
+          </h5>
+        </Tooltip>
 
-        <button type="button" className={styles.copy} data-detail={JSON.stringify(outPoint)} onClick={handleCopy}>
-          <CopyIcon />
-        </button>
-        <span title={`${ckb} CKB`}>{`${ckb} CKB`}</span>
-      </h5>
-      <div className={styles.content}>
-        {typeof icon === 'string' ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
-        {icon && typeof icon !== 'string' ? icon : null}
-        <div className={styles.fields}>
-          <div className={styles.assetName}>{assetName}</div>
-          <div className={styles.attribute} title={detailInfo ?? attribute}>
-            <div className={styles.attributeContent}>{attribute}</div>
-            {detailInfo ? (
-              <button type="button" className={styles.copy} data-detail={detailInfo} onClick={handleCopy}>
-                <CopyIcon />
-              </button>
-            ) : null}
+        <div className={styles.cellContent}>
+          {typeof icon === 'string' ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
+          {icon && typeof icon !== 'string' ? icon : null}
+          <div className={styles.fields}>
+            <div className={styles.assetName}>{assetName}</div>
+            <div className={styles.attribute} title={detailInfo ?? attribute}>
+              {attribute}
+            </div>
           </div>
         </div>
-      </div>
+      </TransactionCellInfo>
     </li>
+  )
+}
+
+const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
+  const { t } = useTranslation()
+  const headers = getTableHeaders(t)
+
+  return (
+    <div className={styles.tableContainer}>
+      <table>
+        <thead>
+          <tr>
+            {headers.map(header => (
+              <th key={header.key}>{header.title}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {cells.map((cell, index) => {
+            const { ckb, outPointStr, assetName, attribute, cellInfo } = getCellDetails(cell, t)
+
+            return (
+              <tr key={cell.txHash + cell.cellIndex}>
+                <td>{index + 1}</td>
+                <td>{cell.blockNumber}</td>
+                <td>{outPointStr}</td>
+                <td>{ckb}</td>
+                <td>{cell.extraInfo?.type}</td>
+                <td>
+                  {attribute} {attribute === 'Unknown amount' ? '' : assetName}
+                </td>
+                <td>
+                  <TransactionCellInfo cell={cellInfo} isDefaultStyle={false}>
+                    <span className={styles.detail}>{t('address.detail')}</span>
+                  </TransactionCellInfo>
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
   )
 }
 
 const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
   const { t } = useTranslation()
   const [params, setParams] = useState(initialPageParams)
-  const [isDisplayedAsList, setIsDisplayedAsList] = useState(true)
+  const [isDisplayedAsList, setIsDisplayedAsList] = useState(false)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
@@ -279,9 +322,6 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
               data-sort={params.sort === Sort.TimeAsc ? Sort.TimeDesc : Sort.TimeAsc}
               onClick={handleSortChange}
               data-is-active={params.sort === Sort.TimeAsc || params.sort === Sort.TimeDesc}
-              style={{
-                display: 'none', // FIXME: wait for api fix
-              }}
             >
               {params.sort === Sort.TimeAsc ? <TimeUpIcon /> : <TimeDownIcon />}
             </button>
@@ -296,35 +336,56 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
               <SortIcon data-current-sort={params.sort} className={styles.capacitySortIcon} />
             </button>
           </Tooltip>
-          <button
-            type="button"
-            onClick={() => setIsDisplayedAsList(i => !i)}
-            style={{
-              display: 'none', // TODO PRD should be updated
-            }}
-          >
-            {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
-          </button>
+          <Tooltip placement="top" title={isDisplayedAsList ? t('sort.card') : t('sort.list')}>
+            <button type="button" onClick={() => setIsDisplayedAsList(i => !i)}>
+              {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
+            </button>
+          </Tooltip>
         </div>
       </div>
-      <ul>
-        {cells.map(cell => (
-          <Cell cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
-        ))}
-      </ul>
-      {isFetchingNextPage ? (
-        <span className={styles.loading}>
-          <SmallLoading />
-        </span>
-      ) : null}
-      {!hasNextPage || isFetchingNextPage ? null : (
-        <div className={styles.loadMore} ref={loadMoreRef}>
-          <button type="button" onClick={() => fetchNextPage()}>
-            Load more
-          </button>
-        </div>
-      )}
+
+      <div className={styles.content}>
+        {isDisplayedAsList ? (
+          <CellTable cells={cells} />
+        ) : (
+          <ul>
+            {cells.map(cell => (
+              <Cell cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
+            ))}
+          </ul>
+        )}
+
+        {isFetchingNextPage ? (
+          <span className={styles.loading}>
+            <SmallLoading />
+          </span>
+        ) : null}
+        {!hasNextPage || isFetchingNextPage ? null : (
+          <div className={styles.loadMore} ref={loadMoreRef}>
+            <button type="button" onClick={() => fetchNextPage()}>
+              Load more
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 export default Cells
+
+const getTableHeaders = (t: TFunction): TableHeader[] => {
+  return [
+    { title: '#', key: 'index' },
+    { title: t('address.block-height'), key: 'block-number' },
+    { title: t('address.out-point'), key: 'out-point' },
+    { title: t('address.capacity'), key: 'capacity' },
+    { title: t('address.type'), key: 'type' },
+    { title: t('address.amount'), key: 'amount' },
+    { title: '', key: 'action' },
+  ]
+}
+
+interface TableHeader {
+  title: string
+  key: string
+}

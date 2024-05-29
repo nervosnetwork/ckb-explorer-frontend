@@ -72,84 +72,6 @@
   }
 }
 
-.card {
-  min-height: 86px;
-  background: #fff;
-  border-radius: 4px;
-  overflow: hidden;
-
-  h5 {
-    display: flex;
-    align-items: center;
-    background: var(--primary-color);
-    color: #fff;
-    height: 1.875rem;
-    padding: 8px;
-
-    span {
-      &:first-child {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      &:last-child {
-        flex-shrink: 0;
-      }
-    }
-  }
-
-  .cellContent {
-    padding: 8px;
-    display: flex;
-    line-height: 1;
-
-    img,
-    svg {
-      margin-right: 8px;
-    }
-
-    .assetName {
-      color: #666;
-    }
-
-    .attribute {
-      display: flex;
-
-      &Content {
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-    }
-
-    .copy {
-      appearance: none;
-      border: none;
-      background: none;
-      width: 14px;
-      cursor: pointer;
-
-      &:hover {
-        svg {
-          stroke: var(--primary-color);
-        }
-      }
-
-      svg {
-        pointer-events: none;
-        height: 14px;
-      }
-    }
-
-    .fields {
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-    }
-  }
-}
-
 .tableContainer {
   table {
     width: 100%;
@@ -179,32 +101,8 @@
       height: 48px;
     }
   }
-}
 
-.detail {
-  text-decoration: underline;
-  cursor: pointer;
-  color: #666;
-
-  &:hover {
-    color: var(--primary-color);
-  }
-}
-
-.loading {
-  display: flex;
-  justify-content: center;
-  padding: 0.5rem;
-}
-
-.loadMore {
-  display: flex;
-  justify-content: center;
-  padding: 0.5rem;
-
-  button {
-    cursor: pointer;
-    appearance: none;
-    border: none;
+  a {
+    text-decoration: underline;
   }
 }
