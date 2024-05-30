@@ -1,20 +1,15 @@
-import { useState, useCallback } from 'react'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { CellType, PAGE_CELL_COUNT } from '../../../constants/common'
+import { CellType } from '../../../constants/common'
 import TransactionCell from '../TransactionCell'
 import { TransactionCellListPanel, TransactionCellListTitlePanel, TransactionCellsPanel } from './styled'
-import SmallLoading from '../../../components/Loading/SmallLoading'
 import { ReactComponent as DeprecatedAddrOn } from './deprecated_addr_on.svg'
 import { ReactComponent as DeprecatedAddrOff } from './deprecated_addr_off.svg'
 import { ReactComponent as Warning } from './warning.svg'
 import styles from './styles.module.scss'
 import { Cell } from '../../../models/Cell'
 import { useSearchParams, useUpdateSearchParams } from '../../../hooks'
-
-const SCROLL_BOTTOM_OFFSET = 5
-const SCROLL_LOADING_TIME = 400
 
 function useIsDeprecatedAddressesDisplayed() {
   const { addr_format } = useSearchParams('addr_format')
@@ -49,28 +44,8 @@ export default ({
   startIndex: number
 }) => {
   const { t } = useTranslation()
-  const [offset, setOffset] = useState(PAGE_CELL_COUNT)
-  const [isEnd, setIsEnd] = useState(false)
   const cells = inputs || outputs || []
   const isCellbaseInput = inputs && inputs.length > 0 && inputs[0].fromCellbase
-  const isScroll = cells.length > PAGE_CELL_COUNT
-
-  const handleScroll = useCallback(
-    (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
-      if (cells.length <= offset) {
-        setIsEnd(true)
-        return
-      }
-      const element = event.target as HTMLDivElement
-      const { scrollHeight, scrollTop, offsetHeight } = element
-      if (scrollHeight - scrollTop - offsetHeight < SCROLL_BOTTOM_OFFSET) {
-        setTimeout(() => {
-          setOffset(offset + PAGE_CELL_COUNT)
-        }, SCROLL_LOADING_TIME)
-      }
-    },
-    [offset, cells.length],
-  )
 
   const [isDeprecatedAddressesDisplayed, addrFormatToggleURL] = useIsDeprecatedAddressesDisplayed()
 
@@ -116,24 +91,20 @@ export default ({
           <div>{isCellbaseInput ? '' : t('transaction.capacity_amount')}</div>
         </div>
       </TransactionCellListTitlePanel>
-      <TransactionCellsPanel isScroll={isScroll}>
+      <TransactionCellsPanel>
         <div className="transactionCellTitle">{cellTitle()}</div>
-        <div className="transactionCellListContainer" onScroll={event => handleScroll(event)}>
-          {cells &&
-            cells
-              .slice(0, offset)
-              .map((cell, index) => (
-                <TransactionCell
-                  key={cell.id}
-                  cell={cell}
-                  cellType={inputs ? CellType.Input : CellType.Output}
-                  index={index + startIndex}
-                  txHash={txHash}
-                  showReward={showReward}
-                  isAddrNew={!isDeprecatedAddressesDisplayed}
-                />
-              ))}
-          {isScroll && !isEnd && <SmallLoading />}
+        <div className="transactionCellListContainer">
+          {cells?.map((cell, index) => (
+            <TransactionCell
+              key={cell.id}
+              cell={cell}
+              cellType={inputs ? CellType.Input : CellType.Output}
+              index={index + startIndex}
+              txHash={txHash}
+              showReward={showReward}
+              isAddrNew={!isDeprecatedAddressesDisplayed}
+            />
+          ))}
         </div>
       </TransactionCellsPanel>
     </TransactionCellListPanel>
