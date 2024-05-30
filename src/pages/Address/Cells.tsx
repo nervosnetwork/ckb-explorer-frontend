@@ -170,6 +170,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     }
     default: {
       icon = SUDTTokenIcon
+      assetTypeText = 'Unknown Cell'
       assetName = 'UNKNOWN'
       attribute = '-'
     }
