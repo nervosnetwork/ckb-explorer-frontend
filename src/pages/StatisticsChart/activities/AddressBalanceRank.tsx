@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import { Tooltip } from 'antd'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, assertIsArray, parseNumericAbbr } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
@@ -9,6 +10,9 @@ import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from 
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useAdaptPCEllipsis } from '../../../hooks'
 import { ChartColorConfig } from '../../../constants/common'
+import EllipsisMiddle from '../../../components/EllipsisMiddle'
+import { Link } from '../../../components/Link'
+import styles from './addressRankingBalance.module.scss'
 
 const getAddressWithRanking = (statisticAddressBalanceRanks: ChartItem.AddressBalanceRank[], ranking?: string) => {
   if (!ranking) return ''
@@ -133,18 +137,72 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
     [adaptPCEllipsis, parseOption],
   )
 
+  if (isThumbnail) {
+    return (
+      <SmartChartPage
+        title={t('statistic.top_50_holders')}
+        description={t('statistic.balance_ranking_description')}
+        isThumbnail={isThumbnail}
+        chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
+        fetchData={explorerService.api.fetchStatisticAddressBalanceRank}
+        onFetched={setStatisticAddressBalanceRanks}
+        getEChartOption={getEChartOption}
+        toCSV={toCSV}
+        queryKey="fetchStatisticAddressBalanceRank"
+      />
+    )
+  }
+
   return (
-    <SmartChartPage
-      title={t('statistic.balance_ranking')}
-      description={t('statistic.balance_ranking_description')}
-      isThumbnail={isThumbnail}
-      chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
-      fetchData={explorerService.api.fetchStatisticAddressBalanceRank}
-      onFetched={setStatisticAddressBalanceRanks}
-      getEChartOption={getEChartOption}
-      toCSV={toCSV}
-      queryKey="fetchStatisticAddressBalanceRank"
-    />
+    <>
+      <SmartChartPage
+        title={t('statistic.top_50_holders')}
+        description={t('statistic.balance_ranking_description')}
+        isThumbnail={isThumbnail}
+        chartProps={{ onClick: !isThumbnail ? handleClick : undefined }}
+        fetchData={explorerService.api.fetchStatisticAddressBalanceRank}
+        onFetched={setStatisticAddressBalanceRanks}
+        getEChartOption={getEChartOption}
+        toCSV={toCSV}
+        queryKey="fetchStatisticAddressBalanceRank"
+      />
+      <div className={styles.list}>
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>{t('statistic.address')}</th>
+              <th>{`${t('statistic.balance')}(CKB)`}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {statisticAddressBalanceRanks.map(data => {
+              const b = shannonToCkbDecimal(data.balance, 8)
+              const r = Math.round(b)
+
+              return (
+                <tr key={data.address}>
+                  <td>{data.ranking}</td>
+                  <td className={styles.address}>
+                    <Link className="monospace" to={`/address/${data.address}`}>
+                      <EllipsisMiddle>{data.address}</EllipsisMiddle>
+                    </Link>
+                  </td>
+                  <td>
+                    {r === b ? null : (
+                      <Tooltip title={t('statistic.rounded')} placement="top">
+                        <span className={styles.roundSign}>~</span>
+                      </Tooltip>
+                    )}
+                    {localeNumberString(r)}
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
 
