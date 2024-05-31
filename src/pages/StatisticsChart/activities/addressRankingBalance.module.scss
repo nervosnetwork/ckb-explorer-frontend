@@ -1,0 +1,71 @@
+@import '../../../styles/variables.module';
+
+.list {
+  padding: 0 120px;
+  background: rgb(237 237 237);
+  cursor: default;
+
+  table {
+    background: #fff;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+    th {
+      line-height: 2;
+    }
+
+    width: 100%;
+
+    th,
+    td {
+      padding: 0 20px;
+      line-height: 2;
+
+      @media (width <= 480px) {
+        padding: 0 4px;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+    }
+
+    th:first-child,
+    td:first-child {
+      text-align: left;
+    }
+
+    th:last-child,
+    td:last-child {
+      text-align: right;
+    }
+
+    margin-bottom: 30px;
+  }
+
+  @media (width <= $xxlBreakPoint) {
+    padding: 0 100px;
+  }
+
+  @media (width <= $extraLargeBreakPoint) {
+    padding: 0 45px;
+  }
+
+  @media (width <= $mobileBreakPoint) {
+    padding: 0 18px;
+  }
+}
+
+.address {
+  max-width: 200px;
+
+  a > div {
+    font-family: inherit !important;
+  }
+}
+
+.roundSign {
+  color: #999;
+  padding-right: 4px;
+
+  @media (width <= 480px) {
+    padding-right: 2px;
+  }
+}

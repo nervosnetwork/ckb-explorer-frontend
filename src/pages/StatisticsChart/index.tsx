@@ -72,6 +72,51 @@ const useChartsData = () => {
   const { t } = useTranslation()
   return (): ChartCategory[] => [
     {
+      category: t('statistic.category_activities'),
+      charts: [
+        {
+          title: `${t('statistic.top_50_holders')}`,
+          chart: <AddressBalanceRankChart isThumbnail />,
+          path: '/charts/address-balance-rank',
+          description: t('statistic.balance_ranking_description'),
+        },
+        {
+          title: `${t('statistic.transaction_count')}`,
+          chart: <TransactionCountChart isThumbnail />,
+          path: '/charts/transaction-count',
+        },
+        {
+          title: `${t('statistic.address_count')}`,
+          chart: <AddressCountChart isThumbnail />,
+          path: '/charts/address-count',
+          description: t('statistic.address_count_description_description'),
+        },
+        {
+          title: t('statistic.cell_count'),
+          chart: <CellCountChart isThumbnail />,
+          path: '/charts/cell-count',
+        },
+        {
+          title: `${t('statistic.balance_distribution')}`,
+          chart: <BalanceDistributionChart isThumbnail />,
+          path: '/charts/balance-distribution',
+          description: t('statistic.balance_distribution_description'),
+        },
+        {
+          title: `${t('statistic.tx_fee_history')}`,
+          chart: <TxFeeHistoryChart isThumbnail />,
+          path: '/charts/tx-fee-history',
+          description: t('statistic.tx_fee_description'),
+        },
+        {
+          title: `${t('statistic.contract_resource_distributed')}`,
+          chart: <ContractResourceDistributedChart isThumbnail />,
+          path: '/charts/contract-resource-distributed',
+          description: t('statistic.contract_resource_distributed_description'),
+        },
+      ],
+    },
+    {
       category: t('statistic.category_block'),
       charts: [
         {
@@ -143,51 +188,6 @@ const useChartsData = () => {
           title: `${t('statistic.node_geo_distribution')}`,
           chart: <NodeGeoDistributionChart isThumbnail />,
           path: '/charts/node-geo-distribution',
-        },
-      ],
-    },
-    {
-      category: t('statistic.category_activities'),
-      charts: [
-        {
-          title: `${t('statistic.transaction_count')}`,
-          chart: <TransactionCountChart isThumbnail />,
-          path: '/charts/transaction-count',
-        },
-        {
-          title: `${t('statistic.address_count')}`,
-          chart: <AddressCountChart isThumbnail />,
-          path: '/charts/address-count',
-          description: t('statistic.address_count_description_description'),
-        },
-        {
-          title: t('statistic.cell_count'),
-          chart: <CellCountChart isThumbnail />,
-          path: '/charts/cell-count',
-        },
-        {
-          title: `${t('statistic.balance_ranking')}`,
-          chart: <AddressBalanceRankChart isThumbnail />,
-          path: '/charts/address-balance-rank',
-          description: t('statistic.balance_ranking_description'),
-        },
-        {
-          title: `${t('statistic.balance_distribution')}`,
-          chart: <BalanceDistributionChart isThumbnail />,
-          path: '/charts/balance-distribution',
-          description: t('statistic.balance_distribution_description'),
-        },
-        {
-          title: `${t('statistic.tx_fee_history')}`,
-          chart: <TxFeeHistoryChart isThumbnail />,
-          path: '/charts/tx-fee-history',
-          description: t('statistic.tx_fee_description'),
-        },
-        {
-          title: `${t('statistic.contract_resource_distributed')}`,
-          chart: <ContractResourceDistributedChart isThumbnail />,
-          path: '/charts/contract-resource-distributed',
-          description: t('statistic.contract_resource_distributed_description'),
         },
       ],
     },
