@@ -311,7 +311,16 @@
       "country": "国家（地区）",
       "node_country_distribution": "节点国家(地区)分布图",
       "top_50_holders": "前 50 持有地址",
-      "rounded": "约等于"
+      "rounded": "约等于",
+      "24h": "24小时",
+      "day_to_one_week": "1天-1周",
+      "one_week_to_one_month": "1周-1月",
+      "one_month_to_three_months": "1月-3月",
+      "three_months_to_six_months": "3月-6月",
+      "six_months_to_one_year": "6月-1年",
+      "one_year_to_three_years": "1年-3年",
+      "over_three_years": "> 3年",
+      "ckb_hodl_wave": "CKB持有波动图"
     },
     "home": {
       "height": "高度",
