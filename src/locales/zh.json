@@ -213,7 +213,7 @@
     },
     "statistic": {
       "transaction_num": "交易数量",
-      "new_btc_address": "新赠BTC地址",
+      "new_btc_address": "新增加 BTC 地址",
       "rgbpp_transaction_list": "RGB++ 交易列表",
       "transaction_count": "交易数量",
       "address_count": "已使用的地址数",
