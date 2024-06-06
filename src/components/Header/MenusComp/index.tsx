@@ -79,22 +79,15 @@ const useMenuDataList = () => {
       url: '/fee-rate-tracker',
     },
     ...(IS_MAINNET
-      ? [
+      ? []
+      : [
           {
             type: LinkType.Outer,
             name: t('navbar.faucet'),
             url: 'https://faucet.nervos.org/',
           },
-        ]
-      : []),
+        ]),
   ]
-  if (!IS_MAINNET) {
-    list.push({
-      type: LinkType.Outer,
-      name: t('navbar.faucet'),
-      url: 'https://faucet.nervos.org/',
-    })
-  }
   return list
 }
 
