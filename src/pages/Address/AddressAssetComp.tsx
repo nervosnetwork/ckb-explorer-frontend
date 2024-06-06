@@ -59,7 +59,15 @@ export const AddressAssetComp = ({
   )
 }
 
-export const AddressXudtComp = ({ account, isRGBPP }: { account: XUDT; isRGBPP?: boolean }) => {
+export const AddressXudtComp = ({
+  account,
+  isRGBPP,
+  isOriginal = true,
+}: {
+  account: XUDT
+  isRGBPP?: boolean
+  isOriginal?: boolean
+}) => {
   const { symbol, decimal, amount, typeHash, udtIconFile, uan } = account
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
 
@@ -70,7 +78,7 @@ export const AddressXudtComp = ({ account, isRGBPP }: { account: XUDT; isRGBPP?:
       href={`/xudt/${typeHash}`}
       property={parseUDTAmount(amount, decimal)}
       name={uan || symbol}
-      udtLabel="xUDT"
+      udtLabel={isOriginal ? 'xUDT' : 'xUDT-compatible'}
       icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(SUDTTokenIcon) }}
     />
   )

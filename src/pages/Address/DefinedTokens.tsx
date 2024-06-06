@@ -141,7 +141,13 @@ const DefinedTokens: FC<{ udts: UDTAccount[]; cotaList?: NFTItem[] }> = ({ udts,
               switch (udt.udtType) {
                 case 'xudt_compatible':
                 case 'xudt':
-                  return <AddressXudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+                  return (
+                    <AddressXudtComp
+                      account={udt}
+                      key={udt.symbol + udt.udtType + udt.amount}
+                      isOriginal={udt.udtType === 'xudt'}
+                    />
+                  )
 
                 case 'sudt':
                   return <AddressSudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />

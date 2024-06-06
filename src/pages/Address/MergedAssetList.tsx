@@ -83,7 +83,7 @@ const MergedAssetList: FC<{
         switch (ft.udtType) {
           case 'xudt_compatible':
           case 'xudt':
-            return <AddressXudtComp isRGBPP account={ft} key={ft.typeHash} />
+            return <AddressXudtComp isRGBPP account={ft} key={ft.typeHash} isOriginal={ft.udtType === 'xudt'} />
           case 'sudt':
             return <AddressSudtComp isRGBPP account={ft} key={ft.typeHash} />
           default:
