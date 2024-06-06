@@ -105,6 +105,16 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       detailInfo = cell.extraInfo.amount
       break
     }
+    case 'xudt_compatible': {
+      icon = SUDTTokenIcon
+      assetName = cell.extraInfo?.symbol || 'xUDT-compatible'
+      attribute =
+        cell.extraInfo?.decimal && cell.extraInfo?.amount
+          ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
+          : 'Unknown xUDT amount'
+      detailInfo = cell.extraInfo?.amount
+      break
+    }
     case 'xudt': {
       icon = SUDTTokenIcon
       assetName = cell.extraInfo?.symbol || 'xUDT'

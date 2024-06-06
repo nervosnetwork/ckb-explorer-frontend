@@ -40,6 +40,7 @@ export const TransactionRGBPPDigestContent = ({
             break
           }
           case 'udt':
+          case 'xudt_compatible':
           case 'xudt':
           case 'omiga_inscription': {
             asset = list.find(j => j.cellType === i.cellType && j.udtInfo?.typeHash === i.udtInfo?.typeHash) as

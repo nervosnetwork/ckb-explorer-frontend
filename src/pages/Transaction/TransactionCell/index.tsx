@@ -242,6 +242,12 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       tooltip = detailTitle
       break
     }
+    case 'xudt_compatible': {
+      detailTitle = 'xUDT-compatible'
+      detailIcon = UDTTokenIcon
+      tooltip = detailTitle
+      break
+    }
     case 'xudt': {
       detailTitle = 'xUDT'
       detailIcon = UDTTokenIcon

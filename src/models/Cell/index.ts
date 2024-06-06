@@ -122,7 +122,7 @@ export interface Omiga$XUDT extends Cell$Base {
 }
 
 export interface XUDT extends Cell$Base {
-  cellType: 'xudt'
+  cellType: 'xudt' | 'xudt_compatible'
   extraInfo: Record<'amount' | 'decimal' | 'name' | 'symbol', string>
 }
 

@@ -132,6 +132,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
         case 'nrc_721_token':
           acc[0].push(cur)
           break
+        case 'xudt_compatible':
         case 'xudt':
           if (cur.amount !== '0') {
             acc[0].push(cur)

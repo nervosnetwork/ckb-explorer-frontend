@@ -81,6 +81,7 @@ const MergedAssetList: FC<{
     <div className={styles.container}>
       {fts.map(ft => {
         switch (ft.udtType) {
+          case 'xudt_compatible':
           case 'xudt':
             return <AddressXudtComp isRGBPP account={ft} key={ft.typeHash} />
           case 'sudt':
