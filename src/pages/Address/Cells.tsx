@@ -158,7 +158,11 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       assetName = !cell.extraInfo.symbol
         ? '?'
         : sliceNftName(`${cell.extraInfo.symbol} #${cell.extraInfo.typeHash.slice(0, 3)}`)
-      attribute = cell.extraInfo.amount
+      if (cell.extraInfo.amount.length > ATTRIBUTE_LENGTH) {
+        attribute = `${cell.extraInfo.amount.slice(0, ATTRIBUTE_LENGTH)}...`
+      } else {
+        attribute = cell.extraInfo.amount
+      }
       break
     }
     case 'm_nft': {
