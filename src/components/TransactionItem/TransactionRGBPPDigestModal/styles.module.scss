@@ -47,7 +47,9 @@
 
 .transactionInfo {
   display: flex;
-  justify-content: space-between;
+
+  // justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   gap: 16px;
@@ -69,9 +71,7 @@
 
   .txid,
   .commitment {
-    width: 100%;
     display: flex;
-    flex: 1;
     flex-shrink: 1;
     overflow: hidden;
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -89,18 +89,23 @@
   }
 
   .txid {
+    flex-grow: 1;
+    flex-shrink: 1;
     gap: 8px;
-    min-width: 500px;
+    max-width: 791px;
   }
 
   .commitment {
     gap: 8px;
     justify-content: flex-end;
+    flex-shrink: 2;
+    min-width: 285px;
 
     .commitmentText {
       flex: 1;
       flex-shrink: 0;
       overflow: hidden;
+      flex-grow: 1;
     }
   }
 
@@ -114,6 +119,14 @@
       justify-content: flex-start;
     }
   }
+}
+
+.btcConfirmationsAndDirection {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 4px;
+  margin-right: auto;
 }
 
 .blockConfirm {

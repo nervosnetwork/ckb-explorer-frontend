@@ -111,6 +111,7 @@ export const TransactionRGBPPDigestContent = ({
                     to: `/transaction/${hash}`,
                   }}
                   className={styles.address}
+                  style={{ overflow: 'hidden' }}
                 >
                   {data.data.txid}
                 </AddressText>
@@ -119,20 +120,20 @@ export const TransactionRGBPPDigestContent = ({
                 </Link>
               </>
             )}
-            <div>
-              {data.data.confirmations && (
-                <span className={styles.blockConfirm}>({data.data.confirmations} Confirmations on Bitcoin)</span>
-              )}
-              {leapDirection !== TransactionLeapDirection.NONE ? (
-                <Tooltip placement="top" title={t(`address.leap_${leapDirection}_tip`)}>
-                  <span className={styles.leap}>{t(`address.leap_${leapDirection}`)}</span>
-                </Tooltip>
-              ) : null}
-            </div>
+          </div>
+          <div className={styles.btcConfirmationsAndDirection}>
+            {typeof data.data.confirmations === 'number' && (
+              <span className={styles.blockConfirm}>({data.data.confirmations} Confirmations on Bitcoin)</span>
+            )}
+            {leapDirection !== TransactionLeapDirection.NONE ? (
+              <Tooltip placement="top" title={t(`address.leap_${leapDirection}_tip`)}>
+                <span className={styles.leap}>{t(`address.leap_${leapDirection}`)}</span>
+              </Tooltip>
+            ) : null}
           </div>
           <div className={styles.commitment}>
             <span>Commitment:</span>
-            <div>
+            <div style={{ width: '64ch', minWidth: '20ch' }}>
               <EllipsisMiddle text={data.data.commitment} className={styles.commitmentText} />
               <SimpleButton
                 className={styles.action}
