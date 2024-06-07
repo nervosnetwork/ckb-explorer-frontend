@@ -88,6 +88,7 @@ export interface Cell$NoExtra extends Cell$Base {
     | 'nrc_721_factory'
     | 'omiga_inscription'
     | 'xudt'
+    | 'xudt_compatible'
   extraInfo?: never
 }
 

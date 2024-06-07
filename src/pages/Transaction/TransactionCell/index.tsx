@@ -314,7 +314,7 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
     return <span>{`${t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}</span>
   }
 
-  if (cell.cellType === 'xudt') {
+  if (cell.cellType === 'xudt' || cell.cellType === 'xudt_compatible') {
     const info = cell.extraInfo
     if (info?.decimal && info?.amount && info?.symbol) {
       return <span>{`${parseUDTAmount(info.amount, info.decimal)} ${info.symbol}`}</span>

@@ -218,7 +218,7 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: Cell; cellType: Cel
     return <TransactionCellUDT cell={cell} />
   }
 
-  if (cell.cellType === 'xudt') {
+  if (cell.cellType === 'xudt' || cell.cellType === 'xudt_compatible') {
     const info = cell.extraInfo
     if (info?.amount && info.decimal && info.symbol) {
       return (
