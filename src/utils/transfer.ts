@@ -112,6 +112,7 @@ export const getTransfer = (transfer: LiteTransfer.Transfer): TransferRecord => 
           },
         }
       }
+      case 'xudt_compatible':
       case 'xudt': {
         if (!transfer.udtInfo) {
           throw new Error('Missing udtInfo')

@@ -88,6 +88,7 @@ export interface Cell$NoExtra extends Cell$Base {
     | 'nrc_721_factory'
     | 'omiga_inscription'
     | 'xudt'
+    | 'xudt_compatible'
   extraInfo?: never
 }
 
@@ -122,7 +123,7 @@ export interface Omiga$XUDT extends Cell$Base {
 }
 
 export interface XUDT extends Cell$Base {
-  cellType: 'xudt'
+  cellType: 'xudt' | 'xudt_compatible'
   extraInfo: Record<'amount' | 'decimal' | 'name' | 'symbol', string>
 }
 

@@ -34,7 +34,7 @@ export const getURLByAggregateSearchResult = (result: AggregateSearchResult) => 
       if (attributes.udtType === 'sudt') {
         return `/sudt/${attributes.typeHash}`
       }
-      if (attributes.udtType === 'xudt') {
+      if (['xudt', 'xudt_compatible'].includes(attributes.udtType)) {
         return `/xudt/${attributes.typeHash}`
       }
       break

@@ -40,6 +40,7 @@ const TokenTable: FC<{ udts: UDTAccount[]; cotaList: NFTItem[] }> = ({ udts, cot
             let asset = ''
             let amount = ''
             switch (udt.udtType) {
+              case 'xudt_compatible':
               case 'xudt':
                 type = 'xUDT'
                 key += udt.amount
@@ -138,8 +139,15 @@ const DefinedTokens: FC<{ udts: UDTAccount[]; cotaList?: NFTItem[] }> = ({ udts,
           <ul>
             {udts.map(udt => {
               switch (udt.udtType) {
+                case 'xudt_compatible':
                 case 'xudt':
-                  return <AddressXudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
+                  return (
+                    <AddressXudtComp
+                      account={udt}
+                      key={udt.symbol + udt.udtType + udt.amount}
+                      isOriginal={udt.udtType === 'xudt'}
+                    />
+                  )
 
                 case 'sudt':
                   return <AddressSudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />

@@ -113,6 +113,23 @@ export namespace ChartItem {
     balance: string
   }
 
+  export interface CkbHodlWave {
+    ckbHodlWave: CkbHodlWaveDetail
+    createdAtUnixtimestamp: string
+  }
+
+  export interface CkbHodlWaveDetail {
+    overThreeYears: number
+    oneYearToThreeYears: number
+    sixMonthsToOneYear: number
+    threeMonthsToSixMonths: number
+    oneMonthToThreeMonths: number
+    oneWeekToOneMonth: number
+    dayToOneWeek: number
+    latestDay: number
+    totalSupply: number
+  }
+
   export interface BalanceDistribution {
     balance: string
     addresses: string
@@ -277,7 +294,7 @@ export namespace LiteTransfer {
   }
   export interface XudtTransfer {
     capacity: string
-    cellType: 'xudt'
+    cellType: 'xudt' | 'xudt_compatible'
     udtInfo: Record<'symbol' | 'decimal' | 'displayName' | 'typeHash' | 'uan' | 'amount', string>
   }
 

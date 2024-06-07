@@ -312,7 +312,16 @@
       "country": "Country/Region",
       "node_country_distribution": "Nodes distribution by Country/Region",
       "top_50_holders": "Top 50 Holders",
-      "rounded": "Rounded"
+      "rounded": "Rounded",
+      "24h": "24h",
+      "day_to_one_week": "1d-1w",
+      "one_week_to_one_month": "1w-1m",
+      "one_month_to_three_months": "1m-3m",
+      "three_months_to_six_months": "3m-6m",
+      "six_months_to_one_year": "6m-1y",
+      "one_year_to_three_years": "1y-3y",
+      "over_three_years": "> 3y",
+      "ckb_hodl_wave": "CKB HODL Wave"
     },
     "home": {
       "height": "Height",

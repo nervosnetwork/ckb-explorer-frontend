@@ -202,3 +202,13 @@ export const assertSerialsDataIsStringArrayOf4: (
     throw new Error('invalid SeriesItem length of 4')
   }
 }
+
+export const assertSerialsDataIsStringArrayOf9: (
+  value: EChartOption.Tooltip.Format,
+) => asserts value is { data: [string, string, string, string, string, string, string, string, string] } = (
+  value: EChartOption.Tooltip.Format,
+) => {
+  if (!Array.isArray(value.data) || value.data.length !== 9 || !value.data.every(item => typeof item === 'string')) {
+    throw new Error('invalid SeriesItem length of 9')
+  }
+}

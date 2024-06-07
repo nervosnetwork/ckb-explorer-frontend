@@ -12,7 +12,12 @@ import {
 import styles from './mergedAssetList.module.scss'
 
 const isFT = (udt: UDTAccount): udt is FT => {
-  return udt.udtType === 'sudt' || udt.udtType === 'xudt' || udt.udtType === 'omiga_inscription'
+  return (
+    udt.udtType === 'sudt' ||
+    udt.udtType === 'xudt' ||
+    udt.udtType === 'xudt_compatible' ||
+    udt.udtType === 'omiga_inscription'
+  )
 }
 
 const isNFT = (udt: UDTAccount): udt is NFT => {
@@ -81,8 +86,9 @@ const MergedAssetList: FC<{
     <div className={styles.container}>
       {fts.map(ft => {
         switch (ft.udtType) {
+          case 'xudt_compatible':
           case 'xudt':
-            return <AddressXudtComp isRGBPP account={ft} key={ft.typeHash} />
+            return <AddressXudtComp isRGBPP account={ft} key={ft.typeHash} isOriginal={ft.udtType === 'xudt'} />
           case 'sudt':
             return <AddressSudtComp isRGBPP account={ft} key={ft.typeHash} />
           default:
