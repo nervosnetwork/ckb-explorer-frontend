@@ -859,7 +859,7 @@
       "download_data": "下载数据",
       "holders_by_block": "Holders by Block",
       "holders_by_block_title": "Holders by Block CSV download",
-      "holders_by_block_des": "You can download the record of the amount of xUDT held by addresses in a specific block number on this page.",
+      "holders_by_block_des": "您可以在本页下载特定区块编号地址持有的 xUDT 数量记录",
       "transactions": "交易",
       "description_str": "您请求的信息可以从该页面下载。 在继续之前，请通过填写下面的验证码来验证您不是机器人。",
       "select_download_options": "选择下载选项",
