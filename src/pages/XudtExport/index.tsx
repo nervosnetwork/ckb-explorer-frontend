@@ -98,10 +98,11 @@ const XudtExport = () => {
             <div className={styles.exportDescription}>{t('export_transactions.holders_by_block_des')}</div>
             <div className={styles.dateOrBlockPanel}>
               <div className={styles.heightInputPanel}>
-                <div className={styles.textCernter}>{t('export_transactions.block_height')}</div>
+                <div className={styles.blockHeightText}>{t('export_transactions.block_height')}</div>
                 <InputNumber
                   size="large"
                   prefix={<BlockIcon />}
+                  style={{ width: '100%' }}
                   min={0}
                   parser={heightParser}
                   value={blockHeight}

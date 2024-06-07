@@ -599,6 +599,11 @@ export const apiFetcher = {
       `/statistics/address_balance_ranking`,
     ).then(res => res.addressBalanceRanking),
 
+  fetchStatisticCkbHodlWave: () =>
+    v1GetUnwrappedList<ChartItem.CkbHodlWave>(`/daily_statistics/ckb_hodl_wave`).then(items =>
+      items.filter(item => item.ckbHodlWave != null),
+    ),
+
   fetchStatisticBalanceDistribution: () =>
     v1GetUnwrapped<{ addressBalanceDistribution: string[][] }>(`/distribution_data/address_balance_distribution`).then(
       ({ addressBalanceDistribution }) => {

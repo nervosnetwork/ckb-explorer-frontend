@@ -53,6 +53,7 @@ const CellCountChart = lazy(() => import('../pages/StatisticsChart/activities/Ce
 const ContractResourceDistributedChart = lazy(
   () => import('../pages/StatisticsChart/activities/ContractResourceDistributed'),
 )
+const CkbHodlWaveChart = lazy(() => import('../pages/StatisticsChart/activities/CkbHodlWave'))
 const AddressBalanceRankChart = lazy(() => import('../pages/StatisticsChart/activities/AddressBalanceRank'))
 const BalanceDistributionChart = lazy(() => import('../pages/StatisticsChart/activities/BalanceDistribution'))
 const TxFeeHistoryChart = lazy(() => import('../pages/StatisticsChart/activities/TxFeeHistory'))
@@ -224,6 +225,10 @@ const routes: RouteProps[] = [
   {
     path: '/charts/cell-count',
     component: CellCountChart,
+  },
+  {
+    path: '/charts/ckb-hodl-wave',
+    component: CkbHodlWaveChart,
   },
   {
     path: '/charts/address-balance-rank',

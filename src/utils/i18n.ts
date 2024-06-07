@@ -45,11 +45,11 @@ export const useLanguageText = (payload?: { reverse: boolean }) => {
 }
 
 export const useChangeLanguage = () => {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   const history = useHistory()
 
   const changeLanguage = (lng: string) => {
-    const to = removeI18nPrefix(pathname)
+    const to = removeI18nPrefix(pathname + search)
     const toWithPrefix = addI18nPrefix(to, lng)
     history.push(toWithPrefix)
   }
