@@ -311,7 +311,16 @@
       "country": "国家（地区）",
       "node_country_distribution": "节点国家(地区)分布图",
       "top_50_holders": "前 50 持有地址",
-      "rounded": "约等于"
+      "rounded": "约等于",
+      "24h": "24小时",
+      "day_to_one_week": "1天-1周",
+      "one_week_to_one_month": "1周-1月",
+      "one_month_to_three_months": "1月-3月",
+      "three_months_to_six_months": "3月-6月",
+      "six_months_to_one_year": "6月-1年",
+      "one_year_to_three_years": "1年-3年",
+      "over_three_years": "> 3年",
+      "ckb_hodl_wave": "CKB持有波动图"
     },
     "home": {
       "height": "高度",
@@ -850,7 +859,7 @@
       "download_data": "下载数据",
       "holders_by_block": "Holders by Block",
       "holders_by_block_title": "Holders by Block CSV download",
-      "holders_by_block_des": "You can download the record of the amount of xUDT held by addresses in a specific block number on this page.",
+      "holders_by_block_des": "您可以在本页下载特定区块编号地址持有的 xUDT 数量记录",
       "transactions": "交易",
       "description_str": "您请求的信息可以从该页面下载。 在继续之前，请通过填写下面的验证码来验证您不是机器人。",
       "select_download_options": "选择下载选项",

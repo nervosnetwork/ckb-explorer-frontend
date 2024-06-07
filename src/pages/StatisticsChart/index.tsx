@@ -2,11 +2,13 @@ import { ReactNode } from 'react'
 import 'default-passive-events'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
+import { isMainnet } from '../../utils/chain'
 import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
 import { DifficultyUncleRateEpochChart } from './mining/DifficultyUncleRateEpoch'
 import { TransactionCountChart } from './activities/TransactionCount'
 import { AddressCountChart } from './activities/AddressCount'
 import { CellCountChart } from './activities/CellCount'
+import { CkbHodlWaveChart } from './activities/CkbHodlWave'
 import { TotalDaoDepositChart } from './nervosDao/TotalDaoDeposit'
 import { ChartsPanel, ChartCardPanel, ChartsTitle, ChartsContent } from './styled'
 import { AddressBalanceRankChart } from './activities/AddressBalanceRank'
@@ -188,6 +190,60 @@ const useChartsData = () => {
           title: `${t('statistic.node_geo_distribution')}`,
           chart: <NodeGeoDistributionChart isThumbnail />,
           path: '/charts/node-geo-distribution',
+        },
+      ],
+    },
+    {
+      category: t('statistic.category_activities'),
+      charts: [
+        {
+          title: `${t('statistic.transaction_count')}`,
+          chart: <TransactionCountChart isThumbnail />,
+          path: '/charts/transaction-count',
+        },
+        {
+          title: `${t('statistic.address_count')}`,
+          chart: <AddressCountChart isThumbnail />,
+          path: '/charts/address-count',
+          description: t('statistic.address_count_description_description'),
+        },
+        {
+          title: t('statistic.cell_count'),
+          chart: <CellCountChart isThumbnail />,
+          path: '/charts/cell-count',
+        },
+        ...(isMainnet()
+          ? [
+              {
+                title: t('statistic.ckb_hodl_wave'),
+                chart: <CkbHodlWaveChart isThumbnail />,
+                path: '/charts/ckb-hodl-wave',
+              },
+            ]
+          : []),
+        {
+          title: `${t('statistic.balance_ranking')}`,
+          chart: <AddressBalanceRankChart isThumbnail />,
+          path: '/charts/address-balance-rank',
+          description: t('statistic.balance_ranking_description'),
+        },
+        {
+          title: `${t('statistic.balance_distribution')}`,
+          chart: <BalanceDistributionChart isThumbnail />,
+          path: '/charts/balance-distribution',
+          description: t('statistic.balance_distribution_description'),
+        },
+        {
+          title: `${t('statistic.tx_fee_history')}`,
+          chart: <TxFeeHistoryChart isThumbnail />,
+          path: '/charts/tx-fee-history',
+          description: t('statistic.tx_fee_description'),
+        },
+        {
+          title: `${t('statistic.contract_resource_distributed')}`,
+          chart: <ContractResourceDistributedChart isThumbnail />,
+          path: '/charts/contract-resource-distributed',
+          description: t('statistic.contract_resource_distributed_description'),
         },
       ],
     },
