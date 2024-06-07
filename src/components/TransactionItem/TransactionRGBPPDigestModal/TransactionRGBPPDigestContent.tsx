@@ -4,6 +4,7 @@ import { Tooltip } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import BigNumber from 'bignumber.js'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
+import { ReactComponent as RedirectIcon } from '../../../assets/redirect-icon.svg'
 import { TransactionRGBPPDigestTransfer } from './TransactionRGBPPDigestTransfer'
 import { useSetToast } from '../../Toast'
 import { explorerService, LiteTransfer } from '../../../services/ExplorerService'
@@ -14,6 +15,8 @@ import EllipsisMiddle from '../../EllipsisMiddle'
 import styles from './styles.module.scss'
 import AddressText from '../../AddressText'
 import { useIsMobile } from '../../../hooks'
+import { Link } from '../../Link'
+import config from '../../../config'
 
 export const TransactionRGBPPDigestContent = ({
   leapDirection,
@@ -101,15 +104,20 @@ export const TransactionRGBPPDigestContent = ({
           <div className={styles.txid}>
             <span>{t('address.seal_tx_on_bitcoin')}</span>
             {data.data.txid && (
-              <AddressText
-                ellipsisMiddle={!isMobile}
-                linkProps={{
-                  to: `/transaction/${hash}`,
-                }}
-                className={styles.address}
-              >
-                {data.data.txid}
-              </AddressText>
+              <>
+                <AddressText
+                  ellipsisMiddle={!isMobile}
+                  linkProps={{
+                    to: `/transaction/${hash}`,
+                  }}
+                  className={styles.address}
+                >
+                  {data.data.txid}
+                </AddressText>
+                <Link to={`${config.BITCOIN_EXPLORER}/tx/${data.data.txid}`} className={styles.action}>
+                  <RedirectIcon />
+                </Link>
+              </>
             )}
             <div>
               {data.data.confirmations && (
