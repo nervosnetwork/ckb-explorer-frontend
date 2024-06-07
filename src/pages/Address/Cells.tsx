@@ -60,8 +60,10 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
   let assetName = null
   let attribute = null
   let detailInfo = null
+  let assetTypeText = assetType
   switch (assetType) {
     case 'ckb': {
+      assetTypeText = 'CKB'
       if (cell.typeHash) {
         icon = <TypeHashIcon />
         assetName = 'UNKNOWN ASSET'
@@ -98,6 +100,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     case 'udt': {
       icon = SUDTTokenIcon
       assetName = cell.extraInfo.symbol || 'UDT'
+      assetTypeText = 'UDT'
       attribute = cell.extraInfo.decimal
         ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
         : 'Unknown UDT amount'
@@ -117,6 +120,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     case 'xudt': {
       icon = SUDTTokenIcon
       assetName = cell.extraInfo?.symbol || 'xUDT'
+      assetTypeText = 'xUDT'
       attribute =
         cell.extraInfo?.decimal && cell.extraInfo?.amount
           ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
@@ -127,6 +131,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     case 'omiga_inscription': {
       icon = SUDTTokenIcon
       assetName = cell.extraInfo.symbol || t('udt.inscription')
+      assetTypeText = 'xUDT'
       attribute = cell.extraInfo.decimal
         ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
         : 'Unknown amount'
@@ -136,6 +141,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     case 'spore_cell': {
       icon = <SporeCellIcon />
       assetName = 'DOB'
+      assetTypeText = 'NFT'
       if (cell.data.length > ATTRIBUTE_LENGTH) {
         attribute = `${cell.data.slice(0, ATTRIBUTE_LENGTH)}...`
       } else {
@@ -147,6 +153,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     case 'spore_cluster': {
       icon = <SporeCluterIcon />
       assetName = 'Spore Cluster'
+      assetTypeText = 'NFT'
       if (cell.data.length > ATTRIBUTE_LENGTH) {
         attribute = `${cell.data.slice(0, ATTRIBUTE_LENGTH)}...`
       } else {
@@ -157,20 +164,27 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     }
     case 'nrc_721': {
       icon = SUDTTokenIcon
+      assetTypeText = 'NFT'
       assetName = !cell.extraInfo.symbol
         ? '?'
         : sliceNftName(`${cell.extraInfo.symbol} #${cell.extraInfo.typeHash.slice(0, 3)}`)
-      attribute = cell.extraInfo.amount
+      if (cell.extraInfo.amount.length > ATTRIBUTE_LENGTH) {
+        attribute = `${cell.extraInfo.amount.slice(0, ATTRIBUTE_LENGTH)}...`
+      } else {
+        attribute = cell.extraInfo.amount
+      }
       break
     }
     case 'm_nft': {
       icon = SUDTTokenIcon
+      assetTypeText = 'NFT'
       assetName = cell.extraInfo.className
-      attribute = `#${parseInt(cell.extraInfo.tokenId, 16)}`
+      attribute = cell.extraInfo.tokenId ? `#${parseInt(cell.extraInfo.tokenId, 16)}` : '/'
       break
     }
     default: {
       icon = SUDTTokenIcon
+      assetTypeText = 'Unknown Cell'
       assetName = 'UNKNOWN'
       attribute = '-'
     }
@@ -195,6 +209,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     title,
     parsedBlockCreateAt,
     cellInfo,
+    assetTypeText,
   }
 }
 
@@ -244,7 +259,7 @@ const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
         </thead>
         <tbody>
           {cells.map((cell, index) => {
-            const { ckb, outPointStr, assetName, attribute, cellInfo } = getCellDetails(cell, t)
+            const { ckb, outPointStr, assetName, attribute, cellInfo, assetTypeText } = getCellDetails(cell, t)
 
             return (
               <tr key={cell.txHash + cell.cellIndex}>
@@ -252,7 +267,7 @@ const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
                 <td>{cell.blockNumber}</td>
                 <td>{outPointStr}</td>
                 <td>{ckb}</td>
-                <td>{cell.extraInfo?.type}</td>
+                <td>{assetTypeText}</td>
                 <td>
                   {attribute} {attribute === 'Unknown amount' ? '' : assetName}
                 </td>
