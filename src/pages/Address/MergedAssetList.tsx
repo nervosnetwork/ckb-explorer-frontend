@@ -12,7 +12,12 @@ import {
 import styles from './mergedAssetList.module.scss'
 
 const isFT = (udt: UDTAccount): udt is FT => {
-  return udt.udtType === 'sudt' || udt.udtType === 'xudt' || udt.udtType === 'omiga_inscription'
+  return (
+    udt.udtType === 'sudt' ||
+    udt.udtType === 'xudt' ||
+    udt.udtType === 'xudt_compatible' ||
+    udt.udtType === 'omiga_inscription'
+  )
 }
 
 const isNFT = (udt: UDTAccount): udt is NFT => {
