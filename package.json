@@ -69,7 +69,7 @@
     "@types/eslint": "8.56.10",
     "@types/jest": "29.5.12",
     "@types/lodash.debounce": "4.0.9",
-    "@types/node": "16.18.97",
+    "@types/node": "16.18.98",
     "@types/qrcode": "1.5.5",
     "@types/react": "17.0.65",
     "@types/react-dom": "17.0.20",
