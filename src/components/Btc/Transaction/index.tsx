@@ -10,6 +10,7 @@ import EllipsisMiddle from '../../EllipsisMiddle'
 import { ReactComponent as UsedSeal } from './used-seal.svg'
 import { ReactComponent as NewSeal } from './new-seal.svg'
 import { ReactComponent as ViewNewSeal } from './view-new-seal.svg'
+import { ReactComponent as MoreIcon } from '../../../assets/more-icon.svg'
 import { ReactComponent as BtcIcon } from './btc.svg'
 import { ReactComponent as DirectionIcon } from '../../../assets/direction.svg'
 
@@ -109,13 +110,32 @@ const BtcTransaction: FC<{
             const boundIndex = boundCellIndex[key]
             return (
               <div key={key} className={styles.output}>
-                <a
-                  href={`${config.BITCOIN_EXPLORER}/address/${output.scriptPubKey.address}`}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <AddressText className="monospace">{output.scriptPubKey.address}</AddressText>
-                </a>
+                {output.scriptPubKey.address ? (
+                  <a
+                    href={`${config.BITCOIN_EXPLORER}/address/${output.scriptPubKey.address}`}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <AddressText className="monospace">{output.scriptPubKey.address}</AddressText>
+                  </a>
+                ) : (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    OP RETURN
+                    <Tooltip
+                      placement="top"
+                      title={t(
+                        `transaction.${
+                          commitment ? 'isomorphic-binding-with-index-commitment' : 'isomorphic-binding-with-index'
+                        }`,
+                        {
+                          commitment,
+                        },
+                      )}
+                    >
+                      <MoreIcon className={styles.opReturn} />
+                    </Tooltip>
+                  </div>
+                )}
                 <div className={`${styles.btcAttr} monospace`}>
                   <div className={styles.btcValue}>
                     <span>{int}</span>
