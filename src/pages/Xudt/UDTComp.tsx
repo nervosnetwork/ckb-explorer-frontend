@@ -2,7 +2,9 @@ import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { FC, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { utils } from '@ckb-lumos/base'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
+import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { Link } from '../../components/Link'
 import { CsvExport } from '../../components/CsvExport'
 import TransactionItem from '../../components/TransactionItem/index'
@@ -16,24 +18,11 @@ import PaginationWithRear from '../../components/PaginationWithRear'
 import { Transaction } from '../../models/Transaction'
 import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../components/Card'
 import { useIsMobile } from '../../hooks'
-import { isMainnet } from '../../utils/chain'
-// TODO: replaced to svg format
-import ArrowUpIcon from '../../assets/arrow_up.png'
-import ArrowDownIcon from '../../assets/arrow_down.png'
-import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
-import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import Script from '../../components/Script'
 import { RawBtcRPC } from '../../services/ExplorerService'
 import { XUDT } from '../../models/Xudt'
 import { getBtcTxList } from '../../services/ExplorerService/fetcher'
 import XUDTTag from '../../components/XUDTTag'
-
-const typeScriptIcon = (show: boolean) => {
-  if (show) {
-    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
-  }
-  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
-}
 
 const IssuerContent: FC<{ address: string }> = ({ address }) => {
   const { t } = useTranslation()
@@ -66,9 +55,25 @@ const IssuerContent: FC<{ address: string }> = ({ address }) => {
 export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XUDT | undefined }) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const [showType, setShowType] = useState(false)
+  const [isScriptDisplayed, setIsScriptDisplayed] = useState(false)
 
   const issuer = xudt?.issuerAddress
+  const script = xudt?.typeScript ?? null
+
+  const hash = script
+    ? utils.computeScriptHash({
+        codeHash: script.codeHash,
+        hashType: script.hashType as any,
+        args: script.args,
+      })
+    : null
+
+  const toggleScriptDisplay = () => {
+    if (!script) {
+      return
+    }
+    setIsScriptDisplayed(is => !is)
+  }
 
   const { data: issuerOnBtc } = useQuery(
     ['btc-addr', issuer],
@@ -133,11 +138,25 @@ export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XU
 
         <CardCellsLayout type="left-right" cells={items} borderTop />
 
-        <TypeScriptController onClick={() => setShowType(!showType)}>
-          <div>{t('xudt.type_script')}</div>
-          <img alt="type script" src={typeScriptIcon(showType)} />
+        <TypeScriptController onClick={toggleScriptDisplay}>
+          {isScriptDisplayed ? (
+            <div className={styles.scriptToggle}>
+              <EyeOpenIcon />
+              <div>{t('xudt.type_script')}</div>
+            </div>
+          ) : (
+            <div className={styles.scriptToggle}>
+              <EyeClosedIcon />
+              <div>{t('xudt.type_script_hash')}</div>
+            </div>
+          )}
         </TypeScriptController>
-        {showType && xudt?.typeScript && <Script script={xudt.typeScript} />}
+
+        {isScriptDisplayed ? (
+          script && <Script script={script} />
+        ) : (
+          <div className={`monospace ${styles.scriptHash}`}>{hash}</div>
+        )}
       </Card>
     </>
   )
