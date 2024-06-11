@@ -18,6 +18,12 @@
     color: var(--primary-color);
   }
 
+  .opReturn {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   .header {
     display: flex;
     justify-content: space-between;

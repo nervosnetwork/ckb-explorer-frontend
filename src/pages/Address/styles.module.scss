@@ -291,3 +291,16 @@
   flex-flow: row wrap;
   gap: 1rem;
 }
+
+.scriptToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scriptHash {
+  margin-top: 12px;
+  padding: 12px 24px;
+  background: #f7f7f7;
+  word-break: break-all;
+}

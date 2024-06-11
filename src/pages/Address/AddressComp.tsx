@@ -2,6 +2,8 @@ import { useState, FC, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Radio } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons'
+import { utils } from '@ckb-lumos/base'
 import { Link } from '../../components/Link'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService, RawBtcRPC } from '../../services/ExplorerService'
@@ -33,11 +35,6 @@ import LiteTransactionList from '../../components/LiteTransactionList'
 import Script from '../../components/Script'
 import AddressText from '../../components/AddressText'
 import { parseSimpleDateNoSecond } from '../../utils/date'
-import { isMainnet } from '../../utils/chain'
-import ArrowUpIcon from '../../assets/arrow_up.png'
-import ArrowUpBlueIcon from '../../assets/arrow_up_blue.png'
-import ArrowDownIcon from '../../assets/arrow_down.png'
-import ArrowDownBlueIcon from '../../assets/arrow_down_blue.png'
 import { LayoutLiteProfessional } from '../../constants/common'
 import { omit } from '../../utils/object'
 import { CsvExport } from '../../components/CsvExport'
@@ -56,18 +53,19 @@ enum AssetInfo {
   CELLs,
 }
 
-const lockScriptIcon = (show: boolean) => {
-  if (show) {
-    return isMainnet() ? ArrowUpIcon : ArrowUpBlueIcon
-  }
-  return isMainnet() ? ArrowDownIcon : ArrowDownBlueIcon
-}
-
 const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
-  const [showLock, setShowLock] = useState<boolean>(false)
+  const [isScriptDisplayed, setIsScriptDisplayed] = useState<boolean>(false)
   const { t } = useTranslation()
 
   const { liveCellsCount, minedBlocksCount, type, addressHash, lockInfo } = address
+
+  const toggleScriptDisplay = () => {
+    if (!address.lockScript) {
+      return
+    }
+    setIsScriptDisplayed(is => !is)
+  }
+
   const overviewItems: CardCellInfo<'left' | 'right'>[] = [
     {
       title: t('address.live_cells'),
@@ -105,14 +103,35 @@ const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
     })
   }
 
+  const hash = address.lockScript
+    ? utils.computeScriptHash({
+        codeHash: address.lockScript.codeHash,
+        hashType: address.lockScript.hashType as any,
+        args: address.lockScript.args,
+      })
+    : null
+
   return (
     <AddressLockScriptPanel className={styles.addressLockScriptPanel}>
       <CardCellsLayout type="left-right" cells={overviewItems} borderTop />
-      <AddressLockScriptController onClick={() => setShowLock(!showLock)}>
-        <div>{t('address.lock_script')}</div>
-        <img alt="lock script" src={lockScriptIcon(showLock)} />
+      <AddressLockScriptController onClick={toggleScriptDisplay}>
+        {isScriptDisplayed ? (
+          <div className={styles.scriptToggle}>
+            <EyeOpenIcon />
+            <div>{t('address.lock_script')}</div>
+          </div>
+        ) : (
+          <div className={styles.scriptToggle}>
+            <EyeClosedIcon />
+            <div>{t('address.lock_script_hash')}</div>
+          </div>
+        )}
       </AddressLockScriptController>
-      {showLock && address.lockScript && <Script script={address.lockScript} />}
+      {isScriptDisplayed ? (
+        <Script script={address.lockScript} />
+      ) : (
+        <div className={`monospace ${styles.scriptHash}`}>{hash}</div>
+      )}
     </AddressLockScriptPanel>
   )
 }

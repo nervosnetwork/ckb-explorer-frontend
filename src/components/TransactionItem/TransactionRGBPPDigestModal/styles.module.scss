@@ -47,7 +47,9 @@
 
 .transactionInfo {
   display: flex;
-  justify-content: space-between;
+
+  // justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   gap: 16px;
@@ -69,9 +71,7 @@
 
   .txid,
   .commitment {
-    width: 100%;
     display: flex;
-    flex: 1;
     flex-shrink: 1;
     overflow: hidden;
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -82,33 +82,30 @@
       gap: 8px;
     }
 
-    @media screen and (max-width: $mobileBreakPoint) {
+    @media screen and (width <= 814px) {
       flex-direction: column;
       gap: 4px;
     }
   }
 
   .txid {
+    flex-grow: 1;
+    flex-shrink: 1;
     gap: 8px;
-
-    a {
-      color: var(--primary-color);
-      overflow: hidden;
-      flex: 1;
-      flex-shrink: 1;
-      max-width: 63ch;
-    }
+    max-width: 791px;
   }
 
   .commitment {
     gap: 8px;
     justify-content: flex-end;
+    flex-shrink: 2;
+    min-width: 285px;
 
     .commitmentText {
       flex: 1;
       flex-shrink: 0;
       overflow: hidden;
-      max-width: 63ch;
+      flex-grow: 1;
     }
   }
 
@@ -122,6 +119,14 @@
       justify-content: flex-start;
     }
   }
+}
+
+.btcConfirmationsAndDirection {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 4px;
+  margin-right: auto;
 }
 
 .blockConfirm {
@@ -147,6 +152,14 @@
 
   @media screen and (max-width: $mobileBreakPoint) {
     overflow-wrap: break-word;
+  }
+
+  a {
+    color: var(--primary-color);
+    overflow: hidden;
+    flex: 1;
+    flex-shrink: 1;
+    max-width: 63ch;
   }
 }
 

@@ -4,6 +4,7 @@ import { Tooltip } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import BigNumber from 'bignumber.js'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
+import { ReactComponent as RedirectIcon } from '../../../assets/redirect-icon.svg'
 import { TransactionRGBPPDigestTransfer } from './TransactionRGBPPDigestTransfer'
 import { useSetToast } from '../../Toast'
 import { explorerService, LiteTransfer } from '../../../services/ExplorerService'
@@ -14,6 +15,8 @@ import EllipsisMiddle from '../../EllipsisMiddle'
 import styles from './styles.module.scss'
 import AddressText from '../../AddressText'
 import { useIsMobile } from '../../../hooks'
+import { Link } from '../../Link'
+import config from '../../../config'
 
 export const TransactionRGBPPDigestContent = ({
   leapDirection,
@@ -101,30 +104,36 @@ export const TransactionRGBPPDigestContent = ({
           <div className={styles.txid}>
             <span>{t('address.seal_tx_on_bitcoin')}</span>
             {data.data.txid && (
-              <AddressText
-                ellipsisMiddle={!isMobile}
-                linkProps={{
-                  to: `/transaction/${hash}`,
-                }}
-                className={styles.address}
-              >
-                {data.data.txid}
-              </AddressText>
+              <>
+                <AddressText
+                  ellipsisMiddle={!isMobile}
+                  linkProps={{
+                    to: `/transaction/${hash}`,
+                  }}
+                  className={styles.address}
+                  style={{ overflow: 'hidden' }}
+                >
+                  {data.data.txid}
+                </AddressText>
+                <Link to={`${config.BITCOIN_EXPLORER}/tx/${data.data.txid}`} className={styles.action}>
+                  <RedirectIcon />
+                </Link>
+              </>
             )}
-            <div>
-              {data.data.confirmations && (
-                <span className={styles.blockConfirm}>({data.data.confirmations} Confirmations on Bitcoin)</span>
-              )}
-              {leapDirection !== TransactionLeapDirection.NONE ? (
-                <Tooltip placement="top" title={t(`address.leap_${leapDirection}_tip`)}>
-                  <span className={styles.leap}>{t(`address.leap_${leapDirection}`)}</span>
-                </Tooltip>
-              ) : null}
-            </div>
+          </div>
+          <div className={styles.btcConfirmationsAndDirection}>
+            {typeof data.data.confirmations === 'number' && (
+              <span className={styles.blockConfirm}>({data.data.confirmations} Confirmations on Bitcoin)</span>
+            )}
+            {leapDirection !== TransactionLeapDirection.NONE ? (
+              <Tooltip placement="top" title={t(`address.leap_${leapDirection}_tip`)}>
+                <span className={styles.leap}>{t(`address.leap_${leapDirection}`)}</span>
+              </Tooltip>
+            ) : null}
           </div>
           <div className={styles.commitment}>
             <span>Commitment:</span>
-            <div>
+            <div style={{ width: '64ch', minWidth: '20ch' }}>
               <EllipsisMiddle text={data.data.commitment} className={styles.commitmentText} />
               <SimpleButton
                 className={styles.action}
