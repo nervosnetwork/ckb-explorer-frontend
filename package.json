@@ -21,7 +21,7 @@
     "@spore-sdk/core": "0.2.0-beta.8",
     "@tanstack/react-query": "4.0.5",
     "antd": "4.24.5",
-    "axios": "1.6.8",
+    "axios": "1.7.2",
     "bech32": "2.0.0",
     "bignumber.js": "9.1.2",
     "bs58check": "3.0.1",
