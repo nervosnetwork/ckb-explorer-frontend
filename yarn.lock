@@ -2675,20 +2675,6 @@
     js-xxhash "^1.0.4"
     lodash.isequal "^4.5.0"
 
-"@ckb-lumos/base@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/@ckb-lumos/base/-/base-0.22.2.tgz#337dac666bf3b20eb78b3545fbeb3249292e7bf7"
-  integrity sha512-nosUCSa5rTV2IzxbEpqzrvUeQNXB66mgA0h40+QEdnE/gV/s4ke83AScrTAxWkErJy1G/sToIHCc2kWwO95DfQ==
-  dependencies:
-    "@ckb-lumos/bi" "0.22.2"
-    "@ckb-lumos/codec" "0.22.2"
-    "@ckb-lumos/toolkit" "0.22.2"
-    "@types/blake2b" "^2.1.0"
-    "@types/lodash.isequal" "^4.5.5"
-    blake2b "^2.1.3"
-    js-xxhash "^1.0.4"
-    lodash.isequal "^4.5.0"
-
 "@ckb-lumos/base@0.23.0":
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/base/-/base-0.23.0.tgz#507e2860dd49547268e9088e10aa2051507d4343"
@@ -2800,18 +2786,6 @@
     "@types/deep-freeze-strict" "^1.1.0"
     deep-freeze-strict "^1.1.1"
 
-"@ckb-lumos/config-manager@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/@ckb-lumos/config-manager/-/config-manager-0.22.2.tgz#03f04dedf413a5bcfefa98e71f11dd4da7779fba"
-  integrity sha512-LJ4p80VrCHh178Ks4wW1rEyHC/JWtZxrFiwHinA9aG6aOm2Z9hbZO0/ZKoS5pLfW0gxP2+ZHA3oMVt0UJhlTKA==
-  dependencies:
-    "@ckb-lumos/base" "0.22.2"
-    "@ckb-lumos/bi" "0.22.2"
-    "@ckb-lumos/codec" "0.22.2"
-    "@ckb-lumos/rpc" "0.22.2"
-    "@types/deep-freeze-strict" "^1.1.0"
-    deep-freeze-strict "^1.1.1"
-
 "@ckb-lumos/config-manager@0.23.0":
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/config-manager/-/config-manager-0.23.0.tgz#93a607f7857c9a24fae86735e29f1ca40ee34fb5"
@@ -2917,16 +2891,6 @@
     abort-controller "^3.0.0"
     cross-fetch "^3.1.5"
 
-"@ckb-lumos/rpc@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/@ckb-lumos/rpc/-/rpc-0.22.2.tgz#5c8030ae2d5bf1fa4b7e118216a74ec7129e09ef"
-  integrity sha512-c2SX0ooDJO3dV2JOTTQtKZs0k+dHst+NHfbYJ6mYWApcZWx2nG4bQR3CQFMIKnd5CKYP/r2JuaonDkcRH9vmzw==
-  dependencies:
-    "@ckb-lumos/base" "0.22.2"
-    "@ckb-lumos/bi" "0.22.2"
-    abort-controller "^3.0.0"
-    cross-fetch "^3.1.5"
-
 "@ckb-lumos/rpc@0.23.0":
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/rpc/-/rpc-0.23.0.tgz#e17bd281e62e17957db80459e6be25d0c64bbb59"
@@ -2950,13 +2914,6 @@
   integrity sha512-D41GgB6D8WDh94gBNGXQJTxbI2NFFSH/71jE4kdRI6+qqbl/zYlI3nsLdQmY1RajIYyLgYLNAVHiDIWK/KGO/w==
   dependencies:
     "@ckb-lumos/bi" "0.22.0-next.5"
-
-"@ckb-lumos/toolkit@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/@ckb-lumos/toolkit/-/toolkit-0.22.2.tgz#54087a8947ae4de7cd0e91d955f273accca37d30"
-  integrity sha512-HmKz2dGQeaW2XDqkvjJfLv50VQWGKbthg2RDfIxGsZyjveluRROTyuHP1akypy4pqF8TApGLsXci2MaHCRau+w==
-  dependencies:
-    "@ckb-lumos/bi" "0.22.2"
 
 "@ckb-lumos/toolkit@0.23.0":
   version "0.23.0"
