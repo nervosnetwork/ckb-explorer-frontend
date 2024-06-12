@@ -8,7 +8,7 @@
     "@ckb-lumos/codec": "0.23.0",
     "@ckb-lumos/config-manager": "0.23.0",
     "@ckb-lumos/helpers": "0.23.0",
-    "@ckb-lumos/molecule": "0.22.2",
+    "@ckb-lumos/molecule": "0.23.0",
     "@microlink/react-json-view": "1.23.0",
     "@nervosnetwork/ckb-sdk-rpc": "0.109.1",
     "@nervosnetwork/ckb-sdk-utils": "0.109.1",

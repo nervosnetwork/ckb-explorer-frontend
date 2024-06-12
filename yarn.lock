@@ -2866,13 +2866,13 @@
     "@ckb-lumos/toolkit" "0.22.0-next.5"
     "@ckb-lumos/transaction-manager" "0.22.0-next.5"
 
-"@ckb-lumos/molecule@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.npmjs.org/@ckb-lumos/molecule/-/molecule-0.22.2.tgz#4bf857c812e1b52e05f847da1209b95b81c4c32f"
-  integrity sha512-9XwQUP/LCV+B+N4hWKiGZ2Di23chYTzKi9iWjCYCoVpjer2b19AZwEyJF/43pu9bw1C586LhtzQG6swSvKYLFA==
+"@ckb-lumos/molecule@0.23.0":
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/@ckb-lumos/molecule/-/molecule-0.23.0.tgz#ee2cc9ba0b7efc3f5c470a523e0e9e7d3b70b7aa"
+  integrity sha512-4ikETvRtimV3bYizI9MNfy4TT7MjVP8RS3RJjOwF20zdYFUvt5cuhnDKDBxBcs5gHbLEJlEB9cRmJKx3cxU+bg==
   dependencies:
-    "@ckb-lumos/bi" "0.22.2"
-    "@ckb-lumos/codec" "0.22.2"
+    "@ckb-lumos/bi" "0.23.0"
+    "@ckb-lumos/codec" "0.23.0"
     "@types/moo" "^0.5.9"
     "@types/nearley" "^2.11.2"
     glob "^10.3.10"
