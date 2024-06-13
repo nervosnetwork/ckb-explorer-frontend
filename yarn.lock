@@ -2675,20 +2675,6 @@
     js-xxhash "^1.0.4"
     lodash.isequal "^4.5.0"
 
-"@ckb-lumos/base@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/@ckb-lumos/base/-/base-0.22.2.tgz#337dac666bf3b20eb78b3545fbeb3249292e7bf7"
-  integrity sha512-nosUCSa5rTV2IzxbEpqzrvUeQNXB66mgA0h40+QEdnE/gV/s4ke83AScrTAxWkErJy1G/sToIHCc2kWwO95DfQ==
-  dependencies:
-    "@ckb-lumos/bi" "0.22.2"
-    "@ckb-lumos/codec" "0.22.2"
-    "@ckb-lumos/toolkit" "0.22.2"
-    "@types/blake2b" "^2.1.0"
-    "@types/lodash.isequal" "^4.5.5"
-    blake2b "^2.1.3"
-    js-xxhash "^1.0.4"
-    lodash.isequal "^4.5.0"
-
 "@ckb-lumos/base@0.23.0":
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/base/-/base-0.23.0.tgz#507e2860dd49547268e9088e10aa2051507d4343"
@@ -2800,18 +2786,6 @@
     "@types/deep-freeze-strict" "^1.1.0"
     deep-freeze-strict "^1.1.1"
 
-"@ckb-lumos/config-manager@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/@ckb-lumos/config-manager/-/config-manager-0.22.2.tgz#03f04dedf413a5bcfefa98e71f11dd4da7779fba"
-  integrity sha512-LJ4p80VrCHh178Ks4wW1rEyHC/JWtZxrFiwHinA9aG6aOm2Z9hbZO0/ZKoS5pLfW0gxP2+ZHA3oMVt0UJhlTKA==
-  dependencies:
-    "@ckb-lumos/base" "0.22.2"
-    "@ckb-lumos/bi" "0.22.2"
-    "@ckb-lumos/codec" "0.22.2"
-    "@ckb-lumos/rpc" "0.22.2"
-    "@types/deep-freeze-strict" "^1.1.0"
-    deep-freeze-strict "^1.1.1"
-
 "@ckb-lumos/config-manager@0.23.0":
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/config-manager/-/config-manager-0.23.0.tgz#93a607f7857c9a24fae86735e29f1ca40ee34fb5"
@@ -2892,13 +2866,13 @@
     "@ckb-lumos/toolkit" "0.22.0-next.5"
     "@ckb-lumos/transaction-manager" "0.22.0-next.5"
 
-"@ckb-lumos/molecule@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.npmjs.org/@ckb-lumos/molecule/-/molecule-0.22.2.tgz#4bf857c812e1b52e05f847da1209b95b81c4c32f"
-  integrity sha512-9XwQUP/LCV+B+N4hWKiGZ2Di23chYTzKi9iWjCYCoVpjer2b19AZwEyJF/43pu9bw1C586LhtzQG6swSvKYLFA==
+"@ckb-lumos/molecule@0.23.0":
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/@ckb-lumos/molecule/-/molecule-0.23.0.tgz#ee2cc9ba0b7efc3f5c470a523e0e9e7d3b70b7aa"
+  integrity sha512-4ikETvRtimV3bYizI9MNfy4TT7MjVP8RS3RJjOwF20zdYFUvt5cuhnDKDBxBcs5gHbLEJlEB9cRmJKx3cxU+bg==
   dependencies:
-    "@ckb-lumos/bi" "0.22.2"
-    "@ckb-lumos/codec" "0.22.2"
+    "@ckb-lumos/bi" "0.23.0"
+    "@ckb-lumos/codec" "0.23.0"
     "@types/moo" "^0.5.9"
     "@types/nearley" "^2.11.2"
     glob "^10.3.10"
@@ -2914,16 +2888,6 @@
   dependencies:
     "@ckb-lumos/base" "0.22.0-next.5"
     "@ckb-lumos/bi" "0.22.0-next.5"
-    abort-controller "^3.0.0"
-    cross-fetch "^3.1.5"
-
-"@ckb-lumos/rpc@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/@ckb-lumos/rpc/-/rpc-0.22.2.tgz#5c8030ae2d5bf1fa4b7e118216a74ec7129e09ef"
-  integrity sha512-c2SX0ooDJO3dV2JOTTQtKZs0k+dHst+NHfbYJ6mYWApcZWx2nG4bQR3CQFMIKnd5CKYP/r2JuaonDkcRH9vmzw==
-  dependencies:
-    "@ckb-lumos/base" "0.22.2"
-    "@ckb-lumos/bi" "0.22.2"
     abort-controller "^3.0.0"
     cross-fetch "^3.1.5"
 
@@ -2950,13 +2914,6 @@
   integrity sha512-D41GgB6D8WDh94gBNGXQJTxbI2NFFSH/71jE4kdRI6+qqbl/zYlI3nsLdQmY1RajIYyLgYLNAVHiDIWK/KGO/w==
   dependencies:
     "@ckb-lumos/bi" "0.22.0-next.5"
-
-"@ckb-lumos/toolkit@0.22.2":
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/@ckb-lumos/toolkit/-/toolkit-0.22.2.tgz#54087a8947ae4de7cd0e91d955f273accca37d30"
-  integrity sha512-HmKz2dGQeaW2XDqkvjJfLv50VQWGKbthg2RDfIxGsZyjveluRROTyuHP1akypy4pqF8TApGLsXci2MaHCRau+w==
-  dependencies:
-    "@ckb-lumos/bi" "0.22.2"
 
 "@ckb-lumos/toolkit@0.23.0":
   version "0.23.0"
@@ -6974,6 +6931,11 @@ acorn-import-assertions@^1.9.0:
   resolved "https://registry.yarnpkg.com/acorn-import-assertions/-/acorn-import-assertions-1.9.0.tgz#507276249d684797c84e0734ef84860334cfb1ac"
   integrity sha512-cmMwop9x+8KFhxvKrKfPYmN6/pKTYYHBqLa0DfvVZcKMJWNyWLnaqND7dx/qn66R7ewM1UX5XMaDVP5wlVTaVA==
 
+acorn-import-attributes@^1.9.5:
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/acorn-import-attributes/-/acorn-import-attributes-1.9.5.tgz#7eb1557b1ba05ef18b5ed0ec67591bfab04688ef"
+  integrity sha512-n02Vykv5uA3eHGM/Z2dQrcD56kL8TyDb2p1+0P83PClMnC/nc+anbQRhIOWnSq4Ke/KvDPrY3C9hDtC/A3eHnQ==
+
 acorn-jsx@^5.3.1, acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
@@ -9790,10 +9752,10 @@ enhanced-resolve@^5.15.0:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
 
-enhanced-resolve@^5.16.0:
-  version "5.16.1"
-  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.16.1.tgz#e8bc63d51b826d6f1cbc0a150ecb5a8b0c62e567"
-  integrity sha512-4U5pNsuDl0EhuZpq46M5xPslstkviJuhrdobaRDBk2Jy2KO37FDAJl4lb2KlNabxT0m4MTK2UHNrsAcphE8nyw==
+enhanced-resolve@^5.17.0:
+  version "5.17.0"
+  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.17.0.tgz#d037603789dd9555b89aaec7eb78845c49089bc5"
+  integrity sha512-dwDPwZL0dmye8Txp2gzFmA6sxALaSvdRDjPH0viLcKrtlOL3tw62nWWweVD1SdILDTJrbrL6tdWVN58Wo6U3eA==
   dependencies:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
@@ -16909,10 +16871,10 @@ sass-loader@^12.3.0:
     klona "^2.0.4"
     neo-async "^2.6.2"
 
-sass@1.77.4:
-  version "1.77.4"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.77.4.tgz#92059c7bfc56b827c56eb116778d157ec017a5cd"
-  integrity sha512-vcF3Ckow6g939GMA4PeU7b2K/9FALXk2KF9J87txdHzXbUF9XRQRwSxcAs/fGaTnJeBFd7UoV22j3lzMLdM0Pw==
+sass@1.77.5:
+  version "1.77.5"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.77.5.tgz#5f9009820297521356e962c0bed13ee36710edfe"
+  integrity sha512-oDfX1mukIlxacPdQqNb6mV2tVCrnE+P3nVYioy72V5tlk56CPNcO4TCuFcaCRKKfJ1M3lH95CleRS+dVKL2qMg==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
@@ -19002,10 +18964,10 @@ webpack@5:
     watchpack "^2.4.0"
     webpack-sources "^3.2.3"
 
-webpack@5.91.0:
-  version "5.91.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.91.0.tgz#ffa92c1c618d18c878f06892bbdc3373c71a01d9"
-  integrity sha512-rzVwlLeBWHJbmgTC/8TvAcu5vpJNII+MelQpylD4jNERPwpBJOE2lEcko1zJX3QJeLjTTAnQxn/OJ8bjDzVQaw==
+webpack@5.92.0:
+  version "5.92.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.92.0.tgz#cc114c71e6851d220b1feaae90159ed52c876bdf"
+  integrity sha512-Bsw2X39MYIgxouNATyVpCNVWBCuUwDgWtN78g6lSdPJRLaQ/PUVm/oXcaRAyY/sMFoKFQrsPeqvTizWtq7QPCA==
   dependencies:
     "@types/eslint-scope" "^3.7.3"
     "@types/estree" "^1.0.5"
@@ -19013,10 +18975,10 @@ webpack@5.91.0:
     "@webassemblyjs/wasm-edit" "^1.12.1"
     "@webassemblyjs/wasm-parser" "^1.12.1"
     acorn "^8.7.1"
-    acorn-import-assertions "^1.9.0"
+    acorn-import-attributes "^1.9.5"
     browserslist "^4.21.10"
     chrome-trace-event "^1.0.2"
-    enhanced-resolve "^5.16.0"
+    enhanced-resolve "^5.17.0"
     es-module-lexer "^1.2.1"
     eslint-scope "5.1.1"
     events "^3.2.0"
