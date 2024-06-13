@@ -929,7 +929,8 @@ export const apiFetcher = {
     return res
   },
   fetchNFTCollectionItem: async (collectionId: string, id: string) => {
-    const res = await requesterV2.get<NFTItem>(`nft/collections/${collectionId}/items/${id}`).then(r => r.data)
+    const intTokenId = BigNumber(id).toFormat({ groupSeparator: '' })
+    const res = await requesterV2.get<NFTItem>(`nft/collections/${collectionId}/items/${intTokenId}`).then(r => r.data)
     if (isDob0(res) && res.type_script?.args) {
       const dobs = await getDobs([res.type_script.args])
       const dob = dobs?.[0]
@@ -1039,12 +1040,13 @@ export const apiFetcher = {
     addressHash?: string | null,
     txHash?: string | null,
   ) => {
+    const intTokenId = tokenId ? BigNumber(tokenId).toFormat({ groupSeparator: '' }) : tokenId
     const res = await requesterV2
       .get<TransferListRes>(`/nft/transfers`, {
         params: {
           page,
           collection_id: id,
-          token_id: tokenId,
+          token_id: intTokenId,
           transfer_action: transferAction,
           address_hash: addressHash,
           tx_hash: txHash,

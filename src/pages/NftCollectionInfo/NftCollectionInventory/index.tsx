@@ -84,7 +84,8 @@ const NftCollectionInventory: React.FC<{
   return (
     <div className={styles.list}>
       {list.map(item => {
-        const itemLink = `/nft-info/${collection}/${item.token_id}`
+        const itemId = formatNftDisplayId(item.token_id, item.standard)
+        const itemLink = `/nft-info/${collection}/${itemId}`
         return (
           <div key={item.id} className={styles.item}>
             <Link to={itemLink}>{renderCover(item)}</Link>
@@ -96,7 +97,7 @@ const NftCollectionInventory: React.FC<{
                   color: primaryColor,
                 }}
               >
-                {formatNftDisplayId(item.token_id, item.standard)}
+                {itemId}
               </Link>
             </div>
             <div className={styles.owner}>
