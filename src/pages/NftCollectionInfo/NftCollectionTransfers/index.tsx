@@ -155,19 +155,21 @@ const TransferTableRow: FC<{
     return <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
   }
 
+  const itemId = formatNftDisplayId(item.item.token_id, item.item.standard)
+
   return (
     <tr>
       <td>
         <div className={styles.item}>
           {renderCover()}
           <Link
-            to={`/nft-info/${collection}/${item.item.token_id}`}
+            to={`/nft-info/${collection}/${itemId}`}
             style={{
               color: primaryColor,
             }}
             className={styles.tokenId}
           >
-            {`id: ${formatNftDisplayId(item.item.token_id, item.item.standard)}`}
+            {`id: ${itemId}`}
           </Link>
         </div>
       </td>
@@ -291,13 +293,14 @@ const TransferCard: FC<{
 
     return <img src="/images/nft_placeholder.png" alt="cover" loading="lazy" className={styles.icon} />
   }
+  const itemId = formatNftDisplayId(item.item.token_id, item.item.standard)
 
   return (
     <li>
       <div className={styles.item}>
         {renderCover()}
         <Link
-          to={`/nft-info/${collection}/${item.item.token_id}`}
+          to={`/nft-info/${collection}/${itemId}`}
           style={{
             color: primaryColor,
             maxWidth: '100%',
@@ -305,7 +308,7 @@ const TransferCard: FC<{
             textOverflow: 'ellipsis',
           }}
         >
-          {`id: ${formatNftDisplayId(item.item.token_id, item.item.standard)}`}
+          {`id: ${itemId}`}
         </Link>
       </div>
       <dl>
