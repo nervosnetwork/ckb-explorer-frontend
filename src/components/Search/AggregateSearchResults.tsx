@@ -60,6 +60,7 @@ export const AggregateSearchResults: FC<Props> = ({ keyword = '', results, loadi
           {(Object.keys(categories) as SearchResultType[]).map(category => (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <div
+              key={category}
               className={classNames(styles.searchCategoryTag, { [styles.active]: activatedCategory === category })}
               onClick={() => setActivatedCategory(pre => (pre === category ? undefined : category))}
             >
@@ -145,6 +146,53 @@ const SearchResultItem: FC<{ keyword?: string; item: AggregateSearchResult }> = 
             <div className={classNames(styles.secondaryText, styles.subTitle, 'monospace')}>
               <span style={{ marginRight: 4, flexShrink: 0 }}>sn: </span>
               <HighlightText style={{ width: '100%' }} text={item.attributes.sn} keyword={keyword} />
+            </div>
+          </div>
+        </div>
+      </Link>
+    )
+  }
+
+  if (item.type === SearchResultType.TokenItem) {
+    return (
+      <Link className={styles.searchResult} to={to}>
+        <div className={styles.content}>
+          {item.attributes.iconUrl ? (
+            <img
+              src={`${patchMibaoImg(item.attributes.tokenCollection.iconUrl)}?size=small`}
+              alt="cover"
+              loading="lazy"
+              className={styles.icon}
+              onError={handleNftImgError}
+            />
+          ) : (
+            <img
+              src={
+                item.attributes.tokenCollection.standard === 'spore'
+                  ? '/images/spore_placeholder.svg'
+                  : '/images/nft_placeholder.png'
+              }
+              alt="cover"
+              loading="lazy"
+              className={styles.icon}
+            />
+          )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', flex: 1 }}>
+            {!displayName ? (
+              t('udt.unknown_token')
+            ) : (
+              <HighlightText text={displayName} keyword={keyword} style={{ flex: 1 }} />
+            )}
+
+            <div className={classNames(styles.secondaryText, styles.subTitle, 'monospace')}>
+              <span style={{ marginRight: 4, flexShrink: 0 }}>sn: </span>
+              <HighlightText style={{ width: '100%' }} text={item.attributes.tokenCollection.sn} keyword={keyword} />
+            </div>
+
+            <div className={classNames(styles.secondaryText, styles.subTitle, 'monospace')}>
+              <span style={{ marginRight: 4, flexShrink: 0 }}>tokenId: </span>
+              <HighlightText style={{ width: '100%' }} text={item.attributes.tokenId} keyword={keyword} />
             </div>
           </div>
         </div>

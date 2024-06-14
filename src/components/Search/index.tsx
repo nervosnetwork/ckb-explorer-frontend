@@ -41,6 +41,7 @@ const ALLOW_SEARCH_TYPES = [
   SearchResultType.Transaction,
   SearchResultType.TypeScript,
   SearchResultType.TokenCollection,
+  SearchResultType.TokenItem,
   SearchResultType.UDT,
   SearchResultType.DID,
   SearchResultType.BtcAddress,

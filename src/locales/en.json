@@ -381,6 +381,7 @@
       "bitcoin_transaction": "BTC TX",
       "bitcoin_address": "BTC Address",
       "token_collection": "Token Collection",
+      "token_item": "Token Item",
       "did": "DID"
     },
     "address": {

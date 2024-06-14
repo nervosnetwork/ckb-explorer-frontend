@@ -14,6 +14,7 @@ import {
   SupportedExportTransactionType,
   TransactionRecord,
   LiveCell,
+  TokenCollection,
 } from './types'
 import { assert } from '../../utils/error'
 import { Cell } from '../../models/Cell'
@@ -64,6 +65,7 @@ export enum SearchResultType {
   LockScript = 'lock_script',
   BtcTx = 'bitcoin_transaction',
   TokenCollection = 'token_collection',
+  TokenItem = 'token_item',
   DID = 'did',
   BtcAddress = 'bitcoin_address',
 }
@@ -82,16 +84,17 @@ export type AggregateSearchResult =
   | Response.Wrapper<BtcTx, SearchResultType.BtcTx>
   | Response.Wrapper<Script & { scriptHash: string }, SearchResultType.TypeScript>
   | Response.Wrapper<Script, SearchResultType.LockScript>
+  | Response.Wrapper<TokenCollection, SearchResultType.TokenCollection>
   | Response.Wrapper<
       {
-        standard: string
-        name: string
-        description: string
-        iconUrl: string
-        symbol: string
-        sn: string
+        name: string | null
+        iconUrl: string | null
+        metadataUrl: string | null
+        status: string
+        tokenId: string
+        tokenCollection: TokenCollection
       },
-      SearchResultType.TokenCollection
+      SearchResultType.TokenItem
     >
   // This type is currently checked and inserted by the frontend
   | Response.Wrapper<

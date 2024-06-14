@@ -391,3 +391,12 @@ export interface LiveCell {
     tokenId: string
   }
 }
+
+export interface TokenCollection {
+  standard: string
+  name: string
+  description: string
+  iconUrl: string
+  symbol: string
+  sn: string
+}
