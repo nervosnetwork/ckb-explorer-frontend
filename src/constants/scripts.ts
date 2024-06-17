@@ -228,7 +228,10 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x9b819793a64463aed77c615d6cb226eea5487ccfc0783043a587254cda2b6f26'],
-    txHashes: ['0xdfdb40f5d229536915f2d5403c66047e162e25dedd70a79ef5164356e1facdc8-0'],
+    txHashes: [
+      '0xc76edf469816aa22f416503c38d0b533d2a018e253e379f134c3985b3472c842-0',
+      '0xdfdb40f5d229536915f2d5403c66047e162e25dedd70a79ef5164356e1facdc8-0',
+    ],
     depType: 'code',
     hashType: 'type',
     lumosConfigName: 'OMNILOCK',
@@ -556,7 +559,10 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0xf329effd1c475a2978453c8600e1eaf0bc2087ee093c3ee64cc96ec6847752cb'],
-    txHashes: ['0x27b62d8be8ed80b9f56ee0fe41355becdb6f6a40aeba82d3900434f43b1c8b60-0'],
+    txHashes: [
+      '0x3d4296df1bd2cc2bd3f483f61ab7ebeac462a2f336f2b944168fe6ba5d81c014-0',
+      '0x27b62d8be8ed80b9f56ee0fe41355becdb6f6a40aeba82d3900434f43b1c8b60-0',
+    ],
     depType: 'code',
     hashType: 'type',
     lumosConfigName: 'OMNILOCK',
