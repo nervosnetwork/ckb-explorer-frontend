@@ -66,8 +66,9 @@ const useOption = (
     containLabel: true,
   }
   const parseTooltip = useTooltip()
+  const colors = chartColor.cellCount
   return {
-    color: chartColor.colors,
+    color: colors,
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
@@ -124,7 +125,7 @@ const useOption = (
         scale: true,
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[0],
+            color: colors[0],
           },
         },
         axisLabel: {
@@ -140,7 +141,7 @@ const useOption = (
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[0],
+          color: colors[0],
         },
         lineStyle: {
           width: 4,
@@ -154,7 +155,7 @@ const useOption = (
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[1],
+          color: colors[1],
         },
       },
       {
@@ -165,7 +166,7 @@ const useOption = (
         stack: 'sum',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[2],
+          color: colors[2],
         },
       },
     ],
