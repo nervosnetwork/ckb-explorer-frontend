@@ -77,18 +77,7 @@ export const UDTOverviewCard = ({
 }) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const {
-    displayName,
-    uan,
-    fullName,
-    iconFile,
-    issuerAddress,
-    symbol,
-    addressesCount,
-    decimal,
-    totalAmount,
-    typeScript,
-  } = udt
+  const { fullName, iconFile, issuerAddress, symbol, addressesCount, decimal, totalAmount, typeScript } = udt
   const [showType, setShowType] = useState(false)
   const [isModifyTokenInfoModalOpen, setIsModifyTokenInfoModalOpen] = useState<boolean>(false)
 
@@ -96,7 +85,7 @@ export const UDTOverviewCard = ({
     ? [
         {
           title: t('udt.name'),
-          content: displayName || fullName,
+          content: fullName,
         },
         {
           title: t('udt.owner'),
@@ -108,8 +97,8 @@ export const UDTOverviewCard = ({
           content: addressesCount,
         },
         {
-          title: t(uan ? 'udt.uan' : 'udt.symbol'),
-          content: uan || symbol,
+          title: t('udt.symbol'),
+          content: symbol,
         },
         {
           title: t('udt.decimal'),
@@ -123,7 +112,7 @@ export const UDTOverviewCard = ({
     : [
         {
           title: t('udt.name'),
-          content: displayName || fullName || <span className={styles.noneName}>(None)</span>,
+          content: fullName || <span className={styles.noneName}>(None)</span>,
         },
         {
           title: t('udt.status'),
@@ -163,7 +152,7 @@ export const UDTOverviewCard = ({
     args: udt.typeScript?.args ?? null,
     typeHash,
     symbol: udt.symbol,
-    name: udt.displayName || udt.fullName,
+    name: udt.fullName,
     decimal: udt.decimal,
     description: udt.description,
     website: udt.operatorWebsite ?? '',
@@ -185,7 +174,7 @@ export const UDTOverviewCard = ({
         <img className={styles.icon} src={iconFile || SUDTTokenIcon} alt="hash icon" />
         {isMobile && modifyTokenInfo}
       </div>
-      {(uan || symbol) ?? t('udt.sudt')}
+      {symbol ?? t('udt.sudt')}
     </div>
   )
 

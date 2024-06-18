@@ -4,7 +4,6 @@ export interface XUDT {
   amount: string
   typeHash: string
   udtIconFile: string
-  uan: string
   udtType: 'xudt' | 'xudt_compatible'
 }
 
@@ -14,7 +13,6 @@ export interface SUDT {
   amount: string
   typeHash: string
   udtIconFile: string
-  uan: string
   udtType: 'sudt'
 }
 

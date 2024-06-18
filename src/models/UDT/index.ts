@@ -14,8 +14,6 @@ export interface UDT {
   typeHash: string
   issuerAddress: string
   typeScript: Script
-  displayName?: string
-  uan?: string
   // TODO: Not quite sure if there are only two types here, so add a string for now.
   udtType: 'omiga_inscription' | 'sudt' | string
   operatorWebsite?: string

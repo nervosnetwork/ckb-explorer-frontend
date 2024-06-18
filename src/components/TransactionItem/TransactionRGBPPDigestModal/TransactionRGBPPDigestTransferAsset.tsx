@@ -19,16 +19,15 @@ export const TransactionRGBPPDigestTransferAsset = ({ transfer }: { transfer: Li
       break
     case 'udt':
       name =
-        transfer.udtInfo.uan ||
         transfer.udtInfo.symbol ||
         `${t('udt.unknown_token')} #${transfer.udtInfo.typeHash.substring(transfer.udtInfo.typeHash.length - 4)}`
       break
     case 'xudt_compatible': {
-      name = transfer.udtInfo?.displayName || 'xUDT-compatible'
+      name = transfer.udtInfo?.symbol || 'xUDT-compatible'
       break
     }
     case 'xudt': {
-      name = transfer.udtInfo?.displayName || 'xUDT'
+      name = transfer.udtInfo?.symbol || 'xUDT'
       break
     }
     case 'omiga_inscription': {
