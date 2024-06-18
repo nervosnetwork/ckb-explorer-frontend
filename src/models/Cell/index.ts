@@ -6,7 +6,6 @@ export interface UDTInfo {
   decimal: string
   typeHash: string
   published: boolean
-  uan?: string
 }
 
 export interface Nrc721TokenInfo {

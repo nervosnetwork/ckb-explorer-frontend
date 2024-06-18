@@ -69,7 +69,7 @@ const AddressTextWithAlias: FC<{
 const useUdtAmount = (udt: UDTInfo) => {
   const { t } = useTranslation()
   return udt.published
-    ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.uan || udt.symbol}`
+    ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
     : `${t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
 }
 

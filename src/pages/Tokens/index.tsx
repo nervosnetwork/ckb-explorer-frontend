@@ -42,11 +42,11 @@ const TokenProgress: FC<{ token: OmigaInscriptionCollection }> = ({ token }) => 
 }
 
 const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) => {
-  const { displayName, fullName, uan } = token
+  const { fullName } = token
   const { t } = useTranslation()
 
-  const name = displayName || fullName
-  const symbol = uan || token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
+  const name = fullName
+  const symbol = token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
   const defaultName = t('udt.unknown_token')
 
   const isKnown = (Boolean(name || symbol) && token.published) || isOmigaInscriptionCollection(token)
@@ -209,12 +209,12 @@ const TokenTable: FC<{
     | undefined
   )[] = [
     {
-      title: t('udt.uan_name'),
+      title: t('udt.name'),
       className: styles.colName,
       render: (_, token) => {
-        const { displayName, fullName, uan } = token
-        const name = displayName || fullName
-        const symbol = uan || token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
+        const { fullName } = token
+        const name = fullName
+        const symbol = token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
         const defaultName = t('udt.unknown_token')
         const isKnown = (Boolean(name) && token.published) || isOmigaInscriptionCollection(token)
         return (

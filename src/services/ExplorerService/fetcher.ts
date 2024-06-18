@@ -1277,8 +1277,6 @@ type SubmitTokenInfoParams = {
   decimal?: number
   description?: string
   icon_file?: string
-  display_name?: string
-  uan?: string
   token?: string
 }
 

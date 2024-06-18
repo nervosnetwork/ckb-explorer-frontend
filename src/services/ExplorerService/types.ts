@@ -384,8 +384,6 @@ export interface LiveCell {
     decimal: string
     typeHash: string
     published: boolean
-    displayName: string
-    uan: string
     type: 'ckb' | 'udt' | 'nrc_721' | 'm_nft'
     className: string
     tokenId: string

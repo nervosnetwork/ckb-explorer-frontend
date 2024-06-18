@@ -45,14 +45,14 @@ const TokenTable: FC<{ udts: UDTAccount[]; cotaList: NFTItem[] }> = ({ udts, cot
                 type = 'xUDT'
                 key += udt.amount
                 href = `/xudt/${udt.typeHash}`
-                asset = udt.uan || udt.symbol
+                asset = udt.symbol
                 amount = `${parseUDTAmount(udt.amount, udt.decimal)} ${asset}`
                 break
               case 'sudt':
                 type = 'sUDT'
                 key += udt.amount
                 href = `/sudt/${udt.typeHash}`
-                asset = udt.uan || udt.symbol
+                asset = udt.symbol
                 amount = `${parseUDTAmount(udt.amount, udt.decimal)} ${asset}`
                 break
               case 'spore_cell':
