@@ -68,7 +68,7 @@ export const AddressXudtComp = ({
   isRGBPP?: boolean
   isOriginal?: boolean
 }) => {
-  const { symbol, decimal, amount, typeHash, udtIconFile, uan } = account
+  const { symbol, decimal, amount, typeHash, udtIconFile } = account
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
 
   useEffect(() => {})
@@ -77,7 +77,7 @@ export const AddressXudtComp = ({
       isRGBPP={isRGBPP ?? false}
       href={`/xudt/${typeHash}`}
       property={parseUDTAmount(amount, decimal)}
-      name={uan || symbol}
+      name={symbol}
       udtLabel={isOriginal ? 'xUDT' : 'xUDT-compatible'}
       icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(SUDTTokenIcon) }}
     />
@@ -85,7 +85,7 @@ export const AddressXudtComp = ({
 }
 
 export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP?: boolean }) => {
-  const { symbol, decimal, amount, typeHash, udtIconFile, uan } = account
+  const { symbol, decimal, amount, typeHash, udtIconFile } = account
   const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
 
   useEffect(() => {})
@@ -94,7 +94,7 @@ export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP?:
       isRGBPP={isRGBPP ?? false}
       href={`/sudt/${typeHash}`}
       property={parseUDTAmount(amount, decimal)}
-      name={uan || symbol}
+      name={symbol}
       udtLabel="sUDT"
       icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(SUDTTokenIcon) }}
     />

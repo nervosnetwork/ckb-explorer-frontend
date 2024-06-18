@@ -692,7 +692,6 @@
     "udt": {
       "sudt": "sUDT",
       "name": "代币名称",
-      "uan": "UAN",
       "symbol": "代币符号",
       "issuer": "发行人",
       "owner": "治理人",
@@ -707,7 +706,6 @@
       "modify_token_info": "修改代币信息",
       "unknown_token_description": "此代币信息暂时不完整，如果你是此代币的拥有者，请提交代币信息",
       "tokens": "代币",
-      "uan_name": "UAN & 名称",
       "transactions": "24小时交易数",
       "address_count": "持币用户数",
       "created_time": "创建时间",
