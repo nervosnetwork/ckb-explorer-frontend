@@ -85,7 +85,7 @@ export const UDTOverviewCard = ({
     ? [
         {
           title: t('udt.name'),
-          content: displayName || fullName,
+          content: fullName,
         },
         {
           title: t('udt.owner'),
@@ -112,7 +112,7 @@ export const UDTOverviewCard = ({
     : [
         {
           title: t('udt.name'),
-          content: displayName || fullName || <span className={styles.noneName}>(None)</span>,
+          content: fullName || <span className={styles.noneName}>(None)</span>,
         },
         {
           title: t('udt.status'),
@@ -152,7 +152,7 @@ export const UDTOverviewCard = ({
     args: udt.typeScript?.args ?? null,
     typeHash,
     symbol: udt.symbol,
-    name: udt.displayName || udt.fullName,
+    name: udt.fullName,
     decimal: udt.decimal,
     description: udt.description,
     website: udt.operatorWebsite ?? '',

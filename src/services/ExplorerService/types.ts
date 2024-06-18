@@ -270,7 +270,7 @@ export namespace LiteTransfer {
   export interface UDTTransfer {
     capacity: string
     cellType: 'udt'
-    udtInfo: Record<'symbol' | 'decimal' | 'displayName' | 'typeHash' | 'uan' | 'amount', string>
+    udtInfo: Record<'symbol' | 'decimal' | 'typeHash' | 'amount', string>
   }
 
   // Cota
@@ -290,12 +290,12 @@ export namespace LiteTransfer {
     cellType: 'omiga_inscription'
     name: string
     count: string
-    udtInfo: Record<'symbol' | 'decimal' | 'displayName' | 'typeHash' | 'uan' | 'amount', string>
+    udtInfo: Record<'symbol' | 'decimal' | 'typeHash' | 'amount', string>
   }
   export interface XudtTransfer {
     capacity: string
     cellType: 'xudt' | 'xudt_compatible'
-    udtInfo: Record<'symbol' | 'decimal' | 'displayName' | 'typeHash' | 'uan' | 'amount', string>
+    udtInfo: Record<'symbol' | 'decimal' | 'typeHash' | 'amount', string>
   }
 
   export type Transfer =
