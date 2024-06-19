@@ -71,6 +71,10 @@
   align-items: center;
   gap: 0.5rem;
   user-select: none;
+
+  button {
+    flex-shrink: 0;
+  }
 }
 
 .codeHash,
