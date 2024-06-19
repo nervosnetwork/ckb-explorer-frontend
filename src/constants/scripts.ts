@@ -663,7 +663,10 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     tag: 'Unique Cell',
   },
   {
-    codeHashes: ['0x00cdf8fab0f8ac638758ebf5ea5e4052b1d71e8a77b9f43139718621f6849326'],
+    codeHashes: [
+      '0x00cdf8fab0f8ac638758ebf5ea5e4052b1d71e8a77b9f43139718621f6849326',
+      '0x80a09eca26d77cea1f5a69471c59481be7404febf40ee90f886c36a948385b55',
+    ],
     txHashes: [
       '0xde0f87878a97500f549418e5d46d2f7704c565a262aa17036c9c1c13ad638529-0',
       '0x5364b3535965e9eac9a35dd7af8e9e45a61d30a16e115923c032f80b28783e21-0',
