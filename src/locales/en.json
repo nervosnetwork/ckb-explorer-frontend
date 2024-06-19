@@ -426,6 +426,7 @@
       "tx_on_bitcoin": "Tx On Bitcoin",
       "leap_in": "L1 → L2",
       "leap_out": "L2 → L1",
+      "leap_with_in_btc": "L1 → L1",
       "leap_in_tip": "This RGB++ transaction is marked as \"L1 → L2\", indicating that the number of cells with RGB++ lock in the output exceeds the number of cells with RGB++ lock in the input.",
       "leap_out_tip": "This RGB++ transaction is marked as \"L2 → L1\", indicating that the number of cells with RGB++ lock in the input exceeds the number of cells with RGB++ lock in the output.",
       "view_in_btc_explorer": "View in Bitcoin Explorer",
@@ -454,7 +455,11 @@
         "btc_txid": "BTC TXID",
         "cell": "Cell",
         "cells": "Cells",
-        "view_on_bitcoin_explorer": "View on Bitcoin Explorer"
+        "view_on_bitcoin_explorer": "View on Bitcoin Explorer",
+        "step": {
+          "isomorphic": "Isomorphic",
+          "unlock": "Unlock"
+        }
       },
       "amount": "Amount"
     },

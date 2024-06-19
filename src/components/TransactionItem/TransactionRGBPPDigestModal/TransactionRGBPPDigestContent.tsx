@@ -1,15 +1,11 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
-import { useQuery } from '@tanstack/react-query'
 import BigNumber from 'bignumber.js'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
 import { ReactComponent as RedirectIcon } from '../../../assets/redirect-icon.svg'
 import { TransactionRGBPPDigestTransfer } from './TransactionRGBPPDigestTransfer'
 import { useSetToast } from '../../Toast'
-import { explorerService, LiteTransfer } from '../../../services/ExplorerService'
-import SmallLoading from '../../Loading/SmallLoading'
-import { TransactionLeapDirection } from '../../RGBPP/types'
+import { LiteTransfer, RGBDigest } from '../../../services/ExplorerService'
 import SimpleButton from '../../SimpleButton'
 import EllipsisMiddle from '../../EllipsisMiddle'
 import styles from './styles.module.scss'
@@ -17,23 +13,24 @@ import AddressText from '../../AddressText'
 import { useIsMobile } from '../../../hooks'
 import { Link } from '../../Link'
 import config from '../../../config'
+import SmallLoading from '../../Loading/SmallLoading'
 
 export const TransactionRGBPPDigestContent = ({
-  leapDirection,
   hash,
+  digest,
+  isFetched,
 }: {
-  leapDirection: TransactionLeapDirection
   hash: string
+  digest?: RGBDigest
+  isFetched: boolean
 }) => {
   const { t } = useTranslation()
   const setToast = useSetToast()
   const isMobile = useIsMobile()
 
-  const { data, isFetched } = useQuery(['rgb-digest', hash], () => explorerService.api.fetchRGBDigest(hash))
-
   const transfers = useMemo(() => {
     const m = new Map<string, LiteTransfer.Transfer[]>()
-    data?.data.transfers?.forEach(tf => {
+    digest?.transfers.forEach(tf => {
       const list = m.get(tf.address) || []
       tf.transfers.forEach(i => {
         let asset: LiteTransfer.Transfer | undefined
@@ -84,7 +81,7 @@ export const TransactionRGBPPDigestContent = ({
       m.set(tf.address, list)
     })
     return m
-  }, [data?.data.transfers])
+  }, [digest?.transfers])
 
   if (!isFetched) {
     return (
@@ -93,17 +90,17 @@ export const TransactionRGBPPDigestContent = ({
       </div>
     )
   }
-  if (!data) {
+  if (!digest) {
     return <div className={styles.noRecords}>{t('transaction.no_records')}</div>
   }
 
   return (
     <div className={styles.content}>
-      {data.data.commitment ? (
+      {digest.commitment ? (
         <div className={styles.transactionInfo}>
           <div className={styles.txid}>
             <span>{t('address.seal_tx_on_bitcoin')}</span>
-            {data.data.txid && (
+            {digest.txid && (
               <>
                 <AddressText
                   ellipsisMiddle={!isMobile}
@@ -113,32 +110,27 @@ export const TransactionRGBPPDigestContent = ({
                   className={styles.address}
                   style={{ overflow: 'hidden' }}
                 >
-                  {data.data.txid}
+                  {digest.txid}
                 </AddressText>
-                <Link to={`${config.BITCOIN_EXPLORER}/tx/${data.data.txid}`} className={styles.action}>
+                <Link to={`${config.BITCOIN_EXPLORER}/tx/${digest.txid}`} className={styles.action}>
                   <RedirectIcon />
                 </Link>
               </>
             )}
           </div>
           <div className={styles.btcConfirmationsAndDirection}>
-            {typeof data.data.confirmations === 'number' && (
-              <span className={styles.blockConfirm}>({data.data.confirmations} Confirmations on Bitcoin)</span>
+            {typeof digest.confirmations === 'number' && (
+              <span className={styles.blockConfirm}>({digest.confirmations} Confirmations on Bitcoin)</span>
             )}
-            {leapDirection !== TransactionLeapDirection.NONE ? (
-              <Tooltip placement="top" title={t(`address.leap_${leapDirection}_tip`)}>
-                <span className={styles.leap}>{t(`address.leap_${leapDirection}`)}</span>
-              </Tooltip>
-            ) : null}
           </div>
           <div className={styles.commitment}>
             <span>Commitment:</span>
             <div style={{ width: '64ch', minWidth: '20ch' }}>
-              <EllipsisMiddle text={data.data.commitment} className={styles.commitmentText} />
+              <EllipsisMiddle text={digest.commitment} className={styles.commitmentText} />
               <SimpleButton
                 className={styles.action}
                 onClick={() => {
-                  navigator.clipboard.writeText(data.data.commitment)
+                  navigator.clipboard.writeText(digest.commitment)
                   setToast({ message: t('common.copied') })
                 }}
               >
