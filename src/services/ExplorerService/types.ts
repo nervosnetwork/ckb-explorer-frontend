@@ -330,6 +330,7 @@ export interface RGBDigest {
   txid: string
   confirmations: number
   commitment: string
+  leapDirection: string | null
   transfers: TransactionRecord[]
 }
 

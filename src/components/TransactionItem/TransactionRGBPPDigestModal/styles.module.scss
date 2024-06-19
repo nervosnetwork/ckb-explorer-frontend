@@ -17,6 +17,13 @@
 .header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
+
+  .left {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
 
   > span {
     font-family: Roboto, sans-serif;
@@ -71,7 +78,9 @@
 
   .txid,
   .commitment {
+    max-width: 100%;
     display: flex;
+    flex: 1 1;
     flex-shrink: 1;
     overflow: hidden;
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;

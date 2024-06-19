@@ -199,6 +199,13 @@ export const TransactionOverviewCard: FC<{
     overviewItems.push(liteTxSizeData, liteTxCyclesData)
   }
 
+  if (transaction.rgbTransferStep) {
+    overviewItems.push({
+      title: 'RGB++',
+      content: t(`rgbpp.transaction.step.${transaction.rgbTransferStep}`),
+    })
+  }
+
   const setToast = useSetToast()
 
   const handleExportTxClick = async () => {

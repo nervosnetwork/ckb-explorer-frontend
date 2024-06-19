@@ -27,8 +27,22 @@
 
 .headerContent {
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
   align-items: center;
+
+  .leap {
+    border: 1px solid #b0fcd3;
+    border-radius: 4px;
+    background-color: #e8fff1;
+    color: #23bc98;
+    padding: 5px 8px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .leap:hover {
+    cursor: pointer;
+  }
 
   p {
     font-size: 20px;

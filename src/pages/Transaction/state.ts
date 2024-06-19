@@ -19,6 +19,7 @@ export const defaultTransactionInfo: Transaction = {
   capacityInvolved: '',
   txStatus: '',
   detailedMessage: '',
+  rgbTransferStep: null,
   bytes: 0,
   largestTxInEpoch: 0,
   largestTx: 0,
