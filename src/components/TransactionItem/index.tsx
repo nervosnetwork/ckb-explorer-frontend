@@ -119,7 +119,7 @@ const TransactionItem = ({
               >
                 {transaction.transactionHash}
               </AddressText>
-              {transaction.isRgbTransaction && <RGBPP transaction={transaction} />}
+              {transaction.isRgbTransaction && transaction.rgbTransferStep && <RGBPP transaction={transaction} />}
             </div>
             <div className={styles.right}>
               <Time tx={isBlock ? undefined : transaction} />

@@ -81,7 +81,7 @@ const LiteTransactionList: React.FC<{
                       >
                         {item.transactionHash}
                       </AddressText>
-                      {item.isRgbTransaction && <RGBPP transaction={item} />}
+                      {item.isRgbTransaction && item.rgbTransferStep && <RGBPP transaction={item} />}
                     </div>
                   </td>
                   {isPendingListActive ? null : (
