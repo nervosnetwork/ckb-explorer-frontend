@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
@@ -14,6 +15,8 @@ import { useIsMobile } from '../../../hooks'
 import { Link } from '../../Link'
 import config from '../../../config'
 import SmallLoading from '../../Loading/SmallLoading'
+import { getBtcChainIdentify } from '../../../services/BTCIdentifier'
+import { IS_MAINNET } from '../../../constants/common'
 
 export const TransactionRGBPPDigestContent = ({
   hash,
@@ -27,6 +30,14 @@ export const TransactionRGBPPDigestContent = ({
   const { t } = useTranslation()
   const setToast = useSetToast()
   const isMobile = useIsMobile()
+
+  const btcTxId = digest?.txid
+
+  const { data: identity } = useQuery({
+    queryKey: ['btc-testnet-identity', btcTxId],
+    queryFn: () => (btcTxId ? getBtcChainIdentify(btcTxId) : null),
+    enabled: !IS_MAINNET && !!btcTxId,
+  })
 
   const transfers = useMemo(() => {
     const m = new Map<string, LiteTransfer.Transfer[]>()
@@ -112,7 +123,10 @@ export const TransactionRGBPPDigestContent = ({
                 >
                   {digest.txid}
                 </AddressText>
-                <Link to={`${config.BITCOIN_EXPLORER}/tx/${digest.txid}`} className={styles.action}>
+                <Link
+                  to={`${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}/tx/${digest.txid}`}
+                  className={styles.action}
+                >
                   <RedirectIcon />
                 </Link>
               </>
