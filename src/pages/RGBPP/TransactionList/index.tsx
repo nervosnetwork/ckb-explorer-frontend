@@ -31,7 +31,7 @@ const RGBPPTransactionList = () => {
           leapDirection = TransactionLeapDirection.IN
         }
 
-        if (tx.leapDirection === 'out') {
+        if (tx.leapDirection === '') {
           leapDirection = TransactionLeapDirection.OUT
         }
 

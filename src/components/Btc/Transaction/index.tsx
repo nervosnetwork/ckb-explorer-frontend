@@ -1,5 +1,6 @@
 import { useMemo, type FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import { type RawBtcRPC } from '../../../services/ExplorerService'
@@ -13,6 +14,8 @@ import { ReactComponent as ViewNewSeal } from './view-new-seal.svg'
 import { ReactComponent as MoreIcon } from '../../../assets/more-icon.svg'
 import { ReactComponent as BtcIcon } from './btc.svg'
 import { ReactComponent as DirectionIcon } from '../../../assets/direction.svg'
+import { getBtcChainIdentify } from '../../../services/BTCIdentifier'
+import { IS_MAINNET } from '../../../constants/common'
 
 const MAX_ITEMS = 10
 
@@ -22,6 +25,14 @@ const BtcTransaction: FC<{
   showId?: boolean
 }> = ({ tx, boundCellIndex, showId = true }) => {
   const { t } = useTranslation()
+
+  const { data: identity } = useQuery({
+    queryKey: ['btc-testnet-identity', tx.txid],
+    queryFn: () => (tx.txid ? getBtcChainIdentify(tx.txid) : null),
+    enabled: !IS_MAINNET && !!tx.txid,
+  })
+
+  const btcExplorer = `${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}`
 
   const time = tx.blocktime ? dayjs(tx.blocktime * 1000) : null
 
@@ -38,12 +49,7 @@ const BtcTransaction: FC<{
       {showId ? (
         <div className={styles.header}>
           <h3 className={styles.txid}>
-            <a
-              href={`${config.BITCOIN_EXPLORER}/tx/${tx.txid}`}
-              title={tx.txid}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
+            <a href={`${btcExplorer}/tx/${tx.txid}`} title={tx.txid} rel="noopener noreferrer" target="_blank">
               <EllipsisMiddle className="monospace" text={tx.txid} />
             </a>
           </h3>
@@ -66,7 +72,7 @@ const BtcTransaction: FC<{
             return (
               <div key={key} className={styles.input}>
                 <a
-                  href={`${config.BITCOIN_EXPLORER}/address/${input.prevout.scriptPubKey.address}`}
+                  href={`${btcExplorer}/address/${input.prevout.scriptPubKey.address}`}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -96,7 +102,7 @@ const BtcTransaction: FC<{
           })}
           {viewMoreInputs ? (
             <div style={{ marginTop: 4 }}>
-              <a href={`${config.BITCOIN_EXPLORER}/tx/${tx.txid}`} rel="noopener noreferrer" target="_blank">
+              <a href={`${btcExplorer}/tx/${tx.txid}`} rel="noopener noreferrer" target="_blank">
                 View more in BTC Explorer
               </a>
             </div>
@@ -112,7 +118,7 @@ const BtcTransaction: FC<{
               <div key={key} className={styles.output}>
                 {output.scriptPubKey.address ? (
                   <a
-                    href={`${config.BITCOIN_EXPLORER}/address/${output.scriptPubKey.address}`}
+                    href={`${btcExplorer}/address/${output.scriptPubKey.address}`}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -169,7 +175,7 @@ const BtcTransaction: FC<{
           })}
           {viewMoreOutputs ? (
             <div style={{ marginTop: 4 }}>
-              <a href={`${config.BITCOIN_EXPLORER}/tx/${tx.txid}`} rel="noopener noreferrer" target="_blank">
+              <a href={`${btcExplorer}/tx/${tx.txid}`} rel="noopener noreferrer" target="_blank">
                 View more in BTC Explorer
               </a>
             </div>

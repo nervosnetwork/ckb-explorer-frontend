@@ -25,6 +25,7 @@ export interface Transaction {
   displayOutputs: Cell[]
   liveCellChanges: string
   capacityInvolved: string
+  rgbTransferStep: string | null
   txStatus: string
   detailedMessage: string
   bytes: number

@@ -7,4 +7,5 @@ export default {
   PROB_NODE: process.env.REACT_APP_PROB_NODE || 'https://api-nodes.magickbase.com',
   DID_INDEXER_URL: process.env.REACT_APP_DID_INDEXER_URL?.split(',') || ['https://indexer-v1.did.id'],
   DOBS_SERVICE_URL: process.env.REACT_APP_DOBS_SERVICE_URL,
+  BTC_TEST_IDENTIFIER: process.env.REACT_APP_BTC_TESETNET_IDENTIFIER!,
 }

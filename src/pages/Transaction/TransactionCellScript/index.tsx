@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { useState, ReactNode, useRef } from 'react'
+import { useState, ReactNode, useRef, FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
@@ -31,6 +31,8 @@ import { isAxiosError } from '../../../utils/error'
 import { Script } from '../../../models/Script'
 import { ReactComponent as CompassIcon } from './compass.svg'
 import styles from './styles.module.scss'
+import { getBtcChainIdentify } from '../../../services/BTCIdentifier'
+import { IS_MAINNET } from '../../../constants/common'
 
 enum CellInfo {
   LOCK = 1,
@@ -150,6 +152,66 @@ const JSONKeyValueView = ({ title = '', value = '' }: { title?: string; value?: 
   </div>
 )
 
+const RGBPP: FC<{ btcUtxo: Partial<Record<'txid' | 'index', string>> }> = ({ btcUtxo }) => {
+  const { data: identity } = useQuery({
+    queryKey: ['btc-testnet-identity', btcUtxo.txid],
+    queryFn: () => (btcUtxo?.txid ? getBtcChainIdentify(btcUtxo.txid) : null),
+    enabled: !IS_MAINNET && !!btcUtxo.txid,
+  })
+
+  if (!IS_MAINNET && !identity) return null
+
+  return (
+    <JSONKeyValueView
+      value={
+        <a
+          href={`${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}/tx/${btcUtxo.txid}#vout=${parseInt(
+            btcUtxo.index!,
+            16,
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.btcUtxo}
+        >
+          BTC UTXO
+          <CompassIcon />
+        </a>
+      }
+    />
+  )
+}
+
+const BTCTimeLock: FC<{
+  btcTimeLockInfo: {
+    txid: string | undefined
+    after: number
+  }
+}> = ({ btcTimeLockInfo }) => {
+  const { data: identity } = useQuery({
+    queryKey: ['btc-testnet-identity', btcTimeLockInfo.txid],
+    queryFn: () => (btcTimeLockInfo?.txid ? getBtcChainIdentify(btcTimeLockInfo.txid) : null),
+    enabled: !IS_MAINNET && !!btcTimeLockInfo.txid,
+  })
+
+  if (!IS_MAINNET && !identity) return null
+
+  return (
+    <JSONKeyValueView
+      value={
+        <a
+          href={`${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}/tx/${btcTimeLockInfo.txid}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.btcUtxo}
+        >
+          {`${btcTimeLockInfo.after} confirmations after BTC Tx`}
+          <CompassIcon />
+        </a>
+      }
+    />
+  )
+}
+
 const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
   const { t } = useTranslation()
 
@@ -171,37 +233,8 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
         )}
         <JSONKeyValueView title={`"${t('transaction.script_hash_type')}": `} value={content.hashType} />
         <JSONKeyValueView title={`"${t('transaction.script_args')}": `} value={content.args} />
-        {btcUtxo ? (
-          <JSONKeyValueView
-            value={
-              <a
-                href={`${config.BITCOIN_EXPLORER}/tx/${btcUtxo.txid}#vout=${parseInt(btcUtxo.index!, 16)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.btcUtxo}
-              >
-                BTC UTXO
-                <CompassIcon />
-              </a>
-            }
-          />
-        ) : null}
-
-        {btcTimeLockInfo ? (
-          <JSONKeyValueView
-            value={
-              <a
-                href={`${config.BITCOIN_EXPLORER}/tx/${btcTimeLockInfo.txid}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.btcUtxo}
-              >
-                {`${btcTimeLockInfo.after} confirmations after BTC Tx`}
-                <CompassIcon />
-              </a>
-            }
-          />
-        ) : null}
+        {btcUtxo ? <RGBPP btcUtxo={btcUtxo} /> : null}
+        {btcTimeLockInfo ? <BTCTimeLock btcTimeLockInfo={btcTimeLockInfo} /> : null}
       </>
     )
   }
