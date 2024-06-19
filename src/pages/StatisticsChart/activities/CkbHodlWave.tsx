@@ -101,8 +101,9 @@ const useOption = (
     containLabel: true,
   }
   const parseTooltip = useTooltip()
+  const colors = [...chartColor.moreColors].slice(0, 8).reverse()
   return {
-    color: chartColor.moreColors,
+    color: colors,
     tooltip: !isThumbnail
       ? {
           trigger: 'axis',
@@ -177,7 +178,7 @@ const useOption = (
         max: 100,
         axisLine: {
           lineStyle: {
-            color: chartColor.colors[0],
+            color: colors[0],
           },
         },
         axisLabel: {
@@ -194,7 +195,7 @@ const useOption = (
         symbolSize: 3,
         stack: 'sum',
         areaStyle: {
-          color: chartColor.colors[0],
+          color: colors[0],
         },
         lineStyle: {
           width: 4,
@@ -208,7 +209,7 @@ const useOption = (
         symbol: isThumbnail ? 'none' : 'circle',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[1],
+          color: colors[1],
         },
       },
       {
@@ -219,7 +220,7 @@ const useOption = (
         stack: 'sum',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[2],
+          color: colors[2],
         },
       },
       {
@@ -230,7 +231,7 @@ const useOption = (
         stack: 'sum',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[3],
+          color: colors[3],
         },
       },
       {
@@ -241,7 +242,7 @@ const useOption = (
         stack: 'sum',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[4],
+          color: colors[4],
         },
       },
       {
@@ -252,7 +253,7 @@ const useOption = (
         stack: 'sum',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[5],
+          color: colors[5],
         },
       },
       {
@@ -263,7 +264,7 @@ const useOption = (
         stack: 'sum',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[6],
+          color: colors[6],
         },
       },
       {
@@ -274,7 +275,7 @@ const useOption = (
         stack: 'sum',
         symbolSize: 3,
         areaStyle: {
-          color: chartColor.colors[7],
+          color: colors[7],
         },
       },
     ],
