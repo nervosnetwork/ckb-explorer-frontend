@@ -147,12 +147,12 @@ export const UDTOverviewCard = ({
       }
     : null
 
-  const modifyTokenInfo = (
+  const modifyTokenInfo = xudt?.email ? (
     <button type="button" className={styles.modify} onClick={() => setIsModifyTokenInfoModalOpen(true)}>
       {t('udt.modify_token_info')}
       <EditIcon />
     </button>
-  )
+  ) : null
 
   const cardTitle = (
     <div className={styles.cardTitle}>

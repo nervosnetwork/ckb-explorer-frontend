@@ -250,7 +250,7 @@ export const SubmitTokenInfo = ({
     if (isModification) {
       typeHash = tokenInfo.typeHash
     } else {
-      const token = scriptDataList.find(scriptData => scriptData.tag === tokenInfo.tokenType)
+      const token = scriptDataList.find(scriptData => scriptData.tag.toLowerCase() === tokenInfo.tokenType)
       if (!token) {
         setToast({
           message: `tokenType ${tokenInfo.tokenType} is not found`,
