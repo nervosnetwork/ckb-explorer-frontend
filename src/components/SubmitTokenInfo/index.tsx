@@ -122,7 +122,10 @@ export const SubmitTokenInfo = ({
   const tokenTypeOptions = scriptDataList
     .filter(scriptData => tagFilters.includes(scriptData.tag.toLowerCase() as 'sudt' | 'xudt'))
     .sort((a, b) => a.tag.localeCompare(b.tag))
-    .map(scriptData => ({ label: scripts.get(scriptData.tag)?.name ?? scriptData.tag, value: scriptData.tag }))
+    .map(scriptData => ({
+      label: scripts.get(scriptData.tag)?.name ?? scriptData.tag,
+      value: scriptData.tag.toLowerCase(),
+    }))
 
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>(
     initialInfo ?? { ...emptyTokenInfo, tokenType: tokenTypeOptions[0].value },
