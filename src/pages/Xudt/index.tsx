@@ -23,6 +23,7 @@ export const Xudt = () => {
   const { filter } = useSearchParams('filter')
 
   const updateSearchParams = useUpdateSearchParams<'filter' | 'page'>()
+  const queryUDT = useQuery(['udt', typeHash], () => explorerService.api.fetchSimpleUDT(typeHash))
 
   const queryXudt = useQuery(['xudt', typeHash], () => explorerService.api.fetchXudt(typeHash))
   const xudt = queryXudt.data
@@ -68,7 +69,7 @@ export const Xudt = () => {
   return (
     <Content>
       <UDTContentPanel className="container">
-        <UDTOverviewCard typeHash={typeHash} xudt={xudt} />
+        <UDTOverviewCard typeHash={typeHash} xudt={xudt} refetchUDT={queryUDT.refetch} />
 
         <UDTTransactionTitlePanel>
           <div className="udtTransactionContainer">

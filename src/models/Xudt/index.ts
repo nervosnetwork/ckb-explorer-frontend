@@ -14,4 +14,8 @@ export interface XUDT {
   typeScript: Script
   udtType: 'xudt'
   xudtTags?: string[]
+  iconFile: string
+  operatorWebsite: string
+  email: string
+  description: string
 }
