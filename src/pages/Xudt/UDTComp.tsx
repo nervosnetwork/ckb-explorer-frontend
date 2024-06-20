@@ -17,12 +17,15 @@ import AddressText from '../../components/AddressText'
 import PaginationWithRear from '../../components/PaginationWithRear'
 import { Transaction } from '../../models/Transaction'
 import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../components/Card'
+import { SubmitTokenInfo, TokenInfo } from '../../components/SubmitTokenInfo'
 import { useIsMobile } from '../../hooks'
 import Script from '../../components/Script'
 import { RawBtcRPC } from '../../services/ExplorerService'
 import { XUDT } from '../../models/Xudt'
 import { getBtcTxList } from '../../services/ExplorerService/fetcher'
 import XUDTTag from '../../components/XUDTTag'
+import { ReactComponent as EditIcon } from '../../assets/edit.svg'
+import XUDTTokenIcon from '../../assets/sudt_token.png'
 
 const IssuerContent: FC<{ address: string }> = ({ address }) => {
   const { t } = useTranslation()
@@ -52,10 +55,19 @@ const IssuerContent: FC<{ address: string }> = ({ address }) => {
   )
 }
 
-export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XUDT | undefined }) => {
+export const UDTOverviewCard = ({
+  typeHash,
+  xudt,
+  refetchUDT,
+}: {
+  typeHash: string
+  xudt: XUDT | undefined
+  refetchUDT: () => void
+}) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const [isScriptDisplayed, setIsScriptDisplayed] = useState(false)
+  const [isModifyTokenInfoModalOpen, setIsModifyTokenInfoModalOpen] = useState<boolean>(false)
 
   const issuer = xudt?.issuerAddress
   const script = xudt?.typeScript ?? null
@@ -120,7 +132,35 @@ export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XU
     },
   ]
 
-  const cardTitle = <div className={styles.cardTitle}>{xudt?.symbol ?? t('xudt.xudt')}</div>
+  const tokenInfo: TokenInfo | null = xudt
+    ? {
+        tokenType: xudt.udtType,
+        args: xudt.typeScript?.args ?? null,
+        typeHash,
+        symbol: xudt.symbol ?? '',
+        name: xudt.fullName ?? '',
+        decimal: xudt.decimal ?? '',
+        description: xudt.description,
+        website: xudt.operatorWebsite ?? '',
+        creatorEmail: xudt.email ?? '',
+        logo: xudt.iconFile,
+      }
+    : null
+
+  const modifyTokenInfo = (
+    <button type="button" className={styles.modify} onClick={() => setIsModifyTokenInfoModalOpen(true)}>
+      {t('udt.modify_token_info')}
+      <EditIcon />
+    </button>
+  )
+
+  const cardTitle = (
+    <div className={styles.cardTitle}>
+      <img className={styles.icon} src={xudt?.iconFile ?? XUDTTokenIcon} alt="hash icon" />
+      {xudt?.symbol ?? t('xudt.xudt')}
+      {isMobile ? modifyTokenInfo : null}
+    </div>
+  )
 
   return (
     <>
@@ -128,7 +168,12 @@ export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XU
         {/* When encountering more complex requirements, consider extracting the components within HashCardHeader
       into smaller components. Then, implement a completely new variant or freely assemble them externally. */}
         {isMobile && cardTitle}
-        <HashCardHeader className={styles.cardHeader} title={!isMobile && cardTitle} hash={typeHash} />
+        <HashCardHeader
+          className={styles.cardHeader}
+          title={!isMobile && cardTitle}
+          hash={typeHash}
+          rightContent={!isMobile && modifyTokenInfo}
+        />
 
         <div className={styles.tags}>
           {xudt?.xudtTags?.map(tag => (
@@ -158,6 +203,14 @@ export const UDTOverviewCard = ({ typeHash, xudt }: { typeHash: string; xudt: XU
           <div className={`monospace ${styles.scriptHash}`}>{hash}</div>
         )}
       </Card>
+      {tokenInfo && isModifyTokenInfoModalOpen ? (
+        <SubmitTokenInfo
+          onClose={() => setIsModifyTokenInfoModalOpen(false)}
+          initialInfo={tokenInfo}
+          onSuccess={refetchUDT}
+          tagFilters={['xudt']}
+        />
+      ) : null}
     </>
   )
 }

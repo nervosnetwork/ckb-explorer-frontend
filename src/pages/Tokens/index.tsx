@@ -386,7 +386,9 @@ const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
           onChange={setPage}
         />
       </TokensPanel>
-      {isSubmitTokenInfoModalOpen ? <SubmitTokenInfo onClose={() => setIsSubmitTokenInfoModalOpen(false)} /> : null}
+      {isSubmitTokenInfoModalOpen ? (
+        <SubmitTokenInfo tagFilters={['sudt']} onClose={() => setIsSubmitTokenInfoModalOpen(false)} />
+      ) : null}
     </Content>
   )
 }

@@ -88,6 +88,12 @@ dt {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    & + dd {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
   }
 
   .value {
@@ -268,5 +274,21 @@ dt {
     margin-top: 20px;
     border-radius: 4px;
     box-shadow: none;
+  }
+}
+
+.submitTokenInfoBtn {
+  color: var(--primary-color);
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+.icon {
+  width: 30px;
+
+  @media (width <= $mobileBreakPoint) {
+    width: 20px;
   }
 }
