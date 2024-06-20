@@ -28,9 +28,10 @@ export const LabeledInput = (props: Props) => {
     children,
     className,
     disabled = false,
+    ...rest
   } = props
   return (
-    <div className={classNames(styles.container, className)}>
+    <div className={classNames(styles.container, className)} {...rest}>
       <label htmlFor={name} className={styles.label}>
         {label} {isRequired && <span className={styles.requiredIcon}>*</span>}
         {labelRightAddon && <span className={styles.labelRightAddon}>{labelRightAddon}</span>}

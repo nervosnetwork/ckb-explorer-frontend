@@ -51,6 +51,10 @@
 .labeledInput {
   width: calc(50% - 8px);
 
+  &[data-is-visible='false'] {
+    display: none;
+  }
+
   @media screen and (width <=750px) {
     width: 100%;
   }

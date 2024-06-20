@@ -103,10 +103,12 @@ export const SubmitTokenInfo = ({
   onClose,
   initialInfo,
   onSuccess,
+  tagFilters = ['xudt', 'sudt'],
 }: {
   onClose: () => void
   initialInfo?: TokenInfo
   onSuccess?: Function
+  tagFilters?: ('sudt' | 'xudt')[]
 }) => {
   const [t, { language }] = useTranslation()
   const history = useHistory()
@@ -118,13 +120,18 @@ export const SubmitTokenInfo = ({
 
   const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
   const tokenTypeOptions = scriptDataList
-    .filter(scriptData => scriptData.tag === 'sudt')
+    .filter(scriptData => tagFilters.includes(scriptData.tag.toLowerCase() as 'sudt' | 'xudt'))
     .sort((a, b) => a.tag.localeCompare(b.tag))
-    .map(scriptData => ({ label: scripts.get(scriptData.tag)?.name ?? scriptData.tag, value: scriptData.tag }))
+    .map(scriptData => ({
+      label: scripts.get(scriptData.tag)?.name ?? scriptData.tag,
+      value: scriptData.tag.toLowerCase(),
+    }))
 
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>(
     initialInfo ?? { ...emptyTokenInfo, tokenType: tokenTypeOptions[0].value },
   )
+
+  const isXudtSelected = tokenInfo.tokenType === 'xudt'
 
   const [vericode, setVericode] = useState('')
 
@@ -217,16 +224,20 @@ export const SubmitTokenInfo = ({
 
   const isInputDecimalValid = isValidNoNegativeInteger(tokenInfo.decimal)
 
-  const isSubmitable =
+  const generalCondition =
     !!tokenInfo.tokenType &&
     !!tokenInfo.args &&
     isArgsValid &&
-    !!tokenInfo.symbol &&
-    !!tokenInfo.decimal &&
-    isInputDecimalValid &&
     !!tokenInfo.website &&
     isInputWebsiteValid &&
     (isModification ? !!vericode : !!tokenInfo.creatorEmail && isEmailValid)
+
+  const conditions = {
+    xudt: generalCondition,
+    sudt: generalCondition && !!tokenInfo.symbol && !!tokenInfo.decimal && isInputDecimalValid,
+  }
+
+  const isSubmitable = isXudtSelected ? conditions.xudt : conditions.sudt
 
   const handleConfirm = async () => {
     if (!isSubmitable) {
@@ -239,7 +250,7 @@ export const SubmitTokenInfo = ({
     if (isModification) {
       typeHash = tokenInfo.typeHash
     } else {
-      const token = scriptDataList.find(scriptData => scriptData.tag === tokenInfo.tokenType)
+      const token = scriptDataList.find(scriptData => scriptData.tag.toLowerCase() === tokenInfo.tokenType)
       if (!token) {
         setToast({
           message: `tokenType ${tokenInfo.tokenType} is not found`,
@@ -277,7 +288,7 @@ export const SubmitTokenInfo = ({
       .then(() => {
         handleClose()
         if (!isModification) {
-          history.push(`/${language}/sudt/${id}`)
+          history.push(`/${language}/${isXudtSelected ? 'xudt' : 'sudt'}/${id}`)
         }
         if (onSuccess) {
           onSuccess()
@@ -349,6 +360,7 @@ export const SubmitTokenInfo = ({
                 label={t('submit_token_info.symbol')}
                 placeholder={t('submit_token_info.symbol_placeholder')}
                 className={styles.labeledInput}
+                data-is-visible={!isXudtSelected}
               />
               <LabeledInput
                 value={tokenInfo.name}
@@ -358,6 +370,7 @@ export const SubmitTokenInfo = ({
                 label={t('submit_token_info.name')}
                 placeholder={t('submit_token_info.name_placeholder')}
                 className={styles.labeledInput}
+                data-is-visible={!isXudtSelected}
               />
               <LabeledInput
                 isRequired
@@ -369,6 +382,7 @@ export const SubmitTokenInfo = ({
                 label={t('submit_token_info.decimal')}
                 placeholder={t('submit_token_info.decimal_placeholder')}
                 className={styles.labeledInput}
+                data-is-visible={!isXudtSelected}
               />
               <LabeledInput
                 value={tokenInfo.description}

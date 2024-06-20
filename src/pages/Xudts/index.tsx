@@ -1,7 +1,7 @@
 import { Table } from 'antd'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useState } from 'react'
 import { ColumnGroupType, ColumnType } from 'antd/lib/table'
 import dayjs from 'dayjs'
 import type { XUDT } from '../../models/Xudt'
@@ -21,6 +21,8 @@ import { FilterSortContainerOnMobile } from '../../components/FilterSortContaine
 import { Card } from '../../components/Card'
 import { BooleanT } from '../../utils/array'
 import XUDTTag from '../../components/XUDTTag'
+import { SubmitTokenInfo } from '../../components/SubmitTokenInfo'
+import XUDTTokenIcon from '../../assets/sudt_token.png'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -50,6 +52,7 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
         <dl className={styles.tokenInfo}>
           <dt className={styles.title}>Name</dt>
           <dd>
+            <img className={styles.icon} src={token.iconFile ? token.iconFile : XUDTTokenIcon} alt="token icon" />
             <Link className={styles.link} to={`/xudt/${token.typeHash}`}>
               {symbol}
             </Link>
@@ -155,6 +158,7 @@ const TokenTable: FC<{
         const tags = token.xudtTags ?? []
         return (
           <div className={styles.container}>
+            <img className={styles.icon} src={token.iconFile ? token.iconFile : XUDTTokenIcon} alt="token icon" />
             <div className={styles.right}>
               <div className={styles.symbolAndName}>
                 {token.published ? (
@@ -231,6 +235,7 @@ const TokenTable: FC<{
 const Xudts = () => {
   const { t } = useTranslation()
   const { tags } = useSearchParams('tags')
+  const [isSubmitTokenInfoModalOpen, setIsSubmitTokenInfoModalOpen] = useState<boolean>(false)
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
   const sortParam = useSortParam<SortField>(undefined, 'transactions.desc')
   const { sort } = sortParam
@@ -259,6 +264,14 @@ const Xudts = () => {
       <TokensPanel className="container">
         <div className="tokensTitlePanel">
           <span>{t('xudt.xudts')}</span>
+
+          <button
+            type="button"
+            className={styles.submitTokenInfoBtn}
+            onClick={() => setIsSubmitTokenInfoModalOpen(true)}
+          >
+            {t('udt.submit_token_info')}
+          </button>
         </div>
 
         <div className={styles.cards}>
@@ -275,6 +288,9 @@ const Xudts = () => {
           onChange={setPage}
         />
       </TokensPanel>
+      {isSubmitTokenInfoModalOpen ? (
+        <SubmitTokenInfo tagFilters={['xudt']} onClose={() => setIsSubmitTokenInfoModalOpen(false)} />
+      ) : null}
     </Content>
   )
 }
