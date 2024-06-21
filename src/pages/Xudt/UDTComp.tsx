@@ -109,7 +109,7 @@ export const UDTOverviewCard = ({
     },
   )
 
-  const { data: holderAllocation = {} } = useQuery({
+  const { data: holderAllocation = {}, isLoading: isHolderAllocationLoading } = useQuery({
     queryKey: ['xudt-holder-allocation', typeHash],
     queryFn: () =>
       xudt
@@ -155,7 +155,7 @@ export const UDTOverviewCard = ({
             setShowHolderAmountModal(true)
           }}
         >
-          {localeNumberString(holderCount)}
+          {IS_MAINNET && isHolderAllocationLoading ? '-' : localeNumberString(holderCount)}
         </SimpleButton>
       ) : (
         '-'
