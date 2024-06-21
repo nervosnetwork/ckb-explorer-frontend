@@ -321,7 +321,8 @@
       "six_months_to_one_year": "6m-1y",
       "one_year_to_three_years": "1y-3y",
       "over_three_years": "> 3y",
-      "ckb_hodl_wave": "CKB HODL Wave"
+      "ckb_hodl_wave": "CKB HODL Wave",
+      "h24_transaction_count": "24hr Transaction Count"
     },
     "home": {
       "height": "Height",
