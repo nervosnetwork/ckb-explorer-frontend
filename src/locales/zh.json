@@ -320,7 +320,8 @@
       "six_months_to_one_year": "6月-1年",
       "one_year_to_three_years": "1年-3年",
       "over_three_years": "> 3年",
-      "ckb_hodl_wave": "CKB持有波动图"
+      "ckb_hodl_wave": "CKB持有波动图",
+      "h24_transaction_count": "交易数量（最近24小时）"
     },
     "home": {
       "height": "高度",

@@ -99,6 +99,7 @@ export namespace ChartItem {
     addressCount: string
     ckbAmount: string
     txCount: string
+    h24TxCount: string
   }
 
   export interface DifficultyUncleRateEpoch {
