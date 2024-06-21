@@ -6,58 +6,54 @@ import CloseIcon from '../../assets/modal_close.png'
 import SimpleButton from '../../components/SimpleButton'
 
 const HolderAllocation = ({
-  ckbHolderAmount,
-  btcHolderAmount,
-  lockHoderAmount,
+  allocation,
   onClose,
 }: {
-  ckbHolderAmount: string
-  btcHolderAmount: string
-  lockHoderAmount?: {
-    lock: string
-    holderAmount: string
-  }[]
+  allocation: Record<string, number>
   onClose: MouseEventHandler<HTMLDivElement>
 }) => {
   const [t] = useTranslation()
+  const total = Object.values(allocation).reduce((acc, cur) => acc + cur, 0)
+  const btc = allocation['RGB++']
+  const ckb = total - btc
   return (
     <div className={styles.holderAllocationContainer}>
       <div className={styles.holderAllocationContent}>
         <h2>{t('xudt.holder_allocation')}</h2>
         <p>
           {t('xudt.holder_allocation_description', {
-            ckb: localeNumberString(ckbHolderAmount),
-            btc: localeNumberString(btcHolderAmount),
+            ckb: localeNumberString(ckb),
+            btc: localeNumberString(btc),
           })}
         </p>
-        {lockHoderAmount && (
-          <div className={styles.table}>
-            <table>
-              <thead>
-                <tr>
-                  <td>
-                    <div>{t('xudt.lock_hash')}</div>
-                  </td>
-                  <td>
-                    <div>{t('xudt.count')}</div>
-                  </td>
-                </tr>
-              </thead>
-              <tbody>
-                {lockHoderAmount.map(amount => (
+        <div className={styles.table}>
+          <table>
+            <thead>
+              <tr>
+                <td>
+                  <div>{t('xudt.category')}</div>
+                </td>
+                <td>
+                  <div>{t('xudt.count')}</div>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(allocation).map(([label, count]) => {
+                return (
                   <tr>
                     <td>
-                      <div>{amount.lock}</div>
+                      <div>{label}</div>
                     </td>
                     <td>
-                      <div>{amount.holderAmount}</div>
+                      <div>{localeNumberString(count)}</div>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
       <SimpleButton onClick={onClose} className={styles.closeIcon}>
         <img src={CloseIcon} alt="close icon" />

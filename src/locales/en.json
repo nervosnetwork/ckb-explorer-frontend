@@ -741,7 +741,7 @@
     },
     "xudt": {
       "holder_allocation": "Holder Allocation",
-      "holder_allocation_description": "There are {{ckb}} CKB Holders and {{btc}} BTC holders of current asset.",
+      "holder_allocation_description": "There are {{ckb}} CKB Holders and {{btc}} BTC holders of the current asset.",
       "lock_hash": "Lock Hash",
       "count": "Count",
       "xudt": "xUDT",
@@ -753,7 +753,8 @@
       "owner": "Manager",
       "type_script": "Type Script",
       "type_script_hash": "Type Script Hash",
-      "holder_addresses": "Holder Addresses",
+      "holders": "Holders",
+      "unique_addresses": "Unique CKB Addresses",
       "decimal": "Decimal",
       "transactions": "24hr Transactions",
       "address_count": "Address Count",
@@ -768,7 +769,8 @@
       "verified-on": "Verified On Platform",
       "supply-limited": "Supply Limited",
       "supply-unlimited": "Supply Unlimited",
-      "rgbpp-compatible": "RGB++ Compatible"
+      "rgbpp-compatible": "RGB++ Compatible",
+      "category": "Category"
     },
     "nft": {
       "nft_collection": "NFT Collection",

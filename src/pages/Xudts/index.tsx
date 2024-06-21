@@ -30,6 +30,9 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
   const { t } = useTranslation()
 
   const symbol = token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
+  const holderCount = token.holderAllocation
+    ? +token.holderAllocation.btcHoldersCount + +token.holderAllocation.ckbHoldersCount
+    : 0
 
   const fields: { name: string; value: ReactNode }[] = [
     {
@@ -37,8 +40,8 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
       value: localeNumberString(token.h24CkbTransactionsCount),
     },
     {
-      name: t('xudt.address_count'),
-      value: localeNumberString(token.addressesCount),
+      name: t('xudt.unique_addresses'),
+      value: localeNumberString(holderCount),
     },
     {
       name: t('xudt.created_time'),
@@ -105,7 +108,7 @@ export function TokensCard({
             <SortButton field="transactions" sortParam={sortParam} />
           </span>
           <span className={styles.sortOption}>
-            {t('xudt.address_count')}
+            {t('xudt.unique_addresses')}
             <SortButton field="addresses_count" sortParam={sortParam} />
           </span>
           <span className={styles.sortOption}>
@@ -195,12 +198,15 @@ const TokenTable: FC<{
     {
       title: (
         <>
-          {t('xudt.address_count')}
+          {t('xudt.unique_addresses')}
           <SortButton field="addresses_count" sortParam={sortParam} />
         </>
       ),
       className: styles.colAddressCount,
-      render: (_, token) => localeNumberString(token.addressesCount),
+      render: (_, token) =>
+        token.holderAllocation
+          ? localeNumberString(+token.holderAllocation.btcHoldersCount + +token.holderAllocation.ckbHoldersCount)
+          : 0,
     },
     {
       title: (

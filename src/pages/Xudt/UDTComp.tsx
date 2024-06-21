@@ -8,7 +8,7 @@ import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { Link } from '../../components/Link'
 import { CsvExport } from '../../components/CsvExport'
 import TransactionItem from '../../components/TransactionItem/index'
-import { parseUDTAmount } from '../../utils/number'
+import { localeNumberString, parseUDTAmount } from '../../utils/number'
 import { ReactComponent as OpenInNew } from '../../assets/open_in_new.svg'
 import { deprecatedAddrToNewAddr, getBtcUtxo } from '../../utils/util'
 import styles from './styles.module.scss'
@@ -22,12 +22,14 @@ import Script from '../../components/Script'
 import { RawBtcRPC } from '../../services/ExplorerService'
 import { XUDT } from '../../models/Xudt'
 import { getBtcTxList } from '../../services/ExplorerService/fetcher'
+import { getHolderAllocation } from '../../services/MetricsService'
 import XUDTTag from '../../components/XUDTTag'
 import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
 import HolderAllocation from './HolderAllocation'
 import { ReactComponent as EditIcon } from '../../assets/edit.svg'
 import XUDTTokenIcon from '../../assets/sudt_token.png'
+import { IS_MAINNET } from '../../constants/common'
 
 const IssuerContent: FC<{ address: string }> = ({ address }) => {
   const { t } = useTranslation()
@@ -107,6 +109,33 @@ export const UDTOverviewCard = ({
     },
   )
 
+  const { data: holderAllocation = {} } = useQuery({
+    queryKey: ['xudt-holder-allocation', typeHash],
+    queryFn: () =>
+      xudt
+        ? getHolderAllocation({
+            code_hash: xudt.typeScript.codeHash,
+            hash_type: xudt.typeScript.hashType,
+            args: xudt.typeScript.args,
+          })
+        : ({} as Record<string, number>),
+    enabled: IS_MAINNET && !!xudt,
+  })
+
+  const holderCountFromBackend = xudt
+    ? +(xudt.holderAllocation?.ckbHoldersCount ?? 0) + +(xudt.holderAllocation?.btcHoldersCount ?? 0)
+    : 0
+  const holderCountFromNode = Object.values(holderAllocation ?? {}).reduce((acc, cur) => acc + cur, 0)
+
+  const holderCount = IS_MAINNET ? holderCountFromNode : holderCountFromBackend
+
+  const allocationDisplay = IS_MAINNET
+    ? holderAllocation
+    : {
+        'RGB++': +(xudt?.holderAllocation?.btcHoldersCount ?? 0),
+        others: +(xudt?.holderAllocation?.ckbHoldersCount ?? 0),
+      }
+
   const items: CardCellInfo<'left' | 'right'>[] = [
     {
       title: t('xudt.name'),
@@ -118,15 +147,15 @@ export const UDTOverviewCard = ({
       content: issuer ? <IssuerContent address={issuerOnBtc ?? issuer} /> : '-',
     },
     {
-      title: t('xudt.holder_addresses'),
-      content: xudt?.addressesCount ? (
+      title: t('xudt.holders'),
+      content: xudt?.holderAllocation ? (
         <SimpleButton
           className={styles.holderAddressesButton}
           onClick={() => {
             setShowHolderAmountModal(true)
           }}
         >
-          {xudt.addressesCount}
+          {localeNumberString(holderCount)}
         </SimpleButton>
       ) : (
         '-'
@@ -196,12 +225,7 @@ export const UDTOverviewCard = ({
 
         <CardCellsLayout type="left-right" cells={items} borderTop />
         <SimpleModal isShow={showHolderAmountModal} setIsShow={setShowHolderAmountModal}>
-          <HolderAllocation
-            onClose={() => setShowHolderAmountModal(false)}
-            ckbHolderAmount={xudt?.holderAllocation.ckbHoldersCount ?? '0'}
-            btcHolderAmount={xudt?.holderAllocation.btcHoldersCount ?? '0'}
-            lockHoderAmount={xudt?.holderAllocation.lockHoderAmount}
-          />
+          <HolderAllocation allocation={allocationDisplay} onClose={() => setShowHolderAmountModal(false)} />
         </SimpleModal>
 
         <SimpleButton className={styles.typeScriptController} onClick={toggleScriptDisplay}>

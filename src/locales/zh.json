@@ -742,7 +742,7 @@
     },
     "xudt": {
       "holder_allocation": "地址分布",
-      "holder_allocation_description": "当前地址有{{ckb}} CKB地址持有人及{{btc}} BTC 地址持有人",
+      "holder_allocation_description": "当前资产有 {{ckb}} 个 CKB 用户及 {{btc}} 个 BTC 用户",
       "lock_hash": "Lock Hash",
       "count": "Count",
       "xudt": "xUDT",
@@ -754,7 +754,8 @@
       "owner": "治理人",
       "type_script": "Type Script",
       "type_script_hash": "Type Script Hash",
-      "holder_addresses": "用户数",
+      "holders": "用户数",
+      "unique_addresses": "CKB 地址数",
       "decimal": "小数位",
       "transactions": "24小时交易数",
       "address_count": "用户数",
@@ -769,7 +770,8 @@
       "verified-on": "Platform 平台认证",
       "supply-limited": "有限供应资产",
       "supply-unlimited": "无限供应资产",
-      "rgbpp-compatible": "RGB++兼容"
+      "rgbpp-compatible": "RGB++兼容",
+      "category": "类别"
     },
     "nft": {
       "nft_collection": "NFT 藏品",
