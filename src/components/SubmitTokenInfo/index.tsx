@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import Tooltip from 'antd/lib/tooltip'
-import { utils } from '@ckb-lumos/base'
 import { AxiosError } from 'axios'
 import CloseIcon from '../../assets/modal_close.png'
 import HelpIcon from '../../assets/qa_help.png'
@@ -28,7 +27,6 @@ import {
 
 const emptyTokenInfo = {
   tokenType: '',
-  args: '',
   typeHash: '',
   symbol: '',
   name: '',
@@ -213,9 +211,9 @@ export const SubmitTokenInfo = ({
   const validateEmail = (email: string) => emailRegex.test(email)
   const isEmailValid = validateEmail(tokenInfo.creatorEmail)
 
-  const argsRegex = /^0x[0-9A-Fa-f]+$/
-  const validateArgs = (str: string) => argsRegex.test(str) && str.length % 2 === 0
-  const isArgsValid = validateArgs(tokenInfo.args)
+  const typeHashRegex = /^0x[0-9A-Fa-f]{64}$/ // 0x + 32 bytes
+  const validateTypeHash = (str: string) => typeHashRegex.test(str)
+  const isTypeHashValid = validateTypeHash(tokenInfo.typeHash)
 
   const websiteRegex =
     /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
@@ -226,8 +224,8 @@ export const SubmitTokenInfo = ({
 
   const generalCondition =
     !!tokenInfo.tokenType &&
-    !!tokenInfo.args &&
-    isArgsValid &&
+    !!tokenInfo.typeHash &&
+    isTypeHashValid &&
     !!tokenInfo.website &&
     isInputWebsiteValid &&
     (isModification ? !!vericode : !!tokenInfo.creatorEmail && isEmailValid)
@@ -246,24 +244,6 @@ export const SubmitTokenInfo = ({
 
     setSubmitting(true)
 
-    let typeHash = ''
-    if (isModification) {
-      typeHash = tokenInfo.typeHash
-    } else {
-      const token = scriptDataList.find(scriptData => scriptData.tag.toLowerCase() === tokenInfo.tokenType)
-      if (!token) {
-        setToast({
-          message: `tokenType ${tokenInfo.tokenType} is not found`,
-        })
-        return
-      }
-      typeHash = utils.computeScriptHash({
-        codeHash: token.codeHashes[0],
-        hashType: token.hashType,
-        args: tokenInfo.args,
-      })
-    }
-
     const commonInfo = {
       symbol: tokenInfo.symbol,
       email: tokenInfo.creatorEmail,
@@ -281,7 +261,7 @@ export const SubmitTokenInfo = ({
         }
       : {}
 
-    const id = typeHash.toLowerCase()
+    const id = tokenInfo.typeHash.toLowerCase()
 
     explorerService.api
       .submitTokenInfo(id, { ...commonInfo, ...extraInfo })
@@ -339,13 +319,13 @@ export const SubmitTokenInfo = ({
 
                 <LabeledInput
                   isRequired
-                  isError={!!tokenInfo.args && !isArgsValid}
-                  value={tokenInfo.args}
-                  name="args"
+                  isError={!!tokenInfo.typeHash && !isTypeHashValid}
+                  value={tokenInfo.typeHash}
+                  name="typeHash"
                   onChange={handleFieldChange}
-                  labelRightAddon={<LabelTooltip title={t('submit_token_info.args_tip')} />}
-                  label={t('submit_token_info.args')}
-                  placeholder={t('submit_token_info.args_placeholder')}
+                  labelRightAddon={<LabelTooltip title={t('submit_token_info.type_hash_tip')} />}
+                  label={t('submit_token_info.type_hash')}
+                  placeholder={t('submit_token_info.type_hash_placeholder')}
                   className={styles.labeledInput}
                 />
               </div>
