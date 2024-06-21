@@ -741,7 +741,7 @@
     },
     "xudt": {
       "holder_allocation": "Holder Allocation",
-      "holder_allocation_description": "There are {{ckb}} CKB Holders and {{btc}} BTC holders of the current asset.",
+      "holder_allocation_description": "There are {{ckb}} CKB Holder addresses and {{btc}} BTC holder addresses of the current asset.",
       "lock_hash": "Lock Hash",
       "count": "Count",
       "xudt": "xUDT",
@@ -754,6 +754,7 @@
       "type_script": "Type Script",
       "type_script_hash": "Type Script Hash",
       "holders": "Holders",
+      "holder_addresses": "Holder Addresses",
       "unique_addresses": "Unique CKB Addresses",
       "decimal": "Decimal",
       "transactions": "24hr Transactions",
