@@ -27,28 +27,31 @@ const useOption = (
     bottom: '5%',
     containLabel: true,
   }
+  const h24TxCountSortedList: number[] = statisticContractResourceDistributed
+    .map(data => Number(data.h24TxCount))
+    .sort((a, b) => b - a)
+
   return {
     color: chartColor.colors,
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
-
     tooltip: !isThumbnail
       ? {
-          trigger: 'axis',
-          formatter: dataList => {
-            if (!Array.isArray(dataList)) return ''
-            const params = dataList[0]
-            if (!params) return ''
-            if (!Array.isArray(params.value)) return ''
-            const [addrCount, ckbAmount, txCount, codeHash, tag, hashType] = params.value
-            const script = tag || `<div style="white-space: pre">Code Hash: ${codeHash}\nHash Type: ${hashType}</div>`
-            return `<table>
+          trigger: 'item',
+          axisPointer: {
+            type: 'cross',
+          },
+          formatter: params => {
+            if (params && 'data' in params) {
+              const [addrCount, ckbAmount, txCount, codeHash, tag, hashType, h24TxCount] = params.data
+              const script = tag || `<div style="white-space: pre">Code Hash: ${codeHash}\nHash Type: ${hashType}</div>`
+              return `<table>
                       <tr>
-                        <td>Script: </td>
+                        <td>Script:</td>
                         <td>${script}</td>
                       </tr>
                       <tr>
-                        <td>Addresses: </td>
+                        <td>${t('statistic.address')}: </td>
                         <td>${Number(addrCount).toLocaleString('en')}</td>
                       </tr>
                       <tr>
@@ -56,10 +59,16 @@ const useOption = (
                         <td>${Number(ckbAmount).toLocaleString('en')}</td>
                       </tr>
                       <tr>
-                        <td>Transactions: </td>
+                        <td>${t('statistic.transaction_num')}: </td>
                         <td>${Number(txCount).toLocaleString('en')}</td>
                       </tr>
+                      <tr>
+                        <td>${t('statistic.h24_transaction_count')}: </td>
+                        <td>${Number(h24TxCount).toLocaleString('en')}</td>
+                      </tr>
                     </table>`
+            }
+            return ''
           },
         }
       : undefined,
@@ -82,7 +91,24 @@ const useOption = (
         },
       },
     ],
-    // TODO: add visual map when txs/24h is ready
+    visualMap: [
+      {
+        min:
+          h24TxCountSortedList[h24TxCountSortedList.length - 1] === undefined
+            ? 0
+            : h24TxCountSortedList[h24TxCountSortedList.length - 1],
+        max: h24TxCountSortedList[0] === undefined ? 200 : h24TxCountSortedList[0],
+        dimension: 6,
+        orient: 'vertical',
+        right: 10,
+        top: 'center',
+        text: ['HIGH', 'LOW'],
+        calculable: true,
+        inRange: {
+          color: ['#FFB21E', '#FA504F'],
+        },
+      },
+    ],
     series: [
       {
         type: 'scatter',
@@ -103,6 +129,7 @@ const useOption = (
         data.codeHash,
         data.name,
         data.hashType,
+        data.h24TxCount,
       ]),
     },
   }
@@ -117,6 +144,7 @@ const toCSV = (statisticContractResourceDistributed: ChartItem.ContractResourceD
         data.txCount,
         data.ckbAmount,
         data.addressCount,
+        data.h24TxCount,
       ])
     : []
 
