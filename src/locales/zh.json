@@ -741,6 +741,10 @@
       "repeat_inscription_symbol": "此铭文与早期发布的铭文同名"
     },
     "xudt": {
+      "holder_allocation": "地址分布",
+      "holder_allocation_description": "当前地址有{{ckb}} CKB地址持有人及{{btc}} BTC 地址持有人",
+      "lock_hash": "Lock Hash",
+      "count": "Count",
       "xudt": "xUDT",
       "xudts": "xUDTs",
       "name": "名称",

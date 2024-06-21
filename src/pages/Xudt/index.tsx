@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
+import classNames from 'classnames'
 import Content from '../../components/Content'
-import { UDTContentPanel, UDTTransactionTitlePanel } from './styled'
 import UDTComp, { UDTOverviewCard } from './UDTComp'
 import { usePaginationParamsInPage, useSearchParams, useUpdateSearchParams } from '../../hooks'
 import Filter from '../../components/Filter'
@@ -68,12 +68,12 @@ export const Xudt = () => {
 
   return (
     <Content>
-      <UDTContentPanel className="container">
+      <div className={classNames(styles.container, 'container')}>
         <UDTOverviewCard typeHash={typeHash} xudt={xudt} refetchUDT={queryUDT.refetch} />
 
-        <UDTTransactionTitlePanel>
-          <div className="udtTransactionContainer">
-            <div className="udtTransactionTitle">
+        <div className={styles.udtTransactionTitlePanel}>
+          <div className={styles.udtTransactionContainer}>
+            <div className={styles.udtTransactionTitle}>
               {`${t('transaction.transactions')} (${localeNumberString(total)})`}
             </div>
             <div className={styles.searchAndfilter}>
@@ -86,7 +86,7 @@ export const Xudt = () => {
               />
             </div>
           </div>
-        </UDTTransactionTitlePanel>
+        </div>
 
         <QueryResult query={querySimpleUDTTransactions} delayLoading>
           {data => (
@@ -101,7 +101,7 @@ export const Xudt = () => {
             />
           )}
         </QueryResult>
-      </UDTContentPanel>
+      </div>
     </Content>
   )
 }

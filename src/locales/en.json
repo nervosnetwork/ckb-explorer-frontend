@@ -740,6 +740,10 @@
       "repeat_inscription_symbol": "This inscription is a duplicate with an earlier release of the same symbol."
     },
     "xudt": {
+      "holder_allocation": "Holder Allocation",
+      "holder_allocation_description": "There are {{ckb}} CKB Holders and {{btc}} BTC holders of current asset.",
+      "lock_hash": "Lock Hash",
+      "count": "Count",
       "xudt": "xUDT",
       "xudts": "xUDTs",
       "name": "Name",

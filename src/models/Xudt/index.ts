@@ -14,6 +14,14 @@ export interface XUDT {
   typeScript: Script
   udtType: 'xudt'
   xudtTags?: string[]
+  holderAllocation: {
+    ckbHoldersCount: string
+    btcHoldersCount: string
+    lockHoderAmount: {
+      lock: string
+      holderAmount: string
+    }[]
+  }
   iconFile: string
   operatorWebsite: string
   email: string

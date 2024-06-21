@@ -8,7 +8,6 @@ import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { Link } from '../../components/Link'
 import { CsvExport } from '../../components/CsvExport'
 import TransactionItem from '../../components/TransactionItem/index'
-import { UDTTransactionsPagination, UDTTransactionsPanel, TypeScriptController, UDTNoResultPanel } from './styled'
 import { parseUDTAmount } from '../../utils/number'
 import { ReactComponent as OpenInNew } from '../../assets/open_in_new.svg'
 import { deprecatedAddrToNewAddr, getBtcUtxo } from '../../utils/util'
@@ -24,6 +23,9 @@ import { RawBtcRPC } from '../../services/ExplorerService'
 import { XUDT } from '../../models/Xudt'
 import { getBtcTxList } from '../../services/ExplorerService/fetcher'
 import XUDTTag from '../../components/XUDTTag'
+import SimpleButton from '../../components/SimpleButton'
+import SimpleModal from '../../components/Modal'
+import HolderAllocation from './HolderAllocation'
 import { ReactComponent as EditIcon } from '../../assets/edit.svg'
 import XUDTTokenIcon from '../../assets/sudt_token.png'
 
@@ -67,6 +69,7 @@ export const UDTOverviewCard = ({
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const [isScriptDisplayed, setIsScriptDisplayed] = useState(false)
+  const [showHolderAmountModal, setShowHolderAmountModal] = useState(false)
   const [isModifyTokenInfoModalOpen, setIsModifyTokenInfoModalOpen] = useState<boolean>(false)
 
   const issuer = xudt?.issuerAddress
@@ -116,7 +119,18 @@ export const UDTOverviewCard = ({
     },
     {
       title: t('xudt.holder_addresses'),
-      content: xudt?.addressesCount ?? '-',
+      content: xudt?.addressesCount ? (
+        <SimpleButton
+          className={styles.holderAddressesButton}
+          onClick={() => {
+            setShowHolderAmountModal(true)
+          }}
+        >
+          {xudt.addressesCount}
+        </SimpleButton>
+      ) : (
+        '-'
+      ),
     },
     {
       title: t('xudt.symbol'),
@@ -181,8 +195,16 @@ export const UDTOverviewCard = ({
         </div>
 
         <CardCellsLayout type="left-right" cells={items} borderTop />
+        <SimpleModal isShow={showHolderAmountModal} setIsShow={setShowHolderAmountModal}>
+          <HolderAllocation
+            onClose={() => setShowHolderAmountModal(false)}
+            ckbHolderAmount={xudt?.holderAllocation.ckbHoldersCount ?? '0'}
+            btcHolderAmount={xudt?.holderAllocation.btcHoldersCount ?? '0'}
+            lockHoderAmount={xudt?.holderAllocation.lockHoderAmount}
+          />
+        </SimpleModal>
 
-        <TypeScriptController onClick={toggleScriptDisplay}>
+        <SimpleButton className={styles.typeScriptController} onClick={toggleScriptDisplay}>
           {isScriptDisplayed ? (
             <div className={styles.scriptToggle}>
               <EyeOpenIcon />
@@ -194,7 +216,7 @@ export const UDTOverviewCard = ({
               <div>{t('xudt.type_script_hash')}</div>
             </div>
           )}
-        </TypeScriptController>
+        </SimpleButton>
 
         {isScriptDisplayed ? (
           script && <Script script={script} />
@@ -236,14 +258,14 @@ export const UDTComp = ({
 
   if (filterNoResult) {
     return (
-      <UDTNoResultPanel>
+      <div className={styles.udtNoResultPanel}>
         <span>{t('search.udt_filter_no_result')}</span>
-      </UDTNoResultPanel>
+      </div>
     )
   }
   return (
     <>
-      <UDTTransactionsPanel>
+      <div className={styles.udtTransactionsPanel}>
         {transactions.map(
           (transaction, index) =>
             transaction && (
@@ -256,15 +278,15 @@ export const UDTComp = ({
               />
             ),
         )}
-      </UDTTransactionsPanel>
-      <UDTTransactionsPagination>
+      </div>
+      <div className={styles.udtTransactionsPagination}>
         <PaginationWithRear
           currentPage={currentPage}
           totalPages={totalPages}
           onChange={onPageChange}
           rear={xudt ? <CsvExport link={`/export-xudt-holders?id=${xudt.typeHash}`} /> : null}
         />
-      </UDTTransactionsPagination>
+      </div>
     </>
   )
 }
