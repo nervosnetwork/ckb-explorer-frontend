@@ -135,7 +135,6 @@ export const UDTOverviewCard = ({
   const tokenInfo: TokenInfo | null = xudt
     ? {
         tokenType: xudt.udtType,
-        args: xudt.typeScript?.args ?? null,
         typeHash,
         symbol: xudt.symbol ?? '',
         name: xudt.fullName ?? '',

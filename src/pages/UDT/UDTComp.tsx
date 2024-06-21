@@ -149,7 +149,6 @@ export const UDTOverviewCard = ({
 
   const tokenInfo: TokenInfo = {
     tokenType: udt.udtType,
-    args: udt.typeScript?.args ?? null,
     typeHash,
     symbol: udt.symbol,
     name: udt.fullName,
