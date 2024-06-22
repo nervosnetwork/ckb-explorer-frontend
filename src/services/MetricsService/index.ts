@@ -14,10 +14,16 @@ export const getHolderAllocation = async (
       res.json(),
     )
     const allocation: Record<string, number> = {}
-    Object.keys(res).forEach(codeHash => {
-      const s = scripts.find(s => s.codeHashes.includes(codeHash))
-      const label = s?.tag ?? `${codeHash.slice(0, 8)}...${codeHash.slice(-8)}`
-      const count = res[codeHash]
+    Object.keys(res).forEach(key => {
+      let label: string | null = null
+
+      if (key === 'btc') {
+        label = 'BTC'
+      } else {
+        const s = scripts.find(s => s.codeHashes.includes(key))
+        label = s?.tag ?? `${key.slice(0, 8)}...${key.slice(-8)}`
+      }
+      const count = res[key]
       allocation[label] = (allocation[label] ?? 0) + count
     })
     return allocation

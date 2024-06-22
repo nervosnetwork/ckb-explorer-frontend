@@ -132,7 +132,7 @@ export const UDTOverviewCard = ({
   const allocationDisplay = IS_MAINNET
     ? holderAllocation
     : {
-        'RGB++': +(xudt?.holderAllocation?.btcHoldersCount ?? 0),
+        BTC: +(xudt?.holderAllocation?.btcHoldersCount ?? 0),
         others: +(xudt?.holderAllocation?.ckbHoldersCount ?? 0),
       }
 

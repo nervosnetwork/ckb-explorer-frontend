@@ -14,7 +14,7 @@ const HolderAllocation = ({
 }) => {
   const [t] = useTranslation()
   const total = Object.values(allocation).reduce((acc, cur) => acc + cur, 0)
-  const btc = allocation['RGB++']
+  const btc = allocation.BTC
   const ckb = total - btc
   return (
     <div className={styles.holderAllocationContainer}>
