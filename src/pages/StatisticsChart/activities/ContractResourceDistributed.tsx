@@ -104,8 +104,10 @@ const useOption = (
         top: 'center',
         text: ['HIGH', 'LOW'],
         calculable: true,
+        itemWidth: 4,
+        show: !isThumbnail,
         inRange: {
-          color: ['#FFB21E', '#FA504F'],
+          color: ['#F7C242', '#F75C2F'],
         },
       },
     ],
