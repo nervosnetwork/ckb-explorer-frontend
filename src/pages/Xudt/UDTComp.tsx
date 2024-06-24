@@ -147,7 +147,7 @@ export const UDTOverviewCard = ({
       content: issuer ? <IssuerContent address={issuerOnBtc ?? issuer} /> : '-',
     },
     {
-      title: t('xudt.holder_addresses'),
+      title: t('xudt.holders'),
       content: xudt?.holderAllocation ? (
         <SimpleButton
           className={styles.holderAddressesButton}

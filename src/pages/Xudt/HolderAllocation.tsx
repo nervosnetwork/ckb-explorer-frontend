@@ -39,18 +39,20 @@ const HolderAllocation = ({
               </tr>
             </thead>
             <tbody>
-              {Object.entries(allocation).map(([label, count]) => {
-                return (
-                  <tr>
-                    <td>
-                      <div>{label}</div>
-                    </td>
-                    <td>
-                      <div>{localeNumberString(count)}</div>
-                    </td>
-                  </tr>
-                )
-              })}
+              {Object.entries(allocation)
+                .sort((a, b) => b[1] - a[1])
+                .map(([label, count]) => {
+                  return (
+                    <tr>
+                      <td>
+                        <div>{label}</div>
+                      </td>
+                      <td>
+                        <div>{localeNumberString(count)}</div>
+                      </td>
+                    </tr>
+                  )
+                })}
             </tbody>
           </table>
         </div>

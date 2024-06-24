@@ -742,7 +742,7 @@
     },
     "xudt": {
       "holder_allocation": "地址分布",
-      "holder_allocation_description": "当前资产有 {{ckb}} 个 CKB 用户地址及 {{btc}} 个 BTC 用户地址",
+      "holder_allocation_description": "当前资产有 {{ckb}} 个 CKB 用户及 {{btc}} 个 BTC 用户",
       "lock_hash": "Lock Hash",
       "count": "Count",
       "xudt": "xUDT",
@@ -755,7 +755,6 @@
       "type_script": "Type Script",
       "type_script_hash": "Type Script Hash",
       "holders": "用户数",
-      "holder_addresses": "持有地址",
       "unique_addresses": "CKB 地址数",
       "decimal": "小数位",
       "transactions": "24小时交易数",
