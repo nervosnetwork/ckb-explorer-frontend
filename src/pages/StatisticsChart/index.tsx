@@ -2,7 +2,6 @@ import { ReactNode } from 'react'
 import 'default-passive-events'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
-import { isMainnet } from '../../utils/chain'
 import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
 import { DifficultyUncleRateEpochChart } from './mining/DifficultyUncleRateEpoch'
 import { TransactionCountChart } from './activities/TransactionCount'
@@ -98,15 +97,11 @@ const useChartsData = () => {
           chart: <CellCountChart isThumbnail />,
           path: '/charts/cell-count',
         },
-        ...(isMainnet()
-          ? [
-              {
-                title: t('statistic.ckb_hodl_wave'),
-                chart: <CkbHodlWaveChart isThumbnail />,
-                path: '/charts/ckb-hodl-wave',
-              },
-            ]
-          : []),
+        {
+          title: t('statistic.ckb_hodl_wave'),
+          chart: <CkbHodlWaveChart isThumbnail />,
+          path: '/charts/ckb-hodl-wave',
+        },
         {
           title: `${t('statistic.balance_distribution')}`,
           chart: <BalanceDistributionChart isThumbnail />,
