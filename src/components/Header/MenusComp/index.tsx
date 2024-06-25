@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { FC, memo, PropsWithChildren, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,9 +7,11 @@ import { Link } from '../../Link'
 import { MobileMenuItem, MobileMenuOuterLink, HeaderMenuPanel, MobileMenuInnerLink } from './styled'
 import styles from './index.module.scss'
 import { LanguageModal } from '../LanguageComp/LanguageModal'
+import { CKBNodeModal } from '../CKBNodeComp/CKBNodeModal'
 import { ReactComponent as ArrowIcon } from './arrow.svg'
 import { IS_MAINNET } from '../../../constants/common'
 import { ReactComponent as MenuIcon } from './menu.svg'
+import { useCKBNode } from '../../../hooks/useCKBNode'
 
 export enum LinkType {
   Inner,
@@ -120,8 +121,10 @@ const SubmenuDropdown: FC<PropsWithChildren<DropdownProps & { menu: MenuData[] }
 
 export const MoreMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
   const { t } = useTranslation()
+  const { isActivated } = useCKBNode()
   const [open, setOpen] = useState(false)
   const [languageModalVisible, setLanguageModalVisible] = useState(false)
+  const [nodeModalVisible, setNodeModalVisible] = useState(false)
 
   const Wrapper = isMobile ? MobileMenuItem : ({ children }: PropsWithChildren<{}>) => <>{children}</>
 
@@ -135,15 +138,25 @@ export const MoreMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
             <Link className={styles.link} to="/tools/address-conversion">
               {t('footer.tools')}
             </Link>
-            <a
-              className={styles.link}
+            <span
+              className={classNames(styles.link, styles.clickable)}
               onClick={() => {
                 setOpen(false)
                 setLanguageModalVisible(true)
               }}
             >
               {t('navbar.language')}
-            </a>
+            </span>
+            <span
+              className={classNames(styles.link, styles.clickable, styles.linkWithBadge)}
+              onClick={() => {
+                setOpen(false)
+                setNodeModalVisible(true)
+              }}
+            >
+              {t('navbar.node')}
+              <span className={classNames(styles.nodeStatus, { [styles.activate]: isActivated })} />
+            </span>
           </div>
         }
         mouseEnterDelay={0}
@@ -156,12 +169,15 @@ export const MoreMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
             <ArrowIcon className={styles.icon} />
           </MobileMenuOuterLink>
         ) : (
-          <a className={classNames(styles.headerMenusItem, styles.submenuTrigger, styles.moreMenus)}>
+          <span
+            className={classNames(styles.clickable, styles.headerMenusItem, styles.submenuTrigger, styles.moreMenus)}
+          >
             <MenuIcon className={styles.moreIcon} />
-          </a>
+          </span>
         )}
       </Dropdown>
       {languageModalVisible ? <LanguageModal onClose={() => setLanguageModalVisible(false)} /> : null}
+      {nodeModalVisible ? <CKBNodeModal onClose={() => setNodeModalVisible(false)} /> : null}
     </Wrapper>
   )
 }

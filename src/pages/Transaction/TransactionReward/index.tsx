@@ -2,39 +2,43 @@ import { useTranslation } from 'react-i18next'
 import { shannonToCkb } from '../../../utils/util'
 import { RewardPenal, RewardItemPenal } from './styled'
 import { useIsMobile } from '../../../hooks'
-import { Cell } from '../../../models/Cell'
 import Capacity from '../../../components/Capacity'
 
-const useRewards = (cell: Cell, isMobile: boolean) => {
+export type Reward = {
+  baseReward: string
+  secondaryReward: string
+  commitReward: string
+  proposalReward: string
+}
+
+const useRewards = (reward: Reward, isMobile: boolean) => {
   const { t } = useTranslation()
   return [
     {
       name: isMobile ? t('transaction.base') : t('transaction.base_reward'),
-      capacity: cell.baseReward,
+      capacity: reward.baseReward,
     },
     {
       name: isMobile ? t('transaction.secondary') : t('transaction.secondary_reward'),
-      capacity: cell.secondaryReward,
+      capacity: reward.secondaryReward,
     },
     {
       name: isMobile ? t('transaction.commit') : t('transaction.commit_reward'),
-      capacity: cell.commitReward,
+      capacity: reward.commitReward,
     },
     {
       name: isMobile ? t('transaction.proposal') : t('transaction.proposal_reward'),
-      capacity: cell.proposalReward,
+      capacity: reward.proposalReward,
     },
   ]
 }
 
-const TransactionReward = ({ cell, showReward }: { cell: Cell; showReward?: boolean }) => {
+const TransactionReward = ({ reward }: { reward: Reward }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  // [0, 11] block doesn't show block reward and only cellbase show block reward
-  const showBlockReward = showReward && cell.targetBlockNumber > 0
-  const rewards = useRewards(cell, isMobile)
+  const rewards = useRewards(reward, isMobile)
 
-  return showBlockReward ? (
+  return (
     <RewardPenal>
       <div className="transactionRewardTitle">{t('transaction.reward_info')}</div>
       {rewards.map(reward => (
@@ -46,7 +50,7 @@ const TransactionReward = ({ cell, showReward }: { cell: Cell; showReward?: bool
         </RewardItemPenal>
       ))}
     </RewardPenal>
-  ) : null
+  )
 }
 
 export default TransactionReward

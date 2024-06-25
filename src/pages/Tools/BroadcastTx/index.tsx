@@ -4,13 +4,14 @@ import formatter from '@nervosnetwork/ckb-sdk-rpc/lib/paramsFormatter'
 import ToolsContainer from '../ToolsContainer'
 import CopyableText from '../../../components/CopyableText'
 import styles from './style.module.scss'
-import { sendTransaction } from '../../../services/NodeService'
+import { useCKBNode } from '../../../hooks/useCKBNode'
 
 const BroadcastTx: FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<Partial<Record<'hash' | 'error', string>>>({})
 
   const { t } = useTranslation()
+  const { nodeService } = useCKBNode()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.stopPropagation()
@@ -30,7 +31,7 @@ const BroadcastTx: FC = () => {
         // should be converted to snake_case
         tx = formatter.toRawTransaction(tx)
       }
-      const r = await sendTransaction(tx)
+      const r = await nodeService.sendTransaction(tx)
       if (r.error) {
         throw new Error(r.error.message)
       }

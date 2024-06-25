@@ -179,6 +179,7 @@
       "language": "Language",
       "language_en": "EN",
       "language_zh": "简体中文",
+      "node": "Node",
       "home": "Home",
       "wallets": "Wallets",
       "wallet_abc": "ABC Wallet",
@@ -212,7 +213,7 @@
       "testnet": "Testnet"
     },
     "statistic": {
-      "transaction_num": "Transaction Count",
+      "transaction_num": "BTC Transaction Count",
       "new_btc_address": "New BTC Address",
       "rgbpp_transaction_list": "RGB++ Transaction List",
       "transaction_count": "Transaction Count",
@@ -972,6 +973,12 @@
       "transaction": "Transaction",
       "tx_in_snake_case": "Transaction in Snake Case",
       "tx_in_camel_case": "Transaction in Camel Case"
+    },
+    "node": {
+      "alert": "Currently on the node-connect mode. The explorer data will be fetched from the node, so some features/data cannot be supported. You can <switcher>click here</switcher> to switch",
+      "done": "Done",
+      "node_connect_mode": "Node Connect Mode",
+      "node_connect_tooltip": "When the node-connection mode is enabled, the data will be fetched from the node directly, so some features/data will not be supported."
     }
   }
 }

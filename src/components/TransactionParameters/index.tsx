@@ -3,7 +3,7 @@ import { FC, ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
-import { getTx } from '../../services/NodeService'
+import { useCKBNode } from '../../hooks/useCKBNode'
 import { matchTxHash } from '../../utils/util'
 import Loading from '../AwesomeLoadings/Spinner'
 import HashTag from '../HashTag'
@@ -48,8 +48,9 @@ const Field = ({
 
 const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
   const [t] = useTranslation()
+  const { nodeService } = useCKBNode()
 
-  const { data, isLoading } = useQuery(['tx', hash], () => getTx(hash))
+  const { data, isLoading } = useQuery(['tx', hash], () => nodeService.getTx(hash))
   if (isLoading) {
     return (
       <div className={styles.loading}>

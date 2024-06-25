@@ -23,6 +23,7 @@ import LatestTransactionsIcon from './latest_transactions.png'
 import { BlockCardItem, TransactionCardItem } from './TableCard'
 import Loading from '../../components/Loading/SmallLoading'
 import { useElementIntersecting, useIsExtraLarge, useIsMobile, useSingleHalving } from '../../hooks'
+import { useNodeLatestBlocks, useNodeLatestTransactions } from '../../hooks/block'
 import Banner from './Banner'
 import { HalvingBanner } from './Banner/HalvingBanner'
 import Search from '../../components/Search'
@@ -32,8 +33,7 @@ import styles from './index.module.scss'
 import { RouteState } from '../../routes/state'
 import { explorerService, useLatestBlockNumber, useStatistics } from '../../services/ExplorerService'
 import { useShowSearchBarInHeader } from '../../components/Header'
-import { Block } from '../../models/Block'
-import { Transaction } from '../../models/Transaction'
+import { useCKBNode } from '../../hooks/useCKBNode'
 
 interface BlockchainData {
   name: string
@@ -151,7 +151,16 @@ const HomeHeaderTopPanel: FC = memo(() => {
   )
 })
 
-const BlockList: FC<{ blocks: Block[] }> = memo(({ blocks }) => {
+const BlockList: FC<{
+  blocks: {
+    number: number
+    timestamp: number
+    liveCellChanges: string
+    reward: string
+    transactionsCount: number
+    minerHash: string
+  }[]
+}> = memo(({ blocks }) => {
   return blocks.length > 0 ? (
     <>
       {blocks.map((block, index) => (
@@ -166,22 +175,29 @@ const BlockList: FC<{ blocks: Block[] }> = memo(({ blocks }) => {
   )
 })
 
-const TransactionList: FC<{ transactions: Transaction[]; tipBlockNumber: number }> = memo(
-  ({ transactions, tipBlockNumber }) => {
-    return transactions.length > 0 ? (
-      <>
-        {transactions.map((transaction, index) => (
-          <div key={transaction.transactionHash}>
-            <TransactionCardItem transaction={transaction} tipBlockNumber={tipBlockNumber} />
-            {transactions.length - 1 !== index && <div className="transactionCardSeparate" />}
-          </div>
-        ))}
-      </>
-    ) : (
-      <Loading />
-    )
-  },
-)
+const TransactionList: FC<{
+  transactions: {
+    transactionHash: string
+    blockNumber: string | number
+    blockTimestamp: string | number
+    capacityInvolved: string
+    liveCellChanges: string
+  }[]
+  tipBlockNumber: number
+}> = memo(({ transactions, tipBlockNumber }) => {
+  return transactions.length > 0 ? (
+    <>
+      {transactions.map((transaction, index) => (
+        <div key={transaction.transactionHash}>
+          <TransactionCardItem transaction={transaction} tipBlockNumber={tipBlockNumber} />
+          {transactions.length - 1 !== index && <div className="transactionCardSeparate" />}
+        </div>
+      ))}
+    </>
+  ) : (
+    <Loading />
+  )
+})
 
 export default () => {
   const isMobile = useIsMobile()
@@ -229,6 +245,9 @@ export default () => {
     () => transactionsQuery.data?.transactions.slice(0, maxDisplaysCount) ?? [],
     [transactionsQuery.data?.transactions],
   )
+  const { isActivated: nodeConnectModeActivated } = useCKBNode()
+  const nodeLatestBlocks = useNodeLatestBlocks()
+  const nodeLatestTransactions = useNodeLatestTransactions()
   const { currentEpoch, targetEpoch } = useSingleHalving()
   const isHalvingHidden =
     !currentEpoch ||
@@ -242,47 +261,51 @@ export default () => {
       {isMainnet() && !isHalvingHidden ? <HalvingBanner /> : <Banner />}
       <div className="container">
         <HomeHeaderTopPanel />
-        <div className={`${styles.homeStatisticTopPanel} ${styles.afterHardFork}`}>
-          <div className={styles.homeStatisticLeftPanel}>
-            <div className={styles.homeStatisticLeftData}>
-              <StatisticItem blockchain={blockchainDataList[0]} isFirst />
-              <StatisticItem blockchain={blockchainDataList[1]} />
-            </div>
-            <div className={styles.homeStatisticLeftChart}>
-              <AverageBlockTimeChart />
-            </div>
-          </div>
-          <div className={styles.homeStatisticRightPanel}>
-            <div className={styles.homeStatisticRightData}>
-              <StatisticItem blockchain={blockchainDataList[2]} isFirst />
-              <StatisticItem blockchain={blockchainDataList[3]} />
-            </div>
-            <div className={styles.homeStatisticRightChart}>
-              <HashRateChart />
-            </div>
-          </div>
-        </div>
-        <div className={styles.homeStatisticBottomPanel}>
-          {!isXL ? (
-            blockchainDataList
-              .slice(4)
-              .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)
-          ) : (
-            <>
-              <div className={styles.blockchainItemRow}>
-                {blockchainDataList.slice(4, 6).map((data: BlockchainData) => (
-                  <BlockchainItem blockchain={data} key={data.name} />
-                ))}
+        {!nodeConnectModeActivated && (
+          <>
+            <div className={`${styles.homeStatisticTopPanel} ${styles.afterHardFork}`}>
+              <div className={styles.homeStatisticLeftPanel}>
+                <div className={styles.homeStatisticLeftData}>
+                  <StatisticItem blockchain={blockchainDataList[0]} isFirst />
+                  <StatisticItem blockchain={blockchainDataList[1]} />
+                </div>
+                <div className={styles.homeStatisticLeftChart}>
+                  <AverageBlockTimeChart />
+                </div>
               </div>
-              <div className={styles.blockchainItemRowSeparate} />
-              <div className={styles.blockchainItemRow}>
-                {blockchainDataList.slice(6).map((data: BlockchainData) => (
-                  <BlockchainItem blockchain={data} key={data.name} />
-                ))}
+              <div className={styles.homeStatisticRightPanel}>
+                <div className={styles.homeStatisticRightData}>
+                  <StatisticItem blockchain={blockchainDataList[2]} isFirst />
+                  <StatisticItem blockchain={blockchainDataList[3]} />
+                </div>
+                <div className={styles.homeStatisticRightChart}>
+                  <HashRateChart />
+                </div>
               </div>
-            </>
-          )}
-        </div>
+            </div>
+            <div className={styles.homeStatisticBottomPanel}>
+              {!isXL ? (
+                blockchainDataList
+                  .slice(4)
+                  .map((data: BlockchainData) => <BlockchainItem blockchain={data} key={data.name} />)
+              ) : (
+                <>
+                  <div className={styles.blockchainItemRow}>
+                    {blockchainDataList.slice(4, 6).map((data: BlockchainData) => (
+                      <BlockchainItem blockchain={data} key={data.name} />
+                    ))}
+                  </div>
+                  <div className={styles.blockchainItemRowSeparate} />
+                  <div className={styles.blockchainItemRow}>
+                    {blockchainDataList.slice(6).map((data: BlockchainData) => (
+                      <BlockchainItem blockchain={data} key={data.name} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </>
+        )}
       </div>
       <HomeTablePanel className="container">
         <BlockPanel>
@@ -290,7 +313,7 @@ export default () => {
             <img src={LatestBlocksIcon} alt="latest blocks" />
             <span>{t('home.latest_blocks')}</span>
           </TableHeaderPanel>
-          <BlockList blocks={blocks} />
+          <BlockList blocks={nodeConnectModeActivated ? nodeLatestBlocks : blocks} />
           <TableMorePanel
             onClick={() => {
               history.push(
@@ -314,7 +337,10 @@ export default () => {
             <img src={LatestTransactionsIcon} alt="latest transactions" />
             <span>{t('home.latest_transactions')}</span>
           </TableHeaderPanel>
-          <TransactionList transactions={transactions} tipBlockNumber={tipBlockNumber} />
+          <TransactionList
+            transactions={nodeConnectModeActivated ? nodeLatestTransactions : transactions}
+            tipBlockNumber={tipBlockNumber}
+          />
           <TableMorePanel
             onClick={() => {
               history.push(

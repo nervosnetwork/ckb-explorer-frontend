@@ -85,3 +85,29 @@
 .moreMenus {
   margin-right: 0;
 }
+
+.linkWithBadge {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+}
+
+.nodeStatus {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.activate {
+  background-color: #00cc9b;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}

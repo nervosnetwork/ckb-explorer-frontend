@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import variables from '../../../styles/variables.module.scss'
 
@@ -182,15 +183,15 @@ export const TransactionCellDetailModal = styled.div`
   }
 `
 
-export const TransactionCellCardPanel = styled.div`
-  .transactionCellCardSeparate {
-    width: 100%;
-    height: 1px;
-    background: #ccc;
-    margin: 8px 0;
-    transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
-  }
+export const TransactionCellCardSeparate = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #ccc;
+  margin: 8px 0;
+  transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
+`
 
+export const TransactionCellCardPanel = styled.div`
   > div:nth-child(2) {
     margin-bottom: 15px;
   }
@@ -228,3 +229,16 @@ export const TransactionCellCardContent = styled.div`
     color: ${props => props.theme.primary};
   }
 `
+
+export const TransactionCellMobileItem = ({
+  title,
+  value = null,
+}: {
+  title: string | ReactNode
+  value?: ReactNode
+}) => (
+  <TransactionCellCardContent>
+    <div className="transactionCellCardTitle">{title}</div>
+    <div className="transactionCellCardValue">{value}</div>
+  </TransactionCellCardContent>
+)

@@ -9,9 +9,12 @@ import BlockchainComp from './BlockchainComp'
 import { useMediaQuery } from '../../hooks'
 import styles from './index.module.scss'
 import MaintainAlert from './MaintainAlert'
+import NodeAlert from './CKBNodeComp/NodeAlert'
+
 import Sheet from './Sheet'
 import { createGlobalState, useGlobalState } from '../../utils/state'
 import MobileMenu from './MobileMenu'
+import { useCKBNode } from '../../hooks/useCKBNode'
 
 const LogoComp = () => (
   <HeaderLogoPanel to="/">
@@ -54,6 +57,7 @@ export function useIsShowSearchBarInHeader() {
 
 export default () => {
   const isMobile = useMediaQuery(`(max-width: 1023px)`)
+  const { isActivated } = useCKBNode()
   const { pathname } = useLocation()
   const history = useHistory()
   // TODO: This hard-coded implementation is not ideal, but currently the header is loaded before the page component,
@@ -98,6 +102,7 @@ export default () => {
         )}
       </HeaderPanel>
       <MaintainAlert />
+      {isActivated ? <NodeAlert /> : null}
       <Sheet />
       {mobileMenuVisible && isMobile && <MobileMenu hideMobileMenu={() => setMobileMenuVisible(false)} />}
     </div>

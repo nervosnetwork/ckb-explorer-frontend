@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react'
 import { CodecMap } from '@ckb-lumos/molecule'
 import CommonSelect from '../../../components/CommonSelect'

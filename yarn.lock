@@ -2760,6 +2760,22 @@
     bs58 "^5.0.0"
     immutable "^4.3.0"
 
+"@ckb-lumos/common-scripts@0.23.0":
+  version "0.23.0"
+  resolved "https://registry.npmjs.org/@ckb-lumos/common-scripts/-/common-scripts-0.23.0.tgz#ccb04214ca7186829036ddcbb0dc1b5326127a90"
+  integrity sha512-Dwic0Al94afdGNu+TGAMmZiU5OVF/zvXbzhCvNmkFS25t8BxPdFjGEc0MlWBI4ZSEoGRrC0O+BOxjzfl5VxSYg==
+  dependencies:
+    "@ckb-lumos/base" "0.23.0"
+    "@ckb-lumos/bi" "0.23.0"
+    "@ckb-lumos/codec" "0.23.0"
+    "@ckb-lumos/config-manager" "0.23.0"
+    "@ckb-lumos/helpers" "0.23.0"
+    "@ckb-lumos/rpc" "0.23.0"
+    "@ckb-lumos/toolkit" "0.23.0"
+    bech32 "^2.0.0"
+    bs58 "^5.0.0"
+    immutable "^4.3.0"
+
 "@ckb-lumos/config-manager@0.22.0-next.5":
   version "0.22.0-next.5"
   resolved "https://registry.yarnpkg.com/@ckb-lumos/config-manager/-/config-manager-0.22.0-next.5.tgz#45e10c45ca85282ae122be32269789b6a3d98a17"
@@ -4068,6 +4084,20 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-compose-refs" "1.0.1"
+
+"@radix-ui/react-switch@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@radix-ui/react-switch/-/react-switch-1.0.3.tgz#6119f16656a9eafb4424c600fdb36efa5ec5837e"
+  integrity sha512-mxm87F88HyHztsI7N+ZUmEoARGkC22YVW5CaC+Byc+HRpuvCrOBPTAnXgf+tZ/7i0Sg/eOePGdMhUKhPaQEqow==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/primitive" "1.0.1"
+    "@radix-ui/react-compose-refs" "1.0.1"
+    "@radix-ui/react-context" "1.0.1"
+    "@radix-ui/react-primitive" "1.0.3"
+    "@radix-ui/react-use-controllable-state" "1.0.1"
+    "@radix-ui/react-use-previous" "1.0.1"
+    "@radix-ui/react-use-size" "1.0.1"
 
 "@radix-ui/react-tabs@^1.0.4":
   version "1.0.4"
