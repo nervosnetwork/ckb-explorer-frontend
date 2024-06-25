@@ -1,42 +1,26 @@
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import type { Cell } from '@ckb-lumos/base'
 import { IOType } from '../../../constants/common'
-import TransactionCell from '../TransactionCell'
+import NodeTransactionCell from '../TransactionCell/NodeTransactionCell'
 import { ReactComponent as DeprecatedAddrOn } from './deprecated_addr_on.svg'
 import { ReactComponent as DeprecatedAddrOff } from './deprecated_addr_off.svg'
 import { ReactComponent as Warning } from './warning.svg'
-import styles from './styles.module.scss'
-import { Cell } from '../../../models/Cell'
-import { useIsDeprecatedAddressesDisplayed } from './useIsDeprecatedAddressesDisplayed'
 import { TransactionCellList } from './TransactionCellList'
+import styles from './styles.module.scss'
+import { useIsDeprecatedAddressesDisplayed } from './useIsDeprecatedAddressesDisplayed'
 
-export default ({
-  total,
-  inputs,
-  outputs,
-  txHash,
-  showReward,
-  startIndex,
-}: {
-  total?: number
-  inputs?: Cell[]
-  outputs?: Cell[]
-  txHash?: string
-  showReward?: boolean
-  startIndex: number
-}) => {
+export default ({ cells = [], ioType }: { cells?: Cell[]; ioType: IOType }) => {
   const { t } = useTranslation()
-  const cells = inputs || outputs || []
-  const isCellbaseInput = inputs && inputs.length > 0 && inputs[0].fromCellbase
 
   const [isDeprecatedAddressesDisplayed, addrFormatToggleURL] = useIsDeprecatedAddressesDisplayed()
 
   const cellTitle = (() => {
-    const title = inputs ? t('transaction.input') : t('transaction.output')
+    const title = ioType === IOType.Input ? t('transaction.input') : t('transaction.output')
     return (
       <div className={styles.cellListTitle}>
-        {`${title} (${total ?? '-'})`}
+        {`${title} (${cells.length ?? '-'})`}
         <Tooltip placement="top" title={t(`address.view-deprecated-address`)}>
           <Link className={styles.newAddrToggle} to={addrFormatToggleURL} role="presentation">
             {!isDeprecatedAddressesDisplayed ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
@@ -56,8 +40,8 @@ export default ({
       title={cellTitle}
       extra={
         <>
-          <div>{isCellbaseInput ? t('transaction.reward_info') : t('transaction.detail')}</div>
-          <div>{isCellbaseInput ? '' : t('transaction.capacity_amount')}</div>
+          <div>{t('transaction.detail')}</div>
+          <div>{t('transaction.capacity_amount')}</div>
         </>
       }
     >
@@ -65,13 +49,11 @@ export default ({
         <div className={styles.dataBeingProcessed}>{t('transaction.data-being-processed')}</div>
       ) : (
         cells?.map((cell, index) => (
-          <TransactionCell
-            key={cell.id}
+          <NodeTransactionCell
+            key={`${cell.outPoint?.txHash}#${cell.outPoint?.index}`}
             cell={cell}
-            ioType={inputs ? IOType.Input : IOType.Output}
-            index={index + startIndex}
-            txHash={txHash}
-            showReward={showReward}
+            ioType={ioType}
+            index={index}
             isAddrNew={!isDeprecatedAddressesDisplayed}
           />
         ))

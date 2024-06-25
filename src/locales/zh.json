@@ -179,6 +179,7 @@
       "language": "语言",
       "language_en": "EN",
       "language_zh": "简体中文",
+      "node": "节点",
       "home": "首页",
       "wallets": "钱包",
       "wallet_abc": "ABC Wallet",
@@ -974,6 +975,12 @@
       "transaction": "交易",
       "tx_in_snake_case": "Snake Case 格式交易",
       "tx_in_camel_case": "Camel Case 格式交易"
+    },
+    "node": {
+      "alert": "当前使用节点模式。在节点模式中，浏览器数据将取自节点，因此部分功能/数据无法不再支持，同时。您可在浏览器右上角或<switcher>点击此处</switcher>切换节点",
+      "done": "完成",
+      "node_connect_mode": "节点连接模式",
+      "node_connect_tooltip": "打开节点连接模式时，浏览器数据将从节点获取，因此无法再支持某些功能/数据。"
     }
   }
 }

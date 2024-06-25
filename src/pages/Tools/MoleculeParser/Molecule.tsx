@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useCallback, useState } from 'react'
 import { createParser } from '@ckb-lumos/molecule'
 import { HelpTip } from '../../../components/HelpTip'

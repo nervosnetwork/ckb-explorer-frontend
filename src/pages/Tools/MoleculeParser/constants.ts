@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import type { CodecMap } from '@ckb-lumos/molecule'
 import { BI, BIish } from '@ckb-lumos/bi'
 import { number, AnyCodec } from '@ckb-lumos/codec'

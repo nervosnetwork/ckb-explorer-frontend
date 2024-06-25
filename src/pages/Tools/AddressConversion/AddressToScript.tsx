@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useMemo, useState } from 'react'
 import type { Script } from '@ckb-lumos/base'
 import { useTranslation } from 'react-i18next'

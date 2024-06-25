@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import React, { useState } from 'react'
 import { BytesCodec } from '@ckb-lumos/codec/lib/base'
 import { JSONTree } from 'react-json-tree'
