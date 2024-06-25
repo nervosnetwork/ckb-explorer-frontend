@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import * as React from 'react'
 import classnames from 'classnames'
 import styles from './Alert.module.scss'

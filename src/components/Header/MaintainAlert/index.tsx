@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios'
 import config from '../../../config'
+import { useCKBNode } from '../../../hooks/useCKBNode'
 import { useLatestBlockNumber } from '../../../services/ExplorerService'
 import styles from './styles.module.scss'
 
@@ -25,6 +26,7 @@ const getTipFromNode = (url: string): Promise<string> =>
 const MaintainAlert = () => {
   const { t } = useTranslation()
   const synced = useLatestBlockNumber()
+  const { isActivated } = useCKBNode()
   const { data: tip } = useQuery(
     ['backup_nodes'],
     async () => {
@@ -49,7 +51,7 @@ const MaintainAlert = () => {
 
   const lag = tip && synced ? tip - synced : 0
 
-  return lag >= threshold ? (
+  return lag >= threshold && !isActivated ? (
     <div className={styles.container}>
       {t('error.maintain', { tip: tip?.toLocaleString('en'), lag: lag.toLocaleString('en') })}
     </div>

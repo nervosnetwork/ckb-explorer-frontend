@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { Script } from '@ckb-lumos/base'
 import { helpers, type Config } from '@ckb-lumos/config-manager'
 import { encodeToAddress } from '@ckb-lumos/helpers'

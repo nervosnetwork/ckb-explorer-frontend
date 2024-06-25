@@ -9,11 +9,19 @@ import { BlockCardPanel, TransactionCardPanel } from './styled'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
 import { useParsedDate } from '../../../hooks'
-import { Block } from '../../../models/Block'
-import { Transaction } from '../../../models/Transaction'
 
 // eslint-disable-next-line no-underscore-dangle
-const _BlockCardItem: FC<{ block: Block; isDelayBlock?: boolean }> = ({ block, isDelayBlock }) => {
+const _BlockCardItem: FC<{
+  block: {
+    number: number
+    timestamp: number
+    liveCellChanges: string
+    reward: string
+    transactionsCount: number
+    minerHash: string
+  }
+  isDelayBlock?: boolean
+}> = ({ block, isDelayBlock }) => {
   const { t } = useTranslation()
   const liveCellChanges = Number(block.liveCellChanges)
   const [int, dec] = new BigNumber(shannonToCkb(block.reward)).toFormat(2, BigNumber.ROUND_FLOOR).split('.')
@@ -61,7 +69,13 @@ export const BlockCardItem = memo(
 
 // eslint-disable-next-line no-underscore-dangle
 const _TransactionCardItem: FC<{
-  transaction: Transaction
+  transaction: {
+    transactionHash: string
+    blockNumber: string | number
+    blockTimestamp: string | number
+    capacityInvolved: string
+    liveCellChanges: string
+  }
   tipBlockNumber: number
 }> = ({ transaction, tipBlockNumber }) => {
   const { t } = useTranslation()

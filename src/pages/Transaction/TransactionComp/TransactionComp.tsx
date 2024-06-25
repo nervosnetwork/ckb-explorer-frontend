@@ -53,34 +53,17 @@ export const TransactionComp = ({
   const outputsPage = page_of_outputs && Number.isNaN(+page_of_outputs) ? 1 : +page_of_outputs
   const pageSize = Number.isNaN(+page_size) ? PAGE_SIZE : +page_size
 
-  const { data: displayInputs, isFetching: isInputsLoading } = useQuery(
+  const { data: displayInputs = emptyList, isFetching: isInputsLoading } = useQuery(
     ['transaction_inputs', txHash, inputsPage, pageSize],
-    async () => {
-      try {
-        const res = await explorerService.api.fetchCellsByTxHash(txHash, 'inputs', { no: inputsPage, size: pageSize })
-        return res
-      } catch (e) {
-        return emptyList
-      }
-    },
-    {
-      initialData: emptyList,
-    },
+    () => explorerService.api.fetchCellsByTxHash(txHash, 'inputs', { no: inputsPage, size: pageSize }),
   )
 
-  const { data: displayOutputs, isFetching: isOutputsLoading } = useQuery(
+  const { data: displayOutputs = emptyList, isFetching: isOutputsLoading } = useQuery(
     ['transaction_outputs', txHash, outputsPage, pageSize],
-    async () => {
-      try {
-        const res = await explorerService.api.fetchCellsByTxHash(txHash, 'outputs', { no: outputsPage, size: pageSize })
-        return res
-      } catch (e) {
-        return emptyList
-      }
-    },
-    {
-      initialData: emptyList,
-    },
+    () =>
+      explorerService.api
+        .fetchCellsByTxHash(txHash, 'outputs', { no: outputsPage, size: pageSize })
+        .catch(() => emptyList),
   )
 
   const inputs = handleCellbaseInputs(displayInputs.data, displayOutputs.data)
@@ -110,7 +93,7 @@ export const TransactionComp = ({
           total={displayInputs.meta?.total}
           inputs={inputs}
           startIndex={(inputsPage - 1) * pageSize}
-          showReward={blockNumber > 0 && isCellbase}
+          showReward={Number(blockNumber) - 11 > 0 && isCellbase}
         />
         <div style={{ height: 4 }} />
         <Pagination

@@ -15,18 +15,12 @@ export const TransactionCompLite: FC<{ isCellbase: boolean }> = ({ isCellbase })
   const { hash: txHash } = useParams<{ hash: string }>()
   const [t] = useTranslation()
 
-  const query = useQuery(
+  const { data: transactionLiteDetails = defaultTransactionLiteDetails } = useQuery(
     ['ckb_transaction_details', txHash],
-    async () => {
-      const ckbTransactionDetails = await explorerService.api.fetchTransactionLiteDetailsByHash(txHash)
-      return ckbTransactionDetails.data
-    },
-    {
-      initialData: defaultTransactionLiteDetails,
-    },
+    () => explorerService.api.fetchTransactionLiteDetailsByHash(txHash).then(res => res.data),
   )
 
-  const txList = query.data.map(tx => ({
+  const txList = transactionLiteDetails.map(tx => ({
     address: tx.address,
     transfers: tx.transfers.map(getTransfer),
   }))

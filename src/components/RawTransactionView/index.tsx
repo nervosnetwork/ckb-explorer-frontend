@@ -2,12 +2,12 @@ import type { FC } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import JsonView from '@microlink/react-json-view'
 import Loading from '../AwesomeLoadings/Spinner'
-
-import { getTx } from '../../services/NodeService'
+import { useCKBNode } from '../../hooks/useCKBNode'
 import styles from './styles.module.scss'
 
 const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
-  const { data, isLoading } = useQuery(['tx', hash], () => getTx(hash))
+  const { nodeService } = useCKBNode()
+  const { data, isLoading } = useQuery(['tx', hash], () => nodeService.getTx(hash))
   if (isLoading) {
     return (
       <div className={styles.loading}>
