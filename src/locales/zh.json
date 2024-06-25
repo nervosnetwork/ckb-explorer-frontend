@@ -213,7 +213,7 @@
       "testnet": "Testnet"
     },
     "statistic": {
-      "transaction_num": "交易数量",
+      "transaction_num": "BTC 交易数量",
       "new_btc_address": "新增加 BTC 地址",
       "rgbpp_transaction_list": "RGB++ 交易列表",
       "transaction_count": "交易数量",
