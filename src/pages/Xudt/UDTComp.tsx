@@ -147,7 +147,7 @@ export const UDTOverviewCard = ({
       content: issuer ? <IssuerContent address={issuerOnBtc ?? issuer} /> : '-',
     },
     {
-      title: t('xudt.holder_addresses'),
+      title: t('xudt.holders'),
       content: xudt?.holderAllocation ? (
         <SimpleButton
           className={styles.holderAddressesButton}
@@ -219,7 +219,7 @@ export const UDTOverviewCard = ({
 
         <div className={styles.tags}>
           {xudt?.xudtTags?.map(tag => (
-            <XUDTTag tagName={tag} />
+            <XUDTTag key={tag} tagName={tag} />
           ))}
         </div>
 

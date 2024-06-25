@@ -18,8 +18,8 @@ import {
   TransactionCellWithdraw,
   TransactionCellUDTPanel,
 } from './styled'
-import { CellType } from '../../../constants/common'
-import TransactionCellArrow from '../../Transaction/TransactionCellArrow'
+import { IOType } from '../../../constants/common'
+import { CellInputIcon, CellOutputIcon } from '../../Transaction/TransactionCellArrow'
 import Capacity from '../../Capacity'
 import { parseDiffDate } from '../../../utils/date'
 import Cellbase from '../../Transaction/Cellbase'
@@ -162,13 +162,13 @@ const WithdrawPopoverInfo = ({ cell }: { cell: Cell }) => {
   )
 }
 
-const TransactionCellNervosDao = ({ cell, cellType }: { cell: Cell; cellType: CellType }) => {
+const TransactionCellNervosDao = ({ cell, ioType }: { cell: Cell; ioType: IOType }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   return (
     <TransactionCellWithdraw>
       <Capacity capacity={shannonToCkb(cell.capacity)} />
-      {cellType === CellType.Input ? (
+      {ioType === IOType.Input ? (
         <Popover placement="right" title="" content={<WithdrawPopoverInfo cell={cell} />} trigger="click">
           <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
         </Popover>
@@ -209,9 +209,9 @@ const TransactionCellUDT = ({ cell }: { cell: Cell$UDT }) => {
   )
 }
 
-const TransactionCellCapacity = ({ cell, cellType }: { cell: Cell; cellType: CellType }) => {
+const TransactionCellCapacity = ({ cell, ioType }: { cell: Cell; ioType: IOType }) => {
   if (isDaoCell(cell.cellType)) {
-    return <TransactionCellNervosDao cell={cell} cellType={cellType} />
+    return <TransactionCellNervosDao cell={cell} ioType={ioType} />
   }
 
   if (cell.cellType === 'udt') {
@@ -255,11 +255,11 @@ const TransactionCellCapacity = ({ cell, cellType }: { cell: Cell; cellType: Cel
   )
 }
 
-const TransactionCell = ({ cell, address, cellType }: { cell: Cell; address?: string; cellType: CellType }) => {
+const TransactionCell = ({ cell, address, ioType }: { cell: Cell; address?: string; ioType: IOType }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   if (cell.fromCellbase) {
-    return <Cellbase cell={cell} cellType={cellType} />
+    return <Cellbase cell={cell} />
   }
 
   let addressText = t('address.unable_decode_address')
@@ -274,12 +274,12 @@ const TransactionCell = ({ cell, address, cellType }: { cell: Cell; address?: st
   return (
     <TransactionCellPanel highLight={highLight}>
       <div className="transactionCellAddress">
-        {cellType === CellType.Input && <TransactionCellArrow cell={cell} cellType={cellType} />}
+        {ioType === IOType.Input && <CellInputIcon cell={cell} />}
         <AddressTextWithAlias
           address={addressText}
           to={highLight ? `/address/${cell.rgbInfo?.address || cell.addressHash}` : undefined}
         />
-        {cellType === CellType.Output && <TransactionCellArrow cell={cell} cellType={cellType} />}
+        {ioType === IOType.Output && <CellOutputIcon cell={cell} />}
         {!highLight && !isMobile && (
           <Tooltip placement="top" title={`${t('address.current-address')} `}>
             <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
@@ -292,7 +292,7 @@ const TransactionCell = ({ cell, address, cellType }: { cell: Cell; address?: st
             <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
           </Tooltip>
         )}
-        <TransactionCellCapacity cell={cell} cellType={cellType} />
+        <TransactionCellCapacity cell={cell} ioType={ioType} />
       </TransactionCellCapacityPanel>
     </TransactionCellPanel>
   )

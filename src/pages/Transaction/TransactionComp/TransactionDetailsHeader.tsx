@@ -9,7 +9,8 @@ import styles from './TransactionDetailsHeader.module.scss'
 
 export const TransactionDetailsHeader: FC<{
   layout: LayoutLiteProfessional
-}> = ({ layout }) => {
+  showLayoutSwitcher?: boolean
+}> = ({ showLayoutSwitcher = true, layout }) => {
   const { t } = useTranslation()
   const isMobile = useIsMobile()
 
@@ -43,9 +44,9 @@ export const TransactionDetailsHeader: FC<{
     <Card className={styles.transactionHeader}>
       <div className={styles.headerContent}>
         <p>{t('transaction.transaction_details')}</p>
-        {!isMobile && professionalLiteBox}
+        {!isMobile && showLayoutSwitcher && professionalLiteBox}
       </div>
-      {isMobile && professionalLiteBox}
+      {isMobile && showLayoutSwitcher && professionalLiteBox}
     </Card>
   )
 }

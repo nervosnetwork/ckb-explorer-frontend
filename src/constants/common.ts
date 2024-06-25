@@ -102,7 +102,7 @@ export const SearchFailType = {
   CHAIN_ERROR: 'chain_error',
 }
 
-export enum CellType {
+export enum IOType {
   Input = 'input',
   Output = 'output',
 }

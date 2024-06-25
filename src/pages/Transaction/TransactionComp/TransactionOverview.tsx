@@ -245,7 +245,7 @@ export const TransactionOverviewCard: FC<{
         }
       />
 
-      {(txStatus !== 'committed' || blockTimestamp > 0) && (
+      {(txStatus !== 'committed' || Number(blockTimestamp) > 0) && (
         <TransactionOverviewPanel>
           <CardCellsLayout type="left-right" cells={overviewItems} borderTop={!isMobile} />
           {isProfessional && (

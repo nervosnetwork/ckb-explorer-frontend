@@ -7,7 +7,7 @@ import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionIncome from './TransactionIncome'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
-import { CellType } from '../../constants/common'
+import { IOType } from '../../constants/common'
 import AddressText from '../AddressText'
 import { useParsedDate } from '../../hooks'
 import { Transaction } from '../../models/Transaction'
@@ -131,7 +131,7 @@ const TransactionItem = ({
             <TransactionCellList
               cells={transaction.displayInputs}
               transaction={transaction}
-              render={cell => <TransactionCell cell={cell} address={address} cellType={CellType.Input} key={cell.id} />}
+              render={cell => <TransactionCell cell={cell} address={address} ioType={IOType.Input} key={cell.id} />}
             />
           </div>
           <DirectionIcon className={styles.direction} />
@@ -142,7 +142,7 @@ const TransactionItem = ({
                 transaction={transaction}
                 render={cell => (
                   <FullPanel key={cell.id}>
-                    <TransactionCell cell={cell} address={address} cellType={CellType.Output} />
+                    <TransactionCell cell={cell} address={address} ioType={IOType.Output} />
                   </FullPanel>
                 )}
               />

@@ -90,7 +90,7 @@ const useChartsData = () => {
           title: `${t('statistic.address_count')}`,
           chart: <AddressCountChart isThumbnail />,
           path: '/charts/address-count',
-          description: t('statistic.address_count_description_description'),
+          description: t('statistic.address_count_description'),
         },
         {
           title: t('statistic.cell_count'),
