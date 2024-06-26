@@ -22,38 +22,26 @@ export const RGBDigestComp = ({ hash, txid }: { hash: string; txid?: string }) =
     explorerService.api.fetchRGBDigest(hash),
   )
 
-  const { data: displayInputs } = useQuery(
-    ['transaction_inputs', hash, 1, 10],
-    async () => {
-      try {
-        const res = await explorerService.api.fetchCellsByTxHash(hash, 'inputs', { no: 1, size: 10 })
-        return res
-      } catch (e) {
-        return { data: [] }
-      }
-    },
-    {
-      initialData: { data: [] },
-    },
-  )
+  const { data: displayInputs = { data: [] } } = useQuery(['transaction_inputs', hash, 1, 10], async () => {
+    try {
+      const res = await explorerService.api.fetchCellsByTxHash(hash, 'inputs', { no: 1, size: 10 })
+      return res
+    } catch (e) {
+      return { data: [] }
+    }
+  })
 
-  const { data: displayOutputs } = useQuery(
-    ['transaction_outputs', hash, 1, 10],
-    async () => {
-      try {
-        const res = await explorerService.api.fetchCellsByTxHash(hash, 'outputs', {
-          no: 1,
-          size: 10,
-        })
-        return res
-      } catch (e) {
-        return { data: [] }
-      }
-    },
-    {
-      initialData: { data: [] },
-    },
-  )
+  const { data: displayOutputs = { data: [] } } = useQuery(['transaction_outputs', hash, 1, 10], async () => {
+    try {
+      const res = await explorerService.api.fetchCellsByTxHash(hash, 'outputs', {
+        no: 1,
+        size: 10,
+      })
+      return res
+    } catch (e) {
+      return { data: [] }
+    }
+  })
   const boundCellIndex = useMemo(() => {
     const map: Record<string, number> = {}
     displayInputs.data.forEach((input, idx) => {

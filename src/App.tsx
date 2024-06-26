@@ -21,7 +21,8 @@ const appStyle = {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
+      staleTime: 60 * 1000,
+      initialDataUpdatedAt: 0,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       refetchIntervalInBackground: false,
