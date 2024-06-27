@@ -528,6 +528,7 @@
       "udt": "UDT",
       "cota_regular": "CoTA Regular Cell",
       "spore_cell": "Spore Cell",
+      "did_cell": "DID Cell",
       "script_args": "args",
       "script_code_hash": "code_hash",
       "script_hash_type": "hash_type",

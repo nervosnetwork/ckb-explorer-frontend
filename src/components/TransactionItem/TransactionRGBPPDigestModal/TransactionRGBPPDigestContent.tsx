@@ -65,6 +65,7 @@ export const TransactionRGBPPDigestContent = ({
             }
             break
           }
+          case 'did_cell':
           case 'spore_cell': {
             asset = list.find(j => j.cellType === i.cellType && j.tokenId === i.tokenId) as
               | LiteTransfer.SporeTransfer

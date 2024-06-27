@@ -55,6 +55,7 @@ const TokenTable: FC<{ udts: UDTAccount[]; cotaList: NFTItem[] }> = ({ udts, cot
                 asset = udt.symbol
                 amount = `${parseUDTAmount(udt.amount, udt.decimal)} ${asset}`
                 break
+              case 'did_cell':
               case 'spore_cell':
                 type = 'DOB'
                 key += udt.amount
@@ -152,6 +153,7 @@ const DefinedTokens: FC<{ udts: UDTAccount[]; cotaList?: NFTItem[] }> = ({ udts,
                 case 'sudt':
                   return <AddressSudtComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
 
+                case 'did_cell':
                 case 'spore_cell':
                   return <AddressSporeComp account={udt} key={udt.symbol + udt.udtType + udt.amount} />
 

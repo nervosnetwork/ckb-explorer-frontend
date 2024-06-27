@@ -254,7 +254,7 @@ export namespace LiteTransfer {
   // Spore
   export interface SporeTransfer {
     capacity: string
-    cellType: 'spore_cell'
+    cellType: 'spore_cell' | 'did_cell'
     // FIXME: This is a typo in the api, should be fixed
     toeknId?: string
     tokenId: string

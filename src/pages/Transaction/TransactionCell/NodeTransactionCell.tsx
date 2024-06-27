@@ -125,6 +125,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       tooltip = t('transaction.spore_cluster')
       break
     }
+    case 'did_cell':
     case 'spore_cell': {
       detailTitle = t('nft.dob')
       detailIcon = SporeCellIcon

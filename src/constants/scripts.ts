@@ -314,6 +314,14 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     hashType: 'type',
     tag: 'BTC Time Lock',
   },
+  {
+    codeHashes: ['0xcfba73b58b6f30e70caed8a999748781b164ef9a1e218424a6fb55ebf641cb33'],
+    txHashes: ['0xeda235b56aa422c497b9b9bcfde7af289376e7fe12449ade99176609005994ba-0'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Spore',
+    category: 'type',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
@@ -674,6 +682,14 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'BTC Time Lock',
+  },
+  {
+    codeHashes: ['0x0b1f412fbae26853ff7d082d422c2bdd9e2ff94ee8aaec11240a5b34cc6e890f'],
+    txHashes: ['0x37f82dd30435575954cc7a9e2292f238ed24d71b0d57a55d8a2fc8a08aa1accf-0'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'DID',
+    category: 'type',
   },
 ]
 
