@@ -513,6 +513,7 @@
       "udt_cell": "UDT Cell",
       "udt": "UDT",
       "spore_cell": "Spore Cell",
+      "did_cell": "DID Cell",
       "cota_regular": "CoTA Regular Cell",
       "m_nft_issuer": "m-NFT Issuer",
       "m_nft_class": "m-NFT Class",

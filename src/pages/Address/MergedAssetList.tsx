@@ -98,6 +98,7 @@ const MergedAssetList: FC<{
 
       {nfts.map(nft => {
         switch (nft.udtType) {
+          case 'did_cell':
           case 'spore_cell':
             return <AddressSporeComp isRGBPP isMerged account={nft} key={nft.symbol + nft.udtType + nft.amount} />
           case 'nrc_721_token':

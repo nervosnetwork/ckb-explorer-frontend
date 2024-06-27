@@ -84,6 +84,7 @@ export interface Cell$NoExtra extends Cell$Base {
     | 'nft_mint'
     | 'spore_cluster'
     | 'spore_cell'
+    | 'did_cell'
     | 'nrc_721_factory'
     | 'omiga_inscription'
     | 'xudt'

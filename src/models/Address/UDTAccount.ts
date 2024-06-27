@@ -50,7 +50,7 @@ export interface Spore {
   symbol?: string
   amount: string
   udtIconFile: string
-  udtType: 'spore_cell'
+  udtType: 'spore_cell' | 'did_cell'
   collection: {
     typeHash: string | null
   }

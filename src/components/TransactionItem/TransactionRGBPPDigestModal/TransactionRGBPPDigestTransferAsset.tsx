@@ -34,6 +34,7 @@ export const TransactionRGBPPDigestTransferAsset = ({ transfer }: { transfer: Li
       name = record.label
       break
     }
+    case 'did_cell':
     case 'spore_cell':
     case 'm_nft_token':
     case 'nrc_721_token':
