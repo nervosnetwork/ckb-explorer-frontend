@@ -221,10 +221,12 @@ const Decoder = () => {
           const data = parseSporeCellData(v)
           switch (data.contentType) {
             case 'application/json':
+            case '.bit':
             case 'dob/0': {
               data.content = JSON.stringify(JSON.parse(hexToUtf8(`0x${data.content}`)), null, 2)
               break
             }
+
             default: {
               // ignore
             }
