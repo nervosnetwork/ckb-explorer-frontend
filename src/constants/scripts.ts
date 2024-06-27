@@ -567,10 +567,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0xf329effd1c475a2978453c8600e1eaf0bc2087ee093c3ee64cc96ec6847752cb'],
-    txHashes: [
-      '0x3d4296df1bd2cc2bd3f483f61ab7ebeac462a2f336f2b944168fe6ba5d81c014-0',
-      '0x27b62d8be8ed80b9f56ee0fe41355becdb6f6a40aeba82d3900434f43b1c8b60-0',
-    ],
+    txHashes: ['0xec18bf0d857c981c3d1f4e17999b9b90c484b303378e94de1a57b0872f5d4602-0'],
     depType: 'code',
     hashType: 'type',
     lumosConfigName: 'OMNILOCK',
