@@ -134,6 +134,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       detailInfo = cell.extraInfo.amount
       break
     }
+    case 'did_cell':
     case 'spore_cell': {
       icon = <SporeCellIcon />
       assetName = 'DOB'

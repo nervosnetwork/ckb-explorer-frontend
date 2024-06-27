@@ -145,6 +145,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
     (acc, cur) => {
       switch (cur?.udtType) {
         case 'sudt':
+        case 'did_cell':
         case 'spore_cell':
         case 'm_nft_token':
         case 'cota':

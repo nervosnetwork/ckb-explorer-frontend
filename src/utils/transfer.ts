@@ -206,6 +206,7 @@ export const getTransfer = (transfer: LiteTransfer.Transfer): TransferRecord => 
           capacity: transfer.capacity,
         }
       }
+      case 'did_cell':
       case 'spore_cell': {
         const id = formatNftDisplayId(transfer.toeknId ?? transfer.tokenId, 'spore')
 
