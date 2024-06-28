@@ -455,6 +455,9 @@
       "cell-info": "Cell详情"
     },
     "rgbpp": {
+      "assets": {
+        "multiple_warning": "当前 UTXO 下有多个资产，消耗 UTXO 时请确保资产不会丢失"
+      },
       "transaction": {
         "ckb_tx": "CKB 交易",
         "btc_tx": "BTC 交易",

@@ -455,6 +455,9 @@
       "cell-info": "Cell Info"
     },
     "rgbpp": {
+      "assets": {
+        "multiple_warning": "The current UTXO contains multiple assets. Please ensure that the assets are not lost when consuming the UTXO."
+      },
       "transaction": {
         "ckb_tx": "CKB Tx",
         "btc_tx": "BTC Tx",

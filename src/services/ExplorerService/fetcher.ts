@@ -7,6 +7,7 @@ import { toCamelcase } from '../../utils/util'
 import { requesterV1, requesterV2 } from './requester'
 import {
   ChartItem,
+  RGBCells,
   NervosDaoDepositor,
   RGBDigest,
   RawBtcRPC,
@@ -475,6 +476,23 @@ export const apiFetcher = {
 
   fetchStatisticBitcoin: () =>
     requesterV2(`/bitcoin_statistics`).then((res: AxiosResponse) => toCamelcase<ChartItem.Bitcoin[]>(res.data.data)),
+
+  fetchBitcoinAddressesRGBCells: (address: string, page: number, size: number, sort?: string) =>
+    requesterV2(`/bitcoin_addresses/${address}/rgb_cells`, {
+      params: {
+        page,
+        page_size: size,
+        sort,
+      },
+    }).then((res: AxiosResponse) =>
+      toCamelcase<{
+        data: { rgbCells: RGBCells }
+        meta: {
+          total: number
+          pageSize: number
+        }
+      }>(res.data),
+    ),
 
   fetchStatisticNewDaoDeposit: () =>
     v1GetUnwrappedList<ChartItem.NewDaoDeposit>('/daily_statistics/daily_dao_deposit-daily_dao_depositors_count'),
