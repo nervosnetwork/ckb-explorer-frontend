@@ -1,9 +1,10 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useState } from 'react'
 import { Popover, Tooltip } from 'antd'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../Link'
 import NervosDAOCellIcon from '../../../assets/nervos_dao_cell.png'
+import { ReactComponent as CellInfoIcon } from '../../../assets/cell_info.svg'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
 import CurrentAddressIcon from '../../../assets/current_address.svg'
 import UDTTokenIcon from '../../../assets/udt_token.png'
@@ -30,6 +31,8 @@ import { useBoolean, useIsMobile } from '../../../hooks'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import EllipsisMiddle from '../../EllipsisMiddle'
 import { Cell, Cell$UDT, UDTInfo } from '../../../models/Cell'
+import SimpleModal from '../../Modal'
+import CellModal from '../../Cell/CellModal'
 
 const AddressTextWithAlias: FC<{
   address: string
@@ -256,6 +259,7 @@ const TransactionCellCapacity = ({ cell, ioType }: { cell: Cell; ioType: IOType 
 }
 
 const TransactionCell = ({ cell, address, ioType }: { cell: Cell; address?: string; ioType: IOType }) => {
+  const [showModal, setShowModal] = useState(false)
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   if (cell.fromCellbase) {
@@ -293,6 +297,12 @@ const TransactionCell = ({ cell, address, ioType }: { cell: Cell; address?: stri
           </Tooltip>
         )}
         <TransactionCellCapacity cell={cell} ioType={ioType} />
+        <Tooltip placement="top" title={`${t('transaction.ckb-cell-info')} `}>
+          <CellInfoIcon className={styles.hoverIconButton} onClick={() => setShowModal(true)} />
+        </Tooltip>
+        <SimpleModal isShow={showModal} setIsShow={setShowModal}>
+          <CellModal cell={cell} onClose={() => setShowModal(false)} />
+        </SimpleModal>
       </TransactionCellCapacityPanel>
     </TransactionCellPanel>
   )

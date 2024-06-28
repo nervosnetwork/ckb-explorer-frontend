@@ -1,3 +1,6 @@
+@use 'sass:math';
+@import '../../../styles/variables.module';
+
 .locktime {
   width: 15px;
   height: 15px;
@@ -9,4 +12,294 @@
       fill: var(--primary-color);
     }
   }
+}
+
+.transactionCellPanel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .transactionCellContentPanel {
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0;
+    font-size: 16px;
+    color: #000;
+    text-align: center;
+
+    &[data-is-cell-base='false'] {
+      align-items: center;
+
+      .transactionCellDetail {
+        flex: 0.22;
+      }
+
+      .transactionCellCapacity {
+        display: flex;
+      }
+
+      .transactionDetailCellInfo {
+        display: flex;
+      }
+    }
+
+    &[data-is-cell-base='true'] {
+      align-items: flex-start;
+
+      .transactionCellDetail {
+        flex: 0.6;
+      }
+
+      .transactionCellCapacity {
+        display: none;
+      }
+
+      .transactionDetailCellInfo {
+        display: none;
+      }
+    }
+
+    .transactionCellAddress {
+      display: flex;
+      flex: 0.4;
+      min-width: 0;
+    }
+
+    .transactionCellCapacity {
+      flex: 0.3;
+      justify-content: flex-end;
+    }
+
+    .transactionDetailCellInfo {
+      flex: 0.08;
+      font-size: 12px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    a {
+      color: var(--primary-color);
+    }
+
+    a:hover {
+      color: var(--primary-color);
+    }
+  }
+}
+
+.transactionCellDetailPanel {
+  width: 100%;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &[data-is-withdraw='true'] {
+    > img {
+      width: 16px;
+      height: 20px;
+    }
+  }
+
+  &[data-is-withdraw='false'] {
+    > img {
+      width: 18px;
+      height: 14px;
+    }
+  }
+
+  > div {
+    font-size: 15px;
+    text-align: left;
+  }
+
+  > img {
+    margin-right: 5px;
+  }
+}
+
+.transactionCellHashPanel {
+  &[data-is-high-light='true'] {
+    color: var(--primary-color);
+    text-align: left;
+  }
+
+  &[data-is-high-light='false'] {
+    color: #000;
+    text-align: center;
+  }
+
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 16px;
+
+  @media (max-width: $mobileBreakPoint) {
+    text-align: left;
+
+    > a {
+      font-weight: 500;
+    }
+  }
+
+  @media (min-width: $mobileBreakPoint) {
+    font-weight: 500;
+  }
+
+  > span {
+    margin: 0 3px;
+  }
+
+  .transactionCellAddressLink {
+    max-width: 70%;
+
+    @media (max-width: $mobileBreakPoint) {
+      max-width: unset;
+    }
+  }
+
+  .transactionCellAddressNoLink {
+    color: #000;
+  }
+}
+
+.transactionCellAddressPanel {
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+
+  .transactionCellHashPanel {
+    &[data-is-high-light='true'] {
+      color: var(--primary-color);
+      text-align: left;
+    }
+
+    &[data-is-high-light='false'] {
+      color: #000;
+      text-align: center;
+    }
+
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 16px;
+
+    @media (max-width: $mobileBreakPoint) {
+      text-align: left;
+
+      > a {
+        font-weight: 500;
+      }
+    }
+
+    @media (min-width: $mobileBreakPoint) {
+      font-weight: 500;
+    }
+
+    > span {
+      margin: 0 3px;
+    }
+
+    .transactionCellAddressLink {
+      max-width: 70%;
+
+      @media (max-width: $mobileBreakPoint) {
+        max-width: unset;
+      }
+    }
+
+    .transactionCellAddressNoLink {
+      color: #000;
+    }
+  }
+
+  .transactionCellIndex {
+    margin-right: 3px;
+    color: #666;
+
+    > div {
+      width: 70px;
+      text-align: start;
+
+      @media (max-width: $xxlBreakPoint) {
+        width: 50px;
+      }
+    }
+  }
+}
+
+.transactionCellCardPanel {
+  .transactionCellCardSeparate {
+    width: 100%;
+    height: 1px;
+    background: #ccc;
+    margin: 8px 0;
+  }
+
+  > div:nth-child(2) {
+    margin-bottom: 15px;
+  }
+
+  > div:nth-child(4) {
+    margin-bottom: 12px;
+  }
+}
+
+.transactionCellInfoPanel {
+  .transactionCellInfoContent {
+    color: rgb(0 0 0 / 60%);
+    cursor: pointer;
+    width: 45px;
+
+    @media (max-width: $mobileBreakPoint) {
+      width: auto;
+    }
+
+    .transactionCellInfoSeparate {
+      background: rgb(0 0 0 / 60%);
+      width: 45px;
+      height: 1px;
+
+      @media (max-width: $mobileBreakPoint) {
+        width: auto;
+      }
+    }
+
+    &:hover {
+      color: var(--primary-color);
+
+      .transactionCellInfoSeparate {
+        background: var(--primary-color);
+      }
+    }
+  }
+}
+
+.transactionCellCardContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+
+  .transactionCellCardTitle {
+    flex: 1;
+    min-width: 0;
+    font-size: 16px;
+    color: #666;
+    margin-top: 3px;
+  }
+
+  .transactionCellCardValue {
+    display: flex;
+    font-size: 16px;
+    color: #000;
+  }
+}
+
+.transactionCellNftInfo {
+  white-space: pre-line;
 }

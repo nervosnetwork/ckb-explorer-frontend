@@ -1,0 +1,154 @@
+@import '../../../styles/variables.module';
+
+.digestLoading {
+  padding: 20px 0;
+
+  @media (max-width: $mobileBreakPoint) {
+    padding: 10px 0;
+  }
+}
+
+.noRecords {
+  display: flex;
+  background: #fff;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  font-size: 1rem;
+}
+
+.transactionInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 1rem;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    text-wrap: wrap;
+  }
+
+  .commitment > div {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .txid,
+  .commitment {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    flex-wrap: nowrap;
+
+    div {
+      display: flex;
+      gap: 8px;
+    }
+
+    @media screen and (max-width: $mobileBreakPoint) {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  .txid {
+    gap: 8px;
+
+    a {
+      color: var(--primary-color);
+      overflow: hidden;
+      flex: 1;
+      flex-shrink: 1;
+      max-width: 63ch;
+    }
+  }
+
+  .commitment {
+    gap: 8px;
+    justify-content: flex-end;
+
+    .commitmentText {
+      flex: 1;
+      flex-shrink: 0;
+      overflow: hidden;
+      max-width: 63ch;
+    }
+  }
+
+  @media screen and (width <= $extraLargeBreakPoint) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: stretch;
+    gap: 6px;
+
+    .commitment {
+      justify-content: flex-start;
+    }
+  }
+}
+
+.address {
+  font-size: 16px;
+  color: var(--primary-color);
+  max-width: 100%;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    overflow-wrap: break-word;
+  }
+}
+
+.blockConfirm {
+  color: #666;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    font-size: 14px;
+  }
+}
+
+.leap {
+  border: 1px solid #b0fcd3;
+  border-radius: 4px;
+  background-color: #e8fff1;
+  color: #23bc98;
+  padding: 5px 8px;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.leap:hover {
+  cursor: pointer;
+}
+
+.action {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  color: #999;
+  flex-shrink: 0;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+.list {
+  max-height: 540px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+
+  & > div {
+    scroll-snap-align: center;
+  }
+}
