@@ -210,20 +210,6 @@
   height: 16px;
 }
 
-.leap {
-  border: 1px solid #b0fcd3;
-  border-radius: 4px;
-  background-color: #e8fff1;
-  color: #23bc98;
-  padding: 5px 8px;
-  font-size: 12px;
-  line-height: 14px;
-}
-
-.leap:hover {
-  cursor: pointer;
-}
-
 .decimal {
   font-size: 14px;
 }
@@ -232,65 +218,11 @@
   font-size: 16px;
 }
 
-.noRecords {
-  display: flex;
-  background: #fff;
-  justify-content: center;
-  align-items: center;
-  height: 3rem;
-  font-size: 1rem;
-}
-
-.digestLoading {
-  padding: 20px 0;
-
-  @media (max-width: $mobileBreakPoint) {
-    padding: 10px 0;
-  }
-}
-
 .buttonClose {
   border: none;
   width: 16px;
   height: 16px;
   background-color: white;
-}
-
-.action {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  width: 24px;
-  height: 24px;
-  color: #999;
-  flex-shrink: 0;
-
-  &:hover {
-    color: var(--primary-color);
-  }
-}
-
-.token {
-  color: #999;
-  margin-right: 0.25rem;
-
-  &[data-diff-status='positive'] {
-    color: var(--primary-color);
-  }
-
-  &[data-diff-status='negative'] {
-    color: var(--accent-color);
-  }
-}
-
-.list {
-  max-height: 540px;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-
-  & > div {
-    scroll-snap-align: center;
-  }
 }
 
 .closeIcon {

@@ -1,5 +1,14 @@
 @import '../../../styles/variables.module';
 
+.hoverIconButton {
+  color: #999;
+
+  &:hover {
+    color: var(--primary-color);
+    cursor: pointer;
+  }
+}
+
 .addressTextWithAlias {
   display: flex;
   align-items: center;
@@ -43,5 +52,34 @@
 
   @media (width <= $mobileBreakPoint) {
     margin-bottom: 2px;
+  }
+}
+
+.transactionCellCapacityPanel {
+  flex-shrink: 0;
+  color: #000;
+  margin-left: 15px;
+  display: flex;
+  max-height: 40px;
+  align-items: center;
+
+  .transactionCellWithoutIcon {
+    margin-right: 21px;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    margin-left: 0;
+    margin-top: 5px;
+    height: 16px;
+    width: 100%;
+    justify-content: flex-end;
+
+    .transactionCellWithoutIcon {
+      margin: 0 6px;
+    }
+  }
+
+  > span {
+    margin-left: 5px;
   }
 }

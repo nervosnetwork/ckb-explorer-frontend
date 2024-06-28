@@ -386,6 +386,16 @@
       "token_item": "Token Item",
       "did": "DID"
     },
+    "cell": {
+      "live_cell": "Live Cell",
+      "dead_cell": "Consumed Cell",
+      "cell_info": "Cell Info",
+      "bind_description": {
+        "binding": "\"Binding\": The UTXO corresponding to the current Cell has been consumed. If the \"Binding\" status persists for too long, please check the CKB transaction status under the BTC address that consumed this UTXO.",
+        "bound": "\"Bound\": \"Bound\" means that the Owner of the Cell is a live BTC UTXO, and the Cell has been bound to a specific BTC address.",
+        "unbound": "\"Abnormal Unbind\" status: \"Abnormal Unbind\" means that the Owner of the Cell is a consumed or non-existent BTC UTXO, making the Cell ownerless and unusable by any address."
+      }
+    },
     "address": {
       "address": "Address",
       "vesting": "Vesting",
@@ -466,6 +476,7 @@
       "amount": "Amount"
     },
     "transaction": {
+      "ckb-cell-info": "CKB Cell Info",
       "view_rgbpp_digest": "View RGB++ Digest",
       "transaction": "Transaction",
       "transactions": "Transactions",
@@ -535,6 +546,7 @@
       "script_data": "data",
       "export-transaction": "Export Transaction",
       "capacity_usage": "Capacity Usage",
+      "rgbpp": "RGB++",
       "declared_capacity": "declared",
       "occupied_capacity": "occupied",
       "size": "Size",

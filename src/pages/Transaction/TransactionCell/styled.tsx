@@ -169,6 +169,14 @@ export const TransactionCellNftInfo = styled.div`
   white-space: pre-line;
 `
 
+export const TransactionCellCardSeparate = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #ccc;
+  margin: 8px 0;
+  transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
+`
+
 export const TransactionCellDetailModal = styled.div`
   background-color: #fff;
   margin: 15% auto;
@@ -181,14 +189,6 @@ export const TransactionCellDetailModal = styled.div`
     margin-top: 40%;
     padding: 10px;
   }
-`
-
-export const TransactionCellCardSeparate = styled.div`
-  width: 100%;
-  height: 1px;
-  background: #ccc;
-  margin: 8px 0;
-  transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 `
 
 export const TransactionCellCardPanel = styled.div`

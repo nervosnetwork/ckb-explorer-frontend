@@ -7,10 +7,9 @@ import { useTranslation } from 'react-i18next'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService } from '../../services/ExplorerService'
-import { TransactionCellDetailModal, TransactionCellInfoPanel } from '../Transaction/TransactionCell/styled'
+import { TransactionCellInfoPanel } from '../Transaction/TransactionCell/styled'
 import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
-import TransactionCellScript from '../Transaction/TransactionCellScript'
 import { shannonToCkb } from '../../utils/util'
 import Capacity from '../../components/Capacity'
 import styles from './styles.module.scss'
@@ -18,8 +17,9 @@ import AddressText from '../../components/AddressText'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import { ReactComponent as InfoMoreIcon } from './info_more_icon.svg'
 import { useSetToast } from '../../components/Toast'
-import { CellBasicInfo, transformToTransaction } from '../../utils/transformer'
+import { CellBasicInfo, transformToCellBasicInfo, transformToTransaction } from '../../utils/transformer'
 import { usePrevious } from '../../hooks'
+import CellModal from '../../components/Cell/CellModal'
 
 export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
   const {
@@ -104,9 +104,7 @@ export const CellInfo = ({ cell }: { cell: CellBasicInfo }) => {
         <InfoMoreIcon />
       </SimpleButton>
       <SimpleModal isShow={showModal} setIsShow={setShowModal}>
-        <TransactionCellDetailModal>
-          <TransactionCellScript cell={cell} onClose={() => setShowModal(false)} />
-        </TransactionCellDetailModal>
+        <CellModal cell={cell} onClose={() => setShowModal(false)} />
       </SimpleModal>
     </TransactionCellInfoPanel>
   )
@@ -198,14 +196,7 @@ export const ScriptCells = ({
                     </td>
                     <td>
                       <div className={styles.cellInfoMore}>
-                        <CellInfo
-                          cell={{
-                            id: record.id,
-                            capacity: record.capacity,
-                            isGenesisOutput: false,
-                            occupiedCapacity: String(record.occupiedCapacity),
-                          }}
-                        />
+                        <CellInfo cell={transformToCellBasicInfo(record)} />
                       </div>
                     </td>
                   </tr>

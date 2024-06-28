@@ -1,0 +1,26 @@
+@import '../../../styles/variables.module';
+
+.asset {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 16px;
+  line-height: 19px;
+
+  @media screen and (max-width: $mobileBreakPoint) {
+    flex-direction: column;
+  }
+}
+
+.token {
+  color: #999;
+  margin-right: 0.25rem;
+
+  &[data-diff-status='positive'] {
+    color: var(--primary-color);
+  }
+
+  &[data-diff-status='negative'] {
+    color: var(--accent-color);
+  }
+}

@@ -72,6 +72,11 @@ module.exports = function override(config) {
 
   config.plugins = [...config.plugins, new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] })]
 
+  const miniCssExtractPlugin = config.plugins.find(plugin => plugin.constructor.name === 'MiniCssExtractPlugin')
+  if (miniCssExtractPlugin) {
+    miniCssExtractPlugin.options.ignoreOrder = true
+  }
+
   return config
 }
 

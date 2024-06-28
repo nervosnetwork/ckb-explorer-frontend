@@ -39,12 +39,18 @@ export const transformToTransaction = (
 }
 
 // TODO: move to models
-export type CellBasicInfo = Pick<Cell, 'id' | 'isGenesisOutput' | 'capacity' | 'occupiedCapacity'>
+export type CellBasicInfo = Pick<
+  Cell,
+  'id' | 'isGenesisOutput' | 'capacity' | 'occupiedCapacity' | 'generatedTxHash' | 'cellIndex' | 'status' | 'rgbInfo'
+>
 export const transformToCellBasicInfo = (cell: CellInScript): CellBasicInfo => {
   return {
     id: cell.id,
     capacity: cell.capacity,
     occupiedCapacity: String(cell.occupiedCapacity),
     isGenesisOutput: false,
+    generatedTxHash: cell.txHash,
+    cellIndex: cell.cellIndex.toString(16),
+    status: cell.status as 'live' | 'dead',
   }
 }
