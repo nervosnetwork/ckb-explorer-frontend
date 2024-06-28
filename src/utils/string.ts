@@ -20,7 +20,10 @@ export function createTextWidthMeasurer(element: HTMLElement): (text: string) =>
     return text => charLMetrics.width * text.length
   }
 
-  return text => measureText(text).width
+  return text => {
+    const measure = measureText(text)
+    return measure.width - measure.actualBoundingBoxLeft
+  }
 }
 
 export const startEndEllipsis = (value: string, endLength = 8, startLength = 16) => {

@@ -198,6 +198,9 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     ...cell,
     id: Number(cell.cellId),
     isGenesisOutput: Number(cell.blockNumber) === 0,
+    generatedTxHash: cell.txHash,
+    cellIndex: cell.cellIndex.toString(16),
+    status: 'live',
   } as CellBasicInfo
 
   return {
@@ -223,7 +226,7 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
     <li key={cell.txHash + cell.cellIndex} className={styles.card}>
       <TransactionCellInfo cell={cellInfo} isDefaultStyle={false}>
         <Tooltip placement="top" title={`${title} CKB (${parsedBlockCreateAt})`}>
-          <h5>
+          <h5 className={styles.cellTitle}>
             <span>{title}</span>
             <span> CKB ({parsedBlockCreateAt})</span>
           </h5>

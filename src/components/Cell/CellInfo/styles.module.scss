@@ -1,0 +1,351 @@
+@import '../../../styles//variables.module.scss';
+
+.hoverIconButton {
+  color: #999;
+
+  &:hover {
+    color: var(--primary-color);
+    cursor: pointer;
+  }
+}
+
+.svgContainer {
+  display: flex;
+  margin: auto;
+}
+
+.btcUtxo {
+  display: flex;
+  height: 20px;
+  padding: 0 8px;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  color: var(--btc-primary-color) !important;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  border-radius: 4px;
+  border: 1px solid var(--btc-primary-color);
+  background: var(--btc-secondary-color);
+  cursor: pointer;
+  box-sizing: border-box;
+  line-height: 1;
+
+  a {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+  }
+
+  svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  @media screen and (width <= $mobileBreakPoint) {
+    height: 1rem;
+  }
+}
+
+.transactionDetailContainer {
+  .transactionDetailModalHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    max-width: 100%;
+
+    .transactionDetailModalHeaderLeft {
+      max-width: 90%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 8px;
+
+      span {
+        white-space: nowrap;
+      }
+
+      @media screen and (width <= $mobileBreakPoint) {
+        gap: 12px;
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .mobileVision {
+        max-width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .cellStatusIcon {
+        svg:hover {
+          cursor: auto;
+        }
+
+        &[data-cell-status='live'] {
+          color: var(--primary-color);
+        }
+
+        &[data-cell-status='dead'] {
+          color: #999;
+        }
+      }
+
+      .outpoint {
+        overflow: hidden;
+
+        .copy {
+          appearance: none;
+          border: none;
+          background: none;
+          cursor: pointer;
+
+          svg {
+            vertical-align: middle;
+            pointer-events: none;
+          }
+        }
+
+        max-width: 100%;
+        display: flex;
+        padding: 5px 8px;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        border-radius: 16px;
+        border: 1px solid var(--primary-color, #e5e5e5);
+        background: #fafafa;
+      }
+
+      h2 {
+        white-space: nowrap;
+        margin: 0;
+        color: #333;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 1000;
+        line-height: normal;
+        text-transform: capitalize;
+      }
+    }
+
+    > img {
+      align-self: center;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+
+    @media (max-width: $mobileBreakPoint) {
+      padding: 15px;
+      display: flex;
+      margin: 0;
+
+      > img {
+        margin-top: 5px;
+        align-self: self-start;
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}
+
+.transactionDetailPanel {
+  width: 100%;
+  background-color: #fafafa;
+  padding: 8px 16px;
+
+  &:last-child {
+    padding-bottom: 16px;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    margin-top: 10px;
+  }
+
+  .transactionDetailContent {
+    border: none;
+    width: 100%;
+    text-align: left;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-size: 16px;
+    color: #888;
+    font-weight: bold;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+
+    @media (max-width: $mobileBreakPoint) {
+      font-size: 10px;
+      padding: 10px;
+    }
+
+    .transactionCellInfoValuePanel {
+      border-radius: 4px;
+      border: 1px solid #e5e5e5;
+      background: var(--Color, #fff);
+      padding: 16px;
+
+      &[data-state='lock'],
+      &[data-state='type'],
+      &[data-state='capacity'] {
+        .jsonValue {
+          .title {
+            min-width: 120px;
+
+            @media (max-width: $mobileBreakPoint) {
+              min-width: 70px;
+            }
+          }
+        }
+      }
+
+      &[data-state='data'] {
+        .jsonValue {
+          .title {
+            min-width: 80px;
+
+            @media (max-width: $mobileBreakPoint) {
+              min-width: 40px;
+            }
+          }
+        }
+      }
+
+      &[data-state='rgbpp'] {
+        .jsonValue {
+          display: flex;
+          gap: 8px;
+          margin: 0 0 16px;
+
+          &:last-child {
+            margin: 0;
+          }
+
+          .title {
+            white-space: nowrap;
+            color: var(--666666, #666);
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+
+          .value {
+            overflow: hidden;
+            color: #333;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            display: flex;
+            gap: 4px;
+
+            a {
+              color: #999;
+
+              &:hover {
+                color: var(--primary-color);
+              }
+            }
+          }
+        }
+      }
+
+      .jsonValue {
+        display: flex;
+        margin: 2px 0 2px 30px;
+
+        @media (max-width: $mobileBreakPoint) {
+          margin: 2px 0 2px 12px;
+        }
+
+        .value {
+          // word-wrap: break-word;
+          // word-break: break-all;
+        }
+      }
+    }
+  }
+
+  .transactionDetailCopy {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-top: 16px;
+    width: 100%;
+
+    .button {
+      appearance: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: none;
+      color: var(--primary-color);
+      font-size: 1rem;
+      margin: 0 1rem;
+      padding: 0 0.5rem;
+      white-space: nowrap;
+      width: 130px;
+      height: 40px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid currentcolor;
+
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      &:hover {
+        font-weight: bold;
+      }
+
+      &[data-role='copy-script'] {
+        svg {
+          path {
+            fill: currentcolor;
+          }
+        }
+      }
+
+      &[data-role='script-info'] {
+        background: var(--primary-color);
+        color: #fff;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+
+      @media screen and (width < $largeBreakPoint) {
+        height: 30px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: $mobileBreakPoint) {
+      margin-top: 10px;
+
+      svg {
+        width: 12px;
+        height: 12px;
+        margin-left: 6px;
+      }
+    }
+  }
+
+  .transactionDetailLoading {
+    padding: 20px 0;
+
+    @media (max-width: $mobileBreakPoint) {
+      padding: 10px 0;
+    }
+  }
+}

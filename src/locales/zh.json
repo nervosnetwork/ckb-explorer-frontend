@@ -159,6 +159,16 @@
       "handling-reorg": " 检测到 {{time}} 发生 Reorg, CKB 浏览器正在彻底检查数据。所需时间约为半小时, 请稍后访问",
       "migration-notice": "浏览器服务将于 {{time}} 进行迁移, 可能出现短时不可用状态"
     },
+    "cell": {
+      "live_cell": "未消耗 Cell",
+      "dead_cell": "已消耗 Cell",
+      "cell_info": "Cell 信息",
+      "bind_description": {
+        "binding": "“待绑定”：当前Cell 对应的UTXO 已被消耗。如果“待绑定”持续时间过长，请检查消耗 此UTXO 对应BTC地址下的CKB交易状态。",
+        "bound": "“已绑定”： “已绑定” 意味着 Cell 的 Owner 是一个live 的 BTC UTXO, 该Cell 已被绑定至某个BTC地址。",
+        "unbound": "“异常解绑”状态：“异常解绑”意味着 Cell 的 Owner 是一个已经被消费掉的 BTC UTXO 或不存在, 该Cell 变成了一个无主Cell，没有任何地址可以使用。"
+      }
+    },
     "navbar": {
       "wallet": "钱包",
       "charts": "图表",
@@ -445,6 +455,9 @@
       "cell-info": "Cell详情"
     },
     "rgbpp": {
+      "assets": {
+        "multiple_warning": "当前 UTXO 下有多个资产，消耗 UTXO 时请确保资产不会丢失"
+      },
       "transaction": {
         "ckb_tx": "CKB 交易",
         "btc_tx": "BTC 交易",
@@ -466,6 +479,7 @@
       "amount": "数量"
     },
     "transaction": {
+      "ckb-cell-info": "CKB Cell Info",
       "view_rgbpp_digest": "查看 RGB++ 摘要",
       "transaction": "交易",
       "transactions": "交易",
@@ -535,6 +549,7 @@
       "script_data": "data",
       "export-transaction": "导出交易",
       "capacity_usage": "Capacity 使用情况",
+      "rgbpp": "RGB++",
       "declared_capacity": "declared",
       "occupied_capacity": "occupied",
       "size": "交易体积",

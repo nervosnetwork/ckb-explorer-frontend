@@ -400,3 +400,7 @@ export interface TokenCollection {
   symbol: string
   sn: string
 }
+
+export interface RGBCells {
+  [key: string]: { data: Response.Wrapper<LiveCell, 'cell_output'> }[]
+}

@@ -63,13 +63,21 @@
     }
   }
 
-  ul {
+  .cardsContainer {
+    @media screen and (max-width: $mobileBreakPoint) {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+      gap: 1rem;
+      font-weight: 500;
+    }
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
     list-style: none;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
-    gap: 1rem;
-    font-weight: 500;
+    margin: 0;
+    overflow-y: auto;
   }
 }
 
@@ -77,7 +85,6 @@
   min-height: 86px;
   background: #fff;
   border-radius: 4px;
-  overflow: hidden;
 
   h5 {
     display: flex;
@@ -91,11 +98,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    a {
-      &:hover {
-        font-weight: bold;
-        color: #fff;
-        text-decoration: underline;
+    .explorerLink {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      a {
+        &:hover {
+          font-weight: bold;
+          color: var(--primary-color);
+          text-decoration: underline;
+        }
+
+        svg {
+          vertical-align: middle;
+          width: 14px;
+        }
       }
     }
 
@@ -114,57 +132,71 @@
       }
     }
 
-    span {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: default;
-      flex: 1;
-      text-align: right;
+    .multipleAssetsAlert {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      span {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: default;
+        flex: 1;
+        text-align: right;
+      }
     }
   }
 
-  .itemContent {
-    padding: 8px;
+  .itemContentContainer {
     display: flex;
-    line-height: 1;
+    gap: 16px;
+    flex-wrap: wrap;
 
-    img,
-    svg {
-      margin-right: 8px;
-    }
-
-    .assetName {
-      font-weight: 500;
-    }
-
-    .attribute {
+    .itemContent {
+      flex: 0 0 auto;
+      width: 232px;
+      padding: 8px;
       display: flex;
-    }
+      line-height: 1;
 
-    .copy {
-      appearance: none;
-      border: none;
-      background: none;
-      width: 14px;
-      cursor: pointer;
+      img,
+      svg {
+        margin-right: 8px;
+      }
 
-      &:hover {
+      .assetName {
+        font-weight: 500;
+      }
+
+      .attribute {
+        display: flex;
+      }
+
+      .copy {
+        appearance: none;
+        border: none;
+        background: none;
+        width: 14px;
+        cursor: pointer;
+
+        &:hover {
+          svg {
+            stroke: var(--primary-color);
+          }
+        }
+
         svg {
-          stroke: var(--primary-color);
+          pointer-events: none;
+          height: 14px;
         }
       }
 
-      svg {
-        pointer-events: none;
-        height: 14px;
+      .fields {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
       }
-    }
-
-    .fields {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
     }
   }
 }

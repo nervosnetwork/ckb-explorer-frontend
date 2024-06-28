@@ -3,6 +3,7 @@ $xxlBreakPoint: 1440px;
 $extraLargeBreakPoint: 1200px;
 $largeBreakPoint: 1000px;
 $mobileBreakPoint: 750px;
+$devicePixelRatio: --device-pixel-ratio;
 
 :export {
   xxlBreakPoint: $xxlBreakPoint;

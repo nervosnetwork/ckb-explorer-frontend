@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import styles from './styles.module.scss'
+import styles from './TransactionRGBPPDigestTransferAsset.module.scss'
 import { parseCKBAmount } from '../../../utils/number'
 import { Amount } from './Amount'
 import { LiteTransfer } from '../../../services/ExplorerService'

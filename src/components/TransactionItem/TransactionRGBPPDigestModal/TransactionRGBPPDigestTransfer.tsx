@@ -1,4 +1,4 @@
-import styles from './styles.module.scss'
+import styles from './TransactionRGBPPDigestTransfer.module.scss'
 import { TransactionRGBPPDigestTransferAsset } from './TransactionRGBPPDigestTransferAsset'
 import { LiteTransfer } from '../../../services/ExplorerService'
 import AddressText from '../../AddressText'
