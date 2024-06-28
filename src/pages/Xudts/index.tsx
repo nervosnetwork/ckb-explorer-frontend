@@ -30,9 +30,6 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
   const { t } = useTranslation()
 
   const symbol = token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
-  const holderCount = token.holderAllocation
-    ? +token.holderAllocation.btcHoldersCount + +token.holderAllocation.ckbHoldersCount
-    : 0
 
   const fields: { name: string; value: ReactNode }[] = [
     {
@@ -41,7 +38,7 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
     },
     {
       name: t('xudt.unique_addresses'),
-      value: localeNumberString(holderCount),
+      value: localeNumberString(token.addressesCount),
     },
     {
       name: t('xudt.created_time'),
@@ -203,10 +200,7 @@ const TokenTable: FC<{
         </>
       ),
       className: styles.colAddressCount,
-      render: (_, token) =>
-        token.holderAllocation
-          ? localeNumberString(+token.holderAllocation.btcHoldersCount + +token.holderAllocation.ckbHoldersCount)
-          : 0,
+      render: (_, token) => localeNumberString(token.addressesCount),
     },
     {
       title: (

@@ -20,16 +20,14 @@ import { SubmitTokenInfo, TokenInfo } from '../../components/SubmitTokenInfo'
 import { useIsMobile } from '../../hooks'
 import Script from '../../components/Script'
 import { RawBtcRPC } from '../../services/ExplorerService'
-import { XUDT } from '../../models/Xudt'
+import { XUDT, XUDTHolderAllocation } from '../../models/Xudt'
 import { getBtcTxList } from '../../services/ExplorerService/fetcher'
-import { getHolderAllocation } from '../../services/MetricsService'
 import XUDTTag from '../../components/XUDTTag'
 import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
 import HolderAllocation from './HolderAllocation'
 import { ReactComponent as EditIcon } from '../../assets/edit.svg'
 import XUDTTokenIcon from '../../assets/sudt_token.png'
-import { IS_MAINNET } from '../../constants/common'
 
 const IssuerContent: FC<{ address: string }> = ({ address }) => {
   const { t } = useTranslation()
@@ -62,10 +60,12 @@ const IssuerContent: FC<{ address: string }> = ({ address }) => {
 export const UDTOverviewCard = ({
   typeHash,
   xudt,
+  holderAllocation,
   refetchUDT,
 }: {
   typeHash: string
-  xudt: XUDT | undefined
+  holderAllocation?: XUDTHolderAllocation
+  xudt?: XUDT
   refetchUDT: () => void
 }) => {
   const { t } = useTranslation()
@@ -109,32 +109,8 @@ export const UDTOverviewCard = ({
     },
   )
 
-  const { data: holderAllocation = {}, isLoading: isHolderAllocationLoading } = useQuery({
-    queryKey: ['xudt-holder-allocation', typeHash],
-    queryFn: () =>
-      xudt
-        ? getHolderAllocation({
-            code_hash: xudt.typeScript.codeHash,
-            hash_type: xudt.typeScript.hashType,
-            args: xudt.typeScript.args,
-          })
-        : ({} as Record<string, number>),
-    enabled: IS_MAINNET && !!xudt,
-  })
-
-  const holderCountFromBackend = xudt
-    ? +(xudt.holderAllocation?.ckbHoldersCount ?? 0) + +(xudt.holderAllocation?.btcHoldersCount ?? 0)
-    : 0
-  const holderCountFromNode = Object.values(holderAllocation ?? {}).reduce((acc, cur) => acc + cur, 0)
-
-  const holderCount = IS_MAINNET ? holderCountFromNode : holderCountFromBackend
-
-  const allocationDisplay = IS_MAINNET
-    ? holderAllocation
-    : {
-        BTC: +(xudt?.holderAllocation?.btcHoldersCount ?? 0),
-        others: +(xudt?.holderAllocation?.ckbHoldersCount ?? 0),
-      }
+  const ckbHolderAmount = holderAllocation?.lockHashes.reduce((acc, cur) => acc + +cur.holderCount, 0) ?? 0
+  const holderCount = holderAllocation ? ckbHolderAmount + +(holderAllocation?.btcHoldersCount ?? 0) : 0
 
   const items: CardCellInfo<'left' | 'right'>[] = [
     {
@@ -148,14 +124,14 @@ export const UDTOverviewCard = ({
     },
     {
       title: t('xudt.holders'),
-      content: xudt?.holderAllocation ? (
+      content: holderAllocation ? (
         <SimpleButton
           className={styles.holderAddressesButton}
           onClick={() => {
             setShowHolderAmountModal(true)
           }}
         >
-          {IS_MAINNET && isHolderAllocationLoading ? '-' : localeNumberString(holderCount)}
+          {localeNumberString(holderCount)}
         </SimpleButton>
       ) : (
         '-'
@@ -219,14 +195,21 @@ export const UDTOverviewCard = ({
 
         <div className={styles.tags}>
           {xudt?.xudtTags?.map(tag => (
-            <XUDTTag key={tag} tagName={tag} />
+            <XUDTTag tagName={tag} />
           ))}
         </div>
 
         <CardCellsLayout type="left-right" cells={items} borderTop />
-        <SimpleModal isShow={showHolderAmountModal} setIsShow={setShowHolderAmountModal}>
-          <HolderAllocation allocation={allocationDisplay} onClose={() => setShowHolderAmountModal(false)} />
-        </SimpleModal>
+        {holderAllocation && (
+          <SimpleModal isShow={showHolderAmountModal} setIsShow={setShowHolderAmountModal}>
+            <HolderAllocation
+              ckbHolderAmount={localeNumberString(ckbHolderAmount)}
+              btcHolderAmount={holderAllocation.btcHoldersCount}
+              lockHoderAmount={holderAllocation.lockHashes}
+              onClose={() => setShowHolderAmountModal(false)}
+            />
+          </SimpleModal>
+        )}
 
         <SimpleButton className={styles.typeScriptController} onClick={toggleScriptDisplay}>
           {isScriptDisplayed ? (
