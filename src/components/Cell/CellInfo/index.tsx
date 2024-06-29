@@ -503,7 +503,7 @@ export default ({ cell, onClose }: CellInfoProps) => {
         )}
 
         {!isFetched || !content ? null : (
-          <div className={styles.transactionDetailCopy}>
+          <div className={styles.scriptActions}>
             {!isRGBPP(content) && (
               <button data-role="copy-script" className={styles.button} type="button" onClick={onCopy}>
                 <div>{t('common.copy')}</div>

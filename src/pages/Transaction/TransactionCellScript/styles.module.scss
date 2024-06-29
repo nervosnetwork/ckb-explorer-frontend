@@ -81,3 +81,24 @@
     height: 1rem;
   }
 }
+
+.scriptActions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+
+  @media screen and (width <= $mobileBreakPoint) {
+    margin-top: 10px;
+    flex-direction: column;
+    gap: 16px;
+
+    svg {
+      width: 12px;
+      height: 12px;
+      margin-left: 6px;
+    }
+  }
+}
