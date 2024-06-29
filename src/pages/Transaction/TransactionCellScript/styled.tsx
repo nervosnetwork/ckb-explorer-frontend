@@ -39,44 +39,6 @@ export const TransactionDetailItem = styled.div<{ selected?: boolean }>`
   }
 `
 
-export const TransactionDetailLock = styled(TransactionDetailItem)``
-
-export const TransactionDetailType = styled(TransactionDetailItem)`
-  margin-left: 90px;
-
-  @media (max-width: ${variables.mobileBreakPoint}) {
-    margin-left: 12px;
-  }
-
-  @media (min-width: 751px) and (max-width: 1300px) {
-    margin-left: 50px;
-  }
-`
-
-export const TransactionDetailData = styled(TransactionDetailItem)`
-  margin-left: 90px;
-
-  @media (max-width: ${variables.mobileBreakPoint}) {
-    margin-left: 12px;
-  }
-
-  @media (min-width: 751px) and (max-width: 1300px) {
-    margin-left: 50px;
-  }
-`
-
-export const TransactionDetailCapacityUsage = styled(TransactionDetailItem)`
-  margin-left: 90px;
-
-  @media (max-width: ${variables.mobileBreakPoint}) {
-    margin-left: 12px;
-  }
-
-  @media (min-width: 751px) and (max-width: 1300px) {
-    margin-left: 50px;
-  }
-`
-
 export const TransactionCellDetailTab = styled(Tabs)`
   display: flex;
   flex-direction: column;
@@ -181,25 +143,6 @@ export const TransactionDetailPanel = styled.div`
     @media (max-width: ${variables.mobileBreakPoint}) {
       font-size: 10px;
       padding: 10px;
-    }
-  }
-
-  .transactionDetailCopy {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    width: 100%;
-
-    @media (max-width: ${variables.mobileBreakPoint}) {
-      margin-top: 10px;
-
-      svg {
-        width: 12px;
-        height: 12px;
-        margin-left: 6px;
-      }
     }
   }
 
