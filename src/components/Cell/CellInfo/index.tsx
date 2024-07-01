@@ -34,6 +34,8 @@ import EllipsisMiddle from '../../EllipsisMiddle'
 import { useIsMobile } from '../../../hooks'
 import { Link } from '../../Link'
 import { CellInfoProps } from './types'
+import { getBtcChainIdentify } from '../../../services/BTCIdentifier'
+import { IS_MAINNET } from '../../../constants/common'
 
 enum CellInfo {
   LOCK = 'lock',
@@ -163,60 +165,79 @@ const JSONKeyValueView = ({ title = '', value = '' }: { title?: string; value?: 
   </div>
 )
 
+const RGBPPValueRender = ({ content: script }: { content: Script }) => {
+  const { t } = useTranslation()
+  const hashTag = getContractHashTag(script)
+  const btcUtxo = getBtcUtxo(script)
+  const btcTimeLockInfo = !btcUtxo ? getBtcTimeLockInfo(script) : null
+
+  const txid = btcUtxo?.txid ?? btcTimeLockInfo?.txid
+
+  const { data: identity } = useQuery({
+    queryKey: ['btc-testnet-identity', txid],
+    queryFn: () => (txid ? getBtcChainIdentify(txid) : null),
+    enabled: !IS_MAINNET && !!txid,
+  })
+
+  if (!IS_MAINNET && !identity) return null
+
+  return (
+    <>
+      <JSONKeyValueView title={`"${t('transaction.script_code_hash')}": `} value={script.codeHash} />
+      {hashTag && (
+        <JSONKeyValueView
+          value={
+            <div>
+              <HashTag content={hashTag.tag} category={hashTag.category} />
+            </div>
+          }
+        />
+      )}
+      <JSONKeyValueView title={`"${t('transaction.script_hash_type')}": `} value={script.hashType} />
+      <JSONKeyValueView title={`"${t('transaction.script_args')}": `} value={script.args} />
+      {btcUtxo ? (
+        <JSONKeyValueView
+          value={
+            <a
+              href={`${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}/tx/${btcUtxo.txid}#vout=${parseInt(
+                btcUtxo.index!,
+                16,
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.btcUtxo}
+            >
+              BTC UTXO
+              <CompassIcon />
+            </a>
+          }
+        />
+      ) : null}
+
+      {btcTimeLockInfo ? (
+        <JSONKeyValueView
+          value={
+            <a
+              href={`${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}/tx/${btcTimeLockInfo.txid}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.btcUtxo}
+            >
+              {`${btcTimeLockInfo.after} confirmations after BTC Tx`}
+              <CompassIcon />
+            </a>
+          }
+        />
+      ) : null}
+    </>
+  )
+}
+
 const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
   const { t } = useTranslation()
 
   if (isScript(content)) {
-    const hashTag = getContractHashTag(content)
-    const btcUtxo = getBtcUtxo(content)
-    const btcTimeLockInfo = !btcUtxo ? getBtcTimeLockInfo(content) : null
-    return (
-      <>
-        <JSONKeyValueView title={`"${t('transaction.script_code_hash')}": `} value={content.codeHash} />
-        {hashTag && (
-          <JSONKeyValueView
-            value={
-              <div>
-                <HashTag content={hashTag.tag} category={hashTag.category} />
-              </div>
-            }
-          />
-        )}
-        <JSONKeyValueView title={`"${t('transaction.script_hash_type')}": `} value={content.hashType} />
-        <JSONKeyValueView title={`"${t('transaction.script_args')}": `} value={content.args} />
-        {btcUtxo ? (
-          <JSONKeyValueView
-            value={
-              <a
-                href={`${config.BITCOIN_EXPLORER}/tx/${btcUtxo.txid}#vout=${parseInt(btcUtxo.index!, 16)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.btcUtxo}
-              >
-                BTC UTXO
-                <CompassIcon />
-              </a>
-            }
-          />
-        ) : null}
-
-        {btcTimeLockInfo ? (
-          <JSONKeyValueView
-            value={
-              <a
-                href={`${config.BITCOIN_EXPLORER}/tx/${btcTimeLockInfo.txid}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.btcUtxo}
-              >
-                {`${btcTimeLockInfo.after} confirmations after BTC Tx`}
-                <CompassIcon />
-              </a>
-            }
-          />
-        ) : null}
-      </>
-    )
+    return <RGBPPValueRender content={content} />
   }
 
   if (isCapacityUsage(content)) {
