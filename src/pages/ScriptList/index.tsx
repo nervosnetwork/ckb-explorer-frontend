@@ -165,7 +165,7 @@ export const scripts = new Map<string, ScriptAttributes>([
       description:
         'Omnilock is a lock script designed for interoperability. It comes with built-in support for verification of transaction signing methods used in Bitcoin, Ethereum, EOS, and Dogecoin. Omnilock is also extensible, so more verification algorithms can be added in future.',
       rfc: 'https://github.com/nervosnetwork/rfcs/tree/master/rfcs/0042-omnilock',
-      code: 'https://github.com/nervosnetwork/ckb-production-scripts/blob/master/c/omni_lock.c',
+      code: 'https://github.com/cryptape/omnilock',
     },
   ],
   [
