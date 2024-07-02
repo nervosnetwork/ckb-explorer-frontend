@@ -165,7 +165,7 @@ const JSONKeyValueView = ({ title = '', value = '' }: { title?: string; value?: 
   </div>
 )
 
-const RGBPPValueRender = ({ content: script }: { content: Script }) => {
+const ScriptRender = ({ content: script }: { content: Script }) => {
   const { t } = useTranslation()
   const hashTag = getContractHashTag(script)
   const btcUtxo = getBtcUtxo(script)
@@ -179,7 +179,7 @@ const RGBPPValueRender = ({ content: script }: { content: Script }) => {
     enabled: !IS_MAINNET && !!txid,
   })
 
-  if (!IS_MAINNET && !identity) return null
+  if (!IS_MAINNET && txid && !identity) return null
 
   return (
     <>
@@ -237,7 +237,7 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
   const { t } = useTranslation()
 
   if (isScript(content)) {
-    return <RGBPPValueRender content={content} />
+    return <ScriptRender content={content} />
   }
 
   if (isCapacityUsage(content)) {
