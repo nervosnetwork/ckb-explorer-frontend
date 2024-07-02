@@ -3,6 +3,7 @@ import { FC, memo, PropsWithChildren, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dropdown, DropdownProps } from 'antd'
 import classNames from 'classnames'
+import dayjs from 'dayjs'
 import { Link } from '../../Link'
 import { MobileMenuItem, MobileMenuOuterLink, HeaderMenuPanel, MobileMenuInnerLink } from './styled'
 import styles from './index.module.scss'
@@ -11,6 +12,7 @@ import { CKBNodeModal } from '../CKBNodeComp/CKBNodeModal'
 import { ReactComponent as ArrowIcon } from './arrow.svg'
 import { IS_MAINNET } from '../../../constants/common'
 import { ReactComponent as MenuIcon } from './menu.svg'
+import { ReactComponent as NewIcon } from './new.svg'
 import { useCKBNode } from '../../../hooks/useCKBNode'
 
 export enum LinkType {
@@ -137,6 +139,12 @@ export const MoreMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
           <div className={styles.submenu}>
             <Link className={styles.link} to="/tools/address-conversion">
               {t('footer.tools')}
+              {/* TODO: remove this tag after 2024-08-01 */}
+              {dayjs().isBefore(dayjs('2024-08-01')) && (
+                <span className={styles.newTag} style={{ marginLeft: 4 }}>
+                  NEW
+                </span>
+              )}
             </Link>
             <span
               className={classNames(styles.link, styles.clickable)}
@@ -173,6 +181,8 @@ export const MoreMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
             className={classNames(styles.clickable, styles.headerMenusItem, styles.submenuTrigger, styles.moreMenus)}
           >
             <MenuIcon className={styles.moreIcon} />
+            {/* TODO: remove this after 2024-08-01 */}
+            {dayjs().isBefore(dayjs('2024-08-01')) && <NewIcon className={styles.newIcon} />}
           </span>
         )}
       </Dropdown>
