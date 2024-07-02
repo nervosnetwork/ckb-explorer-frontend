@@ -19,6 +19,7 @@
 
 .submenuTrigger {
   gap: 4px;
+  position: relative;
 
   .icon {
     transform: rotate(180deg);
@@ -30,6 +31,13 @@
     height: 22px;
     color: white;
     transition: all 0.2s;
+  }
+
+  .newIcon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: -24px;
   }
 
   &:hover {
@@ -110,4 +118,13 @@
   &:hover {
     color: var(--primary-color);
   }
+}
+
+.newTag {
+  font-size: 10px;
+  font-weight: bold;
+  font-style: italic;
+  background-color: #fff500;
+  padding: 4px 8px;
+  border-radius: 32px;
 }
