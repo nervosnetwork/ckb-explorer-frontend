@@ -1,26 +1,81 @@
+/* eslint-disable unused-imports/no-unused-imports */
 import { useParams, useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { Block as NodeBlock } from '@ckb-lumos/base'
+import { parseEpoch } from '@ckb-lumos/base/lib/since'
 import Content from '../../components/Content'
 import { BlockDetailPanel } from './styled'
-import { BlockOverviewCard, BlockComp } from './BlockComp'
+import { NodeBlockTransactionList } from './NodeBlockTransactionList'
+import { BlockOverviewCard, BlockOverviewCardProps, BlockComp } from './BlockComp'
 import { usePaginationParamsInPage } from '../../hooks'
+import { useCKBNode } from '../../hooks/useCKBNode'
 import { explorerService } from '../../services/ExplorerService'
 import { assert } from '../../utils/error'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultBlockInfo } from './state'
-import { isTransactionHash } from '../../utils/util'
+import { Block } from '../../models/Block'
+import { isNumeric, compactToDifficulty } from '../../utils/number'
+import { encodeNewAddress } from '../../utils/address'
+
+function transformNodeBlock(block: NodeBlock): BlockOverviewCardProps['block'] {
+  const epoch = parseEpoch(block.header.epoch)
+
+  return {
+    blockHash: block.header.hash,
+    number: parseInt(block.header.number, 16),
+    minerHash: encodeNewAddress(block.transactions[0].outputs[0].lock),
+    transactionsRoot: block.header.transactionsRoot,
+    transactionsCount: block.transactions.length,
+    proposalsCount: block.proposals.length,
+    unclesCount: block.uncles.length,
+    difficulty: compactToDifficulty(parseInt(block.header.compactTarget, 16)),
+    timestamp: block.header.timestamp,
+    nonce: block.header.nonce,
+    epochLength: epoch.length,
+    epochIndex: epoch.index,
+    epochNumber: epoch.number,
+  }
+}
+
+function transformBlock(block: Block): BlockOverviewCardProps['block'] {
+  return {
+    ...block,
+    epochIndex: parseInt(block.blockIndexInEpoch, 10),
+    epochLength: parseInt(block.length, 10),
+    epochNumber: block.epoch,
+    timestamp: block.timestamp.toString(),
+    cycles: block.cycles ?? undefined,
+    maxCycles: block.maxCycles ?? undefined,
+    maxCyclesInEpoch: block.maxCyclesInEpoch ?? undefined,
+  }
+}
 
 export default () => {
+  const { isActivated: nodeModeActivated } = useCKBNode()
   const { search } = useLocation()
   const { param: blockHeightOrHash } = useParams<{ param: string }>()
   const { currentPage, pageSize: pageSizeParam, setPage } = usePaginationParamsInPage()
-
   const filter = new URLSearchParams(search).get('filter')
+  const { nodeService } = useCKBNode()
 
-  const queryBlock = useQuery(['block', blockHeightOrHash], () => explorerService.api.fetchBlock(blockHeightOrHash))
-  const blockHash = queryBlock.data?.blockHash
-  const block = queryBlock.data ?? defaultBlockInfo
+  const nodeBlockQuery = useQuery(
+    ['node', 'block', 'info', blockHeightOrHash],
+    () =>
+      isNumeric(blockHeightOrHash)
+        ? nodeService.rpc.getBlockByNumber(`0x${parseInt(blockHeightOrHash, 10).toString(16)}`)
+        : nodeService.rpc.getBlock(blockHeightOrHash),
+    {
+      enabled: nodeModeActivated,
+    },
+  )
 
+  const blockQuery = useQuery(['block', blockHeightOrHash], () => explorerService.api.fetchBlock(blockHeightOrHash), {
+    enabled: !nodeModeActivated,
+  })
+
+  const nodeBlock = nodeBlockQuery.data ? transformNodeBlock(nodeBlockQuery.data) : transformBlock(defaultBlockInfo)
+  const block = nodeModeActivated ? nodeBlock : transformBlock(blockQuery.data ?? defaultBlockInfo)
+  const { blockHash } = block
   const queryBlockTransactions = useQuery(
     ['block-transactions', blockHash, currentPage, pageSizeParam, filter],
     async () => {
@@ -42,30 +97,32 @@ export default () => {
       }
     },
     {
-      enabled: blockHash != null,
+      enabled: blockHash != null && !nodeModeActivated,
     },
   )
 
   const pageSize = queryBlockTransactions.data?.pageSize ?? pageSizeParam
 
-  const blockHeight = !isTransactionHash(blockHeightOrHash) ? blockHeightOrHash : queryBlock.data?.number
-
   return (
     <Content>
       <BlockDetailPanel className="container">
-        <BlockOverviewCard blockHeightOrHash={blockHash ?? blockHeightOrHash} block={block} blockHeight={blockHeight} />
+        <BlockOverviewCard block={block} />
 
-        <QueryResult query={queryBlockTransactions} delayLoading>
-          {data => (
-            <BlockComp
-              onPageChange={setPage}
-              currentPage={currentPage}
-              pageSize={pageSize}
-              total={data?.total ?? 0}
-              transactions={data?.transactions ?? []}
-            />
-          )}
-        </QueryResult>
+        {nodeModeActivated ? (
+          <NodeBlockTransactionList transactions={nodeBlockQuery.data?.transactions ?? []} blockNumber={block.number} />
+        ) : (
+          <QueryResult query={queryBlockTransactions} delayLoading>
+            {data => (
+              <BlockComp
+                onPageChange={setPage}
+                currentPage={currentPage}
+                pageSize={pageSize}
+                total={data?.total ?? 0}
+                transactions={data?.transactions ?? []}
+              />
+            )}
+          </QueryResult>
+        )}
       </BlockDetailPanel>
     </Content>
   )

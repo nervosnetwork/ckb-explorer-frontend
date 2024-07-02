@@ -1,6 +1,10 @@
 import BigNumber from 'bignumber.js'
 import { BI } from '@ckb-lumos/bi'
 
+export function isNumeric(str: string) {
+  return !Number.isNaN(str) && !Number.isNaN(parseFloat(str))
+}
+
 export const localeNumberString = (value: BigNumber | string | number): string => {
   if (!value) return '0'
   const origin = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value

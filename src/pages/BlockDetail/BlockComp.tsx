@@ -2,6 +2,7 @@ import { ReactNode, FC } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { Tooltip } from 'antd'
+import { useQuery } from '@tanstack/react-query'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from '../../components/Link'
 import Pagination from '../../components/Pagination'
@@ -10,7 +11,7 @@ import { parseSimpleDate } from '../../utils/date'
 import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { useIsMobile, useSearchParams } from '../../hooks'
 import { hexToUtf8 } from '../../utils/string'
-import { deprecatedAddrToNewAddr, isNumber, shannonToCkb } from '../../utils/util'
+import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import { BlockLinkPanel, BlockMinerRewardPanel, BlockMinerMessagePanel, BlockTransactionsPagination } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import MoreIcon from '../../assets/more.png'
@@ -24,9 +25,9 @@ import AddressText from '../../components/AddressText'
 import ComparedToMaxTooltip from '../../components/Tooltip/ComparedToMaxTooltip'
 import Filter from '../../components/Filter'
 import { RawBtcRPC, useLatestBlockNumber } from '../../services/ExplorerService'
-import { Block } from '../../models/Block'
 import { Transaction } from '../../models/Transaction'
 import { CardHeader } from '../../components/Card/CardHeader'
+import { useCKBNode } from '../../hooks/useCKBNode'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -94,24 +95,59 @@ const BlockMinerReward = ({
   )
 }
 
-export const BlockOverviewCard: FC<{
-  blockHeightOrHash: string
-  block: Block
-  blockHeight?: string | number
-}> = ({ blockHeightOrHash, blockHeight, block }) => {
+export interface BlockOverviewCardProps {
+  block: {
+    blockHash: string
+    number: number
+    minerHash: string
+    transactionsRoot: string
+    transactionsCount: number
+    proposalsCount: number
+    unclesCount: number
+    difficulty: string
+    timestamp: string
+    nonce: string
+    epochLength: number
+    epochIndex: number
+    epochNumber: number
+    size?: number
+    minerReward?: string
+    minerMessage?: string
+    largestBlockInEpoch?: number
+    largestBlock?: number
+    cycles?: number
+    maxCyclesInEpoch?: number
+    maxCycles?: number
+  }
+}
+
+export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
+  const { nodeService, isActivated: nodeModeActivated } = useCKBNode()
   const isMobile = useIsMobile()
   const { t } = useTranslation()
-  const tipBlockNumber = useLatestBlockNumber()
-  const minerReward = <Capacity capacity={shannonToCkb(block.minerReward)} />
+  const backendTipBlockNumber = useLatestBlockNumber()
+  const { data: nodeTipBlockNumber = 0 } = useQuery(
+    ['node', 'tipBlockNumber'],
+    () => nodeService.rpc.getTipBlockNumber().then(res => parseInt(res, 16)),
+    {
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: true,
+      staleTime: 12 * 1000,
+      enabled: nodeModeActivated,
+    },
+  )
+
+  const tipBlockNumber = nodeModeActivated ? nodeTipBlockNumber : backendTipBlockNumber
   const rootInfoItem: CardCellInfo = {
     title: t('block.transactions_root'),
     tooltip: t('glossary.transactions_root'),
     content: <AddressText>{block.transactionsRoot}</AddressText>,
   }
+  const epochStartNumber = Number(block.number) - block.epochIndex
+  const rewardPending = tipBlockNumber - Number(block.number) < DELAY_BLOCK_NUMBER
   const sentBlockNumber = `${Number(block.number) + DELAY_BLOCK_NUMBER}`
-  const blockNumber = Number(
-    !blockHeight || (typeof blockHeight === 'string' && !isNumber(blockHeight)) ? 0 : blockHeight,
-  )
+  const blockNumber = Number(block.number)
   const overviewItems: CardCellInfo<'left' | 'right'>[] = [
     {
       title: t('block.block_height'),
@@ -122,7 +158,7 @@ export const BlockOverviewCard: FC<{
             <Link
               to={`/block/${blockNumber - 1}`}
               className={styles.prev}
-              data-disabled={!blockHeight || +blockNumber <= 0}
+              data-disabled={!block.number || +blockNumber <= 0}
             >
               <LeftArrow />
             </Link>
@@ -132,7 +168,7 @@ export const BlockOverviewCard: FC<{
             <Link
               to={`/block/${blockNumber + 1}`}
               className={styles.next}
-              data-disabled={!blockHeight || +blockNumber >= +tipBlockNumber}
+              data-disabled={!blockNumber || +blockNumber >= +tipBlockNumber}
             >
               <LeftArrow />
             </Link>
@@ -151,36 +187,44 @@ export const BlockOverviewCard: FC<{
       tooltip: t('glossary.transactions'),
       content: localeNumberString(block.transactionsCount),
     },
-    {
-      title: t('block.miner_message'),
-      tooltip: t('glossary.miner_message'),
-      contentWrapperClass: styles.addressWidthModify,
-      content: <BlockMinerMessage minerMessage={block.minerMessage ?? t('common.none')} />,
-    },
-    {
-      title: t('block.size'),
-      tooltip: t('glossary.size'),
-      content: block.size ? (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {`${block.size.toLocaleString('en')} Bytes`}
-          <ComparedToMaxTooltip
-            numerator={block.size}
-            maxInEpoch={block.largestBlockInEpoch}
-            maxInChain={block.largestBlock}
-            titleInEpoch={t('block.compared_to_the_max_size_in_epoch')}
-            titleInChain={t('block.compared_to_the_max_size_in_chain')}
-            unit="Bytes"
-          />
-        </div>
-      ) : (
-        '-'
-      ),
-    },
+    ...(block.minerMessage
+      ? [
+          {
+            title: t('block.miner_message'),
+            tooltip: t('glossary.miner_message'),
+            contentWrapperClass: styles.addressWidthModify,
+            content: <BlockMinerMessage minerMessage={block.minerMessage ?? t('common.none')} />,
+          },
+        ]
+      : []),
+    ...(block.size
+      ? [
+          {
+            title: t('block.size'),
+            tooltip: t('glossary.size'),
+            content: block.size ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {`${block.size.toLocaleString('en')} Bytes`}
+                <ComparedToMaxTooltip
+                  numerator={block.size}
+                  maxInEpoch={block.largestBlockInEpoch ?? null}
+                  maxInChain={block.largestBlock ?? null}
+                  titleInEpoch={t('block.compared_to_the_max_size_in_epoch')}
+                  titleInChain={t('block.compared_to_the_max_size_in_chain')}
+                  unit="Bytes"
+                />
+              </div>
+            ) : (
+              '-'
+            ),
+          },
+        ]
+      : []),
     {
       slot: 'left',
       cell: {
@@ -196,8 +240,8 @@ export const BlockOverviewCard: FC<{
             {`${block.cycles.toLocaleString('en')}`}
             <ComparedToMaxTooltip
               numerator={block.cycles}
-              maxInEpoch={block.maxCyclesInEpoch}
-              maxInChain={block.maxCycles}
+              maxInEpoch={block.maxCyclesInEpoch ?? null}
+              maxInChain={block.maxCycles ?? null}
               titleInEpoch={t('block.compared_to_the_max_cycles_in_epoch')}
               titleInChain={t('block.compared_to_the_max_cycles_in_chain')}
             />
@@ -218,25 +262,29 @@ export const BlockOverviewCard: FC<{
     {
       title: t('block.epoch'),
       tooltip: t('glossary.epoch'),
-      content: localeNumberString(block.epoch),
+      content: localeNumberString(block.epochNumber),
     },
-    {
-      title: t('block.miner_reward'),
-      tooltip: t('glossary.miner_reward'),
-      content: (
-        <BlockMinerReward
-          value={block.rewardStatus === 'pending' ? t('block.pending') : minerReward}
-          tooltip={block.rewardStatus === 'pending' ? t('block.pending_tip') : t('block.reward_sent_tip')}
-          sentBlockNumber={block.rewardStatus === 'pending' ? undefined : sentBlockNumber}
-        />
-      ),
-    },
+    ...(block.minerReward
+      ? [
+          {
+            title: t('block.miner_reward'),
+            tooltip: t('glossary.miner_reward'),
+            content: (
+              <BlockMinerReward
+                value={rewardPending ? t('block.pending') : <Capacity capacity={shannonToCkb(block.minerReward)} />}
+                tooltip={rewardPending ? t('block.pending_tip') : t('block.reward_sent_tip')}
+                sentBlockNumber={sentBlockNumber}
+              />
+            ),
+          },
+        ]
+      : []),
     {
       title: t('block.epoch_start_number'),
       tooltip: t('glossary.epoch_start_number'),
       content: (
         <BlockLinkPanel>
-          <Link to={`/block/${block.startNumber}`}>{localeNumberString(block.startNumber)}</Link>
+          <Link to={`/block/${epochStartNumber}`}>{localeNumberString(epochStartNumber)}</Link>
         </BlockLinkPanel>
       ),
     },
@@ -248,7 +296,7 @@ export const BlockOverviewCard: FC<{
     {
       title: t('block.block_index'),
       tooltip: t('glossary.block_index'),
-      content: `${Number(block.blockIndexInEpoch) + 1}/${block.length}`,
+      content: `${Number(block.epochIndex) + 1}/${block.epochLength}`,
     },
     {
       title: t('block.nonce'),
@@ -281,7 +329,7 @@ export const BlockOverviewCard: FC<{
 
   return (
     <Card>
-      <HashCardHeader title={t('block.block')} hash={blockHeightOrHash} />
+      <HashCardHeader title={t('block.block')} hash={block.blockHash} />
       <CardCellsLayout type="left-right" cells={overviewItems} borderTop />
       {!isMobile && <CardCell {...rootInfoItem} className={styles.cellTransactionsRoot} />}
     </Card>
