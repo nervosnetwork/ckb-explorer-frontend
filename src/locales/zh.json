@@ -682,7 +682,7 @@
       "view_apc_trending": "预计年化补贴率(APC)"
     },
     "error": {
-      "maintain": "最新区块为 {{tip}}, 当前同步高度落后 {{lag}} 区块",
+      "maintain": "最新区块为 {{tip}}, 当前同步高度落后 {{lag}} 区块. 可以使用 <switcher>节点模式</switcher>查看最新数据",
       "page_crashed_tip": "遇到了一些错误",
       "back_home": "前往首页",
       "codes": {
