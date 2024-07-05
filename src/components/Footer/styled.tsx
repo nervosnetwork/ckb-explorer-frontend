@@ -12,12 +12,24 @@ export const FooterPanel = styled.div`
   }
 
   .footerCopyright {
+    border-top: 1px solid #333;
+    padding-top: 16px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
     margin-bottom: 16px;
     font-size: 12px;
     color: #acacac;
+
+    .power {
+      display: flex;
+      align-items: center;
+      color: #999;
+      margin-right: auto;
+
+      &:hover {
+        color: ${props => props.theme.primary};
+      }
+    }
 
     @media (max-width: ${variables.mobileBreakPoint}) {
       margin: 0 0 20px 20px;
@@ -32,7 +44,8 @@ export const FooterPanel = styled.div`
 
 export const FooterMenuPanel = styled.div`
   overflow: hidden;
-  margin: 44px auto 52px;
+  margin-top: 44px;
+  margin-bottom: 32px;
   display: flex;
   flex-direction: row;
   justify-content: center;
