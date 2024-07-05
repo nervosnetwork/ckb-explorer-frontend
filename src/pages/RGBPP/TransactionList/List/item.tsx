@@ -26,14 +26,6 @@ const Item = ({ item }: { item: Transaction }) => {
   const statistics = useStatistics()
   const tipBlockNumber = parseInt(statistics?.tipBlockNumber ?? '0', 10)
 
-  let leapDirection = '/'
-  if (item.type === TransactionLeapDirection.IN) {
-    leapDirection = t('address.leap_in')
-  }
-
-  if (item.type === TransactionLeapDirection.OUT) {
-    leapDirection = t('address.leap_out')
-  }
   const { data: identity } = useQuery({
     queryKey: ['btc-testnet-identity', item.btcTxId],
     queryFn: () => (item.btcTxId ? getBtcChainIdentify(item.btcTxId) : null),
@@ -71,7 +63,7 @@ const Item = ({ item }: { item: Transaction }) => {
         {dayjs(item.time).fromNow()}
       </td>
       <td className={styles.type} title={t('rgbpp.transaction.type')}>
-        {leapDirection}
+        {item.type === TransactionLeapDirection.NONE ? '/' : t(`address.leap_${item.type}`)}
       </td>
       <td className={styles.cellChange} title={t('rgbpp.transaction.rgbpp_cell_change')}>
         {`${item.cellChange > 0 ? '+' : ''}${item.cellChange}`}{' '}
