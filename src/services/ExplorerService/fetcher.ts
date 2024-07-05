@@ -24,7 +24,7 @@ import { Block } from '../../models/Block'
 import { BtcTx, Transaction } from '../../models/Transaction'
 import { Address, AddressType } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
-import { XUDT } from '../../models/Xudt'
+import { XUDT, XUDTHolderAllocation } from '../../models/Xudt'
 import { HashType } from '../../constants/common'
 import { Dob, getDobs } from '../DobsService'
 import { isDob0 } from '../../utils/spore'
@@ -795,6 +795,8 @@ export const apiFetcher = {
   },
 
   fetchXudt: (typeHash: string) => v1GetUnwrapped<XUDT>(`/xudts/${typeHash}`),
+  fetchXudtHolderAllocation: (typeHash: string) =>
+    requesterV1.get(`/udts/${typeHash}/holder_allocation`).then(res => toCamelcase<XUDTHolderAllocation>(res.data)),
 
   fetchXudts: (page: number, size: number, sort?: string, tags?: string) =>
     v1GetUnwrappedPagedList<XUDT>(`/xudts`, {
