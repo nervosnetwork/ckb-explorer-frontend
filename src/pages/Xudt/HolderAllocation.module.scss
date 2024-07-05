@@ -29,8 +29,10 @@
     flex-direction: column;
     align-items: center;
     gap: 24px;
+    min-width: 397px;
 
     @media (max-width: $mobileBreakPoint) {
+      min-width: 0;
       align-items: flex-start;
 
       p {

@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import axios from 'axios'
 import config from '../../../config'
 import { useCKBNode } from '../../../hooks/useCKBNode'
 import { useLatestBlockNumber } from '../../../services/ExplorerService'
+import { CKBNodeModal } from '../CKBNodeComp/CKBNodeModal'
 import styles from './styles.module.scss'
 
 const { BACKUP_NODES: backupNodes } = config
@@ -24,7 +26,8 @@ const getTipFromNode = (url: string): Promise<string> =>
   }).then(res => res.data.result)
 
 const MaintainAlert = () => {
-  const { t } = useTranslation()
+  const [nodeModalVisible, setNodeModalVisible] = useState(false)
+
   const synced = useLatestBlockNumber()
   const { isActivated } = useCKBNode()
   const { data: tip } = useQuery(
@@ -52,9 +55,19 @@ const MaintainAlert = () => {
   const lag = tip && synced ? tip - synced : 0
 
   return lag >= threshold && !isActivated ? (
-    <div className={styles.container}>
-      {t('error.maintain', { tip: tip?.toLocaleString('en'), lag: lag.toLocaleString('en') })}
-    </div>
+    <>
+      <div className={styles.container}>
+        <Trans
+          i18nKey="error.maintain"
+          values={{ tip: tip?.toLocaleString('en'), lag: lag.toLocaleString('en') }}
+          components={{
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            switcher: <span className={styles.clickable} onClick={() => setNodeModalVisible(true)} />,
+          }}
+        />
+      </div>
+      {nodeModalVisible ? <CKBNodeModal onClose={() => setNodeModalVisible(false)} /> : null}
+    </>
   ) : null
 }
 

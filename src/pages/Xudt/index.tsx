@@ -23,10 +23,13 @@ export const Xudt = () => {
   const { filter } = useSearchParams('filter')
 
   const updateSearchParams = useUpdateSearchParams<'filter' | 'page'>()
-  const queryUDT = useQuery(['udt', typeHash], () => explorerService.api.fetchSimpleUDT(typeHash))
 
   const queryXudt = useQuery(['xudt', typeHash], () => explorerService.api.fetchXudt(typeHash))
   const xudt = queryXudt.data
+  const queryXudtHolderAllocation = useQuery(['xudt-holder-allocation', typeHash], () =>
+    explorerService.api.fetchXudtHolderAllocation(typeHash),
+  )
+  const holderAllocation = queryXudtHolderAllocation.data
 
   const querySimpleUDTTransactions = useQuery(
     ['xudt-transactions', typeHash, currentPage, _pageSize, filter],
@@ -69,7 +72,15 @@ export const Xudt = () => {
   return (
     <Content>
       <div className={classNames(styles.container, 'container')}>
-        <UDTOverviewCard typeHash={typeHash} xudt={xudt} refetchUDT={queryUDT.refetch} />
+        <UDTOverviewCard
+          typeHash={typeHash}
+          xudt={xudt}
+          holderAllocation={holderAllocation}
+          refetchUDT={() => {
+            queryXudt.refetch()
+            queryXudtHolderAllocation.refetch()
+          }}
+        />
 
         <div className={styles.udtTransactionTitlePanel}>
           <div className={styles.udtTransactionContainer}>

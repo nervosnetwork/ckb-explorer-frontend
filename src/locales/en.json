@@ -681,7 +681,7 @@
       "view_apc_trending": "Nominal APC"
     },
     "error": {
-      "maintain": "The tip block number {{tip}}, the current synced block lagging behind by {{lag}} blocks",
+      "maintain": "The tip block number {{tip}}, the current synced block lagging behind by {{lag}} blocks. You can use <switcher>node-connection mode</switcher> to track the latest data",
       "page_crashed_tip": "Oops! Some errors were encountered.",
       "back_home": "BACK HOME",
       "codes": {
@@ -991,7 +991,7 @@
       "tx_in_camel_case": "Transaction in Camel Case"
     },
     "node": {
-      "alert": "Currently on the node-connect mode. The explorer data will be fetched from the node, so some features/data cannot be supported. You can <switcher>click here</switcher> to switch",
+      "alert": "Currently on the node-connection mode. The explorer data will be fetched from the node, so some features/data cannot be supported. You can <switcher>click here</switcher> to switch",
       "done": "Done",
       "node_connect_mode": "Node Connect Mode",
       "node_connect_tooltip": "When the node-connection mode is enabled, the data will be fetched from the node directly, so some features/data will not be supported."

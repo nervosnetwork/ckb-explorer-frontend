@@ -14,4 +14,9 @@
   @media (width <= $mobileBreakPoint) {
     text-align: left;
   }
+
+  .clickable {
+    color: var(--primary-color);
+    cursor: pointer;
+  }
 }
