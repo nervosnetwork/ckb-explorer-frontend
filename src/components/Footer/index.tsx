@@ -159,7 +159,7 @@ export default memo(() => {
           </div>
         </FooterMenuPanel>
       </div>
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', whiteSpace: 'pre' }}>
         <div className="footerCopyright container">
           <a className="power" href="https://www.magickbase.com" target="_blank" rel="noreferrer">
             Powered by Magickbase <Open width={16} />
