@@ -103,14 +103,18 @@ export const getContractHashTag = (script: Script): ContractHashTag | undefined 
   return contractHashTag
 }
 
-export const matchScript = (contractHash: string, hashType: string): ContractHashTag | undefined => {
+export const matchScript = (contractHash: string, hashType?: string): ContractHashTag | undefined => {
   if (isMainnet()) {
     return MainnetContractHashTags.find(
-      scriptTag => scriptTag.codeHashes.find(codeHash => codeHash === contractHash) && scriptTag.hashType === hashType,
+      scriptTag =>
+        scriptTag.codeHashes.find(codeHash => codeHash === contractHash) &&
+        (!hashType || scriptTag.hashType === hashType),
     )
   }
   return TestnetContractHashTags.find(
-    scriptTag => scriptTag.codeHashes.find(codeHash => codeHash === contractHash) && scriptTag.hashType === hashType,
+    scriptTag =>
+      scriptTag.codeHashes.find(codeHash => codeHash === contractHash) &&
+      (!hashType || scriptTag.hashType === hashType),
   )
 }
 

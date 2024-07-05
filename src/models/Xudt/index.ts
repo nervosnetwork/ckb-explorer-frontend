@@ -1,6 +1,16 @@
 import { Script } from '../Script'
 
+export interface XUDTHolderAllocation {
+  btcHolderCount: string
+  lockHashes: {
+    name: string
+    holderCount: string
+    codeHash: string
+  }[]
+}
+
 export interface XUDT {
+  addressesCount: string
   createdAt: string
   h24CkbTransactionsCount: string
   issuerAddress: string
@@ -13,14 +23,6 @@ export interface XUDT {
   typeScript: Script
   udtType: 'xudt'
   xudtTags?: string[]
-  holderAllocation?: {
-    ckbHoldersCount: string
-    btcHoldersCount: string
-    lockHoderAmount: {
-      lock: string
-      holderAmount: string
-    }[]
-  }
   iconFile: string
   operatorWebsite: string
   email: string

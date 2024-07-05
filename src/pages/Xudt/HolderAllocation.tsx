@@ -4,58 +4,75 @@ import styles from './HolderAllocation.module.scss'
 import { localeNumberString } from '../../utils/number'
 import CloseIcon from '../../assets/modal_close.png'
 import SimpleButton from '../../components/SimpleButton'
+import { matchScript } from '../../utils/util'
+import EllipsisMiddle from '../../components/EllipsisMiddle'
 
 const HolderAllocation = ({
-  allocation,
+  ckbHolderAmount,
+  btcHolderAmount,
+  lockHoderAmount,
   onClose,
 }: {
-  allocation: Record<string, number>
+  ckbHolderAmount: string
+  btcHolderAmount: string
+  lockHoderAmount?: {
+    name: string
+    holderCount: string
+    codeHash: string
+  }[]
   onClose: MouseEventHandler<HTMLDivElement>
 }) => {
   const [t] = useTranslation()
-  const total = Object.values(allocation).reduce((acc, cur) => acc + cur, 0)
-  const btc = allocation.BTC
-  const ckb = total - btc
   return (
     <div className={styles.holderAllocationContainer}>
       <div className={styles.holderAllocationContent}>
         <h2>{t('xudt.holder_allocation')}</h2>
         <p>
           {t('xudt.holder_allocation_description', {
-            ckb: localeNumberString(ckb),
-            btc: localeNumberString(btc),
+            ckb: ckbHolderAmount,
+            btc: localeNumberString(btcHolderAmount),
           })}
         </p>
-        <div className={styles.table}>
-          <table>
-            <thead>
-              <tr>
-                <td>
-                  <div>{t('xudt.category')}</div>
-                </td>
-                <td>
-                  <div>{t('xudt.count')}</div>
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              {Object.entries(allocation)
-                .sort((a, b) => b[1] - a[1])
-                .map(([label, count]) => {
-                  return (
+        {lockHoderAmount && (
+          <div className={styles.table}>
+            <table>
+              <thead>
+                <tr>
+                  <td>
+                    <div>{t('xudt.lock_hash')}</div>
+                  </td>
+                  <td>
+                    <div>{t('xudt.count')}</div>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                {parseInt(btcHolderAmount, 10) > 0 && (
+                  <tr>
+                    <td>
+                      <div>BTC</div>
+                    </td>
+                    <td>
+                      <div>{localeNumberString(btcHolderAmount)}</div>
+                    </td>
+                  </tr>
+                )}
+                {lockHoderAmount
+                  .sort((a, b) => +b.holderCount - +a.holderCount)
+                  .map(amount => (
                     <tr>
                       <td>
-                        <div>{label}</div>
+                        <EllipsisMiddle>{matchScript(amount.codeHash)?.tag ?? amount.codeHash}</EllipsisMiddle>
                       </td>
                       <td>
-                        <div>{localeNumberString(count)}</div>
+                        <div>{localeNumberString(amount.holderCount)}</div>
                       </td>
                     </tr>
-                  )
-                })}
-            </tbody>
-          </table>
-        </div>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
       <SimpleButton onClick={onClose} className={styles.closeIcon}>
         <img src={CloseIcon} alt="close icon" />
