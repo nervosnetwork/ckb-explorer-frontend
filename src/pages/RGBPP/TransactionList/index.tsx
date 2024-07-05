@@ -27,12 +27,18 @@ const RGBPPTransactionList = () => {
       transactions: data.ckbTransactions.map<Transaction>(tx => {
         let leapDirection = TransactionLeapDirection.NONE
 
-        if (tx.leapDirection === 'in') {
-          leapDirection = TransactionLeapDirection.IN
-        }
-
-        if (tx.leapDirection === '') {
-          leapDirection = TransactionLeapDirection.OUT
+        switch (tx.leapDirection) {
+          case 'in':
+            leapDirection = TransactionLeapDirection.IN
+            break
+          case 'leapoutBTC':
+            leapDirection = TransactionLeapDirection.OUT
+            break
+          case 'withinBTC':
+            leapDirection = TransactionLeapDirection.WITH_IN_BTC
+            break
+          default:
+            leapDirection = TransactionLeapDirection.NONE
         }
 
         return {
