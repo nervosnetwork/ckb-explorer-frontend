@@ -33,10 +33,6 @@ export const CKBNodeModal = ({ onClose }: { onClose: () => void }) => {
               onCheckedChange={checked => setIsActivated(checked)}
             />
           </div>
-
-          <button type="button" className={styles.doneBtn} onClick={onClose}>
-            {t('node.done')}
-          </button>
         </div>
       </div>
     </CommonModal>
