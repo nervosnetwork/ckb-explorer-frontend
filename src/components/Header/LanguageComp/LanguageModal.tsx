@@ -38,10 +38,6 @@ export const LanguageModal = ({ onClose }: { onClose: () => void }) => {
               defaultValue={currentLanguage}
             />
           </div>
-
-          <button type="button" className={styles.doneBtn} onClick={onClose}>
-            {t('nervos_dao.done')}
-          </button>
         </div>
       </div>
     </CommonModal>
