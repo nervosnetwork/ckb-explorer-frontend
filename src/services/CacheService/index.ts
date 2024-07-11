@@ -16,7 +16,7 @@ type CacheOptions = ExpireOptions & {
 }
 
 export interface CacheData<T = unknown> {
-  expireAt: number
+  expireAt?: number
   data: T
 }
 
@@ -50,10 +50,14 @@ export class CacheService {
     const finalKey = `${keyPrefix}_${key}`
 
     try {
-      this.persistenceService.set<CacheData<T>>(finalKey, {
+      const opt: CacheData<T> = {
         expireAt: expireAt instanceof Date ? expireAt.getTime() : expireAt ?? Date.now() + expireTime,
         data: value,
-      })
+      }
+      if (opt.expireAt === Number.POSITIVE_INFINITY) {
+        delete opt.expireAt
+      }
+      this.persistenceService.set<CacheData<T>>(finalKey, opt)
       return true
     } catch (err) {
       // Cache failure is acceptable, just swallow the error.
@@ -72,7 +76,7 @@ export class CacheService {
 
   removeIfExpired(key: string, cacheData: CacheData<unknown> | undefined) {
     if (cacheData == null) return true
-    if (cacheData.expireAt > Date.now()) return false
+    if (cacheData.expireAt === undefined || cacheData.expireAt > Date.now()) return false
 
     this.persistenceService.remove(key)
     return true
