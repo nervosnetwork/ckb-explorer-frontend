@@ -709,7 +709,9 @@
       "current_page": "Page",
       "of_page": "of",
       "only_first_pages_visible": "Showing first {{pages}} pages",
-      "show_rows": "Show Rows"
+      "show_rows": "Show Rows",
+      "load_more": "Load More",
+      "no_more_data": "No more data"
     },
     "udt": {
       "sudt": "sUDT",
@@ -899,6 +901,8 @@
       "to_block": "To Block",
       "block_height": "Block Height",
       "note_str": "The earliest 5,000 records within the selected range will be exported",
+      "dao_tx_note_str": "The earliest 5,000 transactions within the selected range will be exported, the number of records may exceed 5,000 because a single transaction can include multiple records.",
+      "dao_depositor_note_str": "The Top 5,000 depositors based on within the selected range will be exported",
       "download": "Download",
       "block_number": "Block Number",
       "please_pick_date": "please pick start date and end date!",

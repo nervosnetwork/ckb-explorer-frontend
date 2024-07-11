@@ -14,7 +14,7 @@ import { assert } from '../../utils/error'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultBlockInfo } from './state'
 import { Block } from '../../models/Block'
-import { isNumeric, compactToDifficulty } from '../../utils/number'
+import { isBlockNumber, compactToDifficulty } from '../../utils/number'
 import { encodeNewAddress } from '../../utils/address'
 
 function transformNodeBlock(block: NodeBlock): BlockOverviewCardProps['block'] {
@@ -61,7 +61,7 @@ export default () => {
   const nodeBlockQuery = useQuery(
     ['node', 'block', 'info', blockHeightOrHash],
     () =>
-      isNumeric(blockHeightOrHash)
+      isBlockNumber(blockHeightOrHash)
         ? nodeService.rpc.getBlockByNumber(`0x${parseInt(blockHeightOrHash, 10).toString(16)}`)
         : nodeService.rpc.getBlock(blockHeightOrHash),
     {

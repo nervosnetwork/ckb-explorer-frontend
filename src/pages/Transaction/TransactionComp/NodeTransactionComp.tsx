@@ -17,10 +17,10 @@ export const NodeTransactionComp = ({
   const isCellBase = checkIsCellBase(transaction)
   const { nodeService } = useCKBNode()
   const { data: cellBaseBlockHeader } = useQuery(
-    ['node', 'block', blockNumber ? parseInt(blockNumber, 16) - 11 : null],
-    () => (blockNumber ? nodeService.rpc.getBlockByNumber((parseInt(blockNumber, 16) - 11).toString(16)) : null),
+    ['node', 'header', blockNumber ? parseInt(blockNumber, 16) - 11 : null],
+    () => nodeService.rpc.getHeaderByNumber(`0x${(parseInt(blockNumber!, 16) - 11).toString(16)}`),
     {
-      enabled: isCellBase,
+      enabled: isCellBase && Boolean(blockNumber),
     },
   )
 
@@ -33,7 +33,7 @@ export const NodeTransactionComp = ({
     <>
       <div className="transactionInputs">
         {isCellBase ? (
-          <NodeTransactionCellBase blockHash={cellBaseBlockHeader?.header.hash} blockNumber={blockNumber} />
+          <NodeTransactionCellBase blockHash={cellBaseBlockHeader?.hash} blockNumber={blockNumber} />
         ) : (
           <>
             <Loading show={isInputsLoading} />

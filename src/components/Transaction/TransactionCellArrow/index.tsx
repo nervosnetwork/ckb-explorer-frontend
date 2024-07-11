@@ -33,16 +33,21 @@ export const CellInputIcon = ({ cell }: { cell: Partial<Pick<Cell, 'generatedTxH
     </Link>
   ) : null
 
-export const CellOutputIcon = ({ cell }: { cell: Pick<Cell, 'status' | 'consumedTxHash'> }) => {
+export const CellOutputIcon = ({ cell }: { cell: Partial<Pick<Cell, 'status' | 'consumedTxHash'>> }) => {
   const { t } = useTranslation()
 
-  if (cell.status === 'dead') {
+  if (cell.status === 'dead' && cell.consumedTxHash) {
     return (
       <Link to={`/transaction/${cell.consumedTxHash}`}>
         <RightArrow status="dead" />
       </Link>
     )
   }
+
+  if (cell.status === 'dead') {
+    return <RightArrow status="dead" />
+  }
+
   return (
     <Tooltip placement="topRight" title={t('transaction.unspent_output')} arrowPointAtCenter>
       <RightArrow status="live" />

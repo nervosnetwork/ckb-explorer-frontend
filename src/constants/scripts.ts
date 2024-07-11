@@ -688,6 +688,14 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     tag: 'DID',
     category: 'type',
   },
+  {
+    codeHashes: ['0x6ae5ee0cb887b2df5a9a18137315b9bdc55be8d52637b2de0624092d5f0c91d5'],
+    txHashes: ['0xa2a434dcdbe280b9ed75bb7d6c7d68186a842456aba0fc506657dc5ed7c01d68-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Nostr',
+    category: 'lock',
+  },
 ]
 
 const getLumosScripts = (scripts: ContractHashTag[]): ScriptConfigs =>

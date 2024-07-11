@@ -245,8 +245,7 @@
     > div {
       background: white;
       text-align: center;
-      padding-top: 56px;
-      padding-bottom: 40px;
+      padding: 56px 24px 40px;
 
       @media (width <= $mobileBreakPoint) {
         padding: 24px 8px 16px;

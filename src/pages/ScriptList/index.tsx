@@ -251,6 +251,15 @@ export const scripts = new Map<string, ScriptAttributes>([
       doc: 'https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/locscript-design-prd-cn.md#btc_time_lock',
     },
   ],
+  [
+    'Nostr',
+    {
+      name: 'Nostr',
+      description: 'The Nostr lock script is designed for interoperability with Nostr.',
+      doc: 'https://github.com/cryptape/nostr-binding/blob/main/docs/lightpaper.md',
+      code: 'https://github.com/cryptape/nostr-binding/',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']
