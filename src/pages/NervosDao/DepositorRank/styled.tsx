@@ -7,6 +7,15 @@ export const DepositorRankPanel = styled.div`
   padding: 20px 40px;
   margin-top: 4px;
   box-shadow: 2px 2px 6px 0 #dfdfdf;
+`
+
+export const DepositorFooterPanel = styled.div`
+  width: 100%;
+  background: white;
+  padding: 8px 40px;
+  display: flex;
+  margin-top: 4px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
   border-radius: 0 0 6px 6px;
 `
 

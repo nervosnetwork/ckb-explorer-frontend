@@ -5,6 +5,10 @@ export function isNumeric(str: string) {
   return !Number.isNaN(str) && !Number.isNaN(parseFloat(str))
 }
 
+export function isBlockNumber(str: string) {
+  return !Number.isNaN(str) && !Number.isNaN(parseFloat(str)) && parseFloat(str) !== 0
+}
+
 export const localeNumberString = (value: BigNumber | string | number): string => {
   if (!value) return '0'
   const origin = typeof value === 'string' || typeof value === 'number' ? new BigNumber(value) : value

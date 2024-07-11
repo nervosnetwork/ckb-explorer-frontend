@@ -3,17 +3,30 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { Transaction } from '@ckb-lumos/base'
 import styles from './styles.module.scss'
+import { useParsedDate } from '../../hooks'
 import { ReactComponent as DirectionIcon } from '../../assets/direction.svg'
 import NodeTransactionItemCell from './TransactionItemCell/NodeTransactionItemCell'
 import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import TransactionCellListPanel from './TransactionItemCellList/styled'
+import { localeNumberString, isBlockNumber } from '../../utils/number'
 import { getTransactionOutputCells, checkIsCellBase } from '../../utils/transaction'
 import Loading from '../Loading'
 import AddressText from '../AddressText'
 import { useCKBNode } from '../../hooks/useCKBNode'
 import Cellbase from '../Transaction/Cellbase'
+import { IOType } from '../../constants/common'
 
-const NodeTransactionItem = ({ transaction, blockNumber }: { transaction: Transaction; blockNumber?: number }) => {
+const NodeTransactionItem = ({
+  transaction,
+  blockHashOrNumber,
+  highlightAddress,
+  showBlock = true,
+}: {
+  transaction: Transaction
+  blockHashOrNumber?: string
+  highlightAddress?: string
+  showBlock?: boolean
+}) => {
   const { t } = useTranslation()
   const ref = useRef<HTMLDivElement>(null)
   const { nodeService } = useCKBNode()
@@ -22,6 +35,22 @@ const NodeTransactionItem = ({ transaction, blockNumber }: { transaction: Transa
     ['node', 'inputCells', transaction!.hash],
     () => nodeService.getInputCells(transaction.inputs),
   )
+
+  const { data: blockHeader } = useQuery(
+    ['node', 'header', blockHashOrNumber],
+    () => {
+      if (!blockHashOrNumber) return null
+
+      return isBlockNumber(blockHashOrNumber)
+        ? nodeService.rpc.getHeaderByNumber(`0x${parseInt(blockHashOrNumber, 10).toString(16)}`)
+        : nodeService.rpc.getHeader(blockHashOrNumber)
+    },
+    {
+      enabled: !!blockHashOrNumber,
+    },
+  )
+
+  const localTime = useParsedDate(blockHeader?.timestamp ?? 0)
 
   const outputCells = getTransactionOutputCells(transaction)
 
@@ -41,18 +70,29 @@ const NodeTransactionItem = ({ transaction, blockNumber }: { transaction: Transa
                 {transaction.hash!}
               </AddressText>
             </div>
+            {blockHashOrNumber && blockHeader && showBlock && (
+              <div className={styles.right}>
+                <time dateTime={localTime} className="transactionItemBlock">
+                  {`(${t('block.block')} ${localeNumberString(parseInt(blockHeader.number, 16))}) ${localTime}`}
+                </time>
+              </div>
+            )}
           </div>
         </TransactionHashBlockPanel>
         <TransactionCellPanel>
           <div className="transactionItemInput">
             <TransactionCellListPanel>
               {checkIsCellBase(transaction) ? (
-                <Cellbase cell={blockNumber ? { targetBlockNumber: blockNumber - 11 } : {}} />
+                <Cellbase cell={blockHeader ? { targetBlockNumber: parseInt(blockHeader.number, 16) - 11 } : {}} />
               ) : null}
               <Loading show={isInputsLoading} />
-              {inputCells.map((cell, index) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <NodeTransactionItemCell cell={cell} key={index} />
+              {inputCells.map(cell => (
+                <NodeTransactionItemCell
+                  cell={cell}
+                  key={`${cell.outPoint?.txHash!}-${cell.outPoint?.index}`}
+                  ioType={IOType.Input}
+                  highlightAddress={highlightAddress}
+                />
               ))}
             </TransactionCellListPanel>
           </div>
@@ -63,7 +103,7 @@ const NodeTransactionItem = ({ transaction, blockNumber }: { transaction: Transa
                 {outputCells.map((cell, index) => (
                   // eslint-disable-next-line react/no-array-index-key
                   <FullPanel key={index}>
-                    <NodeTransactionItemCell cell={cell} />
+                    <NodeTransactionItemCell cell={cell} ioType={IOType.Output} highlightAddress={highlightAddress} />
                   </FullPanel>
                 ))}
               </TransactionCellListPanel>

@@ -12,9 +12,11 @@ import { CardHeader } from '../../components/Card/CardHeader'
 export const NodeBlockTransactionList = ({
   transactions,
   blockNumber,
+  highlightAddress,
 }: {
   transactions: Transaction[]
   blockNumber?: number
+  highlightAddress?: string
 }) => {
   const { t } = useTranslation()
   const [page, setPage] = useState(1)
@@ -32,7 +34,13 @@ export const NodeBlockTransactionList = ({
       </Card>
 
       {transactions.slice((page - 1) * pageSize, page * pageSize).map(transaction => (
-        <NodeTransactionItem key={transaction.hash} transaction={transaction} blockNumber={blockNumber} />
+        <NodeTransactionItem
+          showBlock={false}
+          key={transaction.hash}
+          transaction={transaction}
+          blockHashOrNumber={blockNumber?.toString()}
+          highlightAddress={highlightAddress}
+        />
       ))}
 
       {totalPages > 1 && (

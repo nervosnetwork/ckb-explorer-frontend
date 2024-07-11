@@ -1,11 +1,13 @@
 import { useState, FC, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Radio } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons'
 import { utils } from '@ckb-lumos/base'
 import { Link } from '../../components/Link'
 import TransactionItem from '../../components/TransactionItem/index'
+import NodeTransactionItem from '../../components/TransactionItem/NodeTransactionItem'
 import { explorerService, RawBtcRPC } from '../../services/ExplorerService'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb, deprecatedAddrToNewAddr } from '../../utils/util'
@@ -46,6 +48,8 @@ import { CardHeader } from '../../components/Card/CardHeader'
 import Cells from './Cells'
 import DefinedTokens from './DefinedTokens'
 import { AddressOmigaInscriptionComp } from './AddressAssetComp'
+import { useCKBNode } from '../../hooks/useCKBNode'
+import { useTransactions } from '../../hooks/transaction'
 
 enum AssetInfo {
   UDT = 1,
@@ -445,3 +449,127 @@ export const AddressTransactions = ({
 }
 
 // FIXME: plural in i18n not work, address.cell and address.cells
+
+export const NodeAddressOverviewCard: FC<{ address: string }> = ({ address }) => {
+  const { t } = useTranslation()
+  const [isScriptDisplayed, setIsScriptDisplayed] = useState<boolean>(false)
+  const { nodeService } = useCKBNode()
+
+  const lockScript = addressToScript(address)
+  const lockScriptHash = utils.computeScriptHash(lockScript)
+
+  const capacityQuery = useQuery(
+    ['node', 'address', 'capacity', address],
+    () => nodeService.rpc.getCellsCapacity({ script: lockScript, scriptType: 'lock' }),
+    { staleTime: 1000 * 60 },
+  )
+
+  const occupiedCapacityQuery = useQuery(
+    ['node', 'address', 'occupied', 'capacity', address],
+    () =>
+      nodeService.rpc.getCellsCapacity({
+        script: lockScript,
+        scriptType: 'lock',
+        filter: { scriptLenRange: ['0x1', '0x1000'] },
+      }),
+    { staleTime: 1000 * 60 },
+  )
+
+  const overviewItems: CardCellInfo<'left' | 'right'>[] = [
+    {
+      slot: 'left',
+      cell: {
+        icon: <img src={CKBTokenIcon} alt="item icon" width="100%" />,
+        title: t('common.ckb_unit'),
+        content: capacityQuery.data ? <Capacity capacity={shannonToCkb(capacityQuery.data.capacity)} /> : 'loading...',
+      },
+    },
+    {
+      title: t('address.occupied'),
+      tooltip: t('glossary.occupied'),
+      content: occupiedCapacityQuery.data ? (
+        <Capacity capacity={shannonToCkb(occupiedCapacityQuery.data.capacity)} />
+      ) : (
+        'loading...'
+      ),
+    },
+  ]
+
+  return (
+    <Card className={styles.addressOverviewCard}>
+      <div className={styles.cardTitle}>{t('address.overview')}</div>
+
+      <div style={{ marginBottom: 24 }}>
+        <CardCellsLayout type="left-right" cells={overviewItems} borderTop />
+      </div>
+
+      <AddressLockScriptController onClick={() => setIsScriptDisplayed(!isScriptDisplayed)}>
+        {isScriptDisplayed ? (
+          <div className={styles.scriptToggle}>
+            <EyeOpenIcon />
+            <div>{t('address.lock_script')}</div>
+          </div>
+        ) : (
+          <div className={styles.scriptToggle}>
+            <EyeClosedIcon />
+            <div>{t('address.lock_script_hash')}</div>
+          </div>
+        )}
+      </AddressLockScriptController>
+      {isScriptDisplayed ? (
+        <Script script={lockScript} />
+      ) : (
+        <div className={`monospace ${styles.scriptHash}`}>{lockScriptHash}</div>
+      )}
+    </Card>
+  )
+}
+
+export const NodeAddressTransactions = ({ address }: { address: string }) => {
+  const { t } = useTranslation()
+  const lockScript = addressToScript(address)
+  const { data, isLoading, hasNextPage, fetchNextPage } = useTransactions({
+    searchKey: { script: lockScript, scriptType: 'lock' },
+    pageSize: 10,
+  })
+
+  return (
+    <>
+      <Card className={styles.transactionListOptionsCard} rounded="top">
+        <CardHeader
+          className={styles.cardHeader}
+          leftContent={<div className={styles.txHeaderLabels}>{t('transaction.transactions')}</div>}
+        />
+      </Card>
+
+      <AddressTransactionsPanel>
+        {data?.pages.map(page =>
+          page.txs.map(tx => (
+            <NodeTransactionItem
+              transaction={tx.transaction}
+              key={tx.transaction.hash!}
+              highlightAddress={address}
+              blockHashOrNumber={tx.txStatus.blockHash ?? undefined}
+            />
+          )),
+        )}
+        {!isLoading && data?.pages.length === 0 ? (
+          <div className={styles.noRecords}>{t(`transaction.no_records`)}</div>
+        ) : null}
+      </AddressTransactionsPanel>
+
+      {data?.pages.length !== 0 && (
+        <div className={styles.cardFooterPanel} style={{ marginTop: 4 }}>
+          {hasNextPage ? (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+            <div className={styles.cardFooterButton} onClick={() => fetchNextPage()}>
+              {t('pagination.load_more')}
+            </div>
+          ) : (
+            <div>{t('pagination.no_more_data')}</div>
+          )}
+        </div>
+      )}
+    </>
+  )
+}

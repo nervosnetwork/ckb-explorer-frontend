@@ -1,26 +1,18 @@
 import dayjs from 'dayjs'
-import { useSearchParams, useUpdateSearchParams } from '../../hooks'
-import { ExportPage } from '../../components/ExportPage'
-import { SupportedExportTransactionType, explorerService } from '../../services/ExplorerService'
+import { useTranslation } from 'react-i18next'
+import { useSearchParams, useUpdateSearchParams } from '../../../hooks'
+import { ExportPage } from '../../../components/ExportPage'
+import { explorerService } from '../../../services/ExplorerService'
 
-const ExportTransactions = () => {
+const ExportNervosDaoTransactions = () => {
+  const [t] = useTranslation()
   const {
-    type: typeStr,
-    id,
     tab = 'date',
     'start-date': startDateStr,
     'end-date': endDateStr,
     'from-height': fromHeightStr,
     'to-height': toHeightStr,
-    view,
-  } = useSearchParams('type', 'id', 'tab', 'start-date', 'end-date', 'from-height', 'to-height', 'view')
-  const isViewOriginal = view === 'original'
-
-  function isTransactionCsvExportType(s?: string): s is SupportedExportTransactionType {
-    return !!s && ['address_transactions', 'blocks', 'udts', 'nft', 'omiga_inscriptions'].includes(s)
-  }
-
-  const type = isTransactionCsvExportType(typeStr) ? typeStr : 'blocks'
+  } = useSearchParams('tab', 'start-date', 'end-date', 'from-height', 'to-height')
 
   const startDate = tab === 'date' && startDateStr ? dayjs(startDateStr) : undefined
   const endDate = tab === 'date' && endDateStr ? dayjs(endDateStr) : undefined
@@ -28,22 +20,25 @@ const ExportTransactions = () => {
   const fromHeight = tab === 'height' && fromHeightStr !== undefined ? parseInt(fromHeightStr, 10) : undefined
   const toHeight = tab === 'height' && toHeightStr !== undefined ? parseInt(toHeightStr, 10) : undefined
 
-  const updateSearchParams = useUpdateSearchParams<
-    'type' | 'tab' | 'start-date' | 'end-date' | 'from-height' | 'to-height'
-  >()
+  const updateSearchParams = useUpdateSearchParams<'tab' | 'start-date' | 'end-date' | 'from-height' | 'to-height'>()
 
   return (
     <ExportPage
+      note={t('export_transactions.dao_tx_note_str')}
       fetchCSVData={params =>
-        explorerService.api.exportTransactions({
-          type,
-          id,
-          date: params.tab === 'date' ? { start: dayjs(params.startDate), end: dayjs(params.endDate) } : undefined,
-          block: params.tab === 'height' ? { from: params.fromHeight!, to: params.toHeight! } : undefined,
-          isViewOriginal,
-        })
+        explorerService.api.fetchNervosDaoTransactionsCsv(
+          params.tab === 'date'
+            ? {
+                startDate: params.startDate,
+                endDate: params.endDate,
+              }
+            : {
+                startNumber: params.fromHeight,
+                endNumber: params.toHeight,
+              },
+        )
       }
-      csvFileName={`exported-txs-${type}${type === 'blocks' ? '' : `-${id}`}`}
+      csvFileName="exported-nervosdao-txs"
       defaultParams={{
         tab,
         startDate: startDate?.valueOf(),
@@ -60,10 +55,14 @@ const ExportTransactions = () => {
               ? {
                   'start-date': params.startDate ? dayjs(params.startDate).format('YYYY-MM-DD') : undefined,
                   'end-date': params.endDate ? dayjs(params.endDate).format('YYYY-MM-DD') : undefined,
+                  'from-height': undefined,
+                  'to-height': undefined,
                 }
               : {}),
             ...(params.tab === 'height'
               ? {
+                  'start-date': undefined,
+                  'end-date': undefined,
                   'from-height': params.fromHeight ? params.fromHeight.toString() : undefined,
                   'to-height': params.toHeight ? params.toHeight.toString() : undefined,
                 }
@@ -76,4 +75,4 @@ const ExportTransactions = () => {
   )
 }
 
-export default ExportTransactions
+export default ExportNervosDaoTransactions
