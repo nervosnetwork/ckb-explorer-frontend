@@ -900,6 +900,8 @@
       "to_block": "目标块高",
       "block_height": "区块高度",
       "note_str": "这将导出所选范围内最早的 5,000 条记录",
+      "dao_tx_note_str": "这将导出所选范围内最早的 5,000 条记录，记录数可能会超过 5,000 条，因为一条交易可能包括多条记录。",
+      "dao_depositor_note_str": "这将导出所选范围内排名最高的 5,000 名存款人",
       "download": "下载",
       "block_number": "块高",
       "please_pick_date": "请选择开始日期和结束日期!",

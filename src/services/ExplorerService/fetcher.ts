@@ -457,6 +457,50 @@ export const apiFetcher = {
     }
   },
 
+  fetchNervosDaoTransactionsCsv: async ({
+    startDate,
+    endDate,
+    startNumber,
+    endNumber,
+  }: {
+    startDate?: number
+    endDate?: number
+    startNumber?: number
+    endNumber?: number
+  }) =>
+    requesterV1
+      .get<string>(`contract_transactions/download_csv`, {
+        params: {
+          start_date: startDate,
+          end_date: endDate,
+          start_number: startNumber,
+          end_number: endNumber,
+        },
+      })
+      .then(res => toCamelcase<string>(res.data)),
+
+  fetchNervosDaoDepositorsCsv: async ({
+    startDate,
+    endDate,
+    startNumber,
+    endNumber,
+  }: {
+    startDate?: number
+    endDate?: number
+    startNumber?: number
+    endNumber?: number
+  }) =>
+    requesterV1
+      .get<string>(`dao_depositors/download_csv`, {
+        params: {
+          start_date: startDate,
+          end_date: endDate,
+          start_number: startNumber,
+          end_number: endNumber,
+        },
+      })
+      .then(res => toCamelcase<string>(res.data)),
+
   fetchNervosDaoDepositors: () => v1GetUnwrappedList<NervosDaoDepositor>(`/dao_depositors`),
 
   fetchStatisticTransactionCount: () =>

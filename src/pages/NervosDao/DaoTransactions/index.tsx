@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import TransactionItem from '../../../components/TransactionItem'
 import { TransactionsPagination, DAONoResultPanel } from './styled'
-import Pagination from '../../../components/Pagination'
+import { CsvExport } from '../../../components/CsvExport'
+import PaginationWithRear from '../../../components/PaginationWithRear'
 import { PageParams } from '../../../constants/common'
 import { deprecatedAddrToNewAddr } from '../../../utils/util'
 import { Transaction } from '../../../models/Transaction'
@@ -60,7 +61,12 @@ export default ({
       )}
       {totalPages > 1 && (
         <TransactionsPagination>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onPageChange} />
+          <PaginationWithRear
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onChange={onPageChange}
+            rear={<CsvExport link="/nervosdao/transaction/export" />}
+          />
         </TransactionsPagination>
       )}
     </>

@@ -29,6 +29,8 @@ const NftCollections = lazy(() => import('../pages/NftCollections'))
 const NftCollectionInfo = lazy(() => import('../pages/NftCollectionInfo'))
 const NftInfo = lazy(() => import('../pages/NftInfo'))
 const NervosDao = lazy(() => import('../pages/NervosDao'))
+const DaoTransactionExport = lazy(() => import('../pages/NervosDao/DaoTransactionExport'))
+const DaoDepositorsExport = lazy(() => import('../pages/NervosDao/DaoDepositorsExport'))
 const NotFoundPage = lazy(() => import('../pages/404'))
 const ErrorPage = lazy(() => import('../pages/Error'))
 const SearchFail = lazy(() => import('../pages/SearchFail'))
@@ -147,6 +149,14 @@ const routes: RouteProps[] = [
   {
     path: '/nervosdao',
     component: NervosDao,
+  },
+  {
+    path: '/nervosdao/transaction/export',
+    component: DaoTransactionExport,
+  },
+  {
+    path: '/nervosdao/depositor/export',
+    component: DaoDepositorsExport,
   },
   {
     path: '/xudts',
