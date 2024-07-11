@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { CodecMap, createParser } from '@ckb-lumos/molecule'
 import ToolsContainer from '../ToolsContainer'
 import { DataInput } from './DataInput'
-import { Molecule } from './Molecule'
+import { Molecule, CACHE_KEY as MOL_CACHE_KEY } from './Molecule'
 import { SchemaSelect } from './SchemaSelect'
 import { blockchainSchema, builtinCodecs, mergeBuiltinCodecs } from './constants'
+import { cacheService } from '../../../services/CacheService'
 import styles from '../styles.module.scss'
 
 export const MoleculeParser: React.FC = () => {
@@ -26,7 +27,9 @@ export const MoleculeParser: React.FC = () => {
 
   useEffect(() => {
     const parser = createParser()
-    const userCodecMap = parser.parse(blockchainSchema, { refs: builtinCodecs })
+    const cachedMol = cacheService.get(MOL_CACHE_KEY) ?? ''
+
+    const userCodecMap = parser.parse(cachedMol + blockchainSchema, { refs: builtinCodecs })
     const codecMap = mergeBuiltinCodecs(userCodecMap)
     handleCodecMap(codecMap)
   }, [handleCodecMap])

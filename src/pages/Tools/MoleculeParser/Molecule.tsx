@@ -4,14 +4,17 @@ import { HelpTip } from '../../../components/HelpTip'
 import { blockchainSchema, builtinCodecs, mergeBuiltinCodecs } from './constants'
 import { Alert, AlertTitle, AlertDescription } from '../../../components/ui/Alert'
 import styles from './styles.module.scss'
+import { cacheService } from '../../../services/CacheService'
 
 type Props = {
   updateCodecMap: (token: any) => void
 }
 
+export const CACHE_KEY = 'inputMol'
+
 export const Molecule: React.FC<Props> = ({ updateCodecMap }) => {
   const [showAlert, setShowAlert] = React.useState(false)
-  const [inputMol, setInputMol] = useState('')
+  const [inputMol, setInputMol] = useState(cacheService.get(CACHE_KEY) || '')
   const [parseErrorMsg, setParseErrorMsg] = React.useState<string>('')
   const [parseSuccess, setParseSuccess] = useState(false)
 
@@ -26,6 +29,7 @@ export const Molecule: React.FC<Props> = ({ updateCodecMap }) => {
       setShowAlert(true)
       setParseErrorMsg('')
       updateCodecMap(codecMap)
+      cacheService.set(CACHE_KEY, inputMol, { expireTime: Number.POSITIVE_INFINITY })
     } catch (error: any) {
       setParseSuccess(false)
       setShowAlert(true)

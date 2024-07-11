@@ -38,7 +38,7 @@ export const builtinCodecs: CodecMap = {
  * @param userTokens
  */
 export const mergeBuiltinCodecs = (userCodecs: CodecMap): CodecMap => {
-  return { ...builtinCodecs, ...userCodecs }
+  return { ...userCodecs, ...builtinCodecs }
 }
 
 /**
