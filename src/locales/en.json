@@ -709,7 +709,9 @@
       "current_page": "Page",
       "of_page": "of",
       "only_first_pages_visible": "Showing first {{pages}} pages",
-      "show_rows": "Show Rows"
+      "show_rows": "Show Rows",
+      "load_more": "Load More",
+      "no_more_data": "No more data"
     },
     "udt": {
       "sudt": "sUDT",
