@@ -4,12 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { FC, ReactNode, useState } from 'react'
 import { ColumnGroupType, ColumnType } from 'antd/lib/table'
 import dayjs from 'dayjs'
+import classNames from 'classnames'
 import type { XUDT } from '../../models/Xudt'
 import { Link } from '../../components/Link'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import SortButton from '../../components/SortButton'
-import { TokensPanel, TokensContentEmpty, TokensLoadingPanel } from './styled'
+import MultiFilterButton from '../../components/MultiFilterButton'
 import { localeNumberString } from '../../utils/number'
 import Loading from '../../components/Loading'
 import SmallLoading from '../../components/Loading/SmallLoading'
@@ -25,6 +26,69 @@ import { SubmitTokenInfo } from '../../components/SubmitTokenInfo'
 import XUDTTokenIcon from '../../assets/sudt_token.png'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
+
+const filterList = [
+  {
+    key: 'invalid',
+    value: 'invalid',
+    title: <XUDTTag tagName="invalid" />,
+    to: '/xudts',
+  },
+  {
+    key: 'suspicious',
+    value: 'suspicious',
+    title: <XUDTTag tagName="suspicious" />,
+    to: '/xudts',
+  },
+  {
+    key: 'out-of-length-range',
+    value: 'out-of-length-range',
+    title: <XUDTTag tagName="out-of-length-range" />,
+    to: '/xudts',
+  },
+  {
+    key: 'duplicate',
+    value: 'duplicate',
+    title: <XUDTTag tagName="duplicate" />,
+    to: '/xudts',
+  },
+  {
+    key: 'layer-1-asset',
+    value: 'layer-1-asset',
+    title: <XUDTTag tagName="layer-1-asset" />,
+    to: '/xudts',
+  },
+  {
+    key: 'layer-2-asset',
+    value: 'layer-2-asset',
+    title: <XUDTTag tagName="layer-2-asset" />,
+    to: '/xudts',
+  },
+  {
+    key: 'unnamed',
+    value: 'unnamed',
+    title: <XUDTTag tagName="unnamed" />,
+    to: '/xudts',
+  },
+  {
+    key: 'supply-limited',
+    value: 'supply-limited',
+    title: <XUDTTag tagName="supply-limited" />,
+    to: '/xudts',
+  },
+  {
+    key: 'supply-unlimited',
+    value: 'supply-unlimited',
+    title: <XUDTTag tagName="supply-unlimited" />,
+    to: '/xudts',
+  },
+  {
+    key: 'rgbpp-compatible',
+    value: 'rgbpp-compatible',
+    title: <XUDTTag tagName="rgbpp-compatible" />,
+    to: '/xudts',
+  },
+]
 
 const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
   const { t } = useTranslation()
@@ -83,6 +147,7 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
 export function TokensCard({
   query,
   sortParam,
+  isEmpty,
 }: {
   query: UseQueryResult<
     {
@@ -93,6 +158,7 @@ export function TokensCard({
     unknown
   >
   sortParam?: ReturnType<typeof useSortParam<SortField>>
+  isEmpty: boolean
 }) {
   const { t } = useTranslation()
 
@@ -112,26 +178,34 @@ export function TokensCard({
             {t('xudt.created_time')}
             <SortButton field="created_time" sortParam={sortParam} />
           </span>
+          <span className={styles.sortOption}>
+            {t('xudt.title.tags')}
+            <MultiFilterButton filterName="tags" key="" filterList={filterList} />
+          </span>
         </FilterSortContainerOnMobile>
       </Card>
 
-      <QueryResult
-        query={query}
-        errorRender={() => <TokensContentEmpty>{t('xudt.tokens_empty')}</TokensContentEmpty>}
-        loadingRender={() => (
-          <TokensLoadingPanel>
-            <SmallLoading />
-          </TokensLoadingPanel>
-        )}
-      >
-        {data => (
-          <div>
-            {data?.tokens.map(token => (
-              <TokenInfo key={token.typeHash} token={token} />
-            ))}
-          </div>
-        )}
-      </QueryResult>
+      {isEmpty ? (
+        <div className={styles.tokensContentEmpty}>{t('xudt.tokens_empty')}</div>
+      ) : (
+        <QueryResult
+          query={query}
+          errorRender={() => <div className={styles.tokensContentEmpty}>{t('xudt.tokens_empty')}</div>}
+          loadingRender={() => (
+            <div className={styles.tokensLoadingPanel}>
+              <SmallLoading />
+            </div>
+          )}
+        >
+          {data => (
+            <div>
+              {data?.tokens.map(token => (
+                <TokenInfo key={token.typeHash} token={token} />
+              ))}
+            </div>
+          )}
+        </QueryResult>
+      )}
     </>
   )
 }
@@ -146,7 +220,8 @@ const TokenTable: FC<{
     unknown
   >
   sortParam?: ReturnType<typeof useSortParam<SortField>>
-}> = ({ query, sortParam }) => {
+  isEmpty: boolean
+}> = ({ query, sortParam, isEmpty }) => {
   const { t } = useTranslation()
 
   const nullableColumns: (ColumnGroupType<XUDT> | ColumnType<XUDT> | false | undefined)[] = [
@@ -155,7 +230,6 @@ const TokenTable: FC<{
       className: styles.colName,
       render: (_, token) => {
         const symbol = token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
-        const tags = token.xudtTags ?? []
         return (
           <div className={styles.container}>
             <img className={styles.icon} src={token.iconFile ? token.iconFile : XUDTTokenIcon} alt="token icon" />
@@ -172,15 +246,26 @@ const TokenTable: FC<{
                   symbol
                 )}
               </div>
-              <div className={styles.tags}>
-                {tags.map(tag => (
-                  <XUDTTag tagName={tag} />
-                ))}
-              </div>
             </div>
           </div>
         )
       },
+    },
+    {
+      title: (
+        <>
+          {t('xudt.title.tags')}
+          <MultiFilterButton filterName="tags" key="" filterList={filterList} />
+        </>
+      ),
+      className: styles.colTags,
+      render: (_, token) => (
+        <div className={styles.tags}>
+          {token.xudtTags?.map(tag => (
+            <XUDTTag tagName={tag} />
+          ))}
+        </div>
+      ),
     },
     {
       title: (
@@ -219,7 +304,7 @@ const TokenTable: FC<{
     <Table
       className={styles.tokensTable}
       columns={columns}
-      dataSource={query.data?.tokens ?? []}
+      dataSource={isEmpty ? [] : query.data?.tokens ?? []}
       pagination={false}
       loading={
         query.isLoading
@@ -240,12 +325,12 @@ const Xudts = () => {
   const sortParam = useSortParam<SortField>(undefined, 'transactions.desc')
   const { sort } = sortParam
 
-  const query = useQuery(['xudts', currentPage, _pageSize, sort, tags], async () => {
+  const query = useQuery(['xudts', currentPage, _pageSize, sort, tags, 'true'], async () => {
     const {
       data: tokens,
       total,
       pageSize,
-    } = await explorerService.api.fetchXudts(currentPage, _pageSize, sort ?? undefined, tags)
+    } = await explorerService.api.fetchXudts(currentPage, _pageSize, sort ?? undefined, tags, 'true')
     if (tokens.length === 0) {
       throw new Error('Tokens empty')
     }
@@ -259,10 +344,12 @@ const Xudts = () => {
   const pageSize = query.data?.pageSize ?? _pageSize
   const totalPages = Math.ceil(total / pageSize)
 
+  const isEmpty = tags === ''
+
   return (
     <Content>
-      <TokensPanel className="container">
-        <div className="tokensTitlePanel">
+      <div className={classNames(styles.tokensPanel, 'container')}>
+        <div className={styles.tokensTitlePanel}>
           <span>{t('xudt.xudts')}</span>
 
           <button
@@ -275,19 +362,19 @@ const Xudts = () => {
         </div>
 
         <div className={styles.cards}>
-          <TokensCard query={query} sortParam={sortParam} />
+          <TokensCard query={query} sortParam={sortParam} isEmpty={isEmpty} />
         </div>
         <div className={styles.table}>
-          <TokenTable query={query} sortParam={sortParam} />
+          <TokenTable query={query} sortParam={sortParam} isEmpty={isEmpty} />
         </div>
 
         <Pagination
           className={styles.pagination}
           currentPage={currentPage}
-          totalPages={totalPages}
+          totalPages={isEmpty ? 0 : totalPages}
           onChange={setPage}
         />
-      </TokensPanel>
+      </div>
       {isSubmitTokenInfoModalOpen ? (
         <SubmitTokenInfo tagFilters={['xudt']} onClose={() => setIsSubmitTokenInfoModalOpen(false)} />
       ) : null}

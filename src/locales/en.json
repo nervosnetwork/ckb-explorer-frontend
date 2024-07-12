@@ -159,6 +159,11 @@
       "handling-reorg": "Reorg detected at {{time}} so CKB Explorer is checking data thoroughly. It may take half an hour, please visit later",
       "migration-notice": "Service of CKB explorer will have a migration on {{time}}, and the server might be unavailable temporarily"
     },
+    "components": {
+      "multi_filter_button": {
+        "select": "Select"
+      }
+    },
     "navbar": {
       "wallet": "Wallet",
       "charts": "Charts",
@@ -208,6 +213,7 @@
       "estimated_epoch_time": "Estimated Epoch Time",
       "transactions_per_minute": "Transactions per Minute",
       "transactions_last_24hrs": "Transactions in Last 24hrs",
+      "tags": "Tags",
       "nervos_dao": "Nervos DAO",
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
@@ -759,6 +765,9 @@
       "repeat_inscription_symbol": "This inscription is a duplicate with an earlier release of the same symbol."
     },
     "xudt": {
+      "title": {
+        "tags": "Tags"
+      },
       "holder_allocation": "Holder Allocation",
       "holder_allocation_description": "There are {{ckb}} CKB Holder and {{btc}} BTC holder of the current asset.",
       "lock_hash": "Lock Hash",
@@ -779,16 +788,19 @@
       "address_count": "Address Count",
       "created_time": "Created Time",
       "tokens_empty": "There are no xUDTs at this time.",
-      "invalid": "Invalid",
-      "suspicious": "Suspicious",
-      "out-of-length-range": "Out Of Length Range",
-      "duplicate": "Duplicate",
-      "layer-1-asset": "Layer 1 Asset",
-      "layer-2-asset": "Layer 2 Asset",
-      "verified-on": "Verified On Platform",
-      "supply-limited": "Supply Limited",
-      "supply-unlimited": "Supply Unlimited",
-      "rgbpp-compatible": "RGB++ Compatible",
+      "tags": {
+        "invalid": "Invalid",
+        "suspicious": "Suspicious",
+        "out-of-length-range": "Out Of Length Range",
+        "duplicate": "Duplicate",
+        "layer-1-asset": "Layer 1 Asset",
+        "layer-2-asset": "Layer 2 Asset",
+        "verified-on": "Verified On Platform",
+        "supply-limited": "Supply Limited",
+        "supply-unlimited": "Supply Unlimited",
+        "rgbpp-compatible": "RGB++ Compatible",
+        "unnamed": "Unnamed"
+      },
       "category": "Category"
     },
     "nft": {
