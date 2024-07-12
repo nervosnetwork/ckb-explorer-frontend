@@ -8,7 +8,7 @@ const XUDTTag = ({ tagName }: { tagName: string }) => {
   const { push } = useHistory()
 
   let tag = tagName
-  let content = t(`xudt.${tag}`)
+  let content = t(`xudt.tags.${tag}`)
   if (tag.startsWith('verified-on-')) {
     // FIXME: should be i18n
     content = content.replace('Platform', tag.replace('verified-on-', ''))
