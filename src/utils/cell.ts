@@ -8,7 +8,7 @@ import { MainnetContractHashTags, TestnetContractHashTags } from '../constants/s
 
 const DEPOSIT_DAO_DATA = '0x0000000000000000'
 
-export const UDT_CELL_TYPES = ['sudt', 'xudt']
+export const UDT_CELL_TYPES = ['sudt', 'xudt', 'omiga_inscription', 'xudt_compatible']
 
 export function getCellType(cell: Cell): string {
   const scriptSet = IS_MAINNET ? MainnetContractHashTags : TestnetContractHashTags
