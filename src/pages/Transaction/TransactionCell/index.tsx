@@ -7,6 +7,7 @@ import { parseUDTAmount } from '../../../utils/number'
 import { parseSimpleDate } from '../../../utils/date'
 import { sliceNftName } from '../../../utils/string'
 import { shannonToCkb, shannonToCkbDecimal, parseSince } from '../../../utils/util'
+import { UDT_CELL_TYPES } from '../../../utils/cell'
 import TransactionCellArrow from '../../../components/Transaction/TransactionCellArrow'
 import Capacity from '../../../components/Capacity'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
@@ -29,7 +30,7 @@ import { useDeprecatedAddr, useIsMobile, useNewAddr } from '../../../hooks'
 import { useDASAccount } from '../../../hooks/useDASAccount'
 import styles from './styles.module.scss'
 import AddressText from '../../../components/AddressText'
-import { Cell } from '../../../models/Cell'
+import { Cell, UDTInfo } from '../../../models/Cell'
 import CellModal from '../../../components/Cell/CellModal'
 import { CellBasicInfo } from '../../../utils/transformer'
 
@@ -295,27 +296,18 @@ export const TransactionCellInfo = ({
 
 const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
   const { t } = useTranslation()
-  if (cell.cellType === 'udt') {
-    const udtInfo = cell.extraInfo
-    if (udtInfo.published) {
-      return <span>{`${parseUDTAmount(udtInfo.amount, udtInfo.decimal)} ${udtInfo.symbol}`}</span>
+  const isUDTCell = UDT_CELL_TYPES.findIndex(type => type === cell.cellType) !== -1
+  if (isUDTCell) {
+    const udtInfo = cell.extraInfo as UDTInfo
+    const { amount } = udtInfo
+
+    if (udtInfo.decimal && udtInfo.symbol) {
+      return <span>{`${parseUDTAmount(amount, udtInfo.decimal)} ${udtInfo.symbol}`}</span>
     }
+
     return <span>{`${t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}</span>
   }
 
-  if (cell.cellType === 'xudt' || cell.cellType === 'xudt_compatible') {
-    const info = cell.extraInfo
-    if (info?.decimal && info?.amount && info?.symbol) {
-      return <span>{`${parseUDTAmount(info.amount, info.decimal)} ${info.symbol}`}</span>
-    }
-  }
-
-  if (cell.cellType === 'omiga_inscription') {
-    const info = cell.extraInfo
-    if (info?.decimal && info?.amount && info?.symbol) {
-      return <span>{`${parseUDTAmount(info.amount, info.decimal)} ${info.symbol}`}</span>
-    }
-  }
   return <Capacity capacity={shannonToCkb(cell.capacity)} layout="responsive" />
 }
 
