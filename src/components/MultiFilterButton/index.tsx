@@ -68,7 +68,11 @@ export function MultiFilterButton({
                 }
 
                 const newSearch = new URLSearchParams(search)
-                newSearch.append(filterName, Array.from(subTypes).join(','))
+                if (subTypes.size === 0) {
+                  newSearch.delete(filterName)
+                } else {
+                  newSearch.append(filterName, Array.from(subTypes).join(','))
+                }
                 return `${f.to}?${newSearch.toString()}`
               }}
               data-is-active={types.includes(f.value)}
