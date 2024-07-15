@@ -220,7 +220,12 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
   }
 }
 
-const AssetItem: FC<{ cells: LiveCell[]; btcTxId: string; vout: number }> = ({ cells, btcTxId, vout }) => {
+const AssetItem: FC<{ cells: LiveCell[]; btcTxId: string; vout: number; width: number }> = ({
+  cells,
+  btcTxId,
+  vout,
+  width,
+}) => {
   const { t } = useTranslation()
   const { data: identity } = useQuery({
     queryKey: ['btc-testnet-identity', btcTxId],
@@ -257,14 +262,14 @@ const AssetItem: FC<{ cells: LiveCell[]; btcTxId: string; vout: number }> = ({ c
       </h5>
       <div className={styles.itemContentContainer}>
         {cells.map(cell => (
-          <AssetItemContent cell={cell} />
+          <AssetItemContent cell={cell} width={width} />
         ))}
       </div>
     </div>
   )
 }
 
-const AssetItemContent: FC<{ cell: LiveCell }> = ({ cell }) => {
+const AssetItemContent: FC<{ cell: LiveCell; width: number }> = ({ cell, width }) => {
   const { t } = useTranslation()
   const setToast = useSetToast()
   const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -279,7 +284,7 @@ const AssetItemContent: FC<{ cell: LiveCell }> = ({ cell }) => {
   const { detailInfo, icon, assetName, attribute } = getCellDetails(cell, t)
 
   return (
-    <div className={styles.itemContent}>
+    <div className={styles.itemContent} style={{ width }}>
       {typeof icon === 'string' ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
       {icon && typeof icon !== 'string' ? icon : null}
       <div className={styles.fields}>
@@ -340,7 +345,7 @@ const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
   )
 }
 
-const RGBAssetsCellView: FC<{ address: string; count: number }> = ({ address, count }) => {
+const RGBAssetsCellView: FC<{ address: string; count: number; width: number }> = ({ address, count, width }) => {
   const [params] = useState(initialPageParams)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
@@ -396,6 +401,7 @@ const RGBAssetsCellView: FC<{ address: string; count: number }> = ({ address, co
       <div className={styles.cardsContainer}>
         {rgbCells.map(rgbCell => (
           <AssetItem
+            width={width}
             cells={rgbCell.cells}
             btcTxId={rgbCell.btcTxId}
             vout={rgbCell.vout}
@@ -499,12 +505,23 @@ const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscri
   udts,
   inscriptions,
 }) => {
+  const fontSize = 14
+  const minWidth = 250
   const [isMerged, setIsMerged] = useState(true)
   const { t } = useTranslation()
   const [isDisplayedAsList, setIsDisplayedAsList] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  const [width, setWidth] = useState(250)
+  useEffect(() => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect()
+      const maxCardAmount = Math.floor(rect.width / minWidth)
+      setWidth((rect.width - maxCardAmount * fontSize) / maxCardAmount)
+    }
+  }, [])
 
   return (
-    <div className={styles.container}>
+    <div ref={ref} className={styles.container}>
       <div className={styles.toolbar}>
         <div>{t(`address.${isMerged ? 'view-as-merged-assets' : 'view-as-asset-items'}`)}</div>
         <div className={styles.filters}>
@@ -541,7 +558,7 @@ const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscri
             {isMerged ? (
               <MergedAssetList udts={udts} inscriptions={inscriptions} />
             ) : (
-              <RGBAssetsCellView address={address} count={count} />
+              <RGBAssetsCellView address={address} count={count} width={width} />
             )}
           </>
         )}
