@@ -842,13 +842,14 @@ export const apiFetcher = {
   fetchXudtHolderAllocation: (typeHash: string) =>
     requesterV1.get(`/udts/${typeHash}/holder_allocation`).then(res => toCamelcase<XUDTHolderAllocation>(res.data)),
 
-  fetchXudts: (page: number, size: number, sort?: string, tags?: string) =>
+  fetchXudts: (page: number, size: number, sort?: string, tags?: string, union?: string) =>
     v1GetUnwrappedPagedList<XUDT>(`/xudts`, {
       params: {
         page,
         page_size: size,
         sort,
         tags,
+        union: union ?? 'false',
       },
     }),
 

@@ -11,7 +11,6 @@ import { hexToUtf8 } from '../../../utils/string'
 import { TransactionCellDetailTab, TransactionCellDetailPane, TransactionCellDetailTitle } from './styled'
 import SmallLoading from '../../Loading/SmallLoading'
 import CloseIcon from './modal_close.png'
-import config from '../../../config'
 import { getBtcTimeLockInfo, getBtcUtxo, getContractHashTag } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import HashTag from '../../HashTag'
@@ -32,10 +31,8 @@ import { ReactComponent as CompassIcon } from './compass.svg'
 import styles from './styles.module.scss'
 import EllipsisMiddle from '../../EllipsisMiddle'
 import { useIsMobile } from '../../../hooks'
-import { Link } from '../../Link'
+import { BTCExplorerLink } from '../../Link'
 import { CellInfoProps } from './types'
-import { getBtcChainIdentify } from '../../../services/BTCIdentifier'
-import { IS_MAINNET } from '../../../constants/common'
 
 enum CellInfo {
   LOCK = 'lock',
@@ -165,6 +162,7 @@ const JSONKeyValueView = ({ title = '', value = '' }: { title?: string; value?: 
   </div>
 )
 
+///
 const ScriptRender = ({ content: script }: { content: Script }) => {
   const { t } = useTranslation()
   const hashTag = getContractHashTag(script)
@@ -172,14 +170,6 @@ const ScriptRender = ({ content: script }: { content: Script }) => {
   const btcTimeLockInfo = !btcUtxo ? getBtcTimeLockInfo(script) : null
 
   const txid = btcUtxo?.txid ?? btcTimeLockInfo?.txid
-
-  const { data: identity } = useQuery({
-    queryKey: ['btc-testnet-identity', txid],
-    queryFn: () => (txid ? getBtcChainIdentify(txid) : null),
-    enabled: !IS_MAINNET && !!txid,
-  })
-
-  if (!IS_MAINNET && txid && !identity) return null
 
   return (
     <>
@@ -198,18 +188,14 @@ const ScriptRender = ({ content: script }: { content: Script }) => {
       {btcUtxo ? (
         <JSONKeyValueView
           value={
-            <a
-              href={`${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}/tx/${btcUtxo.txid}#vout=${parseInt(
-                btcUtxo.index!,
-                16,
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <BTCExplorerLink
               className={styles.btcUtxo}
+              btcTxId={txid ?? ''}
+              path={`/tx/${btcUtxo.txid}#vout=${parseInt(btcUtxo.index!, 16)}`}
             >
               BTC UTXO
               <CompassIcon />
-            </a>
+            </BTCExplorerLink>
           }
         />
       ) : null}
@@ -217,15 +203,10 @@ const ScriptRender = ({ content: script }: { content: Script }) => {
       {btcTimeLockInfo ? (
         <JSONKeyValueView
           value={
-            <a
-              href={`${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}/tx/${btcTimeLockInfo.txid}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.btcUtxo}
-            >
+            <BTCExplorerLink className={styles.btcUtxo} btcTxId={txid ?? ''} path={`/tx/${btcTimeLockInfo.txid}`}>
               {`${btcTimeLockInfo.after} confirmations after BTC Tx`}
               <CompassIcon />
-            </a>
+            </BTCExplorerLink>
           }
         />
       ) : null}
@@ -267,9 +248,9 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
         value={
           <>
             <EllipsisMiddle useTextWidthForPlaceholderWidth>{content.btcTx}</EllipsisMiddle>
-            <Link to={`${config.BITCOIN_EXPLORER}/tx/${content.btcTx}`}>
+            <BTCExplorerLink btcTxId={content.btcTx} path="/tx">
               <ViewIcon />
-            </Link>
+            </BTCExplorerLink>
           </>
         }
       />
@@ -502,12 +483,7 @@ export default ({ cell, onClose }: CellInfoProps) => {
           />
           {cell.rgbInfo && (
             <TransactionCellDetailPane
-              tab={
-                <>
-                  <TransactionCellDetailTitle>{t('transaction.rgbpp')}</TransactionCellDetailTitle>
-                  <HelpTip title={t('glossary.capacity_usage')} placement="bottom" containerRef={ref} />
-                </>
-              }
+              tab={<TransactionCellDetailTitle>{t('transaction.rgbpp')}</TransactionCellDetailTitle>}
               key={CellInfo.RGBPP}
             />
           )}

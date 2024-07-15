@@ -96,6 +96,11 @@
       "expected": "预计",
       "share_text": "📢 @NervosNetwork CKB 预计于 {{date}} 迎来{{times}}减半🚀，\n\n📅距离减半倒计时还有 {{countdown}}。\n\n🔗 访问👉 https://explorer.nervos.org 了解更多"
     },
+    "components": {
+      "multi_filter_button": {
+        "select": "选择"
+      }
+    },
     "glossary": {
       "block_height": "区块高度，又称为区块编号，表示区块链的长度，在添加新区块后会增加。",
       "cell": "CKB 采用了更通用的 Cell 模型，而不是 UTXO 模型。交易会销毁先前交易中创建的某些输出，并创建一些新的输出。每个交易的输出都是一个 Cell。",
@@ -218,6 +223,7 @@
       "estimated_epoch_time": "预计 Epoch 时间",
       "transactions_per_minute": "每分钟的交易数",
       "transactions_last_24hrs": "最近 24 小时的交易数",
+      "tags": "Tags",
       "nervos_dao": "Nervos DAO",
       "mainnet": "Lina Mainnet",
       "testnet": "Testnet"
@@ -760,6 +766,9 @@
       "repeat_inscription_symbol": "此铭文与早期发布的铭文同名"
     },
     "xudt": {
+      "title": {
+        "tags": "标签"
+      },
       "holder_allocation": "地址分布",
       "holder_allocation_description": "当前资产有 {{ckb}} 个 CKB 用户及 {{btc}} 个 BTC 用户",
       "lock_hash": "Lock Hash",
@@ -780,16 +789,19 @@
       "address_count": "用户数",
       "created_time": "创建时间",
       "tokens_empty": "目前没有 xUDT。",
-      "invalid": "无效",
-      "suspicious": "可疑",
-      "out-of-length-range": "超长",
-      "duplicate": "重复",
-      "layer-1-asset": "Layer 1 资产",
-      "layer-2-asset": "Layer 2 资产",
-      "verified-on": "Platform 平台认证",
-      "supply-limited": "有限供应资产",
-      "supply-unlimited": "无限供应资产",
-      "rgbpp-compatible": "RGB++兼容",
+      "tags": {
+        "invalid": "无效",
+        "suspicious": "可疑",
+        "out-of-length-range": "超长",
+        "duplicate": "重复",
+        "layer-1-asset": "Layer 1 资产",
+        "layer-2-asset": "Layer 2 资产",
+        "verified-on": "Platform 平台认证",
+        "supply-limited": "有限供应资产",
+        "supply-unlimited": "无限供应资产",
+        "rgbpp-compatible": "RGB++兼容",
+        "unnamed": "未命名"
+      },
       "category": "类别"
     },
     "nft": {

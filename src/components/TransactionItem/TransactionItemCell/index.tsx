@@ -223,7 +223,7 @@ const TransactionCellCapacity = ({ cell, ioType }: { cell: Cell; ioType: IOType 
 
   if (cell.cellType === 'xudt' || cell.cellType === 'xudt_compatible') {
     const info = cell.extraInfo
-    if (info?.amount && info.decimal && info.symbol) {
+    if (info?.amount !== undefined && info.decimal && info.symbol) {
       return (
         <div className="transactionCellWithoutIcon">
           <Capacity
@@ -238,7 +238,7 @@ const TransactionCellCapacity = ({ cell, ioType }: { cell: Cell; ioType: IOType 
 
   if (cell.cellType === 'omiga_inscription') {
     const info = cell.extraInfo
-    if (info?.amount && info.decimal && info.symbol) {
+    if (info?.amount !== undefined && info.decimal && info.symbol) {
       return (
         <div className="transactionCellWithoutIcon">
           <Capacity
