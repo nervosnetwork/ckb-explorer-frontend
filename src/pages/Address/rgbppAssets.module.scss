@@ -155,7 +155,7 @@
 
     .itemContent {
       flex: 0 0 auto;
-      width: 232px;
+      min-width: 250px;
       padding: 8px;
       display: flex;
       line-height: 1;
