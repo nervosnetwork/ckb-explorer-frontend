@@ -556,6 +556,7 @@
       "export-transaction": "Export Transaction",
       "capacity_usage": "Capacity Usage",
       "rgbpp": "RGB++",
+      "utxo_graph": "UTXO graph",
       "declared_capacity": "declared",
       "occupied_capacity": "occupied",
       "size": "Size",
@@ -1011,6 +1012,13 @@
       "done": "Done",
       "node_connect_mode": "Node Connect Mode",
       "node_connect_tooltip": "When the node-connection mode is enabled, the data will be fetched from the node directly, so some features/data will not be supported."
+    },
+    "utxo_graph": {
+      "view_tx": "View Transaction",
+      "tx_hash": "Tx",
+      "view_address": "View Address",
+      "view_btc_utxo": "View BTC UTXO",
+      "view_cell_info": "View Cell Info"
     }
   }
 }
