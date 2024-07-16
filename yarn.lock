@@ -5730,6 +5730,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cytoscape@^3.21.2":
+  version "3.21.2"
+  resolved "https://registry.yarnpkg.com/@types/cytoscape/-/cytoscape-3.21.2.tgz#d5b21f328897ffea5285ee9242c97b98f24bf4d2"
+  integrity sha512-eadSCH9hbRV9Ej93S8wact/Oe0DuQV4qlWfST/I6k4lBu6RgqI6mVFzvppcIGzWpzZRu7iyFjFhS2qW0w7KFRA==
+
 "@types/deep-freeze-strict@^1.1.0":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@types/deep-freeze-strict/-/deep-freeze-strict-1.1.2.tgz#707d1f9721aea9251ca6188111c272c61fc5490f"
@@ -9096,6 +9101,11 @@ csstype@^3.0.2, csstype@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==
+
+cytoscape@^3.29.2:
+  version "3.29.2"
+  resolved "https://registry.yarnpkg.com/cytoscape/-/cytoscape-3.29.2.tgz#c99f42513c80a75e2e94858add32896c860202ac"
+  integrity sha512-2G1ycU28Nh7OHT9rkXRLpCDP30MKH1dXJORZuBhtEhEW7pKwgPi77ImqlCWinouyE1PNepIOGZBOrE84DG7LyQ==
 
 damerau-levenshtein@^1.0.8:
   version "1.0.8"

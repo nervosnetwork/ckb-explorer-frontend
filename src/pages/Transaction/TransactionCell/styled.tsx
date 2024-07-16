@@ -179,7 +179,7 @@ export const TransactionCellCardSeparate = styled.div`
 
 export const TransactionCellDetailModal = styled.div`
   background-color: #fff;
-  margin: 15% auto;
+  margin: 15% auto 0;
   padding: 20px 40px;
   border: 1px solid #888;
   width: 75%;
