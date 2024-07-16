@@ -29,27 +29,9 @@ type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_sta
 
 const filterList = [
   {
-    key: 'invalid',
-    value: 'invalid',
-    title: <XUDTTag tagName="invalid" />,
-    to: '/xudts',
-  },
-  {
-    key: 'suspicious',
-    value: 'suspicious',
-    title: <XUDTTag tagName="suspicious" />,
-    to: '/xudts',
-  },
-  {
     key: 'out-of-length-range',
     value: 'out-of-length-range',
     title: <XUDTTag tagName="out-of-length-range" />,
-    to: '/xudts',
-  },
-  {
-    key: 'duplicate',
-    value: 'duplicate',
-    title: <XUDTTag tagName="duplicate" />,
     to: '/xudts',
   },
   {
@@ -62,12 +44,6 @@ const filterList = [
     key: 'layer-2-asset',
     value: 'layer-2-asset',
     title: <XUDTTag tagName="layer-2-asset" />,
-    to: '/xudts',
-  },
-  {
-    key: 'unnamed',
-    value: 'unnamed',
-    title: <XUDTTag tagName="unnamed" />,
     to: '/xudts',
   },
   {

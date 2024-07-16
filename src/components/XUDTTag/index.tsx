@@ -3,9 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import styles from './styles.module.scss'
 
+const HIDDEN_TAGS = ['duplicate', 'suspicious']
+
 const XUDTTag = ({ tagName }: { tagName: string }) => {
   const { t } = useTranslation()
   const { push } = useHistory()
+
+  // FIXME: the tag should be updated in the backend
+  if (HIDDEN_TAGS.includes(tagName)) return null
 
   let tag = tagName
   let content = t(`xudt.tags.${tag}`)
