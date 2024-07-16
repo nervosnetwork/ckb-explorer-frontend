@@ -201,6 +201,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     generatedTxHash: cell.txHash,
     cellIndex: cell.cellIndex.toString(16),
     status: 'live',
+    consumedTxHash: '',
   } as CellBasicInfo
 
   return {

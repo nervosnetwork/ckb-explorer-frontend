@@ -144,6 +144,10 @@ export const TransactionDetailPanel = styled.div`
       font-size: 10px;
       padding: 10px;
     }
+
+    &.utxoGraphContent {
+      max-height: 400px;
+    }
   }
 
   .transactionDetailLoading {
