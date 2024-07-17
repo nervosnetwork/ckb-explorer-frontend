@@ -1,6 +1,7 @@
 import { useState, ReactNode } from 'react'
 import { Tooltip } from 'antd'
 import type { Cell } from '@ckb-lumos/base'
+import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
 import { IOType } from '../../../constants/common'
@@ -17,7 +18,7 @@ import {
   TransactionCellInfoPanel,
   TransactionCellMobileItem,
 } from './styled'
-import { LeftArrow } from '../../../components/Transaction/TransactionCellArrow'
+import { LeftArrow, CellOutputIcon } from '../../../components/Transaction/TransactionCellArrow'
 import { NodeCellCapacityAmount } from '../../../components/TransactionItem/TransactionItemCell/NodeCellCapacityAmount'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'
 import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png'
@@ -35,6 +36,7 @@ import { useIsMobile } from '../../../hooks'
 import { getCellType } from '../../../utils/cell'
 import { encodeNewAddress, encodeDeprecatedAddress } from '../../../utils/address'
 import { Addr } from './index'
+import { useCKBNode } from '../../../hooks/useCKBNode'
 
 const TransactionCellIndexAddress = ({
   cell,
@@ -47,9 +49,21 @@ const TransactionCellIndexAddress = ({
   index: number
   isAddrNew: boolean
 }) => {
+  const { nodeService, isActivated } = useCKBNode()
   const deprecatedAddr = encodeDeprecatedAddress(cell.cellOutput.lock)
   const newAddr = encodeNewAddress(cell.cellOutput.lock)
   const address = isAddrNew ? newAddr : deprecatedAddr
+
+  const cellStatus = useQuery(
+    ['cellStatus', cell.outPoint],
+    async () => {
+      if (!cell.outPoint) return 'dead'
+      const liveCell = await nodeService.rpc.getLiveCell(cell.outPoint, false)
+      if (liveCell.status === 'live') return 'live'
+      return 'dead'
+    },
+    { enabled: isActivated && cell.outPoint && ioType && ioType === IOType.Output },
+  )
 
   return (
     <TransactionCellAddressPanel>
@@ -63,6 +77,7 @@ const TransactionCellIndexAddress = ({
           </Link>
         )}
         <Addr address={address ?? ''} isCellBase={false} />
+        {ioType === IOType.Output && <CellOutputIcon cell={{ status: cellStatus.data ?? 'dead' }} />}
       </TransactionCellHashPanel>
     </TransactionCellAddressPanel>
   )
