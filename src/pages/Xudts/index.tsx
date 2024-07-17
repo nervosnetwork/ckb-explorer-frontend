@@ -52,18 +52,6 @@ const filterList = [
     title: <XUDTTag tagName="supply-limited" />,
     to: '/xudts',
   },
-  {
-    key: 'supply-unlimited',
-    value: 'supply-unlimited',
-    title: <XUDTTag tagName="supply-unlimited" />,
-    to: '/xudts',
-  },
-  {
-    key: 'rgbpp-compatible',
-    value: 'rgbpp-compatible',
-    title: <XUDTTag tagName="rgbpp-compatible" />,
-    to: '/xudts',
-  },
 ]
 
 const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
@@ -311,7 +299,12 @@ const Xudts = () => {
       throw new Error('Tokens empty')
     }
     return {
-      tokens,
+      tokens: tokens.map(token => ({
+        ...token,
+        // FIXME: data should be updated in the backend
+        // issue: https://github.com/Magickbase/ckb-explorer-public-issues/issues/754
+        xudtTags: token.xudtTags?.filter(tag => tag !== 'rgbpp-compatible'),
+      })),
       total,
       pageSize,
     }

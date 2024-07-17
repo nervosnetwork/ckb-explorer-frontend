@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import styles from './styles.module.scss'
 
-const HIDDEN_TAGS = ['duplicate', 'suspicious']
+const HIDDEN_TAGS = ['duplicate', 'suspicious', 'supply-unlimited']
 
 const XUDTTag = ({ tagName }: { tagName: string }) => {
   const { t } = useTranslation()
@@ -19,6 +19,13 @@ const XUDTTag = ({ tagName }: { tagName: string }) => {
     content = content.replace('Platform', tag.replace('verified-on-', ''))
     tag = 'verified-on'
   }
+
+  // FIXME: data should be updated in the backend
+  // issue: https://github.com/Magickbase/ckb-explorer-public-issues/issues/754
+  if (tag === 'rgbpp-compatible') {
+    content = 'RGB++'
+  }
+
   const handleClick = () => {
     const search = new URLSearchParams(window.location.search)
     const tags = search.get('tags')?.split(',') ?? []
