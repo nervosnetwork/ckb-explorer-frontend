@@ -151,18 +151,18 @@
   > span {
     margin: 0 3px;
   }
+}
 
-  .transactionCellAddressLink {
-    max-width: 70%;
+.transactionCellAddressLink {
+  max-width: 70%;
 
-    @media (max-width: $mobileBreakPoint) {
-      max-width: unset;
-    }
+  @media (max-width: $mobileBreakPoint) {
+    max-width: unset;
   }
+}
 
-  .transactionCellAddressNoLink {
-    color: #000;
-  }
+.transactionCellAddressNoLink {
+  color: #000;
 }
 
 .transactionCellAddressPanel {
