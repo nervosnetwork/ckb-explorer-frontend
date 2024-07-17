@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import styles from './styles.module.scss'
 
-const HIDDEN_TAGS = ['duplicate', 'suspicious']
+const HIDDEN_TAGS = ['duplicate', 'suspicious', 'utility']
 
 const XUDTTag = ({ tagName }: { tagName: string }) => {
   const { t } = useTranslation()
