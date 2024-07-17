@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import classNames from 'classnames'
 import { Tooltip } from 'antd'
+import type { ContractHashTag } from '../../../constants/scripts'
 import { explorerService } from '../../../services/ExplorerService'
 import { hexToUtf8 } from '../../../utils/string'
 import { TransactionCellDetailTab, TransactionCellDetailPane, TransactionCellDetailTitle } from './styled'
@@ -24,6 +25,7 @@ import { ReactComponent as OuterLinkIcon } from './outer_link_icon.svg'
 import { ReactComponent as ScriptHashIcon } from './script_hash_icon.svg'
 import { HelpTip } from '../../HelpTip'
 import { useSetToast } from '../../Toast'
+import { isTypeIdScript, TYPE_ID_TAG } from '../../../utils/typeid'
 import { CellBasicInfo } from '../../../utils/transformer'
 import { isAxiosError } from '../../../utils/error'
 import { Script } from '../../../models/Script'
@@ -181,7 +183,12 @@ const JSONKeyValueView = ({ title = '', value = '' }: { title?: string; value?: 
 ///
 const ScriptRender = ({ content: script }: { content: Script }) => {
   const { t } = useTranslation()
-  const hashTag = getContractHashTag(script)
+  let hashTag: Pick<ContractHashTag, 'tag' | 'category'> | undefined
+  if (isTypeIdScript(script)) {
+    hashTag = { tag: TYPE_ID_TAG }
+  } else {
+    hashTag = getContractHashTag(script)
+  }
   const btcUtxo = getBtcUtxo(script)
   const btcTimeLockInfo = !btcUtxo ? getBtcTimeLockInfo(script) : null
 
@@ -360,6 +367,9 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
       refetchInterval: false,
     },
   )
+
+  const isContentAScript = isScript(content)
+  const isContentATypeIdScript = isContentAScript && isTypeIdScript(content)
 
   const onCopy = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     const { role } = e.currentTarget.dataset
@@ -556,22 +566,26 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
               </button>
             )}
 
-            {isScript(content) ? (
+            {isContentAScript ? (
               <button data-role="copy-script-hash" className={styles.button} type="button" onClick={onCopy}>
                 <div>Script Hash</div>
                 <ScriptHashIcon />
               </button>
             ) : null}
 
-            {isScript(content) ? (
+            {isContentAScript ? (
               <a
                 data-role="script-info"
                 className={styles.button}
-                href={`/script/${content.codeHash}/${content.hashType}`}
+                href={
+                  isContentATypeIdScript
+                    ? `/script/${scriptToHash(content as CKBComponents.Script)}/type`
+                    : `/script/${content.codeHash}/${content.hashType}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div>{`${t('scripts.script')} Info`}</div>
+                <div>{isContentATypeIdScript ? t('scripts.deployed_script') : `${t('scripts.script')} Info`}</div>
                 <OuterLinkIcon />
               </a>
             ) : null}
