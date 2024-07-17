@@ -27,6 +27,7 @@ import styles from './rgbppAssets.module.scss'
 import MergedAssetList from './MergedAssetList'
 import { UDTAccount } from '../../models/Address'
 import { CellBasicInfo } from '../../utils/transformer'
+import { isTypeIdScript } from '../../utils/typeid'
 import config from '../../config'
 import { getBtcChainIdentify } from '../../services/BTCIdentifier'
 
@@ -85,6 +86,13 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
 
   switch (assetType) {
     case 'ckb': {
+      if (cell.typeScript && isTypeIdScript(cell.typeScript)) {
+        icon = <TypeHashIcon />
+        assetName = 'Deployed Script'
+        attribute = `TYPE HASH: ${cell.typeHash.slice(0, 10)}...`
+        detailInfo = cell.typeHash
+        break
+      }
       if (cell.typeHash) {
         icon = <TypeHashIcon />
         assetName = 'UNKNOWN ASSET'
