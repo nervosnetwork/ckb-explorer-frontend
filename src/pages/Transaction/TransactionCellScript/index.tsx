@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import type { Cell } from '@ckb-lumos/base'
 import { useState, ReactNode, useRef, FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import type { Cell } from '@ckb-lumos/base'
 import { useQuery } from '@tanstack/react-query'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
+import type { ContractHashTag } from '../../../constants/scripts'
 import {
   TransactionDetailContainer,
   TransactionDetailPanel,
@@ -19,6 +20,7 @@ import config from '../../../config'
 import { getBtcTimeLockInfo, getBtcUtxo, getContractHashTag } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { cellOccupied } from '../../../utils/cell'
+import { isTypeIdScript, TYPE_ID_TAG } from '../../../utils/typeid'
 import HashTag from '../../../components/HashTag'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
 import { ReactComponent as OuterLinkIcon } from './outer_link_icon.svg'
@@ -153,7 +155,13 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
   const { t } = useTranslation()
 
   if (isScript(content)) {
-    const hashTag = getContractHashTag(content)
+    let hashTag: Pick<ContractHashTag, 'tag' | 'category'> | undefined
+    if (isTypeIdScript(content)) {
+      hashTag = { tag: TYPE_ID_TAG }
+    } else {
+      hashTag = getContractHashTag(content)
+    }
+
     const btcUtxo = getBtcUtxo(content)
     const btcTimeLockInfo = !btcUtxo ? getBtcTimeLockInfo(content) : null
     return (
@@ -276,6 +284,9 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
     )
   }
 
+  const isContentAScript = isScript(content)
+  const isContentATypeIdScript = isContentAScript && isTypeIdScript(content as Script)
+
   return (
     <TransactionDetailContainer ref={ref}>
       <TransactionCellDetailPanel>
@@ -338,22 +349,26 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
               <CopyIcon />
             </button>
 
-            {isScript(content) ? (
+            {isContentAScript ? (
               <button data-role="copy-script-hash" className={styles.button} type="button" onClick={onCopy}>
                 <div>Script Hash</div>
                 <ScriptHashIcon />
               </button>
             ) : null}
 
-            {isScript(content) ? (
+            {isContentAScript ? (
               <a
                 data-role="script-info"
                 className={styles.button}
-                href={`/script/${content.codeHash}/${content.hashType}`}
+                href={
+                  isContentATypeIdScript
+                    ? `/script/${scriptToHash(content as CKBComponents.Script)}/type`
+                    : `/script/${content.codeHash}/${content.hashType}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div>{`${t('scripts.script')} Info`}</div>
+                <div>{isContentATypeIdScript ? t('scripts.deployed_script') : `${t('scripts.script')} Info`}</div>
                 <OuterLinkIcon />
               </a>
             ) : null}

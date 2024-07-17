@@ -875,7 +875,8 @@
       "capacity_of_deployed_cells": "部署的 Cells 所占 Capacity",
       "capacity_of_referring_cells": "引用的 Cells 所占 Capacity",
       "LockScript": "Lock Script",
-      "TypeScript": "Type Script"
+      "TypeScript": "Type Script",
+      "deployed_script": "部署的脚本"
     },
     "fee_rate_tracker": {
       "title": "费率追踪",
