@@ -1,8 +1,10 @@
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { ContractHashTag } from '../../constants/scripts'
 import { ScriptItemPanel, ScriptPanel } from './styled'
 import HashTag from '../HashTag'
 import { getContractHashTag } from '../../utils/util'
+import { isTypeIdScript, TYPE_ID_TAG } from '../../utils/typeid'
 import { HelpTip } from '../HelpTip'
 import { Script } from '../../models/Script'
 
@@ -18,15 +20,20 @@ const ScriptItem = ({ title, tooltip, children }: { title: string; tooltip?: str
 )
 
 const ScriptComp = ({ script }: { script: Script }) => {
-  const contractHashTag = getContractHashTag(script)
   const { t } = useTranslation()
+  let hashTag: Pick<ContractHashTag, 'tag' | 'category'> | undefined
+  if (isTypeIdScript(script)) {
+    hashTag = { tag: TYPE_ID_TAG }
+  } else {
+    hashTag = getContractHashTag(script)
+  }
 
   return (
     <ScriptPanel>
       <ScriptItem title={t('address.code_hash')}>
         <div className="scriptCodeHash">
           <span className="monospace">{script.codeHash}</span>
-          {contractHashTag && <HashTag content={contractHashTag.tag} />}
+          {hashTag && <HashTag content={hashTag.tag} />}
         </div>
       </ScriptItem>
       <ScriptItem title={t('address.hash_type')}>

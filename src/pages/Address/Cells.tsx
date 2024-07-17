@@ -23,6 +23,7 @@ import SmallLoading from '../../components/Loading/SmallLoading'
 import { TransactionCellInfo } from '../Transaction/TransactionCell'
 import { CellBasicInfo } from '../../utils/transformer'
 import { sliceNftName } from '../../utils/string'
+import { isTypeIdScript } from '../../utils/typeid'
 
 enum Sort {
   TimeAsc = 'block_timestamp.asc',
@@ -64,6 +65,13 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
   switch (assetType) {
     case 'ckb': {
       assetTypeText = 'CKB'
+      if (cell.typeScript && isTypeIdScript(cell.typeScript)) {
+        icon = <TypeHashIcon />
+        assetName = 'Deployed Script'
+        attribute = `TYPE HASH: ${cell.typeHash.slice(0, 10)}...`
+        detailInfo = cell.typeHash
+        break
+      }
       if (cell.typeHash) {
         icon = <TypeHashIcon />
         assetName = 'UNKNOWN ASSET'
@@ -201,6 +209,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
     generatedTxHash: cell.txHash,
     cellIndex: cell.cellIndex.toString(16),
     status: 'live',
+    consumedTxHash: '',
   } as CellBasicInfo
 
   return {

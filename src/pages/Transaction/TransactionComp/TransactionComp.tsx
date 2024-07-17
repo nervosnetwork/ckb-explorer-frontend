@@ -10,7 +10,7 @@ import Pagination from '../../../components/Pagination'
 import { PAGE_SIZE } from '../../../constants/common'
 import { useSearchParams } from '../../../hooks'
 
-const handleCellbaseInputs = (inputs: Cell[], outputs: Cell[]) => {
+const handleCellbaseInputs = (inputs: Cell[], outputs: Cell[], inputsConsumedTxHash: string) => {
   if (inputs[0] && inputs[0].fromCellbase && outputs[0] && outputs[0].baseReward) {
     const resultInputs = inputs
     resultInputs[0] = {
@@ -20,9 +20,9 @@ const handleCellbaseInputs = (inputs: Cell[], outputs: Cell[]) => {
       commitReward: outputs[0].commitReward,
       proposalReward: outputs[0].proposalReward,
     }
-    return resultInputs
+    return resultInputs.map(v => ({ ...v, consumedTxHash: inputsConsumedTxHash }))
   }
-  return inputs
+  return inputs.map(v => ({ ...v, consumedTxHash: inputsConsumedTxHash }))
 }
 
 const emptyList: Response.Response<Cell[]> = {
@@ -66,7 +66,7 @@ export const TransactionComp = ({
         .catch(() => emptyList),
   )
 
-  const inputs = handleCellbaseInputs(displayInputs.data, displayOutputs.data)
+  const inputs = handleCellbaseInputs(displayInputs.data, displayOutputs.data, txHash)
   const inputsPageCount = displayInputs.meta ? Math.ceil(displayInputs.meta.total / displayInputs.meta.pageSize) : 1
   const outputsPageCount = displayOutputs.meta ? Math.ceil(displayOutputs.meta.total / displayOutputs.meta.pageSize) : 1
 
@@ -94,6 +94,7 @@ export const TransactionComp = ({
           inputs={inputs}
           startIndex={(inputsPage - 1) * pageSize}
           showReward={Number(blockNumber) - 11 > 0 && isCellbase}
+          txHash={txHash}
         />
         <div style={{ height: 4 }} />
         <Pagination

@@ -556,6 +556,7 @@
       "export-transaction": "导出交易",
       "capacity_usage": "Capacity 使用情况",
       "rgbpp": "RGB++",
+      "utxo_graph": "UTXO 图形化",
       "declared_capacity": "declared",
       "occupied_capacity": "occupied",
       "size": "交易体积",
@@ -874,7 +875,8 @@
       "capacity_of_deployed_cells": "部署的 Cells 所占 Capacity",
       "capacity_of_referring_cells": "引用的 Cells 所占 Capacity",
       "LockScript": "Lock Script",
-      "TypeScript": "Type Script"
+      "TypeScript": "Type Script",
+      "deployed_script": "部署的脚本"
     },
     "fee_rate_tracker": {
       "title": "费率追踪",
@@ -1012,6 +1014,13 @@
       "done": "完成",
       "node_connect_mode": "节点连接模式",
       "node_connect_tooltip": "打开节点连接模式时，浏览器数据将从节点获取，因此无法再支持某些功能/数据。"
+    },
+    "utxo_graph": {
+      "view_tx": "查看交易",
+      "tx_hash": "交易",
+      "view_address": "查看地址",
+      "view_btc_utxo": "查看 BTC UTXO",
+      "view_cell_info": "查看 Cell 信息"
     }
   }
 }

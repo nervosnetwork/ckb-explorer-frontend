@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { useState, ReactNode, useRef } from 'react'
+import { useState, ReactNode, useRef, useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import classNames from 'classnames'
 import { Tooltip } from 'antd'
+import type { ContractHashTag } from '../../../constants/scripts'
 import { explorerService } from '../../../services/ExplorerService'
 import { hexToUtf8 } from '../../../utils/string'
 import { TransactionCellDetailTab, TransactionCellDetailPane, TransactionCellDetailTitle } from './styled'
@@ -24,6 +25,7 @@ import { ReactComponent as OuterLinkIcon } from './outer_link_icon.svg'
 import { ReactComponent as ScriptHashIcon } from './script_hash_icon.svg'
 import { HelpTip } from '../../HelpTip'
 import { useSetToast } from '../../Toast'
+import { isTypeIdScript, TYPE_ID_TAG } from '../../../utils/typeid'
 import { CellBasicInfo } from '../../../utils/transformer'
 import { isAxiosError } from '../../../utils/error'
 import { Script } from '../../../models/Script'
@@ -33,6 +35,7 @@ import EllipsisMiddle from '../../EllipsisMiddle'
 import { useIsMobile } from '../../../hooks'
 import { BTCExplorerLink } from '../../Link'
 import { CellInfoProps } from './types'
+import UTXOGraph from '../../UTXOGraph'
 
 enum CellInfo {
   LOCK = 'lock',
@@ -40,6 +43,7 @@ enum CellInfo {
   DATA = 'data',
   CAPACITY = 'capacity',
   RGBPP = 'rgbpp',
+  UTXO = 'uxto',
 }
 
 type CapacityUsage = Record<'declared' | 'occupied', string | null>
@@ -52,7 +56,11 @@ interface RGBPP {
   btcTx: string
 }
 
-type CellInfoValue = Script | CellData | CapacityUsage | RGBPP | null | undefined
+type UtxoGraphInfo = CellBasicInfo & {
+  lock: Script | null
+}
+
+type CellInfoValue = Script | CellData | CapacityUsage | RGBPP | null | undefined | UtxoGraphInfo
 
 function isScript(content: CellInfoValue): content is Script {
   return content != null && 'codeHash' in content
@@ -64,6 +72,10 @@ function isCapacityUsage(content: CellInfoValue): content is CapacityUsage {
 
 function isCellData(content: CellInfoValue): content is CellData {
   return content != null && 'data' in content
+}
+
+function isUTXOData(content: CellInfoValue): content is UtxoGraphInfo {
+  return content != null && 'generatedTxHash' in content
 }
 
 function isRGBPP(content: CellInfoValue): content is RGBPP {
@@ -144,6 +156,12 @@ const fetchCellInfo = async (cell: CellBasicInfo, state: CellInfo): Promise<Cell
       }
     }
 
+    case CellInfo.UTXO:
+      return {
+        lock: await fetchLock(),
+        ...cell,
+      }
+
     case CellInfo.RGBPP: {
       return {
         btcTx: cell.rgbInfo?.txid ?? '',
@@ -165,7 +183,12 @@ const JSONKeyValueView = ({ title = '', value = '' }: { title?: string; value?: 
 ///
 const ScriptRender = ({ content: script }: { content: Script }) => {
   const { t } = useTranslation()
-  const hashTag = getContractHashTag(script)
+  let hashTag: Pick<ContractHashTag, 'tag' | 'category'> | undefined
+  if (isTypeIdScript(script)) {
+    hashTag = { tag: TYPE_ID_TAG }
+  } else {
+    hashTag = getContractHashTag(script)
+  }
   const btcUtxo = getBtcUtxo(script)
   const btcTimeLockInfo = !btcUtxo ? getBtcTimeLockInfo(script) : null
 
@@ -260,13 +283,28 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
   return <JSONKeyValueView title="null" />
 }
 
-const CellInfoValueView = ({ content, state }: { content: CellInfoValue; state: CellInfo }) => {
+const CellInfoValueView = ({
+  content,
+  state,
+  modalRef,
+  onViewCell,
+}: {
+  content: CellInfoValue
+  state: CellInfo
+  modalRef?: HTMLDivElement | null
+  onViewCell: (cell: CellBasicInfo) => void
+}) => {
   switch (state) {
     case CellInfo.LOCK:
     case CellInfo.TYPE:
     case CellInfo.DATA:
     case CellInfo.CAPACITY:
       return <CellInfoValueJSONView content={content} state={state} />
+    case CellInfo.UTXO:
+      if (isUTXOData(content)) {
+        return <UTXOGraph {...content} modalRef={modalRef} onViewCell={onViewCell} />
+      }
+      return null
     case CellInfo.RGBPP:
       return <CellInfoNormalValueView content={content} state={state} />
     default:
@@ -288,7 +326,7 @@ const CellInfoValueJSONView = ({ content, state }: { content: CellInfoValue; sta
   </div>
 )
 
-export default ({ cell, onClose }: CellInfoProps) => {
+export default ({ cell: entryCell, onClose }: CellInfoProps) => {
   const setToast = useSetToast()
   const { t } = useTranslation()
   const [selectedInfo, setSelectedInfo] = useState<CellInfo>(CellInfo.LOCK)
@@ -298,6 +336,13 @@ export default ({ cell, onClose }: CellInfoProps) => {
   const changeType = (newState: CellInfo) => {
     setSelectedInfo(selectedInfo !== newState ? newState : selectedInfo)
   }
+
+  const [viewCell, setViewCell] = useState<CellBasicInfo | undefined>()
+  const onViewCell = useCallback((newViewCell: CellBasicInfo) => {
+    setViewCell(newViewCell)
+    setSelectedInfo(CellInfo.LOCK)
+  }, [])
+  const cell = viewCell ?? entryCell
 
   const { data: content, isFetched } = useQuery(
     ['cell-info', cell, selectedInfo],
@@ -322,6 +367,9 @@ export default ({ cell, onClose }: CellInfoProps) => {
       refetchInterval: false,
     },
   )
+
+  const isContentAScript = isScript(content)
+  const isContentATypeIdScript = isContentAScript && isTypeIdScript(content)
 
   const onCopy = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     const { role } = e.currentTarget.dataset
@@ -449,6 +497,7 @@ export default ({ cell, onClose }: CellInfoProps) => {
               changeType(state)
             }
           }}
+          activeKey={selectedInfo}
         >
           <TransactionCellDetailPane
             tab={
@@ -487,13 +536,22 @@ export default ({ cell, onClose }: CellInfoProps) => {
               key={CellInfo.RGBPP}
             />
           )}
+          <TransactionCellDetailPane
+            tab={<TransactionCellDetailTitle>{t('transaction.utxo_graph')}</TransactionCellDetailTitle>}
+            key={CellInfo.UTXO}
+          />
         </TransactionCellDetailTab>
       </div>
 
       <div className={styles.transactionDetailPanel}>
         {isFetched ? (
-          <div className={styles.transactionDetailContent}>
-            <CellInfoValueView content={content} state={selectedInfo} />
+          <div
+            className={classNames(
+              styles.transactionDetailContent,
+              isUTXOData(content) ? styles.utxoContent : undefined,
+            )}
+          >
+            <CellInfoValueView content={content} state={selectedInfo} modalRef={ref.current} onViewCell={onViewCell} />
           </div>
         ) : (
           <div className={styles.transactionDetailLoading}>{!isFetched ? <SmallLoading /> : null}</div>
@@ -501,29 +559,33 @@ export default ({ cell, onClose }: CellInfoProps) => {
 
         {!isFetched || !content ? null : (
           <div className={styles.scriptActions}>
-            {!isRGBPP(content) && (
+            {!isRGBPP(content) && !isUTXOData(content) && (
               <button data-role="copy-script" className={styles.button} type="button" onClick={onCopy}>
                 <div>{t('common.copy')}</div>
                 <CopyIcon />
               </button>
             )}
 
-            {isScript(content) ? (
+            {isContentAScript ? (
               <button data-role="copy-script-hash" className={styles.button} type="button" onClick={onCopy}>
                 <div>Script Hash</div>
                 <ScriptHashIcon />
               </button>
             ) : null}
 
-            {isScript(content) ? (
+            {isContentAScript ? (
               <a
                 data-role="script-info"
                 className={styles.button}
-                href={`/script/${content.codeHash}/${content.hashType}`}
+                href={
+                  isContentATypeIdScript
+                    ? `/script/${scriptToHash(content as CKBComponents.Script)}/type`
+                    : `/script/${content.codeHash}/${content.hashType}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div>{`${t('scripts.script')} Info`}</div>
+                <div>{isContentATypeIdScript ? t('scripts.deployed_script') : `${t('scripts.script')} Info`}</div>
                 <OuterLinkIcon />
               </a>
             ) : null}

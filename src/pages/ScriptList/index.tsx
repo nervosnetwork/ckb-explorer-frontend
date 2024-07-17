@@ -206,6 +206,15 @@ export const scripts = new Map<string, ScriptAttributes>([
     },
   ],
   [
+    'xUDT(final_rls)',
+    {
+      name: 'xUDT(final_rls)',
+      description: "Extensible UDT that derived from sUDT's programmability to support a wider range of scenarios",
+      code: 'https://github.com/nervosnetwork/ckb-production-scripts/blob/master/c/xudt_rce.c',
+      website: 'https://blog.cryptape.com/enhance-sudts-programmability-with-xudt#heading-xudt-cell',
+    },
+  ],
+  [
     'Spore',
     {
       name: 'Spore',

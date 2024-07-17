@@ -556,6 +556,7 @@
       "export-transaction": "Export Transaction",
       "capacity_usage": "Capacity Usage",
       "rgbpp": "RGB++",
+      "utxo_graph": "UTXO graph",
       "declared_capacity": "declared",
       "occupied_capacity": "occupied",
       "size": "Size",
@@ -873,7 +874,8 @@
       "capacity_of_deployed_cells": "Capacity of deployed cells",
       "capacity_of_referring_cells": "Capacity of referring cells",
       "LockScript": "Lock Script",
-      "TypeScript": "Type Script"
+      "TypeScript": "Type Script",
+      "deployed_script": "Deployed Script"
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",
@@ -1011,6 +1013,13 @@
       "done": "Done",
       "node_connect_mode": "Node Connect Mode",
       "node_connect_tooltip": "When the node-connection mode is enabled, the data will be fetched from the node directly, so some features/data will not be supported."
+    },
+    "utxo_graph": {
+      "view_tx": "View Transaction",
+      "tx_hash": "Tx",
+      "view_address": "View Address",
+      "view_btc_utxo": "View BTC UTXO",
+      "view_cell_info": "View Cell Info"
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Cell } from '../models/Cell'
 import { Transaction } from '../models/Transaction'
 import { RawBtcRPC } from '../services/ExplorerService'
-import type { CellInScript, CKBTransactionInScript } from '../services/ExplorerService/fetcher'
+import type { CKBTransactionInScript, CellInScript } from '../services/ExplorerService/fetcher'
 
 // TODO: move to models
 export const transformToTransaction = (
@@ -41,8 +41,17 @@ export const transformToTransaction = (
 // TODO: move to models
 export type CellBasicInfo = Pick<
   Cell,
-  'id' | 'isGenesisOutput' | 'capacity' | 'occupiedCapacity' | 'generatedTxHash' | 'cellIndex' | 'status' | 'rgbInfo'
+  | 'id'
+  | 'isGenesisOutput'
+  | 'capacity'
+  | 'occupiedCapacity'
+  | 'generatedTxHash'
+  | 'consumedTxHash'
+  | 'cellIndex'
+  | 'status'
+  | 'rgbInfo'
 >
+
 export const transformToCellBasicInfo = (cell: CellInScript): CellBasicInfo => {
   return {
     id: cell.id,
@@ -52,5 +61,6 @@ export const transformToCellBasicInfo = (cell: CellInScript): CellBasicInfo => {
     generatedTxHash: cell.txHash,
     cellIndex: cell.cellIndex.toString(16),
     status: cell.status as 'live' | 'dead',
+    consumedTxHash: '',
   }
 }
