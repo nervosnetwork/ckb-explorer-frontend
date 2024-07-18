@@ -28,12 +28,13 @@ import XUDTTokenIcon from '../../assets/sudt_token.png'
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
 const filterList = [
-  {
-    key: 'out-of-length-range',
-    value: 'out-of-length-range',
-    title: <XUDTTag tagName="out-of-length-range" />,
-    to: '/xudts',
-  },
+  // TODO: maybe removed in the future, hold on
+  // {
+  //   key: 'out-of-length-range',
+  //   value: 'out-of-length-range',
+  //   title: <XUDTTag tagName="out-of-length-range" />,
+  //   to: '/xudts',
+  // },
   {
     key: 'layer-1-asset',
     value: 'layer-1-asset',
