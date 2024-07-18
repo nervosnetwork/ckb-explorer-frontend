@@ -792,6 +792,7 @@
       "tags": {
         "invalid": "Invalid",
         "suspicious": "Suspicious",
+        "utility": "Utility",
         "out-of-length-range": "Out Of Length Range",
         "duplicate": "Duplicate",
         "layer-1-asset": "Layer 1 Asset",
