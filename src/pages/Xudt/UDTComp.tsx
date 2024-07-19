@@ -28,6 +28,8 @@ import SimpleModal from '../../components/Modal'
 import HolderAllocation from './HolderAllocation'
 import { ReactComponent as EditIcon } from '../../assets/edit.svg'
 import XUDTTokenIcon from '../../assets/sudt_token.png'
+import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
+import { scripts } from '../ScriptList'
 
 const IssuerContent: FC<{ address: string }> = ({ address }) => {
   const { t } = useTranslation()
@@ -56,6 +58,8 @@ const IssuerContent: FC<{ address: string }> = ({ address }) => {
     </>
   )
 }
+
+const xudtCodeUrl = scripts.get('xUDT')?.code
 
 export const UDTOverviewCard = ({
   typeHash,
@@ -204,6 +208,12 @@ export const UDTOverviewCard = ({
           {tags.map(tag => (
             <XUDTTag tagName={tag} />
           ))}
+          {xudtCodeUrl ? (
+            <Link className={styles.openSource} to={xudtCodeUrl}>
+              {t('scripts.open_source_script')}
+              <OpenSourceIcon />
+            </Link>
+          ) : null}
         </div>
 
         <CardCellsLayout type="left-right" cells={items} borderTop />
