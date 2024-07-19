@@ -263,3 +263,20 @@
 .udtTransactionsPanel {
   width: 100%;
 }
+
+.openSource {
+  font-weight: normal;
+  font-size: 12px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #333;
+  border: 1px solid #8a8a8a;
+  border-radius: 4px;
+
+  &:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+}
