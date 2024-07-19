@@ -327,7 +327,7 @@ const Xudts = () => {
           <div className={styles.title}>
             {t('xudt.xudts')}
             {xudtCodeUrl ? (
-              <Link className={styles.xudtCodeLink} to={xudtCodeUrl}>
+              <Link to={xudtCodeUrl}>
                 {t('scripts.open_source_script')}
                 <OpenSourceIcon />
               </Link>
