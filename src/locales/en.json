@@ -149,7 +149,8 @@
       "cota": "A kind of NFT protocol. A Compact Token Aggregator Standard for Extremely Low Cost NFTs and FTs. For more details, please check the <cota_link>CoTA RDC</cota_link>",
       "m_nft": "The NFT Type Scripts implement of RFC: Multi-purpose NFT Draft Spec on Nervos CKB. For more details, please check the <m_nft_link>CKB-NFT-Script</m_nft_link>",
       "nrc721": "NRC-721 is a token standard for non-fungible tokens (NFTs) on the Nervos CKB blockchain. It is similar to the ERC-721 token standard used on the Ethereum blockchain, and provides a common interface for creating, managing, and transferring unique digital assets on the CKB network. NRC-721 tokens are unique and non-interchangeable, which makes them ideal for representing assets such as collectibles, game items, and other unique digital assets.",
-      "hash_rate": "Hash Rate is a measure of the computational power per second used when mining a cryptocurrency. It represents the number of hash operations that can be performed by a miner in a given period of time. In the context of blockchain, hash rate is used to measure the amount of work that is being done by the network to maintain the blockchain. A higher hash rate indicates that the network is more secure, as it becomes more difficult for a malicious actor to perform a 51% attack."
+      "hash_rate": "Hash Rate is a measure of the computational power per second used when mining a cryptocurrency. It represents the number of hash operations that can be performed by a miner in a given period of time. In the context of blockchain, hash rate is used to measure the amount of work that is being done by the network to maintain the blockchain. A higher hash rate indicates that the network is more secure, as it becomes more difficult for a malicious actor to perform a 51% attack.",
+      "spore": "Spore"
     },
     "toast": {
       "invalid_network": "Network exception, please try again later",
@@ -792,6 +793,7 @@
       "tags": {
         "invalid": "Invalid",
         "suspicious": "Suspicious",
+        "utility": "Utility",
         "out-of-length-range": "Out Of Length Range",
         "duplicate": "Duplicate",
         "layer-1-asset": "Layer 1 Asset",
@@ -875,7 +877,8 @@
       "capacity_of_referring_cells": "Capacity of referring cells",
       "LockScript": "Lock Script",
       "TypeScript": "Type Script",
-      "deployed_script": "Deployed Script"
+      "deployed_script": "Deployed Script",
+      "open_source_script": "Open-Source Script"
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",
