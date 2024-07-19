@@ -154,7 +154,8 @@
       "cota": "一种 NFT 协议。一种用于极低成本 NFT 和 FT 的紧凑型代币聚合标准。更多详细信息，请查阅 <cota_link>CoTA RDC</cota_link>",
       "m_nft": "NFT 类型脚本是 RFC——Nervos CKB 上多用途 NFT 草案规范——的实现。更多详细信息，请查阅 <m_nft_link>CKB-NFT-Script</m_nft_link>",
       "nrc721": "NRC-721 是 Nervos CKB 区块链上的非同质化代币 (NFT) 标准。它类似于以太坊区块链上使用的 ERC-721 代币标准，为在 CKB 网络上创建、管理和转移独特数字资产提供了通用接口。NRC-721 代币是独特且不可互换的，这使它们非常适合代表收藏品、游戏道具和其他独特的数字资产。",
-      "hash_rate": "哈希率 (Hash Rate) 是用于挖掘加密货币时每秒使用的计算能力的度量。它表示矿工在一定时间内可以执行的哈希操作数量。在区块链的上下文中，哈希率用于衡量网络维护区块链所做的工作量。更高的哈希率表示网络更安全，因为对于恶意行为者来说，执行 51%攻击变得更加困难。"
+      "hash_rate": "哈希率 (Hash Rate) 是用于挖掘加密货币时每秒使用的计算能力的度量。它表示矿工在一定时间内可以执行的哈希操作数量。在区块链的上下文中，哈希率用于衡量网络维护区块链所做的工作量。更高的哈希率表示网络更安全，因为对于恶意行为者来说，执行 51%攻击变得更加困难。",
+      "spore": "Spore"
     },
     "toast": {
       "invalid_network": "网络出错，请稍后再试",
@@ -793,6 +794,7 @@
       "tags": {
         "invalid": "无效",
         "suspicious": "可疑",
+        "utility": "有效用的",
         "out-of-length-range": "超长",
         "duplicate": "重复",
         "layer-1-asset": "Layer 1 资产",
@@ -876,7 +878,8 @@
       "capacity_of_referring_cells": "引用的 Cells 所占 Capacity",
       "LockScript": "Lock Script",
       "TypeScript": "Type Script",
-      "deployed_script": "部署的脚本"
+      "deployed_script": "部署的脚本",
+      "open_source_script": "已开源脚本"
     },
     "fee_rate_tracker": {
       "title": "费率追踪",

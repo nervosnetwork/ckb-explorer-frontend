@@ -20,10 +20,12 @@ import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
 import { Card } from '../../components/Card'
-import { BooleanT } from '../../utils/array'
 import XUDTTag from '../../components/XUDTTag'
 import { SubmitTokenInfo } from '../../components/SubmitTokenInfo'
+import { BooleanT } from '../../utils/array'
 import XUDTTokenIcon from '../../assets/sudt_token.png'
+import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
+import { scripts } from '../ScriptList'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -282,6 +284,8 @@ const TokenTable: FC<{
   )
 }
 
+const xudtCodeUrl = scripts.get('xUDT')?.code
+
 const Xudts = () => {
   const { t } = useTranslation()
   const { tags } = useSearchParams('tags')
@@ -320,7 +324,15 @@ const Xudts = () => {
     <Content>
       <div className={classNames(styles.tokensPanel, 'container')}>
         <div className={styles.tokensTitlePanel}>
-          <span>{t('xudt.xudts')}</span>
+          <div className={styles.title}>
+            {t('xudt.xudts')}
+            {xudtCodeUrl ? (
+              <Link className={styles.xudtCodeLink} to={xudtCodeUrl}>
+                {t('scripts.open_source_script')}
+                <OpenSourceIcon />
+              </Link>
+            ) : null}
+          </div>
 
           <button
             type="button"
