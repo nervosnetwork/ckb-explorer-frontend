@@ -793,6 +793,7 @@
       "tags": {
         "invalid": "无效",
         "suspicious": "可疑",
+        "utility": "有效用的",
         "out-of-length-range": "超长",
         "duplicate": "重复",
         "layer-1-asset": "Layer 1 资产",
