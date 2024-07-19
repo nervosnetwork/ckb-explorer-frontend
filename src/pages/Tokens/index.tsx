@@ -24,6 +24,8 @@ import { SubmitTokenInfo } from '../../components/SubmitTokenInfo'
 import { OmigaInscriptionCollection, UDT, isOmigaInscriptionCollection } from '../../models/UDT'
 import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
 import { Card } from '../../components/Card'
+import { scripts } from '../ScriptList'
+import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { BooleanT } from '../../utils/array'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
@@ -328,6 +330,8 @@ const TokenTable: FC<{
   )
 }
 
+const sudtCodeUrl = scripts.get('sudt')?.code
+
 const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
@@ -363,7 +367,15 @@ const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
     <Content>
       <TokensPanel className="container">
         <div className="tokensTitlePanel">
-          <span>{isInscription ? t('udt.inscriptions') : t('udt.tokens')}</span>
+          <span className={styles.title}>
+            {isInscription ? t('udt.inscriptions') : t('udt.tokens')}
+            {sudtCodeUrl ? (
+              <Link to={sudtCodeUrl}>
+                {t('scripts.open_source_script')}
+                <OpenSourceIcon />
+              </Link>
+            ) : null}
+          </span>
           <button
             type="button"
             className={styles.submitTokenInfoBtn}
