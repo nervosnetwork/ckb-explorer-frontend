@@ -1012,7 +1012,20 @@
     "node": {
       "alert": "Currently on the node-connection mode. The explorer data will be fetched from the node, so some features/data cannot be supported. You can <switcher>click here</switcher> to switch",
       "done": "Done",
+      "default_node": "Default Node",
+      "alias": "Alias",
+      "rpc_url": "RPC URL",
+      "add_node": "Add Node",
+      "modify_node": "Modify Node",
       "node_connect_mode": "Node Connect Mode",
+      "node_existed": "Node Existed",
+      "add_success": "Add Node Success",
+      "modify_success": "Modify Node Success",
+      "alias_required": "Please Input Alias",
+      "url_required": "Please Input RPC URL",
+      "url_invalid": "RPC URL is not valid URL",
+      "invalid_network": "Invalid network. please try switching the mainnet or testnet to connect to this node",
+      "connect_failed": "Node connect failed",
       "node_connect_tooltip": "When the node-connection mode is enabled, the data will be fetched from the node directly, so some features/data will not be supported."
     },
     "utxo_graph": {

@@ -23,9 +23,9 @@ const getColor = (type: ToastMessage['type']) => {
   }
 }
 
-const ANIMATION_DISAPPEAR_TIME = 2000
+const ANIMATION_DISAPPEAR_TIME = 1500
 const MAX_FRAME: number = (ANIMATION_DISAPPEAR_TIME / 1000) * 40 // suppose fps = 40
-const DEFAULT_TOAST_DURATION = 3000
+const DEFAULT_TOAST_DURATION = 2000
 
 const ToastItem = ({ data, willLeave }: { data: ToastMessage; willLeave: Function }) => {
   const [opacity, setOpacity] = useState(1)
