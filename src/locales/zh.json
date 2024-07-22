@@ -1015,7 +1015,20 @@
     "node": {
       "alert": "当前使用节点模式。在节点模式中，浏览器数据将取自节点，因此部分功能/数据无法不再支持，同时。您可在浏览器右上角或<switcher>点击此处</switcher>切换节点",
       "done": "完成",
+      "alias": "别名",
+      "rpc_url": "节点地址",
+      "node_existed": "该节点已存在",
+      "add_success": "添加节点成功",
+      "modify_success": "修改节点成功",
+      "default_node": "默认节点",
+      "add_node": "添加节点",
+      "modify_node": "修改节点",
+      "alias_required": "请输入节点别名",
+      "url_required": "请输入节点地址",
+      "url_invalid": "节点地址不是有效的 URL",
       "node_connect_mode": "节点连接模式",
+      "invalid_network": "节点不匹配，请尝试切换 主网 / 测试网 来连接此节点",
+      "connect_failed": "节点连接失败",
       "node_connect_tooltip": "打开节点连接模式时，浏览器数据将从节点获取，因此无法再支持某些功能/数据。"
     },
     "utxo_graph": {
