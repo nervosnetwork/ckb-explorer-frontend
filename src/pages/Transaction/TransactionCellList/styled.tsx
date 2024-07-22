@@ -20,29 +20,27 @@ export const TransactionCellListTitlePanel = styled.div`
     font-weight: 600;
     color: #000;
 
-    > div {
-      height: 24px;
-    }
+    @media (min-width: ${variables.mobileBreakPoint}) {
+      > div:nth-child(1) {
+        flex: 0.4;
+      }
 
-    > div:nth-child(1) {
-      flex: 0.4;
-    }
+      > div:nth-child(2) {
+        flex: 0.22;
+        display: flex;
+      }
 
-    > div:nth-child(2) {
-      flex: 0.22;
-      display: flex;
-    }
+      > div:nth-child(3) {
+        flex: 0.3;
+        display: flex;
+        justify-content: flex-end;
+      }
 
-    > div:nth-child(3) {
-      flex: 0.3;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    > div:nth-child(4) {
-      flex: 0.08;
-      display: flex;
-      justify-content: flex-end;
+      > div:nth-child(4) {
+        flex: 0.08;
+        display: flex;
+        justify-content: flex-end;
+      }
     }
   }
 
@@ -50,7 +48,7 @@ export const TransactionCellListTitlePanel = styled.div`
     content: '';
     background: #e2e2e2;
     height: 1px;
-    margin-top: 20px;
+    margin-top: 12px;
     transform: ${() => `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})`};
 
     @media (max-width: ${variables.mobileBreakPoint}) {
