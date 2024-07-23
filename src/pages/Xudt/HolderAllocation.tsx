@@ -26,9 +26,9 @@ const HolderAllocation = ({
   return (
     <div className={styles.holderAllocationContainer}>
       <div className={styles.holderAllocationContent}>
-        <h2>{t('xudt.holder_allocation')}</h2>
+        <h2>{t('xudt.holder_distribution')}</h2>
         <p>
-          {t('xudt.holder_allocation_description', {
+          {t('xudt.holder_distribution_description', {
             ckb: ckbHolderAmount,
             btc: localeNumberString(btcHolderAmount),
           })}

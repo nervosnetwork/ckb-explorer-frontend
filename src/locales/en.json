@@ -770,8 +770,8 @@
       "title": {
         "tags": "Tags"
       },
-      "holder_allocation": "Holder Allocation",
-      "holder_allocation_description": "There are {{ckb}} CKB Holder and {{btc}} BTC holder of the current asset.",
+      "holder_distribution": "Holder Distribution",
+      "holder_distribution_description": "There are {{ckb}} CKB Holders and {{btc}} BTC holders of the current asset.",
       "lock_hash": "Lock Hash",
       "count": "Count",
       "xudt": "xUDT",
