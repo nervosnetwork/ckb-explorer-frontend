@@ -11,6 +11,7 @@ import { TransactionLeapDirection } from '../../../../components/RGBPP/types'
 import styles from './styles.module.scss'
 import { getBtcChainIdentify } from '../../../../services/BTCIdentifier'
 import { IS_MAINNET } from '../../../../constants/common'
+import { HelpTip } from '../../../../components/HelpTip'
 
 export type Transaction = {
   ckbTxId: string
@@ -36,7 +37,7 @@ const Item = ({ item }: { item: Transaction }) => {
 
   return (
     <tr key={item.ckbTxId}>
-      <td className={styles.hash} title={t('rgbpp.transaction.ckb_txid')}>
+      <td className={styles.hash} title={t('rgbpp.transaction.ckb_tx')}>
         <div className={styles.transactionHash}>
           <AddressText
             disableTooltip
@@ -62,8 +63,15 @@ const Item = ({ item }: { item: Transaction }) => {
       <td className={styles.time} title={t('rgbpp.transaction.time')}>
         {dayjs(item.time).fromNow()}
       </td>
-      <td className={styles.type} title={t('rgbpp.transaction.type')}>
-        {item.type === TransactionLeapDirection.NONE ? '/' : t(`address.leap_${item.type}`)}
+      <td title={t('rgbpp.transaction.type')}>
+        {item.type === TransactionLeapDirection.NONE ? (
+          <div className={styles.type}>
+            <span>{t('rgbpp.transaction.direction.other')}</span>
+            <HelpTip title={t('rgbpp.transaction.direction.description.other')} />
+          </div>
+        ) : (
+          t(`address.leap_${item.type}`)
+        )}
       </td>
       <td className={styles.cellChange} title={t('rgbpp.transaction.rgbpp_cell_change')}>
         {`${item.cellChange > 0 ? '+' : ''}${item.cellChange}`}{' '}

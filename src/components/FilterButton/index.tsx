@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Popover } from 'antd'
+import { ReactNode } from 'react'
 import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
 import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
 import { useSearchParams } from '../../hooks'
@@ -11,7 +12,7 @@ export function FilterButton({
   filterName,
 }: {
   filterName: string
-  filteredList: Record<'key' | 'title' | 'value' | 'to', string>[]
+  filteredList: (Record<'key' | 'value' | 'to', string> & Record<'title', ReactNode | string>)[]
   isMobile?: boolean
 }) {
   const { type } = useSearchParams('type')
