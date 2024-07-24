@@ -466,6 +466,12 @@
         "multiple_warning": "当前 UTXO 下有多个资产，消耗 UTXO 时请确保资产不会丢失"
       },
       "transaction": {
+        "direction": {
+          "other": "Others",
+          "description": {
+            "other": "Others 包括了不严格遵循 RGB++ 规则的 CKB 交易"
+          }
+        },
         "ckb_tx": "CKB 交易",
         "btc_tx": "BTC 交易",
         "block_number": "区块序号",

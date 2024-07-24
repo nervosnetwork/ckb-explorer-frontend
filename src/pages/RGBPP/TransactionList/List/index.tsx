@@ -1,9 +1,11 @@
 import { TFunction, useTranslation } from 'react-i18next'
+import { ReactNode } from 'react'
 import styles from './styles.module.scss'
 import SortButton from '../../../../components/SortButton'
 import FilterButton from '../../../../components/FilterButton'
 import { useIsMobile } from '../../../../hooks'
 import Item, { type Transaction } from './item'
+import { HelpTip } from '../../../../components/HelpTip'
 
 const RGBTransactionList: React.FC<{ list: Transaction[] }> = ({ list }) => {
   const [t] = useTranslation()
@@ -86,7 +88,9 @@ const RGBTransactionList: React.FC<{ list: Transaction[] }> = ({ list }) => {
 export default RGBTransactionList
 export { Transaction }
 
-const getFilterList = (t: TFunction): Record<'key' | 'title' | 'value' | 'to', string>[] => {
+const getFilterList = (
+  t: TFunction,
+): (Record<'key' | 'value' | 'to', string> & Record<'title', string | ReactNode>)[] => {
   return [
     {
       key: 'leap_in',
@@ -104,6 +108,17 @@ const getFilterList = (t: TFunction): Record<'key' | 'title' | 'value' | 'to', s
       key: 'leap_with_in_btc',
       value: 'withinBTC',
       title: t('address.leap_with_in_btc'),
+      to: '',
+    },
+    {
+      key: 'other',
+      value: 'other',
+      title: (
+        <div>
+          <span>{t('rgbpp.transaction.direction.other')}</span>
+          <HelpTip title={t('rgbpp.transaction.direction.description.other')} />
+        </div>
+      ),
       to: '',
     },
   ]

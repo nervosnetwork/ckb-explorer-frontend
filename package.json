@@ -138,7 +138,10 @@
     "displayName": "Unit Test",
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs"
-    }
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
