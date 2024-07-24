@@ -1,12 +1,15 @@
 import { Script } from '../Script'
 
+export interface LockHolderAmount {
+  hashType: string
+  name: string
+  holderCount: string
+  codeHash: string
+}
+
 export interface XUDTHolderAllocation {
   btcHolderCount: string
-  lockHashes: {
-    name: string
-    holderCount: string
-    codeHash: string
-  }[]
+  lockHashes: LockHolderAmount[]
 }
 
 export interface XUDT {

@@ -6,6 +6,8 @@ import CloseIcon from '../../assets/modal_close.png'
 import SimpleButton from '../../components/SimpleButton'
 import { matchScript } from '../../utils/util'
 import EllipsisMiddle from '../../components/EllipsisMiddle'
+import { Link } from '../../components/Link'
+import { LockHolderAmount } from '../../models/Xudt'
 
 const HolderAllocation = ({
   ckbHolderAmount,
@@ -15,11 +17,7 @@ const HolderAllocation = ({
 }: {
   ckbHolderAmount: string
   btcHolderAmount: string
-  lockHoderAmount?: {
-    name: string
-    holderCount: string
-    codeHash: string
-  }[]
+  lockHoderAmount?: LockHolderAmount[]
   onClose: MouseEventHandler<HTMLDivElement>
 }) => {
   const [t] = useTranslation()
@@ -62,7 +60,7 @@ const HolderAllocation = ({
                   .map(amount => (
                     <tr>
                       <td>
-                        <EllipsisMiddle>{matchScript(amount.codeHash)?.tag ?? amount.codeHash}</EllipsisMiddle>
+                        <LockHash amount={amount} />
                       </td>
                       <td>
                         <div>{localeNumberString(amount.holderCount)}</div>
@@ -78,6 +76,17 @@ const HolderAllocation = ({
         <img src={CloseIcon} alt="close icon" />
       </SimpleButton>
     </div>
+  )
+}
+
+const LockHash = ({ amount }: { amount: LockHolderAmount }) => {
+  const script = matchScript(amount.codeHash)
+  return script ? (
+    <EllipsisMiddle>{script.tag}</EllipsisMiddle>
+  ) : (
+    <Link className={styles.scriptLink} to={`/script/${amount.codeHash}/${amount.hashType}`}>
+      <EllipsisMiddle>{amount.codeHash}</EllipsisMiddle>
+    </Link>
   )
 }
 
