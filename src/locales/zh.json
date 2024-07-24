@@ -772,7 +772,7 @@
         "tags": "标签"
       },
       "holder_allocation": "地址分布",
-      "holder_allocation_description": "当前资产有 {{ckb}} 个 CKB 用户及 {{btc}} 个 BTC 用户",
+      "holder_allocation_description": "当前资产有 {{ckb}} 个 CKB 用户及 {{btc}} 个 BTC 用户，BTC holder 是指拥有此资产的去重BTC地址数量。",
       "lock_hash": "Lock Hash",
       "count": "Count",
       "xudt": "xUDT",

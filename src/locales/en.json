@@ -771,7 +771,7 @@
         "tags": "Tags"
       },
       "holder_allocation": "Holder Allocation",
-      "holder_allocation_description": "There are {{ckb}} CKB Holder and {{btc}} BTC holder of the current asset.",
+      "holder_allocation_description": "There are {{ckb}} CKB Holder and {{btc}} BTC holder of the current asset. BTC holder refers to the number of unique BTC addresses that own this asset.",
       "lock_hash": "Lock Hash",
       "count": "Count",
       "xudt": "xUDT",
