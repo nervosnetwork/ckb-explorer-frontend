@@ -466,6 +466,12 @@
         "multiple_warning": "The current UTXO contains multiple assets. Please ensure that the assets are not lost when consuming the UTXO."
       },
       "transaction": {
+        "direction": {
+          "other": "Others",
+          "description": {
+            "other": "Others include CKB transactions that do not strictly adhere to RGB++ rules"
+          }
+        },
         "ckb_tx": "CKB Tx",
         "btc_tx": "BTC Tx",
         "block_number": "Block Number",
