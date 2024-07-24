@@ -1,7 +1,7 @@
 import { BTCTimeLock } from '@rgbpp-sdk/ckb'
 
 export const parseBtcTimeLockArgs = (args: string) => {
-  // btc time lock: https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/locscript-design-prd-cn.md#btc_time_lock
+  // btc time lock: https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/lockscript-design-prd-en.md#btc_time_lock
 
   const { lockScript, after, btcTxid } = BTCTimeLock.unpack(args)
 
