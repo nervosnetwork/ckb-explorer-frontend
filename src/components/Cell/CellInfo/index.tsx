@@ -208,13 +208,14 @@ const ScriptRender = ({ content: script }: { content: Script }) => {
       )}
       <JSONKeyValueView title={`"${t('transaction.script_hash_type')}": `} value={script.hashType} />
       <JSONKeyValueView title={`"${t('transaction.script_args')}": `} value={script.args} />
-      {btcUtxo ? (
+      {btcUtxo?.txid && btcUtxo?.index ? (
         <JSONKeyValueView
           value={
             <BTCExplorerLink
               className={styles.btcUtxo}
-              btcTxId={txid ?? ''}
-              path={`/tx/${btcUtxo.txid}#vout=${parseInt(btcUtxo.index!, 16)}`}
+              id={btcUtxo.txid}
+              path="/tx"
+              anchor={`vout=${parseInt(btcUtxo.index, 16)}`}
             >
               BTC UTXO
               <CompassIcon />
@@ -223,10 +224,10 @@ const ScriptRender = ({ content: script }: { content: Script }) => {
         />
       ) : null}
 
-      {btcTimeLockInfo ? (
+      {btcTimeLockInfo && txid ? (
         <JSONKeyValueView
           value={
-            <BTCExplorerLink className={styles.btcUtxo} btcTxId={txid ?? ''} path={`/tx/${btcTimeLockInfo.txid}`}>
+            <BTCExplorerLink className={styles.btcUtxo} id={txid} path="/tx">
               {`${btcTimeLockInfo.after} confirmations after BTC Tx`}
               <CompassIcon />
             </BTCExplorerLink>
@@ -271,7 +272,7 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
         value={
           <>
             <EllipsisMiddle useTextWidthForPlaceholderWidth>{content.btcTx}</EllipsisMiddle>
-            <BTCExplorerLink btcTxId={content.btcTx} path="/tx">
+            <BTCExplorerLink id={content.btcTx} path="/tx">
               <ViewIcon />
             </BTCExplorerLink>
           </>

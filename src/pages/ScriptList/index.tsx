@@ -257,7 +257,7 @@ export const scripts = new Map<string, ScriptAttributes>([
     {
       name: 'BTC Time Lock',
       description: 'A lock require n confirmations of Bitcoin transaction to unlock the cell.',
-      doc: 'https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/locscript-design-prd-cn.md#btc_time_lock',
+      doc: 'https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/lockscript-design-prd-en.md#btc_time_lock',
     },
   ],
   [
