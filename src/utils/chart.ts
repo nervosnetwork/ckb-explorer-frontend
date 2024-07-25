@@ -203,12 +203,10 @@ export const assertSerialsDataIsStringArrayOf4: (
   }
 }
 
-export const assertSerialsDataIsStringArrayOf9: (
-  value: EChartOption.Tooltip.Format,
-) => asserts value is { data: [string, string, string, string, string, string, string, string, string] } = (
-  value: EChartOption.Tooltip.Format,
-) => {
-  if (!Array.isArray(value.data) || value.data.length !== 9 || !value.data.every(item => typeof item === 'string')) {
-    throw new Error('invalid SeriesItem length of 9')
+export const assertSerialsDataIsStringArrayOf10: (value: EChartOption.Tooltip.Format) => asserts value is {
+  data: [string, string, string, string, string, string, string, string, string, string]
+} = (value: EChartOption.Tooltip.Format) => {
+  if (!Array.isArray(value.data) || value.data.length !== 10 || !value.data.every(item => typeof item === 'string')) {
+    throw new Error('invalid SeriesItem length of 10')
   }
 }
