@@ -665,7 +665,7 @@ export const apiFetcher = {
     ).then(res => res.addressBalanceRanking),
 
   fetchStatisticCkbHodlWave: () =>
-    v1GetUnwrappedList<ChartItem.CkbHodlWave>(`/daily_statistics/ckb_hodl_wave`).then(items =>
+    v1GetUnwrappedList<ChartItem.CkbHodlWaveHolderCount>(`/daily_statistics/ckb_hodl_wave-holder_count`).then(items =>
       items.filter(item => item.ckbHodlWave != null),
     ),
 
