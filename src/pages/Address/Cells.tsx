@@ -23,6 +23,7 @@ import SmallLoading from '../../components/Loading/SmallLoading'
 import { TransactionCellInfo } from '../Transaction/TransactionCell'
 import { CellBasicInfo } from '../../utils/transformer'
 import { sliceNftName } from '../../utils/string'
+import { Link } from '../../components/Link'
 import { isTypeIdScript } from '../../utils/typeid'
 
 enum Sort {
@@ -62,6 +63,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
   let attribute = null
   let detailInfo = null
   let assetTypeText = assetType
+  let assetLink = null
   switch (assetType) {
     case 'ckb': {
       assetTypeText = 'CKB'
@@ -113,6 +115,9 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
         ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
         : 'Unknown UDT amount'
       detailInfo = cell.extraInfo.amount
+      if (cell.extraInfo.published) {
+        assetLink = `/sudt/${cell.typeHash}`
+      }
       break
     }
     case 'xudt_compatible': {
@@ -123,6 +128,9 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
           ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
           : 'Unknown xUDT amount'
       detailInfo = cell.extraInfo?.amount
+      if (cell.extraInfo.published) {
+        assetLink = `/xudt/${cell.typeHash}`
+      }
       break
     }
     case 'xudt': {
@@ -134,6 +142,9 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
           ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
           : 'Unknown xUDT amount'
       detailInfo = cell.extraInfo?.amount
+      if (cell.extraInfo.published) {
+        assetLink = `/xudt/${cell.typeHash}`
+      }
       break
     }
     case 'omiga_inscription': {
@@ -144,9 +155,11 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
         ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
         : 'Unknown amount'
       detailInfo = cell.extraInfo.amount
+      assetLink = `/inscription/${cell.typeHash}`
       break
     }
     case 'did_cell':
+    case 'dob':
     case 'spore_cell': {
       icon = <SporeCellIcon />
       assetName = 'DOB'
@@ -157,6 +170,11 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
         attribute = cell.data
       }
       detailInfo = cell.data
+      if (cell.extraInfo.collection?.typeHash) {
+        assetLink = `/nft-collections/${cell.extraInfo.collection?.typeHash}`
+      } else if (cell.extraInfo.typeHash) {
+        assetLink = `/nft-collections/${cell.extraInfo.typeHash}`
+      }
       break
     }
     case 'spore_cluster': {
@@ -169,6 +187,11 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
         attribute = cell.data
       }
       detailInfo = cell.data
+      if (cell.extraInfo.collection?.typeHash) {
+        assetLink = `/nft-collections/${cell.extraInfo.collection?.typeHash}`
+      } else if (cell.extraInfo.typeHash) {
+        assetLink = `/nft-collections/${cell.extraInfo.typeHash}`
+      }
       break
     }
     case 'nrc_721': {
@@ -182,6 +205,11 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       } else {
         attribute = cell.extraInfo.amount
       }
+      if (cell.extraInfo.collection?.typeHash) {
+        assetLink = `/nft-collections/${cell.extraInfo.collection?.typeHash}`
+      } else if (cell.extraInfo.typeHash) {
+        assetLink = `/nft-collections/${cell.extraInfo.typeHash}`
+      }
       break
     }
     case 'm_nft': {
@@ -189,6 +217,11 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       assetTypeText = 'NFT'
       assetName = cell.extraInfo.className
       attribute = cell.extraInfo.tokenId ? `#${parseInt(cell.extraInfo.tokenId, 16)}` : '/'
+      if (cell.extraInfo.collection?.typeHash) {
+        assetLink = `/nft-collections/${cell.extraInfo.collection?.typeHash}`
+      } else if (cell.extraInfo.typeHash) {
+        assetLink = `/nft-collections/${cell.extraInfo.typeHash}`
+      }
       break
     }
     default: {
@@ -213,6 +246,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
   } as CellBasicInfo
 
   return {
+    assetLink,
     ckb,
     outPointStr,
     icon,
@@ -229,7 +263,10 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
 const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
   const { t } = useTranslation()
 
-  const { title, parsedBlockCreateAt, icon, assetName, attribute, detailInfo, cellInfo } = getCellDetails(cell, t)
+  const { title, parsedBlockCreateAt, icon, assetName, attribute, detailInfo, cellInfo, assetLink } = getCellDetails(
+    cell,
+    t,
+  )
 
   return (
     <li key={cell.txHash + cell.cellIndex} className={styles.card}>
@@ -245,7 +282,14 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
           {typeof icon === 'string' ? <img src={icon} alt={assetName ?? 'sudt'} width="40" height="40" /> : null}
           {icon && typeof icon !== 'string' ? icon : null}
           <div className={styles.fields}>
-            <div className={styles.assetName}>{assetName}</div>
+            {assetLink ? (
+              <Link to={assetLink} className={styles.assetName}>
+                {assetName}
+              </Link>
+            ) : (
+              <div className={styles.assetName}>{assetName}</div>
+            )}
+
             <div className={styles.attribute} title={detailInfo ?? attribute}>
               {attribute}
             </div>
