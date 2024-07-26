@@ -269,6 +269,14 @@ export const scripts = new Map<string, ScriptAttributes>([
       code: 'https://github.com/cryptape/nostr-binding/',
     },
   ],
+  [
+    'Single Use Lock',
+    {
+      name: 'Single Use Lock',
+      description: 'A lock script that can only be used once.',
+      code: 'https://github.com/ckb-ecofund/ckb-proxy-locks',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']
