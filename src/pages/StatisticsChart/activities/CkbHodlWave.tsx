@@ -5,7 +5,7 @@ import {
   DATA_ZOOM_CONFIG,
   assertIsArray,
   assertSerialsItem,
-  assertSerialsDataIsStringArrayOf9,
+  assertSerialsDataIsStringArrayOf10,
   handleAxis,
 } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
@@ -23,20 +23,20 @@ const useTooltip = () => {
     data,
     color,
   }: SeriesItem & {
-    data: [string, string, string, string, string, string, string, string, string]
+    data: [string, string, string, string, string, string, string, string, string, string]
   }): string => {
     if (seriesName === t('statistic.24h')) {
-      return `<div>${tooltipColor(color)}${widthSpan(t('statistic.24h'), currentLanguage)} ${handleAxis(
-        data[1],
-        2,
-      )}% </div>`
+      return `<div>${tooltipColor(color)}${widthSpan(t('statistic.24h'), currentLanguage)} ${handleAxis(data[1], 2)}%
+      </div>`
     }
+
     if (seriesName === t('statistic.day_to_one_week')) {
       return `<div>${tooltipColor(color)}${widthSpan(t('statistic.day_to_one_week'), currentLanguage)} ${handleAxis(
         data[2],
         2,
       )}%</div>`
     }
+
     if (seriesName === t('statistic.one_week_to_one_month')) {
       return `<div>${tooltipColor(color)}${widthSpan(
         t('statistic.one_week_to_one_month'),
@@ -73,13 +73,15 @@ const useTooltip = () => {
         2,
       )}%</div>`
     }
-
+    if (seriesName === t('statistic.holder_count')) {
+      return `<div>${tooltipColor(color)}${widthSpan(t('statistic.holder_count'), currentLanguage)} ${data[9]}</div>`
+    }
     return ''
   }
 }
 
 const useOption = (
-  statisticCkbHodlWaves: ChartItem.CkbHodlWave[],
+  statisticCkbHodlWaves: ChartItem.CkbHodlWaveHolderCount[],
   chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
@@ -101,7 +103,7 @@ const useOption = (
     containLabel: true,
   }
   const parseTooltip = useTooltip()
-  const colors = [...chartColor.moreColors].slice(0, 8).reverse()
+  const colors = [...chartColor.moreColors].slice(0, 9)
   return {
     color: colors,
     tooltip: !isThumbnail
@@ -113,7 +115,7 @@ const useOption = (
           ${dataList[0].data[0]}</div>`
             dataList.forEach(data => {
               assertSerialsItem(data)
-              assertSerialsDataIsStringArrayOf9(data)
+              assertSerialsDataIsStringArrayOf10(data)
               result += parseTooltip(data)
             })
             return result
@@ -148,6 +150,9 @@ const useOption = (
             {
               name: t('statistic.over_three_years'),
             },
+            {
+              name: t('statistic.holder_count'),
+            },
           ],
       selected: {
         [t('statistic.24h')]: true,
@@ -158,6 +163,7 @@ const useOption = (
         [t('statistic.six_months_to_one_year')]: true,
         [t('statistic.one_year_to_three_years')]: true,
         [t('statistic.over_three_years')]: true,
+        [t('statistic.holder_count')]: true,
       },
     },
     grid: isThumbnail ? gridThumbnail : grid,
@@ -185,6 +191,17 @@ const useOption = (
           formatter: (value: string) => `${value}%`,
         },
       },
+      {
+        position: 'right',
+        type: 'value',
+        name: 'Holder count',
+        axisLine: {
+          lineStyle: {
+            color: colors[1],
+          },
+          onZero: false,
+        },
+      },
     ],
     series: [
       {
@@ -196,9 +213,6 @@ const useOption = (
         stack: 'sum',
         areaStyle: {
           color: colors[0],
-        },
-        lineStyle: {
-          width: 4,
         },
       },
       {
@@ -278,6 +292,16 @@ const useOption = (
           color: colors[7],
         },
       },
+      {
+        name: t('statistic.holder_count'),
+        type: 'line',
+        yAxisIndex: 1,
+        symbol: isThumbnail ? 'none' : 'circle',
+        symbolSize: 3,
+        lineStyle: {
+          color: colors[8],
+        },
+      },
     ],
     dataset: {
       source: statisticCkbHodlWaves.map(data => [
@@ -290,13 +314,14 @@ const useOption = (
         ((data.ckbHodlWave.sixMonthsToOneYear / data.ckbHodlWave.totalSupply) * 100).toFixed(2),
         ((data.ckbHodlWave.oneYearToThreeYears / data.ckbHodlWave.totalSupply) * 100).toFixed(2),
         ((data.ckbHodlWave.overThreeYears / data.ckbHodlWave.totalSupply) * 100).toFixed(2),
+        data.holderCount,
       ]),
-      dimensions: ['timestamp', '24h', '1d-1w', '1w-3m', '1m-3m', '3m-6m', '6m-1y', '1y-3y', '> 3y'],
+      dimensions: ['timestamp', '24h', '1d-1w', '1w-3m', '1m-3m', '3m-6m', '6m-1y', '1y-3y', '> 3y', 'holder_count'],
     },
   }
 }
 
-const toCSV = (statisticCkbHodlWaves: ChartItem.CkbHodlWave[]) =>
+const toCSV = (statisticCkbHodlWaves: ChartItem.CkbHodlWaveHolderCount[]) =>
   statisticCkbHodlWaves
     ? statisticCkbHodlWaves.map(data => [
         data.createdAtUnixtimestamp,
@@ -307,6 +332,7 @@ const toCSV = (statisticCkbHodlWaves: ChartItem.CkbHodlWave[]) =>
         data.ckbHodlWave.sixMonthsToOneYear,
         data.ckbHodlWave.oneYearToThreeYears,
         data.ckbHodlWave.overThreeYears,
+        data.holderCount,
       ])
     : []
 

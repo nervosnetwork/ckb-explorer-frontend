@@ -322,6 +322,14 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     tag: 'DID',
     category: 'type',
   },
+  {
+    codeHashes: ['0x8290467a512e5b9a6b816469b0edabba1f4ac474e28ffdd604c2a7c76446bbaf'],
+    txHashes: ['0x10d63a996157d32c01078058000052674ca58d15f921bec7f1dcdac2160eb66b-4'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Single Use Lock',
+    category: 'lock',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
@@ -702,6 +710,14 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'Nostr',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x8290467a512e5b9a6b816469b0edabba1f4ac474e28ffdd604c2a7c76446bbaf'],
+    txHashes: ['0xb4f171c9c9caf7401f54a8e56225ae21d95032150a87a4678eac3f66a3137b93-4'],
+    depType: 'code',
+    hashType: 'data1',
+    tag: 'Single Use Lock',
     category: 'lock',
   },
 ]

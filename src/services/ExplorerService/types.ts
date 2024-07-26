@@ -114,8 +114,9 @@ export namespace ChartItem {
     balance: string
   }
 
-  export interface CkbHodlWave {
+  export interface CkbHodlWaveHolderCount {
     ckbHodlWave: CkbHodlWaveDetail
+    holderCount: string
     createdAtUnixtimestamp: string
   }
 
