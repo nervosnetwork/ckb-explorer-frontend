@@ -163,6 +163,8 @@ dt {
   }
 
   .value {
+    word-wrap: break-word;
+    word-break: break-all;
     color: var(--333333, #333);
     font-size: 16px;
     font-style: normal;
