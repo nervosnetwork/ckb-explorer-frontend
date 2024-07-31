@@ -4,6 +4,74 @@
   margin: 40px 120px 60px;
 }
 
+.tags {
+  flex-wrap: wrap;
+  display: flex;
+  gap: 8px;
+  margin-left: 8px;
+}
+
+.tokensCard {
+  margin-top: 10px;
+  padding: 16px;
+  font-size: 14px;
+  box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
+  color: #333;
+
+  .tokenInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &:first-child {
+      margin-top: 16px;
+    }
+
+    &:last-child {
+      margin-bottom: 16px;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #f5f5f5;
+      padding-bottom: 16px;
+    }
+
+    &:not(:first-child) {
+      margin-top: 16px;
+    }
+
+    .title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--666666, #666);
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+
+      & + dd {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+
+    .value {
+      color: var(--333333, #333);
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+}
+
+.colTags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -24,10 +92,12 @@
   overflow: hidden;
 
   table {
-    position: relative;
+    table-layout: fixed;
     width: 100%;
+    background: #fff;
     margin-bottom: 4px;
     color: #333;
+    text-overflow: ellipsis;
   }
 
   thead {
@@ -45,26 +115,30 @@
     }
   }
 
-  tbody {
-    tr {
-      background: #fff;
-
-      &:not(:last-child) {
-        border-bottom: 1px solid var(--table-separator-color);
-      }
-    }
-
-    td {
-      line-height: 64px;
-      font-size: 14px;
-    }
-  }
-
   th,
   td {
+    height: 4rem;
+    padding: 0 8px;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 400;
     text-align: left;
-    padding: 0 24px;
-    max-width: 0.25vw;
+    max-width: 100%;
+    line-height: 19px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:first-child {
+      padding-left: 2em;
+    }
+
+    &:last-child {
+      padding-right: 2em;
+    }
+
+    &.noRecord:last-child {
+      text-align: center;
+    }
   }
 
   .name {
@@ -93,6 +167,7 @@
   }
 
   .noRecord {
+    background-color: #fff;
     text-align: center;
   }
 
@@ -213,71 +288,19 @@
   }
 }
 
-div[data-role='mobile-list'] {
-  display: none;
-  font-size: 0.875rem;
+.filterSortCard:not(
+    [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
+  ) {
+  padding: 16px;
+}
 
-  .listHeader {
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 20px;
-    padding: 16px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #333;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
+.link {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
 
-    & > div {
-      white-space: nowrap;
-      flex: 1 50%;
-    }
-  }
-
-  dl {
-    margin-left: 36px;
-    margin-bottom: 10px;
-    display: flex;
-
-    dt {
-      flex: 1;
-      min-width: 105px;
-    }
-
-    dd {
-      flex: 1;
-      margin: 0;
-    }
-  }
-
-  .listHeader + div {
-    position: relative;
-
-    &::before {
-      position: absolute;
-      left: -15px;
-      top: -10px;
-      width: calc(100% + 30px);
-      height: 10px;
-      content: '';
-      display: block;
-      background-color: #ededed;
-    }
-  }
-
-  .listItem {
-    border-bottom: 1px solid #f0f0f0;
-    padding: 1rem 1rem 0;
-    background: #fff;
-
-    dt::after {
-      content: ':';
-    }
-  }
-
-  .loading {
-    text-align: center;
+  &:hover {
+    color: var(--primary-color);
   }
 }
 

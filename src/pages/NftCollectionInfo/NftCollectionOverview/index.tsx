@@ -7,6 +7,7 @@ import { explorerService } from '../../../services/ExplorerService'
 import styles from './styles.module.scss'
 import { handleNftImgError, patchMibaoImg } from '../../../utils/util'
 import { getPrimaryColor } from '../../../constants/common'
+import NFTTag from '../../../components/NFTTag'
 
 const primaryColor = getPrimaryColor()
 
@@ -49,6 +50,9 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
           />
         )}
         <span>{isLoading ? t(`nft.loading`) : info?.name}</span>
+      </div>
+      <div className={styles.tags}>
+        {isLoading ? t('nft.loading') : info?.tags.map(tag => <NFTTag key={tag} tagName={tag} to="/nft-collections" />)}
       </div>
       <div className={styles.desc}>{desc}</div>
       <dl>

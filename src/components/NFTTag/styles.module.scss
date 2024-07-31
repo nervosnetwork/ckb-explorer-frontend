@@ -15,7 +15,10 @@
   &[data-type='supply-limited'] {
     border-color: #fcdeb0;
     background: #fdf5d7;
-    color: #caac0f;
+
+    span {
+      color: #caac0f;
+    }
   }
 
   &[data-type='out-of-length-range'] {
@@ -52,12 +55,6 @@
     border-color: #99e6ca;
     background: #d7fdf2;
     color: #00bb8e;
-  }
-
-  &[data-type='unnamed'] {
-    border: 1px solid #e5e5e5;
-    background: #fafafa;
-    color: #999;
   }
 
   &[data-type='supply-unlimited'] {

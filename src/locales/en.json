@@ -592,7 +592,7 @@
       "transaction_details": "Transaction Details",
       "unknown_assets": "Unknown Assets",
       "mint": "Mint",
-      "no_records": "No records",
+      "no_records": "No record",
       "data-being-processed": "Data is being processed, please wait...",
       "view-btc-utxos": "BTC UTXOs",
       "view-btc-tx": "View BTC Tx",
@@ -808,7 +808,7 @@
         "verified-on": "Verified On Platform",
         "supply-limited": "Supply Limited",
         "supply-unlimited": "Supply Unlimited",
-        "rgbpp-compatible": "RGB++ Compatible",
+        "rgb++": "RGB++",
         "unnamed": "Unnamed"
       },
       "category": "Category"
@@ -818,7 +818,7 @@
       "collection_name": "Collection Name",
       "standard": "Type",
       "minter_address": "Creator",
-      "no_record": "No records",
+      "no_record": "No record",
       "mnft": "M-NFT",
       "m_nft": "m-NFT",
       "nrc721": "NRC 721",

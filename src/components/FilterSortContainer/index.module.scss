@@ -3,4 +3,23 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 20px;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+
+    li {
+      width: 50%;
+      list-style-type: none;
+
+      &:nth-child(odd) {
+        text-align: left;
+      }
+
+      &:nth-child(even) {
+        text-align: right;
+      }
+    }
+  }
 }

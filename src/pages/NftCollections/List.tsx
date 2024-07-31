@@ -13,6 +13,11 @@ import styles from './styles.module.scss'
 import type { NFTCollection } from '../../services/ExplorerService/fetcher'
 import { useNFTCollectionsSortParam } from './util'
 import { parseSimpleDate } from '../../utils/date'
+import MultiFilterButton from '../../components/MultiFilterButton'
+import NFTTag, { whiteList } from '../../components/NFTTag'
+import { Card } from '../../components/Card'
+import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
+import AddressText from '../../components/AddressText'
 
 const primaryColor = getPrimaryColor()
 function useFilterList(): Record<'title' | 'value', string>[] {
@@ -40,6 +45,51 @@ function useFilterList(): Record<'title' | 'value', string>[] {
     },
   ]
 }
+
+const filterList = [
+  {
+    key: 'invalid',
+    value: 'invalid',
+    title: <NFTTag key="invalid" tagName="invalid" />,
+    to: '/nft-collections',
+  },
+  {
+    key: 'suspicious',
+    value: 'suspicious',
+    title: <NFTTag key="suspicious" tagName="suspicious" />,
+    to: '/nft-collections',
+  },
+  {
+    key: 'out-of-length-range',
+    value: 'out-of-length-range',
+    title: <NFTTag key="out-of-length-range" tagName="out-of-length-range" />,
+    to: '/nft-collections',
+  },
+  {
+    key: 'rgb++',
+    value: 'rgb++',
+    title: <NFTTag key="rgb++" tagName="rgb++" />,
+    to: '/nft-collections',
+  },
+  {
+    key: 'duplicate',
+    value: 'duplicate',
+    title: <NFTTag key="duplicate" tagName="duplicate" />,
+    to: '/nft-collections',
+  },
+  {
+    key: 'layer-1-asset',
+    value: 'layer-1-asset',
+    title: <NFTTag key="layer-1-asset" tagName="layer-1-asset" />,
+    to: '/nft-collections',
+  },
+  {
+    key: 'layer-2-asset',
+    value: 'layer-2-asset',
+    title: <NFTTag key="layer-2-asset" tagName="layer-2-asset" />,
+    to: '/nft-collections',
+  },
+].filter(f => whiteList.includes(f.key))
 
 export const isTxFilterType = (s?: string): boolean => {
   return s ? ['all', 'm_nft', 'nrc721', 'cota', 'spore'].includes(s) : false
@@ -75,6 +125,17 @@ const TypeFilter = () => {
       >
         <FilterIcon className={styles.filter} />
       </Popover>
+    </div>
+  )
+}
+
+const Tags = () => {
+  const { t } = useTranslation()
+
+  return (
+    <div className={styles.colTags}>
+      {t('xudt.title.tags')}
+      <MultiFilterButton filterName="tags" key="" filterList={filterList} />
     </div>
   )
 }
@@ -174,6 +235,9 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
         <tr>
           <th>{t('nft.collection_name')}</th>
           <th>
+            <Tags />
+          </th>
+          <th>
             <TypeFilter />
           </th>
           <th className={styles.transactionsHeader}>
@@ -238,6 +302,13 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
                   </div>
                 </td>
                 <td>
+                  <div className={styles.tags}>
+                    {item.tags.map(tag => (
+                      <NFTTag key={`${item.id}${item.tags}`} tagName={tag} />
+                    ))}
+                  </div>
+                </td>
+                <td>
                   <TypeInfo nft={item} />
                 </td>
                 <td>{item.h24_ckb_transactions_count}</td>
@@ -249,14 +320,15 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
                   <div>
                     {item.creator ? (
                       <Tooltip title={item.creator}>
-                        <Link
-                          to={`/address/${item.creator}`}
-                          className="monospace"
-                          style={{
-                            color: primaryColor,
-                            fontWeight: 700,
+                        <AddressText
+                          style={{ marginLeft: 'auto' }}
+                          disableTooltip
+                          linkProps={{
+                            to: `/address/${item.creator}`,
                           }}
-                        >{`${item.creator.slice(0, 8)}...${item.creator.slice(-8)}`}</Link>
+                        >
+                          {item.creator}
+                        </AddressText>
                       </Tooltip>
                     ) : (
                       '-'
@@ -268,7 +340,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
           })
         ) : (
           <tr>
-            <td colSpan={6} className={styles.noRecord}>
+            <td colSpan={7} className={styles.noRecord}>
               {isLoading ? 'loading' : t(`nft.no_record`)}
             </td>
           </tr>
@@ -282,13 +354,19 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
   const { t } = useTranslation()
 
   return (
-    <div data-role="mobile-list">
-      <div className={styles.listHeader}>
-        <TypeFilter />
-        <SimpleSortHeader sortField="transactions" fieldI18n={t('nft.transactions')} />
-        <HolderMinterSort />
-        <SimpleSortHeader sortField="timestamp" fieldI18n={t('nft.created_time')} />
-      </div>
+    <>
+      <Card className={styles.filterSortCard} shadow={false}>
+        <FilterSortContainerOnMobile key="nft-collections-sort">
+          <TypeFilter />
+          <SimpleSortHeader sortField="transactions" fieldI18n={t('nft.transactions')} />
+          <HolderMinterSort />
+          <SimpleSortHeader sortField="timestamp" fieldI18n={t('nft.created_time')} />
+          <div>
+            {t('xudt.title.tags')}
+            <MultiFilterButton filterName="tags" key="" filterList={filterList} />
+          </div>
+        </FilterSortContainerOnMobile>
+      </Card>
       <div>
         {list.length ? (
           list.map(item => {
@@ -306,45 +384,44 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
               // ignore
             }
             return (
-              <div key={item.id} className={styles.listItem}>
+              <Card key={item.id} className={styles.tokensCard}>
                 <div>
-                  <div className={styles.name}>
-                    {item.icon_url ? (
-                      <img
-                        src={`${patchMibaoImg(item.icon_url)}?size=small`}
-                        alt="cover"
-                        loading="lazy"
-                        className={styles.icon}
-                        onError={handleNftImgError}
-                      />
-                    ) : (
-                      <img
-                        src={
-                          item.standard === 'spore' ? '/images/spore_placeholder.svg' : '/images/nft_placeholder.png'
-                        }
-                        alt="cover"
-                        loading="lazy"
-                        className={styles.icon}
-                      />
-                    )}
-                    <Link
-                      to={`/nft-collections/${typeHash || item.id}`}
-                      title={itemName}
-                      style={{
-                        color: primaryColor,
-                      }}
-                    >
-                      {itemName}
-                    </Link>
-                  </div>
+                  <dl className={styles.tokenInfo}>
+                    <dt className={styles.title}>Name</dt>
+                    <dd>
+                      {item.icon_url ? (
+                        <img
+                          src={`${patchMibaoImg(item.icon_url)}?size=small`}
+                          alt="cover"
+                          loading="lazy"
+                          className={styles.icon}
+                          onError={handleNftImgError}
+                        />
+                      ) : (
+                        <img
+                          src={
+                            item.standard === 'spore' ? '/images/spore_placeholder.svg' : '/images/nft_placeholder.png'
+                          }
+                          alt="cover"
+                          loading="lazy"
+                          className={styles.icon}
+                        />
+                      )}
+                      <Link to={`/nft-collections/${typeHash || item.id}`} title={itemName} className={styles.link}>
+                        {itemName}
+                      </Link>
+                    </dd>
+                  </dl>
+                  <div className={styles.name} />
                 </div>
-                <dl>
-                  <dt>{t(`nft.standard`)}</dt>
-                  <dd>
+                <dl className={styles.tokenInfo}>
+                  <dt className={styles.title}>{t(`nft.standard`)}</dt>
+                  <dd className={styles.value}>
                     <TypeInfo nft={item} />
                   </dd>
                 </dl>
-                <dl>
+
+                <dl className={styles.tokenInfo}>
                   <dt>{`${t('nft.holder')}/${t('nft.minted')}`}</dt>
                   <dd>
                     {`${(item.holders_count ?? 0).toLocaleString('en')}/${(item.items_count ?? 0).toLocaleString(
@@ -352,16 +429,16 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
                     )}`}
                   </dd>
                 </dl>
-                <dl>
+                <dl className={styles.tokenInfo}>
                   <dt>{t('nft.transactions')}</dt>
                   <dd>{item.h24_ckb_transactions_count}</dd>
                 </dl>
-                <dl>
+                <dl className={styles.tokenInfo}>
                   <dt>{t('nft.created_time')}</dt>
                   <dd>{item.timestamp === null ? '' : parseSimpleDate(item.timestamp)}</dd>
                 </dl>
                 {item.creator ? (
-                  <dl>
+                  <dl className={styles.tokenInfo}>
                     <dt>{t(`nft.minter_address`)}</dt>
                     <dd>
                       <Tooltip title={item.creator}>
@@ -377,13 +454,18 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
                     </dd>
                   </dl>
                 ) : null}
-              </div>
+                <dl className={styles.tokenInfo} style={{ flexDirection: 'row' }}>
+                  {item.tags.map(tag => (
+                    <NFTTag tagName={tag} />
+                  ))}
+                </dl>
+              </Card>
             )
           })
         ) : (
-          <div className={styles.loading}>{isLoading ? 'loading' : t(`nft.no_record`)}</div>
+          <div className={styles.noRecord}>{isLoading ? 'loading' : t(`nft.no_record`)}</div>
         )}
       </div>
-    </div>
+    </>
   )
 }
