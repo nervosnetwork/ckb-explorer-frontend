@@ -54,3 +54,16 @@
     margin: 40px 8px 24px;
   }
 }
+
+.tags {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+  gap: 8px;
+
+  @media (width <= $mobileBreakPoint) {
+    margin-bottom: 16px;
+  }
+}

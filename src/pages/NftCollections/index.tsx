@@ -7,7 +7,7 @@ import Pagination from '../../components/Pagination'
 import { getPrimaryColor } from '../../constants/common'
 import { explorerService } from '../../services/ExplorerService'
 import { udtSubmitEmail } from '../../utils/util'
-import { useSearchParams } from '../../hooks'
+import { useIsMobile, useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
 import { useNFTCollectionsSortParam } from './util'
 
@@ -22,13 +22,14 @@ const NftCollections = () => {
     i18n: { language },
   } = useTranslation()
   const { search } = useLocation()
-  const { page = '1', type } = useSearchParams('page', 'type')
+  const { page = '1', type, tags } = useSearchParams('page', 'type', 'tags')
   const { sort } = useNFTCollectionsSortParam()
+  const isMobile = useIsMobile()
 
   const isValidFilter = isTxFilterType(type) && type !== 'all'
 
-  const { isLoading, data } = useQuery(['nft-collections', page, sort, type], () =>
-    explorerService.api.fetchNFTCollections(page, sort, isValidFilter ? type : undefined),
+  const { isLoading, data } = useQuery(['nft-collections', page, sort, type, tags, 'true'], () =>
+    explorerService.api.fetchNFTCollections(page, sort, isValidFilter ? type : undefined, tags, 'true'),
   )
 
   const list = data?.data ?? []
@@ -60,8 +61,11 @@ const NftCollections = () => {
           </a>
         </div>
         <div className={styles.list}>
-          <ListOnDesktop isLoading={isLoading} list={list} />
-          <ListOnMobile isLoading={isLoading} list={list} />
+          {isMobile ? (
+            <ListOnMobile isLoading={isLoading} list={list} />
+          ) : (
+            <ListOnDesktop isLoading={isLoading} list={list} />
+          )}
         </div>
 
         <Pagination
