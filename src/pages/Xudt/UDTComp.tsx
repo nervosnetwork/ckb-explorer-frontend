@@ -187,8 +187,8 @@ export const UDTOverviewCard = ({
   const tags = xudt?.xudtTags ?? []
   // FIXME: data should be updated in the backend
   // issue: https://github.com/Magickbase/ckb-explorer-public-issues/issues/754
-  if (!tags.includes('rgbpp-compatible')) {
-    tags.unshift('rgbpp-compatible')
+  if (!tags.includes('rgb++')) {
+    tags.unshift('rgb++')
   }
 
   return (

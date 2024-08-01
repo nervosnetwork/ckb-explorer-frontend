@@ -147,7 +147,7 @@ export function TokensCard({
   return (
     <>
       <Card className={styles.filterSortCard} shadow={false}>
-        <FilterSortContainerOnMobile>
+        <FilterSortContainerOnMobile key="tokens-sort">
           {isInscription && (
             <span className={styles.sortOption}>
               {t('udt.status')}
