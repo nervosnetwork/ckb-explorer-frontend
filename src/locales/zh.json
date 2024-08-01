@@ -432,6 +432,7 @@
       "cells": "Cells",
       "inscription": "铭文",
       "rgb_plus_plus": "RGB++",
+      "invalid": "Invalid",
       "confirmation": "确认区块",
       "confirmations": "确认区块",
       "unable_decode_address": "地址解析失败",

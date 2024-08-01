@@ -30,6 +30,7 @@ import { CellBasicInfo } from '../../utils/transformer'
 import { isTypeIdScript } from '../../utils/typeid'
 import config from '../../config'
 import { getBtcChainIdentify } from '../../services/BTCIdentifier'
+import InvalidRGBPPAssetList from './InvalidRGBPPAssetList'
 
 const fetchCells = async ({
   address,
@@ -508,12 +509,13 @@ const RGBAssetsTableView: FC<{ address: string; count: number }> = ({ address, c
   )
 }
 
-const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscriptions: UDTAccount[] }> = ({
-  address,
-  count,
-  udts,
-  inscriptions,
-}) => {
+const RgbAssets: FC<{
+  address: string
+  count: number
+  udts: UDTAccount[]
+  inscriptions: UDTAccount[]
+  isUnBounded?: boolean
+}> = ({ address, count, udts, inscriptions, isUnBounded }) => {
   const fontSize = 14
   const minWidth = 250
   const [isMerged, setIsMerged] = useState(true)
@@ -532,31 +534,38 @@ const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscri
   return (
     <div ref={ref} className={styles.container}>
       <div className={styles.toolbar}>
-        <div>{t(`address.${isMerged ? 'view-as-merged-assets' : 'view-as-asset-items'}`)}</div>
-        <div className={styles.filters}>
-          <Tooltip placement="top" title={t(`address.${isMerged ? 'view-as-asset-items' : 'view-as-merged-assets'}`)}>
-            <button
-              type="button"
-              onClick={() => {
-                setIsMerged(i => !i)
-                setIsDisplayedAsList(false)
-              }}
-            >
-              {isMerged ? <AssetItemsIcon /> : <MergedAssetIcon />}
-            </button>
-          </Tooltip>
-          <Tooltip placement="top" title={isDisplayedAsList ? t('sort.card') : t('sort.list')}>
-            <button
-              type="button"
-              onClick={() => {
-                setIsDisplayedAsList(i => !i)
-                setIsMerged(false)
-              }}
-            >
-              {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
-            </button>
-          </Tooltip>
-        </div>
+        {!isUnBounded && (
+          <>
+            <div>{t(`address.${isMerged ? 'view-as-merged-assets' : 'view-as-asset-items'}`)}</div>
+            <div className={styles.filters}>
+              <Tooltip
+                placement="top"
+                title={t(`address.${isMerged ? 'view-as-asset-items' : 'view-as-merged-assets'}`)}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMerged(i => !i)
+                    setIsDisplayedAsList(false)
+                  }}
+                >
+                  {isMerged ? <AssetItemsIcon /> : <MergedAssetIcon />}
+                </button>
+              </Tooltip>
+              <Tooltip placement="top" title={isDisplayedAsList ? t('sort.card') : t('sort.list')}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsDisplayedAsList(i => !i)
+                    setIsMerged(false)
+                  }}
+                >
+                  {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
+                </button>
+              </Tooltip>
+            </div>
+          </>
+        )}
       </div>
 
       <div className={styles.content}>
@@ -564,10 +573,16 @@ const RgbAssets: FC<{ address: string; count: number; udts: UDTAccount[]; inscri
           <RGBAssetsTableView address={address} count={count} />
         ) : (
           <>
-            {isMerged ? (
+            {isMerged && !isUnBounded ? (
               <MergedAssetList udts={udts} inscriptions={inscriptions} />
             ) : (
-              <RGBAssetsCellView address={address} count={count} width={width} />
+              <>
+                {isUnBounded ? (
+                  <InvalidRGBPPAssetList address={address} count={count} />
+                ) : (
+                  <RGBAssetsCellView address={address} count={count} width={width} />
+                )}
+              </>
             )}
           </>
         )}
