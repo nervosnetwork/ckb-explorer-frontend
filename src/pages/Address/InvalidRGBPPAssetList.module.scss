@@ -1,0 +1,126 @@
+@import '../../styles/variables.module';
+
+.container {
+  ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+    gap: 1rem;
+    font-weight: 500;
+  }
+
+  .card {
+    min-height: 86px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+
+    h5 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary-color);
+      color: #fff;
+      height: 1.875rem;
+      padding: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      a {
+        &:hover {
+          font-weight: bold;
+          color: #fff;
+          text-decoration: underline;
+        }
+      }
+
+      .copy {
+        appearance: none;
+        border: none;
+        background: none;
+        width: 14px;
+        cursor: pointer;
+        margin-right: 8px;
+        height: 14px;
+
+        svg {
+          pointer-events: none;
+          height: 14px;
+        }
+      }
+
+      span {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: default;
+        flex: 1;
+        text-align: right;
+      }
+    }
+
+    .itemContent {
+      padding: 8px;
+      display: flex;
+      line-height: 1;
+
+      img,
+      svg {
+        margin-right: 8px;
+      }
+
+      .assetName {
+        font-weight: 500;
+      }
+
+      .attribute {
+        display: flex;
+      }
+
+      .copy {
+        appearance: none;
+        border: none;
+        background: none;
+        width: 14px;
+        cursor: pointer;
+
+        &:hover {
+          svg {
+            stroke: var(--primary-color);
+          }
+        }
+
+        svg {
+          pointer-events: none;
+          height: 14px;
+        }
+      }
+
+      .fields {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+    }
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.loadMore {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+
+  button {
+    cursor: pointer;
+    appearance: none;
+    border: none;
+  }
+}
