@@ -22,7 +22,7 @@ const XUDTTag = ({ tagName, to }: { tagName: string; to?: string }) => {
 
   // FIXME: data should be updated in the backend
   // issue: https://github.com/Magickbase/ckb-explorer-public-issues/issues/754
-  if (tag === 'rgb++') {
+  if (tag === 'rgb++' || tag === 'rgbpp-compatible') {
     content = 'RGB++'
   }
 
