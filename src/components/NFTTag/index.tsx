@@ -3,15 +3,18 @@ import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import styles from './styles.module.scss'
 
-export const whiteList = ['invalid', 'suspicious', 'out-of-length-range', 'rgb++', 'layer-1-asset', 'layer-2-asset']
-
-const HIDDEN_TAGS = ['duplicate', 'suspicious', 'utility', 'supply-unlimited', 'out-of-length-range']
+export const whiteList = [
+  // 'suspicious',
+  // 'invalid',
+  // 'out-of-length-range',
+  'rgb++',
+  'layer-1-asset',
+  'layer-2-asset',
+]
 
 const NFTTag = ({ tagName, to }: { tagName: string; to?: string }) => {
   const { t } = useTranslation()
   const { push } = useHistory()
-
-  if (HIDDEN_TAGS.includes(tagName)) return null
 
   let tag = tagName
   let content = t(`xudt.tags.${tag}`)
