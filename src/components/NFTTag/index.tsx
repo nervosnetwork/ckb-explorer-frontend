@@ -7,6 +7,7 @@ export const whiteList = [
   // 'suspicious',
   // 'invalid',
   // 'out-of-length-range',
+  'rgbpp-compatible',
   'rgb++',
   'layer-1-asset',
   'layer-2-asset',
@@ -17,7 +18,11 @@ const NFTTag = ({ tagName, to }: { tagName: string; to?: string }) => {
   const { push } = useHistory()
 
   let tag = tagName
+
   let content = t(`xudt.tags.${tag}`)
+  if (['rgb++', 'rgbpp-compatible'].includes(tag)) {
+    content = 'RGB++'
+  }
   if (tag.startsWith('verified-on-')) {
     // FIXME: should be i18n
     content = content.replace('Platform', tag.replace('verified-on-', ''))
