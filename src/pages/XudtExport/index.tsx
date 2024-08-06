@@ -2,6 +2,7 @@ import { InputNumber } from 'antd'
 import { useState } from 'react'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
+import { RadioGroup, RadioGroupItem } from '../../components/ui/RadioGroup'
 import { useSearchParams, useUpdateSearchParams } from '../../hooks'
 import Content from '../../components/Content'
 import styles from './styles.module.scss'
@@ -14,13 +15,11 @@ import { explorerService } from '../../services/ExplorerService'
 const XudtExport = () => {
   const [t] = useTranslation()
 
-  const { id, height: _blockHeight } = useSearchParams('id', 'height')
+  const { id, height: _blockHeight, mergeWithOwner } = useSearchParams('id', 'height', 'mergeWithOwner')
 
   const blockHeight = _blockHeight !== undefined ? parseInt(_blockHeight, 10) : undefined
 
-  const updateSearchParams = useUpdateSearchParams<
-    'type' | 'tab' | 'start-date' | 'end-date' | 'from-height' | 'to-height'
-  >()
+  const updateSearchParams = useUpdateSearchParams<'id' | 'height' | 'mergeWithOwner'>()
 
   const [hint, setHint] = useState<{ type: 'success' | 'error' | undefined; msg?: string; extraMsg?: string }>({
     type: undefined,
@@ -44,9 +43,10 @@ const XudtExport = () => {
     setHint({ type: 'success', msg: 'download_processed' })
     setIsDownloading(true)
     explorerService.api
-      .fetchXudtHoders({
+      .fetchXudtHolders({
         id,
         number: blockHeight,
+        mergeWithOwner: mergeWithOwner === 'true',
       })
       .then((resp: string | null) => {
         setIsDownloading(false)
@@ -87,19 +87,38 @@ const XudtExport = () => {
       <div className={classNames('container', styles.containerPanel)}>
         <div className={styles.title}>
           <span>{t('export_transactions.download_data')}</span>
-          <span>({t('export_transactions.holders_by_block')})</span>
+          <span>({t('export_transactions.holders_allocation')})</span>
         </div>
         <div className={styles.description}>
           <div>{t('export_transactions.description_str')}</div>
         </div>
         <div className={styles.exportPanel}>
           <div className={styles.exportHeader}>
-            <div className={styles.exportTitle}>{t('export_transactions.holders_by_block_title')}</div>
+            <div className={styles.exportTitle}>{t('export_transactions.select_download_options')}</div>
             <div className={styles.exportDescription}>{t('export_transactions.holders_by_block_des')}</div>
             <div className={styles.dateOrBlockPanel}>
-              <div className={styles.heightInputPanel}>
-                <div className={styles.blockHeightText}>{t('export_transactions.block_height')}</div>
+              <div className={styles.inputPanel}>
+                <label className={styles.inputLabel}>{t('export_transactions.select_export_data')}</label>
+                <RadioGroup
+                  className={classNames(styles.radioGroup, styles.inputContent)}
+                  onValueChange={value => updateSearchParams(params => ({ ...params, mergeWithOwner: value }), true)}
+                  value={mergeWithOwner ?? 'false'}
+                >
+                  <div className={styles.radioItem} key="by_owner">
+                    <RadioGroupItem value="true" id="by_owner" />
+                    <label htmlFor="by_owner">{t('export_transactions.by_owner')}</label>
+                  </div>
+
+                  <div className={styles.radioItem} key="by_ckb_address">
+                    <RadioGroupItem value="false" id="by_ckb_address" />
+                    <label htmlFor="by_ckb_address">{t('export_transactions.by_ckb_address')}</label>
+                  </div>
+                </RadioGroup>
+              </div>
+              <div className={styles.inputPanel}>
+                <label className={styles.inputLabel}>{t('export_transactions.block_height')}</label>
                 <InputNumber
+                  className={classNames(styles.inputContent)}
                   size="large"
                   prefix={<BlockIcon />}
                   style={{ width: '100%' }}
@@ -109,7 +128,7 @@ const XudtExport = () => {
                   controls={false}
                   onChange={h =>
                     updateSearchParams(
-                      params => (h ? { ...params, height: h.toString() } : omit(params, ['to-height'])),
+                      params => (h ? { ...params, height: h.toString() } : omit(params, ['height'])),
                       true,
                     )
                   }

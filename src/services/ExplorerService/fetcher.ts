@@ -16,6 +16,7 @@ import {
   TransactionRecord,
   LiveCell,
   TokenCollection,
+  BitcoinAddresses,
 } from './types'
 import { assert } from '../../utils/error'
 import { Cell } from '../../models/Cell'
@@ -170,9 +171,16 @@ export const apiFetcher = {
 
   // sort field, block_timestamp, capacity
   // sort type, asc, desc
-  fetchAddressLiveCells: (address: string, page: number, size: number, sort?: string) => {
+  fetchAddressLiveCells: (
+    address: string,
+    page: number,
+    size: number,
+    sort?: string,
+    boundStatus: 'bound' | 'unbound' = 'bound',
+  ) => {
     return v1GetUnwrappedPagedList<LiveCell>(`address_live_cells/${address}`, {
       params: {
+        bound_status: boundStatus,
         page,
         page_size: size,
         sort,
@@ -242,6 +250,9 @@ export const apiFetcher = {
     requesterV2
       .get(`ckb_transactions/${hash}/rgb_digest`)
       .then(res => toCamelcase<Response.Response<RGBDigest>>(res.data)),
+
+  fetchBitcoinAddresses: (address: string) =>
+    requesterV2.get(`bitcoin_addresses/${address}`).then(res => toCamelcase<BitcoinAddresses>(res.data)),
 
   fetchCellsByTxHash: (hash: string, type: 'inputs' | 'outputs', page: Record<'no' | 'size', number>) =>
     requesterV2
@@ -830,10 +841,18 @@ export const apiFetcher = {
       },
     }),
 
-  fetchXudtHoders: ({ id, number }: { id: string; number: number }) => {
+  fetchXudtHolders: ({
+    id,
+    number,
+    mergeWithOwner = false,
+  }: {
+    id: string
+    number: number
+    mergeWithOwner?: boolean
+  }) => {
     return requesterV1
       .get(`/xudts/snapshot`, {
-        params: { id, number },
+        params: { id, number, merge_with_owner: mergeWithOwner },
       })
       .then(res => toCamelcase<string>(res.data))
   },

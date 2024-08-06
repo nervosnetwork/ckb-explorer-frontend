@@ -336,6 +336,11 @@ export interface RGBDigest {
   transfers: TransactionRecord[]
 }
 
+export interface BitcoinAddresses {
+  unboundLiveCellsCount: number
+  boundLiveCellsCount: number
+}
+
 export namespace RawBtcRPC {
   interface Utxo {
     value: number

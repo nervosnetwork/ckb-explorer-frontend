@@ -148,4 +148,13 @@ a:hover,
 .ant-tabs-tab:hover {
   color: var(--primary-color);
 }
-/* stylelint-enable selector-class-pattern */
+
+.ant-input-number-affix-wrapper {
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.ant-input-number-affix-wrapper.ant-input-number-affix-wrapper-focused,
+.ant-input-number-affix-wrapper:hover {
+  border-color: var(--primary-color) !important;
+}
