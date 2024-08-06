@@ -841,10 +841,18 @@ export const apiFetcher = {
       },
     }),
 
-  fetchXudtHoders: ({ id, number }: { id: string; number: number }) => {
+  fetchXudtHolders: ({
+    id,
+    number,
+    mergeWithOwner = false,
+  }: {
+    id: string
+    number: number
+    mergeWithOwner?: boolean
+  }) => {
     return requesterV1
       .get(`/xudts/snapshot`, {
-        params: { id, number },
+        params: { id, number, merge_with_owner: mergeWithOwner },
       })
       .then(res => toCamelcase<string>(res.data))
   },

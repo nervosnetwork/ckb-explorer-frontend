@@ -158,8 +158,10 @@
 
   .dateOrBlockPanel {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 16px;
     margin-top: 16px;
     color: #666;
 
@@ -167,11 +169,7 @@
       flex-direction: column;
       border-top: 1px solid #e5e5e5;
       margin-top: 24px;
-      padding-top: 24px;
-
-      > div:nth-child(2) {
-        margin-top: 24px;
-      }
+      padding: 24px 12px 0;
     }
 
     .datePickerPanel,
@@ -262,6 +260,7 @@
 
   .hint {
     margin-top: 16px;
+    padding: 0 12px;
 
     > div {
       padding: 12px;
@@ -290,10 +289,6 @@
         border-radius: 8px;
         max-width: 560px;
         font-size: 14px;
-
-        @media (width <= $mobileBreakPoint) {
-          max-width: 312px;
-        }
       }
 
       &.successHint {
@@ -381,4 +376,41 @@
   @media (width <= $mobileBreakPoint) {
     text-align: left;
   }
+}
+
+.inputPanel {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+
+  @media (width <= $mobileBreakPoint) {
+    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  @media (width > $mobileBreakPoint) {
+    .inputLabel {
+      width: 40%;
+      text-align: end;
+    }
+
+    .inputContent {
+      flex: 1;
+      max-width: 256px;
+    }
+  }
+}
+
+.radioGroup {
+  display: flex !important;
+  gap: 1rem !important;
+}
+
+.radioItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
 }
