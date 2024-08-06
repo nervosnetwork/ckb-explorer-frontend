@@ -89,6 +89,12 @@ const filterList = [
     title: <NFTTag key="layer-2-asset" tagName="layer-2-asset" />,
     to: '/nft-collections',
   },
+  {
+    key: 'supply-limited',
+    value: 'supply-limited',
+    title: <NFTTag key="supply-limited" tagName="supply-limited" />,
+    to: '/nft-collections',
+  },
 ].filter(f => whiteList.includes(f.key))
 
 export const isTxFilterType = (s?: string): boolean => {

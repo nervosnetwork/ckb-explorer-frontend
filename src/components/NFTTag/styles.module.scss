@@ -15,10 +15,7 @@
   &[data-type='supply-limited'] {
     border-color: #fcdeb0;
     background: #fdf5d7;
-
-    span {
-      color: #caac0f;
-    }
+    color: #caac0f;
   }
 
   &[data-type='out-of-length-range'] {
@@ -63,6 +60,7 @@
     color: #00a7cc;
   }
 
+  &[data-type='rgbpp-compatible'],
   &[data-type='rgb++'] {
     border: none;
     background: linear-gradient(90deg, #ffd176 0.23%, #ffdb81 6.7%, #84ffcb 99.82%);
