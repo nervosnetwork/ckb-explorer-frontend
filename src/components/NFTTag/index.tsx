@@ -11,6 +11,7 @@ export const whiteList = [
   'rgb++',
   'layer-1-asset',
   'layer-2-asset',
+  'supply-limited',
 ]
 
 const NFTTag = ({ tagName, to }: { tagName: string; to?: string }) => {

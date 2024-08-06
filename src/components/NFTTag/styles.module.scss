@@ -15,10 +15,7 @@
   &[data-type='supply-limited'] {
     border-color: #fcdeb0;
     background: #fdf5d7;
-
-    span {
-      color: #caac0f;
-    }
+    color: #caac0f;
   }
 
   &[data-type='out-of-length-range'] {
