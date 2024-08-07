@@ -44,7 +44,8 @@ const fetchCells = async ({
   sort: string
   page: number
 }) => {
-  const res = await explorerService.api.fetchAddressLiveCells(address, page, size, sort)
+  const boundStatus = address.startsWith('ckb') || address.startsWith('ckt') ? undefined : 'bound'
+  const res = await explorerService.api.fetchAddressLiveCells(address, page, size, sort, boundStatus)
   return {
     data: res.data,
     nextPage: page + 1,
