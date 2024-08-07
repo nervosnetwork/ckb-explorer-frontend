@@ -176,7 +176,7 @@ export const apiFetcher = {
     page: number,
     size: number,
     sort?: string,
-    boundStatus: 'bound' | 'unbound' = 'bound',
+    boundStatus?: 'bound' | 'unbound',
   ) => {
     return v1GetUnwrappedPagedList<LiveCell>(`address_live_cells/${address}`, {
       params: {
