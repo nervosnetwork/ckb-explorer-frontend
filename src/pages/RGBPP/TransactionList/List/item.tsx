@@ -1,16 +1,12 @@
 import { useTranslation } from 'react-i18next'
-import { useQuery } from '@tanstack/react-query'
 import AddressText from '../../../../components/AddressText'
-import { Link } from '../../../../components/Link'
+import { BTCExplorerLink, Link } from '../../../../components/Link'
 import { useStatistics } from '../../../../services/ExplorerService'
 import { localeNumberString } from '../../../../utils/number'
 import { dayjs } from '../../../../utils/date'
 import { ReactComponent as ShareIcon } from './share_icon.svg'
-import config from '../../../../config'
 import { TransactionLeapDirection } from '../../../../components/RGBPP/types'
 import styles from './styles.module.scss'
-import { getBtcChainIdentify } from '../../../../services/BTCIdentifier'
-import { IS_MAINNET } from '../../../../constants/common'
 import { HelpTip } from '../../../../components/HelpTip'
 
 export type Transaction = {
@@ -26,14 +22,6 @@ const Item = ({ item }: { item: Transaction }) => {
   const [t] = useTranslation()
   const statistics = useStatistics()
   const tipBlockNumber = parseInt(statistics?.tipBlockNumber ?? '0', 10)
-
-  const { data: identity } = useQuery({
-    queryKey: ['btc-testnet-identity', item.btcTxId],
-    queryFn: () => (item.btcTxId ? getBtcChainIdentify(item.btcTxId) : null),
-    enabled: !IS_MAINNET && !!item.btcTxId,
-  })
-
-  const btcExplorerUrl = `${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}`
 
   return (
     <tr key={item.ckbTxId}>
@@ -83,23 +71,14 @@ const Item = ({ item }: { item: Transaction }) => {
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}
             title={t('rgbpp.transaction.view_on_bitcoin_explorer')}
           >
-            <AddressText
-              style={{ marginLeft: 'auto' }}
-              disableTooltip
-              linkProps={{
-                to: `${btcExplorerUrl}/tx/${item.btcTxId}`,
-              }}
-            >
-              {item.btcTxId}
-            </AddressText>
-            <a
-              href={`${btcExplorerUrl}/tx/${item.btcTxId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: 'flex', alignItems: 'center' }}
-            >
+            <BTCExplorerLink className={styles.action} id={item.btcTxId} path="/tx">
+              <AddressText style={{ marginLeft: 'auto' }} disableTooltip>
+                {item.btcTxId}
+              </AddressText>
+            </BTCExplorerLink>
+            <BTCExplorerLink className={styles.action} id={item.btcTxId} path="/tx">
               <ShareIcon />
-            </a>
+            </BTCExplorerLink>
           </div>
         ) : (
           '/'
