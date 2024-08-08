@@ -3,9 +3,11 @@
   border: none;
   outline: none;
   background: none;
-  display: inline-flex;
-  vertical-align: text-top;
+  gap: 4px;
   cursor: pointer;
+  width: 70%;
+  display: flex;
+  align-items: center;
 }
 
 .antPopover {
@@ -28,6 +30,33 @@
 
   &[data-changed='true'] {
     color: var(--primary-color);
+  }
+}
+
+.selected {
+  border-radius: 48px;
+  border: 1px solid var(--primary-dimmed-color);
+  background: var(--secondary-color);
+  display: flex;
+  padding: 4px 8px;
+  align-items: center;
+  align-content: flex-start;
+  gap: 4px;
+  flex-wrap: nowrap;
+  margin-left: 4px;
+  color: var(--primary-color);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  align-self: center;
+  max-width: 85%;
+
+  .selectedItems {
+    max-width: 95%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
 
