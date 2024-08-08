@@ -5,6 +5,7 @@ import { FC, ReactNode, useState } from 'react'
 import { ColumnGroupType, ColumnType } from 'antd/lib/table'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
+import { TFunction } from 'i18next'
 import type { XUDT } from '../../models/Xudt'
 import { Link } from '../../components/Link'
 import Content from '../../components/Content'
@@ -29,7 +30,7 @@ import { scripts } from '../ScriptList'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
-const filterList = [
+const getfilterList = (t: TFunction) => [
   // TODO: maybe removed in the future, hold on
   // {
   //   key: 'out-of-length-range',
@@ -39,19 +40,19 @@ const filterList = [
   // },
   {
     key: 'layer-1-asset',
-    value: 'layer-1-asset',
+    value: t('xudt.tags.layer-1-asset'),
     title: <XUDTTag tagName="layer-1-asset" />,
     to: '/xudts',
   },
   {
     key: 'layer-2-asset',
-    value: 'layer-2-asset',
+    value: t('xudt.tags.layer-2-asset'),
     title: <XUDTTag tagName="layer-2-asset" />,
     to: '/xudts',
   },
   {
     key: 'supply-limited',
-    value: 'supply-limited',
+    value: t('xudt.tags.supply-limited'),
     title: <XUDTTag tagName="supply-limited" />,
     to: '/xudts',
   },
@@ -134,20 +135,20 @@ export function TokensCard({
       <Card className={styles.filterSortCard} shadow={false}>
         <FilterSortContainerOnMobile key="xudts-sort">
           <span className={styles.sortOption}>
-            {t('xudt.transactions')}
-            <SortButton field="transactions" sortParam={sortParam} />
+            {t('xudt.title.tags')}
+            <MultiFilterButton filterName="tags" key="" filterList={getfilterList(t)} />
           </span>
           <span className={styles.sortOption}>
-            {t('xudt.unique_addresses')}
-            <SortButton field="addresses_count" sortParam={sortParam} />
+            {t('xudt.transactions')}
+            <SortButton field="transactions" sortParam={sortParam} />
           </span>
           <span className={styles.sortOption}>
             {t('xudt.created_time')}
             <SortButton field="created_time" sortParam={sortParam} />
           </span>
           <span className={styles.sortOption}>
-            {t('xudt.title.tags')}
-            <MultiFilterButton filterName="tags" key="" filterList={filterList} />
+            {t('xudt.unique_addresses')}
+            <SortButton field="addresses_count" sortParam={sortParam} />
           </span>
         </FilterSortContainerOnMobile>
       </Card>
@@ -222,7 +223,7 @@ const TokenTable: FC<{
       title: (
         <>
           {t('xudt.title.tags')}
-          <MultiFilterButton filterName="tags" key="" filterList={filterList} />
+          <MultiFilterButton filterName="tags" key="" filterList={getfilterList(t)} />
         </>
       ),
       className: styles.colTags,
@@ -247,7 +248,7 @@ const TokenTable: FC<{
     {
       title: (
         <>
-          {t('xudt.unique_addresses')}
+          <span>{t('xudt.unique_addresses')}</span>
           <SortButton field="addresses_count" sortParam={sortParam} />
         </>
       ),

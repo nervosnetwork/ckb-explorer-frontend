@@ -1,7 +1,7 @@
 import { type FC, useState, useRef, useEffect } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { ReactComponent as ListIcon } from './list.svg'
 import { ReactComponent as GridIcon } from './grid.svg'
@@ -22,14 +22,13 @@ import { TransactionCellInfo } from '../Transaction/TransactionCell'
 import { parseUDTAmount } from '../../utils/number'
 import { getContractHashTag, shannonToCkb } from '../../utils/util'
 import { useSetToast } from '../../components/Toast'
-import { IS_MAINNET, PAGE_SIZE } from '../../constants/common'
+import { PAGE_SIZE } from '../../constants/common'
 import styles from './rgbppAssets.module.scss'
 import MergedAssetList from './MergedAssetList'
 import { UDTAccount } from '../../models/Address'
 import { CellBasicInfo } from '../../utils/transformer'
 import { isTypeIdScript } from '../../utils/typeid'
-import config from '../../config'
-import { getBtcChainIdentify } from '../../services/BTCIdentifier'
+import { BTCExplorerLink } from '../../components/Link'
 import InvalidRGBPPAssetList from './InvalidRGBPPAssetList'
 
 const fetchCells = async ({
@@ -237,13 +236,6 @@ const AssetItem: FC<{ cells: LiveCell[]; btcTxId: string; vout: number; width: n
   width,
 }) => {
   const { t } = useTranslation()
-  const { data: identity } = useQuery({
-    queryKey: ['btc-testnet-identity', btcTxId],
-    queryFn: () => (btcTxId ? getBtcChainIdentify(btcTxId) : null),
-    enabled: !IS_MAINNET && !!btcTxId,
-  })
-  const btcExplorer = `${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}`
-
   return (
     <div key={btcTxId + vout} className={styles.card}>
       <h5
@@ -253,13 +245,12 @@ const AssetItem: FC<{ cells: LiveCell[]; btcTxId: string; vout: number; width: n
         }}
       >
         <div className={styles.explorerLink}>
-          <a href={`${btcExplorer}/tx/${btcTxId}#vout=${vout}`}>{`${btcTxId.slice(0, 4)}...${btcTxId.slice(
-            btcTxId.length - 5,
-            btcTxId.length,
-          )}:${vout}`}</a>
-          <a href={`${btcExplorer}/tx/${btcTxId}#vout=${vout}`}>
+          <BTCExplorerLink className={styles.action} id={btcTxId} anchor={`vout=${vout}`} path="/tx">
+            {`${btcTxId.slice(0, 4)}...${btcTxId.slice(btcTxId.length - 5, btcTxId.length)}:${vout}`}
+          </BTCExplorerLink>
+          <BTCExplorerLink className={styles.action} id={btcTxId} anchor={`vout=${vout}`} path="/tx">
             <RedirectIcon />
-          </a>
+          </BTCExplorerLink>
         </div>
 
         {cells.length > 1 ? (

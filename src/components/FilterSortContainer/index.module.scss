@@ -1,10 +1,11 @@
 .filterSortContainerOnMobile {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
   gap: 20px;
 
   ul {
+    max-width: 100%;
     display: flex;
     flex-wrap: wrap;
     margin: 0;
@@ -12,6 +13,7 @@
     li {
       width: 50%;
       list-style-type: none;
+      text-wrap: nowrap;
 
       &:nth-child(odd) {
         text-align: left;
