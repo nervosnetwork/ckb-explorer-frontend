@@ -1,4 +1,10 @@
 .container {
   max-width: 100%;
   width: 100%;
+
+  :global(.chartDetailTitlePanel) {
+    span {
+      margin: 0 !important;
+    }
+  }
 }
