@@ -155,6 +155,11 @@ const useOption = (
   }
 }
 
+const toCSV = (dataList: ChartItem.Bitcoin[]) => {
+  if (!dataList) return []
+  return dataList.map(data => [data.timestamp, data.addressesCount, data.transactionsCount])
+}
+
 export const Chart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
   const isMobile = useIsMobile()
@@ -167,6 +172,7 @@ export const Chart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
         fetchData={explorerService.api.fetchStatisticBitcoin}
         getEChartOption={useOption}
         queryKey="fetchStatisticBitcoin"
+        toCSV={toCSV}
       />
     </div>
   )
