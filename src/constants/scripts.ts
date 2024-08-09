@@ -323,6 +323,14 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     category: 'type',
   },
   {
+    codeHashes: ['0x641a89ad2f77721b803cd50d01351c1f308444072d5fa20088567196c0574c68'],
+    txHashes: ['0x1911208b136957d5f7c1708a8835edfe8ae1d02700d5cb2c3a6aacf4d5906306-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Nostr',
+    category: 'lock',
+  },
+  {
     codeHashes: ['0x8290467a512e5b9a6b816469b0edabba1f4ac474e28ffdd604c2a7c76446bbaf'],
     txHashes: ['0x10d63a996157d32c01078058000052674ca58d15f921bec7f1dcdac2160eb66b-4'],
     depType: 'code',
