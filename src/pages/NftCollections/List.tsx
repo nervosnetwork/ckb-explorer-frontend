@@ -2,6 +2,7 @@ import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import { Popover, Tooltip } from 'antd'
 import classNames from 'classnames'
 import { Trans, useTranslation } from 'react-i18next'
+import { TFunction } from 'i18next'
 import { Link } from '../../components/Link'
 import SortButton from '../../components/SortButton'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
@@ -46,56 +47,57 @@ function useFilterList(): Record<'title' | 'value', string>[] {
   ]
 }
 
-const filterList = [
-  {
-    key: 'invalid',
-    value: 'invalid',
-    title: <NFTTag key="invalid" tagName="invalid" />,
-    to: '/nft-collections',
-  },
-  {
-    key: 'suspicious',
-    value: 'suspicious',
-    title: <NFTTag key="suspicious" tagName="suspicious" />,
-    to: '/nft-collections',
-  },
-  {
-    key: 'out-of-length-range',
-    value: 'out-of-length-range',
-    title: <NFTTag key="out-of-length-range" tagName="out-of-length-range" />,
-    to: '/nft-collections',
-  },
-  {
-    key: 'rgb++',
-    value: 'rgb++',
-    title: <NFTTag key="rgb++" tagName="rgb++" />,
-    to: '/nft-collections',
-  },
-  {
-    key: 'duplicate',
-    value: 'duplicate',
-    title: <NFTTag key="duplicate" tagName="duplicate" />,
-    to: '/nft-collections',
-  },
-  {
-    key: 'layer-1-asset',
-    value: 'layer-1-asset',
-    title: <NFTTag key="layer-1-asset" tagName="layer-1-asset" />,
-    to: '/nft-collections',
-  },
-  {
-    key: 'layer-2-asset',
-    value: 'layer-2-asset',
-    title: <NFTTag key="layer-2-asset" tagName="layer-2-asset" />,
-    to: '/nft-collections',
-  },
-  {
-    key: 'supply-limited',
-    value: 'supply-limited',
-    title: <NFTTag key="supply-limited" tagName="supply-limited" />,
-    to: '/nft-collections',
-  },
-].filter(f => whiteList.includes(f.key))
+const getFilterList = (t: TFunction) =>
+  [
+    {
+      key: 'invalid',
+      value: t('xudt.tags.invalid'),
+      title: <NFTTag key="invalid" tagName="invalid" />,
+      to: '/nft-collections',
+    },
+    {
+      key: 'suspicious',
+      value: t('xudt.tags.suspicious'),
+      title: <NFTTag key="suspicious" tagName="suspicious" />,
+      to: '/nft-collections',
+    },
+    {
+      key: 'out-of-length-range',
+      value: t('xudt.tags.out-of-length-range'),
+      title: <NFTTag key="out-of-length-range" tagName="out-of-length-range" />,
+      to: '/nft-collections',
+    },
+    {
+      key: 'rgb++',
+      value: t('xudt.tags.rgb++'),
+      title: <NFTTag key="rgb++" tagName="rgb++" />,
+      to: '/nft-collections',
+    },
+    {
+      key: 'duplicate',
+      value: t('xudt.tags.duplicate'),
+      title: <NFTTag key="duplicate" tagName="duplicate" />,
+      to: '/nft-collections',
+    },
+    {
+      key: 'layer-1-asset',
+      value: t('xudt.tags.layer-1-asset'),
+      title: <NFTTag key="layer-1-asset" tagName="layer-1-asset" />,
+      to: '/nft-collections',
+    },
+    {
+      key: 'layer-2-asset',
+      value: t('xudt.tags.layer-2-asset'),
+      title: <NFTTag key="layer-2-asset" tagName="layer-2-asset" />,
+      to: '/nft-collections',
+    },
+    {
+      key: 'supply-limited',
+      value: t('xudt.tags.supply-limited'),
+      title: <NFTTag key="supply-limited" tagName="supply-limited" />,
+      to: '/nft-collections',
+    },
+  ].filter(f => whiteList.includes(f.key))
 
 export const isTxFilterType = (s?: string): boolean => {
   return s ? ['all', 'm_nft', 'nrc721', 'cota', 'spore'].includes(s) : false
@@ -141,7 +143,7 @@ const Tags = () => {
   return (
     <div className={styles.colTags}>
       {t('xudt.title.tags')}
-      <MultiFilterButton filterName="tags" key="" filterList={filterList} />
+      <MultiFilterButton filterName="tags" key="" filterList={getFilterList(t)} />
     </div>
   )
 }
@@ -367,9 +369,9 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
           <SimpleSortHeader sortField="transactions" fieldI18n={t('nft.transactions')} />
           <HolderMinterSort />
           <SimpleSortHeader sortField="timestamp" fieldI18n={t('nft.created_time')} />
-          <div>
+          <div style={{ display: 'flex', flexWrap: 'nowrap', maxWidth: '100%' }}>
             {t('xudt.title.tags')}
-            <MultiFilterButton filterName="tags" key="" filterList={filterList} />
+            <MultiFilterButton filterName="tags" key="" filterList={getFilterList(t)} />
           </div>
         </FilterSortContainerOnMobile>
       </Card>

@@ -23,9 +23,8 @@ import { Card, HashCardHeader } from '../../components/Card'
 import { ReactComponent as ShareIcon } from './share.svg'
 import styles from './styles.module.scss'
 import { useDASAccount } from '../../hooks/useDASAccount'
-import { Link } from '../../components/Link'
+import { BTCExplorerLink, Link } from '../../components/Link'
 import { isValidBTCAddress } from '../../utils/bitcoin'
-import config from '../../config'
 import { defaultAddressInfo } from './state'
 import { BTCAddressOverviewCard } from './BTCAddressComp'
 import Qrcode from '../../components/Qrcode'
@@ -223,14 +222,9 @@ const LinkToBtcAddress = ({ address }: { address: string }) => {
   const { t } = useTranslation()
   return (
     <Tooltip placement="top" title={t('address.view_in_btc_explorer')}>
-      <a
-        rel="noreferrer"
-        target="_blank"
-        className={styles.openInNew}
-        href={`${config.BITCOIN_EXPLORER}/address/${address}`}
-      >
+      <BTCExplorerLink className={styles.openInNew} address={address} path="/address">
         <ShareIcon />
-      </a>
+      </BTCExplorerLink>
     </Tooltip>
   )
 }

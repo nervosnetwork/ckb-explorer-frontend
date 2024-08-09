@@ -9,10 +9,8 @@ import { IS_MAINNET } from '../../../constants/common'
 import { getBtcUtxo, shannonToCkb } from '../../../utils/util'
 import { CellBasicInfo } from '../../../utils/transformer'
 import { ReactComponent as MoreIcon } from '../../../assets/more.svg'
-import { Link } from '../../Link'
-import config from '../../../config'
+import { BTCExplorerLink, Link } from '../../Link'
 import styles from '../styles.module.scss'
-import { getBtcChainIdentify } from '../../../services/BTCIdentifier'
 
 export const useGenerateMenuItem = ({
   t,
@@ -27,11 +25,6 @@ export const useGenerateMenuItem = ({
   btcUtxo?: ReturnType<typeof getBtcUtxo>
   onViewCell: (cell: CellBasicInfo) => void
 }) => {
-  const { data: identity } = useQuery({
-    queryKey: ['btc-testnet-identity', btcUtxo?.txid],
-    queryFn: () => (btcUtxo?.txid ? getBtcChainIdentify(btcUtxo.txid) : null),
-    enabled: !IS_MAINNET && !!btcUtxo?.txid,
-  })
   return useMemo(
     () => [
       {
@@ -46,15 +39,14 @@ export const useGenerateMenuItem = ({
         ? [
             {
               label: (
-                <a
-                  href={`${config.BITCOIN_EXPLORER}${IS_MAINNET ? '' : `/${identity}`}/tx/${
-                    btcUtxo.txid
-                  }#vout=${parseInt(btcUtxo.index!, 16)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <BTCExplorerLink
+                  className={styles.action}
+                  id={btcUtxo.txid}
+                  anchor={`vout=${parseInt(btcUtxo.index!, 16)}`}
+                  path="/tx"
                 >
                   {t('utxo_graph.view_btc_utxo')}
-                </a>
+                </BTCExplorerLink>
               ),
               key: 'btc-utxo',
             },
@@ -69,7 +61,7 @@ export const useGenerateMenuItem = ({
         key: 'cell',
       },
     ],
-    [t, address, btcUtxo, onViewCell, cell, identity],
+    [t, address, btcUtxo, onViewCell, cell],
   )
 }
 

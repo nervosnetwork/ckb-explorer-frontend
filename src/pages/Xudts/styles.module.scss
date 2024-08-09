@@ -77,6 +77,8 @@ dt {
   display: flex;
   align-items: center;
   color: var(--primary-color);
+  font-size: 15px;
+  font-weight: 500;
 
   &:hover {
     color: var(--primary-color);
@@ -236,6 +238,9 @@ dt {
   }
 
   .colTags {
+    display: flex;
+    align-items: center;
+
     .tags {
       flex-wrap: wrap;
       display: flex;
@@ -316,7 +321,13 @@ dt {
   }
 
   .colAddressCount {
+    display: flex;
     min-width: 170px;
+    flex-wrap: nowrap;
+
+    span {
+      white-space: nowrap;
+    }
   }
 
   .colCreatedTime {
