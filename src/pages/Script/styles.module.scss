@@ -159,3 +159,36 @@
 .noRecord {
   text-align: center;
 }
+
+.headerCard {
+  padding: 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+
+  .headerTitle {
+    font-size: 24px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .headerSubTitle {
+    font-size: 16px;
+    color: #666;
+  }
+
+  .openSourceAction {
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 24px;
+    gap: 4px;
+    border: 1px solid #8a8a8a;
+    transition: all 0.3s;
+
+    &:hover {
+      border-color: var(--primary-color);
+    }
+  }
+}
