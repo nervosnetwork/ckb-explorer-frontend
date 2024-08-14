@@ -32,35 +32,43 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
   const [transactionsEmpty, setTransactionsEmpty] = useState(false)
   const previousTransactionEmpty = usePrevious(transactionsEmpty)
 
-  const transactionsQuery = useQuery(['scripts_ckb_transactions', codeHash, hashType, page, size], async () => {
-    try {
-      const { transactions, total } = await explorerService.api.fetchScriptCKBTransactions(
-        codeHash,
-        hashType,
-        page,
-        size,
-      )
+  const {
+    data = {
+      total: 0,
+      ckbTransactions: [],
+    },
+    isLoading,
+    error,
+  } = useQuery(['scripts_ckb_transactions', codeHash, hashType, page, size], async () => {
+    const { transactions, total } = await explorerService.api.fetchScriptCKBTransactions(codeHash, hashType, page, size)
 
-      if (!transactions.length) {
-        setTransactionsEmpty(true)
-      }
-      return {
-        total,
-        ckbTransactions: transactions,
-      }
-    } catch (error) {
+    if (!transactions.length) {
       setTransactionsEmpty(true)
-      return { total: 0, ckbTransactions: [] }
+    }
+    return {
+      total,
+      ckbTransactions: transactions,
     }
   })
 
-  const ckbTransactions = transactionsQuery.data?.ckbTransactions ?? []
-  const total = transactionsQuery.data?.total ?? 0
+  const { total, ckbTransactions } = data
   const totalPages = Math.ceil(total / size)
 
   const onChange = (page: number) => {
     history.push(`/${language}/script/${codeHash}/${hashType}?page=${page}&size=${size}`)
   }
+
+  const status = (() => {
+    if (error) {
+      return (error as Error).message
+    }
+
+    if (isLoading && !previousTransactionEmpty) {
+      return t('nft.loading')
+    }
+
+    return t(`nft.no_record`)
+  })()
 
   return (
     <>
@@ -77,9 +85,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
             />
           ))
         ) : (
-          <div className={styles.loadingOrEmpty}>
-            {transactionsQuery.isLoading && !previousTransactionEmpty ? t('nft.loading') : t(`nft.no_record`)}
-          </div>
+          <div className={styles.loadingOrEmpty}>{status}</div>
         )}
       </div>
       {totalPages > 1 && (
