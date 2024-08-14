@@ -3,6 +3,7 @@ import { useHistory } from 'react-router'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { Link } from '../../components/Link'
 import Content from '../../components/Content'
 import { useCurrentLanguage } from '../../utils/i18n'
 import { localeNumberString } from '../../utils/number'
@@ -18,6 +19,7 @@ import { explorerService } from '../../services/ExplorerService'
 import type { ScriptInfo } from '../../services/ExplorerService/fetcher'
 import { ScriptTab, ScriptTabPane, ScriptTabTitle } from './styled'
 import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
+import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { HashType } from '../../constants/common'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
@@ -150,10 +152,27 @@ export const ScriptPage = () => {
     }
   }, [hashType, history])
 
+  const codeUrl = scriptNameList.get(scriptInfo.scriptName)?.code
+
   return (
     <Content>
       <div className={`${styles.scriptContentPanel} container`}>
         <Card>
+          <div className={styles.headerCard}>
+            <span className={styles.headerTitle}>Script</span>
+
+            {scriptInfo.scriptName ? <span className={styles.headerSubTitle}>{scriptInfo.scriptName}</span> : null}
+
+            {codeUrl ? (
+              <Link to={codeUrl} style={{ marginLeft: 'auto' }} className={styles.openSourceAction}>
+                {t('scripts.open_source_script')}
+                <OpenSourceIcon />
+              </Link>
+            ) : null}
+          </div>
+        </Card>
+
+        <Card style={{ marginTop: 24 }}>
           <CardCellsLayout type="left-right" cells={useScriptInfo(scriptInfo)} />
         </Card>
 

@@ -24,7 +24,8 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
     if (!info?.description) return '-'
     try {
       const parsed = JSON.parse(info.description)
-      if ('description' in parsed) return parsed.description
+      if ('description' in parsed)
+        return typeof parsed.description === 'object' ? JSON.stringify(parsed.description) : parsed.description
       return info.description
     } catch {
       return info.description
