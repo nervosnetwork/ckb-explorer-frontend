@@ -8,6 +8,14 @@
   }
 }
 
+.content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+
 .noRecords {
   display: flex;
   background: #fff;
@@ -25,7 +33,6 @@
   gap: 16px;
   font-size: 16px;
   white-space: nowrap;
-  overflow: hidden;
   margin-bottom: 1rem;
 
   @media screen and (max-width: $mobileBreakPoint) {
@@ -144,11 +151,9 @@
 }
 
 .list {
-  max-height: 540px;
+  height: 100%;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
-
-  & > div {
-    scroll-snap-align: center;
-  }
+  display: flex;
+  flex-direction: column;
 }
