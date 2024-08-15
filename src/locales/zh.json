@@ -168,6 +168,7 @@
     "cell": {
       "live_cell": "未消耗 Cell",
       "dead_cell": "已消耗 Cell",
+      "pending_cell": "待确认 Cell",
       "cell_info": "Cell 信息",
       "bind_description": {
         "binding": "“待绑定”：当前Cell 对应的UTXO 已被消耗。如果“待绑定”持续时间过长，请检查消耗 此UTXO 对应BTC地址下的CKB交易状态。",

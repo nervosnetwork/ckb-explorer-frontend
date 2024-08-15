@@ -398,6 +398,7 @@
       "live_cell": "Live Cell",
       "dead_cell": "Consumed Cell",
       "cell_info": "Cell Info",
+      "pending_cell": "Pending Cell",
       "bind_description": {
         "binding": "\"Binding\": The UTXO corresponding to the current Cell has been consumed. If the \"Binding\" status persists for too long, please check the CKB transaction status under the BTC address that consumed this UTXO.",
         "bound": "\"Bound\": \"Bound\" means that the Owner of the Cell is a live BTC UTXO, and the Cell has been bound to a specific BTC address.",
