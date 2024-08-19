@@ -262,6 +262,15 @@ export const UDTComp = ({
       </UDTNoResultPanel>
     )
   }
+
+  if (transactions.length === 0) {
+    return (
+      <UDTNoResultPanel>
+        <span>{t('transaction.no_records')}</span>
+      </UDTNoResultPanel>
+    )
+  }
+
   return (
     <>
       <UDTTransactionsPanel>
