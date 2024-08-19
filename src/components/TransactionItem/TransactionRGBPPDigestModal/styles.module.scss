@@ -4,20 +4,25 @@
   background-color: #fff;
   padding: 20px 40px;
   width: 75%;
-  margin: 15% auto;
+  max-height: 80%;
+  top: 50%;
+  left: 50%;
+  gap: 10px;
+  transform: translate(-50%, -50%);
   border-radius: 4px;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
 
   @media screen and (max-width: $mobileBreakPoint) {
     width: 90%;
     padding: 16px;
-    margin: 178px auto;
   }
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
 
   .left {
     display: flex;
