@@ -201,7 +201,7 @@ export const UDTOverviewCard = ({
 
         <div className={styles.tags}>
           {tags.map(tag => (
-            <XUDTTag tagName={tag} />
+            <XUDTTag tagName={tag} to="/xudts" tooltip />
           ))}
           {xudtCodeUrl ? (
             <Link className={styles.openSource} to={xudtCodeUrl}>
