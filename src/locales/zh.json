@@ -814,6 +814,20 @@
         "rgb++": "RGB++",
         "unnamed": "未命名"
       },
+      "tags_description": {
+        "invalid": "此 Tag 标记的资产名称中含有无效字符。",
+        "suspicious": "此 Tag 标记的资产名称中含有大量隐藏字符类型。",
+        "out-of-length-range": "此 Tag 标记的资产名称长度超过 60 字符。",
+        "duplicate": "区分大小写前提下，此 Tag 标记的资产名称与已发行过的资产重复。",
+        "rgb++": "此 Tag 标记的资产是 RGB++ 协议兼容资产，可以在 BTC 和 CKB 之间相互转移。",
+        "layer-1-asset": "此 Tag 标记的资产是发行在 Layer1 上的资产。",
+        "layer-2-asset": "此 Tag 标记的资产是发行在 Layer2 上的资产。",
+        "verified-on": "此 Tag 标记的资产是经过 Cell Studio 校验的资产。",
+        "supply-limited": "此Tag标记的资产是有限供应的资产，有最大资产数量限制。",
+        "supply-unlimited": "此Tag标记的资产是无限供应的资产，无最大资产数量限制。",
+        "view_more": "查看更多",
+        "unnamed": "此Tag标记的资产名称字段为空。"
+      },
       "category": "类别"
     },
     "nft": {

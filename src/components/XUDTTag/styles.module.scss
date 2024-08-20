@@ -90,3 +90,32 @@
 .normal {
   border: 1px solid;
 }
+
+/* stylelint-disable selector-class-pattern */
+.tagPopover {
+  max-width: 320px;
+
+  :global {
+    .ant-popover-content {
+      .ant-popover-arrow {
+        .ant-popover-arrow-content {
+          --antd-arrow-background-color: rgb(0 0 0 / 80%);
+        }
+      }
+    }
+
+    .ant-popover-inner {
+      background-color: rgb(0 0 0 / 80%);
+      border-radius: 6px;
+
+      .ant-popover-inner-content {
+        color: #fff;
+
+        a {
+          color: var(--primary-color);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
