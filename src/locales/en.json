@@ -812,6 +812,20 @@
         "rgb++": "RGB++",
         "unnamed": "Unnamed"
       },
+      "tags_description": {
+        "invalid": "This tag marks an asset whose name contains invalid characters.",
+        "suspicious": "This tag marks an asset whose name contains multiple hidden character types.",
+        "out-of-length-range": "This tag marks an asset whose name exceeds 60 characters in length.",
+        "duplicate": "Under case-sensitive conditions, this tag marks an asset whose name duplicates an already issued asset.",
+        "rgb++": "This tag marks an asset that is compatible with the RGB++ protocol, allowing for transfers between BTC and CKB.",
+        "layer-1-asset": "This tag marks an asset that is issued on Layer 1.",
+        "layer-2-asset": "This tag marks an asset that is issued on Layer 2.",
+        "verified-on": "This tag marks an asset that has been verified by Cell Studio.",
+        "supply-limited": "This tag marks an asset that has a limited supply, with a maximum quantity limit.",
+        "supply-unlimited": "This tag marks an asset that has an unlimited supply, with no maximum quantity limit.",
+        "view_more": "View more items",
+        "unnamed": "This tag marks an asset whose name field is empty."
+      },
       "category": "Category"
     },
     "nft": {
