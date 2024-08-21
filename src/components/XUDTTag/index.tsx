@@ -1,12 +1,13 @@
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
+import { Popover } from 'antd'
 import styles from './styles.module.scss'
 
 const HIDDEN_TAGS = ['duplicate', 'suspicious', 'utility', 'supply-unlimited', 'out-of-length-range']
 
-const XUDTTag = ({ tagName, to }: { tagName: string; to?: string }) => {
-  const { t } = useTranslation()
+const XUDTTag = ({ tagName, to, tooltip = false }: { tagName: string; to?: string; tooltip?: boolean }) => {
+  const { t, i18n } = useTranslation()
   const { push } = useHistory()
 
   // FIXME: the tag should be updated in the backend
@@ -39,7 +40,25 @@ const XUDTTag = ({ tagName, to }: { tagName: string; to?: string }) => {
     } else {
       search.set('tags', [...tags, tag].join(','))
     }
-    push(`${to ?? window.location.pathname}?${search}`)
+    push(`${`/${i18n.language}${to ?? window.location.pathname}`}?${search}`)
+  }
+
+  if (tooltip) {
+    return (
+      <Popover
+        overlayClassName={styles.tagPopover}
+        content={
+          <>
+            <div>{t(`xudt.tags_description.${tag}`)}</div>
+            <a href={`/${i18n.language}${to}?tags=${tag}`}>{t('xudt.tags_description.view_more')}</a>
+          </>
+        }
+      >
+        <button type="button" className={classNames(styles.container, styles.normal)} data-type={tagName}>
+          {content}
+        </button>
+      </Popover>
+    )
   }
 
   return (

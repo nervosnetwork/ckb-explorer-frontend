@@ -57,12 +57,6 @@ export const CKBNodeProvider = ({ children, defaultEndpoint }: PropsWithChildren
   const [nodes, setNodes] = useState<Map<string, string>>(new Map(Object.entries(loadEndpoints())))
   const [isActivated, _setIsActivated] = useState(localStorage.getItem(NODE_CONNECT_MODE_KEY) === 'true')
 
-  // eslint-disable-next-line no-console
-  console.log('loadEndpoints', loadEndpoints())
-
-  // eslint-disable-next-line no-console
-  console.log('nodes', nodes)
-
   const setIsActivated = (value: boolean) => {
     localStorage.setItem(NODE_CONNECT_MODE_KEY, value.toString())
     _setIsActivated(value)

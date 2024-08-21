@@ -23,8 +23,6 @@ export const HighlightText: FC<HighlightTextProps> = ({ text, keyword, ...props 
   const [originTextWidth, setOriginTextWidth] = useState(0)
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    // console.log('HighlightText useEffect', text, keyword, resizedWidth)
     if (!ref.current || !text || !keyword) return
     const minSideLen = 3
     const wrapperWidth = resizedWidth ?? ref.current.clientWidth
