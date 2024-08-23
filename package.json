@@ -31,7 +31,7 @@
     "bech32": "2.0.0",
     "bignumber.js": "9.1.2",
     "bs58check": "3.0.1",
-    "camelcase": "7.0.1",
+    "camelcase": "8.0.0",
     "camelcase-keys": "7.0.2",
     "classnames": "2.5.1",
     "cytoscape": "^3.29.2",
