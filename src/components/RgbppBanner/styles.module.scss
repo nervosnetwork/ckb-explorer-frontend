@@ -90,6 +90,10 @@
           transform: rotateX(#{$i * 60}deg) translateZ(40px);
           animation: fade 24s infinite linear;
           animation-delay: #{21.6s - ($i - 1) * 4s};
+
+          @media (width <= $mobileBreakPoint) {
+            transform: rotateX(#{$i * 60}deg) translateZ(20px);
+          }
         }
       }
     }
