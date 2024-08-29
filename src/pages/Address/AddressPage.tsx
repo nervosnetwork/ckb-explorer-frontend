@@ -19,6 +19,7 @@ import {
   useSortParam,
 } from '../../hooks'
 import { isAxiosError } from '../../utils/error'
+import RgbppBanner from '../../components/RgbppBanner'
 import { Card, HashCardHeader } from '../../components/Card'
 import { ReactComponent as ShareIcon } from './share.svg'
 import styles from './styles.module.scss'
@@ -171,6 +172,7 @@ export const Address = () => {
 
   return (
     <Content>
+      {isRGBPP ? <RgbppBanner path={`/address/${address}`} /> : null}
       <AddressContentPanel className="container">
         <Card>
           <HashCardHeader
