@@ -5,6 +5,7 @@ import Content from '../../components/Content'
 import { TransactionDiv as TransactionPanel } from './TransactionComp/styled'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
+import RgbppBanner from '../../components/RgbppBanner'
 import { defaultTransactionInfo } from './state'
 import { useSearchParams } from '../../hooks'
 import { useCKBNode } from '../../hooks/useCKBNode'
@@ -46,6 +47,7 @@ export default () => {
 
   return (
     <Content>
+      {transaction.isRgbTransaction ? <RgbppBanner path={`/transaction/${transaction.transactionHash}`} /> : null}
       <TransactionPanel>
         {nodeActivated ? (
           <QueryResult query={nodeTxQuery} delayLoading>
