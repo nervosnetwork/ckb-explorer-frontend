@@ -56,6 +56,12 @@ const getfilterList = (t: TFunction) => [
     title: <XUDTTag tagName="supply-limited" />,
     to: '/xudts',
   },
+  {
+    key: 'utility',
+    value: t('xudt.tags.utility'),
+    title: <XUDTTag tagName="utility" />,
+    to: '/xudts',
+  },
 ]
 
 const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {

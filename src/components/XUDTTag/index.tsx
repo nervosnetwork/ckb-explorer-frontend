@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Popover } from 'antd'
 import styles from './styles.module.scss'
 
-const HIDDEN_TAGS = ['duplicate', 'suspicious', 'utility', 'supply-unlimited', 'out-of-length-range']
+const HIDDEN_TAGS = ['duplicate', 'suspicious', 'supply-unlimited', 'out-of-length-range']
 
 const XUDTTag = ({ tagName, to, tooltip = false }: { tagName: string; to?: string; tooltip?: boolean }) => {
   const { t, i18n } = useTranslation()
