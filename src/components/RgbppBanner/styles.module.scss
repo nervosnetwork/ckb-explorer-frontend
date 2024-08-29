@@ -1,0 +1,231 @@
+@import '../../styles/variables.module';
+
+.container {
+  background: #1d1f31;
+  margin: 24px 120px -12px;
+  padding-left: 80px;
+  padding-right: 224px;
+  display: flex;
+  align-items: center;
+  color: #fff !important;
+  height: 280px;
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-family: Montserrat, Roboto, Lato, sans-serif, 'PingFang SC', -apple-system;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+
+    svg {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .slogan {
+    position: relative;
+    margin-left: auto;
+    display: flex;
+    gap: 16px;
+    font-size: 30px;
+    font-weight: 700;
+    font-family: Roboto, Lato, sans-serif, 'PingFang SC', -apple-system;
+    letter-spacing: 1px;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      border: 2px solid #fff;
+      opacity: 0.1;
+      border-radius: 50%;
+    }
+
+    &::after {
+      width: 700px;
+      height: 700px;
+    }
+  }
+
+  .lumi {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 186px;
+    height: 186px;
+    border-radius: 50%;
+    overflow: hidden;
+    filter: blur(40px);
+    opacity: 0.5;
+  }
+
+  .words {
+    width: 6ch;
+    position: relative;
+    perspective: 2000px;
+    transform-style: preserve-3d;
+    transform-origin: center center center;
+    animation: rotate 24s infinite ease-in-out;
+
+    & > div {
+      position: absolute;
+      backface-visibility: hidden;
+      color: #fff;
+
+      @for $i from 1 through 6 {
+        &:nth-child(#{$i}) {
+          transform: rotateX(#{$i * 60}deg) translateZ(40px);
+          animation: fade 24s infinite linear;
+          animation-delay: #{21.6s - ($i - 1) * 4s};
+        }
+      }
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotateX(0deg);
+      }
+
+      13.8889% {
+        transform: rotateX(0deg);
+      }
+
+      16.6667% {
+        transform: rotateX(60deg);
+      }
+
+      30.5556% {
+        transform: rotateX(60deg);
+      }
+
+      33.3333% {
+        transform: rotateX(120deg);
+      }
+
+      47.2222% {
+        transform: rotateX(120deg);
+      }
+
+      50% {
+        transform: rotateX(180deg);
+      }
+
+      63.8889% {
+        transform: rotateX(180deg);
+      }
+
+      66.6667% {
+        transform: rotateX(240deg);
+      }
+
+      80.5556% {
+        transform: rotateX(240deg);
+      }
+
+      83.3333% {
+        transform: rotateX(300deg);
+      }
+
+      97.2222% {
+        transform: rotateX(300deg);
+      }
+
+      100% {
+        transform: rotateX(360deg);
+      }
+    }
+    /* stylelint-disable keyframe-block-no-duplicate-selectors */
+    @keyframes fade {
+      35% {
+        color: #ccc;
+        opacity: 0.01;
+      }
+
+      35% {
+        color: #ccc;
+        opacity: 0.01;
+      }
+
+      35.04% {
+        color: #fff;
+      }
+
+      43.8889% {
+        color: #fff;
+      }
+
+      43.8889% {
+        color: #ccc;
+        opacity: 0.01;
+      }
+
+      48% {
+        color: #ccc;
+        opacity: 0.01;
+      }
+    }
+    /* stylelint-enable keyframe-block-no-duplicate-selectors */
+  }
+
+  @media (width <= $xxlBreakPoint) {
+    margin: 24px 100px -12px;
+    padding: 20px 40px;
+  }
+
+  @media (width <= $extraLargeBreakPoint) {
+    margin: 24px 45px -12px;
+  }
+
+  @media (width <= $largeBreakPoint) {
+    margin: 24px 45px -12px;
+    height: auto;
+    flex-direction: column;
+
+    .lumin {
+      width: 200px;
+      height: 200px;
+    }
+
+    .slogan {
+      margin: 18vw auto;
+
+      &::before {
+        width: 24vw;
+        height: 24vw;
+      }
+
+      &::after {
+        width: 40vw;
+        height: 40vw;
+      }
+    }
+  }
+
+  @media (width <= $mobileBreakPoint) {
+    margin: 24px 20px -12px;
+
+    .slogan {
+      font-size: 20px;
+      gap: 8px;
+    }
+  }
+
+  @media (width <= 450px) {
+    .slogan {
+      font-size: 14px;
+    }
+  }
+}

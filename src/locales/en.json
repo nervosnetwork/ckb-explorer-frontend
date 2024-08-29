@@ -492,7 +492,12 @@
           "unlock": "Unlock"
         }
       },
-      "amount": "Amount"
+      "amount": "Amount",
+      "visit": "Visit",
+      "rgbpp_explorer": "RGB++ Explorer",
+      "explore_the": "Explorer the",
+      "ecosystem": "Ecosystem",
+      "visit_this_item_on_rgbpp_explorer": "Visit this item on RGB++ Explorer"
     },
     "transaction": {
       "ckb-cell-info": "CKB Cell Info",
