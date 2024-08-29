@@ -79,6 +79,12 @@
     color: #fa504f;
   }
 
+  &[data-type='utility'] {
+    background: #d9f4ff;
+    border-color: #61c7fa;
+    color: #2b98e0;
+  }
+
   span {
     font-size: 12px;
     font-style: normal;
