@@ -32,8 +32,8 @@
     position: relative;
     margin-left: auto;
     display: flex;
-    gap: 16px;
-    font-size: 30px;
+    gap: 8px;
+    font-size: 40px;
     font-weight: 700;
     font-family: Roboto, Lato, sans-serif, 'PingFang SC', -apple-system;
     letter-spacing: 1px;
@@ -46,16 +46,16 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 600px;
-      height: 600px;
+      width: 646px;
+      height: 646px;
       border: 2px solid #fff;
       opacity: 0.1;
       border-radius: 50%;
     }
 
     &::after {
-      width: 700px;
-      height: 700px;
+      width: 790px;
+      height: 790px;
     }
   }
 
@@ -64,12 +64,12 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 186px;
-    height: 186px;
+    width: 216px;
+    height: 216px;
     border-radius: 50%;
     overflow: hidden;
-    filter: blur(40px);
-    opacity: 0.5;
+    filter: blur(40px) hue-rotate(263deg);
+    opacity: 0.6;
   }
 
   .words {
@@ -87,7 +87,7 @@
 
       @for $i from 1 through 6 {
         &:nth-child(#{$i}) {
-          transform: rotateX(#{$i * 60}deg) translateZ(40px);
+          transform: rotateX(#{$i * 60}deg) translateZ(50px);
           animation: fade 24s infinite linear;
           animation-delay: #{21.6s - ($i - 1) * 4s};
 
@@ -184,13 +184,32 @@
     /* stylelint-enable keyframe-block-no-duplicate-selectors */
   }
 
+  @media (width <= 1600px) {
+    padding-right: 150px;
+  }
+
   @media (width <= $xxlBreakPoint) {
     margin: 24px 100px -12px;
-    padding: 20px 40px;
+    padding: 20px 100px 20px 40px;
+
+    .slogan {
+      font-size: 30px;
+
+      &::before {
+        width: 35vw;
+        height: 35vw;
+      }
+
+      &::after {
+        width: 40vw;
+        height: 40vw;
+      }
+    }
   }
 
   @media (width <= $extraLargeBreakPoint) {
     margin: 24px 45px -12px;
+    padding: 20px 40px;
   }
 
   @media (width <= $largeBreakPoint) {
