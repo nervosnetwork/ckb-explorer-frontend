@@ -23,7 +23,7 @@ import { Cell } from '../../models/Cell'
 import { Script } from '../../models/Script'
 import { Block } from '../../models/Block'
 import { BtcTx, Transaction } from '../../models/Transaction'
-import { Address, AddressType } from '../../models/Address'
+import { Address, AddressType, UDTAccount } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
 import { XUDT, XUDTHolderAllocation } from '../../models/Xudt'
 import { HashType } from '../../constants/common'
@@ -253,6 +253,11 @@ export const apiFetcher = {
 
   fetchBitcoinAddresses: (address: string) =>
     requesterV2.get(`bitcoin_addresses/${address}`).then(res => toCamelcase<BitcoinAddresses>(res.data)),
+
+  fetchUDTAccountsByBtcAddress: (address: string) =>
+    requesterV2
+      .get(`bitcoin_addresses/${address}/udt_accounts`)
+      .then(res => toCamelcase<{ udtAccounts: UDTAccount[] }>(res.data.data)),
 
   fetchCellsByTxHash: (hash: string, type: 'inputs' | 'outputs', page: Record<'no' | 'size', number>) =>
     requesterV2
