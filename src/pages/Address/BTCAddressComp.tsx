@@ -18,13 +18,23 @@ enum AssetInfo {
 
 export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
   const { t, i18n } = useTranslation()
-  const { udtAccounts = [] } = address
   const [activeTab, setActiveTab] = useState<AssetInfo>(AssetInfo.RGBPP)
 
   const { data } = useQuery(['bitcoin addresses', address], () =>
     explorerService.api.fetchBitcoinAddresses(address.bitcoinAddressHash || ''),
   )
   const { boundLiveCellsCount, unboundLiveCellsCount } = data || { boundLiveCellsCount: 0, unboundLiveCellsCount: 0 }
+
+  const { data: udtAccounts } = useQuery(
+    ['bitcoin address udt accounts', address],
+    async () => {
+      const data = await explorerService.api.fetchUDTAccountsByBtcAddress(address.bitcoinAddressHash || '')
+      return data.udtAccounts
+    },
+    {
+      initialData: [],
+    },
+  )
 
   const [udts, inscriptions] = udtAccounts.reduce(
     (acc, cur) => {
