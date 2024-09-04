@@ -5,8 +5,16 @@ export function isNumeric(str: string) {
   return !Number.isNaN(str) && !Number.isNaN(parseFloat(str))
 }
 
+const BLOCK_HASH_LENGTH = 64
+
 export function isBlockNumber(str: string) {
-  return !Number.isNaN(str) && !Number.isNaN(parseFloat(str)) && parseFloat(str) !== 0
+  if (str.length >= BLOCK_HASH_LENGTH) return false
+
+  if (!Number.isNaN(str) && !Number.isNaN(parseFloat(str)) && parseFloat(str) !== 0) {
+    return true
+  }
+
+  return !Number.isNaN(str) && !Number.isNaN(parseInt(str, 16)) && parseInt(str, 16) !== 0
 }
 
 export const localeNumberString = (value: BigNumber | string | number): string => {

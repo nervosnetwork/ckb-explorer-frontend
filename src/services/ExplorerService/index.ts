@@ -1,4 +1,4 @@
-import { BehaviorSubject, Subscription, map, switchMap, timer } from 'rxjs'
+import { BehaviorSubject, Subscription, map, switchMap, timer, catchError, of } from 'rxjs'
 import {
   BLOCKCHAIN_ALERT_POLLING_TIME,
   BLOCK_POLLING_TIME,
@@ -53,7 +53,12 @@ class ExplorerService {
     this.callbacksAtStop = new Subscription()
 
     this.callbacksAtStop.add(
-      timer(0, BLOCK_POLLING_TIME).pipe(switchMap(this.api.fetchStatistics)).subscribe(this.latestStatistics$),
+      timer(0, BLOCK_POLLING_TIME)
+        .pipe(
+          switchMap(this.api.fetchStatistics),
+          catchError(() => of(initStatistics)),
+        )
+        .subscribe(this.latestStatistics$),
     )
 
     this.callbacksAtStop.add(
@@ -61,6 +66,7 @@ class ExplorerService {
         .pipe(
           switchMap(this.api.fetchTipBlockNumber),
           map(tipBlockNumber => Number(tipBlockNumber)),
+          catchError(() => of(0)),
         )
         .subscribe(this.latestBlockNumber$),
     )
