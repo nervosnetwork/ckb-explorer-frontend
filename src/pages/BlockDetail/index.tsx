@@ -62,7 +62,7 @@ export default () => {
     ['node', 'block', 'info', blockHeightOrHash],
     () =>
       isBlockNumber(blockHeightOrHash)
-        ? nodeService.rpc.getBlockByNumber(`0x${parseInt(blockHeightOrHash, 10).toString(16)}`)
+        ? nodeService.rpc.getBlockByNumber(`0x${Number(blockHeightOrHash).toString(16)}`)
         : nodeService.rpc.getBlock(blockHeightOrHash),
     {
       enabled: nodeModeActivated,

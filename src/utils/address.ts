@@ -11,6 +11,14 @@ export const encodeNewAddress = (script: Script) => {
 }
 
 export const encodeDeprecatedAddress = (script: Script) => {
+  if (script.hashType === 'data1') {
+    return encodeNewAddress(script)
+  }
+
+  if (script.hashType === 'data2') {
+    return encodeNewAddress(script)
+  }
+
   return generateAddress(script, { config: lumosConfig })
 }
 
