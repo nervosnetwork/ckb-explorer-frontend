@@ -11,6 +11,7 @@ import { getDobs } from '../../services/DobsService'
 import { sliceNftName } from '../../utils/string'
 import styles from './addressAssetComp.module.scss'
 import EllipsisMiddle from '../../components/EllipsisMiddle'
+import Inscription from './Inscription'
 
 export const AddressAssetComp = ({
   href,
@@ -259,19 +260,20 @@ export const AddressCoTAComp = ({ account, isRGBPP }: { account: CoTA; isRGBPP?:
   )
 }
 
-export const AddressOmigaInscriptionComp = ({ account, isRGBPP }: { account: OmigaInscription; isRGBPP?: boolean }) => {
-  const { decimal, expectedSupply, mintStatus, amount, typeHash, udtAmount } = account
+export const AddressOmigaInscriptionComp = ({ account }: { account: OmigaInscription }) => {
+  const { decimal, mintStatus, amount, typeHash, symbol, udtAmount } = account
   const { t } = useTranslation()
   return (
-    <AddressAssetComp
-      isRGBPP={isRGBPP ?? false}
+    <Inscription
       href={`/inscription/${typeHash}`}
-      name={parseUDTAmount(amount, decimal)}
-      property={`${t(`udt.mint_status_${mintStatus}`)}(${parseUDTAmount(udtAmount, decimal)}/${parseUDTAmount(
-        expectedSupply,
-        decimal,
-      )})`}
+      content={{
+        Symbol: symbol,
+        Amount: amount,
+        Decimal: decimal,
+        Supply: udtAmount,
+      }}
       udtLabel="Omiga"
+      mintingStatus={t(`udt.mint_status_${mintStatus}`)}
     />
   )
 }
