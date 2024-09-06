@@ -1,5 +1,26 @@
 @import '../../styles/variables.module';
 
+.inscriptions {
+  overflow-x: scroll;
+  width: 100%;
+
+  @media (width >= $extraLargeBreakPoint) {
+    max-height: 220px;
+  }
+
+  @media (width <= $extraLargeBreakPoint) {
+    max-height: 310px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+    gap: 1rem;
+  }
+}
+
 .addressOverviewCard:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
   ) {

@@ -115,7 +115,7 @@ const MergedAssetList: FC<{
           case 'omiga_inscription':
             return (
               <AddressOmigaInscriptionComp
-                isRGBPP
+                // isRGBPP
                 account={omiga}
                 key={`${omiga.symbol + omiga.udtType + omiga.udtAmount}`}
               />

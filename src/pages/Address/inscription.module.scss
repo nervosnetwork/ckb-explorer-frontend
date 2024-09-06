@@ -1,0 +1,50 @@
+// @import '../../../styles//variables.module.scss';
+
+.container {
+  min-width: 250px;
+  min-height: 86px;
+  background: #fff;
+  overflow: hidden;
+  max-width: 287px;
+  border-radius: 4px;
+  display: block;
+
+  h5 {
+    height: 30px;
+    background-color: #f8b83c;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 8px 6px;
+    margin: 0;
+    color: #333;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: capitalize;
+  }
+
+  .content {
+    height: 90px;
+    overflow-y: scroll;
+    padding: 8px;
+    background-color: #000;
+    width: 100%;
+    color: #fff;
+    text-wrap: nowrap;
+
+    .jsonValue {
+      .value {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-grow: 1;
+      }
+
+      padding-left: 2em;
+      width: 100%;
+      overflow: hidden;
+      max-width: 100%;
+      display: flex;
+    }
+  }
+}
