@@ -403,7 +403,11 @@
         "binding": "\"Binding\": The UTXO corresponding to the current Cell has been consumed. If the \"Binding\" status persists for too long, please check the CKB transaction status under the BTC address that consumed this UTXO.",
         "bound": "\"Bound\": \"Bound\" means that the Owner of the Cell is a live BTC UTXO, and the Cell has been bound to a specific BTC address.",
         "unbound": "\"Abnormal Unbind\" status: \"Abnormal Unbind\" means that the Owner of the Cell is a consumed or non-existent BTC UTXO, making the Cell ownerless and unusable by any address."
-      }
+      },
+      "out_point": "OutPoint",
+      "in_block": "In Block",
+      "time": "Time",
+      "capacity": "Capacity"
     },
     "address": {
       "address": "Address",
@@ -508,6 +512,7 @@
       "transaction_fee": "Transaction Fee",
       "fee_rate": "Fee Rate",
       "cell_deps": "CellDeps",
+      "out_point": "OutPoint",
       "out_point_tx_hash": "OutPoint.TxHash",
       "out_point_index": "OutPoint.Index",
       "dep_type": "DepType",

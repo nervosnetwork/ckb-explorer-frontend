@@ -208,3 +208,40 @@
     border: none;
   }
 }
+
+.cellHeader {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    display: flex;
+    align-items: center;
+  }
+
+  dl,
+  dt,
+  dd {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+  }
+
+  dt {
+    margin-right: 4px;
+
+    svg {
+      width: 18px;
+    }
+  }
+
+  dt::after {
+    content: ':';
+  }
+
+  .blockIcon {
+    path {
+      fill: #fff;
+    }
+  }
+}

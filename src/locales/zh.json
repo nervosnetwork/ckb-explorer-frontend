@@ -174,7 +174,11 @@
         "binding": "“待绑定”：当前Cell 对应的UTXO 已被消耗。如果“待绑定”持续时间过长，请检查消耗 此UTXO 对应BTC地址下的CKB交易状态。",
         "bound": "“已绑定”： “已绑定” 意味着 Cell 的 Owner 是一个live 的 BTC UTXO, 该Cell 已被绑定至某个BTC地址。",
         "unbound": "“异常解绑”状态：“异常解绑”意味着 Cell 的 Owner 是一个已经被消费掉的 BTC UTXO 或不存在, 该Cell 变成了一个无主Cell，没有任何地址可以使用。"
-      }
+      },
+      "out_point": "位置",
+      "in_block": "位于区块",
+      "time": "时间",
+      "capacity": "容量"
     },
     "navbar": {
       "wallet": "钱包",
@@ -508,6 +512,7 @@
       "transaction_fee": "交易费",
       "fee_rate": "费率",
       "cell_deps": "CellDeps",
+      "out_point": "OutPoint",
       "out_point_tx_hash": "OutPoint.TxHash",
       "out_point_index": "OutPoint.Index",
       "dep_type": "DepType",

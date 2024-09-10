@@ -3,6 +3,7 @@ import { TFunction, useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
+import { OpenInNewWindowIcon, SizeIcon, TimerIcon } from '@radix-ui/react-icons'
 import { explorerService, LiveCell } from '../../services/ExplorerService'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import CKBTokenIcon from './ckb_token_icon.png'
@@ -15,6 +16,8 @@ import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
 import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { ReactComponent as ListIcon } from './list.svg'
 import { ReactComponent as GridIcon } from './grid.svg'
+import { ReactComponent as BlockIcon } from './block.svg'
+import { ReactComponent as PinIcon } from './pin.svg'
 import { parseUDTAmount } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
 import { parseSimpleDateNoSecond } from '../../utils/date'
@@ -235,7 +238,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
 
   const outPointStr = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
   const parsedBlockCreateAt = parseSimpleDateNoSecond(cell.blockTimestamp)
-  const title = `${cell.cellId}: ${ckb} `
+  const title = `${cell.blockNumber}: ${ckb} `
   const cellInfo = {
     ...cell,
     id: Number(cell.cellId),
@@ -261,6 +264,57 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
   }
 }
 
+const HeaderTooltip: FC<{ cell: LiveCell }> = ({ cell }) => {
+  const [t] = useTranslation()
+
+  const ckb = new BigNumber(shannonToCkb(+cell.capacity)).toFormat()
+  const time = parseSimpleDateNoSecond(cell.blockTimestamp)
+  return (
+    <div className={styles.cellHeader}>
+      <dl>
+        <dt>
+          <BlockIcon className={styles.blockIcon} /> {t(`cell.in_block`)}
+        </dt>
+        <dd>
+          {cell.blockNumber}
+          <a href={`/block/${cell.blockNumber}`} target="_blank" rel="noopener noreferrer" title={t('cell.in_block')}>
+            <OpenInNewWindowIcon />
+          </a>
+        </dd>
+      </dl>
+      <dl>
+        <dt>
+          <PinIcon /> {t('cell.out_point')}
+        </dt>
+        <dd>
+          {`${cell.txHash.slice(0, 4)}...${cell.txHash.slice(-4)}#${cell.cellIndex}`}
+          <a
+            href={`/transaction/${cell.txHash}#${cell.cellIndex}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={t('cell.out_point')}
+          >
+            <OpenInNewWindowIcon />
+          </a>
+        </dd>
+      </dl>
+      <dl>
+        <dt>
+          <SizeIcon />
+          {t('cell.capacity')}
+        </dt>
+        <dd>{`${ckb} CKB`}</dd>
+      </dl>
+      <dl>
+        <dt>
+          <TimerIcon /> {t('cell.time')}
+        </dt>
+        <dd>{time}</dd>
+      </dl>
+    </div>
+  )
+}
+
 const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
   const { t } = useTranslation()
 
@@ -272,7 +326,7 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
   return (
     <li key={cell.txHash + cell.cellIndex} className={styles.card}>
       <TransactionCellInfo cell={cellInfo} isDefaultStyle={false}>
-        <Tooltip placement="top" title={`${title} CKB (${parsedBlockCreateAt})`}>
+        <Tooltip placement="top" title={<HeaderTooltip cell={cell} />}>
           <h5 className={styles.cellTitle}>
             <span>{title}</span>
             <span> CKB ({parsedBlockCreateAt})</span>
