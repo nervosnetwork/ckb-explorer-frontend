@@ -366,8 +366,11 @@
   display: flex;
   align-items: center;
   margin-left: 4px;
+  color: #999;
 
-  path {
-    fill: #999;
+  svg {
+    path {
+      fill: currentcolor;
+    }
   }
 }
