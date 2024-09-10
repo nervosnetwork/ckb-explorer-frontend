@@ -460,6 +460,16 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
                 >
                   <CopyIcon />
                 </button>
+
+                <a
+                  href={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}
+                  title={t('transaction.out_point')}
+                  className={styles.visitTx}
+                  target="_blank"
+                  rel="opener noreferrer"
+                >
+                  <OuterLinkIcon />
+                </a>
               </div>
               <div className={styles.svgContainer}>{renderBindIcon()}</div>
             </div>
@@ -479,6 +489,15 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
               >
                 <CopyIcon />
               </button>
+              <a
+                href={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}
+                title={t('transaction.out_point')}
+                className={styles.visitTx}
+                target="_blank"
+                rel="opener noreferrer"
+              >
+                <OuterLinkIcon />
+              </a>
             </div>
             <div className={styles.svgContainer}>{renderBindIcon()}</div>
             <div className={styles.cellStatusIcon} data-cell-status={cell.status ?? 'dead'}>
