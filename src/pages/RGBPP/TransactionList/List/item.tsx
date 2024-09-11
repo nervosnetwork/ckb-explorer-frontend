@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { Tooltip } from 'antd'
 import AddressText from '../../../../components/AddressText'
 import { BTCExplorerLink, Link } from '../../../../components/Link'
 import { useStatistics } from '../../../../services/ExplorerService'
@@ -8,6 +9,7 @@ import { ReactComponent as ShareIcon } from './share_icon.svg'
 import { TransactionLeapDirection } from '../../../../components/RGBPP/types'
 import styles from './styles.module.scss'
 import { HelpTip } from '../../../../components/HelpTip'
+import Portal from '../../../../components/Portal'
 
 export type Transaction = {
   ckbTxId: string
@@ -58,7 +60,11 @@ const Item = ({ item }: { item: Transaction }) => {
             <HelpTip title={t('rgbpp.transaction.direction.description.other')} />
           </div>
         ) : (
-          t(`address.leap_${item.type}`)
+          <Tooltip title={t(`address.leap_${item.type}`)}>
+            <div style={{ width: 'min-content' }}>
+              <Portal type={item.type} />
+            </div>
+          </Tooltip>
         )}
       </td>
       <td className={styles.cellChange} title={t('rgbpp.transaction.rgbpp_cell_change')}>
