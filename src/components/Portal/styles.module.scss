@@ -1,0 +1,145 @@
+@import '../../styles/variables.module';
+
+.container {
+  position: relative;
+  width: 50px;
+  height: 20px;
+
+  .portal {
+    position: relative;
+    height: 20px;
+    width: 10px;
+    border-radius: 50%;
+    filter: blur(0.3px);
+  }
+
+  .portal::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0.6;
+  }
+
+  .portal[data-side='left'] {
+    float: left;
+
+    &::before {
+      left: 2px;
+      right: 0;
+    }
+  }
+
+  .portal[data-side='right'] {
+    float: right;
+
+    &::before {
+      left: 0;
+      right: 2px;
+    }
+  }
+
+  .cube {
+    position: absolute;
+    margin-top: 5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background-size: cover;
+    z-index: 1;
+  }
+
+  &[data-type='with_in_btc'] {
+    .portal[data-side='left'] {
+      background: var(--btc-primary-color);
+    }
+
+    .portal[data-side='right'] {
+      background: var(--btc-primary-color);
+    }
+
+    .cube {
+      background: var(--btc-primary-color);
+      animation: float 4s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+        margin-left: 40px;
+      }
+    }
+  }
+
+  &[data-type='in'] {
+    .portal[data-side='left'] {
+      background: var(--btc-primary-color);
+    }
+
+    .portal[data-side='right'] {
+      background: var(--primary-color);
+    }
+
+    .cube {
+      animation: float-in 4s linear infinite;
+    }
+
+    @keyframes float-in {
+      0% {
+        transform: rotate(0deg);
+        background: var(--btc-primary-color);
+      }
+
+      50% {
+        background: #eee;
+      }
+
+      100% {
+        transform: rotate(360deg);
+        margin-left: 40px;
+        background: var(--primary-color);
+      }
+    }
+  }
+
+  &[data-type='out'] {
+    .portal[data-side='left'] {
+      background: var(--primary-color);
+    }
+
+    .portal[data-side='right'] {
+      background: var(--btc-primary-color);
+    }
+
+    .cube {
+      animation: float-out 4s linear infinite;
+    }
+
+    @keyframes float-out {
+      0% {
+        transform: rotate(0deg);
+        background: var(--primary-color);
+      }
+
+      50% {
+        background: #eee;
+      }
+
+      100% {
+        transform: rotate(360deg);
+        margin-left: 40px;
+        background: var(--btc-primary-color);
+      }
+    }
+  }
+
+  @media (width<=$mobileBreakPoint) {
+    margin: 4px 0;
+  }
+}
