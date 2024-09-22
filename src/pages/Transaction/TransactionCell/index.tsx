@@ -305,7 +305,7 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
       return <span>{`${parseUDTAmount(amount, udtInfo.decimal)} ${udtInfo.symbol}`}</span>
     }
 
-    return <span>{`${t('udt.unknown_token')} #${udtInfo.typeHash.substring(udtInfo.typeHash.length - 4)}`}</span>
+    return <span>{`${t('udt.unknown_token')} #${udtInfo.typeHash?.substring(udtInfo.typeHash.length - 4)}`}</span>
   }
 
   return <Capacity capacity={shannonToCkb(cell.capacity)} layout="responsive" />
