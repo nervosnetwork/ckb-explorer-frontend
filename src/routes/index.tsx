@@ -355,7 +355,7 @@ const routes: RouteProps[] = [
     component: FiberPeer,
   },
   {
-    path: '/fiber/channel/:id',
+    path: '/fiber/channels/:id',
     component: FiberChannel,
   },
 ]

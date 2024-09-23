@@ -71,7 +71,7 @@ const fields = [
       return (
         <span className={styles.peerId}>
           <Tooltip title={v}>
-            <Link to={`/fiber/peers/${v}`}>{`${v.slice(0, 8)}...${v.slice(-8)}`}</Link>
+            <Link to={`/fiber/peers/${v}`} className="monospace">{`${v.slice(0, 8)}...${v.slice(-8)}`}</Link>
           </Tooltip>
           <button type="button" data-copy-text={v}>
             <CopyIcon />
@@ -112,6 +112,7 @@ const PeerList = () => {
   })
 
   const list = data?.data.fiberPeers ?? []
+
   const handleCopy = (e: React.SyntheticEvent) => {
     const elm = e.target
     if (!(elm instanceof HTMLElement)) return
@@ -121,15 +122,17 @@ const PeerList = () => {
     e.preventDefault()
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
   }
+
   return (
     <Content>
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
       <div className={styles.container} onClick={handleCopy}>
         <table>
           <thead>
-            {fields.map(f => {
-              return <th key={f.key}>{t(`fiber.peer.${f.label}`)}</th>
-            })}
+            <tr>
+              {fields.map(f => {
+                return <th key={f.key}>{t(`fiber.peer.${f.label}`)}</th>
+              })}
+            </tr>
           </thead>
           <tbody>
             {list.map(i => {
