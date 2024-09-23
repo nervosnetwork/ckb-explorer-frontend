@@ -1091,10 +1091,15 @@
         "peer_id": "ID",
         "name": "Name",
         "channels_count": "Channels",
+        "channels": "Channels",
         "open_time": "First Channel",
         "update_time": "Last Update",
         "total_local_balance": "Local Balance",
         "rpc_addr": "RPC Address"
+      },
+      "channel": {
+        "channel_id": "Channel ID",
+        "state": "State"
       }
     }
   }

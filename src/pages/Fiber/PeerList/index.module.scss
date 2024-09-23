@@ -5,7 +5,7 @@
   display: flex;
   margin: 24px 120px;
   font-size: 1rem;
-  align-items: start;
+  align-items: flex-start;
 
   a {
     color: var(--primary-color);
@@ -18,11 +18,17 @@
 
     td,
     th {
+      padding: 8px;
       padding-right: 16px;
 
       &:last-child {
         text-align: right;
-        padding-right: 0;
+      }
+    }
+
+    tbody {
+      tr:hover {
+        background: #ccc;
       }
     }
   }
@@ -59,7 +65,7 @@
   .rpc {
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
     flex-wrap: nowrap;
     gap: 4px;
 
