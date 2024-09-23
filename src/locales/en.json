@@ -1085,6 +1085,17 @@
       "view_address": "View Address",
       "view_btc_utxo": "View BTC UTXO",
       "view_cell_info": "View Cell Info"
+    },
+    "fiber": {
+      "peer": {
+        "peer_id": "ID",
+        "name": "Name",
+        "channels_count": "Channels",
+        "open_time": "First Channel",
+        "update_time": "Last Update",
+        "total_local_balance": "Local Balance",
+        "rpc_addr": "RPC Address"
+      }
     }
   }
 }

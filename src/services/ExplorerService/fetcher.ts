@@ -1195,6 +1195,40 @@ export const apiFetcher = {
       },
     }),
   getBtcTxList,
+
+  // ==================
+  // Fiber
+  // ==================
+  getFiberPeerList: (page = 1, pageSize = 10) => {
+    return requesterV2
+      .get(
+        `/fiber/peers?${new URLSearchParams({
+          page: page.toString(),
+          page_size: pageSize.toString(),
+        })}`,
+      )
+      .then(res =>
+        toCamelcase<
+          Response.Response<{
+            fiberPeers: Fiber.Peer.ItemInList[]
+            // meta: {
+            //   total: number
+            //   pageSize: number
+            // }
+          }>
+        >(res.data),
+      )
+  },
+
+  getFiberPeerDetail: (id: string) => {
+    return requesterV2
+      .get(`/fiber/peers/${id}`)
+      .then(res => toCamelcase<Response.Response<Fiber.Peer.Detail>>(res.data))
+  },
+
+  getFiberChannel: (id: string) => {
+    return requesterV2.get(`/fiber/channels/${id}`).then(res => toCamelcase<Fiber.Channel.Detail>(res.data))
+  },
 }
 
 // ====================
@@ -1385,4 +1419,43 @@ export interface RGBTransaction {
   leapDirection: string
   rgbCellChanges: number
   rgbTxid: string
+}
+
+export namespace Fiber {
+  export namespace Peer {
+    interface Base {
+      peerId: string
+      rpcListeningAddr: string
+      firstChannelOpenedAt: null // TODO
+      lastChannelUpdatedAt: null // TODO
+    }
+    export interface ItemInList extends Base {
+      name: string
+      channelsCount: number
+      totalLocalBalance: string // shannon amount
+    }
+
+    export interface Detail extends Base {
+      fiberChannels: {
+        peerId: string
+        channelId: string
+        stateName: string // TODO: should be enum
+        state_flags: [] // TODO
+      }[]
+    }
+  }
+  export namespace Channel {
+    export interface Detail {
+      channelId: string
+      stateName: string // TODO should be name
+      stateFlags: [] // TODO
+      shutdownAt: null // TODO
+      createdAt: string // utc time
+      updatedAt: string // utc time
+      localBalance: string // shannon
+      offeredTlcBalance: string // shannon
+      receivedTlcBalance: string // shannon
+      remoteBalance: string // shannon
+    }
+  }
 }
