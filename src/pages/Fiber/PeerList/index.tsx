@@ -43,9 +43,12 @@ const fields = [
       const ckb = shannonToCkb(v)
       const amount = parseNumericAbbr(ckb)
       return (
-        <Tooltip title={`${localeNumberString(ckb)} CKB`}>
-          <span>{`${amount} CKB`}</span>
-        </Tooltip>
+        <div className={styles.balance}>
+          <Tooltip title={`${localeNumberString(ckb)} CKB`}>
+            <span>{`${amount} CKB`}</span>
+          </Tooltip>
+          <small>Share: coming soon</small>
+        </div>
       )
     },
   },
@@ -71,7 +74,9 @@ const fields = [
       return (
         <span className={styles.peerId}>
           <Tooltip title={v}>
-            <Link to={`/fiber/peers/${v}`} className="monospace">{`${v.slice(0, 8)}...${v.slice(-8)}`}</Link>
+            <Link to={`/fiber/peers/${v}`} className="monospace">
+              {v.length > 16 ? `${v.slice(0, 8)}...${v.slice(-8)}` : v}
+            </Link>
           </Tooltip>
           <button type="button" data-copy-text={v}>
             <CopyIcon />
@@ -106,7 +111,7 @@ const PeerList = () => {
   const [t] = useTranslation()
   const setToast = useSetToast()
 
-  const { data } = useQuery({
+  const { data, refetch: refetchList } = useQuery({
     queryKey: ['fiber', 'peers'],
     queryFn: () => explorerService.api.getFiberPeerList(),
   })
@@ -121,6 +126,30 @@ const PeerList = () => {
     e.stopPropagation()
     e.preventDefault()
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
+  }
+
+  const handleAddPeer = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const form = e.currentTarget
+
+    const { peer_id, peer_name, rpc } = form
+    const params: Parameters<typeof explorerService.api.addFiberPeer>[0] = {
+      rpc: rpc instanceof HTMLInputElement ? rpc.value : '',
+      id: peer_id instanceof HTMLInputElement ? peer_id.value : '',
+      name: peer_name instanceof HTMLInputElement ? peer_name.value : undefined,
+    }
+
+    if (params.rpc && params.id) {
+      try {
+        await explorerService.api.addFiberPeer(params)
+        setToast({ message: 'submitted' })
+        refetchList()
+      } catch (e) {
+        const message = e instanceof Error ? e.message : JSON.stringify(e)
+        setToast({ message })
+      }
+    }
   }
 
   return (
@@ -148,6 +177,21 @@ const PeerList = () => {
           </tbody>
         </table>
       </div>
+      <form onSubmit={handleAddPeer} className={styles.addFiberPeer}>
+        <fieldset>
+          <label htmlFor="peer_name">{t('fiber.peer.name')}</label>
+          <input id="peer_name" placeholder="Peer Alias" />
+        </fieldset>
+        <fieldset>
+          <label htmlFor="rpc">{t('fiber.peer.rpc_addr')}</label>
+          <input required id="rpc" placeholder="Peer RPC Address" />
+        </fieldset>
+        <fieldset>
+          <label htmlFor="peer_id">Peer ID</label>
+          <input required id="peer_id" placeholder="Peer ID" />
+        </fieldset>
+        <button type="submit">Submit</button>
+      </form>
     </Content>
   )
 }

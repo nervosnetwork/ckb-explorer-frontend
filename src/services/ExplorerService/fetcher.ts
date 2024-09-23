@@ -1222,7 +1222,27 @@ export const apiFetcher = {
   },
 
   getFiberChannel: (id: string) => {
-    return requesterV2.get(`/fiber/channels/${id}`).then(res => toCamelcase<Fiber.Channel.Detail>(res.data))
+    return requesterV2
+      .get(`/fiber/channels/${id}`)
+      .then(res => toCamelcase<Response.Response<Fiber.Channel.Detail>>(res.data))
+  },
+
+  addFiberPeer: (params: { rpc: string; id: string; name?: string }) => {
+    return requesterV2
+      .post(`/fiber/peers`, {
+        name: params.name,
+        rpc_listening_addr: params.rpc,
+        peer_id: params.id,
+      })
+      .catch(e => {
+        if (Array.isArray(e.response?.data)) {
+          const res = e.response.data[0]
+          if (res) {
+            throw new Error(res.title)
+          }
+        }
+        throw e
+      })
   },
 }
 

@@ -6,10 +6,6 @@ import { Tooltip } from 'antd'
 import Content from '../../../components/Content'
 import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
-// import type { Fiber } from '../../../services/ExplorerService/fetcher'
-// import { shannonToCkb } from '../../../utils/util'
-// import { localeNumberString } from '../../../utils/number'
-// import { parseNumericAbbr } from '../../../utils/chart'
 import styles from './index.module.scss'
 import Loading from '../../../components/Loading'
 
@@ -19,7 +15,7 @@ const Peer = () => {
   const setToast = useSetToast()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['fiber', 'peer', id],
+    queryKey: ['fiber', 'peers', id],
     queryFn: () => {
       return explorerService.api.getFiberPeerDetail(id)
     },
@@ -51,8 +47,8 @@ const Peer = () => {
         <div>
           <dl>
             <dt>{t('fiber.peer.peer_id')}</dt>
-            <dd>
-              {peer.peerId}
+            <dd className={styles.id}>
+              <span>{peer.peerId}</span>
               <button type="button" data-copy-text={peer.peerId}>
                 <CopyIcon />
               </button>
@@ -85,8 +81,8 @@ const Peer = () => {
             </dd>
           </dl>
         </div>
-        <div>
-          <div>{`${t('fiber.peer.channels')}(${channels.length})`}</div>
+        <div className={styles.channels}>
+          <h3>{`${t('fiber.peer.channels')}(${channels.length})`}</h3>
           <table>
             <thead>
               <tr>
@@ -111,6 +107,10 @@ const Peer = () => {
               })}
             </tbody>
           </table>
+        </div>
+        <div className={styles.transactions}>
+          <h3>Open | Close Transactions</h3>
+          <small>Coming soon</small>
         </div>
       </div>
     </Content>
