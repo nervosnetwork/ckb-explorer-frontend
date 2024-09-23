@@ -1,0 +1,123 @@
+@import '../../../styles//variables.module.scss';
+
+.container {
+  text-wrap: nowrap;
+  display: flex;
+  margin: 24px 120px;
+  font-size: 1rem;
+  align-items: start;
+
+  a {
+    color: var(--primary-color);
+  }
+
+  table {
+    width: 100%;
+    text-align: left;
+    cursor: default;
+
+    td,
+    th {
+      padding-right: 16px;
+
+      &:last-child {
+        text-align: right;
+        padding-right: 0;
+      }
+    }
+  }
+
+  svg {
+    pointer-events: none;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    appearance: none;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  .name {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .peerId {
+    display: flex;
+    gap: 4px;
+  }
+
+  .rpc {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-wrap: nowrap;
+    gap: 4px;
+
+    & > span:first-child {
+      display: block;
+      max-width: 500px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    margin: 24px 20px;
+  }
+
+  @media screen and (width < 1030px) {
+    font-size: 14px;
+
+    table {
+      th,
+      td {
+        &:nth-child(4) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media screen and (width < 810px) {
+    table {
+      th,
+      td {
+        &:last-child {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media screen and (width < 600px) {
+    table {
+      th,
+      td {
+        &:nth-child(6) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media screen and (width < 420px) {
+    table {
+      th,
+      td {
+        &:nth-child(5) {
+          display: none;
+        }
+      }
+    }
+  }
+}
