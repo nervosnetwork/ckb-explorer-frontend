@@ -77,6 +77,11 @@
     }
   }
 
+  .balance {
+    display: flex;
+    flex-direction: column;
+  }
+
   @media screen and (width < $extraLargeBreakPoint) {
     margin: 24px 20px;
   }
@@ -125,5 +130,27 @@
         }
       }
     }
+  }
+}
+
+.addFiberPeer {
+  width: min-content;
+  margin: 16px auto;
+
+  fieldset {
+    margin: 8px 0;
+  }
+
+  input {
+    width: 250px;
+    padding: 4px 8px;
+  }
+
+  button {
+    padding: 4px 16px;
+  }
+
+  @media screen and (width < 1030px) {
+    font-size: 14px;
   }
 }

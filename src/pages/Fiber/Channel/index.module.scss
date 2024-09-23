@@ -8,8 +8,8 @@
   margin: 24px 120px;
   font-size: 1rem;
 
-  a {
-    color: var(--primary-color);
+  svg {
+    pointer-events: none;
   }
 
   dl {
@@ -28,32 +28,6 @@
       content: ':';
       margin-right: 4px;
     }
-  }
-
-  table {
-    width: 100%;
-    text-align: left;
-    cursor: default;
-
-    td,
-    th {
-      padding: 8px;
-      padding-right: 16px;
-
-      &:last-child {
-        text-align: right;
-      }
-    }
-
-    tbody {
-      tr:hover {
-        background: #ccc;
-      }
-    }
-  }
-
-  svg {
-    pointer-events: none;
   }
 
   button {
@@ -80,7 +54,6 @@
     }
   }
 
-  .channels,
   .transactions {
     margin-top: 16px;
     border-top: 1px solid #ccc;
@@ -89,6 +62,22 @@
     h3 {
       margin: 0;
       padding: 0;
+    }
+  }
+
+  .peers {
+    display: flex;
+    flex-wrap: wrap;
+
+    .local,
+    .remote {
+      flex: 1 0 50%;
+      border: 1px solid #ccc;
+      padding: 32px;
+
+      dl:last-child {
+        margin: 0;
+      }
     }
   }
 

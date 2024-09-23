@@ -1099,7 +1099,17 @@
       },
       "channel": {
         "channel_id": "Channel ID",
-        "state": "State"
+        "fiber_peers": "Fiber Peers",
+        "state": "State",
+        "open_time": "Open Time",
+        "update_time": "Last Update Time",
+        "shutdown_time": "Shutdown Time",
+        "balance": "Balance",
+        "local": "Local",
+        "remote": "Remote",
+        "tlc_balance": "TLC Balance",
+        "offered": "Offered",
+        "received": "Received"
       }
     }
   }
