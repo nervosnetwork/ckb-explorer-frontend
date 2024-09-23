@@ -277,6 +277,30 @@ export const scripts = new Map<string, ScriptAttributes>([
       code: 'https://github.com/ckb-ecofund/ckb-proxy-locks',
     },
   ],
+  [
+    'iCKB Logic',
+    {
+      name: 'iCKB Logic',
+      description: '// TODO',
+      code: '// TODO',
+    },
+  ],
+  [
+    'iCKB Limit Order',
+    {
+      name: 'iCKB Limit Order',
+      description: '// TODO',
+      code: '// TODO',
+    },
+  ],
+  [
+    'iCKB Owned-Owner',
+    {
+      name: 'iCKB Owned-Owner',
+      description: '// TODO',
+      code: '// TODO',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']
