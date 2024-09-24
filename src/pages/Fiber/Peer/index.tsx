@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
@@ -13,6 +13,7 @@ import Loading from '../../../components/Loading'
 
 const Peer = () => {
   const [t] = useTranslation()
+  const [rpcAddr, setRpcAddr] = useState('')
   const { id } = useParams<{ id: string }>()
   const qrRef = useRef<HTMLCanvasElement | null>(null)
 
@@ -28,7 +29,23 @@ const Peer = () => {
 
   const peer = data?.data
 
-  const connectId = peer ? `${peer.peerId}@${peer.rpcListeningAddr}` : null
+  const connectId = peer && rpcAddr ? `${peer.peerId}@${rpcAddr}` : null
+
+  const handleRpcAddrSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
+    const r = e.currentTarget.value
+    if (r) {
+      setRpcAddr(r)
+    }
+  }
+
+  useEffect(() => {
+    const firstRpcAddr = peer?.rpcListeningAddr[0]
+    if (firstRpcAddr) {
+      setRpcAddr(firstRpcAddr)
+    }
+  }, [peer, setRpcAddr])
 
   useEffect(() => {
     const cvs = qrRef.current
@@ -82,30 +99,40 @@ const Peer = () => {
             </dd>
           </dl>
           <dl>
-            <dt>{t('fiber.peer.rpc_addr')}</dt>
+            <dt>
+              <label htmlFor="rpc-addr">{t('fiber.peer.rpc_addr')}</label>
+            </dt>
             <dd>
-              <Tooltip title={peer.rpcListeningAddr}>
-                <span>{peer.rpcListeningAddr}</span>
-              </Tooltip>
+              <select name="rpc-addr" id="rpc-addr" onChange={handleRpcAddrSelect}>
+                {peer.rpcListeningAddr.map(ra => {
+                  return (
+                    <option value={ra} key={ra}>
+                      {ra}
+                    </option>
+                  )
+                })}
+              </select>
               <button type="button" data-copy-text={peer.rpcListeningAddr}>
                 <CopyIcon />
               </button>
-              <a href={peer.rpcListeningAddr} title={peer.rpcListeningAddr} target="_blank" rel="noopener noreferrer">
+              <a href={rpcAddr} title={rpcAddr} target="_blank" rel="noopener noreferrer">
                 <OpenInNewWindowIcon />
               </a>
             </dd>
           </dl>
-          <dl>
-            <dt>{t('fiber.peer.connect_id')}</dt>
-            <dd className={styles.connectId}>
-              <Tooltip title={connectId}>
-                <span>{connectId}</span>
-              </Tooltip>
-              <button type="button" data-copy-text={connectId}>
-                <CopyIcon />
-              </button>
-            </dd>
-          </dl>
+          {connectId ? (
+            <dl>
+              <dt>{t('fiber.peer.connect_id')}</dt>
+              <dd className={styles.connectId}>
+                <Tooltip title={connectId}>
+                  <span>{connectId}</span>
+                </Tooltip>
+                <button type="button" data-copy-text={connectId}>
+                  <CopyIcon />
+                </button>
+              </dd>
+            </dl>
+          ) : null}
           {connectId ? (
             <div>
               <canvas ref={qrRef} className={styles.qrcode} />

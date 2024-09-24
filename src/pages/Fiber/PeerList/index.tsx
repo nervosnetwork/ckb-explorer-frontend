@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { CopyIcon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
+import { CopyIcon, InfoCircledIcon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
 import Content from '../../../components/Content'
 import { useSetToast } from '../../../components/Toast'
 import { explorerService } from '../../../services/ExplorerService'
@@ -89,18 +89,27 @@ const fields = [
     key: 'rpcListeningAddr',
     label: 'rpc_addr',
     transformer: (v: unknown) => {
-      if (typeof v !== 'string') return v
+      if (!Array.isArray(v)) return v
+      const rpcAddr = v[0]
+      if (!rpcAddr || typeof rpcAddr !== 'string') return v
       return (
         <span className={styles.rpc}>
-          <Tooltip title={v}>
-            <span>{v}</span>
+          <Tooltip title={rpcAddr}>
+            <span>{rpcAddr}</span>
           </Tooltip>
           <button type="button" data-copy-text={v}>
             <CopyIcon />
           </button>
-          <a href={v} title={v} target="_blank" rel="noopener noreferrer">
+          <a href={rpcAddr} title={rpcAddr} target="_blank" rel="noopener noreferrer">
             <OpenInNewWindowIcon />
           </a>
+          {v.length > 1 ? (
+            <Tooltip title={`${v.length - 1} more rpc addresses`}>
+              <span className={styles.more}>
+                <InfoCircledIcon />
+              </span>
+            </Tooltip>
+          ) : null}
         </span>
       )
     },
