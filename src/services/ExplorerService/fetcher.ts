@@ -1440,7 +1440,7 @@ export namespace Fiber {
   export namespace Peer {
     interface Base {
       peerId: string
-      rpcListeningAddr: string
+      rpcListeningAddr: string[]
       firstChannelOpenedAt: null // TODO
       lastChannelUpdatedAt: null // TODO
     }

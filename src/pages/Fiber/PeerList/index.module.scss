@@ -75,6 +75,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    button,
+    a,
+    .more {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .balance {
