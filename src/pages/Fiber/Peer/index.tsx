@@ -1,7 +1,9 @@
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { CopyIcon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
+import QRCode from 'qrcode'
 import { Tooltip } from 'antd'
 import Content from '../../../components/Content'
 import { explorerService } from '../../../services/ExplorerService'
@@ -12,6 +14,8 @@ import Loading from '../../../components/Loading'
 const Peer = () => {
   const [t] = useTranslation()
   const { id } = useParams<{ id: string }>()
+  const qrRef = useRef<HTMLCanvasElement | null>(null)
+
   const setToast = useSetToast()
 
   const { data, isLoading } = useQuery({
@@ -21,14 +25,37 @@ const Peer = () => {
     },
     enabled: !!id,
   })
+
+  const peer = data?.data
+
+  const connectId = peer ? `${peer.peerId}@${peer.rpcListeningAddr}` : null
+
+  useEffect(() => {
+    const cvs = qrRef.current
+    if (!cvs || !connectId) return
+    QRCode.toCanvas(
+      cvs,
+      connectId,
+      {
+        margin: 5,
+        errorCorrectionLevel: 'H',
+        width: 144,
+      },
+      err => {
+        if (err) {
+          console.error(err)
+        }
+      },
+    )
+  }, [qrRef, connectId])
+
   if (isLoading) {
     return <Loading show />
   }
 
-  if (!data) {
+  if (!peer) {
     return <div>Fiber Peer Not Found</div>
   }
-  const peer = data.data
   const channels = peer.fiberChannels
 
   const handleCopy = (e: React.SyntheticEvent) => {
@@ -68,6 +95,22 @@ const Peer = () => {
               </a>
             </dd>
           </dl>
+          <dl>
+            <dt>{t('fiber.peer.connect_id')}</dt>
+            <dd className={styles.connectId}>
+              <Tooltip title={connectId}>
+                <span>{connectId}</span>
+              </Tooltip>
+              <button type="button" data-copy-text={connectId}>
+                <CopyIcon />
+              </button>
+            </dd>
+          </dl>
+          {connectId ? (
+            <div>
+              <canvas ref={qrRef} className={styles.qrcode} />
+            </div>
+          ) : null}
           <dl>
             <dt>{t('fiber.peer.open_time')}</dt>
             <dd>
