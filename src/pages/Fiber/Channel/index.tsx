@@ -11,6 +11,7 @@ import { explorerService } from '../../../services/ExplorerService'
 import styles from './index.module.scss'
 import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
+import FiberPeerInfo from './fiber'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
@@ -99,8 +100,8 @@ const Channel = () => {
             <div className={styles.local}>
               <dl>
                 <dt>Fiber Peer</dt>
-                <dd>
-                  <small>Coming soon(Local)</small>
+                <dd className={styles.fiberNode}>
+                  <FiberPeerInfo peer={channel.localPeer} />
                 </dd>
               </dl>
 
@@ -119,7 +120,7 @@ const Channel = () => {
               <dl>
                 <dt>Fiber Peer</dt>
                 <dd>
-                  <small>Coming soon(Remote)</small>
+                  <FiberPeerInfo peer={channel.remotePeer} />
                 </dd>
               </dl>
 

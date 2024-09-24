@@ -1465,6 +1465,11 @@ export namespace Fiber {
     }
   }
   export namespace Channel {
+    export interface Peer {
+      name?: string
+      peerId: string
+      rpcListeningAddr: string[]
+    }
     export interface Detail {
       channelId: string
       stateName: string // TODO should be name
@@ -1476,6 +1481,8 @@ export namespace Fiber {
       offeredTlcBalance: string // shannon
       receivedTlcBalance: string // shannon
       remoteBalance: string // shannon
+      localPeer: Peer
+      remotePeer: Peer
     }
   }
 }

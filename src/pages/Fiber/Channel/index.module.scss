@@ -8,6 +8,10 @@
   margin: 24px 120px;
   font-size: 1rem;
 
+  a {
+    color: var(--primary-color);
+  }
+
   svg {
     pointer-events: none;
   }
@@ -74,6 +78,16 @@
       flex: 1 0 50%;
       border: 1px solid #ccc;
       padding: 32px;
+
+      dl:first-child {
+        dt {
+          align-items: flex-start;
+        }
+
+        a {
+          font-weight: 400;
+        }
+      }
 
       dl:last-child {
         margin: 0;
