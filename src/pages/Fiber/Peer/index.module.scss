@@ -70,7 +70,8 @@
     }
   }
 
-  .id {
+  .id,
+  .connectId {
     overflow: hidden;
 
     & > span:first-child {

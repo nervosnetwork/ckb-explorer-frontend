@@ -1086,7 +1086,8 @@
         "open_time": "First Channel",
         "update_time": "Last Update",
         "total_local_balance": "Local Balance",
-        "rpc_addr": "RPC Address"
+        "rpc_addr": "RPC Address",
+        "connect_id": "Connect"
       },
       "channel": {
         "channel_id": "Channel ID",
