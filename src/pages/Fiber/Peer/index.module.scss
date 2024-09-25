@@ -70,6 +70,20 @@
     }
   }
 
+  .overview {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: 0 2px 6px 0 #4d4d4d33;
+
+    .fields {
+      overflow: hidden;
+    }
+  }
+
   .id,
   .connectId {
     overflow: hidden;
@@ -81,15 +95,50 @@
     }
   }
 
-  .channels,
-  .transactions {
+  .activities {
+    display: flex;
+    gap: 16px;
     margin-top: 16px;
-    border-top: 1px solid #ccc;
-    padding-top: 16px;
 
-    h3 {
-      margin: 0;
-      padding: 0;
+    .channels,
+    .transactions {
+      flex: 1;
+      background: #fff;
+      border-radius: 6px;
+      padding: 16px;
+      box-shadow: 0 2px 6px 0 #4d4d4d33;
+
+      h3 {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    @media screen and (width < 960px) {
+      flex-direction: column;
+    }
+
+    @media screen and (width < 500px) {
+      thead {
+        display: none;
+      }
+
+      tbody {
+        tr {
+          display: flex;
+          flex-direction: column;
+          padding: 16px 0;
+
+          &:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+          }
+
+          td {
+            text-align: left;
+            padding: 0;
+          }
+        }
+      }
     }
   }
 
