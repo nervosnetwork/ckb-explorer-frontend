@@ -1211,10 +1211,10 @@ export const apiFetcher = {
         toCamelcase<
           Response.Response<{
             fiberPeers: Fiber.Peer.ItemInList[]
-            // meta: {
-            //   total: number
-            //   pageSize: number
-            // }
+            meta: {
+              total: number
+              pageSize: number
+            }
           }>
         >(res.data),
       )

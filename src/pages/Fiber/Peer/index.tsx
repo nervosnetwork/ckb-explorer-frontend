@@ -88,99 +88,103 @@ const Peer = () => {
   return (
     <Content>
       <div className={styles.container} onClick={handleCopy}>
-        <div>
-          <dl>
-            <dt>{t('fiber.peer.peer_id')}</dt>
-            <dd className={styles.id}>
-              <span>{peer.peerId}</span>
-              <button type="button" data-copy-text={peer.peerId}>
-                <CopyIcon />
-              </button>
-            </dd>
-          </dl>
-          <dl>
-            <dt>
-              <label htmlFor="rpc-addr">{t('fiber.peer.rpc_addr')}</label>
-            </dt>
-            <dd>
-              <select name="rpc-addr" id="rpc-addr" onChange={handleRpcAddrSelect}>
-                {peer.rpcListeningAddr.map(ra => {
-                  return (
-                    <option value={ra} key={ra}>
-                      {ra}
-                    </option>
-                  )
-                })}
-              </select>
-              <button type="button" data-copy-text={peer.rpcListeningAddr}>
-                <CopyIcon />
-              </button>
-              <a href={rpcAddr} title={rpcAddr} target="_blank" rel="noopener noreferrer">
-                <OpenInNewWindowIcon />
-              </a>
-            </dd>
-          </dl>
-          {connectId ? (
+        <div className={styles.overview}>
+          <div className={styles.fields}>
             <dl>
-              <dt>{t('fiber.peer.connect_id')}</dt>
-              <dd className={styles.connectId}>
-                <Tooltip title={connectId}>
-                  <span>{connectId}</span>
-                </Tooltip>
-                <button type="button" data-copy-text={connectId}>
+              <dt>{t('fiber.peer.peer_id')}</dt>
+              <dd className={styles.id}>
+                <span>{peer.peerId}</span>
+                <button type="button" data-copy-text={peer.peerId}>
                   <CopyIcon />
                 </button>
               </dd>
             </dl>
-          ) : null}
+            <dl>
+              <dt>
+                <label htmlFor="rpc-addr">{t('fiber.peer.rpc_addr')}</label>
+              </dt>
+              <dd>
+                <select name="rpc-addr" id="rpc-addr" onChange={handleRpcAddrSelect}>
+                  {peer.rpcListeningAddr.map(ra => {
+                    return (
+                      <option value={ra} key={ra}>
+                        {ra}
+                      </option>
+                    )
+                  })}
+                </select>
+                <button type="button" data-copy-text={peer.rpcListeningAddr}>
+                  <CopyIcon />
+                </button>
+                <a href={rpcAddr} title={rpcAddr} target="_blank" rel="noopener noreferrer">
+                  <OpenInNewWindowIcon />
+                </a>
+              </dd>
+            </dl>
+            {connectId ? (
+              <dl>
+                <dt>{t('fiber.peer.connect_id')}</dt>
+                <dd className={styles.connectId}>
+                  <Tooltip title={connectId}>
+                    <span>{connectId}</span>
+                  </Tooltip>
+                  <button type="button" data-copy-text={connectId}>
+                    <CopyIcon />
+                  </button>
+                </dd>
+              </dl>
+            ) : null}
+            <dl>
+              <dt>{t('fiber.peer.open_time')}</dt>
+              <dd>
+                <small>Coming soon</small>
+              </dd>
+            </dl>
+            <dl>
+              <dt>{t('fiber.peer.update_time')}</dt>
+              <dd>
+                <small>Coming soon</small>
+              </dd>
+            </dl>
+          </div>
           {connectId ? (
             <div>
               <canvas ref={qrRef} className={styles.qrcode} />
             </div>
           ) : null}
-          <dl>
-            <dt>{t('fiber.peer.open_time')}</dt>
-            <dd>
-              <small>Coming soon</small>
-            </dd>
-          </dl>
-          <dl>
-            <dt>{t('fiber.peer.update_time')}</dt>
-            <dd>
-              <small>Coming soon</small>
-            </dd>
-          </dl>
         </div>
-        <div className={styles.channels}>
-          <h3>{`${t('fiber.peer.channels')}(${channels.length})`}</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>{t('fiber.channel.channel_id')}</th>
-                <th>{t('fiber.channel.state')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {channels.map(c => {
-                return (
-                  <tr key={c.channelId}>
-                    <td>
-                      <Tooltip title={c.channelId}>
-                        <Link to={`/fiber/channels/${c.channelId}`} className="monospace">
-                          {`${c.channelId.slice(0, 10)}...${c.channelId.slice(-10)}`}
-                        </Link>
-                      </Tooltip>
-                    </td>
-                    <td>{c.stateName}</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
-        <div className={styles.transactions}>
-          <h3>Open | Close Transactions</h3>
-          <small>Coming soon</small>
+        <div className={styles.activities}>
+          <div className={styles.channels}>
+            <h3>{`${t('fiber.peer.channels')}(${channels.length})`}</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>{t('fiber.channel.channel_id')}</th>
+                  <th>{t('fiber.channel.state')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {channels.map(c => {
+                  return (
+                    <tr key={c.channelId}>
+                      <td>
+                        <Tooltip title={c.channelId}>
+                          <Link to={`/fiber/channels/${c.channelId}`} className="monospace">
+                            {`${c.channelId.slice(0, 10)}...${c.channelId.slice(-10)}`}
+                          </Link>
+                        </Tooltip>
+                      </td>
+                      <td>{c.stateName}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className={styles.transactions}>
+            <h3>Open | Close Transactions</h3>
+            <small>Coming soon</small>
+          </div>
         </div>
       </div>
     </Content>
