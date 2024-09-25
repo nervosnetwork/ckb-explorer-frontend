@@ -1,36 +1,19 @@
-@import '../../../styles//variables.module.scss';
+@import '../../../styles/variables.module';
+@import '../../../styles/table.module';
 
 .container {
   text-wrap: nowrap;
   display: flex;
+  flex-direction: column;
   margin: 24px 120px;
   font-size: 1rem;
-  align-items: flex-start;
 
   a {
     color: var(--primary-color);
   }
 
   table {
-    width: 100%;
-    text-align: left;
-    cursor: default;
-
-    td,
-    th {
-      padding: 8px;
-      padding-right: 16px;
-
-      &:last-child {
-        text-align: right;
-      }
-    }
-
-    tbody {
-      tr:hover {
-        background: #ccc;
-      }
-    }
+    @extend %base-table;
   }
 
   svg {
@@ -81,6 +64,20 @@
     .more {
       display: flex;
       align-items: center;
+    }
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+
+    button {
+      font-size: 0.875rem;
+      color: var(--primary-color);
+      padding-left: 8px;
     }
   }
 
@@ -137,27 +134,5 @@
         }
       }
     }
-  }
-}
-
-.addFiberPeer {
-  width: min-content;
-  margin: 16px auto;
-
-  fieldset {
-    margin: 8px 0;
-  }
-
-  input {
-    width: 250px;
-    padding: 4px 8px;
-  }
-
-  button {
-    padding: 4px 16px;
-  }
-
-  @media screen and (width < 1030px) {
-    font-size: 14px;
   }
 }

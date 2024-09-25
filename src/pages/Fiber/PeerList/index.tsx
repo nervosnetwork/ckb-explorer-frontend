@@ -11,6 +11,7 @@ import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { parseNumericAbbr } from '../../../utils/chart'
 import styles from './index.module.scss'
+import AddPeerForm from './AddPeerForm'
 
 const fields = [
   {
@@ -137,33 +138,14 @@ const PeerList = () => {
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
   }
 
-  const handleAddPeer = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    e.stopPropagation()
-    const form = e.currentTarget
-
-    const { peer_id, peer_name, rpc } = form
-    const params: Parameters<typeof explorerService.api.addFiberPeer>[0] = {
-      rpc: rpc instanceof HTMLInputElement ? rpc.value : '',
-      id: peer_id instanceof HTMLInputElement ? peer_id.value : '',
-      name: peer_name instanceof HTMLInputElement ? peer_name.value : undefined,
-    }
-
-    if (params.rpc && params.id) {
-      try {
-        await explorerService.api.addFiberPeer(params)
-        setToast({ message: 'submitted' })
-        refetchList()
-      } catch (e) {
-        const message = e instanceof Error ? e.message : JSON.stringify(e)
-        setToast({ message })
-      }
-    }
-  }
-
   return (
     <Content>
       <div className={styles.container} onClick={handleCopy}>
+        <h1 className={styles.header}>
+          <span>CKB Fiber Peers</span>
+
+          <AddPeerForm onSuccess={() => refetchList()} />
+        </h1>
         <table>
           <thead>
             <tr>
@@ -172,6 +154,7 @@ const PeerList = () => {
               })}
             </tr>
           </thead>
+          <div className={styles.tableSeparator} />
           <tbody>
             {list.map(i => {
               return (
@@ -184,23 +167,9 @@ const PeerList = () => {
               )
             })}
           </tbody>
+          {/* <div className={styles.tableSeparator} /> */}
         </table>
       </div>
-      <form onSubmit={handleAddPeer} className={styles.addFiberPeer}>
-        <fieldset>
-          <label htmlFor="peer_name">{t('fiber.peer.name')}</label>
-          <input id="peer_name" placeholder="Peer Alias" />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="rpc">{t('fiber.peer.rpc_addr')}</label>
-          <input required id="rpc" placeholder="Peer RPC Address" />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="peer_id">Peer ID</label>
-          <input required id="peer_id" placeholder="Peer ID" />
-        </fieldset>
-        <button type="submit">Submit</button>
-      </form>
     </Content>
   )
 }
