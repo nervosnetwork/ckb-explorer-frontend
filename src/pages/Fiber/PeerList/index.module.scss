@@ -14,6 +14,10 @@
 
   table {
     @extend %base-table;
+
+    tr[data-role='pagination']:hover {
+      background: #fff;
+    }
   }
 
   svg {
@@ -105,10 +109,12 @@
 
   @media screen and (width < 810px) {
     table {
-      th,
-      td {
-        &:last-child {
-          display: none;
+      tr:not([data-role='pagination']) {
+        th,
+        td {
+          &:last-child {
+            display: none;
+          }
         }
       }
     }
