@@ -12,6 +12,8 @@ import { localeNumberString } from '../../../utils/number'
 import { parseNumericAbbr } from '../../../utils/chart'
 import styles from './index.module.scss'
 import AddPeerForm from './AddPeerForm'
+import Pagination from '../Pagination'
+import { PAGE_SIZE } from '../../../constants/common'
 
 const fields = [
   {
@@ -127,6 +129,8 @@ const PeerList = () => {
   })
 
   const list = data?.data.fiberPeers ?? []
+  const pageInfo = data?.data.meta ?? { total: 1, pageSize: PAGE_SIZE }
+  const totalPages = Math.ceil(pageInfo.total / pageInfo.pageSize)
 
   const handleCopy = (e: React.SyntheticEvent) => {
     const elm = e.target
@@ -166,8 +170,13 @@ const PeerList = () => {
                 </tr>
               )
             })}
+            <div className={styles.tableSeparator} />
+            <tr data-role="pagination">
+              <td colSpan={fields.length}>
+                <Pagination totalPages={totalPages} />
+              </td>
+            </tr>
           </tbody>
-          {/* <div className={styles.tableSeparator} /> */}
         </table>
       </div>
     </Content>
