@@ -54,48 +54,50 @@ const Channel = () => {
     <Content>
       <div className={styles.container} onClick={handleCopy}>
         <div>
-          <dl>
-            <dt>{t('fiber.channel.channel_id')}</dt>
-            <dd className={styles.id}>
-              <span>{channel.channelId}</span>
-              <button type="button" data-copy-text={channel.channelId}>
-                <CopyIcon />
-              </button>
-            </dd>
-          </dl>
-          <dl>
-            <dt>{t('fiber.channel.state')}</dt>
-            <dd>{channel.stateName}</dd>
-          </dl>
-
-          <dl>
-            <dt>{t('fiber.channel.balance')}</dt>
-            <dd>{`${localeNumberString(
-              shannonToCkb(totalBalance.toFormat({ groupSeparator: '' })),
-            )} CKB(Total) | ${localeNumberString(
-              shannonToCkb(totalTLCBalance.toFormat({ groupSeparator: '' })),
-            )} CKB(TLC)`}</dd>
-          </dl>
-          <dl>
-            <dt>{t('fiber.channel.open_time')}</dt>
-            <dd>
-              <time dateTime={channel.createdAt}>{dayjs(channel.createdAt).format(TIME_TEMPLATE)}</time>
-            </dd>
-          </dl>
-          <dl>
-            <dt>{t('fiber.channel.update_time')}</dt>
-            <dd>
-              <time dateTime={channel.updatedAt}>{dayjs(channel.updatedAt).format(TIME_TEMPLATE)}</time>
-            </dd>
-          </dl>
-          {channel.shutdownAt ? (
+          <div className={styles.overview}>
             <dl>
-              <dt>{t('fiber.channel.shutdown_time')}</dt>
-              <dd>
-                <time dateTime={channel.shutdownAt}>{dayjs(channel.shutdownAt).format(TIME_TEMPLATE)}</time>
+              <dt>{t('fiber.channel.channel_id')}</dt>
+              <dd className={styles.id}>
+                <span>{channel.channelId}</span>
+                <button type="button" data-copy-text={channel.channelId}>
+                  <CopyIcon />
+                </button>
               </dd>
             </dl>
-          ) : null}
+            <dl>
+              <dt>{t('fiber.channel.state')}</dt>
+              <dd>{channel.stateName}</dd>
+            </dl>
+
+            <dl>
+              <dt>{t('fiber.channel.balance')}</dt>
+              <dd>{`${localeNumberString(
+                shannonToCkb(totalBalance.toFormat({ groupSeparator: '' })),
+              )} CKB(Total) | ${localeNumberString(
+                shannonToCkb(totalTLCBalance.toFormat({ groupSeparator: '' })),
+              )} CKB(TLC)`}</dd>
+            </dl>
+            <dl>
+              <dt>{t('fiber.channel.open_time')}</dt>
+              <dd>
+                <time dateTime={channel.createdAt}>{dayjs(channel.createdAt).format(TIME_TEMPLATE)}</time>
+              </dd>
+            </dl>
+            <dl>
+              <dt>{t('fiber.channel.update_time')}</dt>
+              <dd>
+                <time dateTime={channel.updatedAt}>{dayjs(channel.updatedAt).format(TIME_TEMPLATE)}</time>
+              </dd>
+            </dl>
+            {channel.shutdownAt ? (
+              <dl>
+                <dt>{t('fiber.channel.shutdown_time')}</dt>
+                <dd>
+                  <time dateTime={channel.shutdownAt}>{dayjs(channel.shutdownAt).format(TIME_TEMPLATE)}</time>
+                </dd>
+              </dl>
+            ) : null}
+          </div>
           <div className={styles.peers}>
             <div className={styles.local}>
               <dl>

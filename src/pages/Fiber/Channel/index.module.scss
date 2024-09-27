@@ -49,6 +49,10 @@
     }
   }
 
+  .overview {
+    @extend %base-card;
+  }
+
   .id {
     overflow: hidden;
 
@@ -60,8 +64,9 @@
   }
 
   .transactions {
-    margin-top: 16px;
-    border-top: 1px solid #ccc;
+    @extend %base-card;
+
+    margin-top: 8px;
     padding-top: 16px;
 
     h3 {
@@ -71,12 +76,15 @@
   }
 
   .peers {
+    margin-top: 8px;
     display: flex;
     flex-wrap: wrap;
 
     .local,
     .remote {
-      flex: 1 0 50%;
+      @extend %base-card;
+
+      flex: 1 0 40%;
       border: 1px solid #ccc;
       padding: 32px;
 
