@@ -346,18 +346,18 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     tag: 'iCKB Logic',
   },
   {
-    codeHashes: ['0x49dfb6afee5cc8ac4225aeea8cb8928b150caf3cd92fea33750683c74b13254a'],
-    txHashes: ['0x621a6f38de3b9f453016780edac3b26bfcbfa3e2ecb47c2da275471a5d3ed165-0'],
-    depType: 'dep_group',
-    hashType: 'data1',
-    tag: 'iCKB Limit Order',
-  },
-  {
     codeHashes: ['0xacc79e07d107831feef4c70c9e683dac5644d5993b9cb106dca6e74baa381bd0'],
     txHashes: ['0x621a6f38de3b9f453016780edac3b26bfcbfa3e2ecb47c2da275471a5d3ed165-0'],
     depType: 'dep_group',
     hashType: 'data1',
-    tag: 'iCKB Owned-Owner',
+    tag: 'WR Owned-Owner',
+  },
+  {
+    codeHashes: ['0x49dfb6afee5cc8ac4225aeea8cb8928b150caf3cd92fea33750683c74b13254a'],
+    txHashes: ['0x621a6f38de3b9f453016780edac3b26bfcbfa3e2ecb47c2da275471a5d3ed165-0'],
+    depType: 'dep_group',
+    hashType: 'data1',
+    tag: 'UDT Limit Order',
   },
 ]
 
@@ -757,18 +757,18 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     tag: 'iCKB Logic',
   },
   {
-    codeHashes: ['0x49dfb6afee5cc8ac4225aeea8cb8928b150caf3cd92fea33750683c74b13254a'],
-    txHashes: ['0xf7ece4fb33d8378344cab11fcd6a4c6f382fd4207ac921cf5821f30712dcd311-0'],
-    depType: 'dep_group',
-    hashType: 'data1',
-    tag: 'iCKB Limit Order',
-  },
-  {
     codeHashes: ['0xacc79e07d107831feef4c70c9e683dac5644d5993b9cb106dca6e74baa381bd0'],
     txHashes: ['0xf7ece4fb33d8378344cab11fcd6a4c6f382fd4207ac921cf5821f30712dcd311-0'],
     depType: 'dep_group',
     hashType: 'data1',
-    tag: 'iCKB Owned-Owner',
+    tag: 'WR Owned-Owner',
+  },
+  {
+    codeHashes: ['0x49dfb6afee5cc8ac4225aeea8cb8928b150caf3cd92fea33750683c74b13254a'],
+    txHashes: ['0xf7ece4fb33d8378344cab11fcd6a4c6f382fd4207ac921cf5821f30712dcd311-0'],
+    depType: 'dep_group',
+    hashType: 'data1',
+    tag: 'UDT Limit Order',
   },
 ]
 
