@@ -291,7 +291,8 @@ export const scripts = new Map<string, ScriptAttributes>([
     'WR Owned-Owner',
     {
       name: 'WR Owned-Owner',
-      description: 'WR Owned-Owner enable to create Withdrawals Request from NervosDAO deposits locked with zero length args locks, developed as part of iCKB.',
+      description:
+        'WR Owned-Owner enable to create Withdrawals Request from NervosDAO deposits locked with zero length args locks, developed as part of iCKB.',
       rfc: 'https://github.com/ickb/proposal#owned-owner-script',
       code: 'https://github.com/ickb/v1-core/tree/454cfa966052a621c4e8b67001718c29ee8191a2/scripts/contracts/owned_owner',
     },
