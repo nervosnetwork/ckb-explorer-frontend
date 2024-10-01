@@ -40,7 +40,7 @@ const XUDTTag = ({ tagName, to, tooltip = false }: { tagName: string; to?: strin
     } else {
       search.set('tags', [...tags, tag].join(','))
     }
-    push(`${`/${i18n.language}${to ?? window.location.pathname}`}?${search}`)
+    push(`${to ?? window.location.pathname}?${search}`)
   }
 
   if (tooltip) {
