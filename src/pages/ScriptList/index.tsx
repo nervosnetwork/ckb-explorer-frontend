@@ -281,24 +281,29 @@ export const scripts = new Map<string, ScriptAttributes>([
     'iCKB Logic',
     {
       name: 'iCKB Logic',
-      description: '// TODO',
-      code: '// TODO',
+      description: 'iCKB Logic tokenizes NervosDAO deposits into the iCKB xUDT token.',
+      rfc: 'https://github.com/ickb/proposal',
+      code: 'https://github.com/ickb/v1-core/tree/454cfa966052a621c4e8b67001718c29ee8191a2/scripts/contracts/ickb_logic',
+      website: 'https://ickb.org/',
     },
   ],
   [
-    'iCKB Limit Order',
+    'WR Owned-Owner',
     {
-      name: 'iCKB Limit Order',
-      description: '// TODO',
-      code: '// TODO',
+      name: 'WR Owned-Owner',
+      description:
+        'WR Owned-Owner enable to create Withdrawals Request from NervosDAO deposits locked with zero length args locks, developed as part of iCKB.',
+      rfc: 'https://github.com/ickb/proposal#owned-owner-script',
+      code: 'https://github.com/ickb/v1-core/tree/454cfa966052a621c4e8b67001718c29ee8191a2/scripts/contracts/owned_owner',
     },
   ],
   [
-    'iCKB Owned-Owner',
+    'UDT Limit Order',
     {
-      name: 'iCKB Owned-Owner',
-      description: '// TODO',
-      code: '// TODO',
+      name: 'UDT Limit Order',
+      description: 'UDT Limit Order is a general purpose UDT based Limit Order, developed as part of iCKB.',
+      rfc: 'https://github.com/ickb/proposal#limit-order-script',
+      code: 'https://github.com/ickb/v1-core/tree/454cfa966052a621c4e8b67001718c29ee8191a2/scripts/contracts/limit_order',
     },
   ],
 ])
