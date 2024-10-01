@@ -8,7 +8,7 @@ import CKBTokenIcon from './ckb_token_icon.png'
 import { ReactComponent as CopyIcon } from './copy.svg'
 import { ReactComponent as TypeHashIcon } from './type_script.svg'
 import { ReactComponent as DataIcon } from './data.svg'
-import { ReactComponent as SporeCluterIcon } from './spore_cluster.svg'
+import { ReactComponent as SporeClusterIcon } from './spore_cluster.svg'
 import { ReactComponent as SporeCellIcon } from './spore_cell.svg'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { parseUDTAmount } from '../../utils/number'
@@ -140,7 +140,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'spore_cluster': {
-      icon = <SporeCluterIcon />
+      icon = <SporeClusterIcon />
       assetName = 'Spore Cluster'
       if (cell.data.length > ATTRIBUTE_LENGTH) {
         attribute = `${cell.data.slice(0, ATTRIBUTE_LENGTH)}...`

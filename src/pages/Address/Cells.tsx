@@ -9,7 +9,7 @@ import SUDTTokenIcon from '../../assets/sudt_token.png'
 import CKBTokenIcon from './ckb_token_icon.png'
 import { ReactComponent as TypeHashIcon } from './type_script.svg'
 import { ReactComponent as DataIcon } from './data.svg'
-import { ReactComponent as SporeCluterIcon } from './spore_cluster.svg'
+import { ReactComponent as SporeClusterIcon } from './spore_cluster.svg'
 import { ReactComponent as SporeCellIcon } from './spore_cell.svg'
 import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
 import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
@@ -182,7 +182,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'spore_cluster': {
-      icon = <SporeCluterIcon />
+      icon = <SporeClusterIcon />
       assetName = 'Spore Cluster'
       assetTypeText = 'NFT'
       if (cell.data.length > ATTRIBUTE_LENGTH) {
