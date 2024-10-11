@@ -77,11 +77,13 @@ const Item = ({ item }: { item: Transaction }) => {
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 8 }}
             title={t('rgbpp.transaction.view_on_bitcoin_explorer')}
           >
-            <BTCExplorerLink className={styles.action} id={item.btcTxId} path="/tx">
-              <AddressText style={{ marginLeft: 'auto' }} disableTooltip>
-                {item.btcTxId}
-              </AddressText>
-            </BTCExplorerLink>
+            <div className={styles.btcTx}>
+              <BTCExplorerLink className={styles.action} id={item.btcTxId} path="/tx">
+                <AddressText style={{ marginLeft: 'auto' }} disableTooltip>
+                  {item.btcTxId}
+                </AddressText>
+              </BTCExplorerLink>
+            </div>
             <BTCExplorerLink className={styles.action} id={item.btcTxId} path="/tx">
               <ShareIcon />
             </BTCExplorerLink>
