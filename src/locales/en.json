@@ -1102,6 +1102,16 @@
         "tlc_balance": "TLC Balance",
         "offered": "Offered",
         "received": "Received"
+      },
+      "graph": {
+        "node": {
+          "name": "Name",
+          "auto_accept_min_ckb_funding_amount": "Auto-accepting Threshold",
+          "first_seen": "First Seen",
+          "node_id": "Node ID",
+          "chain_hash": "Chain Hash",
+          "addresses": "Addresses"
+        }
       }
     }
   }

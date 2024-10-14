@@ -1244,6 +1244,49 @@ export const apiFetcher = {
         throw e
       })
   },
+
+  getGraphNodes: (page = 1, pageSize = 10) => {
+    return requesterV2
+      .get(
+        `/fiber/graph_nodes?${new URLSearchParams({
+          page: page.toString(),
+          page_size: pageSize.toString(),
+        })}`,
+      )
+      .then(res =>
+        toCamelcase<
+          Response.Response<{
+            fiberGraphNodes: Fiber.Graph.Node[]
+            meta: {
+              total: number
+              pageSize: number
+            }
+          }>
+        >(res.data),
+      )
+  },
+
+  getGraphNodeDetail: (id: string) => {
+    return requesterV2
+      .get(`/fiber/graph_nodes/${id}`)
+      .then(res => toCamelcase<Response.Response<Fiber.Graph.NodeDetail>>(res.data))
+  },
+  getGraphChannels: (page = 1, pageSize = 10) => {
+    return requesterV2
+      .get(
+        `/fiber/graph_channels?${new URLSearchParams({
+          page: page.toString(),
+          page_size: pageSize.toString(),
+        })}`,
+      )
+      .then(res =>
+        toCamelcase<
+          Response.Response<{
+            fiberGraphChannels: Fiber.Graph.Channel[]
+          }>
+        >(res.data),
+      )
+  },
 }
 
 // ====================
@@ -1455,7 +1498,7 @@ export namespace Fiber {
         peerId: string
         channelId: string
         stateName: string // TODO: should be enum
-        state_flags: [] // TODO
+        stateFlags: [] // TODO
       }[]
     }
   }
@@ -1478,6 +1521,33 @@ export namespace Fiber {
       remoteBalance: string // shannon
       localPeer: Peer
       remotePeer: Peer
+    }
+  }
+
+  export namespace Graph {
+    export interface Node {
+      alias: string
+      nodeId: string
+      addresses: string[]
+      timestamp: string
+      chainHash: string
+      autoAcceptMinCkbFundingAmount: string
+    }
+
+    export interface Channel {
+      channelOutpoint: string
+      node1: string
+      node2: string
+      chainHash: string
+      fundingTxBlockNumber: string
+      fundingTxIndex: string // number
+      lastUpdatedTimestamp: string
+      node1ToNode2FeeRate: string
+      node2ToNode1FeeRate: string
+      capacity: string
+    }
+    export interface NodeDetail extends Node {
+      fiberGraphChannels: Channel[]
     }
   }
 }

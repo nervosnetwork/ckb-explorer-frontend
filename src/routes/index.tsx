@@ -84,6 +84,7 @@ const MoleculeParser = lazy(() => import('../pages/Tools/MoleculeParser'))
 const FiberPeerList = lazy(() => import('../pages/Fiber/PeerList'))
 const FiberPeer = lazy(() => import('../pages/Fiber/Peer'))
 const FiberChannel = lazy(() => import('../pages/Fiber/Channel'))
+const FiberGraphNodeList = lazy(() => import('../pages/Fiber/GraphNodeList'))
 // ======
 
 const routes: RouteProps[] = [
@@ -357,6 +358,10 @@ const routes: RouteProps[] = [
   {
     path: '/fiber/channels/:id',
     component: FiberChannel,
+  },
+  {
+    path: '/fiber/graph/nodes',
+    component: FiberGraphNodeList,
   },
 ]
 

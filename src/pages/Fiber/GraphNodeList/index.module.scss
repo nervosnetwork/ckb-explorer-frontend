@@ -1,0 +1,156 @@
+@import '../../../styles/variables.module';
+@import '../../../styles/table.module';
+
+.container {
+  text-wrap: nowrap;
+  display: flex;
+  flex-direction: column;
+  margin: 24px 120px;
+  font-size: 1rem;
+
+  a {
+    color: var(--primary-color);
+  }
+
+  table {
+    @extend %base-table;
+
+    tr[data-role='pagination']:hover {
+      background: #fff;
+    }
+  }
+
+  svg {
+    pointer-events: none;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    appearance: none;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  .name {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nodeId,
+  .chainHash {
+    display: flex;
+    gap: 4px;
+  }
+
+  .address {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: 4px;
+
+    & > span:first-child {
+      display: block;
+      max-width: 240px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    button,
+    a,
+    .more {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+
+    button {
+      font-size: 0.875rem;
+      color: var(--primary-color);
+      padding-left: 8px;
+    }
+  }
+
+  .amount {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    margin: 24px 20px;
+  }
+
+  @media screen and (width < 1330px) {
+    font-size: 14px;
+
+    table {
+      th,
+      td {
+        &:nth-child(6) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media screen and (width < 810px) {
+    table {
+      tr:not([data-role='pagination']) {
+        th,
+        td {
+          &:last-child {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (width < 900px) {
+    table {
+      th,
+      td {
+        &:nth-child(5) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media screen and (width < 700px) {
+    table {
+      th,
+      td {
+        &:nth-child(3) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media screen and (width < 520px) {
+    table {
+      th,
+      td {
+        &:first-child {
+          display: none;
+        }
+      }
+    }
+  }
+}
