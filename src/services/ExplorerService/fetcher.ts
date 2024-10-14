@@ -1283,6 +1283,10 @@ export const apiFetcher = {
         toCamelcase<
           Response.Response<{
             fiberGraphChannels: Fiber.Graph.Channel[]
+            meta: {
+              total: number
+              pageSize: number
+            }
           }>
         >(res.data),
       )

@@ -83,7 +83,7 @@ const fields = [
       return (
         <span className={styles.chainHash}>
           <Tooltip title={v}>
-            <span className="monospace">{v.length > 16 ? `${v.slice(0, 8)}...${v.slice(-8)}` : v}</span>
+            <span className="monospace">{`${v.slice(0, 8)}...${v.slice(-8)}`}</span>
           </Tooltip>
           <button type="button" data-copy-text={v}>
             <CopyIcon />
