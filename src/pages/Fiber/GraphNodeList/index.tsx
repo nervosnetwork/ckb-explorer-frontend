@@ -2,7 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { CopyIcon, InfoCircledIcon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
+import { CopyIcon, InfoCircledIcon } from '@radix-ui/react-icons'
+import dayjs from 'dayjs'
 import Content from '../../../components/Content'
 import { useSetToast } from '../../../components/Toast'
 import { explorerService } from '../../../services/ExplorerService'
@@ -11,36 +12,29 @@ import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { parseNumericAbbr } from '../../../utils/chart'
 import styles from './index.module.scss'
-import AddPeerForm from './AddPeerForm'
 import Pagination from '../Pagination'
 import { PAGE_SIZE } from '../../../constants/common'
 
+const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
+
 const fields = [
   {
-    key: 'name',
+    key: 'alias',
     label: 'name',
-    transformer: (v: unknown, i: Fiber.Peer.ItemInList) => {
+    transformer: (v: unknown, i: Fiber.Graph.Node) => {
       if (typeof v !== 'string') return v
       return (
         <Tooltip title={v}>
           <div className={styles.name}>
-            <Link to={`/fiber/peers/${i.peerId}`}>{v}</Link>
+            <Link to={`/fiber/graph/node/${i.nodeId}`}>{v || <span style={{ color: '#999' }}>Untitled</span>}</Link>
           </div>
         </Tooltip>
       )
     },
   },
   {
-    key: 'channelsCount',
-    label: 'channels_count',
-    transformer: (v: unknown) => {
-      if (typeof v !== 'number') return v
-      return localeNumberString(v)
-    },
-  },
-  {
-    key: 'totalLocalBalance',
-    label: 'total_local_balance',
+    key: 'autoAcceptMinCkbFundingAmount',
+    label: 'auto_accept_min_ckb_funding_amount',
     transformer: (v: unknown) => {
       if (typeof v !== 'string' || Number.isNaN(+v)) return v
       const ckb = shannonToCkb(v)
@@ -50,34 +44,27 @@ const fields = [
           <Tooltip title={`${localeNumberString(ckb)} CKB`}>
             <span>{`${amount} CKB`}</span>
           </Tooltip>
-          <small>Share: coming soon</small>
         </div>
       )
     },
   },
   {
-    key: 'firstChannelOpenedAt',
-    label: 'open_time',
-    transformer: () => {
-      return <small>Coming soon</small>
+    key: 'timestamp',
+    label: 'first_seen',
+    transformer: (v: unknown) => {
+      if (typeof v !== 'string') return v
+      return dayjs(+v).format(TIME_TEMPLATE)
     },
   },
   {
-    key: 'lastChannelUpdatedAt',
-    label: 'update_time',
-    transformer: () => {
-      return <small>Coming soon</small>
-    },
-  },
-  {
-    key: 'peerId',
-    label: 'peer_id',
+    key: 'nodeId',
+    label: 'node_id',
     transformer: (v: unknown) => {
       if (typeof v !== 'string') return v
       return (
-        <span className={styles.peerId}>
+        <span className={styles.nodeId}>
           <Tooltip title={v}>
-            <Link to={`/fiber/peers/${v}`} className="monospace">
+            <Link to={`/fiber/graph/node/${v}`} className="monospace">
               {v.length > 16 ? `${v.slice(0, 8)}...${v.slice(-8)}` : v}
             </Link>
           </Tooltip>
@@ -89,25 +76,42 @@ const fields = [
     },
   },
   {
-    key: 'rpcListeningAddr',
-    label: 'rpc_addr',
+    key: 'chainHash',
+    label: 'chain_hash',
     transformer: (v: unknown) => {
-      if (!Array.isArray(v)) return v
-      const rpcAddr = v[0]
-      if (!rpcAddr || typeof rpcAddr !== 'string') return v
+      if (typeof v !== 'string') return v
       return (
-        <span className={styles.rpc}>
-          <Tooltip title={rpcAddr}>
-            <span>{rpcAddr}</span>
+        <span className={styles.chainHash}>
+          <Tooltip title={v}>
+            <span className="monospace">{v.length > 16 ? `${v.slice(0, 8)}...${v.slice(-8)}` : v}</span>
           </Tooltip>
           <button type="button" data-copy-text={v}>
             <CopyIcon />
           </button>
-          <a href={rpcAddr} title={rpcAddr} target="_blank" rel="noopener noreferrer">
-            <OpenInNewWindowIcon />
-          </a>
+        </span>
+      )
+    },
+  },
+  {
+    key: 'addresses',
+    label: 'addresses',
+    transformer: (v: unknown) => {
+      if (!Array.isArray(v)) return v
+      const addr = v[0]
+      if (!addr || typeof addr !== 'string') return v
+      return (
+        <span className={styles.address}>
+          <Tooltip title={addr}>
+            <span>{addr}</span>
+          </Tooltip>
+          <button type="button" data-copy-text={v}>
+            <CopyIcon />
+          </button>
+          {/* <a href={rpcAddr} title={rpcAddr} target="_blank" rel="noopener noreferrer"> */}
+          {/*   <OpenInNewWindowIcon /> */}
+          {/* </a> */}
           {v.length > 1 ? (
-            <Tooltip title={`${v.length - 1} more rpc address(es)`}>
+            <Tooltip title={`${v.length - 1} more address(es)`}>
               <span className={styles.more}>
                 <InfoCircledIcon />
               </span>
@@ -119,16 +123,16 @@ const fields = [
   },
 ]
 
-const PeerList = () => {
+const GraphNodeList = () => {
   const [t] = useTranslation()
   const setToast = useSetToast()
 
-  const { data, refetch: refetchList } = useQuery({
-    queryKey: ['fiber', 'peers'],
-    queryFn: () => explorerService.api.getFiberPeerList(),
+  const { data } = useQuery({
+    queryKey: ['fiber', 'graph', 'nodes'],
+    queryFn: () => explorerService.api.getGraphNodes(),
   })
 
-  const list = data?.data.fiberPeers ?? []
+  const list = data?.data.fiberGraphNodes ?? []
   const pageInfo = data?.data.meta ?? { total: 1, pageSize: PAGE_SIZE }
   const totalPages = Math.ceil(pageInfo.total / pageInfo.pageSize)
 
@@ -146,15 +150,13 @@ const PeerList = () => {
     <Content>
       <div className={styles.container} onClick={handleCopy}>
         <h1 className={styles.header}>
-          <span>CKB Fiber Peers</span>
-
-          <AddPeerForm onSuccess={() => refetchList()} />
+          <span>CKB Fiber Graph Nodes</span>
         </h1>
         <table>
           <thead>
             <tr>
               {fields.map(f => {
-                return <th key={f.key}>{t(`fiber.peer.${f.label}`)}</th>
+                return <th key={f.key}>{t(`fiber.graph.node.${f.label}`)}</th>
               })}
             </tr>
           </thead>
@@ -183,4 +185,4 @@ const PeerList = () => {
   )
 }
 
-export default PeerList
+export default GraphNodeList
