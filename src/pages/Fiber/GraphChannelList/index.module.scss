@@ -1,0 +1,138 @@
+@import '../../../styles/variables.module';
+@import '../../../styles/table.module';
+
+.container {
+  margin: 24px 120px;
+  font-size: 1rem;
+
+  .channels {
+    border-radius: 6px;
+    box-shadow: rgb(0 0 0 / 12%) 0 2px 6px 0;
+    overflow: hidden;
+
+    .list {
+      font-size: 0.875rem;
+
+      a {
+        color: var(--primary-color);
+      }
+
+      svg {
+        pointer-events: none;
+      }
+    }
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    appearance: none;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  .header {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .channel {
+    margin-bottom: 4px;
+    background: #fff;
+    padding: 8px 40px;
+
+    h1 {
+      font-size: 1.2rem;
+    }
+
+    dl {
+      display: flex;
+      gap: 4px;
+    }
+
+    dl,
+    dd,
+    dt {
+      margin: 0;
+      white-space: pre;
+      flex-wrap: wrap;
+    }
+
+    dt {
+      &::after {
+        content: ':';
+      }
+    }
+
+    dd {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .general {
+      dd {
+        .content {
+          & > *:first-child {
+            display: none;
+          }
+
+          @media screen and (width<800px) {
+            & > *:first-child {
+              display: flex;
+            }
+
+            & > *:last-child {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+
+    .nodesContainer {
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      padding: 8px;
+      margin-top: 8px;
+    }
+
+    .nodes {
+      display: flex;
+
+      h3 {
+        font-size: 1rem;
+      }
+
+      gap: 20px;
+
+      .node {
+        flex: 1;
+      }
+
+      @media screen and (width<670px) {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .pagination {
+    background: #fff;
+    padding: 8px 40px;
+    margin-top: 4px;
+  }
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    margin: 24px 20px;
+  }
+
+  @media screen and (width < 1330px) {
+    font-size: 14px;
+  }
+}

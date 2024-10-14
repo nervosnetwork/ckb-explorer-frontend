@@ -86,6 +86,7 @@ const FiberPeerList = lazy(() => import('../pages/Fiber/PeerList'))
 const FiberPeer = lazy(() => import('../pages/Fiber/Peer'))
 const FiberChannel = lazy(() => import('../pages/Fiber/Channel'))
 const FiberGraphNodeList = lazy(() => import('../pages/Fiber/GraphNodeList'))
+const FiberGraphChannelList = lazy(() => import('../pages/Fiber/GraphChannelList'))
 // ======
 
 const routes: RouteProps[] = [
@@ -367,6 +368,10 @@ const routes: RouteProps[] = [
   {
     path: '/fiber/graph/nodes',
     component: FiberGraphNodeList,
+  },
+  {
+    path: '/fiber/graph/channels',
+    component: FiberGraphChannelList,
   },
 ]
 
