@@ -14,6 +14,7 @@ import { parseNumericAbbr } from '../../../utils/chart'
 import styles from './index.module.scss'
 import Pagination from '../Pagination'
 import { PAGE_SIZE } from '../../../constants/common'
+import { useSearchParams } from '../../../hooks'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
@@ -126,14 +127,15 @@ const fields = [
 const GraphNodeList = () => {
   const [t] = useTranslation()
   const setToast = useSetToast()
+  const { page = 1, page_size: pageSize = PAGE_SIZE } = useSearchParams('page', 'page_size')
 
   const { data } = useQuery({
-    queryKey: ['fiber', 'graph', 'nodes'],
-    queryFn: () => explorerService.api.getGraphNodes(),
+    queryKey: ['fiber', 'graph', 'nodes', +page, +pageSize],
+    queryFn: () => explorerService.api.getGraphNodes(+page, +pageSize),
   })
 
   const list = data?.data.fiberGraphNodes ?? []
-  const pageInfo = data?.data.meta ?? { total: 1, pageSize: PAGE_SIZE }
+  const pageInfo = data?.meta ?? { total: 1, pageSize: PAGE_SIZE }
   const totalPages = Math.ceil(pageInfo.total / pageInfo.pageSize)
 
   const handleCopy = (e: React.SyntheticEvent) => {
