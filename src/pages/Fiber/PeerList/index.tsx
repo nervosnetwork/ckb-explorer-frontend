@@ -14,6 +14,7 @@ import styles from './index.module.scss'
 import AddPeerForm from './AddPeerForm'
 import Pagination from '../Pagination'
 import { PAGE_SIZE } from '../../../constants/common'
+import { useSearchParams } from '../../../hooks'
 
 const fields = [
   {
@@ -122,14 +123,15 @@ const fields = [
 const PeerList = () => {
   const [t] = useTranslation()
   const setToast = useSetToast()
+  const { page = 1, page_size: pageSize = PAGE_SIZE } = useSearchParams('page', 'page_size')
 
   const { data, refetch: refetchList } = useQuery({
-    queryKey: ['fiber', 'peers'],
-    queryFn: () => explorerService.api.getFiberPeerList(),
+    queryKey: ['fiber', 'peers', +page, +pageSize],
+    queryFn: () => explorerService.api.getFiberPeerList(+page, +pageSize),
   })
 
   const list = data?.data.fiberPeers ?? []
-  const pageInfo = data?.data.meta ?? { total: 1, pageSize: PAGE_SIZE }
+  const pageInfo = data?.meta ?? { total: 1, pageSize: PAGE_SIZE }
   const totalPages = Math.ceil(pageInfo.total / pageInfo.pageSize)
 
   const handleCopy = (e: React.SyntheticEvent) => {
