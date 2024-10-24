@@ -1,4 +1,4 @@
-import { CopyIcon } from '@radix-ui/react-icons'
+import { CopyIcon, HomeIcon, GlobeIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
@@ -11,10 +11,15 @@ import styles from './index.module.scss'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
-const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean }> = ({ list, isFullWidth = true }) => {
+const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean; node?: string }> = ({
+  list,
+  isFullWidth = true,
+  node,
+}) => {
   if (!list.length) {
     return <div className={styles.container}>No Channels</div>
   }
+
   return (
     <div className={styles.container}>
       {list.map(channel => {
@@ -25,6 +30,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean 
 
         const ckb = shannonToCkb(channel.capacity)
         const amount = parseNumericAbbr(ckb)
+
         return (
           <div key={channel.channelOutpoint} className={styles.channel}>
             <h1>General</h1>
@@ -89,14 +95,18 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean 
               <h1>Nodes</h1>
               <div className={styles.nodes} data-is-full-width={!!isFullWidth}>
                 <div className={styles.node}>
-                  <h3>First Node</h3>
+                  <h3>
+                    First Node
+                    {node ? <span>{node === channel.node1 ? <HomeIcon /> : <GlobeIcon />}</span> : null}
+                  </h3>
                   <dl>
-                    <dt>Public Key</dt>
+                    <dt>ID</dt>
                     <dd>
                       <Tooltip title={channel.node1}>
-                        <span className="monospace">{`0x${channel.node1.slice(0, 8)}...${channel.node1.slice(
-                          -8,
-                        )}`}</span>
+                        <Link to={`/fiber/graph/node${channel.node1}`} className="monospace">{`0x${channel.node1.slice(
+                          0,
+                          8,
+                        )}...${channel.node1.slice(-8)}`}</Link>
                       </Tooltip>
                       <button type="button" data-copy-text={channel.node1}>
                         <CopyIcon />
@@ -109,14 +119,18 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean 
                   </dl>
                 </div>
                 <div className={styles.node}>
-                  <h3>Second Node</h3>
+                  <h3>
+                    Second Node
+                    {node ? <span>{node === channel.node2 ? <HomeIcon /> : <GlobeIcon />}</span> : null}
+                  </h3>
                   <dl>
-                    <dt>Public Key</dt>
+                    <dt>ID</dt>
                     <dd>
                       <Tooltip title={channel.node2}>
-                        <span className="monospace">{`0x${channel.node2.slice(0, 8)}...${channel.node2.slice(
-                          -8,
-                        )}`}</span>
+                        <Link to={`/fiber/graph/node${channel.node2}`} className="monospace">{`0x${channel.node2.slice(
+                          0,
+                          8,
+                        )}...${channel.node2.slice(-8)}`}</Link>
                       </Tooltip>
                       <button type="button" data-copy-text={channel.node2}>
                         <CopyIcon />

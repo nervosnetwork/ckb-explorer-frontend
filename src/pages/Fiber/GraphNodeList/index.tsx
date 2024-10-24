@@ -88,10 +88,10 @@ const fields = [
         <span className={styles.nodeId}>
           <Tooltip title={v}>
             <Link to={`/fiber/graph/node/${v}`} className="monospace">
-              {v.length > 16 ? `${v.slice(0, 8)}...${v.slice(-8)}` : v}
+              {v.length > 16 ? `0x${v.slice(0, 8)}...${v.slice(-8)}` : `0x${v}`}
             </Link>
           </Tooltip>
-          <button type="button" data-copy-text={v}>
+          <button type="button" data-copy-text={`0x${v}`}>
             <CopyIcon />
           </button>
         </span>
