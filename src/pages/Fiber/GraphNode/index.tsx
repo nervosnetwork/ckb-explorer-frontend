@@ -13,6 +13,8 @@ import styles from './index.module.scss'
 import Loading from '../../../components/Loading'
 import GraphChannelList from '../../../components/GraphChannelList'
 import { getFundingThreshold } from '../utils'
+import { shannonToCkb } from '../../../utils/util'
+import { parseNumericAbbr } from '../../../utils/chart'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
@@ -84,6 +86,8 @@ const GraphNode = () => {
   // const amount = parseNumericAbbr(ckb)
   const thresholds = getFundingThreshold(node)
 
+  const totalCkb = parseNumericAbbr(shannonToCkb(node.totalCapacity))
+
   const handleCopy = (e: React.SyntheticEvent) => {
     const elm = e.target
     if (!(elm instanceof HTMLElement)) return
@@ -148,6 +152,10 @@ const GraphNode = () => {
             <dl>
               <dt>{t('fiber.graph.node.chain_hash')}</dt>
               <dd>{node.chainHash}</dd>
+            </dl>
+            <dl>
+              <dt>{t('fiber.graph.node.total_capacity')}</dt>
+              <dd>{totalCkb}</dd>
             </dl>
             <dl className={styles.thresholds}>
               <dt>{t('fiber.graph.node.auto_accept_funding_amount')}</dt>

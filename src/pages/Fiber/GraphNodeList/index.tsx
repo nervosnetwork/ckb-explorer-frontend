@@ -13,6 +13,9 @@ import { PAGE_SIZE } from '../../../constants/common'
 import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import styles from './index.module.scss'
+import { shannonToCkb } from '../../../utils/util'
+import { parseNumericAbbr } from '../../../utils/chart'
+import { localeNumberString } from '../../../utils/number'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
@@ -50,6 +53,21 @@ const fields = [
             )
           })}
         </div>
+      )
+    },
+  },
+  {
+    key: 'totalCapacity',
+    label: 'total_capacity',
+    transformer: (v: unknown) => {
+      if (typeof v !== 'string') return v
+
+      const ckb = shannonToCkb(v)
+      const amount = parseNumericAbbr(ckb)
+      return (
+        <Tooltip title={`${localeNumberString(ckb)} CKB`}>
+          <span>{`${amount} CKB`}</span>
+        </Tooltip>
       )
     },
   },
