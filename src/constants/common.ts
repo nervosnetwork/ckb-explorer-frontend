@@ -153,6 +153,13 @@ export enum ChainName {
   Testnet = 'pudge',
 }
 
+export const CKB2023 = {
+  // https://github.com/nervosnetwork/ckb/pull/4665/files#diff-c8efd953833c9bb20a6c41b66cfb4823e87e072aa1a3bde2c9b5f62c0ea847d9R14
+  TESTNET_EPOCH: 9690,
+  // https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md#naming-convention
+  CHAIN_NAME: 'MEEPO',
+}
+
 export enum LayoutLiteProfessional {
   Lite = 'lite',
   Professional = 'professional',
@@ -165,7 +172,7 @@ export enum HashType {
 }
 
 export const MAINNET_URL = `https://${config.BASE_URL}`
-export const TESTNET_URL = `https://${ChainName.Testnet}.${config.BASE_URL}`
+export const TESTNET_URL = `https://testnet.${config.BASE_URL}`
 
 export const TYPE_ID_CODE_HASH = '0x00000000000000000000000000000000000000000000000000545950455f4944'
 

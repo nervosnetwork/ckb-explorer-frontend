@@ -7,9 +7,10 @@ import GreenDropUpIcon from '../../../assets/green_drop_up.png'
 import { HeaderBlockchainPanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
-import { ChainName, MAINNET_URL, ONE_DAY_MILLISECOND, TESTNET_URL } from '../../../constants/common'
+import { MAINNET_URL, ONE_DAY_MILLISECOND, TESTNET_URL } from '../../../constants/common'
 import { explorerService } from '../../../services/ExplorerService'
 import { cacheService } from '../../../services/CacheService'
+import { useChainName } from '../../../hooks/useCKBNode'
 
 const getDropdownIcon = (showDropdown: boolean) => {
   if (!showDropdown) return WhiteDropdownIcon
@@ -27,6 +28,8 @@ const BlockchainDropdown: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
   const [showChainType, setShowChainType] = useState(false)
   const [chainTypeLeft, setChainTypeLeft] = useState(0)
   const [chainTypeTop, setChainTypeTop] = useState(0)
+
+  const chainName = useChainName()
 
   useLayoutEffect(() => {
     if (showChainType) {
@@ -60,7 +63,7 @@ const BlockchainDropdown: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
               textTransform: 'uppercase',
             }}
           >
-            {isMainnet() ? ChainName.Mainnet : ChainName.Testnet}
+            {chainName}
           </div>
           <img src={getDropdownIcon(showChainType)} alt="dropdown icon" />
         </div>
@@ -73,6 +76,8 @@ const BlockchainDropdown: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
 
 const BlockchainMenu: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
   const [showSubMenu, setShowSubMenu] = useState(false)
+
+  const chainName = useChainName()
 
   const chainTypeIcon = () => {
     if (!showSubMenu) {
@@ -95,7 +100,7 @@ const BlockchainMenu: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
             textTransform: 'uppercase',
           }}
         >
-          {isMainnet() ? ChainName.Mainnet : ChainName.Testnet}
+          {chainName}
         </div>
         <img className="mobileMenusMainItemIcon" alt="mobile chain type icon" src={chainTypeIcon()} />
       </SimpleButton>
@@ -103,10 +108,10 @@ const BlockchainMenu: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
       {showSubMenu && (
         <>
           <a className="mobileMenusSubItem" href={MAINNET_URL}>
-            {`${ChainName.Mainnet} mainnet`}
+            mainnet
           </a>
           <a className="mobileMenusSubItem" href={TESTNET_URL}>
-            {`${ChainName.Testnet} testnet`}
+            testnet
           </a>
         </>
       )}
