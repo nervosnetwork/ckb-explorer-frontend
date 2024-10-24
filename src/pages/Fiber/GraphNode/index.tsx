@@ -11,10 +11,8 @@ import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
 import styles from './index.module.scss'
 import Loading from '../../../components/Loading'
-import { shannonToCkb } from '../../../utils/util'
-import { parseNumericAbbr } from '../../../utils/chart'
-import { localeNumberString } from '../../../utils/number'
 import GraphChannelList from '../../../components/GraphChannelList'
+import { getFundingThreshold } from '../utils'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
@@ -82,8 +80,9 @@ const GraphNode = () => {
   }
   const channels = node.fiberGraphChannels
 
-  const ckb = shannonToCkb(node.autoAcceptMinCkbFundingAmount)
-  const amount = parseNumericAbbr(ckb)
+  // const ckb = shannonToCkb(node.autoAcceptMinCkbFundingAmount)
+  // const amount = parseNumericAbbr(ckb)
+  const thresholds = getFundingThreshold(node)
 
   const handleCopy = (e: React.SyntheticEvent) => {
     const elm = e.target
@@ -150,12 +149,19 @@ const GraphNode = () => {
               <dt>{t('fiber.graph.node.chain_hash')}</dt>
               <dd>{node.chainHash}</dd>
             </dl>
-            <dl>
-              <dt>{t('fiber.graph.node.auto_accept_min_ckb_funding_amount')}</dt>
+            <dl className={styles.thresholds}>
+              <dt>{t('fiber.graph.node.auto_accept_funding_amount')}</dt>
               <dd>
-                <Tooltip title={`${localeNumberString(ckb)} CKB`}>
-                  <span>{`${amount} CKB`}</span>
-                </Tooltip>
+                {thresholds.map(threshold => {
+                  return (
+                    <Tooltip key={threshold.id} title={threshold.title}>
+                      <span className={styles.token}>
+                        <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
+                        {threshold.display}
+                      </span>
+                    </Tooltip>
+                  )
+                })}
               </dd>
             </dl>
           </div>

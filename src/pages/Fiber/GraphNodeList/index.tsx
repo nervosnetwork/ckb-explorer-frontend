@@ -8,13 +8,11 @@ import Content from '../../../components/Content'
 import { useSetToast } from '../../../components/Toast'
 import { explorerService } from '../../../services/ExplorerService'
 import type { Fiber } from '../../../services/ExplorerService/fetcher'
-import { shannonToCkb } from '../../../utils/util'
-import { localeNumberString } from '../../../utils/number'
-import { parseNumericAbbr } from '../../../utils/chart'
-import styles from './index.module.scss'
 import Pagination from '../Pagination'
 import { PAGE_SIZE } from '../../../constants/common'
 import { useSearchParams } from '../../../hooks'
+import { getFundingThreshold } from '../utils'
+import styles from './index.module.scss'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
@@ -35,16 +33,22 @@ const fields = [
   },
   {
     key: 'autoAcceptMinCkbFundingAmount',
-    label: 'auto_accept_min_ckb_funding_amount',
-    transformer: (v: unknown) => {
-      if (typeof v !== 'string' || Number.isNaN(+v)) return v
-      const ckb = shannonToCkb(v)
-      const amount = parseNumericAbbr(ckb)
+    label: 'auto_accept_funding_amount',
+    transformer: (_: unknown, n: Fiber.Graph.Node) => {
+      const thresholds = getFundingThreshold(n)
+
       return (
-        <div className={styles.balance}>
-          <Tooltip title={`${localeNumberString(ckb)} CKB`}>
-            <span>{`${amount} CKB`}</span>
-          </Tooltip>
+        <div className={styles.funding}>
+          {thresholds.map(threshold => {
+            return (
+              <Tooltip key={threshold.id} title={threshold.title}>
+                <span className={styles.token}>
+                  <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
+                  {threshold.display}
+                </span>
+              </Tooltip>
+            )
+          })}
         </div>
       )
     },
