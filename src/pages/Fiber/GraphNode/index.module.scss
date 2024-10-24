@@ -94,6 +94,24 @@
     }
   }
 
+  .thresholds {
+    dt {
+      align-items: start;
+    }
+
+    dd {
+      margin-left: 8px;
+      display: flex;
+      flex-direction: column;
+
+      .token {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+    }
+  }
+
   .activities {
     display: flex;
     gap: 16px;

@@ -44,6 +44,17 @@
     text-overflow: ellipsis;
   }
 
+  .funding {
+    display: flex;
+    flex-direction: column;
+
+    .token {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+  }
+
   .nodeId,
   .chainHash {
     display: flex;

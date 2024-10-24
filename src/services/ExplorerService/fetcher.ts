@@ -1529,6 +1529,17 @@ export namespace Fiber {
   }
 
   export namespace Graph {
+    interface UdtConfigInfo {
+      args: string
+      codeHash: string
+      hashType: HashType
+      decimal?: number
+      fullName?: string
+      iconFile?: string
+      symbol?: string
+      autoAcceptAmount: string
+    }
+
     export interface Node {
       alias: string
       nodeId: string
@@ -1536,6 +1547,9 @@ export namespace Fiber {
       timestamp: string
       chainHash: string
       autoAcceptMinCkbFundingAmount: string
+      udtCfgInfos: UdtConfigInfo[]
+      totalCapacity: string
+      connectedNodeIds: string[]
     }
 
     export interface Channel {
