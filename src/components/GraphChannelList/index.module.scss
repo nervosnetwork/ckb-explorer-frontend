@@ -90,7 +90,15 @@
     }
 
     h3 {
+      display: flex;
+      align-items: center;
+      gap: 4px;
       font-size: 1rem;
+
+      span {
+        display: flex;
+        align-items: center;
+      }
     }
 
     gap: 20px;

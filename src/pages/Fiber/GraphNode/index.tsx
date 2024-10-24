@@ -117,8 +117,8 @@ const GraphNode = () => {
             <dl>
               <dt>{t('fiber.graph.node.id')}</dt>
               <dd className={styles.id}>
-                <span>{node.nodeId}</span>
-                <button type="button" data-copy-text={node.nodeId}>
+                <span>{`0x${node.nodeId}`}</span>
+                <button type="button" data-copy-text={`0x${node.nodeId}`}>
                   <CopyIcon />
                 </button>
               </dd>
@@ -182,7 +182,7 @@ const GraphNode = () => {
         <div className={styles.activities}>
           <div className={styles.channels}>
             <h3>{`${t('fiber.peer.channels')}(${channels.length})`}</h3>
-            <GraphChannelList list={channels} />
+            <GraphChannelList list={channels} node={node.nodeId} />
           </div>
           <div className={styles.transactions}>
             <h3>Open | Close Transactions</h3>
