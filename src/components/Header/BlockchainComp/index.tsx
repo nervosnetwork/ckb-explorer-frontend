@@ -7,7 +7,7 @@ import GreenDropUpIcon from '../../../assets/green_drop_up.png'
 import { HeaderBlockchainPanel, MobileSubMenuPanel } from './styled'
 import SimpleButton from '../../SimpleButton'
 import ChainDropdown from '../../Dropdown/ChainType'
-import { MAINNET_URL, ONE_DAY_MILLISECOND, TESTNET_URL } from '../../../constants/common'
+import { ChainName, MAINNET_URL, ONE_DAY_MILLISECOND, TESTNET_URL } from '../../../constants/common'
 import { explorerService } from '../../../services/ExplorerService'
 import { cacheService } from '../../../services/CacheService'
 import { useChainName } from '../../../hooks/useCKBNode'
@@ -108,10 +108,10 @@ const BlockchainMenu: FC<{ nodeVersion: string }> = ({ nodeVersion }) => {
       {showSubMenu && (
         <>
           <a className="mobileMenusSubItem" href={MAINNET_URL}>
-            mainnet
+            {`${ChainName.Mainnet} Mainnet`}
           </a>
           <a className="mobileMenusSubItem" href={TESTNET_URL}>
-            testnet
+            {`${ChainName.Testnet} Testnet`}
           </a>
         </>
       )}

@@ -2,8 +2,7 @@ import { useContext, createContext, useState, PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { isMainnet } from '../utils/chain'
 import { NodeService } from '../services/NodeService'
-import { useStatistics } from '../services/ExplorerService'
-import { ChainName, CKB2023, IS_MAINNET } from '../constants/common'
+import { ChainName, IS_MAINNET } from '../constants/common'
 
 const NODE_CONNECT_MODE_KEY = 'node_connect_mode'
 const NODE_CONNECTED_ENDPOINT = 'node_connected_endpoint'
@@ -136,11 +135,13 @@ export const CKBNodeProvider = ({ children, defaultEndpoint }: PropsWithChildren
 }
 
 export function useChainName() {
-  const statistics = useStatistics()
   if (IS_MAINNET) return `${ChainName.Mainnet} Mainnet`
 
-  if (!+statistics.epochInfo.epochNumber) return 'Testnet'
+  return `${ChainName.Testnet} Testnet`
 
-  const chainName = +statistics.epochInfo.epochNumber >= CKB2023.TESTNET_EPOCH ? CKB2023.CHAIN_NAME : ChainName.Testnet
-  return `${chainName} Testnet`
+  /* Enable the following logic when next hardfork is being activated */
+  // if (!+statistics.epochInfo.epochNumber) return 'Testnet'
+
+  // const chainName = +statistics.epochInfo.epochNumber >= CKB2023.TESTNET_EPOCH ? CKB2023.CHAIN_NAME : ChainName.Testnet
+  // return `${chainName} Testnet`
 }
