@@ -150,14 +150,7 @@ export type ChartColorConfig = typeof ChartColor
 
 export enum ChainName {
   Mainnet = 'mirana',
-  Testnet = 'pudge',
-}
-
-export const CKB2023 = {
-  // https://github.com/nervosnetwork/ckb/pull/4665/files#diff-c8efd953833c9bb20a6c41b66cfb4823e87e072aa1a3bde2c9b5f62c0ea847d9R14
-  TESTNET_EPOCH: 9690,
-  // https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md#naming-convention
-  CHAIN_NAME: 'MEEPO',
+  Testnet = 'meepo',
 }
 
 export enum LayoutLiteProfessional {
