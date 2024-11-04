@@ -1545,6 +1545,16 @@ export namespace Fiber {
       autoAcceptAmount: string
     }
 
+    interface FundingInfo {
+      blockNumber: number
+      blockTimestamp: number
+      fundingAddress: string
+      fundingCapacity: string
+      fundingUdtAmount: string | null
+      transactionFee: number
+      txHash: string
+    }
+
     export interface Node {
       alias: string
       nodeId: string
@@ -1555,6 +1565,8 @@ export namespace Fiber {
       udtCfgInfos: UdtConfigInfo[]
       totalCapacity: string
       connectedNodeIds: string[]
+      openChannelsCount: number
+      channelLinksCount: number
     }
 
     export interface Channel {
@@ -1568,7 +1580,9 @@ export namespace Fiber {
       node1ToNode2FeeRate: string
       node2ToNode1FeeRate: string
       capacity: string
+      outpointInfo: FundingInfo
     }
+
     export interface NodeDetail extends Node {
       fiberGraphChannels: Channel[]
     }

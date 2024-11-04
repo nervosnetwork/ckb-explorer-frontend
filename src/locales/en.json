@@ -1122,7 +1122,8 @@
           "node_id": "Node ID",
           "chain_hash": "Chain Hash",
           "addresses": "Addresses",
-          "total_capacity": "Capacity"
+          "total_capacity": "Capacity",
+          "open_channels": "Open Channels"
         },
         "channel": {
           "connected_node": "Connected Node"

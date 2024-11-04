@@ -74,6 +74,15 @@
     }
   }
 
+  .funding {
+    display: flex;
+
+    .funder {
+      flex: 0.4;
+      overflow: hidden;
+    }
+  }
+
   .nodesContainer {
     border-radius: 6px;
     border: 1px solid #ccc;
