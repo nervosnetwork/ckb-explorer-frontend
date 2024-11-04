@@ -72,6 +72,15 @@ const fields = [
     },
   },
   {
+    key: 'openChannelsCount',
+    label: 'open_channels',
+    transformer: (v: unknown) => {
+      if (typeof v !== 'string') return v
+
+      return localeNumberString(v)
+    },
+  },
+  {
     key: 'timestamp',
     label: 'first_seen',
     transformer: (v: unknown) => {

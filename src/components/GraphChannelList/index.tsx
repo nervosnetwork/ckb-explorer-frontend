@@ -7,6 +7,7 @@ import type { Fiber } from '../../services/ExplorerService/fetcher'
 import { parseNumericAbbr } from '../../utils/chart'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
+import AddressText from '../AddressText'
 import styles from './index.module.scss'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
@@ -30,6 +31,13 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean;
 
         const ckb = shannonToCkb(channel.capacity)
         const amount = parseNumericAbbr(ckb)
+
+        const fundingCkb = shannonToCkb(channel.outpointInfo.fundingCapacity)
+        const fundingCkbAmount = parseNumericAbbr(fundingCkb)
+
+        const fundingUdtAmount = channel.outpointInfo.fundingUdtAmount
+          ? parseNumericAbbr(channel.outpointInfo.fundingUdtAmount)
+          : null
 
         return (
           <div key={channel.channelOutpoint} className={styles.channel}>
@@ -60,6 +68,26 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean;
                   <Tooltip title={`${localeNumberString(ckb)} CKB`}>
                     <span>{`${amount} CKB`}</span>
                   </Tooltip>
+                </dd>
+              </dl>
+              <dl className={styles.funding}>
+                <dt>Funding</dt>
+                <dd>
+                  <Tooltip title={`${localeNumberString(fundingCkb)} CKB`}>
+                    <span>{`${fundingCkbAmount} CKB`}</span>
+                  </Tooltip>
+                  {fundingUdtAmount ? '&' : null}
+                  {fundingUdtAmount}
+                  from
+                  <div className={styles.funder}>
+                    <AddressText
+                      linkProps={{
+                        to: `/address/${channel.outpointInfo.fundingAddress}`,
+                      }}
+                    >
+                      {channel.outpointInfo.fundingAddress}
+                    </AddressText>
+                  </div>
                 </dd>
               </dl>
 
