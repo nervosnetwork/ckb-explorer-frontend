@@ -131,7 +131,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean;
                     <dt>ID</dt>
                     <dd>
                       <Tooltip title={channel.node1}>
-                        <Link to={`/fiber/graph/node${channel.node1}`} className="monospace">{`0x${channel.node1.slice(
+                        <Link to={`/fiber/graph/node/${channel.node1}`} className="monospace">{`0x${channel.node1.slice(
                           0,
                           8,
                         )}...${channel.node1.slice(-8)}`}</Link>
@@ -155,7 +155,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean;
                     <dt>ID</dt>
                     <dd>
                       <Tooltip title={channel.node2}>
-                        <Link to={`/fiber/graph/node${channel.node2}`} className="monospace">{`0x${channel.node2.slice(
+                        <Link to={`/fiber/graph/node/${channel.node2}`} className="monospace">{`0x${channel.node2.slice(
                           0,
                           8,
                         )}...${channel.node2.slice(-8)}`}</Link>

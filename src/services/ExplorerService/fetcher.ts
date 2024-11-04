@@ -1277,6 +1277,7 @@ export const apiFetcher = {
         `/fiber/graph_channels?${new URLSearchParams({
           page: page.toString(),
           page_size: pageSize.toString(),
+          status: 'open',
         })}`,
       )
       .then(res =>
@@ -1561,7 +1562,6 @@ export namespace Fiber {
       totalCapacity: string
       connectedNodeIds: string[]
       openChannelsCount: number
-      channelLinksCount: number
     }
 
     export interface Channel {
