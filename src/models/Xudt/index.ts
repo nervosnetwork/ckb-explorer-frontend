@@ -13,6 +13,7 @@ export interface XUDTHolderAllocation {
 }
 
 export interface XUDT {
+  holdersCount: string
   addressesCount: string
   createdAt: string
   h24CkbTransactionsCount: string

@@ -1,4 +1,5 @@
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
+import { useHistory } from 'react-router'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { FC, ReactNode, useState } from 'react'
@@ -197,6 +198,10 @@ const TokenTable: FC<{
   isEmpty: boolean
 }> = ({ query, sortParam, isEmpty }) => {
   const { t } = useTranslation()
+  const RGBPP_VIEW = 'rgbpp'
+  const { location } = useHistory()
+  const urlQuery = new URLSearchParams(location.search)
+  const isRgbppView = urlQuery.get('view') === RGBPP_VIEW
 
   const nullableColumns: (ColumnGroupType<XUDT> | ColumnType<XUDT> | false | undefined)[] = [
     {
@@ -251,16 +256,36 @@ const TokenTable: FC<{
       className: styles.colTransactions,
       render: (_, token) => localeNumberString(token.h24CkbTransactionsCount),
     },
-    {
-      title: (
-        <>
-          <span>{t('xudt.unique_addresses')}</span>
-          <SortButton field="addresses_count" sortParam={sortParam} />
-        </>
-      ),
-      className: styles.colAddressCount,
-      render: (_, token) => localeNumberString(token.addressesCount),
-    },
+    isRgbppView
+      ? {
+          title: (
+            <Tooltip title={t('xudt.display_rgbpp_holders')}>
+              <Link
+                to={`${location.pathname}?${new URLSearchParams({ ...urlQuery, view: 'ckb' })}`}
+                style={{ color: 'var(--primary-color)' }}
+              >
+                {t('xudt.rgbpp_holders_count')}
+              </Link>
+            </Tooltip>
+          ),
+          className: styles.colAddressCount,
+          render: (_, token) => localeNumberString(token.holdersCount),
+        }
+      : {
+          title: (
+            <Tooltip title={t('xudt.display_unique_ckb_addresses')}>
+              <Link
+                to={`${location.pathname}?${new URLSearchParams({ ...urlQuery, view: RGBPP_VIEW })}`}
+                style={{ color: 'var(--primary-color)' }}
+              >
+                {t('xudt.unique_addresses')}
+              </Link>
+              <SortButton field="addresses_count" sortParam={sortParam} />
+            </Tooltip>
+          ),
+          className: styles.colAddressCount,
+          render: (_, token) => localeNumberString(token.addressesCount),
+        },
     {
       title: (
         <>
