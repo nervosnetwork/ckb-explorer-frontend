@@ -306,6 +306,13 @@ export const scripts = new Map<string, ScriptAttributes>([
       code: 'https://github.com/ickb/v1-core/tree/454cfa966052a621c4e8b67001718c29ee8191a2/scripts/contracts/limit_order',
     },
   ],
+  [
+    'Stable++ Pool',
+    {
+      name: 'Stable++ Pool',
+      description: 'Stable++ Pool',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']

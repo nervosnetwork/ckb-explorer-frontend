@@ -359,6 +359,13 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     hashType: 'data1',
     tag: 'UDT Limit Order',
   },
+  {
+    codeHashes: ['0x26622198b66240e437e323e0fecf1c26ba3c8c28a45f03ed3ebb9f7f2bdc0055'],
+    txHashes: ['0xb22fd5c56a642f2e8447f7fb2bbd4faa85ce09ec9393113b9bdeec2b17cd4f95-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Stable++ Pool',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
