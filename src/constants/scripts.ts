@@ -366,6 +366,13 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     hashType: 'type',
     tag: 'Stable++ Pool',
   },
+  {
+    codeHashes: ['0x9376c3b5811942960a846691e16e477cf43d7c7fa654067c9948dfcd09a32137'],
+    txHashes: ['0x715afa97fb02c2ccdddbbc320ce3e92388074a5aee07fdf0b312f0b89ea6d6b7-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'DID',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
