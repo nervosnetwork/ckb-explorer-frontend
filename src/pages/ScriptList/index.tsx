@@ -313,6 +313,16 @@ export const scripts = new Map<string, ScriptAttributes>([
       description: 'Stable++ Pool',
     },
   ],
+  [
+    'DID',
+    {
+      name: 'DID',
+      description:
+        'DID is a blockchain-based, open source, censorship-resistant decentralized account system that provides a globally unique naming system with a .bit suffix that can be used for cryptocurrency transfers, domain name resolution, authentication, and other scenarios.',
+      code: 'https://github.com/dotbitHQ/did-contracts',
+      website: 'https://did.id/',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']
