@@ -8,13 +8,14 @@ const { BACKUP_NODES: backupNodes } = config
 
 export default () => {
   const { data: size } = useQuery(
-    ['backup_nodes'],
+    ['backnode_tip_header'],
     async () => {
       try {
         if (backupNodes.length === 0) return null
 
-        const [size1, size2] = await Promise.race(backupNodes.map(getKnowledgeSize))
-        return size1 ?? size2
+        const size = await Promise.race(backupNodes.map(getKnowledgeSize))
+
+        return size
       } catch {
         return null
       }
