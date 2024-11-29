@@ -1,5 +1,9 @@
 import BigNumber from 'bignumber.js'
 
+/**
+ * 6/10 of 7th output in the genesis should be excluded because they are expected to be burnt.
+ * ref: https://talk.nervos.org/t/how-to-get-the-average-occupied-bytes-per-live-cell-in-ckb/7138/2?u=keith
+ * */
 const EXCLUDE = BigNumber('504000000000000000')
 
 export const getKnowledgeSize = async (nodeUrl: string) => {
