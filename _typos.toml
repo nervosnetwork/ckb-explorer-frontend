@@ -6,3 +6,5 @@ rd='rd'
 th='th'
 # typo in api, should be fixed later
 toekn='toekn'
+# echart config
+metalness = 'metalness'
