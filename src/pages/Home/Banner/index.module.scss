@@ -11,6 +11,10 @@ $backgroundColor: #232323;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: auto 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (width <= $mobileBreakPoint) {
     background-image: url('./ckb_explorer_banner_phone.svg');
@@ -119,5 +123,29 @@ $backgroundColor: #232323;
 
   @media (width >= $mobileBreakPoint) {
     padding: 16px 24px;
+  }
+}
+
+.knowledgeBase {
+  text-align: center;
+  font-weight: bold;
+  font-optical-sizing: auto;
+  mix-blend-mode: difference;
+  line-height: 1.2;
+  font-size: 50px;
+  outline: none;
+  background: url('./ticker_bg.gif');
+  background-size: cover;
+  background-position: center center;
+  background-clip: text;
+  color: transparent;
+
+  .ticker {
+    display: flex;
+    gap: 8px;
+  }
+
+  @media screen and (width <= 500px) {
+    font-size: 30px;
   }
 }
