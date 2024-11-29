@@ -133,6 +133,12 @@ $backgroundColor: #232323;
   mix-blend-mode: difference;
   line-height: 1.2;
   font-size: 50px;
+  outline: none;
+  background: url('./ticker_bg.gif');
+  background-size: cover;
+  background-position: center center;
+  background-clip: text;
+  color: transparent;
 
   .ticker {
     display: flex;
