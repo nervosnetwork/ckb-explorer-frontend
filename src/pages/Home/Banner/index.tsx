@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
 import config from '../../../config'
 import styles from './index.module.scss'
 import { getKnowledgeSize } from './utils'
@@ -24,19 +25,21 @@ export default () => {
   )
   return (
     <div className={styles.root}>
-      <a
-        className={styles.knowledgeBase}
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://talk.nervos.org/t/how-to-get-the-average-occupied-bytes-per-live-cell-in-ckb/7138/2?u=keith"
-      >
+      <div className={styles.knowledgeBase}>
         <span>Knowledge Size</span>
         <br />
         <div className={styles.ticker}>
           <NumberTicker value={size ? +size : null} />
           <span>CKBytes</span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://talk.nervos.org/t/how-to-get-the-average-occupied-bytes-per-live-cell-in-ckb/7138/2?u=keith"
+          >
+            <InfoCircledIcon color="white" />
+          </a>
         </div>
-      </a>
+      </div>
     </div>
   )
 }

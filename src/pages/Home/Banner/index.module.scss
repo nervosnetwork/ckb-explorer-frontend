@@ -145,6 +145,8 @@ $backgroundColor: #232323;
     gap: 8px;
   }
 
+  cursor: default;
+
   @media screen and (width <= 500px) {
     font-size: 30px;
   }
