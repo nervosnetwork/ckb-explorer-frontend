@@ -323,6 +323,30 @@ export const scripts = new Map<string, ScriptAttributes>([
       website: 'https://did.id/',
     },
   ],
+  [
+    'Stable++ Intent Lock',
+    {
+      name: 'Stable++ Intent Lock',
+      description: 'Stable++ Lock hosting pledge',
+      website: 'https://www.stablepp.xyz/stablecoin',
+    },
+  ],
+  [
+    'Stable++ Vault Lock',
+    {
+      name: 'Stable++ Vault Lock',
+      description: 'Stable++ Vault Lock Script',
+      website: 'https://www.stablepp.xyz/stablecoin',
+    },
+  ],
+  [
+    'Stable++ Asset',
+    {
+      name: 'Stable++ Asset',
+      description: 'Stable++ Asset',
+      website: 'https://www.stablepp.xyz/stablecoin',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']

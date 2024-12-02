@@ -373,6 +373,27 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     hashType: 'type',
     tag: 'DID',
   },
+  {
+    codeHashes: ['0x56fb632a13abdad7308d2e034baae1cb049e8e8ff23cc7c0b69449f617549733'],
+    txHashes: ['0x8ec1081bd03e5417bb4467e96f4cec841acdd35924538a35e7547fe320118977-1'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Stable++ Intent Lock',
+  },
+  {
+    codeHashes: ['0x4ed68fcb7eaa4ff78d46a2fad88a32ce9caffd4b96a0a4bba96ff4871f018675'],
+    txHashes: ['0x8dae0c83d77b7349f390d967b254e8329177b5c8c0e6da97c4a51efcca958ef5-1'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Stable++ Vault Lock',
+  },
+  {
+    codeHashes: ['0x26a33e0815888a4a0614a0b7d09fa951e0993ff21e55905510104a0b1312032b'],
+    txHashes: ['0x8ec1081bd03e5417bb4467e96f4cec841acdd35924538a35e7547fe320118977-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Stable++ Asset',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
