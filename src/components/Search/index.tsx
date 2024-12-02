@@ -45,6 +45,7 @@ const ALLOW_SEARCH_TYPES = [
   SearchResultType.UDT,
   SearchResultType.DID,
   SearchResultType.BtcAddress,
+  SearchResultType.FiberGraphNode,
 ]
 
 async function fetchAggregateSearchResult(searchValue: string): Promise<AggregateSearchResult[]> {

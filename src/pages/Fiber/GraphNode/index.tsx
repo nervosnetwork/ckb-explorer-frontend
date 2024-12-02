@@ -103,7 +103,7 @@ const GraphNode = () => {
   const chain = ChainHash.get(node.chainHash) ?? '-'
 
   const openTxs = node.fiberGraphChannels.map(c => ({
-    hash: c.outpointInfo.txHash,
+    hash: c.openTransactionInfo.txHash,
     index: c.fundingTxIndex,
   }))
 

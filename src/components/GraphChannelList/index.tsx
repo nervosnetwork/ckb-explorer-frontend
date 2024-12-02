@@ -27,11 +27,11 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
         const ckb = shannonToCkb(channel.capacity)
         const amount = parseNumericAbbr(ckb)
 
-        const fundingCkb = shannonToCkb(channel.outpointInfo.fundingCapacity)
+        const fundingCkb = shannonToCkb(channel.openTransactionInfo.capacity)
         const fundingCkbAmount = parseNumericAbbr(fundingCkb)
 
-        const fundingUdtAmount = channel.outpointInfo.fundingUdtAmount
-          ? parseNumericAbbr(channel.outpointInfo.fundingUdtAmount)
+        const fundingUdtAmount = channel.openTransactionInfo.udtAmount
+          ? parseNumericAbbr(channel.openTransactionInfo.udtAmount)
           : null
 
         const outpoint = `${outPoint.txHash}#${outPoint.index}`
@@ -72,10 +72,10 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                     </Tooltip>
                   )}
                   from
-                  <Tooltip title={channel.outpointInfo.fundingAddress}>
-                    <Link to={`/address/${channel.outpointInfo.fundingAddress}`} className={styles.address}>
-                      <div>{channel.outpointInfo.fundingAddress.slice(0, -15)}</div>
-                      <div>{channel.outpointInfo.fundingAddress.slice(-15)}</div>
+                  <Tooltip title={channel.openTransactionInfo.address}>
+                    <Link to={`/address/${channel.openTransactionInfo.address}`} className={styles.address}>
+                      <div>{channel.openTransactionInfo.address.slice(0, -15)}</div>
+                      <div>{channel.openTransactionInfo.address.slice(-15)}</div>
                     </Link>
                   </Tooltip>
                 </dd>

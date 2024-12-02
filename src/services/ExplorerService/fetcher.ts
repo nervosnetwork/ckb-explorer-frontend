@@ -70,6 +70,7 @@ export enum SearchResultType {
   TokenItem = 'token_item',
   DID = 'did',
   BtcAddress = 'bitcoin_address',
+  FiberGraphNode = 'fiber_graph_node',
 }
 
 enum SearchQueryType {
@@ -112,6 +113,14 @@ export type AggregateSearchResult =
         addressHash: string
       },
       SearchResultType.BtcAddress
+    >
+  | Response.Wrapper<
+      {
+        alias: string
+        nodeId: string
+        peerId: string
+      },
+      SearchResultType.FiberGraphNode
     >
 
 export const getBtcTxList = (idList: string[]): Promise<Record<string, RawBtcRPC.BtcTx>> => {
@@ -1546,14 +1555,13 @@ export namespace Fiber {
       autoAcceptAmount: string
     }
 
-    interface FundingInfo {
+    interface OpenTransactionInfo {
+      address: string
       blockNumber: number
       blockTimestamp: number
-      fundingAddress: string
-      fundingCapacity: string
-      fundingUdtAmount: string | null
-      transactionFee: number
+      capacity: string
       txHash: string
+      udtAmount?: string
     }
 
     export interface Node {
@@ -1580,7 +1588,7 @@ export namespace Fiber {
       node1ToNode2FeeRate: string
       node2ToNode1FeeRate: string
       capacity: string
-      outpointInfo: FundingInfo
+      openTransactionInfo: OpenTransactionInfo
     }
 
     export interface NodeDetail extends Node {

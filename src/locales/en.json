@@ -177,7 +177,7 @@
       "sUDT": "sUDT",
       "inscriptions": "Inscriptions",
       "docs": "Docs",
-      "search_placeholder": "Block/Transaction/Address/Script Hash/Args/BTC Address/BTC Txid/DID",
+      "search_placeholder": "Block/Transaction/Address/Script Hash/Args/BTC Address/BTC Txid/DID/Fiber Peer Id/Fiber Node Id",
       "search_by_name_placeholder": "Token Name",
       "more": "More",
       "mainnet": "LINA",
@@ -377,7 +377,7 @@
       "loading": "Loading...",
       "no_search_result": "Oops! Your search did not match any record.",
       "empty_result": "Oops! Your search did not match any record. \n\nPlease make sure input contains only one of the following items:\n",
-      "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Script Hash/ Args/ BTC Address/ BTC Txid/DID",
+      "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Script Hash/ Args/ BTC Address/ BTC Txid/DID/Fiber Peer Id/Fiber Node Id",
       "address_type_testnet_error": "Testnet address detected，please goto",
       "address_type_mainnet_error": "Mainnet address detected，please goto",
       "address_type_testnet_url": "testnet explorer",
@@ -401,7 +401,8 @@
       "bitcoin_address": "BTC Address",
       "token_collection": "Token Collection",
       "token_item": "Token Item",
-      "did": "DID"
+      "did": "DID",
+      "fiber_graph_node": "Fiber Graph Node"
     },
     "cell": {
       "live_cell": "Live Cell",
