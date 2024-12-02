@@ -1,0 +1,21 @@
+%monospace {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+%hash {
+  @extend %monospace;
+
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  user-select: none;
+
+  div {
+    font-family: inherit;
+  }
+
+  div:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

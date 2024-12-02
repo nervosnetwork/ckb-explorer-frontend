@@ -7,23 +7,18 @@ import type { Fiber } from '../../services/ExplorerService/fetcher'
 import { parseNumericAbbr } from '../../utils/chart'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
-import AddressText from '../AddressText'
 import styles from './index.module.scss'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
-const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean; node?: string }> = ({
-  list,
-  isFullWidth = true,
-  node,
-}) => {
+const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ list, node }) => {
   if (!list.length) {
     return <div className={styles.container}>No Channels</div>
   }
 
   return (
     <div className={styles.container}>
-      {list.map(channel => {
+      {list.map((channel, i) => {
         const outPoint = {
           txHash: channel.channelOutpoint.slice(0, -8),
           index: parseInt(channel.channelOutpoint.slice(-8), 16),
@@ -39,23 +34,21 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean;
           ? parseNumericAbbr(channel.outpointInfo.fundingUdtAmount)
           : null
 
+        const outpoint = `${outPoint.txHash}#${outPoint.index}`
+
         return (
           <div key={channel.channelOutpoint} className={styles.channel}>
-            <h1>General</h1>
-            <div className={styles.general}>
+            <h1>Channel #{i + 1}</h1>
+            <div>
               <dl className={styles.outPoint}>
                 <dt>Out Point</dt>
                 <dd>
-                  <div className={styles.content}>
-                    <Tooltip title={`${outPoint.txHash}#${outPoint.index}`}>
-                      <Link to={`/transaction/${outPoint.txHash}#${outPoint.index}`}>
-                        {`${outPoint.txHash.slice(0, 6)}...${outPoint.txHash.slice(-6)}#${outPoint.index}`}
-                      </Link>
-                    </Tooltip>
+                  <Tooltip title={`${outPoint.txHash}#${outPoint.index}`}>
                     <Link to={`/transaction/${outPoint.txHash}#${outPoint.index}`}>
-                      {`${outPoint.txHash}#${outPoint.index}`}
+                      <div>{outpoint.slice(0, -15)}</div>
+                      <div>{outpoint.slice(-15)}</div>
                     </Link>
-                  </div>
+                  </Tooltip>
                   <button type="button" data-copy-text={outPoint.txHash}>
                     <CopyIcon />
                   </button>
@@ -71,57 +64,38 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean;
                 </dd>
               </dl>
               <dl className={styles.funding}>
-                <dt>Funding</dt>
+                <dt>Source</dt>
                 <dd>
-                  <Tooltip title={`${localeNumberString(fundingCkb)} CKB`}>
-                    <span>{`${fundingCkbAmount} CKB`}</span>
-                  </Tooltip>
-                  {fundingUdtAmount ? '&' : null}
-                  {fundingUdtAmount}
-                  from
-                  <div className={styles.funder}>
-                    <AddressText
-                      linkProps={{
-                        to: `/address/${channel.outpointInfo.fundingAddress}`,
-                      }}
-                    >
-                      {channel.outpointInfo.fundingAddress}
-                    </AddressText>
-                  </div>
-                </dd>
-              </dl>
-
-              <dl className={styles.chainHash}>
-                <dt>Chain Hash</dt>
-                <dd>
-                  <div className={styles.content}>
-                    <Tooltip title={channel.chainHash}>
-                      <span className="monospace">{`${channel.chainHash.slice(0, 8)}...${channel.chainHash.slice(
-                        -8,
-                      )}`}</span>
+                  {fundingUdtAmount || (
+                    <Tooltip title={`${localeNumberString(fundingCkb)} CKB`}>
+                      <span>{`${fundingCkbAmount} CKB`}</span>
                     </Tooltip>
-                    <span className="monospace">{channel.chainHash}</span>
-                  </div>
-                  <button type="button" data-copy-text={channel.chainHash}>
-                    <CopyIcon />
-                  </button>
+                  )}
+                  from
+                  <Tooltip title={channel.outpointInfo.fundingAddress}>
+                    <Link to={`/address/${channel.outpointInfo.fundingAddress}`} className={styles.address}>
+                      <div>{channel.outpointInfo.fundingAddress.slice(0, -15)}</div>
+                      <div>{channel.outpointInfo.fundingAddress.slice(-15)}</div>
+                    </Link>
+                  </Tooltip>
                 </dd>
               </dl>
-
-              <dl className={styles.time}>
-                <dt>Funded at</dt>
+              <dl>
+                <dt>Position</dt>
                 <dd>
-                  <Link to={`/block/${channel.fundingTxBlockNumber}`}>
-                    {localeNumberString(channel.fundingTxBlockNumber)}
-                  </Link>
-                  (<div>{dayjs(+channel.lastUpdatedTimestamp).format(TIME_TEMPLATE)}</div>)
+                  On
+                  <Tooltip title={dayjs(+channel.lastUpdatedTimestamp).format(TIME_TEMPLATE)}>
+                    <Link to={`/block/${channel.fundingTxBlockNumber}`}>
+                      {localeNumberString(channel.fundingTxBlockNumber)}
+                    </Link>
+                  </Tooltip>
                 </dd>
               </dl>
             </div>
 
             <div className={styles.nodesContainer}>
               <h1>Nodes</h1>
-              <div className={styles.nodes} data-is-full-width={!!isFullWidth}>
+              <div className={styles.nodes}>
                 <div className={styles.node}>
                   <h3>
                     First Node
@@ -131,10 +105,10 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean;
                     <dt>ID</dt>
                     <dd>
                       <Tooltip title={channel.node1}>
-                        <Link to={`/fiber/graph/node/${channel.node1}`} className="monospace">{`0x${channel.node1.slice(
-                          0,
-                          8,
-                        )}...${channel.node1.slice(-8)}`}</Link>
+                        <Link to={`/fiber/graph/node/${channel.node1}`} className="monospace">
+                          <div>{`0x${channel.node1.slice(0, -8)}`}</div>
+                          <div>{channel.node1.slice(-8)}</div>
+                        </Link>
                       </Tooltip>
                       <button type="button" data-copy-text={channel.node1}>
                         <CopyIcon />
@@ -155,10 +129,10 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; isFullWidth?: boolean;
                     <dt>ID</dt>
                     <dd>
                       <Tooltip title={channel.node2}>
-                        <Link to={`/fiber/graph/node/${channel.node2}`} className="monospace">{`0x${channel.node2.slice(
-                          0,
-                          8,
-                        )}...${channel.node2.slice(-8)}`}</Link>
+                        <Link to={`/fiber/graph/node/${channel.node2}`}>
+                          <div>{`0x${channel.node2.slice(0, -8)}`}</div>
+                          <div>{channel.node2.slice(-8)}</div>
+                        </Link>
                       </Tooltip>
                       <button type="button" data-copy-text={channel.node2}>
                         <CopyIcon />

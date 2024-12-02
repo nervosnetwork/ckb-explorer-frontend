@@ -1,5 +1,6 @@
 @import '../../../styles/variables.module';
 @import '../../../styles/card.module';
+@import '../../../styles/text.module';
 
 .container {
   text-wrap: nowrap;
@@ -103,6 +104,11 @@
       margin-left: 8px;
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
+
+      img {
+        flex: 0 0;
+      }
 
       .token {
         display: flex;
@@ -119,7 +125,8 @@
 
     .channels,
     .transactions {
-      flex: 1;
+      overflow: hidden;
+      flex-basis: 50%;
       background: #fff;
       border-radius: 6px;
       padding: 16px;
@@ -131,7 +138,7 @@
       }
     }
 
-    @media screen and (width < 960px) {
+    @media screen and (width < $mobileBreakPoint) {
       flex-direction: column;
     }
 
@@ -165,5 +172,38 @@
 
   @media screen and (width < 1030px) {
     font-size: 14px;
+  }
+}
+
+.addresses {
+  select {
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.tx {
+  padding: 8px 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  a {
+    @extend %monospace;
+
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+
+    div {
+      font-family: inherit;
+    }
+
+    div:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
