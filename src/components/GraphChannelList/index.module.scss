@@ -1,3 +1,6 @@
+@import '../../styles/variables.module';
+@import '../../styles/text.module';
+
 .container {
   font-size: 0.875rem;
 
@@ -12,14 +15,20 @@
   dl {
     display: flex;
     gap: 4px;
+
+    @media screen and (width <= $mobileBreakPoint) {
+      display: block;
+    }
   }
 
   dl,
   dd,
   dt {
     margin: 0;
-    white-space: pre;
-    flex-wrap: wrap;
+
+    /* white-space: pre; */
+
+    /* flex-wrap: wrap; */
   }
 
   dt {
@@ -34,40 +43,14 @@
     gap: 4px;
   }
 
-  .general {
-    dd {
-      .content {
-        & > *:first-child {
-          display: none;
-        }
-
-        @media screen and (width<800px) {
-          & > *:first-child {
-            display: flex;
-          }
-
-          & > *:last-child {
-            display: none;
-          }
-        }
-      }
-
-      .content[data-is-full-width='false'] {
-        & > *:first-child {
-          display: flex;
-        }
-
-        & > *:last-child {
-          display: none;
-        }
-      }
-    }
-  }
-
   .channel {
     margin-bottom: 4px;
     background: #fff;
     padding: 8px 40px;
+
+    @media screen and (width <= $largeBreakPoint) {
+      padding: 8px;
+    }
 
     h1 {
       font-size: 1.2rem;
@@ -76,10 +59,28 @@
 
   .funding {
     display: flex;
+    gap: 4px;
+    flex-wrap: nowrap;
+    overflow: hidden;
 
-    .funder {
-      flex: 0.4;
+    dd {
       overflow: hidden;
+    }
+
+    a.address {
+      @extend %hash;
+
+      min-width: 180px;
+    }
+  }
+
+  .outPoint {
+    dd {
+      overflow: hidden;
+    }
+
+    a {
+      @extend %hash;
     }
   }
 
@@ -89,6 +90,12 @@
     padding: 8px;
     margin-top: 8px;
     background: rgb(0 0 0 / 3%);
+
+    dt,
+    dd {
+      display: flex;
+      flex-wrap: nowrap;
+    }
   }
 
   .nodes {
@@ -114,9 +121,18 @@
 
     .node {
       flex: 1;
+      overflow: hidden;
+
+      dd {
+        overflow: hidden;
+      }
+
+      a {
+        @extend %hash;
+      }
     }
 
-    @media screen and (width<690px) {
+    @media screen and (width <= $mobileBreakPoint) {
       flex-direction: column;
     }
   }

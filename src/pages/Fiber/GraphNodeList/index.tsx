@@ -16,6 +16,7 @@ import styles from './index.module.scss'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString } from '../../../utils/number'
+import { ChainHash } from '../../../constants/fiberChainHash'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
@@ -109,13 +110,14 @@ const fields = [
   },
   {
     key: 'chainHash',
-    label: 'chain_hash',
+    label: 'chain',
     transformer: (v: unknown) => {
       if (typeof v !== 'string') return v
+      const chain = ChainHash.get(v)
       return (
         <span className={styles.chainHash}>
           <Tooltip title={v}>
-            <span className="monospace">{`${v.slice(0, 8)}...${v.slice(-8)}`}</span>
+            {chain ?? <span className="monospace">{`${v.slice(0, 8)}...${v.slice(-8)}`}</span>}
           </Tooltip>
           <button type="button" data-copy-text={v}>
             <CopyIcon />

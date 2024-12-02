@@ -15,6 +15,8 @@ import GraphChannelList from '../../../components/GraphChannelList'
 import { getFundingThreshold } from '../utils'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
+import { ChainHash } from '../../../constants/fiberChainHash'
+import { Link } from '../../../components/Link'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
@@ -98,6 +100,13 @@ const GraphNode = () => {
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
   }
 
+  const chain = ChainHash.get(node.chainHash)
+
+  const openTxs = node.fiberGraphChannels.map(c => ({
+    hash: c.outpointInfo.txHash,
+    index: c.fundingTxIndex,
+  }))
+
   return (
     <Content>
       <div className={styles.container} onClick={handleCopy}>
@@ -149,10 +158,19 @@ const GraphNode = () => {
               <dt>{t('fiber.graph.node.first_seen')}</dt>
               <dd>{dayjs(+node.timestamp).format(TIME_TEMPLATE)}</dd>
             </dl>
-            <dl>
-              <dt>{t('fiber.graph.node.chain_hash')}</dt>
-              <dd>{node.chainHash}</dd>
-            </dl>
+            {chain ? (
+              <dl>
+                <dt>{t('fiber.graph.node.chain')}</dt>
+                <dd>
+                  <Tooltip title={node.chainHash}>{chain}</Tooltip>
+                </dd>
+              </dl>
+            ) : (
+              <dl>
+                <dt>{t('fiber.graph.node.chain_hash')}</dt>
+                <dd>{node.chainHash}</dd>
+              </dl>
+            )}
             <dl>
               <dt>{t('fiber.graph.node.total_capacity')}</dt>
               <dd>{totalCkb}</dd>
@@ -185,8 +203,23 @@ const GraphNode = () => {
             <GraphChannelList list={channels} node={node.nodeId} />
           </div>
           <div className={styles.transactions}>
-            <h3>Open | Close Transactions</h3>
-            <small>Coming soon</small>
+            <h3>
+              Open Transactions
+              <small style={{ marginLeft: 8, fontSize: 10, opacity: 0.5 }}>(Close transactions coming soon)</small>
+            </h3>
+            <div>
+              {openTxs.map(tx => (
+                <div key={`${tx.hash}#${tx.index}`} className={styles.tx}>
+                  <span>Open Channel by</span>
+                  <Tooltip title={`${tx.hash}-${tx.index}`}>
+                    <Link to={`/transaction/${tx.hash}#${tx.index}`} className="monospace">
+                      <div>{tx.hash.slice(0, -15)}</div>
+                      <div>{tx.hash.slice(-15)}</div>
+                    </Link>
+                  </Tooltip>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
