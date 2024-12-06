@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { Dayjs } from 'dayjs'
 import { ReactNode } from 'react'
 import { pick } from '../../utils/object'
-import { toCamelcase } from '../../utils/util'
+import { shannonToCkb, toCamelcase } from '../../utils/util'
 import { requesterV1, requesterV2 } from './requester'
 import {
   ChartItem,
@@ -242,6 +242,11 @@ export const apiFetcher = {
     requesterV2
       .get(`statistics/contract_resource_distributed`)
       .then(res => toCamelcase<ChartItem.ContractResourceDistributed[]>(res.data)),
+
+  fetchStatisticKnowledgeSize: () =>
+    v1GetUnwrappedList<ChartItem.KnowledgeSize>(`/daily_statistics/knowledge_size`).then(res =>
+      res.map(i => ({ ...i, knowledgeSize: +shannonToCkb(i.knowledgeSize) })),
+    ),
 
   fetchTransactionByHash: (hash: string, displayCells: boolean = false) =>
     v1GetUnwrapped<Transaction>(`transactions/${hash}?display_cells=${displayCells}`),
