@@ -196,6 +196,11 @@ export namespace ChartItem {
     address: string
     radio: string
   }
+
+  export interface KnowledgeSize {
+    createdAtUnixtimestamp: string
+    knowledgeSize: number
+  }
 }
 
 export interface NervosDaoDepositor {

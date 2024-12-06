@@ -55,6 +55,7 @@ const CellCountChart = lazy(() => import('../pages/StatisticsChart/activities/Ce
 const ContractResourceDistributedChart = lazy(
   () => import('../pages/StatisticsChart/activities/ContractResourceDistributed'),
 )
+const KnowledgeSizeChart = lazy(() => import('../pages/StatisticsChart/activities/KnowledgeSize'))
 const CkbHodlWaveChart = lazy(() => import('../pages/StatisticsChart/activities/CkbHodlWave'))
 const AddressBalanceRankChart = lazy(() => import('../pages/StatisticsChart/activities/AddressBalanceRank'))
 const BalanceDistributionChart = lazy(() => import('../pages/StatisticsChart/activities/BalanceDistribution'))
@@ -255,6 +256,10 @@ const routes: RouteProps[] = [
   {
     path: '/charts/contract-resource-distributed',
     component: ContractResourceDistributedChart,
+  },
+  {
+    path: '/charts/knowledge-size',
+    component: KnowledgeSizeChart,
   },
 
   {

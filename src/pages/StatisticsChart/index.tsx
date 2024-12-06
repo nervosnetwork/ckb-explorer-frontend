@@ -6,6 +6,7 @@ import { DifficultyHashRateChart } from './mining/DifficultyHashRate'
 import { DifficultyUncleRateEpochChart } from './mining/DifficultyUncleRateEpoch'
 import { TransactionCountChart } from './activities/TransactionCount'
 import { AddressCountChart } from './activities/AddressCount'
+import { KnowledgeSizeChart } from './activities/KnowledgeSize'
 import { CellCountChart } from './activities/CellCount'
 import { CkbHodlWaveChart } from './activities/CkbHodlWave'
 import { TotalDaoDepositChart } from './nervosDao/TotalDaoDeposit'
@@ -119,6 +120,12 @@ const useChartsData = () => {
           chart: <ContractResourceDistributedChart isThumbnail />,
           path: '/charts/contract-resource-distributed',
           description: t('statistic.contract_resource_distributed_description'),
+        },
+        {
+          title: `${t('statistic.knowledge_size')}`,
+          chart: <KnowledgeSizeChart isThumbnail />,
+          path: '/charts/knowledge-size',
+          description: t('statistic.knowledge_size'),
         },
       ],
     },

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { BarChartIcon } from '@radix-ui/react-icons'
+import { Link } from '../../../components/Link'
 import config from '../../../config'
 import styles from './index.module.scss'
 import { getKnowledgeSize } from './utils'
@@ -31,13 +32,9 @@ export default () => {
         <div className={styles.ticker}>
           <NumberTicker value={size ? +size : null} />
           <span>CKBytes</span>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://talk.nervos.org/t/how-to-get-the-average-occupied-bytes-per-live-cell-in-ckb/7138/2?u=keith"
-          >
-            <InfoCircledIcon color="white" />
-          </a>
+          <Link to="/charts/knowledge-size">
+            <BarChartIcon color="white" />
+          </Link>
         </div>
       </div>
     </div>
