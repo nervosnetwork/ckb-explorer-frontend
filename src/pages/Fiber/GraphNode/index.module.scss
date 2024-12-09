@@ -131,6 +131,11 @@
       border-radius: 6px;
       padding: 16px;
       box-shadow: 0 2px 6px 0 #4d4d4d33;
+      font-size: 0.8em;
+
+      * {
+        font-size: inherit;
+      }
 
       h3 {
         margin: 0;
@@ -184,10 +189,27 @@
 }
 
 .tx {
-  padding: 8px 8px 0;
+  padding: 8px 40px;
   display: flex;
-  align-items: center;
-  gap: 4px;
+  flex-direction: column;
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    padding: 8px;
+  }
+
+  time {
+    margin-right: auto;
+  }
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .addr {
+    @extend %hash;
+  }
 
   a {
     @extend %monospace;

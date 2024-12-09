@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { CopyIcon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
+import { CopyIcon, Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
 import QRCode from 'qrcode'
 import dayjs from 'dayjs'
@@ -17,6 +17,7 @@ import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { ChainHash } from '../../../constants/fiberChainHash'
 import { Link } from '../../../components/Link'
+import { localeNumberString } from '../../../utils/number'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
@@ -75,6 +76,68 @@ const GraphNode = () => {
     )
   }, [qrRef, connectId])
 
+  const openAndClosedTxs = useMemo(() => {
+    const list: {
+      hash: string
+      index?: string
+      block: {
+        number: number
+        timestamp: number
+      }
+      isUdt: boolean
+      isOpen: boolean
+      accounts: Record<'amount' | 'address', string>[]
+    }[] = []
+
+    if (!node?.fiberGraphChannels) return list
+
+    node.fiberGraphChannels.forEach(c => {
+      const isUdt = !!c.openTransactionInfo.udtAmount
+      const open = {
+        isOpen: true,
+        isUdt,
+        hash: c.openTransactionInfo.txHash,
+        index: c.fundingTxIndex,
+        block: {
+          number: c.openTransactionInfo.blockNumber,
+          timestamp: c.openTransactionInfo.blockTimestamp,
+        },
+        accounts: [
+          {
+            address: c.openTransactionInfo.address,
+            amount:
+              c.openTransactionInfo.udtAmount ??
+              `${localeNumberString(shannonToCkb(c.openTransactionInfo.capacity))} CKB`,
+          },
+        ],
+      }
+
+      list.push(open)
+
+      const close = c.closedTransactionInfo
+        ? {
+            isOpen: false,
+            hash: c.closedTransactionInfo.txHash,
+            block: {
+              number: c.closedTransactionInfo.blockNumber,
+              timestamp: c.closedTransactionInfo.blockTimestamp,
+            },
+            isUdt,
+            accounts: c.closedTransactionInfo.closeAccounts.map(acc => {
+              return {
+                amount: acc.udtAmount ?? `${localeNumberString(shannonToCkb(acc.capacity))} CKB`,
+                address: acc.address,
+              }
+            }),
+          }
+        : null
+      if (close) {
+        list.push(close)
+      }
+    })
+    return list.sort((a, b) => a.block.timestamp - b.block.timestamp)
+  }, [node])
+
   if (isLoading) {
     return <Loading show />
   }
@@ -82,10 +145,8 @@ const GraphNode = () => {
   if (!node) {
     return <div>Fiber Peer Not Found</div>
   }
-  const channels = node.fiberGraphChannels
+  const channels = node.fiberGraphChannels.filter(c => !c.closedTransactionInfo)
 
-  // const ckb = shannonToCkb(node.autoAcceptMinCkbFundingAmount)
-  // const amount = parseNumericAbbr(ckb)
   const thresholds = getFundingThreshold(node)
 
   const totalCkb = parseNumericAbbr(shannonToCkb(node.totalCapacity))
@@ -101,11 +162,6 @@ const GraphNode = () => {
   }
 
   const chain = ChainHash.get(node.chainHash) ?? '-'
-
-  const openTxs = node.fiberGraphChannels.map(c => ({
-    hash: c.openTransactionInfo.txHash,
-    index: c.fundingTxIndex,
-  }))
 
   return (
     <Content>
@@ -196,22 +252,83 @@ const GraphNode = () => {
             <GraphChannelList list={channels} node={node.nodeId} />
           </div>
           <div className={styles.transactions}>
-            <h3>
-              Open Transactions
-              <small style={{ marginLeft: 8, fontSize: 10, opacity: 0.5 }}>(Close transactions coming soon)</small>
-            </h3>
+            <h3>Open & Closed Transactions</h3>
             <div>
-              {openTxs.map(tx => (
-                <div key={`${tx.hash}#${tx.index}`} className={styles.tx}>
-                  <span>Open Channel by</span>
-                  <Tooltip title={`${tx.hash}-${tx.index}`}>
-                    <Link to={`/transaction/${tx.hash}#${tx.index}`} className="monospace">
-                      <div>{tx.hash.slice(0, -15)}</div>
-                      <div>{tx.hash.slice(-15)}</div>
-                    </Link>
-                  </Tooltip>
-                </div>
-              ))}
+              {openAndClosedTxs.map(tx => {
+                const key = tx.isOpen ? `${tx.hash}#${tx.index}` : tx.hash
+                if (tx.isOpen) {
+                  const account = tx.accounts[0]!
+                  return (
+                    <div key={key} className={styles.tx}>
+                      <div>
+                        <Link1Icon />
+                        at
+                        <time dateTime={tx.block.timestamp.toString()}>
+                          {dayjs(tx.block.timestamp).format(TIME_TEMPLATE)}
+                        </time>
+                        <Tooltip title={`${tx.hash}-${tx.index}`}>
+                          <Link to={`/transaction/${tx.hash}#${tx.index}`} className="monospace">
+                            <OpenInNewWindowIcon />
+                          </Link>
+                        </Tooltip>
+                      </div>
+                      <div>
+                        By
+                        <span className={styles.addr}>
+                          <Tooltip title={account.address}>
+                            <Link to={`/address/${account.address}`} className="monospace">
+                              <div>{account.address.slice(0, -8)}</div>
+                              <div>{account.address.slice(-8)}</div>
+                            </Link>
+                          </Tooltip>
+                        </span>
+                        <span>({account.amount})</span>
+                      </div>
+                    </div>
+                  )
+                }
+                const [acc1, acc2] = tx.accounts
+                return (
+                  <div key={key} className={styles.tx}>
+                    <div>
+                      <LinkBreak1Icon />
+                      at
+                      <time dateTime={tx.block.timestamp.toString()}>
+                        {dayjs(tx.block.timestamp).format(TIME_TEMPLATE)}
+                      </time>
+                      <Tooltip title={`${tx.hash}-${tx.index}`}>
+                        <Link to={`/transaction/${tx.hash}#${tx.index}`} className="monospace">
+                          <OpenInNewWindowIcon />
+                        </Link>
+                      </Tooltip>
+                    </div>
+                    <div>
+                      To
+                      <span className={styles.addr}>
+                        <Tooltip title={acc1.address}>
+                          <Link to={`/address/${acc1.address}`} className="monospace">
+                            <div>{acc1.address.slice(0, -8)}</div>
+                            <div>{acc1.address.slice(-8)}</div>
+                          </Link>
+                        </Tooltip>
+                      </span>
+                      <span>({acc1.amount})</span>
+                    </div>
+                    <div>
+                      And
+                      <span className={styles.addr}>
+                        <Tooltip title={acc2.address}>
+                          <Link to={`/address/${acc2.address}`} className="monospace">
+                            <div>{acc2.address.slice(0, -8)}</div>
+                            <div>{acc2.address.slice(-8)}</div>
+                          </Link>
+                        </Tooltip>
+                      </span>
+                      <span>({acc2.amount})</span>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>

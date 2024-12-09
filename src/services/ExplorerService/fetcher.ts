@@ -1564,6 +1564,17 @@ export namespace Fiber {
       udtAmount?: string
     }
 
+    interface ClosedTransactionInfo {
+      blockNumber: number
+      blockTimestamp: number
+      txHash: string
+      closeAccounts: {
+        address: string
+        capacity: string
+        udtAmount: string | null
+      }[]
+    }
+
     export interface Node {
       alias: string
       nodeId: string
@@ -1589,6 +1600,7 @@ export namespace Fiber {
       node2ToNode1FeeRate: string
       capacity: string
       openTransactionInfo: OpenTransactionInfo
+      closedTransactionInfo: ClosedTransactionInfo
     }
 
     export interface NodeDetail extends Node {
