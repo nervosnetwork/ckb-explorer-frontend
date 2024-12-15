@@ -220,7 +220,7 @@
       "testnet": "Testnet"
     },
     "statistic": {
-      "transaction_num": "BTC Transaction Count",
+      "btc_transaction_count": "BTC Transaction Count",
       "new_btc_address": "New BTC Address",
       "rgbpp_transaction_list": "RGB++ Transaction List",
       "transaction_count": "Transaction Count",
