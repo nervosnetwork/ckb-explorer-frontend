@@ -35,6 +35,9 @@ export interface Transaction {
   maxCyclesInEpoch: number | null
   maxCycles: number | null
   createTimestamp?: number
+  cellDeps: CellDep[]
+  headerDeps: string[]
+  witnesses: string[]
 }
 
 export interface BtcTx {
