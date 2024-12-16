@@ -2,12 +2,11 @@
 
 $backgroundColor: #232323;
 
-.root {
+.root,
+.fiberBanner {
   width: 100%;
-  background-color: $backgroundColor;
   height: 200px;
   position: relative;
-  background-image: url('./ckb_explorer_banner.svg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: auto 100%;
@@ -15,9 +14,172 @@ $backgroundColor: #232323;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.root {
+  background-color: $backgroundColor;
+  background-image: url('./ckb_explorer_banner.svg');
 
   @media (width <= $mobileBreakPoint) {
     background-image: url('./ckb_explorer_banner_phone.svg');
+  }
+}
+
+.fiberBanner {
+  --m: 1rem;
+  --red: #ff6565;
+  --pink: #ff64f9;
+  --purple: #6b5fff;
+  --blue: #4d8aff;
+  --green: #5bff89;
+  --yellow: #fe5;
+  --orange: #ff6d1b;
+
+  position: relative;
+  background-color: black;
+  background-image: url('./fiber_network.gif');
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .slogan {
+    display: flex;
+    flex-direction: column;
+
+    h1,
+    h3 {
+      line-height: 1;
+      color: #f3f3f3;
+      text-align: center;
+    }
+
+    h3 {
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+    margin-bottom: 20px;
+  }
+
+  a {
+    position: relative;
+    color: #f3f3f3;
+    font-size: var(--m);
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  span {
+    box-sizing: border-box;
+    border: calc(0.08 * var(--m)) solid transparent;
+    border-radius: calc(0.7 * var(--m));
+    padding: calc(0.5 * var(--m)) calc(1 * var(--m));
+    background: linear-gradient(#121213, #121213),
+      linear-gradient(#121213 50%, rgb(18 18 19 / 60%) 80%, rgb(18 18 19 / 0%)),
+      linear-gradient(
+        90deg,
+        var(--orange),
+        var(--yellow),
+        var(--green),
+        var(--blue),
+        var(--purple),
+        var(--pink),
+        var(--red)
+      );
+    background-origin: border-box;
+    background-clip: padding-box, border-box, border-box;
+    background-size: 200%;
+    animation: animate 8s infinite linear;
+    transition-duration: 0.3s;
+    z-index: 1;
+  }
+
+  .links {
+    display: flex;
+    gap: 80px;
+  }
+
+  a::before {
+    content: '';
+    background: linear-gradient(
+      90deg,
+      var(--orange),
+      var(--yellow),
+      var(--green),
+      var(--blue),
+      var(--purple),
+      var(--pink),
+      var(--red)
+    );
+    height: 30%;
+    width: 90%;
+    position: absolute;
+    bottom: 0;
+    background-size: 200%;
+    animation: animate 8s infinite linear;
+    filter: blur(calc(0.8 * var(--m)));
+  }
+
+  a:hover span {
+    border: calc(0.08 * var(--m)) solid transparent;
+    transform: perspective(1000px) translateZ(50px);
+    transform-style: preserve-3d;
+  }
+
+  a:hover::before {
+    height: 100%;
+    width: 120%;
+    filter: blur(calc(1.5 * var(--m)));
+    opacity: 0.8;
+  }
+
+  a[aria-disabled] {
+    /* pointer-events: none; */
+    cursor: not-allowed;
+
+    span {
+      background: #aaa;
+      color: #ccc;
+      border: none;
+    }
+
+    &::before {
+      display: none;
+    }
+
+    &:hover span {
+      transform: none;
+    }
+
+    /* opacity: 0.6; */
+  }
+
+  @keyframes animate {
+    0% {
+      background-position: 0;
+    }
+
+    100% {
+      background-position: 200%;
+    }
+  }
+
+  @media (width <= 640px) {
+    background-image: url('./fiber_network_640.gif');
+    height: 150px;
+    font-size: 0.6rem;
+
+    .slogan {
+      margin-bottom: 10px;
+    }
+
+    .links {
+      gap: 16px;
+    }
+
+    --m: 0.6rem;
   }
 }
 
