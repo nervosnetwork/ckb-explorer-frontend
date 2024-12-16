@@ -205,6 +205,13 @@
       "wallets_memo": "In alphabetical order",
       "nft_collections": "NFT Collections"
     },
+    "banner": {
+      "fiber_title": "Fiber Network is making Satoshi’s vision a reality",
+      "fiber_subtitle": "The Next-generation Common Lightning Network",
+      "learn_more": "Learn More",
+      "find_nodes": "Find Nodes",
+      "coming_soon": "Coming soon"
+    },
     "blockchain": {
       "latest_block": "Latest Block",
       "epoch": "Epoch",
