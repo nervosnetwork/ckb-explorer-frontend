@@ -114,7 +114,7 @@ const GraphNode = () => {
 
       list.push(open)
 
-      const close = c.closedTransactionInfo
+      const close = c.closedTransactionInfo?.txHash
         ? {
             isOpen: false,
             hash: c.closedTransactionInfo.txHash,
