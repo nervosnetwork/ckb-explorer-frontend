@@ -3,7 +3,7 @@ import { FC, ReactNode } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
-import { useCKBNode } from '../../hooks/useCKBNode'
+import { explorerService } from '../../services/ExplorerService'
 import { matchTxHash } from '../../utils/util'
 import Loading from '../AwesomeLoadings/Spinner'
 import HashTag from '../HashTag'
@@ -48,9 +48,8 @@ const Field = ({
 
 const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
   const [t] = useTranslation()
-  const { nodeService } = useCKBNode()
 
-  const { data, isLoading } = useQuery(['tx', hash], () => nodeService.getTx(hash))
+  const { data, isLoading } = useQuery(['explorer-tx', hash], () => explorerService.api.fetchTransactionByHash(hash))
   if (isLoading) {
     return (
       <div className={styles.loading}>
@@ -59,9 +58,9 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
     )
   }
 
-  if (!data?.result?.transaction) return <div>{`Transaction ${hash} not loaded`}</div>
+  if (!data) return <div>{`Transaction ${hash} not loaded`}</div>
 
-  const { header_deps: headerDeps, cell_deps: cellDeps, witnesses } = data.result.transaction
+  const { headerDeps, cellDeps, witnesses } = data
 
   const parameters = [
     {
@@ -84,8 +83,8 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
       content: cellDeps.length ? (
         cellDeps.map(cellDep => {
           const {
-            out_point: { tx_hash: txHash, index },
-            dep_type: depType,
+            outPoint: { txHash, index },
+            depType,
           } = cellDep
           const hashTag = matchTxHash(txHash, Number(index))
           return (

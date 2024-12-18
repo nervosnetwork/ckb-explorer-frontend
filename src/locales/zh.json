@@ -220,6 +220,13 @@
       "wallets_memo": "In alphabetical order",
       "nft_collections": "NFT 藏品"
     },
+    "banner": {
+      "fiber_title": "Fiber Network 不忘初心",
+      "fiber_subtitle": "下一代通用闪电网络",
+      "learn_more": "了解更多",
+      "find_nodes": "更多节点",
+      "coming_soon": "敬请期待"
+    },
     "blockchain": {
       "latest_block": "最高块",
       "epoch": "Epoch",
