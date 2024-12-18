@@ -26,6 +26,9 @@ export const defaultTransactionInfo: Transaction = {
   cycles: null,
   maxCyclesInEpoch: null,
   maxCycles: null,
+  cellDeps: [],
+  headerDeps: [],
+  witnesses: [],
 }
 
 export const defaultTransactionLiteDetails: TransactionRecord[] = [
