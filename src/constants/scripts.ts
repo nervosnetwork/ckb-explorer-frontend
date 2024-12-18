@@ -268,7 +268,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'data1',
     tag: 'xUDT',
-    category: 'lock',
+    category: 'type',
   },
   {
     codeHashes: ['0x4a4dce1df3dffff7f8b2cd7dff7303df3b6150c9788cb75dcf6747247132b9f5'],
@@ -660,7 +660,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'xUDT(final_rls)',
-    category: 'lock',
+    category: 'type',
   },
   {
     codeHashes: ['0x50bd8d6680b8b9cf98b73f3c08faf8b2a21914311954118ad6609be6e78a1b95'],
@@ -668,7 +668,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'data1',
     tag: 'xUDT',
-    category: 'lock',
+    category: 'type',
   },
   {
     codeHashes: [

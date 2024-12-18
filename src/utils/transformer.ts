@@ -35,6 +35,9 @@ export const transformToTransaction = (
     cycles: null,
     maxCyclesInEpoch: null,
     maxCycles: null,
+    cellDeps: [],
+    headerDeps: [],
+    witnesses: [],
   }
 }
 
