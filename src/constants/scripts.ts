@@ -394,6 +394,13 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     hashType: 'type',
     tag: 'Stable++ Asset',
   },
+  {
+    codeHashes: ['0xbfa35a9c38a676682b65ade8f02be164d48632281477e36f8dc2f41f79e56bfc'],
+    txHashes: ['0xf6a5eef65101899db9709c8de1cc28f23c1bee90d857ebe176f6647ef109e20d-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'USDI Asset',
+  },
 ]
 
 export const TestnetContractHashTags: ContractHashTag[] = [
@@ -804,6 +811,13 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'dep_group',
     hashType: 'data1',
     tag: 'UDT Limit Order',
+  },
+  {
+    codeHashes: ['0xcc9dc33ef234e14bc788c43a4848556a5fb16401a04662fc55db9bb201987037'],
+    txHashes: ['0x03d029480416c2fc927dfbfe0ed1916ffaf55d1e1f3146c55cf2d3dd5e674e61-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'USDI Asset',
   },
 ]
 
