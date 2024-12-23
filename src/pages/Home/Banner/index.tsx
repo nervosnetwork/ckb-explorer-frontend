@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { BarChartIcon } from '@radix-ui/react-icons'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import { Link } from '../../../components/Link'
 import config from '../../../config'
 import styles from './index.module.scss'
@@ -56,17 +55,9 @@ export default () => {
         <Link to="https://www.ckbfiber.net/" target="_blank" rel="noopener noreferrer">
           <span>{t(`banner.learn_more`)}</span>
         </Link>
-        <Tooltip title={t('banner.coming_soon')}>
-          <Link
-            to="/"
-            aria-disabled
-            onClick={(e: React.SyntheticEvent<HTMLAnchorElement>) => {
-              e.preventDefault()
-            }}
-          >
-            <span>{t('banner.find_nodes')}</span>
-          </Link>
-        </Tooltip>
+        <Link to="/fiber/graph/nodes">
+          <span>{t('banner.find_nodes')}</span>
+        </Link>
       </div>
     </div>
   )

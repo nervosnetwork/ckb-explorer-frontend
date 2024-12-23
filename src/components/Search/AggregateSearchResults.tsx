@@ -259,6 +259,22 @@ const SearchResultItem: FC<{ keyword?: string; item: AggregateSearchResult }> = 
     )
   }
 
+  if (item.type === SearchResultType.FiberGraphNode) {
+    return (
+      <Link className={styles.searchResult} to={to}>
+        <div className={styles.boxContent}>
+          <HighlightText style={{ width: '100%' }} text={item.attributes.nodeId} keyword={keyword} />
+
+          <div className={classNames(styles.secondaryText, styles.subTitle, 'monospace')}>
+            <span style={{ marginRight: 4, flexShrink: 0 }}>
+              {t('search.fiber_graph_node')} # {localeNumberString(item.attributes.alias)}
+            </span>
+          </div>
+        </div>
+      </Link>
+    )
+  }
+
   return (
     <Link className={styles.searchResult} to={to}>
       <div className={styles.content}>

@@ -54,6 +54,9 @@ export const getURLByAggregateSearchResult = (result: AggregateSearchResult) => 
     case SearchResultType.BtcAddress:
       return `/address/${attributes.addressHash}`
 
+    case SearchResultType.FiberGraphNode:
+      return `/fiber/graph/node/${attributes.nodeId}`
+
     default:
       break
   }
@@ -96,5 +99,8 @@ export const getDisplayNameByAggregateSearchResult = (result: AggregateSearchRes
   }
   if (type === SearchResultType.BtcAddress) {
     return attributes.addressHash
+  }
+  if (type === SearchResultType.FiberGraphNode) {
+    return attributes.peerId
   }
 }
