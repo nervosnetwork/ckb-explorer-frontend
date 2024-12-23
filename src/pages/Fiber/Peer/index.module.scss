@@ -1,0 +1,151 @@
+@import '../../../styles/variables.module';
+@import '../../../styles/card.module';
+
+.container {
+  text-wrap: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 24px 120px;
+  font-size: 1rem;
+
+  a {
+    color: var(--primary-color);
+  }
+
+  dl {
+    display: flex;
+
+    dt,
+    dd {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 0;
+      padding: 0;
+    }
+
+    dt::after {
+      content: ':';
+      margin-right: 4px;
+    }
+  }
+
+  table {
+    width: 100%;
+    text-align: left;
+    cursor: default;
+
+    td,
+    th {
+      padding: 8px;
+      padding-right: 16px;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    tbody {
+      tr:hover {
+        background: #ccc;
+      }
+    }
+  }
+
+  svg {
+    pointer-events: none;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    appearance: none;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  .overview {
+    @extend %base-card;
+
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .fields {
+      overflow: hidden;
+    }
+  }
+
+  .id,
+  .connectId {
+    overflow: hidden;
+
+    & > span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+    }
+  }
+
+  .activities {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+
+    .channels,
+    .transactions {
+      flex: 1;
+      background: #fff;
+      border-radius: 6px;
+      padding: 16px;
+      box-shadow: 0 2px 6px 0 #4d4d4d33;
+
+      h3 {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    @media screen and (width < 960px) {
+      flex-direction: column;
+    }
+
+    @media screen and (width < 500px) {
+      thead {
+        display: none;
+      }
+
+      tbody {
+        tr {
+          display: flex;
+          flex-direction: column;
+          padding: 16px 0;
+
+          &:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+          }
+
+          td {
+            text-align: left;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    margin: 24px 20px;
+  }
+
+  @media screen and (width < 1030px) {
+    font-size: 14px;
+  }
+}

@@ -416,7 +416,8 @@
       "bitcoin_address": "BTC 地址",
       "token_collection": "藏品集",
       "token_item": "藏品",
-      "did": "分布式数字身份（DID）"
+      "did": "分布式数字身份（DID）",
+      "fiber_graph_node": "Fiber Graph Node"
     },
     "address": {
       "address": "地址",

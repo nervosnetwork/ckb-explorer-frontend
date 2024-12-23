@@ -81,6 +81,14 @@ const Hasher = lazy(() => import('../pages/Tools/Hasher'))
 const BroadcastTx = lazy(() => import('../pages/Tools/BroadcastTx'))
 const CamelCase = lazy(() => import('../pages/Tools/CamelCase'))
 const MoleculeParser = lazy(() => import('../pages/Tools/MoleculeParser'))
+// ======
+const FiberPeerList = lazy(() => import('../pages/Fiber/PeerList'))
+const FiberPeer = lazy(() => import('../pages/Fiber/Peer'))
+const FiberChannel = lazy(() => import('../pages/Fiber/Channel'))
+const FiberGraphNodeList = lazy(() => import('../pages/Fiber/GraphNodeList'))
+const FiberGraphNode = lazy(() => import('../pages/Fiber/GraphNode'))
+const FiberGraphChannelList = lazy(() => import('../pages/Fiber/GraphChannelList'))
+// ======
 
 const routes: RouteProps[] = [
   {
@@ -345,6 +353,30 @@ const routes: RouteProps[] = [
   {
     path: '/tools/molecule-parser',
     component: MoleculeParser,
+  },
+  {
+    path: '/fiber/peers',
+    component: FiberPeerList,
+  },
+  {
+    path: '/fiber/peers/:id',
+    component: FiberPeer,
+  },
+  {
+    path: '/fiber/channels/:id',
+    component: FiberChannel,
+  },
+  {
+    path: '/fiber/graph/nodes',
+    component: FiberGraphNodeList,
+  },
+  {
+    path: '/fiber/graph/node/:id',
+    component: FiberGraphNode,
+  },
+  {
+    path: '/fiber/graph/channels',
+    component: FiberGraphChannelList,
   },
 ]
 
