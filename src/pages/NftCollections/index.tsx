@@ -7,7 +7,7 @@ import Pagination from '../../components/Pagination'
 import { getPrimaryColor } from '../../constants/common'
 import { explorerService } from '../../services/ExplorerService'
 import { udtSubmitEmail } from '../../utils/util'
-import { useIsMobile, useSearchParams } from '../../hooks'
+import { useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
 import { useNFTCollectionsSortParam } from './util'
 
@@ -24,7 +24,6 @@ const NftCollections = () => {
   const { search } = useLocation()
   const { page = '1', type, tags } = useSearchParams('page', 'type', 'tags')
   const { sort } = useNFTCollectionsSortParam()
-  const isMobile = useIsMobile()
 
   const isValidFilter = isTxFilterType(type) && type !== 'all'
 
@@ -61,11 +60,12 @@ const NftCollections = () => {
           </a>
         </div>
         <div className={styles.list}>
-          {isMobile ? (
+          <div className={styles.cardList}>
             <ListOnMobile isLoading={isLoading} list={list} />
-          ) : (
+          </div>
+          <div className={styles.tableList}>
             <ListOnDesktop isLoading={isLoading} list={list} />
-          )}
+          </div>
         </div>
 
         <Pagination
