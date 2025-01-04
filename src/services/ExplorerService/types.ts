@@ -201,6 +201,11 @@ export namespace ChartItem {
     createdAtUnixtimestamp: string
     knowledgeSize: number
   }
+
+  export interface ActiveAddresses {
+    createdAtUnixtimestamp: string
+    activityAddressContractDistribution: Record<string, number>[]
+  }
 }
 
 export interface NervosDaoDepositor {
