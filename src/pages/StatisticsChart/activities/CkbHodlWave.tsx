@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import type { ChartColorConfig } from '../../../constants/common'
 import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import {
   DATA_ZOOM_CONFIG,
@@ -7,10 +8,10 @@ import {
   assertSerialsItem,
   assertSerialsDataIsStringArrayOf10,
   handleAxis,
+  variantColors,
 } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
-import { ChartColorConfig } from '../../../constants/common'
 
 const widthSpan = (value: string, currentLanguage: SupportedLng) =>
   tooltipWidth(value, currentLanguage === 'en' ? 125 : 80)
@@ -82,7 +83,7 @@ const useTooltip = () => {
 
 const useOption = (
   statisticCkbHodlWaves: ChartItem.CkbHodlWaveHolderCount[],
-  chartColor: ChartColorConfig,
+  _: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
 ): echarts.EChartOption => {
@@ -103,7 +104,36 @@ const useOption = (
     containLabel: true,
   }
   const parseTooltip = useTooltip()
-  const colors = [...chartColor.moreColors].slice(0, 9)
+  const legends = [
+    {
+      name: t('statistic.24h'),
+    },
+    {
+      name: t('statistic.day_to_one_week'),
+    },
+    {
+      name: t('statistic.one_week_to_one_month'),
+    },
+    {
+      name: t('statistic.one_month_to_three_months'),
+    },
+    {
+      name: t('statistic.three_months_to_six_months'),
+    },
+    {
+      name: t('statistic.six_months_to_one_year'),
+    },
+    {
+      name: t('statistic.one_year_to_three_years'),
+    },
+    {
+      name: t('statistic.over_three_years'),
+    },
+    {
+      name: t('statistic.holder_count'),
+    },
+  ]
+  const colors = variantColors(legends.length)
   return {
     color: colors,
     tooltip: !isThumbnail
@@ -123,48 +153,7 @@ const useOption = (
         }
       : undefined,
     legend: {
-      data: isThumbnail
-        ? []
-        : [
-            {
-              name: t('statistic.24h'),
-            },
-            {
-              name: t('statistic.day_to_one_week'),
-            },
-            {
-              name: t('statistic.one_week_to_one_month'),
-            },
-            {
-              name: t('statistic.one_month_to_three_months'),
-            },
-            {
-              name: t('statistic.three_months_to_six_months'),
-            },
-            {
-              name: t('statistic.six_months_to_one_year'),
-            },
-            {
-              name: t('statistic.one_year_to_three_years'),
-            },
-            {
-              name: t('statistic.over_three_years'),
-            },
-            {
-              name: t('statistic.holder_count'),
-            },
-          ],
-      selected: {
-        [t('statistic.24h')]: true,
-        [t('statistic.day_to_one_week')]: true,
-        [t('statistic.one_week_to_one_month')]: true,
-        [t('statistic.one_month_to_three_months')]: true,
-        [t('statistic.three_months_to_six_months')]: true,
-        [t('statistic.six_months_to_one_year')]: true,
-        [t('statistic.one_year_to_three_years')]: true,
-        [t('statistic.over_three_years')]: true,
-        [t('statistic.holder_count')]: true,
-      },
+      data: isThumbnail ? [] : legends,
     },
     grid: isThumbnail ? gridThumbnail : grid,
     dataZoom: isThumbnail ? [] : DATA_ZOOM_CONFIG,
@@ -214,6 +203,7 @@ const useOption = (
         areaStyle: {
           color: colors[0],
         },
+        lineStyle: { width: 0 },
       },
       {
         name: t('statistic.day_to_one_week'),
@@ -225,6 +215,7 @@ const useOption = (
         areaStyle: {
           color: colors[1],
         },
+        lineStyle: { width: 0 },
       },
       {
         name: t('statistic.one_week_to_one_month'),
@@ -236,6 +227,7 @@ const useOption = (
         areaStyle: {
           color: colors[2],
         },
+        lineStyle: { width: 0 },
       },
       {
         name: t('statistic.one_month_to_three_months'),
@@ -247,6 +239,7 @@ const useOption = (
         areaStyle: {
           color: colors[3],
         },
+        lineStyle: { width: 0 },
       },
       {
         name: t('statistic.three_months_to_six_months'),
@@ -258,6 +251,7 @@ const useOption = (
         areaStyle: {
           color: colors[4],
         },
+        lineStyle: { width: 0 },
       },
       {
         name: t('statistic.six_months_to_one_year'),
@@ -269,6 +263,7 @@ const useOption = (
         areaStyle: {
           color: colors[5],
         },
+        lineStyle: { width: 0 },
       },
       {
         name: t('statistic.one_year_to_three_years'),
@@ -280,6 +275,7 @@ const useOption = (
         areaStyle: {
           color: colors[6],
         },
+        lineStyle: { width: 0 },
       },
       {
         name: t('statistic.over_three_years'),
@@ -291,6 +287,7 @@ const useOption = (
         areaStyle: {
           color: colors[7],
         },
+        lineStyle: { width: 0 },
       },
       {
         name: t('statistic.holder_count'),

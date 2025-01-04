@@ -818,6 +818,18 @@ export const apiFetcher = {
       }))
     }),
 
+  fetchStatisticActiveAddresses: () =>
+    v1GetUnwrappedList<ChartItem.ActiveAddresses>(`/daily_statistics/activity_address_contract_distribution`).then(
+      items =>
+        items.map<{
+          createdAtUnixtimestamp: string
+          distribution: Record<string, number>
+        }>(({ createdAtUnixtimestamp, ...list }) => ({
+          createdAtUnixtimestamp,
+          distribution: Object.assign({}, ...list.activityAddressContractDistribution),
+        })),
+    ),
+
   fetchFlushChartCache: () => v1GetUnwrapped<{ flushCacheInfo: string[] }>(`statistics/flush_cache_info`),
 
   fetchSimpleUDT: (typeHash: string) => v1GetUnwrapped<UDT>(`/udts/${typeHash}`),
