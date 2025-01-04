@@ -58,7 +58,7 @@ export default () => {
         </Link>
         <Tooltip title={t('banner.coming_soon')}>
           <Link
-            to="/"
+            to="/fiber/graph/nodes"
             aria-disabled
             onClick={(e: React.SyntheticEvent<HTMLAnchorElement>) => {
               e.preventDefault()
