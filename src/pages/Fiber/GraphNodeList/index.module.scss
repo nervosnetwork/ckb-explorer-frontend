@@ -106,20 +106,48 @@
     margin: 24px 20px;
   }
 
-  @media screen and (width < 1330px) {
+  @media screen and (width < 1400px) {
     font-size: 14px;
 
     table {
-      th,
-      td {
-        &:nth-child(6) {
-          display: none;
+      tr:not([data-role='pagination']) {
+        th,
+        td {
+          &:nth-child(5) {
+            display: none;
+          }
         }
       }
     }
   }
 
-  @media screen and (width < 810px) {
+  @media screen and (width < 1240px) {
+    table {
+      tr:not([data-role='pagination']) {
+        th,
+        td {
+          &:nth-child(1) {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (width < 1024px) {
+    table {
+      tr:not([data-role='pagination']) {
+        th,
+        td {
+          &:nth-child(2) {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (width < 840px) {
     table {
       tr:not([data-role='pagination']) {
         th,
@@ -132,34 +160,31 @@
     }
   }
 
-  @media screen and (width < 900px) {
+  @media screen and (width < 545px) {
     table {
-      th,
-      td {
-        &:nth-child(5) {
-          display: none;
+      tr:not([data-role='pagination']) {
+        th,
+        td {
+          &:nth-child(6) {
+            display: none;
+          }
+
+          &:nth-child(1) {
+            display: table-cell;
+          }
         }
       }
     }
   }
 
-  @media screen and (width < 700px) {
+  @media screen and (width < 450px) {
     table {
-      th,
-      td {
-        &:nth-child(3) {
-          display: none;
-        }
-      }
-    }
-  }
-
-  @media screen and (width < 520px) {
-    table {
-      th,
-      td {
-        &:first-child {
-          display: none;
+      tr:not([data-role='pagination']) {
+        th,
+        td {
+          &:nth-child(3) {
+            display: none;
+          }
         }
       }
     }

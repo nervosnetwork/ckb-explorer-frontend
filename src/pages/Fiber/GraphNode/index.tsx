@@ -15,7 +15,6 @@ import GraphChannelList from '../../../components/GraphChannelList'
 import { getFundingThreshold } from '../utils'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
-import { ChainHash } from '../../../constants/fiberChainHash'
 import { Link } from '../../../components/Link'
 import { localeNumberString } from '../../../utils/number'
 
@@ -161,8 +160,6 @@ const GraphNode = () => {
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
   }
 
-  const chain = ChainHash.get(node.chainHash) ?? '-'
-
   return (
     <Content>
       <div className={styles.container} onClick={handleCopy}>
@@ -213,12 +210,6 @@ const GraphNode = () => {
             <dl>
               <dt>{t('fiber.graph.node.first_seen')}</dt>
               <dd>{dayjs(+node.timestamp).format(TIME_TEMPLATE)}</dd>
-            </dl>
-            <dl>
-              <dt>{t('fiber.graph.node.chain')}</dt>
-              <dd>
-                <Tooltip title={node.chainHash}>{chain}</Tooltip>
-              </dd>
             </dl>
             <dl>
               <dt>{t('fiber.graph.node.total_capacity')}</dt>
