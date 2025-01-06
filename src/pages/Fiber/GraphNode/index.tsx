@@ -305,18 +305,20 @@ const GraphNode = () => {
                       </span>
                       <span>({acc1.amount})</span>
                     </div>
-                    <div>
-                      And
-                      <span className={styles.addr}>
-                        <Tooltip title={acc2.address}>
-                          <Link to={`/address/${acc2.address}`} className="monospace">
-                            <div>{acc2.address.slice(0, -8)}</div>
-                            <div>{acc2.address.slice(-8)}</div>
-                          </Link>
-                        </Tooltip>
-                      </span>
-                      <span>({acc2.amount})</span>
-                    </div>
+                    {acc2 ? (
+                      <div>
+                        And
+                        <span className={styles.addr}>
+                          <Tooltip title={acc2.address}>
+                            <Link to={`/address/${acc2.address}`} className="monospace">
+                              <div>{acc2.address.slice(0, -8)}</div>
+                              <div>{acc2.address.slice(-8)}</div>
+                            </Link>
+                          </Tooltip>
+                        </span>
+                        <span>({acc2.amount})</span>
+                      </div>
+                    ) : null}
                   </div>
                 )
               })}
