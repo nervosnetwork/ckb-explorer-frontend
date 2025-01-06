@@ -1060,6 +1060,7 @@
       "token-info": "Token Info",
       "xudt-data": "XUDT Data",
       "btc-time-lock": "BTC Time Lock",
+      "spore-cluster": "Spore Cluster",
       "spore": "Spore",
       "json": "JSON",
       "select-x-from-y": "Selected {{x}} chars from {{y}}",

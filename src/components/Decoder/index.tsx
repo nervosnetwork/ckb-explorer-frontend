@@ -7,7 +7,7 @@ import { hexToUtf8 } from '../../utils/string'
 import { useSetToast } from '../Toast'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import styles from './styles.module.scss'
-import { parseSporeCellData } from '../../utils/spore'
+import { parseSporeCellData, parseSporeClusterData } from '../../utils/spore'
 import { parseBtcTimeLockArgs } from '../../utils/rgbpp'
 
 enum DecodeMethod {
@@ -18,6 +18,7 @@ enum DecodeMethod {
   TokenInfo = 'token-info',
   XudtData = 'xudt-data',
   BTCTimeLock = 'btc-time-lock',
+  SporeCluster = 'spore-cluster',
   Spore = 'spore',
   JSON = 'json',
 }
@@ -216,6 +217,10 @@ const Decoder = () => {
         case DecodeMethod.Address: {
           const script = addressToScript(v)
           return { display: JSON.stringify(script, null, 2), copy: script }
+        }
+        case DecodeMethod.SporeCluster: {
+          const data = parseSporeClusterData(v)
+          return { display: jsonToList(data), copy: data }
         }
         case DecodeMethod.Spore: {
           const data = parseSporeCellData(v)

@@ -11,7 +11,21 @@ export function parseSporeClusterData(hexData: string) {
 
   const name = hexToUtf8(`0x${data.slice(nameOffset + 8, descriptionOffset)}`)
   const description = hexToUtf8(`0x${data.slice(descriptionOffset + 8)}`)
-
+  try {
+    const parsed = JSON.parse(description)
+    if (typeof parsed === 'object') {
+      const v: Record<string, string> = { name }
+      Object.keys(parsed).forEach(key => {
+        if (key === 'name') {
+          throw new Error('name key is reserved')
+        }
+        v[key] = JSON.stringify(parsed[key], null, 2)
+      })
+      return v
+    }
+  } catch {
+    // ignore
+  }
   return { name, description }
 }
 

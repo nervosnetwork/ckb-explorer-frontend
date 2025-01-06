@@ -1035,6 +1035,7 @@
       "token-info": "Token Info",
       "xudt-data": "XUDT Data",
       "btc-time-lock": "BTC Time Lock",
+      "spore-cluster": "Spore Cluster",
       "spore": "Spore",
       "json": "JSON",
       "select-x-from-y": "从 {{y}} 字符起选择了 {{x}} 个字符",
