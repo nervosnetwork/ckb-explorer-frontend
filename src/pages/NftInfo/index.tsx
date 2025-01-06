@@ -13,6 +13,8 @@ import { patchMibaoImg, handleNftImgError, formatNftDisplayId, hexToBase64 } fro
 import { getImgFromSporeCell } from '../../utils/spore'
 import { useSearchParams } from '../../hooks'
 import DobTraits from '../../components/DobTraits'
+import { DEPRECATED_DOB_COLLECTION } from '../../constants/marks'
+import Annotation from '../../components/Annotation'
 
 const primaryColor = getPrimaryColor()
 const UNIQUE_ITEM_LABEL = 'Unique Item'
@@ -84,6 +86,8 @@ const NftInfo = () => {
 
     return <Cover className={styles.cover} />
   }
+
+  const annotation = DEPRECATED_DOB_COLLECTION.find(item => item.id === collection)
 
   return (
     <div className={styles.container}>
@@ -158,6 +162,14 @@ const NftInfo = () => {
               <div className={styles.item}>
                 <div>{t('nft.traits')}</div>
                 <DobTraits dob={dob} />
+              </div>
+            ) : null}
+            {annotation ? (
+              <div className={styles.item}>
+                <div>{t(`common.extra`)}</div>
+                <div className={styles.extra}>
+                  <Annotation content={annotation.reason} />
+                </div>
               </div>
             ) : null}
           </div>

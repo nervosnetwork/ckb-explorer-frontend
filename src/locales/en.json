@@ -17,7 +17,8 @@
       "minutes": "MINS",
       "seconds": "SECS",
       "minaraTime": "Est May 10th 2022",
-      "miranaAlive": "MIRANA IS LIVE"
+      "miranaAlive": "MIRANA IS LIVE",
+      "extra": "Extra"
     },
     "unit": {
       "days": "days",
@@ -368,6 +369,7 @@
         "unipassV2": "Unipass V2",
         "unipassV3": "Unipass V3",
         "wrOwnedOwner": "WR Owned Owner",
+        "forceBridge": "Force Bridge",
         "others": "Others"
       }
     },
