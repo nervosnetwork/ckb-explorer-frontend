@@ -72,6 +72,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
 
   return (
     <>
+      {total >= 5000 && <div className={styles.notice}>{t('transaction.range_notice')}</div>}
       <div className={styles.scriptTransactionsPanel}>
         {ckbTransactions.length > 0 ? (
           ckbTransactions.map(tr => (

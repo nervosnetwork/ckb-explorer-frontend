@@ -210,6 +210,7 @@ export const apiFetcher = {
       transactions,
       pageSize: res.pageSize,
       total: res.total,
+      totalPages: res.totalPages,
     }
   },
 
