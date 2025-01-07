@@ -280,7 +280,11 @@ export const Address = () => {
         </Card>
 
         {!isPendingTxListActive && (transactionCountQuery.data?.totalPages ?? 0) >= 200 && (
-          <div className={styles.notice}>{t('transaction.page_range_notice')}</div>
+          <div className={styles.notice}>
+            {t('transaction.range_notice', {
+              count: 5000,
+            })}
+          </div>
         )}
 
         {isPendingTxListActive ? (

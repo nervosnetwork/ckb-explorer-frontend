@@ -240,7 +240,7 @@ export const ScriptPage = () => {
             }
             key="referring_cells"
           >
-            <ScriptCells page={currentPage} size={pageSize} cellType="referring_cells" />
+            <ScriptCells page={currentPage} size={100} cellType="referring_cells" />
           </ScriptTabPane>
         </ScriptTab>
       </div>

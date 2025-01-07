@@ -613,8 +613,7 @@
       "isomorphic-binding-with-index": "与CKB Tx {{index}} 同构绑定",
       "isomorphic-binding-with-index-commitment": "与 CKB Tx {{index}} 同构绑定\n\nCommitment:\n{{commitment}}",
       "loading": "Loading...",
-      "range_notice": "只显示最近的 5,000 条相关交易",
-      "page_range_notice": "只显示最近 200 页的相关交易"
+      "range_notice": "只显示最近的 5,000 条相关交易"
     },
     "block": {
       "block": "区块",

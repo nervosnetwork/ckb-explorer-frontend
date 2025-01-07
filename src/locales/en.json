@@ -613,8 +613,7 @@
       "isomorphic-binding-with-index": "Isomorphic bound to CKB Tx {{index}}",
       "isomorphic-binding-with-index-commitment": "Isomorphic bound to CKB Tx {{index}}\n\nCommitment:\n{{commitment}}",
       "loading": "Loading...",
-      "range_notice": "Only the latest 5,000 related transactions will be displayed here.",
-      "page_range_notice": "Only the latest 200 page related transactions will be displayed here."
+      "range_notice": "Only the latest {{count}} related items will be displayed here."
     },
     "block": {
       "block": "Block",
