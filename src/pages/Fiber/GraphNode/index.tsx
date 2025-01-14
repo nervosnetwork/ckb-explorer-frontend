@@ -96,7 +96,6 @@ const GraphNode = () => {
         isOpen: true,
         isUdt,
         hash: c.openTransactionInfo.txHash,
-        index: c.fundingTxIndex,
         block: {
           number: c.openTransactionInfo.blockNumber,
           timestamp: c.openTransactionInfo.blockTimestamp,
