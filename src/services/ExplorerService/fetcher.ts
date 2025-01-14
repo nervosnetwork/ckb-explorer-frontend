@@ -116,7 +116,7 @@ export type AggregateSearchResult =
     >
   | Response.Wrapper<
       {
-        alias: string
+        nodeName: string
         nodeId: string
         peerId: string
       },
@@ -1588,7 +1588,7 @@ export namespace Fiber {
     }
 
     export interface Node {
-      alias: string
+      nodeName: string
       nodeId: string
       addresses: string[]
       timestamp: string

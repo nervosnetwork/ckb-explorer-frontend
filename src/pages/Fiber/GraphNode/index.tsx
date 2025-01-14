@@ -165,12 +165,12 @@ const GraphNode = () => {
       <div className={styles.container} onClick={handleCopy}>
         <div className={styles.overview}>
           <div className={styles.fields}>
-            {node.alias ? (
+            {node.nodeName ? (
               <dl>
-                <dt>{t('fiber.graph.alias')}</dt>
+                <dt>{t('fiber.graph.node')}</dt>
                 <dd className={styles.alias}>
-                  <span>{node.alias}</span>
-                  <button type="button" data-copy-text={node.alias}>
+                  <span>{node.nodeName}</span>
+                  <button type="button" data-copy-text={node.nodeName}>
                     <CopyIcon />
                   </button>
                 </dd>

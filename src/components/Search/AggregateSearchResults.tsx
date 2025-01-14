@@ -267,7 +267,7 @@ const SearchResultItem: FC<{ keyword?: string; item: AggregateSearchResult }> = 
 
           <div className={classNames(styles.secondaryText, styles.subTitle, 'monospace')}>
             <span style={{ marginRight: 4, flexShrink: 0 }}>
-              {t('search.fiber_graph_node')} # {localeNumberString(item.attributes.alias)}
+              {t('search.fiber_graph_node')} # {localeNumberString(item.attributes.nodeName)}
             </span>
           </div>
         </div>
