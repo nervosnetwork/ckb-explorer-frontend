@@ -35,6 +35,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
           : null
 
         const outpoint = `${outPoint.txHash}#${outPoint.index}`
+        // console.log(channel)
 
         return (
           <div key={channel.channelOutpoint} className={styles.channel}>
@@ -84,9 +85,9 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                 <dt>Position</dt>
                 <dd>
                   On
-                  <Tooltip title={dayjs(+channel.lastUpdatedTimestamp).format(TIME_TEMPLATE)}>
-                    <Link to={`/block/${channel.fundingTxBlockNumber}`}>
-                      {localeNumberString(channel.fundingTxBlockNumber)}
+                  <Tooltip title={dayjs(+channel.createdTimestamp).format(TIME_TEMPLATE)}>
+                    <Link to={`/block/${channel.openTransactionInfo.blockNumber}`}>
+                      {localeNumberString(channel.openTransactionInfo.blockNumber)}
                     </Link>
                   </Tooltip>
                 </dd>
@@ -117,7 +118,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                   </dl>
                   <dl>
                     <dt>Fee Rate</dt>
-                    <dd>{`${localeNumberString(channel.node1ToNode2FeeRate)} shannon/kB`}</dd>
+                    <dd>{`${localeNumberString(channel.feeRateOfNode1)} shannon/kB`}</dd>
                   </dl>
                 </div>
                 <div className={styles.node}>
@@ -141,7 +142,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                   </dl>
                   <dl>
                     <dt>Fee Rate</dt>
-                    <dd>{`${localeNumberString(channel.node2ToNode1FeeRate)} shannon/kB`}</dd>
+                    <dd>{`${localeNumberString(channel.feeRateOfNode2)} shannon/kB`}</dd>
                   </dl>
                 </div>
               </div>

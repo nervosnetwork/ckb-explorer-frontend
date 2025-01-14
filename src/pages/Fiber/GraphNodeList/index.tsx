@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { CopyIcon, InfoCircledIcon } from '@radix-ui/react-icons'
+import { CopyIcon, InfoCircledIcon, LinkBreak2Icon } from '@radix-ui/react-icons'
 import dayjs from 'dayjs'
 import Content from '../../../components/Content'
 import { useSetToast } from '../../../components/Toast'
@@ -16,14 +16,13 @@ import styles from './index.module.scss'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString } from '../../../utils/number'
-import { ChainHash } from '../../../constants/fiberChainHash'
 
 const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
 const fields = [
   {
-    key: 'alias',
-    label: 'alias',
+    key: 'nodeName',
+    label: 'name',
     transformer: (v: unknown, i: Fiber.Graph.Node) => {
       if (typeof v !== 'string') return v
       return (
@@ -109,28 +108,20 @@ const fields = [
     },
   },
   {
-    key: 'chainHash',
-    label: 'chain',
-    transformer: (v: unknown) => {
-      if (typeof v !== 'string') return v
-      const chain = ChainHash.get(v) ?? '-'
-      return (
-        <span className={styles.chainHash}>
-          <Tooltip title={v}>{chain}</Tooltip>
-          <button type="button" data-copy-text={v}>
-            <CopyIcon />
-          </button>
-        </span>
-      )
-    },
-  },
-  {
     key: 'addresses',
     label: 'addresses',
     transformer: (v: unknown) => {
       if (!Array.isArray(v)) return v
       const addr = v[0]
-      if (!addr || typeof addr !== 'string') return v
+      if (!addr || typeof addr !== 'string') {
+        return (
+          <Tooltip title="Not Revealed">
+            <span>
+              <LinkBreak2Icon />
+            </span>
+          </Tooltip>
+        )
+      }
       return (
         <span className={styles.address}>
           <Tooltip title={addr}>
