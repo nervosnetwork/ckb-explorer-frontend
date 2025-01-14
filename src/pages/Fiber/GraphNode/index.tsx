@@ -144,7 +144,7 @@ const GraphNode = () => {
   if (!node) {
     return <div>Fiber Peer Not Found</div>
   }
-  const channels = node.fiberGraphChannels.filter(c => !c.closedTransactionInfo)
+  const channels = node.fiberGraphChannels.filter(c => !c.closedTransactionInfo.txHash)
 
   const thresholds = getFundingThreshold(node)
 
