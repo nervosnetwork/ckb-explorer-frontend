@@ -1,8 +1,141 @@
-.tokenFormBtn {
-  font-size: 18px;
+@import '../../styles/variables.module';
+
+.container {
+  background: #000;
   color: #acacac;
-  height: 23px;
-  margin: 8px 0;
+  padding: 0 120px;
+  white-space: nowrap;
+
+  .navigations {
+    display: flex;
+    width: 100%;
+    padding: 44px 0 32px;
+    gap: 280px;
+
+    a,
+    button {
+      font-size: 18px;
+
+      @media screen and (width < 1240px) {
+        font-size: 16px;
+      }
+    }
+
+    .title {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .section:last-child {
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+
+    .section:nth-last-child(2) {
+      flex: 1;
+    }
+
+    @media screen and (width <1800px) {
+      gap: 160px;
+    }
+
+    @media screen and (width <1400px) {
+      gap: 120px;
+    }
+
+    @media screen and (width <1240px) {
+      gap: 80px;
+    }
+
+    @media screen and (width <$largeBreakPoint) {
+      gap: 20px;
+      flex-flow: column wrap;
+      max-height: 500px;
+    }
+
+    @media screen and (width < 600px) {
+      max-height: 800px;
+    }
+
+    @media screen and (width < 450px) {
+      max-height: unset;
+    }
+  }
+
+  .linkList {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 8px;
+    line-height: 2;
+
+    &[data-is-grid='true'] {
+      width: 240px;
+      flex-flow: row wrap;
+      gap: 40px 0;
+      margin-left: auto;
+
+      a {
+        flex-basis: 70px;
+      }
+
+      @media screen and (width < 450px) {
+        margin-left: 0;
+        gap: 10px;
+      }
+    }
+  }
+
+  .iconLink {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .annotation {
+    height: 52px;
+    font-size: 12px;
+    color: #acacac;
+    font-weight: 100;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    a {
+      font-weight: inherit;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    @media screen and (width < 500px) {
+      flex-direction: column;
+      height: auto;
+      padding: 16px 0;
+    }
+  }
+
+  @media screen and (width < $xxlBreakPoint) {
+    padding: 0 100px;
+  }
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    padding: 0 45px;
+  }
+
+  @media screen and (width < $mobileBreakPoint) {
+    padding: 0 18px;
+  }
+}
+
+.tokenFormBtn {
   user-select: none;
   cursor: pointer;
   background: transparent;
