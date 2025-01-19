@@ -15,7 +15,6 @@ import GraphChannelList from '../../../components/GraphChannelList'
 import { getFundingThreshold } from '../utils'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
-import { ChainHash } from '../../../constants/fiberChainHash'
 import { Link } from '../../../components/Link'
 import { localeNumberString } from '../../../utils/number'
 
@@ -97,7 +96,6 @@ const GraphNode = () => {
         isOpen: true,
         isUdt,
         hash: c.openTransactionInfo.txHash,
-        index: c.fundingTxIndex,
         block: {
           number: c.openTransactionInfo.blockNumber,
           timestamp: c.openTransactionInfo.blockTimestamp,
@@ -145,7 +143,7 @@ const GraphNode = () => {
   if (!node) {
     return <div>Fiber Peer Not Found</div>
   }
-  const channels = node.fiberGraphChannels.filter(c => !c.closedTransactionInfo)
+  const channels = node.fiberGraphChannels.filter(c => !c.closedTransactionInfo.txHash)
 
   const thresholds = getFundingThreshold(node)
 
@@ -161,19 +159,17 @@ const GraphNode = () => {
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
   }
 
-  const chain = ChainHash.get(node.chainHash) ?? '-'
-
   return (
     <Content>
       <div className={styles.container} onClick={handleCopy}>
         <div className={styles.overview}>
           <div className={styles.fields}>
-            {node.alias ? (
+            {node.nodeName ? (
               <dl>
-                <dt>{t('fiber.graph.alias')}</dt>
+                <dt>{t('fiber.graph.node')}</dt>
                 <dd className={styles.alias}>
-                  <span>{node.alias}</span>
-                  <button type="button" data-copy-text={node.alias}>
+                  <span>{node.nodeName}</span>
+                  <button type="button" data-copy-text={node.nodeName}>
                     <CopyIcon />
                   </button>
                 </dd>
@@ -213,12 +209,6 @@ const GraphNode = () => {
             <dl>
               <dt>{t('fiber.graph.node.first_seen')}</dt>
               <dd>{dayjs(+node.timestamp).format(TIME_TEMPLATE)}</dd>
-            </dl>
-            <dl>
-              <dt>{t('fiber.graph.node.chain')}</dt>
-              <dd>
-                <Tooltip title={node.chainHash}>{chain}</Tooltip>
-              </dd>
             </dl>
             <dl>
               <dt>{t('fiber.graph.node.total_capacity')}</dt>
@@ -314,18 +304,20 @@ const GraphNode = () => {
                       </span>
                       <span>({acc1.amount})</span>
                     </div>
-                    <div>
-                      And
-                      <span className={styles.addr}>
-                        <Tooltip title={acc2.address}>
-                          <Link to={`/address/${acc2.address}`} className="monospace">
-                            <div>{acc2.address.slice(0, -8)}</div>
-                            <div>{acc2.address.slice(-8)}</div>
-                          </Link>
-                        </Tooltip>
-                      </span>
-                      <span>({acc2.amount})</span>
-                    </div>
+                    {acc2 ? (
+                      <div>
+                        And
+                        <span className={styles.addr}>
+                          <Tooltip title={acc2.address}>
+                            <Link to={`/address/${acc2.address}`} className="monospace">
+                              <div>{acc2.address.slice(0, -8)}</div>
+                              <div>{acc2.address.slice(-8)}</div>
+                            </Link>
+                          </Tooltip>
+                        </span>
+                        <span>({acc2.amount})</span>
+                      </div>
+                    ) : null}
                   </div>
                 )
               })}

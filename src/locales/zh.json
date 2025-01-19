@@ -391,7 +391,11 @@
       "youtube": "YouTube",
       "forum": "Forum",
       "tools": "工具箱",
-      "api-doc": "API 文档"
+      "api-doc": "API 文档",
+      "knowledge_base": "知识库",
+      "network": "网络",
+      "community_nodes": "社区节点",
+      "media_kit": "媒体包"
     },
     "search": {
       "loading": "加载中...",
@@ -1035,6 +1039,7 @@
       "token-info": "Token Info",
       "xudt-data": "XUDT Data",
       "btc-time-lock": "BTC Time Lock",
+      "spore-cluster": "Spore Cluster",
       "spore": "Spore",
       "json": "JSON",
       "select-x-from-y": "从 {{y}} 字符起选择了 {{x}} 个字符",
