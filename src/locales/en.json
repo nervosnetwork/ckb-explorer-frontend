@@ -402,7 +402,11 @@
       "youtube": "YouTube",
       "forum": "Forum",
       "tools": "Tools",
-      "api-doc": "API Documentation"
+      "api-doc": "API Documentation",
+      "knowledge_base": "Knowledge Base",
+      "network": "Network",
+      "community_nodes": "Community Nodes",
+      "media_kit": "Media Kit"
     },
     "search": {
       "loading": "Loading...",
