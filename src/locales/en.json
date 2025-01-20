@@ -406,7 +406,9 @@
       "knowledge_base": "Knowledge Base",
       "network": "Network",
       "community_nodes": "Community Nodes",
-      "media_kit": "Media Kit"
+      "media_kit": "Media Kit",
+      "ckb_world": "CKB World",
+      "eco_fund": "Eco Fund"
     },
     "search": {
       "loading": "Loading...",
