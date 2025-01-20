@@ -69,6 +69,14 @@ const Footers: { name: string; items: FooterLinkItem[] }[] = [
         url: 'https://www.nervos.org/knowledge-base',
       },
       {
+        label: 'ckb_world',
+        url: 'https://www.ckb.world',
+      },
+      {
+        label: 'eco_fund',
+        url: 'https://www.ckbeco.fund',
+      },
+      {
         label: 'network',
         url: '/charts/node-geo-distribution',
       },

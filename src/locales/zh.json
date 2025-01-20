@@ -395,7 +395,9 @@
       "knowledge_base": "知识库",
       "network": "网络",
       "community_nodes": "社区节点",
-      "media_kit": "媒体包"
+      "media_kit": "媒体包",
+      "ckb_world": "CKB World",
+      "eco_fund": "Eco Fund"
     },
     "search": {
       "loading": "加载中...",
