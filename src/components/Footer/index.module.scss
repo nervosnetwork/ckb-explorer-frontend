@@ -83,8 +83,10 @@
       }
 
       @media screen and (width < 450px) {
+        width: unset;
         margin-left: 0;
         gap: 10px;
+        justify-content: flex-start;
       }
     }
   }
