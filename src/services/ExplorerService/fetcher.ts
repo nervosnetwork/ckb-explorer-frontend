@@ -1601,18 +1601,18 @@ export namespace Fiber {
     }
 
     export interface Channel {
+      capacity: string
+      chainHash: string
       channelOutpoint: string
+      closedTransactionInfo: ClosedTransactionInfo
+      createdTimestamp: string
+      feeRateOfNode1: string
+      feeRateOfNode2: string
+      lastUpdatedTimestampOfNode1: string
+      lastUpdatedTimestampOfNode2: string
       node1: string
       node2: string
-      chainHash: string
-      fundingTxBlockNumber: string
-      fundingTxIndex: string // number
-      lastUpdatedTimestamp: string
-      node1ToNode2FeeRate: string
-      node2ToNode1FeeRate: string
-      capacity: string
       openTransactionInfo: OpenTransactionInfo
-      closedTransactionInfo: ClosedTransactionInfo
     }
 
     export interface NodeDetail extends Node {

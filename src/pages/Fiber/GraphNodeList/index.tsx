@@ -21,7 +21,7 @@ const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
 const fields = [
   {
-    key: 'name',
+    key: 'nodeName',
     label: 'name',
     transformer: (v: unknown, i: Fiber.Graph.Node) => {
       if (typeof v !== 'string') return v
