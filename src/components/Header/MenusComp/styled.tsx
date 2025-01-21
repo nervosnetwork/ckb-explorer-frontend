@@ -16,10 +16,16 @@ export const MobileMenuOuterLink = styled.a`
   font-weight: regular;
   margin-top: 22px;
   height: 21px;
+  gap: 8px;
 
   &:hover {
     font-weight: medium;
     color: ${props => props.theme.primary};
+
+    svg {
+      filter: drop-shadow(0 0 4px var(--primary-color));
+      mix-blend-mode: difference;
+    }
   }
 `
 
@@ -31,10 +37,16 @@ export const MobileMenuInnerLink = styled(Link)`
   font-weight: regular;
   margin-top: 22px;
   height: 21px;
+  gap: 8px;
 
   &:hover {
     font-weight: medium;
     color: ${props => props.theme.primary};
+
+    svg {
+      filter: drop-shadow(0 0 4px var(--primary-color));
+      mix-blend-mode: difference;
+    }
   }
 `
 
