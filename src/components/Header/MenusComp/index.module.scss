@@ -88,12 +88,16 @@
   justify-content: space-between;
 
   .icon {
+    margin-left: auto;
     transform: rotate(180deg);
     transition: transform 0.1s;
   }
 }
 
 .headerMenusItem {
+  --dim-color: rgb(244 244 245);
+
+  position: relative;
   color: white;
   display: flex;
   align-items: center;
@@ -117,6 +121,30 @@
   &:hover {
     font-weight: medium;
     color: var(--primary-color);
+  }
+
+  &[data-popup] {
+    &::after {
+      position: absolute;
+      top: calc(100% + 10px);
+      display: none;
+      content: attr(data-popup);
+      white-space: nowrap;
+      padding: 2px 20px;
+      background: var(--dim-color);
+      color: #333;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+      box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
+      opacity: 0.8;
+    }
+
+    &:hover {
+      &::after {
+        display: block;
+      }
+    }
   }
 }
 

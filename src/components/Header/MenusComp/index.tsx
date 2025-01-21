@@ -248,25 +248,37 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
     <MobileMenuItem>
       {menuList
         .filter(menu => menu.name !== undefined)
-        .map(menu =>
-          // eslint-disable-next-line no-nested-ternary
-          menu.children ? (
-            <SubmenuDropdown key={menu.name} menu={menu.children}>
-              <MobileMenuOuterLink className={styles.mobileSubmenuTrigger}>
+        .map(menu => {
+          if (menu.children) {
+            return (
+              <SubmenuDropdown key={menu.name} menu={menu.children}>
+                <MobileMenuOuterLink className={styles.mobileSubmenuTrigger}>
+                  {menu.icon}
+                  {menu.name}
+                  <ArrowIcon className={styles.icon} />
+                </MobileMenuOuterLink>
+              </SubmenuDropdown>
+            )
+          }
+
+          if (menu.type === LinkType.Inner) {
+            return (
+              <MobileMenuInnerLink key={menu.name} to={menu.url ?? '/'}>
+                {menu.icon}
                 {menu.name}
-                <ArrowIcon className={styles.icon} />
+              </MobileMenuInnerLink>
+            )
+          }
+          if (menu.type === LinkType.Outer) {
+            return (
+              <MobileMenuOuterLink key={menu.name} href={menu.url} target="_blank" rel="noopener noreferrer">
+                {menu.icon}
+                {menu.name}
               </MobileMenuOuterLink>
-            </SubmenuDropdown>
-          ) : menu.type === LinkType.Inner ? (
-            <MobileMenuInnerLink key={menu.name} to={menu.url ?? '/'}>
-              {menu.name}
-            </MobileMenuInnerLink>
-          ) : (
-            <MobileMenuOuterLink key={menu.name} href={menu.url} target="_blank" rel="noopener noreferrer">
-              {menu.name}
-            </MobileMenuOuterLink>
-          ),
-        )}
+            )
+          }
+          return null
+        })}
     </MobileMenuItem>
   ) : (
     <HeaderMenuPanel>
@@ -285,23 +297,33 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
 
         if (menu.type === LinkType.Inner) {
           return (
-            <Link className={styles.headerMenusItem} to={menu.url ?? '/'} key={menu.name} title={menu.name}>
+            <Link
+              className={styles.headerMenusItem}
+              to={menu.url ?? '/'}
+              key={menu.name}
+              title={menu.name}
+              data-popup={menu.name}
+            >
               {menu.icon}
             </Link>
           )
         }
-        return (
-          <a
-            className={styles.headerMenusItem}
-            href={menu.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            key={menu.name}
-            title={menu.name}
-          >
-            {menu.icon}
-          </a>
-        )
+        if (menu.type === LinkType.Outer) {
+          return (
+            <a
+              className={styles.headerMenusItem}
+              href={menu.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              key={menu.name}
+              title={menu.name}
+              data-popup={menu.name}
+            >
+              {menu.icon}
+            </a>
+          )
+        }
+        return null
       })}
     </HeaderMenuPanel>
   )
