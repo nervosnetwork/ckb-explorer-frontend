@@ -219,7 +219,11 @@
       "wallet_renrenbit": "Renrenbit",
       "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
       "wallets_memo": "In alphabetical order",
-      "nft_collections": "NFT 藏品"
+      "nft_collections": "NFT 藏品",
+      "fiber_network": "Fiber Network",
+      "fiber_statistics": "总览",
+      "fiber_graph_nodes": "节点",
+      "coins": "代币"
     },
     "banner": {
       "fiber_title": "Fiber Network 不忘初心",
