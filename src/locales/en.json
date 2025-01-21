@@ -204,7 +204,11 @@
       "wallet_renrenbit": "Renrenbit",
       "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
       "wallets_memo": "In alphabetical order",
-      "nft_collections": "NFT Collections"
+      "nft_collections": "NFT Collections",
+      "fiber_network": "Fiber Network",
+      "fiber_statistics": "Statistics",
+      "fiber_graph_nodes": "Graph Nodes",
+      "coins": "Coins"
     },
     "banner": {
       "fiber_title": "Fiber Network is making Satoshi’s vision a reality",

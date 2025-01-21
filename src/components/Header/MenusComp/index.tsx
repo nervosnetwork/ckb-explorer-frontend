@@ -14,17 +14,31 @@ import { IS_MAINNET } from '../../../constants/common'
 import { ReactComponent as MenuIcon } from './menu.svg'
 import { ReactComponent as NewIcon } from './new.svg'
 import { useCKBNode } from '../../../hooks/useCKBNode'
+import { NervosDao, RGBPP, Faucet, Home, Charts, Assets, FeeRate } from './icons'
 
 export enum LinkType {
   Inner,
   Outer,
 }
 
+interface MenuSeparator {
+  type: 'separator'
+}
+
+interface MenuItemLabel {
+  type: 'label'
+  name: string
+}
+
+type Attr = 'inset' | 'new' | 'hot'
+
 interface MenuData {
   type: LinkType
   name: string
   url?: string
-  children?: MenuData[]
+  children?: (MenuItemLabel | MenuSeparator | MenuData)[]
+  icon?: React.ReactElement
+  attrs?: Attr[]
 }
 
 const useMenuDataList = () => {
@@ -34,40 +48,51 @@ const useMenuDataList = () => {
       type: LinkType.Inner,
       name: t('navbar.home'),
       url: '/',
+      icon: <Home />,
     },
     {
       type: LinkType.Inner,
       name: t('navbar.nervos_dao'),
       url: '/nervosdao',
+      icon: <NervosDao />,
     },
     {
       type: LinkType.Inner,
       name: t('navbar.charts'),
       url: '/charts',
+      icon: <Charts />,
     },
     {
       type: LinkType.Inner,
       name: t('navbar.tokens'),
+      icon: <Assets />,
       children: [
+        { type: 'label', name: t('navbar.coins') },
+        { type: 'separator' },
         {
           type: LinkType.Inner,
           name: t('navbar.xUDT'),
           url: '/xudts',
+          attrs: ['inset', 'hot'],
         },
         {
           type: LinkType.Inner,
           name: t('navbar.sUDT'),
           url: '/tokens',
+          attrs: ['inset'],
         },
+        { type: 'separator' },
         {
           type: LinkType.Inner,
           name: t('navbar.inscriptions'),
           url: '/inscriptions',
         },
+        { type: 'separator' },
         {
           type: LinkType.Inner,
           name: t('navbar.nft_collections'),
           url: '/nft-collections',
+          attrs: ['hot'],
         },
       ],
     },
@@ -75,11 +100,13 @@ const useMenuDataList = () => {
       type: LinkType.Inner,
       name: t('navbar.rgbpp'),
       url: '/rgbpp/transaction/list',
+      icon: <RGBPP />,
     },
     {
       type: LinkType.Inner,
       name: t('navbar.fee_rate'),
       url: '/fee-rate-tracker',
+      icon: <FeeRate />,
     },
     ...(IS_MAINNET
       ? []
@@ -88,28 +115,56 @@ const useMenuDataList = () => {
             type: LinkType.Outer,
             name: t('navbar.faucet'),
             url: 'https://faucet.nervos.org/',
+            icon: <Faucet />,
           },
         ]),
   ]
   return list
 }
 
-const SubmenuDropdown: FC<PropsWithChildren<DropdownProps & { menu: MenuData[] }>> = ({ children, menu, ...props }) => {
+const SubmenuDropdown: FC<
+  PropsWithChildren<DropdownProps & { menu: (MenuData | MenuItemLabel | MenuSeparator)[] }>
+> = ({ children, menu, ...props }) => {
   return (
     <Dropdown
       overlay={
         <div className={styles.submenu}>
-          {menu.map(menu =>
-            menu.type === LinkType.Inner ? (
-              <Link key={menu.name} className={styles.link} to={menu.url ?? '/'}>
-                {menu.name}
-              </Link>
-            ) : (
-              <a key={menu.name} className={styles.link} href={menu.url} target="_blank" rel="noopener noreferrer">
-                {menu.name}
-              </a>
-            ),
-          )}
+          {menu.map(menuItem => {
+            switch (menuItem.type) {
+              case 'separator':
+                return <div key={Math.random()} className={styles.separator} />
+              case 'label':
+                return (
+                  <div key={menuItem.name} className={styles.label}>
+                    {menuItem.name}
+                  </div>
+                )
+              case LinkType.Inner: {
+                const isHot = menuItem.attrs?.includes('hot')
+                const isInset = menuItem.attrs?.includes('inset')
+                return (
+                  <Link key={menuItem.name} className={styles.link} to={menuItem.url ?? '/'} data-is-inset={isInset}>
+                    {menuItem.name}
+                    {/* {isHot ? <Hot className={styles.hot} title="HOT" /> : null} */}
+                    {isHot ? <img alt="hot" className={styles.hot} title="HOT" src="/images/Hot.gif" /> : null}
+                  </Link>
+                )
+              }
+              default: {
+                return (
+                  <a
+                    key={menuItem.name}
+                    className={styles.link}
+                    href={menuItem.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {menuItem.name}
+                  </a>
+                )
+              }
+            }
+          })}
         </div>
       }
       mouseEnterDelay={0}
@@ -139,12 +194,6 @@ export const MoreMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
           <div className={styles.submenu}>
             <Link className={styles.link} to="/tools/address-conversion">
               {t('footer.tools')}
-              {/* TODO: remove this tag after 2024-08-01 */}
-              {dayjs().isBefore(dayjs('2024-08-01')) && (
-                <span className={styles.newTag} style={{ marginLeft: 4 }}>
-                  NEW
-                </span>
-              )}
             </Link>
             <span
               className={classNames(styles.link, styles.clickable)}
@@ -221,32 +270,39 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
     </MobileMenuItem>
   ) : (
     <HeaderMenuPanel>
-      {menuList.map(menu =>
-        // eslint-disable-next-line no-nested-ternary
-        menu.children ? (
-          <SubmenuDropdown key={menu.name} menu={menu.children}>
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a className={classNames(styles.headerMenusItem, styles.submenuTrigger)}>
-              {menu.name}
-              <ArrowIcon className={styles.icon} />
-            </a>
-          </SubmenuDropdown>
-        ) : menu.type === LinkType.Inner ? (
-          <Link className={styles.headerMenusItem} to={menu.url ?? '/'} key={menu.name}>
-            {menu.name}
-          </Link>
-        ) : (
+      {menuList.map(menu => {
+        if (menu.children) {
+          return (
+            <SubmenuDropdown key={menu.name} menu={menu.children}>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a className={classNames(styles.headerMenusItem, styles.submenuTrigger)} title={menu.name}>
+                {menu.icon}
+                <ArrowIcon className={styles.icon} />
+              </a>
+            </SubmenuDropdown>
+          )
+        }
+
+        if (menu.type === LinkType.Inner) {
+          return (
+            <Link className={styles.headerMenusItem} to={menu.url ?? '/'} key={menu.name} title={menu.name}>
+              {menu.icon}
+            </Link>
+          )
+        }
+        return (
           <a
             className={styles.headerMenusItem}
             href={menu.url}
             target="_blank"
             rel="noopener noreferrer"
             key={menu.name}
+            title={menu.name}
           >
-            {menu.name}
+            {menu.icon}
           </a>
-        ),
-      )}
+        )
+      })}
     </HeaderMenuPanel>
   )
 })
