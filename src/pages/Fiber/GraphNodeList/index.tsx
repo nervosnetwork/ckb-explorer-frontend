@@ -173,25 +173,34 @@ const GraphNodeList = () => {
   return (
     <Content>
       <div className={styles.container} onClick={handleCopy}>
-        <h1 className={styles.header}>
-          <span>CKB Fiber Graph Nodes</span>
-        </h1>
         <table>
           <thead>
+            <tr data-role="header">
+              <td colSpan={fields.length}>
+                <h1 className={styles.header}>
+                  <span>CKB Fiber Graph Nodes</span>
+                </h1>
+              </td>
+            </tr>
+            <div className={styles.tableSeparator} />
             <tr>
               {fields.map(f => {
                 return <th key={f.key}>{t(`fiber.graph.node.${f.label}`)}</th>
               })}
             </tr>
           </thead>
-          <div className={styles.tableSeparator} />
           <tbody>
             {list.map(i => {
               return (
                 <tr>
                   {fields.map(f => {
                     const v = i[f.key as keyof typeof i]
-                    return <td key={f.key}>{f.transformer?.(v, i) ?? v}</td>
+                    return (
+                      <td key={f.key}>
+                        <span className={styles.cellLabel}>{t(`fiber.graph.node.${f.label}`)}</span>
+                        {f.transformer?.(v, i) ?? v}
+                      </td>
+                    )
                   })}
                 </tr>
               )

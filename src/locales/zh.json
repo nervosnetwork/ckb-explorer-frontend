@@ -1106,6 +1106,52 @@
       "view_address": "查看地址",
       "view_btc_utxo": "查看 BTC UTXO",
       "view_cell_info": "查看 Cell 信息"
+    },
+    "fiber": {
+      "fiber_node": "Fiber 节点",
+      "peer": {
+        "peer_id": "ID",
+        "name": "名称",
+        "channels_count": "通道数",
+        "channels": "通道",
+        "open_time": "开启时间",
+        "update_time": "最后更新时间",
+        "total_local_balance": "本地余额",
+        "rpc_addr": "RPC 地址",
+        "connect_id": "连接 ID"
+      },
+      "channel": {
+        "channel_id": "通道 ID",
+        "fiber_peers": "Fiber 节点",
+        "state": "状态",
+        "open_time": "开启时间",
+        "update_time": "最后更新时间",
+        "shutdown_time": "关闭时间",
+        "balance": "余额",
+        "local": "本地",
+        "remote": "远程",
+        "tlc_balance": "TLC 余额",
+        "offered": "已提供",
+        "received": "已接收"
+      },
+      "graph": {
+        "node": {
+          "id": "节点 ID",
+          "name": "名称",
+          "alias": "别名",
+          "auto_accept_funding_amount": "资金设定",
+          "first_seen": "首次发现",
+          "node_id": "节点 ID",
+          "chain": "链",
+          "chain_hash": "链哈希",
+          "addresses": "地址",
+          "total_capacity": "总容量",
+          "open_channels": "开启通道"
+        },
+        "channel": {
+          "connected_node": "连接节点"
+        }
+      }
     }
   }
 }

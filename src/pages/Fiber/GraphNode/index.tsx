@@ -163,78 +163,71 @@ const GraphNode = () => {
     <Content>
       <div className={styles.container} onClick={handleCopy}>
         <div className={styles.overview}>
-          <div className={styles.fields}>
-            {node.nodeName ? (
-              <dl>
-                <dt>{t('fiber.graph.node')}</dt>
-                <dd className={styles.alias}>
-                  <span>{node.nodeName}</span>
-                  <button type="button" data-copy-text={node.nodeName}>
-                    <CopyIcon />
-                  </button>
-                </dd>
-              </dl>
-            ) : null}
-            <dl>
-              <dt>{t('fiber.graph.node.id')}</dt>
-              <dd className={styles.id}>
-                <span>{`0x${node.nodeId}`}</span>
-                <button type="button" data-copy-text={`0x${node.nodeId}`}>
-                  <CopyIcon />
-                </button>
-              </dd>
-            </dl>
-            <dl className={styles.addresses}>
-              <dt>
-                <label htmlFor="addr">{t('fiber.graph.node.addresses')}</label>
-              </dt>
-              <dd>
-                <select name="addr" id="addr" onChange={handleAddrSelect}>
-                  {node.addresses.map(ra => {
-                    return (
-                      <option value={ra} key={ra}>
-                        {ra}
-                      </option>
-                    )
-                  })}
-                </select>
-                <button type="button" data-copy-text={node.addresses}>
-                  <CopyIcon />
-                </button>
-                <a href={addr} title={addr} target="_blank" rel="noopener noreferrer">
-                  <OpenInNewWindowIcon />
-                </a>
-              </dd>
-            </dl>
-            <dl>
-              <dt>{t('fiber.graph.node.first_seen')}</dt>
-              <dd>{dayjs(+node.timestamp).format(TIME_TEMPLATE)}</dd>
-            </dl>
-            <dl>
-              <dt>{t('fiber.graph.node.total_capacity')}</dt>
-              <dd>{totalCkb}</dd>
-            </dl>
-            <dl className={styles.thresholds}>
-              <dt>{t('fiber.graph.node.auto_accept_funding_amount')}</dt>
-              <dd>
-                {thresholds.map(threshold => {
-                  return (
-                    <Tooltip key={threshold.id} title={threshold.title}>
-                      <span className={styles.token}>
-                        <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
-                        {threshold.display}
-                      </span>
-                    </Tooltip>
-                  )
-                })}
-              </dd>
-            </dl>
-          </div>
-          {connectId ? (
-            <div>
-              <canvas ref={qrRef} className={styles.qrcode} />
+          {node.nodeName ? (
+            <div className={styles.name}>
+              <b>{`${t('fiber.fiber_node')}`}</b>
+              <span>{node.nodeName}</span>
+              <button type="button" data-copy-text={node.nodeName}>
+                <CopyIcon />
+              </button>
+              {/* {connectId ? ( */}
+              {/*   <div> */}
+              {/*     <canvas ref={qrRef} className={styles.qrcode} /> */}
+              {/*   </div> */}
+              {/* ) : null} */}
             </div>
           ) : null}
+
+          <div className={styles.info}>
+            <div data-side="left">
+              <dl className={styles.addresses}>
+                <dt>
+                  <label htmlFor="addr">{t('fiber.graph.node.addresses')}</label>
+                </dt>
+                <dd>
+                  <select name="addr" id="addr" onChange={handleAddrSelect}>
+                    {node.addresses.map(ra => {
+                      return (
+                        <option value={ra} key={ra}>
+                          {ra}
+                        </option>
+                      )
+                    })}
+                  </select>
+                  <button type="button" data-copy-text={node.addresses}>
+                    <CopyIcon />
+                  </button>
+                  <a href={addr} title={addr} target="_blank" rel="noopener noreferrer">
+                    <OpenInNewWindowIcon />
+                  </a>
+                </dd>
+              </dl>
+              <dl>
+                <dt>{t('fiber.graph.node.first_seen')}</dt>
+                <dd>{dayjs(+node.timestamp).format(TIME_TEMPLATE)}</dd>
+              </dl>
+              <dl>
+                <dt>{t('fiber.graph.node.total_capacity')}</dt>
+                <dd>{totalCkb}</dd>
+              </dl>
+              <dl className={styles.thresholds}>
+                <dt>{t('fiber.graph.node.auto_accept_funding_amount')}</dt>
+                <dd>
+                  {thresholds.map(threshold => {
+                    return (
+                      <Tooltip key={threshold.id} title={threshold.title}>
+                        <span className={styles.token}>
+                          <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
+                          {threshold.display}
+                        </span>
+                      </Tooltip>
+                    )
+                  })}
+                </dd>
+              </dl>
+            </div>
+            <div data-side="right">Coming soon</div>
+          </div>
         </div>
         <div className={styles.activities}>
           <div className={styles.channels}>

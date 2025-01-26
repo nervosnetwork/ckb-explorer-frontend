@@ -1133,6 +1133,7 @@
       "view_cell_info": "View Cell Info"
     },
     "fiber": {
+      "fiber_node": "Fiber Network Node",
       "peer": {
         "peer_id": "ID",
         "name": "Name",
