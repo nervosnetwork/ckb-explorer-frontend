@@ -48,6 +48,15 @@ export const formalizeChannelAsset = (ch: Fiber.Graph.Channel) => {
           amount,
           symbol,
         })
+      } else {
+        const v = shannonToCkb(a.capacity)
+        const am = parseNumericAbbr(v)
+        close.push({
+          addr: a.address,
+          value: v,
+          amount: am,
+          symbol: 'CKB',
+        })
       }
     })
   }
