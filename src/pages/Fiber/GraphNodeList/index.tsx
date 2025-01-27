@@ -9,15 +9,13 @@ import { useSetToast } from '../../../components/Toast'
 import { explorerService } from '../../../services/ExplorerService'
 import type { Fiber } from '../../../services/ExplorerService/fetcher'
 import Pagination from '../Pagination'
-import { PAGE_SIZE } from '../../../constants/common'
+import { PAGE_SIZE, TIME_TEMPLATE } from '../../../constants/common'
 import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import styles from './index.module.scss'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString } from '../../../utils/number'
-
-const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
 const fields = [
   {

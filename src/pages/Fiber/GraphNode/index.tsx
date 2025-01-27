@@ -17,14 +17,16 @@ import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { Link } from '../../../components/Link'
 import { localeNumberString } from '../../../utils/number'
-
-const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
+import { Fiber } from '../../../services/ExplorerService/fetcher'
+import { useSearchParams } from '../../../hooks'
+import { TIME_TEMPLATE } from '../../../constants/common'
 
 const GraphNode = () => {
   const [t] = useTranslation()
   const [addr, setAddr] = useState('')
   const { id } = useParams<{ id: string }>()
   const qrRef = useRef<HTMLCanvasElement | null>(null)
+  const { channel_state: channelState } = useSearchParams('channel_state')
 
   const setToast = useSetToast()
 
@@ -133,8 +135,23 @@ const GraphNode = () => {
         list.push(close)
       }
     })
-    return list.sort((a, b) => a.block.timestamp - b.block.timestamp)
+    return list.sort((a, b) => b.block.timestamp - a.block.timestamp)
   }, [node])
+
+  const [openChannels, closedChannels] = useMemo(() => {
+    const open: Fiber.Graph.Channel[] = []
+    const closed: Fiber.Graph.Channel[] = []
+    node?.fiberGraphChannels
+      .sort((a, b) => b.openTransactionInfo.blockNumber - +a.openTransactionInfo.blockNumber)
+      .forEach(c => {
+        if (c.closedTransactionInfo?.txHash) {
+          closed.push(c)
+        } else {
+          open.push(c)
+        }
+      })
+    return [open, closed]
+  }, [node?.fiberGraphChannels])
 
   if (isLoading) {
     return <Loading show />
@@ -143,7 +160,6 @@ const GraphNode = () => {
   if (!node) {
     return <div>Fiber Peer Not Found</div>
   }
-  const channels = node.fiberGraphChannels.filter(c => !c.closedTransactionInfo.txHash)
 
   const thresholds = getFundingThreshold(node)
 
@@ -231,8 +247,8 @@ const GraphNode = () => {
         </div>
         <div className={styles.activities}>
           <div className={styles.channels}>
-            <h3>{`${t('fiber.peer.channels')}(${channels.length})`}</h3>
-            <GraphChannelList list={channels} node={node.nodeId} />
+            <h3>{`${t('fiber.peer.channels')}`}</h3>
+            <GraphChannelList list={channelState === 'closed' ? closedChannels : openChannels} node={node.nodeId} />
           </div>
           <div className={styles.transactions}>
             <h3>Open & Closed Transactions</h3>

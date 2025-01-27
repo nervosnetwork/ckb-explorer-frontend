@@ -3,13 +3,12 @@ import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import { Link } from 'react-router-dom'
+import { TIME_TEMPLATE } from '../../constants/common'
 import type { Fiber } from '../../services/ExplorerService/fetcher'
 import { parseNumericAbbr } from '../../utils/chart'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
 import styles from './index.module.scss'
-
-const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
 const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ list, node }) => {
   if (!list.length) {
