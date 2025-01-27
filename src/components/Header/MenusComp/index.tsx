@@ -31,7 +31,7 @@ interface MenuItemLabel {
   name: string
 }
 
-type Attr = 'inset' | 'new' | 'hot'
+type Attr = 'inset' | 'new' | 'hot' | 'hidden'
 
 interface MenuData {
   type: LinkType
@@ -48,7 +48,7 @@ const useMenuDataList = () => {
     type: LinkType.Inner,
     name: t('navbar.fiber_network'),
     icon: <Fiber />,
-    attrs: ['new'],
+    attrs: ['new', 'hidden'],
     children: [
       {
         type: LinkType.Inner,
@@ -267,6 +267,8 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
       {menuList
         .filter(menu => menu.name !== undefined)
         .map(menu => {
+          const isHidden = menu.attrs?.includes('hidden')
+          if (isHidden) return null
           const isNew = menu.attrs?.includes('new')
           if (menu.children) {
             return (
@@ -305,6 +307,8 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
   ) : (
     <HeaderMenuPanel>
       {menuList.map(menu => {
+        const isHidden = menu.attrs?.includes('hidden')
+        if (isHidden) return null
         const isNew = menu.attrs?.includes('new')
         if (menu.children) {
           return (
