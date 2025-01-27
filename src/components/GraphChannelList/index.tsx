@@ -35,7 +35,6 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
           : null
 
         const outpoint = `${outPoint.txHash}#${outPoint.index}`
-        // console.log(channel)
 
         return (
           <div key={channel.channelOutpoint} className={styles.channel}>

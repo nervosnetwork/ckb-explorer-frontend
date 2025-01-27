@@ -635,7 +635,10 @@
       "view-btc-tx": "查看 BTC 交易",
       "isomorphic-binding-with-index": "与CKB Tx {{index}} 同构绑定",
       "isomorphic-binding-with-index-commitment": "与 CKB Tx {{index}} 同构绑定\n\nCommitment:\n{{commitment}}",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "fiber_channel": "Fiber Channel",
+      "deployment": "部署",
+      "deployed_script": "部署脚本"
     },
     "block": {
       "block": "区块",
