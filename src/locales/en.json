@@ -661,7 +661,10 @@
       "view-btc-tx": "View BTC Tx",
       "isomorphic-binding-with-index": "Isomorphic bound to CKB Tx {{index}}",
       "isomorphic-binding-with-index-commitment": "Isomorphic bound to CKB Tx {{index}}\n\nCommitment:\n{{commitment}}",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "fiber_channel": "Fiber Channel",
+      "deployment": "Deployment",
+      "deployed_script": "Deployed Script"
     },
     "block": {
       "block": "Block",
@@ -1130,6 +1133,7 @@
       "view_cell_info": "View Cell Info"
     },
     "fiber": {
+      "fiber_node": "Fiber Network Node",
       "peer": {
         "peer_id": "ID",
         "name": "Name",
@@ -1154,6 +1158,10 @@
         "tlc_balance": "TLC Balance",
         "offered": "Offered",
         "received": "Received"
+      },
+      "action": {
+        "open": "Open",
+        "close": "Close"
       },
       "graph": {
         "node": {

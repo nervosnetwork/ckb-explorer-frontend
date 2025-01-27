@@ -14,7 +14,8 @@ import { IS_MAINNET } from '../../../constants/common'
 import { ReactComponent as MenuIcon } from './menu.svg'
 import { ReactComponent as NewIcon } from './new.svg'
 import { useCKBNode } from '../../../hooks/useCKBNode'
-import { NervosDao, RGBPP, Faucet, Home, Charts, Assets, FeeRate } from './icons'
+import { NervosDao, RGBPP, Faucet, Home, Charts, Assets, FeeRate, Fiber } from './icons'
+import NewBadge from './NewBadge'
 
 export enum LinkType {
   Inner,
@@ -30,7 +31,7 @@ interface MenuItemLabel {
   name: string
 }
 
-type Attr = 'inset' | 'new' | 'hot'
+type Attr = 'inset' | 'new' | 'hot' | 'hidden'
 
 interface MenuData {
   type: LinkType
@@ -43,6 +44,32 @@ interface MenuData {
 
 const useMenuDataList = () => {
   const { t } = useTranslation()
+  const FiberMenuItem: MenuData = {
+    type: LinkType.Inner,
+    name: t('navbar.fiber_network'),
+    icon: <Fiber />,
+    attrs: ['new', 'hidden'],
+    children: [
+      {
+        type: LinkType.Inner,
+        name: t('navbar.fiber_statistics'),
+        url: '/fiber/statistics',
+      },
+      {
+        type: LinkType.Inner,
+        name: t('navbar.fiber_graph_nodes'),
+        url: '/fiber/graph/nodes',
+      },
+    ],
+  }
+
+  const FaucetMenuItem = {
+    type: LinkType.Outer,
+    name: t('navbar.faucet'),
+    url: 'https://faucet.nervos.org/',
+    icon: <Faucet />,
+  }
+
   const list: MenuData[] = [
     {
       type: LinkType.Inner,
@@ -108,16 +135,7 @@ const useMenuDataList = () => {
       url: '/fee-rate-tracker',
       icon: <FeeRate />,
     },
-    ...(IS_MAINNET
-      ? []
-      : [
-          {
-            type: LinkType.Outer,
-            name: t('navbar.faucet'),
-            url: 'https://faucet.nervos.org/',
-            icon: <Faucet />,
-          },
-        ]),
+    ...(IS_MAINNET ? [] : [FiberMenuItem, FaucetMenuItem]),
   ]
   return list
 }
@@ -249,12 +267,16 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
       {menuList
         .filter(menu => menu.name !== undefined)
         .map(menu => {
+          const isHidden = menu.attrs?.includes('hidden')
+          if (isHidden) return null
+          const isNew = menu.attrs?.includes('new')
           if (menu.children) {
             return (
               <SubmenuDropdown key={menu.name} menu={menu.children}>
                 <MobileMenuOuterLink className={styles.mobileSubmenuTrigger}>
                   {menu.icon}
                   {menu.name}
+                  {isNew ? <NewBadge /> : null}
                   <ArrowIcon className={styles.icon} />
                 </MobileMenuOuterLink>
               </SubmenuDropdown>
@@ -266,6 +288,7 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
               <MobileMenuInnerLink key={menu.name} to={menu.url ?? '/'}>
                 {menu.icon}
                 {menu.name}
+                {isNew ? <NewBadge /> : null}
               </MobileMenuInnerLink>
             )
           }
@@ -274,6 +297,7 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
               <MobileMenuOuterLink key={menu.name} href={menu.url} target="_blank" rel="noopener noreferrer">
                 {menu.icon}
                 {menu.name}
+                {isNew ? <NewBadge /> : null}
               </MobileMenuOuterLink>
             )
           }
@@ -283,6 +307,9 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
   ) : (
     <HeaderMenuPanel>
       {menuList.map(menu => {
+        const isHidden = menu.attrs?.includes('hidden')
+        if (isHidden) return null
+        const isNew = menu.attrs?.includes('new')
         if (menu.children) {
           return (
             <SubmenuDropdown key={menu.name} menu={menu.children}>
@@ -290,6 +317,7 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
               <a className={classNames(styles.headerMenusItem, styles.submenuTrigger)} title={menu.name}>
                 {menu.icon}
                 <ArrowIcon className={styles.icon} />
+                {isNew ? <NewBadge /> : null}
               </a>
             </SubmenuDropdown>
           )
@@ -305,6 +333,7 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
               data-popup={menu.name}
             >
               {menu.icon}
+              {isNew ? <NewBadge /> : null}
             </Link>
           )
         }
@@ -320,6 +349,7 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
               data-popup={menu.name}
             >
               {menu.icon}
+              {isNew ? <NewBadge /> : null}
             </a>
           )
         }

@@ -15,17 +15,25 @@
   th {
     padding: 8px;
     padding-right: 1rem;
+  }
 
-    &:first-child {
-      padding-left: 40px;
-    }
+  tr:not([data-role='pagination']) {
+    td,
+    th {
+      &:first-child {
+        padding-left: 40px;
+      }
 
-    &:last-child {
-      text-align: right;
+      &:last-child {
+        text-align: right;
+      }
     }
   }
 
   thead {
+    color: #333;
+    font-size: 1rem;
+
     th {
       height: 3.5rem;
     }

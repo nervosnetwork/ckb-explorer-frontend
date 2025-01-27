@@ -6,6 +6,7 @@ import { CopyIcon, Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon } from '@radix
 import { Tooltip } from 'antd'
 import QRCode from 'qrcode'
 import dayjs from 'dayjs'
+import BigNumber from 'bignumber.js'
 import Content from '../../../components/Content'
 import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
@@ -16,15 +17,17 @@ import { getFundingThreshold } from '../utils'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { Link } from '../../../components/Link'
-import { localeNumberString } from '../../../utils/number'
-
-const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
+import { Fiber } from '../../../services/ExplorerService/fetcher'
+import { useSearchParams } from '../../../hooks'
+import { TIME_TEMPLATE } from '../../../constants/common'
+import { formalizeChannelAsset } from '../../../utils/fiber'
 
 const GraphNode = () => {
   const [t] = useTranslation()
   const [addr, setAddr] = useState('')
   const { id } = useParams<{ id: string }>()
   const qrRef = useRef<HTMLCanvasElement | null>(null)
+  const { channel_state: channelState } = useSearchParams('channel_state')
 
   const setToast = useSetToast()
 
@@ -91,7 +94,9 @@ const GraphNode = () => {
     if (!node?.fiberGraphChannels) return list
 
     node.fiberGraphChannels.forEach(c => {
-      const isUdt = !!c.openTransactionInfo.udtAmount
+      const assets = formalizeChannelAsset(c)
+
+      const isUdt = !!c.openTransactionInfo.udtInfo
       const open = {
         isOpen: true,
         isUdt,
@@ -103,9 +108,7 @@ const GraphNode = () => {
         accounts: [
           {
             address: c.openTransactionInfo.address,
-            amount:
-              c.openTransactionInfo.udtAmount ??
-              `${localeNumberString(shannonToCkb(c.openTransactionInfo.capacity))} CKB`,
+            amount: `${assets.funding.amount} ${assets.funding.symbol}`,
           },
         ],
       }
@@ -121,20 +124,66 @@ const GraphNode = () => {
               timestamp: c.closedTransactionInfo.blockTimestamp,
             },
             isUdt,
-            accounts: c.closedTransactionInfo.closeAccounts.map(acc => {
-              return {
-                amount: acc.udtAmount ?? `${localeNumberString(shannonToCkb(acc.capacity))} CKB`,
-                address: acc.address,
-              }
-            }),
+            accounts:
+              assets.close?.map(a => ({
+                address: a.addr,
+                amount: `${a.amount} ${a.symbol}`,
+              })) ?? [],
           }
         : null
       if (close) {
         list.push(close)
       }
     })
-    return list.sort((a, b) => a.block.timestamp - b.block.timestamp)
+    return list.sort((a, b) => b.block.timestamp - a.block.timestamp)
   }, [node])
+
+  const [openChannels, closedChannels] = useMemo(() => {
+    const open: Fiber.Graph.Channel[] = []
+    const closed: Fiber.Graph.Channel[] = []
+    node?.fiberGraphChannels
+      .sort((a, b) => b.openTransactionInfo.blockNumber - +a.openTransactionInfo.blockNumber)
+      .forEach(c => {
+        if (c.closedTransactionInfo?.txHash) {
+          closed.push(c)
+        } else {
+          open.push(c)
+        }
+      })
+    return [open, closed]
+  }, [node?.fiberGraphChannels])
+
+  const totalLiquidity = useMemo(() => {
+    const list = new Map<
+      string,
+      {
+        amount: BigNumber
+        symbol: string
+        iconFile?: string
+      }
+    >()
+    openChannels.forEach(ch => {
+      if (!ch.openTransactionInfo.udtInfo) {
+        // ckb liquidity
+        const total = list.get('ckb')?.amount ?? BigNumber(0)
+        list.set('ckb', {
+          amount: total.plus(BigNumber(shannonToCkb(ch.capacity))),
+          symbol: 'CKB',
+        })
+      } else {
+        // is udt
+        const a = formalizeChannelAsset(ch)
+        const key = ch.openTransactionInfo.udtInfo.typeHash
+        const total = list.get(key)?.amount ?? BigNumber(0)
+        list.set(key, {
+          amount: total.plus(BigNumber(a.funding.amount)),
+          symbol: a.funding.symbol ?? '',
+          iconFile: ch.openTransactionInfo.udtInfo.iconFile,
+        })
+      }
+    })
+    return list
+  }, [openChannels])
 
   if (isLoading) {
     return <Loading show />
@@ -143,7 +192,6 @@ const GraphNode = () => {
   if (!node) {
     return <div>Fiber Peer Not Found</div>
   }
-  const channels = node.fiberGraphChannels.filter(c => !c.closedTransactionInfo.txHash)
 
   const thresholds = getFundingThreshold(node)
 
@@ -163,83 +211,101 @@ const GraphNode = () => {
     <Content>
       <div className={styles.container} onClick={handleCopy}>
         <div className={styles.overview}>
-          <div className={styles.fields}>
-            {node.nodeName ? (
-              <dl>
-                <dt>{t('fiber.graph.node')}</dt>
-                <dd className={styles.alias}>
-                  <span>{node.nodeName}</span>
-                  <button type="button" data-copy-text={node.nodeName}>
-                    <CopyIcon />
-                  </button>
-                </dd>
-              </dl>
-            ) : null}
-            <dl>
-              <dt>{t('fiber.graph.node.id')}</dt>
-              <dd className={styles.id}>
-                <span>{`0x${node.nodeId}`}</span>
-                <button type="button" data-copy-text={`0x${node.nodeId}`}>
-                  <CopyIcon />
-                </button>
-              </dd>
-            </dl>
-            <dl className={styles.addresses}>
-              <dt>
-                <label htmlFor="addr">{t('fiber.graph.node.addresses')}</label>
-              </dt>
-              <dd>
-                <select name="addr" id="addr" onChange={handleAddrSelect}>
-                  {node.addresses.map(ra => {
-                    return (
-                      <option value={ra} key={ra}>
-                        {ra}
-                      </option>
-                    )
-                  })}
-                </select>
-                <button type="button" data-copy-text={node.addresses}>
-                  <CopyIcon />
-                </button>
-                <a href={addr} title={addr} target="_blank" rel="noopener noreferrer">
-                  <OpenInNewWindowIcon />
-                </a>
-              </dd>
-            </dl>
-            <dl>
-              <dt>{t('fiber.graph.node.first_seen')}</dt>
-              <dd>{dayjs(+node.timestamp).format(TIME_TEMPLATE)}</dd>
-            </dl>
-            <dl>
-              <dt>{t('fiber.graph.node.total_capacity')}</dt>
-              <dd>{totalCkb}</dd>
-            </dl>
-            <dl className={styles.thresholds}>
-              <dt>{t('fiber.graph.node.auto_accept_funding_amount')}</dt>
-              <dd>
-                {thresholds.map(threshold => {
-                  return (
-                    <Tooltip key={threshold.id} title={threshold.title}>
-                      <span className={styles.token}>
-                        <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
-                        {threshold.display}
-                      </span>
-                    </Tooltip>
-                  )
-                })}
-              </dd>
-            </dl>
-          </div>
-          {connectId ? (
-            <div>
-              <canvas ref={qrRef} className={styles.qrcode} />
+          {node.nodeName ? (
+            <div className={styles.name}>
+              <b>{`${t('fiber.fiber_node')}`}</b>
+              <span>{node.nodeName}</span>
+              <button type="button" data-copy-text={node.nodeName}>
+                <CopyIcon />
+              </button>
+              {/* {connectId ? ( */}
+              {/*   <div> */}
+              {/*     <canvas ref={qrRef} className={styles.qrcode} /> */}
+              {/*   </div> */}
+              {/* ) : null} */}
             </div>
           ) : null}
+
+          <div className={styles.info}>
+            <div data-side="left">
+              <dl className={styles.addresses}>
+                <dt>
+                  <label htmlFor="addr">{t('fiber.graph.node.addresses')}</label>
+                </dt>
+                <dd>
+                  <select name="addr" id="addr" onChange={handleAddrSelect}>
+                    {node.addresses.map(ra => {
+                      return (
+                        <option value={ra} key={ra}>
+                          {ra}
+                        </option>
+                      )
+                    })}
+                  </select>
+                  <button type="button" data-copy-text={node.addresses}>
+                    <CopyIcon />
+                  </button>
+                  <a href={addr} title={addr} target="_blank" rel="noopener noreferrer">
+                    <OpenInNewWindowIcon />
+                  </a>
+                </dd>
+              </dl>
+              <dl>
+                <dt>{t('fiber.graph.node.first_seen')}</dt>
+                <dd>{dayjs(+node.timestamp).format(TIME_TEMPLATE)}</dd>
+              </dl>
+              <dl>
+                <dt>{t('fiber.graph.node.total_capacity')}</dt>
+                <dd>{totalCkb}</dd>
+              </dl>
+              <dl className={styles.thresholds}>
+                <dt>{t('fiber.graph.node.auto_accept_funding_amount')}</dt>
+                <dd>
+                  {thresholds.map(threshold => {
+                    return (
+                      <Tooltip key={threshold.id} title={threshold.title}>
+                        <span className={styles.token}>
+                          <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
+                          {threshold.display}
+                        </span>
+                      </Tooltip>
+                    )
+                  })}
+                </dd>
+              </dl>
+            </div>
+            <div data-side="right">
+              <div className={styles.liquidityTitle}>Total Liquidity</div>
+              <div>
+                {[...totalLiquidity.keys()]
+                  .sort((a, b) => {
+                    if (a === 'ckb') return -1
+                    if (b === 'ckb') return 1
+                    return a.localeCompare(b)
+                  })
+                  .map(key => {
+                    const liquidity = totalLiquidity.get(key)
+                    if (!liquidity) return null
+
+                    return (
+                      <div key={key} className={styles.liquidity}>
+                        {/* TODO: need support from the backend */}
+                        {/* <img src={liquidity.iconFile} alt="icon" width="12" height="12" loading="lazy" /> */}
+                        <span>{parseNumericAbbr(liquidity.amount)}</span>
+                        <span>{liquidity.symbol}</span>
+                      </div>
+                    )
+                  })}
+              </div>
+              {/* TODO */}
+              {/* <div className={styles.liquidityDistribution}>Distribution</div> */}
+            </div>
+          </div>
         </div>
         <div className={styles.activities}>
           <div className={styles.channels}>
-            <h3>{`${t('fiber.peer.channels')}(${channels.length})`}</h3>
-            <GraphChannelList list={channels} node={node.nodeId} />
+            <h3>{`${t('fiber.peer.channels')}`}</h3>
+            <GraphChannelList list={channelState === 'closed' ? closedChannels : openChannels} node={node.nodeId} />
           </div>
           <div className={styles.transactions}>
             <h3>Open & Closed Transactions</h3>
@@ -250,7 +316,7 @@ const GraphNode = () => {
                   const account = tx.accounts[0]!
                   return (
                     <div key={key} className={styles.tx}>
-                      <div>
+                      <div title={t('fiber.action.open')}>
                         <Link1Icon />
                         at
                         <time dateTime={tx.block.timestamp.toString()}>
@@ -280,7 +346,7 @@ const GraphNode = () => {
                 const [acc1, acc2] = tx.accounts
                 return (
                   <div key={key} className={styles.tx}>
-                    <div>
+                    <div title={t('fiber.action.close')}>
                       <LinkBreak1Icon />
                       at
                       <time dateTime={tx.block.timestamp.toString()}>
