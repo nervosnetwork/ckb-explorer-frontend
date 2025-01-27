@@ -61,7 +61,7 @@ const fields = [
       if (typeof v !== 'string') return v
 
       const ckb = shannonToCkb(v)
-      const amount = parseNumericAbbr(ckb)
+      const amount = parseNumericAbbr(ckb, 2)
       return (
         <Tooltip title={`${localeNumberString(ckb)} CKB`}>
           <span>{`${amount} CKB`}</span>

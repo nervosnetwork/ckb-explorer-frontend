@@ -1134,6 +1134,10 @@
         "offered": "已提供",
         "received": "已接收"
       },
+      "action": {
+        "open": "开启",
+        "close": "关闭"
+      },
       "graph": {
         "node": {
           "id": "节点 ID",

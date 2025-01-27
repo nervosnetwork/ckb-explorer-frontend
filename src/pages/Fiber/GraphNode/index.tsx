@@ -16,10 +16,10 @@ import { getFundingThreshold } from '../utils'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { Link } from '../../../components/Link'
-import { localeNumberString } from '../../../utils/number'
 import { Fiber } from '../../../services/ExplorerService/fetcher'
 import { useSearchParams } from '../../../hooks'
 import { TIME_TEMPLATE } from '../../../constants/common'
+import { formalizeChannelAsset } from '../../../utils/fiber'
 
 const GraphNode = () => {
   const [t] = useTranslation()
@@ -93,7 +93,9 @@ const GraphNode = () => {
     if (!node?.fiberGraphChannels) return list
 
     node.fiberGraphChannels.forEach(c => {
-      const isUdt = !!c.openTransactionInfo.udtAmount
+      const assets = formalizeChannelAsset(c)
+
+      const isUdt = !!c.openTransactionInfo.udtInfo
       const open = {
         isOpen: true,
         isUdt,
@@ -105,9 +107,7 @@ const GraphNode = () => {
         accounts: [
           {
             address: c.openTransactionInfo.address,
-            amount:
-              c.openTransactionInfo.udtAmount ??
-              `${localeNumberString(shannonToCkb(c.openTransactionInfo.capacity))} CKB`,
+            amount: `${assets.funding.amount} ${assets.funding.symbol}`,
           },
         ],
       }
@@ -123,12 +123,11 @@ const GraphNode = () => {
               timestamp: c.closedTransactionInfo.blockTimestamp,
             },
             isUdt,
-            accounts: c.closedTransactionInfo.closeAccounts.map(acc => {
-              return {
-                amount: acc.udtAmount ?? `${localeNumberString(shannonToCkb(acc.capacity))} CKB`,
-                address: acc.address,
-              }
-            }),
+            accounts:
+              assets.close?.map(a => ({
+                address: a.addr,
+                amount: `${a.amount} ${a.symbol}`,
+              })) ?? [],
           }
         : null
       if (close) {
@@ -242,7 +241,10 @@ const GraphNode = () => {
                 </dd>
               </dl>
             </div>
-            <div data-side="right">Coming soon</div>
+            <div data-side="right">
+              <div>Total Liquidity</div>
+              <div className={styles.liquidityDistribution}>Distribution</div>
+            </div>
           </div>
         </div>
         <div className={styles.activities}>
@@ -259,7 +261,7 @@ const GraphNode = () => {
                   const account = tx.accounts[0]!
                   return (
                     <div key={key} className={styles.tx}>
-                      <div>
+                      <div title={t('fiber.action.open')}>
                         <Link1Icon />
                         at
                         <time dateTime={tx.block.timestamp.toString()}>
@@ -289,7 +291,7 @@ const GraphNode = () => {
                 const [acc1, acc2] = tx.accounts
                 return (
                   <div key={key} className={styles.tx}>
-                    <div>
+                    <div title={t('fiber.action.close')}>
                       <LinkBreak1Icon />
                       at
                       <time dateTime={tx.block.timestamp.toString()}>

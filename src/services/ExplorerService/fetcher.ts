@@ -1573,7 +1573,11 @@ export namespace Fiber {
       blockTimestamp: number
       capacity: string
       txHash: string
-      udtAmount?: string
+      udtInfo?: {
+        symbol?: string
+        decimal?: string
+        amount: string
+      }
     }
 
     interface ClosedTransactionInfo {
@@ -1583,7 +1587,11 @@ export namespace Fiber {
       closeAccounts: {
         address: string
         capacity: string
-        udtAmount: string | null
+        udtInfo?: {
+          symbol?: string
+          decimal?: string
+          amount: string
+        }
       }[]
     }
 

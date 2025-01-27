@@ -1159,6 +1159,10 @@
         "offered": "Offered",
         "received": "Received"
       },
+      "action": {
+        "open": "Open",
+        "close": "Close"
+      },
       "graph": {
         "node": {
           "id": "Node ID",
