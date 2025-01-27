@@ -1,0 +1,20 @@
+.container {
+  font-size: 10px;
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  background-color: #fff500;
+  color: #333;
+  margin: 0 auto 0 8px;
+  font-style: italic;
+
+  svg {
+    filter: none !important;
+    fill: transparent !important;
+    mix-blend-mode: normal !important;
+  }
+}

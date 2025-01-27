@@ -9,7 +9,7 @@ import Capacity from '../../Capacity'
 
 export const NodeCellCapacityAmount = ({ cell }: { cell: Cell }) => {
   const { t } = useTranslation()
-  const cellType = getCellType(cell)
+  const { type: cellType } = getCellType(cell)
   const isUDTCell = UDT_CELL_TYPES.findIndex(type => type === cellType) !== -1
   const udtTypeHash = isUDTCell ? calculateScriptHash(cell.cellOutput.type!) : undefined
   const udtInfo = useQuery(

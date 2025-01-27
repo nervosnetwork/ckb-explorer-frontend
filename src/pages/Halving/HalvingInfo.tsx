@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import dayjs from 'dayjs'
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
+import { TIME_TEMPLATE } from '../../constants/common'
 import { useHalving, useIsMobile } from '../../hooks'
 import { useStatistics } from '../../services/ExplorerService'
 import styles from './index.module.scss'
@@ -46,7 +47,7 @@ export const HalvingInfo = () => {
           <div className={styles.epochInfoItem}>
             <div className={styles.epochInfoValue}>
               <div className={styles.flexItemsCenter}>
-                <span style={{ marginRight: 2 }}>{dayjs(estimatedDate).format('YYYY.MM.DD hh:mm:ss')}</span>
+                <span style={{ marginRight: 2 }}>{dayjs(estimatedDate).format(TIME_TEMPLATE)}</span>
                 <Tooltip
                   placement="topRight"
                   color="#fff"
@@ -91,7 +92,7 @@ export const HalvingInfo = () => {
 
       <div className={styles.epochInfoItem}>
         <strong className={styles.epochInfoValue}>
-          {dayjs(estimatedDate).format('YYYY.MM.DD HH:mm:ss')}
+          {dayjs(estimatedDate).format(TIME_TEMPLATE)}
           <Tooltip
             color="#fff"
             overlayInnerStyle={{ color: '#333333' }}

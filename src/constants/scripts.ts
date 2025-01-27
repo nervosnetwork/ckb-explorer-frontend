@@ -818,6 +818,15 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'USDI Asset',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0x6c67887fe201ee0c7853f1682c0b77c0e6214044c156c7558269390a8afa6d7c'],
+    txHashes: ['0x89af398edc7ed0054506b33349b031097d94378e11e77bf0690ee69d82623a43-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Fiber Channel',
+    category: 'lock',
   },
 ]
 
