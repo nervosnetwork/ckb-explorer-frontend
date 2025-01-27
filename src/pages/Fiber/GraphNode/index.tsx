@@ -6,6 +6,7 @@ import { CopyIcon, Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon } from '@radix
 import { Tooltip } from 'antd'
 import QRCode from 'qrcode'
 import dayjs from 'dayjs'
+import BigNumber from 'bignumber.js'
 import Content from '../../../components/Content'
 import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
@@ -152,6 +153,38 @@ const GraphNode = () => {
     return [open, closed]
   }, [node?.fiberGraphChannels])
 
+  const totalLiquidity = useMemo(() => {
+    const list = new Map<
+      string,
+      {
+        amount: BigNumber
+        symbol: string
+        iconFile?: string
+      }
+    >()
+    openChannels.forEach(ch => {
+      if (!ch.openTransactionInfo.udtInfo) {
+        // ckb liquidity
+        const total = list.get('ckb')?.amount ?? BigNumber(0)
+        list.set('ckb', {
+          amount: total.plus(BigNumber(shannonToCkb(ch.capacity))),
+          symbol: 'CKB',
+        })
+      } else {
+        // is udt
+        const a = formalizeChannelAsset(ch)
+        const key = ch.openTransactionInfo.udtInfo.typeHash
+        const total = list.get(key)?.amount ?? BigNumber(0)
+        list.set(key, {
+          amount: total.plus(BigNumber(a.funding.amount)),
+          symbol: a.funding.symbol ?? '',
+          iconFile: ch.openTransactionInfo.udtInfo.iconFile,
+        })
+      }
+    })
+    return list
+  }, [openChannels])
+
   if (isLoading) {
     return <Loading show />
   }
@@ -242,8 +275,30 @@ const GraphNode = () => {
               </dl>
             </div>
             <div data-side="right">
-              <div>Total Liquidity</div>
-              <div className={styles.liquidityDistribution}>Distribution</div>
+              <div className={styles.liquidityTitle}>Total Liquidity</div>
+              <div>
+                {[...totalLiquidity.keys()]
+                  .sort((a, b) => {
+                    if (a === 'ckb') return -1
+                    if (b === 'ckb') return 1
+                    return a.localeCompare(b)
+                  })
+                  .map(key => {
+                    const liquidity = totalLiquidity.get(key)
+                    if (!liquidity) return null
+
+                    return (
+                      <div key={key} className={styles.liquidity}>
+                        {/* TODO: need support from the backend */}
+                        {/* <img src={liquidity.iconFile} alt="icon" width="12" height="12" loading="lazy" /> */}
+                        <span>{parseNumericAbbr(liquidity.amount)}</span>
+                        <span>{liquidity.symbol}</span>
+                      </div>
+                    )
+                  })}
+              </div>
+              {/* TODO */}
+              {/* <div className={styles.liquidityDistribution}>Distribution</div> */}
             </div>
           </div>
         </div>

@@ -114,6 +114,10 @@
         margin: 0;
       }
 
+      dt {
+        color: #666;
+      }
+
       dd {
         text-align: right;
       }
@@ -150,6 +154,21 @@
           }
         }
       }
+    }
+  }
+
+  .liquidityTitle {
+    color: #666;
+    font-weight: 500;
+  }
+
+  .liquidity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    span:last-child {
+      text-align: right;
     }
   }
 

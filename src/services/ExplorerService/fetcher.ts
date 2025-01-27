@@ -1577,6 +1577,8 @@ export namespace Fiber {
         symbol?: string
         decimal?: string
         amount: string
+        typeHash: string
+        iconFile?: string
       }
     }
 
