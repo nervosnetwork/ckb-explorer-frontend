@@ -22,6 +22,7 @@ import { useSearchParams } from '../../../hooks'
 import { TIME_TEMPLATE } from '../../../constants/common'
 import { formalizeChannelAsset } from '../../../utils/fiber'
 import { fetchPrices } from '../../../services/UtilityService'
+import LiquidityChart from './LiquidityChart'
 
 const GraphNode = () => {
   const [t] = useTranslation()
@@ -292,32 +293,41 @@ const GraphNode = () => {
                 </dd>
               </dl>
             </div>
-            <div data-side="right">
-              <div className={styles.liquidityTitle}>Total Liquidity</div>
+            <div data-side="right" className={styles.totalLiquidity}>
               <div>
-                {[...totalLiquidity.keys()]
-                  .sort((a, b) => {
-                    if (a === 'ckb') return -1
-                    if (b === 'ckb') return 1
-                    return a.localeCompare(b)
-                  })
-                  .map(key => {
-                    const liquidity = totalLiquidity.get(key)
-                    if (!liquidity) return null
+                <div className={styles.liquidityTitle}>{t(`fiber.graph.node.total_liquidity`)}</div>
+                <div>
+                  {[...totalLiquidity.keys()]
+                    .sort((a, b) => {
+                      if (a === 'ckb') return -1
+                      if (b === 'ckb') return 1
+                      return a.localeCompare(b)
+                    })
+                    .map(key => {
+                      const liquidity = totalLiquidity.get(key)
+                      if (!liquidity) return null
 
-                    return (
-                      <div key={key} className={styles.liquidity}>
-                        {/* TODO: need support from the backend */}
-                        {/* <img src={liquidity.iconFile} alt="icon" width="12" height="12" loading="lazy" /> */}
-                        <span>{parseNumericAbbr(liquidity.amount, 2)}</span>
-                        <span>{liquidity.symbol}</span>
-                        {liquidity.usd ? <span>{`(${parseNumericAbbr(liquidity.usd, 2)} USD)`}</span> : null}
-                      </div>
-                    )
-                  })}
+                      return (
+                        <div key={key} className={styles.liquidity}>
+                          {/* TODO: need support from the backend */}
+                          {/* <img src={liquidity.iconFile} alt="icon" width="12" height="12" loading="lazy" /> */}
+                          <span>{parseNumericAbbr(liquidity.amount, 2)}</span>
+                          <span>{liquidity.symbol}</span>
+                          {liquidity.usd ? <span>{`(${parseNumericAbbr(liquidity.usd, 2)} USD)`}</span> : null}
+                        </div>
+                      )
+                    })}
+                </div>
               </div>
-              {/* TODO */}
-              {/* <div className={styles.liquidityDistribution}>Distribution</div> */}
+              <div className={styles.liquidityAllocation}>
+                <div className={styles.liquidityTitle}>{t(`fiber.graph.node.liquidity_allocation`)}</div>
+                <LiquidityChart
+                  assets={[...totalLiquidity.values()].map(i => ({
+                    symbol: i.symbol,
+                    usd: i.usd ? parseNumericAbbr(i.usd, 2) : '0',
+                  }))}
+                />
+              </div>
             </div>
           </div>
         </div>

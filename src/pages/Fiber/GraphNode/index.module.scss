@@ -154,12 +154,28 @@
           }
         }
       }
+
+      .totalLiquidity {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+
+        & > div {
+          margin-right: auto;
+        }
+
+        .liquidityAllocation {
+          flex-shrink: 0;
+          width: 300px;
+        }
+      }
     }
   }
 
   .liquidityTitle {
     color: #666;
     font-weight: 500;
+    margin-bottom: 18px;
   }
 
   .liquidity {
@@ -195,6 +211,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
+      gap: 4px;
 
       img {
         flex: 0 0;
