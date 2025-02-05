@@ -1150,7 +1150,9 @@
           "chain_hash": "链哈希",
           "addresses": "地址",
           "total_capacity": "总容量",
-          "open_channels": "开启通道"
+          "open_channels": "开启通道",
+          "total_liquidity": "总流动性",
+          "liquidity_allocation": "流动性分布"
         },
         "channel": {
           "connected_node": "连接节点"
