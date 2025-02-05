@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { Fiber } from '../services/ExplorerService/fetcher'
-import { parseNumericAbbr } from './chart'
 import { shannonToCkb } from './util'
 
 export const formalizeChannelAsset = (ch: Fiber.Graph.Channel) => {
@@ -16,17 +15,17 @@ export const formalizeChannelAsset = (ch: Fiber.Graph.Channel) => {
     const value = BigNumber(ch.openTransactionInfo.udtInfo.amount)
     fundingValue = value.toFormat({ groupSeparator: '' })
     const a = value.dividedBy(BigNumber(10).pow(ch.openTransactionInfo.udtInfo.decimal ?? 0))
-    fundingAmount = parseNumericAbbr(a.toFormat({ groupSeparator: '' }))
+    fundingAmount = a.toFormat({ groupSeparator: '' })
     if (ch.openTransactionInfo.udtInfo.symbol) {
       fundingSymbol = ch.openTransactionInfo.udtInfo.symbol
     }
-    totalLiquidity = `${fundingAmount} ${fundingSymbol}`
+    totalLiquidity = fundingAmount
   } else {
     // is ckb funding
     fundingValue = shannonToCkb(ch.openTransactionInfo.capacity)
-    fundingAmount = parseNumericAbbr(fundingValue)
+    fundingAmount = fundingValue
     fundingSymbol = 'CKB'
-    totalLiquidity = `${parseNumericAbbr(shannonToCkb(ch.capacity))} CKB`
+    totalLiquidity = shannonToCkb(ch.capacity)
   }
 
   const close: Record<'addr' | 'value' | 'amount' | 'symbol', string>[] = []
@@ -37,7 +36,7 @@ export const formalizeChannelAsset = (ch: Fiber.Graph.Channel) => {
         const value = BigNumber(a.udtInfo.amount)
         const v = value.toFormat({ groupSeparator: '' })
         const am = value.dividedBy(BigNumber(10).pow(a.udtInfo.decimal ?? 0))
-        const amount = parseNumericAbbr(am.toFormat({ groupSeparator: '' }))
+        const amount = am.toFormat({ groupSeparator: '' })
         let symbol = ''
         if (a.udtInfo.symbol) {
           symbol = a.udtInfo.symbol
@@ -50,7 +49,7 @@ export const formalizeChannelAsset = (ch: Fiber.Graph.Channel) => {
         })
       } else {
         const v = shannonToCkb(a.capacity)
-        const am = parseNumericAbbr(v)
+        const am = v
         close.push({
           addr: a.address,
           value: v,
