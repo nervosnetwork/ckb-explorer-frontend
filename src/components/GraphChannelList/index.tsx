@@ -5,6 +5,7 @@ import type { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { TIME_TEMPLATE } from '../../constants/common'
 import type { Fiber } from '../../services/ExplorerService/fetcher'
+import { parseNumericAbbr } from '../../utils/chart'
 import { formalizeChannelAsset } from '../../utils/fiber'
 import { localeNumberString } from '../../utils/number'
 import styles from './index.module.scss'
@@ -48,7 +49,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
               <dl className={styles.amount}>
                 <dt>Liquidity</dt>
                 <dd>
-                  <span>{totalLiquidity}</span>
+                  <span>{`${parseNumericAbbr(totalLiquidity)} ${funding.symbol}`}</span>
                 </dd>
               </dl>
 
@@ -56,7 +57,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                 <dt>Source</dt>
                 <dd>
                   <Tooltip title={`${localeNumberString(funding.value)} ${funding.symbol}`}>
-                    <span>{`${funding.amount} ${funding.symbol}`}</span>
+                    <span>{`${parseNumericAbbr(funding.amount)} ${funding.symbol}`}</span>
                   </Tooltip>
                   from
                   <Tooltip title={ch.openTransactionInfo.address}>

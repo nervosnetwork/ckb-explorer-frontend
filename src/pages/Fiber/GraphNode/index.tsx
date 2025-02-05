@@ -21,6 +21,7 @@ import { Fiber } from '../../../services/ExplorerService/fetcher'
 import { useSearchParams } from '../../../hooks'
 import { TIME_TEMPLATE } from '../../../constants/common'
 import { formalizeChannelAsset } from '../../../utils/fiber'
+import { fetchPrices } from '../../../services/UtilityService'
 
 const GraphNode = () => {
   const [t] = useTranslation()
@@ -37,6 +38,12 @@ const GraphNode = () => {
       return explorerService.api.getGraphNodeDetail(id)
     },
     enabled: !!id,
+  })
+
+  const { data: prices } = useQuery({
+    queryKey: ['utility', 'prices'],
+    queryFn: fetchPrices,
+    refetchInterval: 30000,
   })
 
   const node = data?.data
@@ -108,7 +115,7 @@ const GraphNode = () => {
         accounts: [
           {
             address: c.openTransactionInfo.address,
-            amount: `${assets.funding.amount} ${assets.funding.symbol}`,
+            amount: `${parseNumericAbbr(assets.funding.amount)} ${assets.funding.symbol}`,
           },
         ],
       }
@@ -127,7 +134,7 @@ const GraphNode = () => {
             accounts:
               assets.close?.map(a => ({
                 address: a.addr,
-                amount: `${a.amount} ${a.symbol}`,
+                amount: `${parseNumericAbbr(a.amount)} ${a.symbol}`,
               })) ?? [],
           }
         : null
@@ -160,30 +167,41 @@ const GraphNode = () => {
         amount: BigNumber
         symbol: string
         iconFile?: string
+        usd?: BigNumber
       }
     >()
     openChannels.forEach(ch => {
+      const CKB_PRICE_ID = '0x0000000000000000000000000000000000000000000000000000000000000000'
       if (!ch.openTransactionInfo.udtInfo) {
         // ckb liquidity
         const total = list.get('ckb')?.amount ?? BigNumber(0)
+        const ckbPrice = prices?.price?.[CKB_PRICE_ID]?.price
+        const ckbAmount = total.plus(BigNumber(shannonToCkb(ch.capacity)))
+        const usd = ckbPrice ? ckbAmount.times(+ckbPrice) : undefined
         list.set('ckb', {
-          amount: total.plus(BigNumber(shannonToCkb(ch.capacity))),
+          amount: ckbAmount,
           symbol: 'CKB',
+          usd,
         })
       } else {
         // is udt
         const a = formalizeChannelAsset(ch)
         const key = ch.openTransactionInfo.udtInfo.typeHash
         const total = list.get(key)?.amount ?? BigNumber(0)
+        const amount = total.plus(BigNumber(a.funding.amount ?? 0))
+        const price = prices?.price?.[key]?.price
+        const usd = price ? amount.times(price) : undefined
+
         list.set(key, {
-          amount: total.plus(BigNumber(a.funding.amount)),
+          amount,
           symbol: a.funding.symbol ?? '',
           iconFile: ch.openTransactionInfo.udtInfo.iconFile,
+          usd,
         })
       }
     })
     return list
-  }, [openChannels])
+  }, [openChannels, prices])
 
   if (isLoading) {
     return <Loading show />
@@ -195,7 +213,7 @@ const GraphNode = () => {
 
   const thresholds = getFundingThreshold(node)
 
-  const totalCkb = parseNumericAbbr(shannonToCkb(node.totalCapacity))
+  const totalCkb = parseNumericAbbr(shannonToCkb(node.totalCapacity), 2)
 
   const handleCopy = (e: React.SyntheticEvent) => {
     const elm = e.target
@@ -291,8 +309,9 @@ const GraphNode = () => {
                       <div key={key} className={styles.liquidity}>
                         {/* TODO: need support from the backend */}
                         {/* <img src={liquidity.iconFile} alt="icon" width="12" height="12" loading="lazy" /> */}
-                        <span>{parseNumericAbbr(liquidity.amount)}</span>
+                        <span>{parseNumericAbbr(liquidity.amount, 2)}</span>
                         <span>{liquidity.symbol}</span>
+                        {liquidity.usd ? <span>{`(${parseNumericAbbr(liquidity.usd, 2)} USD)`}</span> : null}
                       </div>
                     )
                   })}
