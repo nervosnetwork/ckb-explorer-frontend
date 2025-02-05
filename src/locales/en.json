@@ -1175,7 +1175,9 @@
           "chain_hash": "Chain Hash",
           "addresses": "Addresses",
           "total_capacity": "Capacity",
-          "open_channels": "Open Channels"
+          "open_channels": "Open Channels",
+          "total_liquidity": "Total Liquidity",
+          "liquidity_allocation": "Liquidity Allocation"
         },
         "channel": {
           "connected_node": "Connected Node"
