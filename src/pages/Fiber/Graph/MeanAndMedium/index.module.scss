@@ -1,0 +1,58 @@
+.container {
+  font-size: 14px;
+  background: #fafafa;
+  padding: 8px;
+  border-radius: 4px;
+
+  .switch {
+    background: #f0f0f0;
+    width: min-content;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+
+    button {
+      appearance: none;
+      border: none;
+      font-size: 12px;
+      font-weight: 500;
+      width: 48px;
+      height: 24px;
+      border-radius: 4px;
+      color: #999;
+      cursor: pointer;
+
+      &[data-is-active='true'] {
+        background: #fff;
+        color: #000;
+      }
+    }
+  }
+
+  .values {
+    color: #666;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .value {
+      color: #333;
+      font-size: 16px;
+      font-weight: 500;
+
+      small {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  hr {
+    opacity: 0.2;
+    margin: 8px 0;
+  }
+}

@@ -1164,6 +1164,16 @@
         "close": "Close"
       },
       "graph": {
+        "total_capacity": "Total Capacity",
+        "total_liquidity": "Total Liquidity",
+        "total_nodes": "Total Nodes",
+        "total_channels": "Total Channels",
+        "mean": "Mean",
+        "median": "Median",
+        "mean_locked_capacity": "Mean Locked Capacity",
+        "mean_fee_rate": "Mean Fee Rate",
+        "median_locked_capacity": "Median Locked Capacity",
+        "median_fee_rate": "Median Fee Rate",
         "node": {
           "id": "Node ID",
           "name": "Name",
