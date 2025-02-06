@@ -1149,6 +1149,8 @@
         "mean_fee_rate": "平均费率",
         "median_locked_capacity": "中位数锁定 Capacity",
         "median_fee_rate": "中位数费率",
+        "public_fiber_node_world_map": "公开 Fiber 节点地图",
+        "public_fiber_nodes": "公开 Fiber 节点",
         "node": {
           "id": "节点 ID",
           "name": "名称",

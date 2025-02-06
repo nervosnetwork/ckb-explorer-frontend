@@ -7,6 +7,7 @@ import { shannonToCkb } from '../../../utils/util'
 import HistoryChart from './HistoryChart'
 import styles from './index.module.scss'
 import MeanAndMedium from './MeanAndMedium'
+import GraphNodeIps from '../../../components/GraphNodeIps'
 
 const REFETCH_INTERVAL = 1000 * 60 * 5
 
@@ -133,8 +134,10 @@ const FiberGraph = () => {
       </div>
 
       <div className={styles.geo}>
-        <div>Node Distribution</div>
-        <div>Map</div>
+        <h5>{t('fiber.graph.public_fiber_node_world_map')}</h5>
+        <div>
+          <GraphNodeIps />
+        </div>
       </div>
     </div>
   )

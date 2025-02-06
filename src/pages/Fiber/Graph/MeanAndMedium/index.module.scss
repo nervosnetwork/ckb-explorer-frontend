@@ -1,3 +1,5 @@
+@import '../../../../styles//variables.module.scss';
+
 .container {
   font-size: 14px;
   background: #fafafa;
@@ -48,6 +50,11 @@
       small {
         margin-left: 4px;
       }
+    }
+
+    @media screen and (width < $extraLargeBreakPoint) {
+      display: flex;
+      gap: 20px;
     }
   }
 

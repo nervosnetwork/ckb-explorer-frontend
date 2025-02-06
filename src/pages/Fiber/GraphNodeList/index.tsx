@@ -16,6 +16,7 @@ import styles from './index.module.scss'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString } from '../../../utils/number'
+import GraphNodeIps from '../../../components/GraphNodeIps'
 
 const fields = [
   {
@@ -171,12 +172,16 @@ const GraphNodeList = () => {
   return (
     <Content>
       <div className={styles.container} onClick={handleCopy}>
+        <div className={styles.geo}>
+          <h5>{t('fiber.graph.public_fiber_node_world_map')}</h5>
+          <GraphNodeIps />
+        </div>
         <table>
           <thead>
             <tr data-role="header">
               <td colSpan={fields.length}>
                 <h1 className={styles.header}>
-                  <span>CKB Fiber Graph Nodes</span>
+                  <span>{t('fiber.graph.public_fiber_nodes')}</span>
                 </h1>
               </td>
             </tr>

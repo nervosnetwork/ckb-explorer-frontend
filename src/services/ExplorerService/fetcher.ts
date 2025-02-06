@@ -1324,6 +1324,12 @@ export const apiFetcher = {
       .get('/fiber/statistics')
       .then(res => toCamelcase<Response.Response<Fiber.Graph.Statistics>>(res.data))
   },
+
+  getGraphNodeIPs: () => {
+    return requesterV2
+      .get('/fiber/graph_nodes/addresses')
+      .then(res => toCamelcase<Response.Response<Fiber.Graph.GraphNodeIps>>(res.data))
+  },
 }
 
 // ====================
@@ -1646,5 +1652,11 @@ export namespace Fiber {
       | 'createdAtUnixtimestamp',
       string
     >[]
+
+    export type GraphNodeIps = {
+      nodeId: string
+      addresses: string[]
+      connections: string[]
+    }[]
   }
 }

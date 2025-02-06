@@ -1174,6 +1174,8 @@
         "mean_fee_rate": "Mean Fee Rate",
         "median_locked_capacity": "Median Locked Capacity",
         "median_fee_rate": "Median Fee Rate",
+        "public_fiber_node_world_map": "Public Fiber Node World Map",
+        "public_fiber_nodes": "Public Fiber Nodes",
         "node": {
           "id": "Node ID",
           "name": "Name",
