@@ -1139,6 +1139,18 @@
         "close": "关闭"
       },
       "graph": {
+        "total_capacity": "总 Capacity",
+        "total_liquidity": "总流动性",
+        "total_nodes": "总节点数",
+        "total_channels": "总通道数",
+        "mean": "均值",
+        "median": "中位数",
+        "mean_locked_capacity": "平均锁定 Capacity",
+        "mean_fee_rate": "平均费率",
+        "median_locked_capacity": "中位数锁定 Capacity",
+        "median_fee_rate": "中位数费率",
+        "public_fiber_node_world_map": "公开 Fiber 节点地图",
+        "public_fiber_nodes": "公开 Fiber 节点",
         "node": {
           "id": "节点 ID",
           "name": "名称",
