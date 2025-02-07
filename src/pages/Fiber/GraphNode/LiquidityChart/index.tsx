@@ -65,6 +65,7 @@ export const LiquidityChart: FC<{ assets: AssetRecord[] }> = ({ assets }) => {
       isThumbnail
       fetchData={() => Promise.resolve(assets.filter(a => +a.usd > 0))}
       getEChartOption={useOption}
+      queryKey={`${Math.random()}`}
     />
   )
 }

@@ -1,0 +1,311 @@
+@import '../../../styles/variables.module';
+
+.container {
+  --chart-width: 450px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 1600px;
+  padding: 24px 24px 40px;
+  margin: 0 auto;
+  min-height: calc(100vh - 64px - 429px); // 429 is the height of the footer, should be defined as a variable
+  box-sizing: border-box;
+
+  @media (width <= $mobileBreakPoint) {
+    margin: 0;
+    padding: 20px;
+  }
+
+  @media screen and (width< $xxlBreakPoint) {
+    --chart-width: 350px;
+  }
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    --chart-width: calc(100% - 50px);
+  }
+}
+
+.history,
+.geo {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: rgb(0 0 0 / 12%) 0 2px 6px 0;
+  padding: 24px 40px;
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    padding: 24px;
+  }
+}
+
+.history {
+  display: flex;
+  gap: 16px;
+
+  .vertical {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+  }
+
+  .chart {
+    position: relative;
+    width: calc(var(--chart-width) + 50px);
+
+    & > div {
+      height: auto !important;
+      display: flex;
+      justify-content: flex-end;
+
+      & > div {
+        height: auto !important;
+      }
+    }
+  }
+
+  & > div {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+
+  .current {
+    & > div:first-child {
+      color: #666;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    span[data-is-negative] {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    span[data-is-negative='true'] {
+      color: #fa2554;
+
+      &::before {
+        content: '↓';
+      }
+    }
+
+    span[data-is-negative='false'] {
+      color: #00cc9b;
+
+      &::before {
+        content: '↑';
+      }
+    }
+
+    color: #333;
+    font-size: 24px;
+    font-weight: 500;
+    width: 150px;
+    flex: 1;
+  }
+
+  .liquidity,
+  .nodes,
+  .channels {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 8px;
+    border: 1px solid #f5f5f5;
+    overflow: hidden;
+    padding: 16px;
+
+    @media screen and (width < $extraLargeBreakPoint) {
+      flex-direction: column;
+    }
+  }
+
+  .liquidity,
+  .nodes {
+    height: 132px;
+
+    .chart {
+      canvas {
+        width: var(--chart-width) !important;
+        height: 120px !important;
+        right: 0 !important;
+        margin-left: auto !important;
+      }
+    }
+
+    @media screen and (width < $extraLargeBreakPoint) {
+      height: 200px;
+
+      .chart {
+        width: 100%;
+        height: 200px;
+
+        canvas {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+
+  .channels {
+    @media screen and (width < $extraLargeBreakPoint) {
+      .current {
+        width: 100%;
+      }
+
+      .chart {
+        height: 200px;
+      }
+    }
+  }
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    flex-direction: column;
+  }
+}
+
+.geo {
+  h5 {
+    font-weight: 500;
+    font-size: 20px;
+    color: #333;
+  }
+}
+
+.fiberBanner {
+  --m: 1rem;
+  --red: #ff6565;
+  --pink: #ff64f9;
+  --purple: #6b5fff;
+  --blue: #4d8aff;
+  --green: #5bff89;
+  --yellow: #fe5;
+  --orange: #ff6d1b;
+
+  position: relative;
+  background-color: black;
+  background-image: url('./fiber_network.gif');
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 64px 40px 78px;
+  border-radius: 6px;
+  box-shadow: rgb(0 0 0 / 12%) 0 2px 6px 0;
+
+  .slogan {
+    display: flex;
+    flex-direction: column;
+
+    h1,
+    h3 {
+      line-height: 1;
+      color: #f3f3f3;
+      text-align: center;
+    }
+
+    h3 {
+      opacity: 0.8;
+      font-weight: 300;
+    }
+
+    margin-bottom: 20px;
+  }
+
+  a {
+    position: relative;
+    color: #f3f3f3;
+    font-size: var(--m);
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  span {
+    box-sizing: border-box;
+    border: calc(0.08 * var(--m)) solid transparent;
+    border-radius: calc(0.7 * var(--m));
+    padding: calc(0.5 * var(--m)) calc(1 * var(--m));
+    background: linear-gradient(#121213, #121213),
+      linear-gradient(#121213 50%, rgb(18 18 19 / 60%) 80%, rgb(18 18 19 / 0%)),
+      linear-gradient(
+        90deg,
+        var(--orange),
+        var(--yellow),
+        var(--green),
+        var(--blue),
+        var(--purple),
+        var(--pink),
+        var(--red)
+      );
+    background-origin: border-box;
+    background-clip: padding-box, border-box, border-box;
+    background-size: 200%;
+    animation: animate 8s infinite linear;
+    transition-duration: 0.3s;
+    z-index: 1;
+  }
+
+  .links {
+    display: flex;
+    gap: 80px;
+  }
+
+  a::before {
+    content: '';
+    background: linear-gradient(
+      90deg,
+      var(--orange),
+      var(--yellow),
+      var(--green),
+      var(--blue),
+      var(--purple),
+      var(--pink),
+      var(--red)
+    );
+    height: 30%;
+    width: 90%;
+    position: absolute;
+    bottom: 0;
+    background-size: 200%;
+    animation: animate 8s infinite linear;
+    filter: blur(calc(0.8 * var(--m)));
+  }
+
+  a:hover span {
+    border: calc(0.08 * var(--m)) solid transparent;
+    transform: perspective(1000px) translateZ(50px);
+    transform-style: preserve-3d;
+  }
+
+  a:hover::before {
+    height: 100%;
+    width: 120%;
+    filter: blur(calc(1.5 * var(--m)));
+    opacity: 0.8;
+  }
+
+  @keyframes animate {
+    0% {
+      background-position: 0;
+    }
+
+    100% {
+      background-position: 200%;
+    }
+  }
+
+  @media (width <= 640px) {
+    height: 150px;
+    font-size: 0.6rem;
+
+    .slogan {
+      margin-bottom: 10px;
+    }
+
+    .links {
+      gap: 16px;
+    }
+
+    --m: 0.6rem;
+  }
+}
