@@ -87,6 +87,11 @@
       margin-bottom: 20px;
       padding-bottom: 16px;
       border-bottom: 1px solid #e5e5e5;
+
+      button {
+        margin-left: 16px;
+        color: #999;
+      }
     }
 
     .info {
@@ -94,7 +99,6 @@
 
       & > div {
         flex: 0 0 50%;
-        overflow: hidden;
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -237,18 +241,32 @@
       overflow: hidden;
       flex-basis: 50%;
       background: #fff;
-      border-radius: 6px;
       padding: 16px;
-      box-shadow: 0 2px 6px 0 #4d4d4d33;
+      border-radius: 4px;
+      box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
       font-size: 0.8em;
 
       * {
         font-size: inherit;
       }
 
-      h3 {
-        margin: 0;
+      & > h3 {
+        position: relative;
+        margin: 0 0 28px;
         padding: 0;
+        color: #333;
+        font-size: 1.25rem;
+
+        &::after {
+          display: block;
+          content: '';
+          position: absolute;
+          top: calc(100% + 12px);
+          left: -16px;
+          width: calc(100% + 32px);
+          height: 4px;
+          background: #f5f5f5;
+        }
       }
     }
 
@@ -298,6 +316,14 @@
     @media screen and (width < $extraLargeBreakPoint) {
       max-width: 20vw;
     }
+  }
+
+  button {
+    margin: 0 4px;
+  }
+
+  svg {
+    color: #999;
   }
 }
 

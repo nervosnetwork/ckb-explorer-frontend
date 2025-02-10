@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { CopyIcon, Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
+import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
-import QRCode from 'qrcode'
 import dayjs from 'dayjs'
 import BigNumber from 'bignumber.js'
 import Content from '../../../components/Content'
@@ -23,12 +22,13 @@ import { TIME_TEMPLATE } from '../../../constants/common'
 import { formalizeChannelAsset } from '../../../utils/fiber'
 import { fetchPrices } from '../../../services/UtilityService'
 import LiquidityChart from './LiquidityChart'
+import Qrcode from '../../../components/Qrcode'
+import { ReactComponent as CopyIcon } from '../../../components/Copy/icon.svg'
 
 const GraphNode = () => {
   const [t] = useTranslation()
   const [addr, setAddr] = useState('')
   const { id } = useParams<{ id: string }>()
-  const qrRef = useRef<HTMLCanvasElement | null>(null)
   const { channel_state: channelState } = useSearchParams('channel_state')
 
   const setToast = useSetToast()
@@ -66,25 +66,6 @@ const GraphNode = () => {
       setAddr(firstAddr)
     }
   }, [node, setAddr])
-
-  useEffect(() => {
-    const cvs = qrRef.current
-    if (!cvs || !connectId) return
-    QRCode.toCanvas(
-      cvs,
-      connectId,
-      {
-        margin: 5,
-        errorCorrectionLevel: 'H',
-        width: 144,
-      },
-      err => {
-        if (err) {
-          console.error(err)
-        }
-      },
-    )
-  }, [qrRef, connectId])
 
   const openAndClosedTxs = useMemo(() => {
     const list: {
@@ -237,11 +218,6 @@ const GraphNode = () => {
               <button type="button" data-copy-text={node.nodeName}>
                 <CopyIcon />
               </button>
-              {/* {connectId ? ( */}
-              {/*   <div> */}
-              {/*     <canvas ref={qrRef} className={styles.qrcode} /> */}
-              {/*   </div> */}
-              {/* ) : null} */}
             </div>
           ) : null}
 
@@ -261,12 +237,10 @@ const GraphNode = () => {
                       )
                     })}
                   </select>
-                  <button type="button" data-copy-text={node.addresses}>
+                  <button type="button" data-copy-text={connectId}>
                     <CopyIcon />
                   </button>
-                  <a href={addr} title={addr} target="_blank" rel="noopener noreferrer">
-                    <OpenInNewWindowIcon />
-                  </a>
+                  <Qrcode text={connectId} />
                 </dd>
               </dl>
               <dl>

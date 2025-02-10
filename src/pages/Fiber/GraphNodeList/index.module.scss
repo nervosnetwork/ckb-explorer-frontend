@@ -38,6 +38,10 @@
     &:hover {
       color: var(--primary-color);
     }
+
+    svg {
+      width: 12px;
+    }
   }
 
   .cellLabel {

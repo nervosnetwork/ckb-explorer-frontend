@@ -1,4 +1,4 @@
-import { CopyIcon, HomeIcon, GlobeIcon } from '@radix-ui/react-icons'
+import { HomeIcon, GlobeIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
@@ -8,6 +8,7 @@ import type { Fiber } from '../../services/ExplorerService/fetcher'
 import { parseNumericAbbr } from '../../utils/chart'
 import { formalizeChannelAsset } from '../../utils/fiber'
 import { localeNumberString } from '../../utils/number'
+import { ReactComponent as CopyIcon } from '../Copy/icon.svg'
 import styles from './index.module.scss'
 
 const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ list, node }) => {
@@ -40,7 +41,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                       <div>{outpoint.slice(-15)}</div>
                     </Link>
                   </Tooltip>
-                  <button type="button" data-copy-text={outPoint.txHash}>
+                  <button type="button" data-copy-text={outPoint.txHash} className={styles.copy}>
                     <CopyIcon />
                   </button>
                 </dd>
@@ -98,7 +99,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                           <div>{ch.node1.slice(-8)}</div>
                         </Link>
                       </Tooltip>
-                      <button type="button" data-copy-text={ch.node1}>
+                      <button type="button" data-copy-text={ch.node1} className={styles.copy}>
                         <CopyIcon />
                       </button>
                     </dd>
@@ -122,7 +123,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                           <div>{ch.node2.slice(-8)}</div>
                         </Link>
                       </Tooltip>
-                      <button type="button" data-copy-text={ch.node2}>
+                      <button type="button" data-copy-text={ch.node2} className={styles.copy}>
                         <CopyIcon />
                       </button>
                     </dd>

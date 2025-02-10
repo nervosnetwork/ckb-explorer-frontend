@@ -59,11 +59,15 @@ const useOption = (list: AssetRecord[]): echarts.EChartOption => {
 export const LiquidityChart: FC<{ assets: AssetRecord[] }> = ({ assets }) => {
   const [t] = useTranslation()
 
+  const data = assets.filter(a => +a.usd > 0)
+
+  if (!data.length) return null
+
   return (
     <SmartChartPage
       title={t('fiber.graph.node.liquidity_allocation')}
       isThumbnail
-      fetchData={() => Promise.resolve(assets.filter(a => +a.usd > 0))}
+      fetchData={() => Promise.resolve(data)}
       getEChartOption={useOption}
     />
   )
