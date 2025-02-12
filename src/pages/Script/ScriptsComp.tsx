@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import camelcase from 'camelcase'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import Tooltip from 'antd/es/tooltip'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService } from '../../services/ExplorerService'
@@ -16,6 +17,8 @@ import styles from './styles.module.scss'
 import AddressText from '../../components/AddressText'
 import { ReactComponent as CopyIcon } from '../../assets/copy_icon.svg'
 import { ReactComponent as InfoMoreIcon } from './info_more_icon.svg'
+import { ReactComponent as LiveCellIcon } from './radio-wave-on.svg'
+import { ReactComponent as DeadCellIcon } from './radio-wave-off.svg'
 import { useSetToast } from '../../components/Toast'
 import { CellBasicInfo, transformToCellBasicInfo, transformToTransaction } from '../../utils/transformer'
 import { usePrevious } from '../../hooks'
@@ -97,6 +100,29 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
   )
 }
 
+const CellIcon = ({ status }: { status: 'live' | 'dead' | null }) => {
+  const [t] = useTranslation()
+  if (status === 'live') {
+    return (
+      <Tooltip title={t('cell.live_cell')}>
+        <span>
+          <LiveCellIcon width="16" height="16" />
+        </span>
+      </Tooltip>
+    )
+  }
+  if (status === 'dead') {
+    return (
+      <Tooltip title={t('cell.dead_cell')}>
+        <span>
+          <DeadCellIcon width="16" height="16" />
+        </span>
+      </Tooltip>
+    )
+  }
+  return <InfoMoreIcon />
+}
+
 export const CellInfo = ({ cell }: { cell: CellBasicInfo }) => {
   const [showModal, setShowModal] = useState(false)
   return (
@@ -107,7 +133,7 @@ export const CellInfo = ({ cell }: { cell: CellBasicInfo }) => {
           setShowModal(true)
         }}
       >
-        <InfoMoreIcon />
+        <CellIcon status={cell.status} />
       </SimpleButton>
       <SimpleModal isShow={showModal} setIsShow={setShowModal}>
         <CellModal cell={cell} onClose={() => setShowModal(false)} />
