@@ -76,11 +76,119 @@
     @extend %base-card;
 
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: column;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
 
-    .fields {
-      overflow: hidden;
+    .name {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e5e5e5;
+
+      button {
+        margin-left: 16px;
+        color: #999;
+      }
+    }
+
+    .info {
+      display: flex;
+
+      & > div {
+        flex: 0 0 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        &[data-side='left'] {
+          padding-right: 40px;
+          border-right: 1px solid #e5e5e5;
+        }
+
+        &[data-side='right'] {
+          padding-left: 40px;
+        }
+      }
+
+      dl {
+        justify-content: space-between;
+        margin: 0;
+      }
+
+      dt {
+        color: #666;
+      }
+
+      dd {
+        text-align: right;
+      }
+
+      @media screen and (width < $mobileBreakPoint) {
+        flex-direction: column;
+
+        & > div {
+          gap: 0;
+
+          &[data-side='left'] {
+            border-right: none;
+            padding-bottom: 16px;
+            padding-right: 0;
+          }
+
+          &[data-side='right'] {
+            padding-left: 0;
+          }
+
+          dl {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e5e5;
+          }
+        }
+
+        .thresholds {
+          .token {
+            gap: 8px;
+            justify-content: flex-start;
+          }
+        }
+      }
+
+      .totalLiquidity {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+
+        & > div {
+          margin-right: auto;
+        }
+
+        .liquidityAllocation {
+          flex-shrink: 0;
+          width: 300px;
+        }
+      }
+    }
+  }
+
+  .liquidityTitle {
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+
+  .liquidity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    span:last-child {
+      text-align: right;
     }
   }
 
@@ -96,6 +204,8 @@
   }
 
   .thresholds {
+    line-height: 1;
+
     dt {
       align-items: start;
     }
@@ -104,42 +214,59 @@
       margin-left: 8px;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: flex-end;
+      gap: 4px;
 
       img {
         flex: 0 0;
       }
 
       .token {
+        width: 100%;
         display: flex;
-        gap: 8px;
         align-items: center;
+        justify-content: space-between;
+        gap: 4px;
       }
     }
   }
 
   .activities {
     display: flex;
-    gap: 16px;
-    margin-top: 16px;
+    gap: 24px;
+    margin-top: 24px;
 
     .channels,
     .transactions {
       overflow: hidden;
       flex-basis: 50%;
       background: #fff;
-      border-radius: 6px;
       padding: 16px;
-      box-shadow: 0 2px 6px 0 #4d4d4d33;
+      border-radius: 4px;
+      box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
       font-size: 0.8em;
 
       * {
         font-size: inherit;
       }
 
-      h3 {
-        margin: 0;
+      & > h3 {
+        position: relative;
+        margin: 0 0 28px;
         padding: 0;
+        color: #333;
+        font-size: 1.25rem;
+
+        &::after {
+          display: block;
+          content: '';
+          position: absolute;
+          top: calc(100% + 12px);
+          left: -16px;
+          width: calc(100% + 32px);
+          height: 4px;
+          background: #f5f5f5;
+        }
       }
     }
 
@@ -182,9 +309,21 @@
 
 .addresses {
   select {
-    max-width: 80%;
+    max-width: 24vw;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @media screen and (width < $extraLargeBreakPoint) {
+      max-width: 20vw;
+    }
+  }
+
+  button {
+    margin: 0 4px;
+  }
+
+  svg {
+    color: #999;
   }
 }
 

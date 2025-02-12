@@ -12,8 +12,7 @@ import styles from './index.module.scss'
 import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import FiberPeerInfo from './fiber'
-
-const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
+import { TIME_TEMPLATE } from '../../../constants/common'
 
 const Channel = () => {
   const [t] = useTranslation()

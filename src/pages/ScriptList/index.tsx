@@ -355,6 +355,14 @@ export const scripts = new Map<string, ScriptAttributes>([
       website: 'https://www.interpaystellar.com/',
     },
   ],
+  [
+    'Fiber Channel',
+    {
+      name: 'Fiber Channel',
+      description: 'Fiber Channel',
+      website: 'https://www.ckbfiber.net',
+    },
+  ],
 ])
 
 const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']

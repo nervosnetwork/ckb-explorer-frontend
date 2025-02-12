@@ -1318,6 +1318,18 @@ export const apiFetcher = {
         >(res.data),
       )
   },
+
+  getGraphHistory: () => {
+    return requesterV2
+      .get('/fiber/statistics')
+      .then(res => toCamelcase<Response.Response<Fiber.Graph.Statistics>>(res.data))
+  },
+
+  getGraphNodeIPs: () => {
+    return requesterV2
+      .get('/fiber/graph_nodes/addresses')
+      .then(res => toCamelcase<Response.Response<Fiber.Graph.GraphNodeIps>>(res.data))
+  },
 }
 
 // ====================
@@ -1573,7 +1585,13 @@ export namespace Fiber {
       blockTimestamp: number
       capacity: string
       txHash: string
-      udtAmount?: string
+      udtInfo?: {
+        symbol?: string
+        decimal?: string
+        amount: string
+        typeHash: string
+        iconFile?: string
+      }
     }
 
     interface ClosedTransactionInfo {
@@ -1583,7 +1601,11 @@ export namespace Fiber {
       closeAccounts: {
         address: string
         capacity: string
-        udtAmount: string | null
+        udtInfo?: {
+          symbol?: string
+          decimal?: string
+          amount: string
+        }
       }[]
     }
 
@@ -1618,5 +1640,23 @@ export namespace Fiber {
     export interface NodeDetail extends Node {
       fiberGraphChannels: Channel[]
     }
+
+    export type Statistics = Record<
+      | 'totalNodes'
+      | 'totalChannels'
+      | 'totalLiquidity'
+      | 'meanValueLocked'
+      | 'meanFeeRate'
+      | 'mediumValueLocked'
+      | 'mediumFeeRate'
+      | 'createdAtUnixtimestamp',
+      string
+    >[]
+
+    export type GraphNodeIps = {
+      nodeId: string
+      addresses: string[]
+      connections: string[]
+    }[]
   }
 }

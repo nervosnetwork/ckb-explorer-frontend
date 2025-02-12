@@ -661,7 +661,10 @@
       "view-btc-tx": "View BTC Tx",
       "isomorphic-binding-with-index": "Isomorphic bound to CKB Tx {{index}}",
       "isomorphic-binding-with-index-commitment": "Isomorphic bound to CKB Tx {{index}}\n\nCommitment:\n{{commitment}}",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "fiber_channel": "Fiber Channel",
+      "deployment": "Deployment",
+      "deployed_script": "Deployed Script"
     },
     "block": {
       "block": "Block",
@@ -1130,6 +1133,7 @@
       "view_cell_info": "View Cell Info"
     },
     "fiber": {
+      "fiber_node": "Fiber Network Node",
       "peer": {
         "peer_id": "ID",
         "name": "Name",
@@ -1155,7 +1159,23 @@
         "offered": "Offered",
         "received": "Received"
       },
+      "action": {
+        "open": "Open",
+        "close": "Close"
+      },
       "graph": {
+        "total_capacity": "Total Capacity",
+        "total_liquidity": "Total Liquidity",
+        "total_nodes": "Total Nodes",
+        "total_channels": "Total Channels",
+        "mean": "Mean",
+        "median": "Median",
+        "mean_locked_capacity": "Mean Locked Capacity",
+        "mean_fee_rate": "Mean Fee Rate",
+        "median_locked_capacity": "Median Locked Capacity",
+        "median_fee_rate": "Median Fee Rate",
+        "public_fiber_node_world_map": "Public Fiber Node World Map",
+        "public_fiber_nodes": "Public Fiber Nodes",
         "node": {
           "id": "Node ID",
           "name": "Name",
@@ -1167,7 +1187,9 @@
           "chain_hash": "Chain Hash",
           "addresses": "Addresses",
           "total_capacity": "Capacity",
-          "open_channels": "Open Channels"
+          "open_channels": "Open Channels",
+          "total_liquidity": "Total Liquidity",
+          "liquidity_allocation": "Liquidity Allocation"
         },
         "channel": {
           "connected_node": "Connected Node"

@@ -1,15 +1,15 @@
-import { CopyIcon, HomeIcon, GlobeIcon } from '@radix-ui/react-icons'
+import { HomeIcon, GlobeIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import { Link } from 'react-router-dom'
+import { TIME_TEMPLATE } from '../../constants/common'
 import type { Fiber } from '../../services/ExplorerService/fetcher'
 import { parseNumericAbbr } from '../../utils/chart'
+import { formalizeChannelAsset } from '../../utils/fiber'
 import { localeNumberString } from '../../utils/number'
-import { shannonToCkb } from '../../utils/util'
+import { ReactComponent as CopyIcon } from '../Copy/icon.svg'
 import styles from './index.module.scss'
-
-const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
 
 const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ list, node }) => {
   if (!list.length) {
@@ -18,27 +18,18 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
 
   return (
     <div className={styles.container}>
-      {list.map((channel, i) => {
+      {list.map((ch, i) => {
+        const { totalLiquidity, funding } = formalizeChannelAsset(ch)
+
         const outPoint = {
-          txHash: channel.channelOutpoint.slice(0, -8),
-          index: parseInt(channel.channelOutpoint.slice(-8), 16),
+          txHash: ch.channelOutpoint.slice(0, -8),
+          index: parseInt(ch.channelOutpoint.slice(-8), 16),
         }
 
-        const ckb = shannonToCkb(channel.capacity)
-        const amount = parseNumericAbbr(ckb)
-
-        const fundingCkb = shannonToCkb(channel.openTransactionInfo.capacity)
-        const fundingCkbAmount = parseNumericAbbr(fundingCkb)
-
-        const fundingUdtAmount = channel.openTransactionInfo.udtAmount
-          ? parseNumericAbbr(channel.openTransactionInfo.udtAmount)
-          : null
-
         const outpoint = `${outPoint.txHash}#${outPoint.index}`
-        // console.log(channel)
 
         return (
-          <div key={channel.channelOutpoint} className={styles.channel}>
+          <div key={ch.channelOutpoint} className={styles.channel}>
             <h1>Channel #{i + 1}</h1>
             <div>
               <dl className={styles.outPoint}>
@@ -50,33 +41,30 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                       <div>{outpoint.slice(-15)}</div>
                     </Link>
                   </Tooltip>
-                  <button type="button" data-copy-text={outPoint.txHash}>
+                  <button type="button" data-copy-text={outPoint.txHash} className={styles.copy}>
                     <CopyIcon />
                   </button>
                 </dd>
               </dl>
 
               <dl className={styles.amount}>
-                <dt>Capacity</dt>
+                <dt>Liquidity</dt>
                 <dd>
-                  <Tooltip title={`${localeNumberString(ckb)} CKB`}>
-                    <span>{`${amount} CKB`}</span>
-                  </Tooltip>
+                  <span>{`${parseNumericAbbr(totalLiquidity)} ${funding.symbol}`}</span>
                 </dd>
               </dl>
+
               <dl className={styles.funding}>
                 <dt>Source</dt>
                 <dd>
-                  {fundingUdtAmount || (
-                    <Tooltip title={`${localeNumberString(fundingCkb)} CKB`}>
-                      <span>{`${fundingCkbAmount} CKB`}</span>
-                    </Tooltip>
-                  )}
+                  <Tooltip title={`${localeNumberString(funding.value)} ${funding.symbol}`}>
+                    <span>{`${parseNumericAbbr(funding.amount)} ${funding.symbol}`}</span>
+                  </Tooltip>
                   from
-                  <Tooltip title={channel.openTransactionInfo.address}>
-                    <Link to={`/address/${channel.openTransactionInfo.address}`} className={styles.address}>
-                      <div>{channel.openTransactionInfo.address.slice(0, -15)}</div>
-                      <div>{channel.openTransactionInfo.address.slice(-15)}</div>
+                  <Tooltip title={ch.openTransactionInfo.address}>
+                    <Link to={`/address/${ch.openTransactionInfo.address}`} className={styles.address}>
+                      <div>{ch.openTransactionInfo.address.slice(0, -15)}</div>
+                      <div>{ch.openTransactionInfo.address.slice(-15)}</div>
                     </Link>
                   </Tooltip>
                 </dd>
@@ -85,9 +73,9 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                 <dt>Position</dt>
                 <dd>
                   On
-                  <Tooltip title={dayjs(+channel.createdTimestamp).format(TIME_TEMPLATE)}>
-                    <Link to={`/block/${channel.openTransactionInfo.blockNumber}`}>
-                      {localeNumberString(channel.openTransactionInfo.blockNumber)}
+                  <Tooltip title={dayjs(+ch.createdTimestamp).format(TIME_TEMPLATE)}>
+                    <Link to={`/block/${ch.openTransactionInfo.blockNumber}`}>
+                      {localeNumberString(ch.openTransactionInfo.blockNumber)}
                     </Link>
                   </Tooltip>
                 </dd>
@@ -100,49 +88,49 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
                 <div className={styles.node}>
                   <h3>
                     First Node
-                    {node ? <span>{node === channel.node1 ? <HomeIcon /> : <GlobeIcon />}</span> : null}
+                    {node ? <span>{node === ch.node1 ? <HomeIcon /> : <GlobeIcon />}</span> : null}
                   </h3>
                   <dl>
                     <dt>ID</dt>
                     <dd>
-                      <Tooltip title={channel.node1}>
-                        <Link to={`/fiber/graph/node/${channel.node1}`} className="monospace">
-                          <div>{`0x${channel.node1.slice(0, -8)}`}</div>
-                          <div>{channel.node1.slice(-8)}</div>
+                      <Tooltip title={ch.node1}>
+                        <Link to={`/fiber/graph/node/${ch.node1}`} className="monospace">
+                          <div>{`0x${ch.node1.slice(0, -8)}`}</div>
+                          <div>{ch.node1.slice(-8)}</div>
                         </Link>
                       </Tooltip>
-                      <button type="button" data-copy-text={channel.node1}>
+                      <button type="button" data-copy-text={ch.node1} className={styles.copy}>
                         <CopyIcon />
                       </button>
                     </dd>
                   </dl>
                   <dl>
                     <dt>Fee Rate</dt>
-                    <dd>{`${localeNumberString(channel.feeRateOfNode1)} shannon/kB`}</dd>
+                    <dd>{`${localeNumberString(ch.feeRateOfNode1)} shannon/kB`}</dd>
                   </dl>
                 </div>
                 <div className={styles.node}>
                   <h3>
                     Second Node
-                    {node ? <span>{node === channel.node2 ? <HomeIcon /> : <GlobeIcon />}</span> : null}
+                    {node ? <span>{node === ch.node2 ? <HomeIcon /> : <GlobeIcon />}</span> : null}
                   </h3>
                   <dl>
                     <dt>ID</dt>
                     <dd>
-                      <Tooltip title={channel.node2}>
-                        <Link to={`/fiber/graph/node/${channel.node2}`}>
-                          <div>{`0x${channel.node2.slice(0, -8)}`}</div>
-                          <div>{channel.node2.slice(-8)}</div>
+                      <Tooltip title={ch.node2}>
+                        <Link to={`/fiber/graph/node/${ch.node2}`}>
+                          <div>{`0x${ch.node2.slice(0, -8)}`}</div>
+                          <div>{ch.node2.slice(-8)}</div>
                         </Link>
                       </Tooltip>
-                      <button type="button" data-copy-text={channel.node2}>
+                      <button type="button" data-copy-text={ch.node2} className={styles.copy}>
                         <CopyIcon />
                       </button>
                     </dd>
                   </dl>
                   <dl>
                     <dt>Fee Rate</dt>
-                    <dd>{`${localeNumberString(channel.feeRateOfNode2)} shannon/kB`}</dd>
+                    <dd>{`${localeNumberString(ch.feeRateOfNode2)} shannon/kB`}</dd>
                   </dl>
                 </div>
               </div>

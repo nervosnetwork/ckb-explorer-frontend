@@ -13,6 +13,7 @@ import { ReactComponent as MoreIcon } from '../../../assets/more-icon.svg'
 import { ReactComponent as BtcIcon } from './btc.svg'
 import { ReactComponent as DirectionIcon } from '../../../assets/direction.svg'
 import { BTCExplorerLink } from '../../Link'
+import { TIME_TEMPLATE } from '../../../constants/common'
 
 const MAX_ITEMS = 10
 
@@ -44,7 +45,7 @@ const BtcTransaction: FC<{
           </h3>
           {time && tx.confirmations ? (
             <time dateTime={time.toISOString()}>{`${tx.confirmations.toLocaleString('en')} Confirmations (${time.format(
-              'YYYY-MM-DD HH:mm:ss',
+              TIME_TEMPLATE,
             )})`}</time>
           ) : (
             <div>{t('transaction.loading')}</div>

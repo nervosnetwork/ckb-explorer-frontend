@@ -2,22 +2,22 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { CopyIcon, InfoCircledIcon, LinkBreak2Icon } from '@radix-ui/react-icons'
+import { InfoCircledIcon, LinkBreak2Icon } from '@radix-ui/react-icons'
 import dayjs from 'dayjs'
 import Content from '../../../components/Content'
 import { useSetToast } from '../../../components/Toast'
 import { explorerService } from '../../../services/ExplorerService'
 import type { Fiber } from '../../../services/ExplorerService/fetcher'
+import { ReactComponent as CopyIcon } from '../../../components/Copy/icon.svg'
 import Pagination from '../Pagination'
-import { PAGE_SIZE } from '../../../constants/common'
+import { PAGE_SIZE, TIME_TEMPLATE } from '../../../constants/common'
 import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import styles from './index.module.scss'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString } from '../../../utils/number'
-
-const TIME_TEMPLATE = 'YYYY/MM/DD hh:mm:ss'
+import GraphNodeIps from '../../../components/GraphNodeIps'
 
 const fields = [
   {
@@ -63,7 +63,7 @@ const fields = [
       if (typeof v !== 'string') return v
 
       const ckb = shannonToCkb(v)
-      const amount = parseNumericAbbr(ckb)
+      const amount = parseNumericAbbr(ckb, 2)
       return (
         <Tooltip title={`${localeNumberString(ckb)} CKB`}>
           <span>{`${amount} CKB`}</span>
@@ -173,25 +173,38 @@ const GraphNodeList = () => {
   return (
     <Content>
       <div className={styles.container} onClick={handleCopy}>
-        <h1 className={styles.header}>
-          <span>CKB Fiber Graph Nodes</span>
-        </h1>
+        <div className={styles.geo}>
+          <h5>{t('fiber.graph.public_fiber_node_world_map')}</h5>
+          <GraphNodeIps />
+        </div>
         <table>
           <thead>
+            <tr data-role="header">
+              <td colSpan={fields.length}>
+                <h1 className={styles.header}>
+                  <span>{t('fiber.graph.public_fiber_nodes')}</span>
+                </h1>
+              </td>
+            </tr>
+            <div className={styles.tableSeparator} />
             <tr>
               {fields.map(f => {
                 return <th key={f.key}>{t(`fiber.graph.node.${f.label}`)}</th>
               })}
             </tr>
           </thead>
-          <div className={styles.tableSeparator} />
           <tbody>
             {list.map(i => {
               return (
                 <tr>
                   {fields.map(f => {
                     const v = i[f.key as keyof typeof i]
-                    return <td key={f.key}>{f.transformer?.(v, i) ?? v}</td>
+                    return (
+                      <td key={f.key}>
+                        <span className={styles.cellLabel}>{t(`fiber.graph.node.${f.label}`)}</span>
+                        {f.transformer?.(v, i) ?? v}
+                      </td>
+                    )
                   })}
                 </tr>
               )
