@@ -29,6 +29,7 @@ import { isValidBTCAddress } from '../../utils/bitcoin'
 import { defaultAddressInfo } from './state'
 import { BTCAddressOverviewCard } from './BTCAddressComp'
 import Qrcode from '../../components/Qrcode'
+import { FaucetMenu } from '../../components/FaucetMenu'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
@@ -181,6 +182,7 @@ export const Address = () => {
             customActions={[
               <Qrcode text={address} />,
               isBtcAddress ? <LinkToBtcAddress address={address} /> : null,
+              <FaucetMenu address={address} />,
               counterpartAddr ? (
                 <Tooltip
                   placement="top"

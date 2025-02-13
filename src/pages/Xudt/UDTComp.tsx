@@ -24,6 +24,7 @@ import { XUDT, XUDTHolderAllocation } from '../../models/Xudt'
 import { getBtcTxList } from '../../services/ExplorerService/fetcher'
 import XUDTTag from '../../components/XUDTTag'
 import SimpleButton from '../../components/SimpleButton'
+import { FaucetMenu } from '../../components/FaucetMenu'
 import SimpleModal from '../../components/Modal'
 import HolderAllocation from './HolderAllocation'
 import { ReactComponent as EditIcon } from '../../assets/edit.svg'
@@ -204,6 +205,7 @@ export const UDTOverviewCard = ({
           title={!isMobile && cardTitle}
           hash={typeHash}
           rightContent={!isMobile && modifyTokenInfo}
+          customActions={[<FaucetMenu tokenId={typeHash} />]}
         />
 
         <div className={styles.tags}>
