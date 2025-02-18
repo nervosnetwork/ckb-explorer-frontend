@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios'
 import BigNumber from 'bignumber.js'
 import { Dayjs } from 'dayjs'
-import { ReactNode } from 'react'
 import { pick } from '../../utils/object'
 import { shannonToCkb, toCamelcase } from '../../utils/util'
 import { requesterV1, requesterV2 } from './requester'
@@ -17,6 +16,18 @@ import {
   LiveCell,
   TokenCollection,
   BitcoinAddresses,
+  Fiber,
+  UDTQueryResult,
+  RGBTransaction,
+  FeeRateTracker,
+  NFTCollection,
+  NFTItem,
+  ScriptInfo,
+  CKBTransactionInScript,
+  CellInScript,
+  TransferListRes,
+  DASAccountMap,
+  SubmitTokenInfoParams,
 } from './types'
 import { assert } from '../../utils/error'
 import { Cell } from '../../models/Cell'
@@ -26,8 +37,7 @@ import { BtcTx, Transaction } from '../../models/Transaction'
 import { Address, AddressType, UDTAccount } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
 import { XUDT, XUDTHolderAllocation } from '../../models/Xudt'
-import { HashType } from '../../constants/common'
-import { Dob, getDobs } from '../DobsService'
+import { getDobs } from '../DobsService'
 import { isDob0 } from '../../utils/spore'
 
 async function v1Get<T>(...args: Parameters<typeof requesterV1.get>) {
@@ -1339,324 +1349,3 @@ export const apiFetcher = {
 export type APIFetcher = typeof apiFetcher
 
 export type APIReturn<T extends keyof APIFetcher> = Awaited<ReturnType<APIFetcher[T]>>
-
-export namespace FeeRateTracker {
-  export interface TransactionFeeRate {
-    id: number
-    timestamp: number
-    feeRate: number
-    confirmationTime: number
-  }
-
-  export interface PendingTransactionFeeRate {
-    id: number
-    feeRate: number
-  }
-
-  export interface LastNDaysTransactionFeeRate {
-    date: string
-    feeRate: string
-  }
-
-  export interface TransactionFeesStatistic {
-    transactionFeeRates: TransactionFeeRate[]
-    pendingTransactionFeeRates: PendingTransactionFeeRate[]
-    lastNDaysTransactionFeeRates: LastNDaysTransactionFeeRate[]
-  }
-
-  export interface FeeRateCard {
-    priority: string
-    icon: ReactNode
-    feeRate?: string
-    priorityClass: string
-    confirmationTime: number
-  }
-}
-
-export interface NFTCollection {
-  id: number
-  standard: string
-  name: string
-  description: string
-  h24_ckb_transactions_count: string
-  creator: string | null
-  icon_url: string | null
-  items_count: number | null
-  holders_count: number | null
-  type_script: { code_hash: string; hash_type: 'data' | 'type'; args: string } | null
-  tags: string[]
-  sn: string
-  timestamp: number
-}
-
-export interface NFTItem {
-  icon_url: string | null
-  id: number
-  token_id: string
-  owner: string | null
-  standard: string | null
-  cell: {
-    cell_index: number
-    data: string | null
-    status: string
-    tx_hash: string
-  } | null
-  collection: NFTCollection
-  name: string | null
-  metadata_url: string | null
-  type_script: Record<'code_hash' | 'hash_type' | 'args' | 'script_hash', string>
-  dob?: Dob
-}
-
-export interface ScriptInfo {
-  id: string
-  scriptName: string
-  scriptType: string
-  codeHash: string
-  hashType: HashType
-  capacityOfDeployedCells: string
-  capacityOfReferringCells: string
-  countOfTransactions: number
-  countOfDeployedCells: number
-  countOfReferringCells: number
-}
-
-export interface CKBTransactionInScript {
-  isBtcTimeLock: boolean
-  isRgbTransaction: boolean
-  rgbTxid: string | null
-  id: number
-  txHash: string
-  blockId: number
-  blockNumber: number
-  blockTimestamp: number
-  transactionFee: number
-  isCellbase: boolean
-  txStatus: string
-  displayInputs: Cell[]
-  displayOutputs: Cell[]
-}
-
-export interface CellInScript {
-  id: number
-  capacity: string
-  data: string
-  ckbTransactionId: number
-  createdAt: string
-  updatedAt: string
-  status: string
-  addressId: number
-  blockId: number
-  txHash: string
-  cellIndex: number
-  generatedById?: number
-  consumedById?: number
-  cellType: string
-  dataSize: number
-  occupiedCapacity: number
-  blockTimestamp: number
-  consumedBlockTimestamp: number
-  typeHash?: string
-  udtAmount: number
-  dao: string
-  lockScriptId?: number
-  typeScriptId?: number
-}
-
-export interface TransferRes {
-  id: number
-  from: string | null
-  to: string | null
-  action: 'mint' | 'normal' | 'destruction'
-  item: NFTItem
-  transaction: {
-    tx_hash: string
-    block_number: number
-    block_timestamp: number
-  }
-}
-
-export interface TransferListRes {
-  data: TransferRes[]
-  pagination: {
-    count: number
-    page: number
-    next: number | null
-    prev: number | null
-    last: number
-  }
-}
-
-export type DASAccount = string
-
-export type DASAccountMap = Record<string, DASAccount | null>
-
-export type UDTQueryResult = {
-  fullName: string
-  symbol: string | null
-  typeHash: string
-  iconFile: string | null
-  udtType: UDT['udtType']
-}
-
-type SubmitTokenInfoParams = {
-  symbol: string
-  email: string
-  operator_website: string
-  total_amount: number
-
-  full_name?: string
-  decimal?: number
-  description?: string
-  icon_file?: string
-  token?: string
-}
-
-export interface RGBTransaction {
-  txHash: string
-  blockId: number
-  blockNumber: number
-  blockTimestamp: number
-  leapDirection: string
-  rgbCellChanges: number
-  rgbTxid: string
-}
-
-export namespace Fiber {
-  export namespace Peer {
-    interface Base {
-      peerId: string
-      rpcListeningAddr: string[]
-      firstChannelOpenedAt: null // TODO
-      lastChannelUpdatedAt: null // TODO
-    }
-    export interface ItemInList extends Base {
-      name: string
-      channelsCount: number
-      totalLocalBalance: string // shannon amount
-    }
-
-    export interface Detail extends Base {
-      fiberChannels: {
-        peerId: string
-        channelId: string
-        stateName: string // TODO: should be enum
-        stateFlags: [] // TODO
-      }[]
-    }
-  }
-  export namespace Channel {
-    export interface Peer {
-      name?: string
-      peerId: string
-      rpcListeningAddr: string[]
-    }
-    export interface Detail {
-      channelId: string
-      stateName: string // TODO should be name
-      stateFlags: [] // TODO
-      shutdownAt: null // TODO
-      createdAt: string // utc time
-      updatedAt: string // utc time
-      localBalance: string // shannon
-      offeredTlcBalance: string // shannon
-      receivedTlcBalance: string // shannon
-      remoteBalance: string // shannon
-      localPeer: Peer
-      remotePeer: Peer
-    }
-  }
-
-  export namespace Graph {
-    interface UdtConfigInfo {
-      args: string
-      codeHash: string
-      hashType: HashType
-      decimal?: number
-      fullName?: string
-      iconFile?: string
-      symbol?: string
-      autoAcceptAmount: string
-    }
-
-    interface OpenTransactionInfo {
-      address: string
-      blockNumber: number
-      blockTimestamp: number
-      capacity: string
-      txHash: string
-      udtInfo?: {
-        symbol?: string
-        decimal?: string
-        amount: string
-        typeHash: string
-        iconFile?: string
-      }
-    }
-
-    interface ClosedTransactionInfo {
-      blockNumber: number
-      blockTimestamp: number
-      txHash: string
-      closeAccounts: {
-        address: string
-        capacity: string
-        udtInfo?: {
-          symbol?: string
-          decimal?: string
-          amount: string
-        }
-      }[]
-    }
-
-    export interface Node {
-      nodeName: string
-      nodeId: string
-      addresses: string[]
-      timestamp: string
-      chainHash: string
-      autoAcceptMinCkbFundingAmount: string
-      udtCfgInfos: UdtConfigInfo[]
-      totalCapacity: string
-      connectedNodeIds: string[]
-      openChannelsCount: number
-    }
-
-    export interface Channel {
-      capacity: string
-      chainHash: string
-      channelOutpoint: string
-      closedTransactionInfo: ClosedTransactionInfo
-      createdTimestamp: string
-      feeRateOfNode1: string
-      feeRateOfNode2: string
-      lastUpdatedTimestampOfNode1: string
-      lastUpdatedTimestampOfNode2: string
-      node1: string
-      node2: string
-      openTransactionInfo: OpenTransactionInfo
-    }
-
-    export interface NodeDetail extends Node {
-      fiberGraphChannels: Channel[]
-    }
-
-    export type Statistics = Record<
-      | 'totalNodes'
-      | 'totalChannels'
-      | 'totalLiquidity'
-      | 'meanValueLocked'
-      | 'meanFeeRate'
-      | 'mediumValueLocked'
-      | 'mediumFeeRate'
-      | 'createdAtUnixtimestamp',
-      string
-    >[]
-
-    export type GraphNodeIps = {
-      nodeId: string
-      addresses: string[]
-      connections: string[]
-    }[]
-  }
-}

@@ -1,5 +1,5 @@
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
-import type { Fiber } from '../../../services/ExplorerService/fetcher'
+import type { Fiber } from '../../../services/ExplorerService'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { shannonToCkb } from '../../../utils/util'

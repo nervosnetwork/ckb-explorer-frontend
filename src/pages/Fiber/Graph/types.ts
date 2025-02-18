@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import type { Fiber } from '../../../services/ExplorerService/fetcher'
+import type { Fiber } from '../../../services/ExplorerService'
 
 export interface Dataset {
   timestamp: string
