@@ -1,16 +1,33 @@
 @import '../../../styles/variables.module';
 
-.container {
+:root {
+  --spacing-xs: 6px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
   --chart-width: 450px;
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --shadow-default: rgb(0 0 0 / 12%) 0 2px 6px 0;
+  --color-text-primary: #333;
+  --color-text-secondary: #666;
+  --color-text-light: #f3f3f3;
+  --color-success: #00cc9b;
+  --color-error: #fa2554;
+  --color-border: #f5f5f5;
+  --color-bg-dark: #121213;
+  --gradient-rainbow: linear-gradient(90deg, #ff6d1b, #fe5, #5bff89, #4d8aff, #6b5fff, #ff64f9, #ff6565);
+}
 
+.container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--spacing-md);
   width: 100%;
   max-width: 1600px;
-  padding: 24px 24px 40px;
+  padding: var(--spacing-md) var(--spacing-md) var(--spacing-lg);
   margin: 0 auto;
-  min-height: calc(100vh - 64px - 429px); // 429 is the height of the footer, should be defined as a variable
+  min-height: calc(100vh - 64px - 429px);
   box-sizing: border-box;
 
   @media (width <= $mobileBreakPoint) {
@@ -18,7 +35,7 @@
     padding: 20px;
   }
 
-  @media screen and (width< $xxlBreakPoint) {
+  @media screen and (width < $xxlBreakPoint) {
     --chart-width: 350px;
   }
 
@@ -27,25 +44,26 @@
   }
 }
 
-.history,
-.geo {
+%card-base {
   background: #fff;
-  border-radius: 6px;
-  box-shadow: rgb(0 0 0 / 12%) 0 2px 6px 0;
-  padding: 24px 40px;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-default);
+  padding: var(--spacing-md) var(--spacing-lg);
 
   @media screen and (width < $extraLargeBreakPoint) {
-    padding: 24px;
+    padding: var(--spacing-md);
   }
 }
 
 .history {
+  @extend %card-base;
+
   display: flex;
-  gap: 16px;
+  gap: var(--spacing-sm);
 
   .vertical {
     display: flex;
-    gap: 16px;
+    gap: var(--spacing-sm);
     flex-direction: column;
   }
 
@@ -70,8 +88,14 @@
   }
 
   .current {
+    color: var(--color-text-primary);
+    font-size: 24px;
+    font-weight: 500;
+    width: 150px;
+    flex: 1;
+
     & > div:first-child {
-      color: #666;
+      color: var(--color-text-secondary);
       font-size: 14px;
       font-weight: 400;
     }
@@ -79,48 +103,41 @@
     span[data-is-negative] {
       font-size: 13px;
       font-weight: 500;
-    }
-
-    span[data-is-negative='true'] {
-      color: #fa2554;
 
       &::before {
         content: '↓';
       }
-    }
 
-    span[data-is-negative='false'] {
-      color: #00cc9b;
+      &[data-is-negative='true'] {
+        color: var(--color-error);
+      }
 
-      &::before {
-        content: '↑';
+      &[data-is-negative='false'] {
+        color: var(--color-success);
+
+        &::before {
+          content: '↑';
+        }
       }
     }
-
-    color: #333;
-    font-size: 24px;
-    font-weight: 500;
-    width: 150px;
-    flex: 1;
   }
 
-  .liquidity,
-  .nodes,
-  .channels {
+  %metric-card {
     display: flex;
     justify-content: space-between;
-    border-radius: 8px;
-    border: 1px solid #f5f5f5;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--color-border);
     overflow: hidden;
-    padding: 16px;
+    padding: var(--spacing-sm);
 
     @media screen and (width < $extraLargeBreakPoint) {
       flex-direction: column;
     }
   }
 
-  .liquidity,
-  .nodes {
+  %fixed-height-card {
+    @extend %metric-card;
+
     height: 132px;
 
     .chart {
@@ -146,7 +163,14 @@
     }
   }
 
+  .liquidity,
+  .nodes {
+    @extend %fixed-height-card;
+  }
+
   .channels {
+    @extend %metric-card;
+
     @media screen and (width < $extraLargeBreakPoint) {
       .current {
         width: 100%;
@@ -164,22 +188,17 @@
 }
 
 .geo {
+  @extend %card-base;
+
   h5 {
     font-weight: 500;
     font-size: 20px;
-    color: #333;
+    color: var(--color-text-primary);
   }
 }
 
 .fiberBanner {
   --m: 1rem;
-  --red: #ff6565;
-  --pink: #ff64f9;
-  --purple: #6b5fff;
-  --blue: #4d8aff;
-  --green: #5bff89;
-  --yellow: #fe5;
-  --orange: #ff6d1b;
 
   position: relative;
   background-color: black;
@@ -188,18 +207,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 64px 40px 78px;
-  border-radius: 6px;
-  box-shadow: rgb(0 0 0 / 12%) 0 2px 6px 0;
+  padding: var(--spacing-lg) var(--spacing-lg) 78px;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-default);
 
   .slogan {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 
     h1,
     h3 {
       line-height: 1;
-      color: #f3f3f3;
+      color: var(--color-text-light);
       text-align: center;
     }
 
@@ -207,13 +227,11 @@
       opacity: 0.8;
       font-weight: 300;
     }
-
-    margin-bottom: 20px;
   }
 
   a {
     position: relative;
-    color: #f3f3f3;
+    color: var(--color-text-light);
     font-size: var(--m);
     display: flex;
     justify-content: center;
@@ -225,18 +243,8 @@
     border: calc(0.08 * var(--m)) solid transparent;
     border-radius: calc(0.7 * var(--m));
     padding: calc(0.5 * var(--m)) calc(1 * var(--m));
-    background: linear-gradient(#121213, #121213),
-      linear-gradient(#121213 50%, rgb(18 18 19 / 60%) 80%, rgb(18 18 19 / 0%)),
-      linear-gradient(
-        90deg,
-        var(--orange),
-        var(--yellow),
-        var(--green),
-        var(--blue),
-        var(--purple),
-        var(--pink),
-        var(--red)
-      );
+    background: linear-gradient(var(--color-bg-dark), var(--color-bg-dark)),
+      linear-gradient(var(--color-bg-dark) 50%, rgb(18 18 19 / 60%) 80%, rgb(18 18 19 / 0%)), var(--gradient-rainbow);
     background-origin: border-box;
     background-clip: padding-box, border-box, border-box;
     background-size: 200%;
@@ -252,16 +260,7 @@
 
   a::before {
     content: '';
-    background: linear-gradient(
-      90deg,
-      var(--orange),
-      var(--yellow),
-      var(--green),
-      var(--blue),
-      var(--purple),
-      var(--pink),
-      var(--red)
-    );
+    background: var(--gradient-rainbow);
     height: 30%;
     width: 90%;
     position: absolute;
@@ -271,17 +270,19 @@
     filter: blur(calc(0.8 * var(--m)));
   }
 
-  a:hover span {
-    border: calc(0.08 * var(--m)) solid transparent;
-    transform: perspective(1000px) translateZ(50px);
-    transform-style: preserve-3d;
-  }
+  a:hover {
+    span {
+      border: calc(0.08 * var(--m)) solid transparent;
+      transform: perspective(1000px) translateZ(50px);
+      transform-style: preserve-3d;
+    }
 
-  a:hover::before {
-    height: 100%;
-    width: 120%;
-    filter: blur(calc(1.5 * var(--m)));
-    opacity: 0.8;
+    &::before {
+      height: 100%;
+      width: 120%;
+      filter: blur(calc(1.5 * var(--m)));
+      opacity: 0.8;
+    }
   }
 
   @keyframes animate {
@@ -298,14 +299,14 @@
     height: 150px;
     font-size: 0.6rem;
 
+    --m: 0.6rem;
+
     .slogan {
       margin-bottom: 10px;
     }
 
     .links {
-      gap: 16px;
+      gap: var(--spacing-sm);
     }
-
-    --m: 0.6rem;
   }
 }

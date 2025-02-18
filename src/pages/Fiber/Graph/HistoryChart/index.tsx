@@ -1,12 +1,11 @@
 import echarts from 'echarts'
 import dayjs from 'dayjs'
 import { SmartChartPage } from '../../../StatisticsChart/common'
-
-export type Dataset = Record<'timestamp' | 'value', string>[]
+import type { ChartProps, Dataset } from '../types'
 
 const getOption =
   (seriaName: string, color: string) =>
-  (dataset: Dataset): echarts.EChartOption => {
+  (dataset: Dataset[]): echarts.EChartOption => {
     return {
       color: [color],
       tooltip: {
@@ -47,9 +46,9 @@ const getOption =
           areaStyle: {
             opacity: 0.2,
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color }, // Top color (red, semi-transparent)
-              { offset: 0.7, color: '#fff' }, // Bottom color (transparent)
-              { offset: 1, color: '#fff' }, // Bottom color (transparent)
+              { offset: 0, color },
+              { offset: 0.7, color: '#fff' },
+              { offset: 1, color: '#fff' },
             ]) as any,
           },
           lineStyle: {
@@ -61,16 +60,14 @@ const getOption =
     }
   }
 
-export const HistoryChart = ({ color, seriaName, dataset }: { color: string; seriaName: string; dataset: Dataset }) => {
-  return (
-    <SmartChartPage
-      title=""
-      isThumbnail
-      fetchData={() => Promise.resolve(dataset)}
-      getEChartOption={getOption(seriaName, color)}
-      queryKey={Math.random().toString()}
-    />
-  )
-}
+export const HistoryChart = ({ color, seriaName, dataset }: ChartProps) => (
+  <SmartChartPage
+    title=""
+    isThumbnail
+    fetchData={() => Promise.resolve(dataset)}
+    getEChartOption={getOption(seriaName, color)}
+    queryKey={Math.random().toString()}
+  />
+)
 
 export default HistoryChart
