@@ -7,7 +7,7 @@ import { parseUDTAmount } from '../../utils/number'
 import { formatNftDisplayId } from '../../utils/util'
 import styles from './definedTokens.module.scss'
 import { sliceNftName } from '../../utils/string'
-import { NFTItem } from '../../services/ExplorerService/fetcher'
+import { NFTItem } from '../../services/ExplorerService'
 import { UDTAccount } from '../../models/Address'
 import {
   AddressCoTAComp,

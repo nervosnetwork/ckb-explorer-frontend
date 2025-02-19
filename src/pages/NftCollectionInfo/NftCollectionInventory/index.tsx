@@ -5,9 +5,8 @@ import { getImgFromSporeCell } from '../../../utils/spore'
 import { ReactComponent as Cover } from '../../../assets/nft_cover.svg'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../../constants/common'
-import { explorerService } from '../../../services/ExplorerService'
+import { type NFTItem, explorerService } from '../../../services/ExplorerService'
 import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../../utils/util'
-import type { NFTItem } from '../../../services/ExplorerService/fetcher'
 
 const primaryColor = getPrimaryColor()
 

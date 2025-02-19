@@ -6,7 +6,7 @@ import { CopyIcon, InfoCircledIcon, OpenInNewWindowIcon } from '@radix-ui/react-
 import Content from '../../../components/Content'
 import { useSetToast } from '../../../components/Toast'
 import { explorerService } from '../../../services/ExplorerService'
-import type { Fiber } from '../../../services/ExplorerService/fetcher'
+import type { Fiber } from '../../../services/ExplorerService'
 import { shannonToCkb } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { parseNumericAbbr } from '../../../utils/chart'
