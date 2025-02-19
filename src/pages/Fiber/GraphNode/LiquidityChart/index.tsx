@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { EChartOption } from 'echarts'
 import { SmartChartPage } from '../../../StatisticsChart/common'
-import { variantColors } from '../../../../utils/chart'
+import { parseNumericAbbr, variantColors } from '../../../../utils/chart'
 import type { AssetRecord } from '../types'
 
 const useChartOption = (list: AssetRecord[]): EChartOption => {
@@ -14,7 +14,9 @@ const useChartOption = (list: AssetRecord[]): EChartOption => {
     tooltip: {
       formatter: data => {
         const item = Array.isArray(data) ? data[0] : data
-        return `${item.name}: ${item.value} USD (${item.percent}%)`
+        return typeof item.value === 'string'
+          ? `${item.name}: ${parseNumericAbbr(item.value, 2)} USD (${item.percent}%)`
+          : ''
       },
     },
     grid: {

@@ -76,7 +76,7 @@
 
     display: flex;
     flex-direction: column;
-    padding: 0 40px 40px;
+    padding: 16px 40px 40px;
 
     .name {
       display: flex;
@@ -103,10 +103,18 @@
         &[data-side='left'] {
           padding-right: 40px;
           border-right: 1px solid #e5e5e5;
+
+          @media screen and (width < $mobileBreakPoint) {
+            border-right: none;
+          }
         }
 
         &[data-side='right'] {
           padding-left: 40px;
+
+          @media screen and (width < $mobileBreakPoint) {
+            padding-left: 0;
+          }
         }
       }
 
@@ -246,7 +254,7 @@
     .info {
       flex-direction: column;
 
-      &-section {
+      & > div {
         gap: 0;
 
         &[data-side='left'] {

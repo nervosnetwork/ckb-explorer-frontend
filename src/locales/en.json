@@ -1189,7 +1189,8 @@
           "total_capacity": "Capacity",
           "open_channels": "Open Channels",
           "total_liquidity": "Total Liquidity",
-          "liquidity_allocation": "Liquidity Allocation"
+          "liquidity_allocation": "Liquidity Allocation",
+          "not_found": "Node not found"
         },
         "channel": {
           "connected_node": "Connected Node"
