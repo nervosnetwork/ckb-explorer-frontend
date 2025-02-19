@@ -1,30 +1,32 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import BigNumber from 'bignumber.js'
-import Content from '../../../components/Content'
+import type { Response, Fiber } from '../../../services/ExplorerService'
 import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
-import styles from './index.module.scss'
-import Loading from '../../../components/Loading'
-import GraphChannelList from '../../../components/GraphChannelList'
+import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
-import { Link } from '../../../components/Link'
-import type { Fiber } from '../../../services/ExplorerService'
-import { useSearchParams } from '../../../hooks'
-import { TIME_TEMPLATE } from '../../../constants/common'
 import { formalizeChannelAsset } from '../../../utils/fiber'
 import { fetchPrices } from '../../../services/UtilityService'
+import { TIME_TEMPLATE } from '../../../constants/common'
+import Content from '../../../components/Content'
+import { Link } from '../../../components/Link'
+import Loading from '../../../components/Loading'
+import GraphChannelList from '../../../components/GraphChannelList'
 import LiquidityChart from './LiquidityChart'
 import Qrcode from '../../../components/Qrcode'
 import { ReactComponent as CopyIcon } from '../../../components/Copy/icon.svg'
 import type { NodeTransaction } from './types'
+import styles from './index.module.scss'
+
+interface QueryResponse extends Response.Response<Fiber.Graph.NodeDetail> {}
 
 const GraphNode = () => {
   const [t] = useTranslation()
@@ -34,13 +36,13 @@ const GraphNode = () => {
   const setToast = useSetToast()
 
   const { data, isLoading } = useQuery({
-    queryKey: ['fiber', 'graph', 'node', id],
-    queryFn: () => explorerService.api.getGraphNodeDetail(id),
+    queryKey: ['fiber', 'graph', 'node', id] as const,
+    queryFn: () => explorerService.api.getGraphNodeDetail(id!),
     enabled: !!id,
-  })
+  } satisfies UseQueryOptions<QueryResponse>)
 
   const { data: prices } = useQuery({
-    queryKey: ['utility', 'prices'],
+    queryKey: ['utility', 'prices'] as const,
     queryFn: fetchPrices,
     refetchInterval: 30000,
   })
@@ -144,7 +146,7 @@ const GraphNode = () => {
   }, [openChannels, prices])
 
   if (isLoading) return <Loading show />
-  if (!node) return <div>Fiber Peer Not Found</div>
+  if (!node) return <div>{t('fiber.graph.node.not_found')}</div>
 
   const handleCopy = (e: React.SyntheticEvent) => {
     const copyText = (e.target as HTMLElement)?.dataset?.copyText
