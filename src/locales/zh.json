@@ -1164,7 +1164,8 @@
           "total_capacity": "总容量",
           "open_channels": "开启通道",
           "total_liquidity": "总流动性",
-          "liquidity_allocation": "流动性分布"
+          "liquidity_allocation": "流动性分布",
+          "not_found": "未找到节点"
         },
         "channel": {
           "connected_node": "连接节点"

@@ -114,33 +114,55 @@ const useChannels = (node: Fiber.Graph.NodeDetail | undefined) => {
   }, [node?.fiberGraphChannels])
 }
 
-const useTotalLiquidity = (openChannels: Fiber.Graph.Channel[], prices: any) => {
-  return useMemo(() => {
-    return openChannels.reduce((acc, ch) => {
-      if (!ch.openTransactionInfo.udtInfo) {
-        const total = acc.get('ckb')?.amount ?? BigNumber(0)
-        const ckbPrice = prices?.price?.[CKB_PRICE_ID]?.price
-        const ckbAmount = total.plus(BigNumber(shannonToCkb(ch.capacity)))
-        acc.set('ckb', {
-          amount: ckbAmount,
-          symbol: 'CKB',
-          usd: ckbPrice ? ckbAmount.times(+ckbPrice) : undefined,
-        })
-      } else {
-        const assets = formalizeChannelAsset(ch)
-        const key = ch.openTransactionInfo.udtInfo.typeHash
-        const total = acc.get(key)?.amount ?? BigNumber(0)
-        const amount = total.plus(BigNumber(assets.funding.amount ?? 0))
-        const price = prices?.price?.[key]?.price
-        acc.set(key, {
-          amount,
-          symbol: assets.funding.symbol ?? '',
-          iconFile: ch.openTransactionInfo.udtInfo.iconFile,
-          usd: price ? amount.times(price) : undefined,
-        })
+const useTotalLiquidity = (
+  openChannels: Fiber.Graph.Channel[],
+  prices?: {
+    price?: Record<
+      string /* token id */,
+      {
+        pair: string
+        price: string
       }
-      return acc
-    }, new Map())
+    >
+  },
+) => {
+  return useMemo(() => {
+    return openChannels.reduce(
+      (acc, ch) => {
+        if (!ch.openTransactionInfo.udtInfo) {
+          const total = acc.get('ckb')?.amount ?? BigNumber(0)
+          const ckbPrice = prices?.price?.[CKB_PRICE_ID]?.price
+          const ckbAmount = total.plus(BigNumber(shannonToCkb(ch.capacity)))
+          acc.set('ckb', {
+            amount: ckbAmount,
+            symbol: 'CKB',
+            usd: ckbPrice ? ckbAmount.times(+ckbPrice) : undefined,
+          })
+        } else {
+          const assets = formalizeChannelAsset(ch)
+          const key = ch.openTransactionInfo.udtInfo.typeHash
+          const total = acc.get(key)?.amount ?? BigNumber(0)
+          const amount = total.plus(BigNumber(assets.funding.amount ?? 0))
+          const price = prices?.price?.[key]?.price
+          acc.set(key, {
+            amount,
+            symbol: assets.funding.symbol ?? '',
+            iconFile: ch.openTransactionInfo.udtInfo.iconFile,
+            usd: price ? amount.times(price) : undefined,
+          })
+        }
+        return acc
+      },
+      new Map<
+        string /* token id */,
+        {
+          amount: BigNumber
+          symbol: string
+          iconFile?: string
+          usd?: BigNumber
+        }
+      >(),
+    )
   }, [openChannels, prices])
 }
 
@@ -328,12 +350,14 @@ const GraphNode = () => {
               </div>
               <div className={styles.liquidityAllocation}>
                 <div className={styles.liquidityTitle}>{t('fiber.graph.node.liquidity_allocation')}</div>
-                <LiquidityChart
-                  assets={[...totalLiquidity.values()].map(i => ({
-                    symbol: i.symbol,
-                    usd: i.usd ? parseNumericAbbr(i.usd, 2) : '0',
-                  }))}
-                />
+                {totalLiquidity.size ? (
+                  <LiquidityChart
+                    assets={[...totalLiquidity.values()].map(i => ({
+                      symbol: i.symbol,
+                      usd: i.usd?.toFixed() ?? '0',
+                    }))}
+                  />
+                ) : null}
               </div>
             </div>
           </div>
