@@ -1,59 +1,56 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import BigNumber from 'bignumber.js'
-import Content from '../../../components/Content'
+import type { Response, Fiber } from '../../../services/ExplorerService'
 import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
-import styles from './index.module.scss'
-import Loading from '../../../components/Loading'
-import GraphChannelList from '../../../components/GraphChannelList'
+import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import { shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
-import { Link } from '../../../components/Link'
-import type { Fiber } from '../../../services/ExplorerService'
-import { useSearchParams } from '../../../hooks'
-import { TIME_TEMPLATE } from '../../../constants/common'
 import { formalizeChannelAsset } from '../../../utils/fiber'
 import { fetchPrices } from '../../../services/UtilityService'
+import { TIME_TEMPLATE } from '../../../constants/common'
+import Content from '../../../components/Content'
+import { Link } from '../../../components/Link'
+import Loading from '../../../components/Loading'
+import GraphChannelList from '../../../components/GraphChannelList'
 import LiquidityChart from './LiquidityChart'
 import Qrcode from '../../../components/Qrcode'
 import { ReactComponent as CopyIcon } from '../../../components/Copy/icon.svg'
 import type { NodeTransaction } from './types'
+import Pagination from '../Pagination'
+import styles from './index.module.scss'
 
-const GraphNode = () => {
-  const [t] = useTranslation()
-  const [addr, setAddr] = useState('')
-  const { id } = useParams<{ id: string }>()
-  const { channel_state: channelState } = useSearchParams('channel_state')
-  const setToast = useSetToast()
+interface QueryResponse extends Response.Response<Fiber.Graph.NodeDetail> {}
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['fiber', 'graph', 'node', id],
-    queryFn: () => explorerService.api.getGraphNodeDetail(id),
+const CHANNEL_PAGE_SIZE = 10
+const ACTIVITY_PAGE_SIZE = 39
+const CKB_PRICE_ID = '0x0000000000000000000000000000000000000000000000000000000000000000'
+
+const useNodeData = (id: string | undefined) => {
+  return useQuery({
+    queryKey: ['fiber', 'graph', 'node', id] as const,
+    queryFn: () => explorerService.api.getGraphNodeDetail(id!),
     enabled: !!id,
-  })
+  } satisfies UseQueryOptions<QueryResponse>)
+}
 
-  const { data: prices } = useQuery({
-    queryKey: ['utility', 'prices'],
+const usePriceData = () => {
+  return useQuery({
+    queryKey: ['utility', 'prices'] as const,
     queryFn: fetchPrices,
     refetchInterval: 30000,
   })
+}
 
-  const node = data?.data
-
-  useEffect(() => {
-    if (node?.addresses[0]) {
-      setAddr(node.addresses[0])
-    }
-  }, [node])
-
-  const openAndClosedTxs = useMemo(() => {
+const useTransactions = (node: Fiber.Graph.NodeDetail | undefined) => {
+  return useMemo(() => {
     if (!node?.fiberGraphChannels) return []
 
     return node.fiberGraphChannels
@@ -100,22 +97,25 @@ const GraphNode = () => {
       })
       .sort((a, b) => b.block.timestamp - a.block.timestamp)
   }, [node])
+}
 
-  const [openChannels, closedChannels] = useMemo(() => {
+const useChannels = (node: Fiber.Graph.NodeDetail | undefined) => {
+  return useMemo<[Fiber.Graph.Channel[], Fiber.Graph.Channel[]]>(() => {
     if (!node?.fiberGraphChannels) return [[], []]
 
     return node.fiberGraphChannels
       .sort((a, b) => b.openTransactionInfo.blockNumber - a.openTransactionInfo.blockNumber)
-      .reduce(
+      .reduce<[Fiber.Graph.Channel[], Fiber.Graph.Channel[]]>(
         ([open, closed], c) => {
           return c.closedTransactionInfo?.txHash ? [open, [...closed, c]] : [[...open, c], closed]
         },
-        [[], []] as [Fiber.Graph.Channel[], Fiber.Graph.Channel[]],
+        [[], []],
       )
   }, [node?.fiberGraphChannels])
+}
 
-  const totalLiquidity = useMemo(() => {
-    const CKB_PRICE_ID = '0x0000000000000000000000000000000000000000000000000000000000000000'
+const useTotalLiquidity = (openChannels: Fiber.Graph.Channel[], prices: any) => {
+  return useMemo(() => {
     return openChannels.reduce((acc, ch) => {
       if (!ch.openTransactionInfo.udtInfo) {
         const total = acc.get('ckb')?.amount ?? BigNumber(0)
@@ -142,9 +142,102 @@ const GraphNode = () => {
       return acc
     }, new Map())
   }, [openChannels, prices])
+}
+
+const TransactionRenderer = ({ tx }: { tx: NodeTransaction }) => {
+  const [t] = useTranslation()
+  const key = tx.index ? `${tx.hash}#${tx.index}` : tx.hash
+  const timestamp = dayjs(tx.block.timestamp).format(TIME_TEMPLATE)
+  const link = tx.index ? `/transaction/${tx.hash}#${tx.index}` : `/transaction/${tx.hash}`
+  const tooltip = tx.index ? `${tx.hash}-${tx.index}` : tx.hash
+
+  if (tx.isOpen) {
+    const account = tx.accounts[0]!
+    return (
+      <div key={key} className={styles.tx}>
+        <div title={t('fiber.action.open')}>
+          <Link1Icon />
+          at <time dateTime={tx.block.timestamp.toString()}>{timestamp}</time>
+          <Tooltip title={tooltip}>
+            <Link to={link} className="monospace">
+              <OpenInNewWindowIcon />
+            </Link>
+          </Tooltip>
+        </div>
+        <div>
+          By
+          <span className={styles.addr}>
+            <Tooltip title={account.address}>
+              <Link to={`/address/${account.address}`} className="monospace">
+                <div>{account.address.slice(0, -8)}</div>
+                <div>{account.address.slice(-8)}</div>
+              </Link>
+            </Tooltip>
+          </span>
+          <span>({account.amount})</span>
+        </div>
+      </div>
+    )
+  }
+
+  const [acc1, acc2] = tx.accounts
+  return (
+    <div key={key} className={styles.tx}>
+      <div title={t('fiber.action.close')}>
+        <LinkBreak1Icon />
+        at <time dateTime={tx.block.timestamp.toString()}>{timestamp}</time>
+        <Tooltip title={tooltip}>
+          <Link to={link} className="monospace">
+            <OpenInNewWindowIcon />
+          </Link>
+        </Tooltip>
+      </div>
+      {[acc1, acc2].filter(Boolean).map((acc, i) => (
+        <div key={acc.address}>
+          {i === 0 ? 'To' : 'And'}
+          <span className={styles.addr}>
+            <Tooltip title={acc.address}>
+              <Link to={`/address/${acc.address}`} className="monospace">
+                <div>{acc.address.slice(0, -8)}</div>
+                <div>{acc.address.slice(-8)}</div>
+              </Link>
+            </Tooltip>
+          </span>
+          <span>({acc.amount})</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+const GraphNode = () => {
+  const [t] = useTranslation()
+  const [addr, setAddr] = useState('')
+  const { id } = useParams<{ id: string }>()
+  const {
+    channel_state: channelState,
+    channel_page: channelPage = 1,
+    activity_page: activityPage = 1,
+  } = useSearchParams('channel_state', 'channel_page', 'activity_page')
+  const setToast = useSetToast()
+
+  const { data, isLoading } = useNodeData(id)
+  const { data: prices } = usePriceData()
+  const node = data?.data
+
+  useEffect(() => {
+    if (node?.addresses[0]) {
+      setAddr(node.addresses[0])
+    }
+  }, [node])
+
+  const openAndClosedTxs = useTransactions(node)
+  const [openChannels, closedChannels] = useChannels(node)
+  const displayedChannels = channelState === 'closed' ? closedChannels : openChannels
+  const totalLiquidity = useTotalLiquidity(openChannels, prices)
 
   if (isLoading) return <Loading show />
-  if (!node) return <div>Fiber Peer Not Found</div>
+  if (!node) return <div>{t('fiber.graph.node.not_found')}</div>
 
   const handleCopy = (e: React.SyntheticEvent) => {
     const copyText = (e.target as HTMLElement)?.dataset?.copyText
@@ -152,84 +245,6 @@ const GraphNode = () => {
     e.stopPropagation()
     e.preventDefault()
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
-  }
-
-  const getTransactionKey = (tx: NodeTransaction): string => {
-    if (tx.isOpen) {
-      return tx.index ? `${tx.hash}#${tx.index}` : tx.hash
-    }
-    return tx.hash
-  }
-
-  const getTransactionLink = (tx: NodeTransaction): string => {
-    return tx.index ? `/transaction/${tx.hash}#${tx.index}` : `/transaction/${tx.hash}`
-  }
-
-  const getTransactionTooltip = (tx: NodeTransaction): string => {
-    return tx.index ? `${tx.hash}-${tx.index}` : tx.hash
-  }
-
-  const renderTransaction = (tx: NodeTransaction) => {
-    const key = getTransactionKey(tx)
-    const timestamp = dayjs(tx.block.timestamp).format(TIME_TEMPLATE)
-
-    if (tx.isOpen) {
-      const account = tx.accounts[0]!
-      return (
-        <div key={key} className={styles.tx}>
-          <div title={t('fiber.action.open')}>
-            <Link1Icon />
-            at <time dateTime={tx.block.timestamp.toString()}>{timestamp}</time>
-            <Tooltip title={getTransactionTooltip(tx)}>
-              <Link to={getTransactionLink(tx)} className="monospace">
-                <OpenInNewWindowIcon />
-              </Link>
-            </Tooltip>
-          </div>
-          <div>
-            By
-            <span className={styles.addr}>
-              <Tooltip title={account.address}>
-                <Link to={`/address/${account.address}`} className="monospace">
-                  <div>{account.address.slice(0, -8)}</div>
-                  <div>{account.address.slice(-8)}</div>
-                </Link>
-              </Tooltip>
-            </span>
-            <span>({account.amount})</span>
-          </div>
-        </div>
-      )
-    }
-
-    const [acc1, acc2] = tx.accounts
-    return (
-      <div key={key} className={styles.tx}>
-        <div title={t('fiber.action.close')}>
-          <LinkBreak1Icon />
-          at <time dateTime={tx.block.timestamp.toString()}>{timestamp}</time>
-          <Tooltip title={getTransactionTooltip(tx)}>
-            <Link to={getTransactionLink(tx)} className="monospace">
-              <OpenInNewWindowIcon />
-            </Link>
-          </Tooltip>
-        </div>
-        {[acc1, acc2].filter(Boolean).map((acc, i) => (
-          <div key={acc.address}>
-            {i === 0 ? 'To' : 'And'}
-            <span className={styles.addr}>
-              <Tooltip title={acc.address}>
-                <Link to={`/address/${acc.address}`} className="monospace">
-                  <div>{acc.address.slice(0, -8)}</div>
-                  <div>{acc.address.slice(-8)}</div>
-                </Link>
-              </Tooltip>
-            </span>
-            <span>({acc.amount})</span>
-          </div>
-        ))}
-      </div>
-    )
   }
 
   return (
@@ -326,11 +341,30 @@ const GraphNode = () => {
         <div className={styles.activities}>
           <div className={styles.channels}>
             <h3>{t('fiber.peer.channels')}</h3>
-            <GraphChannelList list={channelState === 'closed' ? closedChannels : openChannels} node={node.nodeId} />
+            <GraphChannelList
+              list={displayedChannels.slice((+channelPage - 1) * CHANNEL_PAGE_SIZE, +channelPage * CHANNEL_PAGE_SIZE)}
+              node={node.nodeId}
+              startIndex={(+channelPage - 1) * CHANNEL_PAGE_SIZE}
+            />
+            <div className={styles.pagination}>
+              <Pagination totalPages={Math.ceil(displayedChannels.length / CHANNEL_PAGE_SIZE)} keyword="channel_page" />
+            </div>
           </div>
           <div className={styles.transactions}>
             <h3>Open & Closed Transactions</h3>
-            <div>{openAndClosedTxs.map(renderTransaction)}</div>
+            <div>
+              {openAndClosedTxs
+                .slice((+activityPage - 1) * ACTIVITY_PAGE_SIZE, ACTIVITY_PAGE_SIZE * +activityPage)
+                .map(tx => (
+                  <TransactionRenderer key={tx.hash} tx={tx} />
+                ))}
+            </div>
+            <div className={styles.pagination}>
+              <Pagination
+                totalPages={Math.ceil(openAndClosedTxs.length / ACTIVITY_PAGE_SIZE)}
+                keyword="activity_page"
+              />
+            </div>
           </div>
         </div>
       </div>
