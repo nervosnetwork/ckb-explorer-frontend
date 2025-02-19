@@ -10,6 +10,7 @@
   margin: 24px 120px;
   font-size: 1rem;
 
+  // Common element styles
   a {
     color: var(--primary-color);
   }
@@ -39,18 +40,15 @@
 
     td,
     th {
-      padding: 8px;
-      padding-right: 16px;
+      padding: 8px 16px 8px 8px;
 
       &:last-child {
         text-align: right;
       }
     }
 
-    tbody {
-      tr:hover {
-        background: #ccc;
-      }
+    tbody tr:hover {
+      background: #ccc;
     }
   }
 
@@ -72,14 +70,13 @@
     }
   }
 
+  // Overview section
   .overview {
     @extend %base-card;
 
     display: flex;
     flex-direction: column;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-bottom: 40px;
+    padding: 0 40px 40px;
 
     .name {
       display: flex;
@@ -126,39 +123,6 @@
         text-align: right;
       }
 
-      @media screen and (width < $mobileBreakPoint) {
-        flex-direction: column;
-
-        & > div {
-          gap: 0;
-
-          &[data-side='left'] {
-            border-right: none;
-            padding-bottom: 16px;
-            padding-right: 0;
-          }
-
-          &[data-side='right'] {
-            padding-left: 0;
-          }
-
-          dl {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 16px 0;
-            border-bottom: 1px solid #e5e5e5;
-          }
-        }
-
-        .thresholds {
-          .token {
-            gap: 8px;
-            justify-content: flex-start;
-          }
-        }
-      }
-
       .totalLiquidity {
         display: flex;
         flex-flow: row wrap;
@@ -176,6 +140,7 @@
     }
   }
 
+  // Liquidity styles
   .liquidityTitle {
     color: #666;
     font-weight: 500;
@@ -192,6 +157,7 @@
     }
   }
 
+  // ID styles
   .id,
   .connectId {
     overflow: hidden;
@@ -203,6 +169,7 @@
     }
   }
 
+  // Thresholds styles
   .thresholds {
     line-height: 1;
 
@@ -231,6 +198,7 @@
     }
   }
 
+  // Activities section
   .activities {
     display: flex;
     gap: 24px;
@@ -238,6 +206,8 @@
 
     .channels,
     .transactions {
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
       flex-basis: 50%;
       background: #fff;
@@ -269,30 +239,64 @@
         }
       }
     }
+  }
 
-    @media screen and (width < $mobileBreakPoint) {
+  // Responsive styles
+  @media screen and (width < $mobileBreakPoint) {
+    .info {
       flex-direction: column;
+
+      &-section {
+        gap: 0;
+
+        &[data-side='left'] {
+          border-right: none;
+          padding-bottom: 16px;
+          padding-right: 0;
+        }
+
+        &[data-side='right'] {
+          padding-left: 0;
+        }
+
+        dl {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding: 16px 0;
+          border-bottom: 1px solid #e5e5e5;
+        }
+      }
+
+      .thresholds .token {
+        gap: 8px;
+        justify-content: flex-start;
+      }
     }
 
-    @media screen and (width < 500px) {
+    .activities {
+      flex-direction: column;
+    }
+  }
+
+  @media screen and (width < 500px) {
+    .activities {
       thead {
         display: none;
       }
 
-      tbody {
-        tr {
-          display: flex;
-          flex-direction: column;
-          padding: 16px 0;
+      tbody tr {
+        display: flex;
+        flex-direction: column;
+        padding: 16px 0;
 
-          &:not(:last-child) {
-            border-bottom: 1px solid #ccc;
-          }
+        &:not(:last-child) {
+          border-bottom: 1px solid #ccc;
+        }
 
-          td {
-            text-align: left;
-            padding: 0;
-          }
+        td {
+          text-align: left;
+          padding: 0;
         }
       }
     }
@@ -307,6 +311,7 @@
   }
 }
 
+// Addresses styles
 .addresses {
   select {
     max-width: 24vw;
@@ -327,6 +332,7 @@
   }
 }
 
+// Transaction styles
 .tx {
   padding: 8px 40px;
   display: flex;
@@ -360,11 +366,30 @@
 
     div {
       font-family: inherit;
-    }
 
-    div:first-child {
-      overflow: hidden;
-      text-overflow: ellipsis;
+      &:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
+  }
+}
+
+// Pagination styles
+.pagination {
+  margin: auto 0 0;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  form {
+    display: none;
+  }
+
+  @media screen and (width < $largeBreakPoint) {
+    margin: 20px 0 0;
   }
 }
