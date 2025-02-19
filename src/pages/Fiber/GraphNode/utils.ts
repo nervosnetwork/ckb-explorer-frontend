@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { Fiber } from '../../../services/ExplorerService/fetcher'
+import type { Fiber } from '../../../services/ExplorerService'
 import { formalizeChannelAsset } from '../../../utils/fiber'
 import type { NodeMetrics, NodeTransaction } from './types'
 

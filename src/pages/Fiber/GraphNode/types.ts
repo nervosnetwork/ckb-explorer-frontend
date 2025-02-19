@@ -1,5 +1,5 @@
 import type { BigNumber } from 'bignumber.js'
-import { Fiber } from '../../../services/ExplorerService/fetcher'
+import type { Fiber } from '../../../services/ExplorerService'
 
 export interface AssetRecord {
   symbol: string

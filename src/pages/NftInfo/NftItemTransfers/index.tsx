@@ -6,7 +6,7 @@ import { getPrimaryColor } from '../../../constants/common'
 import { dayjs, useParseDate } from '../../../utils/date'
 import styles from './styles.module.scss'
 import { useCurrentLanguage } from '../../../utils/i18n'
-import type { TransferRes } from '../../../services/ExplorerService/fetcher'
+import type { TransferRes } from '../../../services/ExplorerService'
 
 const primaryColor = getPrimaryColor()
 

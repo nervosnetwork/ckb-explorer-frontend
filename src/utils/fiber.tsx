@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { Fiber } from '../services/ExplorerService/fetcher'
+import { Fiber } from '../services/ExplorerService'
 import { shannonToCkb } from './util'
 
 export const formalizeChannelAsset = (ch: Fiber.Graph.Channel) => {

@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { EChartOption } from 'echarts'
 import { ChartColor } from '../constants/common'
 import { SeriesItem } from '../pages/StatisticsChart/common'
-import type { FeeRateTracker } from '../services/ExplorerService/fetcher'
+import type { FeeRateTracker } from '../services/ExplorerService'
 
 export const DATA_ZOOM_CONFIG = [
   {
