@@ -40,27 +40,28 @@ const fromBase58Check = (address: string) => {
 
 const fromBech32 = (address: string) => {
   let result
-  let version
   try {
     result = bech32.decode(address)
   } catch (e) {
-    // ignore
+    try {
+      result = bech32m.decode(address)
+    } catch (e2) {
+      throw new Error('Invalid bech32 address')
+    }
   }
-  if (result) {
-    ;[version] = result.words
-    if (version !== 0) throw new TypeError(`${address} uses wrong encoding`)
-  } else {
-    result = bech32m.decode(address)
-    ;[version] = result.words
-    if (version === 0) throw new TypeError(`${address} uses wrong encoding`)
-  }
-  const data = bech32.fromWords(result.words.slice(1))
 
-  return {
-    version,
-    prefix: result.prefix,
-    data: new Uint8Array(data),
+  if (result) {
+    const version = result.words[0]
+    const data = bech32.fromWords(result.words.slice(1))
+
+    // Handle both bech32 and bech32m data lengths correctly
+    return {
+      version,
+      prefix: result.prefix,
+      data: Buffer.from(data),
+    }
   }
+  throw new Error('Could not decode address')
 }
 
 // from https://github.com/bitcoinjs/bitcoinjs-lib/blob/27a840aac4a12338f1e40c54f3759bbd7a559944/src/networks.js
@@ -90,90 +91,61 @@ const NETWORK = {
 // learn from https://github.com/bitcoinjs/bitcoinjs-lib/blob/2f7c83b286e0a58962df38e606c516983903e1a0/src/address.js#L101
 export const parseBTCAddress = (address: string): Address | undefined => {
   const network = IS_MAINNET ? NETWORK.bitcoin : NETWORK.testnet
-  let decodeBase58
-  let decodeBech32
-  try {
-    decodeBase58 = fromBase58Check(address)
-  } catch (e) {
-    // ignore
-  }
 
-  if (decodeBase58) {
+  try {
+    // Try Base58 first
+    const decodeBase58 = fromBase58Check(address)
     const encodeType = BTCAddressEncodeType.Base58
+
     if (decodeBase58.version === network.pubKeyHash) {
-      // p2pkh address
-      return {
-        encodeType,
-        address,
-        type: BTCAddressType.P2PKH,
-      }
+      return { encodeType, address, type: BTCAddressType.P2PKH }
     }
     if (decodeBase58.version === network.scriptHash) {
-      // p2sh address
-      return {
-        encodeType,
-        address,
-        type: BTCAddressType.P2SH,
-      }
+      return { encodeType, address, type: BTCAddressType.P2SH }
     }
-  }
-  try {
-    decodeBech32 = fromBech32(address)
   } catch (e) {
-    // ignore
+    // Try Bech32 if Base58 fails
+    try {
+      const decodeBech32 = fromBech32(address)
+      if (decodeBech32.prefix !== network.bech32) return undefined
+
+      const encodeType = BTCAddressEncodeType.Bech32
+
+      if (decodeBech32.version === 0) {
+        if (decodeBech32.data.length === 20) {
+          return { encodeType, address, type: BTCAddressType.P2WPKH }
+        }
+        if (decodeBech32.data.length === 32) {
+          return { encodeType, address, type: BTCAddressType.P2WSH }
+        }
+      }
+
+      if (decodeBech32.version === 1 && decodeBech32.data.length === 32) {
+        return { encodeType, address, type: BTCAddressType.P2TR }
+      }
+
+      // Handle future segwit addresses
+      const FUTURE_SEGWIT_MAX_SIZE = 40
+      const FUTURE_SEGWIT_MIN_SIZE = 2
+      const FUTURE_SEGWIT_MAX_VERSION = 16
+      const FUTURE_SEGWIT_MIN_VERSION = 2
+      if (
+        decodeBech32.version >= FUTURE_SEGWIT_MIN_VERSION &&
+        decodeBech32.version <= FUTURE_SEGWIT_MAX_VERSION &&
+        decodeBech32.data.length >= FUTURE_SEGWIT_MIN_SIZE &&
+        decodeBech32.data.length <= FUTURE_SEGWIT_MAX_SIZE
+      ) {
+        return {
+          encodeType: BTCAddressEncodeType.Bech32,
+          address,
+          type: BTCAddressType.SEGWIT,
+        }
+      }
+    } catch (e2) {
+      // Invalid address
+    }
   }
 
-  if (decodeBech32) {
-    const encodeType = BTCAddressEncodeType.Bech32
-    if (decodeBech32.prefix !== network.bech32) {
-      return undefined
-    }
-    if (decodeBech32.version === 0) {
-      if (decodeBech32.data.length === 20) {
-        // p2wpkh address
-        return {
-          encodeType,
-          address,
-          type: BTCAddressType.P2WPKH,
-        }
-      }
-      if (decodeBech32.data.length === 32) {
-        // p2wsh address
-        return {
-          encodeType,
-          address,
-          type: BTCAddressType.P2WSH,
-        }
-      }
-    }
-    if (decodeBech32.version === 1) {
-      if (decodeBech32.data.length === 32) {
-        // p2tr address
-        return {
-          encodeType,
-          address,
-          type: BTCAddressType.P2TR,
-        }
-      }
-    }
-    const FUTURE_SEGWIT_MAX_SIZE = 40
-    const FUTURE_SEGWIT_MIN_SIZE = 2
-    const FUTURE_SEGWIT_MAX_VERSION = 16
-    const FUTURE_SEGWIT_MIN_VERSION = 2
-    if (
-      decodeBech32.version >= FUTURE_SEGWIT_MIN_VERSION &&
-      decodeBech32.version <= FUTURE_SEGWIT_MAX_VERSION &&
-      decodeBech32.data.length >= FUTURE_SEGWIT_MIN_SIZE &&
-      decodeBech32.data.length <= FUTURE_SEGWIT_MAX_SIZE
-    ) {
-      // future segwit address
-      return {
-        encodeType: BTCAddressEncodeType.Bech32,
-        address,
-        type: BTCAddressType.SEGWIT,
-      }
-    }
-  }
   return undefined
 }
 
