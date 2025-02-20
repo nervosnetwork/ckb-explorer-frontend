@@ -1,4 +1,4 @@
-<p align="center"><a href="https://explorer.nervos.org" target="_blank" rel="noopener noreferrer"><img height="60px" src="./src/assets/ckb_dark.png" alt="ckb explorer logo"></a></p>
+<p align="center"><a href="https://explorer.nervos.org" target="_blank" rel="noopener noreferrer"><img height="60px" src="./public/ckb_logo.png" alt="ckb explorer logo"></a></p>
 
 <h1 align="center">CKB Explorer</h1>
 
@@ -7,6 +7,7 @@
 [![Discord](https://img.shields.io/discord/956765352514183188?label=Discord&logo=discord&style=default&color=grey&labelColor=5865F2&logoColor=white)](https://discord.gg/RsyKyejxAW)
 
 CKB Explorer is a blockchain explorer for [Nervos CKB](https://github.com/nervosnetwork/ckb), built with modern web technologies. It consists of two parts:
+
 - [CKB Explorer Frontend](https://github.com/nervosnetwork/ckb-explorer-frontend) (This repository)
 - [CKB Explorer Server](https://github.com/nervosnetwork/ckb-explorer)
 
@@ -15,17 +16,20 @@ Visit the live explorer at [explorer.nervos.org](https://explorer.nervos.org).
 ## Features
 
 - **Blockchain Exploration**
+
   - Browse blocks, transactions, addresses and lock hashes
   - Track transaction lifecycle and UTXO details
   - Advanced search functionality for various blockchain entities
   - Real-time updates and data synchronization
 
 - **Bitcoin Interoperability**
+
   - Support for Bitcoin addresses and transactions
   - Cross-chain transaction tracking
   - BTC-CKB bridge monitoring
 
 - **Fiber Network Integration**
+
   - Network statistics and metrics
   - Channel management and monitoring
   - Liquidity tracking and analysis
@@ -60,6 +64,7 @@ yarn install
 ### Configuration
 
 Create or modify the environment files:
+
 - `.env.development` for development
 - `.env.production` for production
 
