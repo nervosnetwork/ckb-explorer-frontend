@@ -89,8 +89,8 @@ const NETWORK = {
 }
 
 // learn from https://github.com/bitcoinjs/bitcoinjs-lib/blob/2f7c83b286e0a58962df38e606c516983903e1a0/src/address.js#L101
-export const parseBTCAddress = (address: string): Address | undefined => {
-  const network = IS_MAINNET ? NETWORK.bitcoin : NETWORK.testnet
+export const parseBTCAddress = (address: string, isMainnet = IS_MAINNET): Address | undefined => {
+  const network = isMainnet ? NETWORK.bitcoin : NETWORK.testnet
 
   try {
     // Try Base58 first
@@ -149,9 +149,9 @@ export const parseBTCAddress = (address: string): Address | undefined => {
   return undefined
 }
 
-export const isValidBTCAddress = (address: string): boolean => {
+export const isValidBTCAddress = (address: string, isMainnet = IS_MAINNET): boolean => {
   try {
-    const parsedAddress = parseBTCAddress(address)
+    const parsedAddress = parseBTCAddress(address, isMainnet)
 
     return !!parsedAddress
   } catch (e) {
