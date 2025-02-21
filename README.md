@@ -1,76 +1,120 @@
-<p align="center"><a href="https://explorer.nervos.org" target="_blank" rel="noopener noreferrer"><img height="60px" src="./src/assets/ckb_dark.png" alt="ckb explorer logo"></a></p>
-
 <h1 align="center">CKB Explorer</h1>
 
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/nervosnetwork/ckb-explorer-frontend/blob/develop/COPYING)
-[![Github Actions CI](https://github.com/nervosnetwork/ckb-explorer-frontend/workflows/CI/badge.svg?branch=develop)](https://github.com/nervosnetwork/ckb-explorer-frontend/actions)
+[![Github Action](https://github.com/nervosnetwork/ckb-explorer-frontend/actions/workflows/test.yml/badge.svg)](https://github.com/nervosnetwork/ckb-explorer-frontend/actions/workflows/test.yml)
 [![Discord](https://img.shields.io/discord/956765352514183188?label=Discord&logo=discord&style=default&color=grey&labelColor=5865F2&logoColor=white)](https://discord.gg/RsyKyejxAW)
 
-CKB Explorer is a [Nervos CKB](https://github.com/nervosnetwork/ckb) blockchain explorer built with [React](https://reactjs.org/) and [Ruby on Rails](https://rubyonrails.org/) and includes two parts: [CKB Explorer Frontend](https://github.com/nervosnetwork/ckb-explorer-frontend) and [CKB Explorer Server](https://github.com/nervosnetwork/ckb-explorer).
+CKB Explorer is a blockchain explorer for [Nervos CKB](https://github.com/nervosnetwork/ckb), built with modern web technologies. It consists of two parts:
 
-See live at [CKB Explorer](https://explorer.nervos.org).
+- [CKB Explorer Frontend](https://github.com/nervosnetwork/ckb-explorer-frontend) (This repository)
+- [CKB Explorer Server](https://github.com/nervosnetwork/ckb-explorer)
 
-API documentation is [available here](https://nervosnetwork.github.io/ckb-explorer/public/api_doc.html).
-
-# CKB Explorer Frontend
+Visit the live explorer at [explorer.nervos.org](https://explorer.nervos.org).
 
 ## Features
 
-- Explore blocks, transactions, addresses and lock hashes
+- **Blockchain Exploration**
 
-- Shows previous output and spending transaction details
+  - Browse blocks, transactions, addresses and lock hashes
+  - Track transaction lifecycle and UTXO details
+  - Advanced search functionality for various blockchain entities
+  - Real-time updates and data synchronization
 
-- Quick-search for tx hash, address, lock hash, block hash or height
+- **Bitcoin Interoperability**
 
-- Mobile-ready responsive design
+  - Support for Bitcoin addresses and corresponding RGB++ transactions
+  - Cross-chain transaction tracking
+  - BTC-CKB leap monitoring
 
-- Translated to two languages (English and Chinese)
+- **Fiber Network Integration**
 
-- Mainnet and Testnet with different theme colors
+  - Network statistics and metrics
+  - Channel management and monitoring
+  - Liquidity tracking and analysis
+
+- **User Experience**
+  - Responsive design for all devices
+  - Multi-language support (English, Chinese)
+  - Distinct themes for Mainnet and Testnet
+  - Intuitive navigation and data visualization
 
 ## Getting Started
 
-### Prerequisite
+### Prerequisites
 
-- Node: install version 12.0.0 or greater.
-- Yarn: See [Yarn website for installation instructions](https://yarnpkg.com/lang/en/docs/install/). (needs 1.13.0 or greater).
-- A fork of the repo (for any contributions).
-- A clone of the `ckb-explorer-frontend` repo.
-
-### Edit .env file
-
-You need to edit .env.development for development and .env.production for production to set your own api url as ckb explorer server.
-
-```shell
-REACT_APP_API_URL = 'http://your-api-url'        # Set your own server api url
-
-REACT_APP_CHAIN_TYPE = 'testnet'                 # Set chain type (mainnet or testnet)
-
-REACT_APP_MAINNET_URL = 'http://localhost:3000'  # MAINNET_URL is for deploying testnet, please ignore for development
-
-REACT_APP_TESTNET_NAME = 'testnet'               # TESTNET_NAME will be displayed on explorer header and it also determines the subpath of the testnet
-```
+- Node.js v18.13.0 or later
+- Yarn 1.13.0 or later
+- Git
 
 ### Installation
 
-```shell
+```bash
+# Clone the repository
 git clone https://github.com/nervosnetwork/ckb-explorer-frontend.git
+
+# Navigate to project directory
 cd ckb-explorer-frontend
-yarn install   # install dependency libraries
+
+# Install dependencies
+yarn install
 ```
 
-### Running locally
+### Configuration
 
-- `yarn start` to start the development server (or `npm start`, if not using Yarn).
-- open `http://localhost:3000/` to open the site in your favorite browser.
+Create or modify the environment files:
 
-### Building production
+- `.env.development` for development
+- `.env.production` for production
 
-```shell
-yarn build    # build ckb explorer frontend project
-yarn test     # run project test cases
+```env
+# Required environment variables
+REACT_APP_API_URL='http://your-api-url'        # API endpoint
+REACT_APP_CHAIN_TYPE='testnet'                 # 'mainnet' or 'testnet'
+REACT_APP_MAINNET_URL='http://localhost:3000'  # Mainnet URL for testnet deployment
+REACT_APP_TESTNET_NAME='testnet'               # Testnet name for header display
 ```
+
+### Development
+
+```bash
+# Start development server
+yarn start
+
+# Run tests
+yarn test
+
+# Build for production
+yarn build
+```
+
+## Project Structure
+
+```
+src/
+├── components/      # Reusable UI components
+├── pages/          # Page components
+├── services/       # API and services
+├── utils/          # Utility functions
+├── hooks/          # Custom React hooks
+├── assets/         # Static assets
+├── routes/         # Route configuration
+└── styles/         # Global styles
+```
+
+## API Documentation
+
+API documentation is available at [CKB Explorer API Docs](https://nervosnetwork.github.io/ckb-explorer/public/api_doc.html).
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## Community
+
+- Join our [Discord](https://discord.gg/RsyKyejxAW) for discussions
+- Follow us on [Twitter](https://twitter.com/NervosNetwork)
+- Read our [Documentation](https://docs.nervos.org)
 
 ## License
 
-CKB Explorer Frontend is released under the terms of the MIT license. See [COPYING](COPYING) for more information or see [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT).
+CKB Explorer Frontend is released under the MIT License. See [COPYING](COPYING) for more information or see [https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT).
