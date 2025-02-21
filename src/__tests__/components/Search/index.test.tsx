@@ -1,7 +1,7 @@
 import { render, fireEvent } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import Search from './index'
-import { initI18n } from '../../utils/i18n'
+import { initI18n } from '../../../utils/i18n'
+import Search from '../../../components/Search'
 
 beforeEach(() => {
   Object.defineProperty(window, 'matchMedia', {
