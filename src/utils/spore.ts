@@ -1,6 +1,28 @@
 import { toBigEndian } from '@nervosnetwork/ckb-sdk-utils'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { config, renderByTokenKey, svgToBase64 } from '@nervina-labs/dob-render'
 import { hexToUtf8 } from './string'
 import { hexToBase64 } from './util'
+import { isMainnet } from './chain'
+
+let isConfiguredDobDecoder = false
+
+export const setupDobConfig = () => {
+  if (isConfiguredDobDecoder) return
+  config.setDobDecodeServerURL(isMainnet() ? 'https://dob-decoder.rgbpp.io' : 'https://dob0-decoder-dev.omiga.io')
+
+  config.setQueryBtcFsFn(async (uri: string) => {
+    const url = isMainnet()
+      ? `https://api.omiga.io/api/v1/nfts/dob_imgs?uri=${uri}`
+      : `https://test-api.omiga.io/api/v1/nfts/dob_imgs?uri=${uri}`
+    const response = await fetch(url)
+    return response.json()
+  })
+
+  isConfiguredDobDecoder = true
+}
+
+setupDobConfig()
 
 // parse spore cluster data guideline: https://github.com/sporeprotocol/spore-sdk/blob/beta/docs/recipes/handle-cell-data.md
 export function parseSporeClusterData(hexData: string) {
@@ -64,6 +86,36 @@ export const getImgFromSporeCell = (hexData: string) => {
     } catch {
       return DEFAULT_URL
     }
+  }
+
+  return DEFAULT_URL
+}
+
+export const getSporeImgFromRenderSDK = async (hexData: string, sporeId: string) => {
+  const DEFAULT_URL = '/images/spore_placeholder.svg'
+  if (!hexData && !sporeId) {
+    return DEFAULT_URL
+  }
+
+  const { contentType, content } = parseSporeCellData(hexData)
+  if (contentType.startsWith('image')) {
+    const base64Data = hexToBase64(content)
+    return `data:${contentType};base64,${base64Data}`
+  }
+  if (contentType === 'application/json') {
+    try {
+      const raw: any = JSON.parse(hexToUtf8(`0x${content}`))
+      if (raw?.resource?.type?.startsWith('image')) {
+        return raw.resource?.url ?? DEFAULT_URL
+      }
+    } catch {
+      return DEFAULT_URL
+    }
+  }
+  if (contentType.startsWith('dob/')) {
+    const renderRes = await renderByTokenKey(sporeId.slice(2))
+    const base64Img = await svgToBase64(renderRes)
+    return base64Img
   }
   return DEFAULT_URL
 }

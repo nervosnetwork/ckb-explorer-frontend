@@ -2,15 +2,16 @@ import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
 import { Link } from '../../components/Link'
 import NftItemTransfers from './NftItemTransfers'
 import Pagination from '../../components/Pagination'
 import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { explorerService } from '../../services/ExplorerService'
-import { getPrimaryColor } from '../../constants/common'
+import { DEFAULT_SPORE_IMAGE, getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
 import { patchMibaoImg, handleNftImgError, formatNftDisplayId, hexToBase64 } from '../../utils/util'
-import { getImgFromSporeCell } from '../../utils/spore'
+import { getSporeImgFromRenderSDK } from '../../utils/spore'
 import { useSearchParams } from '../../hooks'
 import DobTraits from '../../components/DobTraits'
 import { DEPRECATED_DOB_COLLECTION } from '../../constants/marks'
@@ -26,6 +27,8 @@ const NftInfo = () => {
     t,
     i18n: { language },
   } = useTranslation()
+
+  const [sporeImg, setSporeImg] = useState(DEFAULT_SPORE_IMAGE)
 
   const { page = '1' } = useSearchParams('page')
   const { data } = useQuery(['nft-item-info', collection, id], () =>
@@ -45,6 +48,20 @@ const NftInfo = () => {
   }
   const coverUrl = data?.icon_url || data?.collection.icon_url
   const dob = data?.dob
+
+  useEffect(() => {
+    const fetchRendedDOBImage = async () => {
+      const cell = data?.cell
+      if (cell?.data && data?.type_script.args) {
+        const renderedImg = await getSporeImgFromRenderSDK(cell.data, data?.type_script.args)
+        setSporeImg(renderedImg)
+      }
+    }
+
+    if (data) {
+      fetchRendedDOBImage()
+    }
+  }, [data])
 
   const renderCover = () => {
     if (dob) {
@@ -66,10 +83,8 @@ const NftInfo = () => {
     }
     const cell = data?.cell
     const standard = data?.standard
-
     if (standard === 'spore' && cell && cell.data) {
-      const img = getImgFromSporeCell(cell.data)
-      return <img src={img} alt="cover" loading="lazy" className={styles.cover} />
+      return <img src={sporeImg} alt="cover" loading="lazy" className={styles.cover} />
     }
 
     if (coverUrl) {
