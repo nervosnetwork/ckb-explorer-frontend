@@ -1,9 +1,7 @@
-<p align="center"><a href="https://explorer.nervos.org" target="_blank" rel="noopener noreferrer"><img height="60px" src="./public/ckb_logo.png" alt="ckb explorer logo"></a></p>
-
 <h1 align="center">CKB Explorer</h1>
 
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/nervosnetwork/ckb-explorer-frontend/blob/develop/COPYING)
-[![Github Actions CI](https://github.com/nervosnetwork/ckb-explorer-frontend/workflows/CI/badge.svg?branch=develop)](https://github.com/nervosnetwork/ckb-explorer-frontend/actions)
+[![Github Action](https://github.com/nervosnetwork/ckb-explorer-frontend/actions/workflows/test.yml/badge.svg)](https://github.com/nervosnetwork/ckb-explorer-frontend/actions/workflows/test.yml)
 [![Discord](https://img.shields.io/discord/956765352514183188?label=Discord&logo=discord&style=default&color=grey&labelColor=5865F2&logoColor=white)](https://discord.gg/RsyKyejxAW)
 
 CKB Explorer is a blockchain explorer for [Nervos CKB](https://github.com/nervosnetwork/ckb), built with modern web technologies. It consists of two parts:
