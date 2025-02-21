@@ -22,9 +22,9 @@ Visit the live explorer at [explorer.nervos.org](https://explorer.nervos.org).
 
 - **Bitcoin Interoperability**
 
-  - Support for Bitcoin addresses and transactions
+  - Support for Bitcoin addresses and corresponding RGB++ transactions
   - Cross-chain transaction tracking
-  - BTC-CKB bridge monitoring
+  - BTC-CKB leap monitoring
 
 - **Fiber Network Integration**
 
@@ -97,8 +97,8 @@ src/
 ├── utils/          # Utility functions
 ├── hooks/          # Custom React hooks
 ├── assets/         # Static assets
-├── styles/         # Global styles
-└── __tests__/      # Test files
+├── routes/         # Route configuration
+└── styles/         # Global styles
 ```
 
 ## API Documentation
