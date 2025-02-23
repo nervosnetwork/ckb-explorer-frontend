@@ -2,20 +2,18 @@ import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useState } from 'react'
 import { Link } from '../../components/Link'
 import NftItemTransfers from './NftItemTransfers'
 import Pagination from '../../components/Pagination'
-import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { explorerService } from '../../services/ExplorerService'
-import { DEFAULT_SPORE_IMAGE, getPrimaryColor } from '../../constants/common'
+import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
-import { patchMibaoImg, handleNftImgError, formatNftDisplayId, hexToBase64 } from '../../utils/util'
-import { getSporeImgFromRenderSDK } from '../../utils/spore'
 import { useSearchParams } from '../../hooks'
 import DobTraits from '../../components/DobTraits'
 import { DEPRECATED_DOB_COLLECTION } from '../../constants/marks'
 import Annotation from '../../components/Annotation'
+import Cover from './Cover'
+import { formatNftDisplayId } from '../../utils/util'
 
 const primaryColor = getPrimaryColor()
 const UNIQUE_ITEM_LABEL = 'Unique Item'
@@ -28,9 +26,8 @@ const NftInfo = () => {
     i18n: { language },
   } = useTranslation()
 
-  const [sporeImg, setSporeImg] = useState(DEFAULT_SPORE_IMAGE)
-
   const { page = '1' } = useSearchParams('page')
+
   const { data } = useQuery(['nft-item-info', collection, id], () =>
     explorerService.api.fetchNFTCollectionItem(collection, id),
   )
@@ -46,68 +43,13 @@ const NftInfo = () => {
     }
     history.push(`/${language}/nft-info/${collection}/${id}?page=${pageNo}`)
   }
-  const coverUrl = data?.icon_url || data?.collection.icon_url
-  const dob = data?.dob
-
-  useEffect(() => {
-    const fetchRendedDOBImage = async () => {
-      const cell = data?.cell
-      if (cell?.data && data?.type_script.args) {
-        const renderedImg = await getSporeImgFromRenderSDK(cell.data, data?.type_script.args)
-        setSporeImg(renderedImg)
-      }
-    }
-
-    if (data) {
-      fetchRendedDOBImage()
-    }
-  }, [data])
-
-  const renderCover = () => {
-    if (dob) {
-      const src = dob.asset?.startsWith('0x')
-        ? `data:${dob.media_type};base64,${hexToBase64(dob.asset.slice(2))}`
-        : dob.asset
-
-      return (
-        <img
-          src={src}
-          alt="cover"
-          loading="lazy"
-          className={styles.cover}
-          style={{
-            background: dob['prev.bgcolor'] ?? 'transparent',
-          }}
-        />
-      )
-    }
-    const cell = data?.cell
-    const standard = data?.standard
-    if (standard === 'spore' && cell && cell.data) {
-      return <img src={sporeImg} alt="cover" loading="lazy" className={styles.cover} />
-    }
-
-    if (coverUrl) {
-      return (
-        <img
-          src={`${patchMibaoImg(coverUrl)}?size=medium&tid=${data?.token_id}`}
-          alt="cover"
-          loading="lazy"
-          className={styles.cover}
-          onError={handleNftImgError}
-        />
-      )
-    }
-
-    return <Cover className={styles.cover} />
-  }
 
   const annotation = DEPRECATED_DOB_COLLECTION.find(item => item.id === collection)
 
   return (
     <div className={styles.container}>
       <div className={styles.overview}>
-        {renderCover()}
+        <Cover item={data ?? null} />
         <div className={styles.info}>
           <div className={styles.name}>
             {data
@@ -173,10 +115,10 @@ const NftInfo = () => {
                 {data ? t(`nft.${data.collection.standard === 'spore' ? 'dob' : data.collection.standard}`) : '-'}
               </div>
             </div>
-            {dob ? (
+            {data?.dob ? (
               <div className={styles.item}>
                 <div>{t('nft.traits')}</div>
-                <DobTraits dob={dob} />
+                <DobTraits dob={data.dob} />
               </div>
             ) : null}
             {annotation ? (

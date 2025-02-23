@@ -1,0 +1,20 @@
+@import '../../../styles/variables.module';
+
+.cover {
+  width: 440px;
+  height: 440px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  object-fit: scale-down;
+  background: #fafafa;
+
+  @media (width <= $largeBreakPoint) {
+    width: 360px;
+    height: 360px;
+  }
+
+  @media (width <= $mobileBreakPoint) {
+    width: 100%;
+    height: auto;
+  }
+}

@@ -70,28 +70,11 @@ export function parseSporeCellData(hexData: string) {
   return { contentType, content }
 }
 
-export const getImgFromSporeCell = (hexData: string) => {
-  const DEFAULT_URL = '/images/spore_placeholder.svg'
-  const { contentType, content } = parseSporeCellData(hexData)
-  if (contentType.startsWith('image')) {
-    const base64Data = hexToBase64(content)
-    return `data:${contentType};base64,${base64Data}`
-  }
-  if (contentType === 'application/json') {
-    try {
-      const raw: any = JSON.parse(hexToUtf8(`0x${content}`))
-      if (raw?.resource?.type?.startsWith('image')) {
-        return raw.resource?.url ?? DEFAULT_URL
-      }
-    } catch {
-      return DEFAULT_URL
-    }
-  }
-
-  return DEFAULT_URL
-}
-
-export const getSporeImgFromRenderSDK = async (hexData: string, sporeId: string) => {
+/*
+ * data: cell data
+ * id: cell.type_script.args
+ */
+export const getSporeImg = async ({ data: hexData, id: sporeId }: { data: string; id: string }): Promise<string> => {
   const DEFAULT_URL = '/images/spore_placeholder.svg'
   if (!hexData && !sporeId) {
     return DEFAULT_URL
