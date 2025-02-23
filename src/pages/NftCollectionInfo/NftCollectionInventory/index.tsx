@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
-import { getImgFromSporeCell } from '../../../utils/spore'
-import { ReactComponent as Cover } from '../../../assets/nft_cover.svg'
 import styles from './styles.module.scss'
 import { getPrimaryColor } from '../../../constants/common'
 import { type NFTItem, explorerService } from '../../../services/ExplorerService'
-import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../../utils/util'
+import { formatNftDisplayId } from '../../../utils/util'
+import Cover from '../ItemCover'
 
 const primaryColor = getPrimaryColor()
 
@@ -36,50 +35,6 @@ const NftCollectionInventory: React.FC<{
     )
   }
 
-  const renderCover = (item: NFTItem) => {
-    const coverUrl = item.icon_url ?? info?.icon_url
-    const cell = item?.cell
-    const standard = item?.standard
-    if (item.dob) {
-      const { dob } = item
-
-      const src = dob.asset?.startsWith('0x')
-        ? `data:${dob.media_type};base64,${hexToBase64(dob.asset.slice(2))}`
-        : dob.asset
-
-      return (
-        <img
-          src={src}
-          alt="cover"
-          loading="lazy"
-          className={styles.cover}
-          style={{
-            background: dob['prev.bgcolor'] ?? 'transparent',
-          }}
-        />
-      )
-    }
-
-    if (standard === 'spore' && cell && cell.data) {
-      const img = getImgFromSporeCell(cell.data)
-      return <img src={img} alt="cover" loading="lazy" className={styles.cover} />
-    }
-
-    if (coverUrl) {
-      return (
-        <img
-          src={`${patchMibaoImg(coverUrl)}?size=small&tid=${item.token_id}`}
-          alt="cover"
-          loading="lazy"
-          className={styles.cover}
-          onError={handleNftImgError}
-        />
-      )
-    }
-
-    return <Cover className={styles.cover} />
-  }
-
   return (
     <div className={styles.list}>
       {list.map(item => {
@@ -87,7 +42,9 @@ const NftCollectionInventory: React.FC<{
         const itemLink = `/nft-info/${collection}/${itemId}`
         return (
           <div key={item.id} className={styles.item}>
-            <Link to={itemLink}>{renderCover(item)}</Link>
+            <Link to={itemLink}>
+              <Cover item={item} info={info} />
+            </Link>
             <div className={styles.tokenId}>
               <span>Token ID</span>
               <Link
