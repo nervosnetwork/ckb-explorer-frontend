@@ -1,17 +1,17 @@
 import { useTranslation } from 'react-i18next'
 import { ReactEventHandler, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import axios, { AxiosResponse } from 'axios'
-import BigNumber from 'bignumber.js'
 import { CoTA, OmigaInscription, MNFT, NRC721, SUDT, XUDT, Spore } from '../../models/Address'
 import SUDTTokenIcon from '../../assets/sudt_token.png'
 import { parseUDTAmount } from '../../utils/number'
-import { getImgFromSporeCell } from '../../utils/spore'
-import { formatNftDisplayId, handleNftImgError, hexToBase64, patchMibaoImg } from '../../utils/util'
-import { getDobs } from '../../services/DobsService'
+import { getSporeImg } from '../../utils/spore'
+import { formatNftDisplayId, handleNftImgError, patchMibaoImg } from '../../utils/util'
 import { sliceNftName } from '../../utils/string'
 import styles from './addressAssetComp.module.scss'
 import EllipsisMiddle from '../../components/EllipsisMiddle'
 import Inscription from './Inscription'
+import { DEFAULT_SPORE_IMAGE } from '../../constants/common'
 
 export const AddressAssetComp = ({
   href,
@@ -112,28 +112,22 @@ export const AddressSporeComp = ({
   isMerged?: boolean
 }) => {
   const { t } = useTranslation()
-  const { symbol, amount, udtIconFile, collection } = account
-  const [img, setImg] = useState<{ img: string; bgColor?: string }>({
-    img: getImgFromSporeCell(udtIconFile),
-  })
-  const id = formatNftDisplayId(amount, 'spore')
-  useEffect(() => {
-    const id = `0x${BigNumber(amount).toString(16)}`
-    getDobs([id]).then(dobs => {
-      if (dobs?.[0]) {
-        const dob = dobs[0]
-        const img = dob.asset?.startsWith('0x')
-          ? `data:${dob.media_type};base64,${hexToBase64(dob.asset.slice(2))}`
-          : dob.asset
-        if (img) {
-          setImg({
-            img,
-            bgColor: dob['prev.bgcolor'],
-          })
+  const { symbol, amount, udtIconFile, collection, udtTypeScript } = account
+
+  const dobRenderParams =
+    udtIconFile && udtTypeScript.args
+      ? {
+          data: udtIconFile,
+          id: udtTypeScript.args,
         }
-      }
-    })
-  }, [amount, setImg])
+      : null
+  const { data: img } = useQuery({
+    queryKey: ['dob_render_img', dobRenderParams],
+    queryFn: () => (dobRenderParams ? getSporeImg(dobRenderParams) : DEFAULT_SPORE_IMAGE),
+    enabled: !!dobRenderParams,
+  })
+
+  const id = formatNftDisplayId(amount, 'spore')
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
@@ -143,7 +137,7 @@ export const AddressSporeComp = ({
       }
       name={sliceNftName(symbol)}
       udtLabel="DOB"
-      icon={{ url: img.img ?? '', bgColor: img.bgColor, errorHandler: handleNftImgError }}
+      icon={{ url: img ?? '', errorHandler: handleNftImgError }}
     />
   )
 }
