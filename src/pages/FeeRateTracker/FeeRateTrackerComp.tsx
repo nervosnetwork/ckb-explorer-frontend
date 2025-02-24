@@ -9,7 +9,7 @@ import { ReactComponent as CarIcon } from './car.svg'
 import { ReactComponent as RocketIcon } from './rocket.svg'
 import { ChartColor } from '../../constants/common'
 import { useCurrentLanguage } from '../../utils/i18n'
-import type { FeeRateTracker } from '../../services/ExplorerService/fetcher'
+import type { FeeRateTracker } from '../../services/ExplorerService'
 import { handleAxis } from '../../utils/chart'
 import styles from './styles.module.scss'
 

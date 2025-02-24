@@ -1,7 +1,6 @@
 import { Cell } from '../models/Cell'
 import { Transaction } from '../models/Transaction'
-import { RawBtcRPC } from '../services/ExplorerService'
-import type { CKBTransactionInScript, CellInScript } from '../services/ExplorerService/fetcher'
+import { type CKBTransactionInScript, type CellInScript, RawBtcRPC } from '../services/ExplorerService'
 
 // TODO: move to models
 export const transformToTransaction = (

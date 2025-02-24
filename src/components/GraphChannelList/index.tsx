@@ -3,15 +3,19 @@ import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import { Link } from 'react-router-dom'
+import type { Fiber } from '../../services/ExplorerService'
 import { TIME_TEMPLATE } from '../../constants/common'
-import type { Fiber } from '../../services/ExplorerService/fetcher'
 import { parseNumericAbbr } from '../../utils/chart'
 import { formalizeChannelAsset } from '../../utils/fiber'
 import { localeNumberString } from '../../utils/number'
 import { ReactComponent as CopyIcon } from '../Copy/icon.svg'
 import styles from './index.module.scss'
 
-const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ list, node }) => {
+const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string; startIndex?: number }> = ({
+  list,
+  node,
+  startIndex = 0,
+}) => {
   if (!list.length) {
     return <div className={styles.container}>No Channels</div>
   }
@@ -30,7 +34,7 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string }> = ({ 
 
         return (
           <div key={ch.channelOutpoint} className={styles.channel}>
-            <h1>Channel #{i + 1}</h1>
+            <h1>Channel #{i + 1 + startIndex}</h1>
             <div>
               <dl className={styles.outPoint}>
                 <dt>Out Point</dt>

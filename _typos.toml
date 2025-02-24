@@ -8,3 +8,6 @@ th='th'
 toekn='toekn'
 # echart config
 metalness = 'metalness'
+
+[files]
+extend-exclude=["*.test.*"]

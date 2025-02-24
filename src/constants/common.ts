@@ -173,3 +173,5 @@ export const NERVOS_DAO_RFC_URL =
   'https://www.github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md'
 
 export const TIME_TEMPLATE = 'YYYY-MM-DD HH:mm:ss'
+
+export const DEFAULT_SPORE_IMAGE = '/images/spore_placeholder.svg'

@@ -1,7 +1,7 @@
 import { CopyIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
 import { Link } from 'react-router-dom'
-import type { Fiber } from '../../../services/ExplorerService/fetcher'
+import type { Fiber } from '../../../services/ExplorerService'
 import styles from './fiber.module.scss'
 
 const FiberPeerInfo = ({ peer }: { peer: Fiber.Channel.Peer }) => {

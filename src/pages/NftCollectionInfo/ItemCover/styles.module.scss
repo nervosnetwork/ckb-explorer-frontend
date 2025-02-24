@@ -1,0 +1,18 @@
+.cover {
+  object-fit: cover;
+
+  &[data-size='lg'] {
+    width: 192px;
+    height: 192px;
+    border-radius: 8px;
+  }
+
+  &[data-size='sm'] {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 6px;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+}

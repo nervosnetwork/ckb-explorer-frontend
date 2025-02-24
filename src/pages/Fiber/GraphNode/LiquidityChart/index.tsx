@@ -1,28 +1,24 @@
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { EChartOption } from 'echarts'
+import type { EChartOption } from 'echarts'
 import { SmartChartPage } from '../../../StatisticsChart/common'
-import { variantColors } from '../../../../utils/chart'
+import { parseNumericAbbr, variantColors } from '../../../../utils/chart'
+import type { AssetRecord } from '../types'
 
-interface AssetRecord {
-  symbol: string
-  usd: string
-}
-
-const useOption = (list: AssetRecord[]): echarts.EChartOption => {
+const useChartOption = (list: AssetRecord[]): EChartOption => {
   const { t } = useTranslation()
-
-  const tooltip: EChartOption.Tooltip = {
-    formatter: data => {
-      const item = Array.isArray(data) ? data[0] : data
-      return `${item.name}: ${item.value} USD (${item.percent}%)`
-    },
-  }
-
   const colors = variantColors(list.length)
+
   return {
     color: colors,
-    tooltip,
+    tooltip: {
+      formatter: data => {
+        const item = Array.isArray(data) ? data[0] : data
+        return typeof item.value === 'string'
+          ? `${item.name}: ${parseNumericAbbr(item.value, 2)} USD (${item.percent}%)`
+          : ''
+      },
+    },
     grid: {
       left: '4%',
       right: '10%',
@@ -45,12 +41,10 @@ const useOption = (list: AssetRecord[]): echarts.EChartOption => {
             shadowColor: 'rgba(0, 0, 0, 0.5)',
           },
         },
-        data: list.map(data => {
-          return {
-            name: data.symbol,
-            value: data.usd,
-          }
-        }),
+        data: list.map(data => ({
+          name: data.symbol,
+          value: data.usd,
+        })),
       },
     ],
   }
@@ -58,7 +52,6 @@ const useOption = (list: AssetRecord[]): echarts.EChartOption => {
 
 export const LiquidityChart: FC<{ assets: AssetRecord[] }> = ({ assets }) => {
   const [t] = useTranslation()
-
   const data = assets.filter(a => +a.usd > 0)
 
   if (!data.length) return null
@@ -68,8 +61,8 @@ export const LiquidityChart: FC<{ assets: AssetRecord[] }> = ({ assets }) => {
       title={t('fiber.graph.node.liquidity_allocation')}
       isThumbnail
       fetchData={() => Promise.resolve(data)}
-      getEChartOption={useOption}
-      queryKey={`${Math.random()}`}
+      getEChartOption={useChartOption}
+      queryKey={`liquidity-chart-${data.map(d => d.usd).join('-')}`}
     />
   )
 }
