@@ -50,7 +50,7 @@ const Cover: FC<{ item: NFTItem; info?: NFTCollection; size?: 'lg' | 'md' | 'sm'
     )
   }
 
-  return <CoverIcon className={styles.cover} />
+  return <CoverIcon className={styles.cover} data-size={size} />
 }
 
 export default Cover
