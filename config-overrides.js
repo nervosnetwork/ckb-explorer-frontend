@@ -65,6 +65,7 @@ module.exports = function override(config) {
     ...config.resolve.fallback,
     crypto: require.resolve('crypto-browserify'),
     buffer: require.resolve('buffer'),
+    'react/jsx-runtime': 'react/jsx-runtime.js',
     path: false,
     fs: false,
     stream: false,

@@ -81,6 +81,7 @@ const Hasher = lazy(() => import('../pages/Tools/Hasher'))
 const BroadcastTx = lazy(() => import('../pages/Tools/BroadcastTx'))
 const CamelCase = lazy(() => import('../pages/Tools/CamelCase'))
 const MoleculeParser = lazy(() => import('../pages/Tools/MoleculeParser'))
+const HardFork = lazy(() => import('../pages/HardFork'))
 
 const routes: RouteProps[] = [
   {
@@ -345,6 +346,10 @@ const routes: RouteProps[] = [
   {
     path: '/tools/molecule-parser',
     component: MoleculeParser,
+  },
+  {
+    path: '/hardfork',
+    component: HardFork,
   },
 ]
 

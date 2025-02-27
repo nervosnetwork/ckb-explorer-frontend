@@ -1,0 +1,256 @@
+// Variables
+$background-color: #000;
+$text-color: #fff;
+$text-secondary: rgb(255 255 255 / 60%);
+$border-color: rgb(255 255 255 / 10%);
+$accent-color: #fff;
+$card-bg: rgb(20 20 20 / 50%);
+$hover-bg: rgb(40 40 40 / 50%);
+
+// Page container
+.countdownPage {
+  background-color: $background-color;
+  color: $text-color;
+  min-height: 100vh;
+  position: relative;
+  padding: 1rem;
+
+  @media (width >= 768px) {
+    padding: 2rem;
+  }
+}
+
+.squaresBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+
+  // @media (min-width: 768px) {
+  //   height: 300px;
+  // }
+}
+
+// Background
+.backgroundOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+
+  .backgroundImage {
+    object-fit: cover;
+    opacity: 0.2;
+  }
+}
+
+// Main container
+.mainContainer {
+  max-width: 1024px;
+  margin: 0 auto;
+  position: relative;
+}
+
+// Main title
+.mainTitle {
+  font-family: Roboto, sans-serif;
+  color: $text-color;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  @media (width >= 768px) {
+    font-weight: 500;
+    font-size: 80px;
+  }
+}
+
+// Countdown section
+.countdownSection {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.comingSoon {
+  font-size: 0.875rem;
+  color: $text-color;
+  margin-bottom: 1rem;
+}
+
+// Countdown timer
+.countdownTimer {
+  border: 1px solid #333;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+}
+
+.timerBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timerValue {
+  font-family: digital-clock-font, sans-serif;
+  background-color: rgb(0 0 0 / 50%);
+  backdrop-filter: blur(10px);
+
+  // padding: 1rem;
+  border-radius: 0.25rem;
+  font-size: 32px;
+  width: 100%;
+
+  @media (width >= 768px) {
+    font-size: 64px;
+  }
+}
+
+.timerLabel {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  margin-top: 0.5rem;
+
+  @media (width >= 768px) {
+    font-size: 14px;
+  }
+}
+
+// Progress bar
+.progressContainer {
+  width: 100%;
+}
+
+.progressBar {
+  width: 100%;
+  height: 12px;
+  border: 1px solid $text-color;
+
+  // background-color: rgba(255, 255, 255, 0.1);
+  // border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: $accent-color;
+}
+
+.progressMarkers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: $text-secondary;
+  margin-top: 0.25rem;
+}
+
+// Features section
+.featuresSection {
+  margin-top: 5rem;
+}
+
+.sectionTitle {
+  color: $text-color;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.featuresList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+// Feature cards
+.featureCard {
+  border: 1px solid $border-color;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.featureHeader {
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  color: $text-color;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $hover-bg;
+  }
+}
+
+.featureIcon {
+  font-size: 1.25rem;
+}
+
+.featureContent {
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: $text-secondary;
+  border-top: 1px solid $border-color;
+}
+
+// Footer
+.footer {
+  margin-top: 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+.footerColumn {
+  .footerTitle {
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+}
+
+.footerLinks {
+  list-style: none;
+
+  li {
+    margin-bottom: 0.5rem;
+
+    a {
+      color: $text-secondary;
+      text-decoration: none;
+      font-size: 0.875rem;
+
+      &:hover {
+        color: $text-color;
+      }
+    }
+  }
+}
+
+.glowingLineContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 140px;
+
+  @media (width >= 768px) {
+    height: 300px;
+  }
+}
+
+.glowingLine {
+  position: relative;
+  z-index: 1;
+}
