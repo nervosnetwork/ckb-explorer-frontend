@@ -5,7 +5,6 @@
   max-width: 80rem; /* max-w-7xl */
   overflow: hidden;
   mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
-  mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
 }
 
 .scrollerList {
@@ -88,6 +87,7 @@
   color: #f0f0f0; /* text-gray-100 */
   font-weight: 400; /* font-normal */
   display: block;
+  white-space: pre-line;
   word-break: break-word;
   max-height: 5em; /* 限制最多 3 行 */
   overflow: hidden;

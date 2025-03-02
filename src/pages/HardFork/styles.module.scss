@@ -80,6 +80,12 @@ $hover-bg: rgb(40 40 40 / 50%);
   margin-bottom: 1rem;
 }
 
+.countdownComplete {
+  border: 1px solid #333;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 // Countdown timer
 .countdownTimer {
   border: 1px solid #333;
@@ -124,6 +130,9 @@ $hover-bg: rgb(40 40 40 / 50%);
 // Progress bar
 .progressContainer {
   width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .progressBar {
@@ -253,4 +262,15 @@ $hover-bg: rgb(40 40 40 / 50%);
 .glowingLine {
   position: relative;
   z-index: 1;
+}
+
+.animeBlockWrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.animeBlock {
+  width: 12px;
+  height: 12px;
+  background: #f0f0f0;
 }
