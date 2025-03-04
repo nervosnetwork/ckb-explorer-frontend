@@ -192,3 +192,15 @@
     }
   }
 }
+
+.notice {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #ffb21e;
+  border: 1px solid #ffdba6;
+  background-color: #fffcf2;
+}

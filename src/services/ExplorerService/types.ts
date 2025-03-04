@@ -23,6 +23,7 @@ export namespace Response {
   export interface Meta {
     total: number
     pageSize: number
+    totalPages?: number
   }
 
   export interface Wrapper<A, T = string> {
