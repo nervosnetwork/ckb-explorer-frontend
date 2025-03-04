@@ -664,7 +664,8 @@
       "loading": "Loading...",
       "fiber_channel": "Fiber Channel",
       "deployment": "Deployment",
-      "deployed_script": "Deployed Script"
+      "deployed_script": "Deployed Script",
+      "range_notice": "Only the latest {{count}} related items will be displayed here."
     },
     "block": {
       "block": "Block",

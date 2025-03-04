@@ -1,11 +1,9 @@
 import { useState, FC, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
-import { Radio } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons'
 import { utils } from '@ckb-lumos/base'
-import { Link } from '../../components/Link'
 import TransactionItem from '../../components/TransactionItem/index'
 import NodeTransactionItem from '../../components/TransactionItem/NodeTransactionItem'
 import { explorerService, RawBtcRPC } from '../../services/ExplorerService'
@@ -22,23 +20,13 @@ import {
 } from './styled'
 import Capacity from '../../components/Capacity'
 import CKBTokenIcon from './ckb_token_icon.png'
-import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
-import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
-import {
-  OrderByType,
-  useIsMobile,
-  useNewAddr,
-  usePaginationParamsInListPage,
-  useSearchParams,
-  useUpdateSearchParams,
-} from '../../hooks'
+import { useNewAddr, usePaginationParamsInListPage, useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
 import LiteTransactionList from '../../components/LiteTransactionList'
 import Script from '../../components/Script'
 import AddressText from '../../components/AddressText'
 import { parseSimpleDateNoSecond } from '../../utils/date'
 import { LayoutLiteProfessional } from '../../constants/common'
-import { omit } from '../../utils/object'
 import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
 import { Transaction } from '../../models/Transaction'
@@ -323,42 +311,26 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
 export const AddressTransactions = ({
   address,
   transactions,
-  timeOrderBy,
-  meta: { counts },
+  meta,
 }: {
   address: string
   transactions: (Transaction & { btcTx: RawBtcRPC.BtcTx | null })[]
-  timeOrderBy: OrderByType
-  meta: { counts: Record<'committed' | 'pending', number | '-'> }
+  meta: { totalPages?: number }
 }) => {
-  const isMobile = useIsMobile()
+  const { totalPages = 0 } = meta
   const { t } = useTranslation()
-  const { currentPage, pageSize, setPage } = usePaginationParamsInListPage()
+  const { currentPage, setPage } = usePaginationParamsInListPage()
   const { Professional, Lite } = LayoutLiteProfessional
-  const searchParams = useSearchParams('layout', 'tx_status')
   const defaultLayout = Professional
-  const updateSearchParams = useUpdateSearchParams<'layout' | 'sort' | 'tx_type'>()
+
+  const searchParams = useSearchParams('layout', 'tx_status')
+
   const layout = searchParams.layout === Lite ? Lite : defaultLayout
 
   const txStatus = searchParams.tx_status
   const isPendingListActive = txStatus === 'pending'
-  const total = isPendingListActive ? counts.pending : counts.committed
-  const totalPages = total === '-' ? 0 : Math.ceil(total / pageSize)
-
-  const onChangeLayout = (layoutType: LayoutLiteProfessional) => {
-    updateSearchParams(params =>
-      layoutType === defaultLayout
-        ? Object.fromEntries(Object.entries(params).filter(entry => entry[0] !== 'layout'))
-        : { ...params, layout: layoutType },
-    )
-  }
-  const handleTimeSort = () => {
-    updateSearchParams(
-      params =>
-        timeOrderBy === 'asc' ? omit(params, ['sort', 'tx_type']) : omit({ ...params, sort: 'time' }, ['tx_type']),
-      true,
-    )
-  }
+  // const total = isPendingListActive ? counts.pending : counts.committed
+  // const totalPages = _totalPages ?? total === '-' ? 0 : Math.ceil(total / pageSize)
 
   const newAddr = useNewAddr(address)
   const isNewAddr = newAddr === address
@@ -376,51 +348,8 @@ export const AddressTransactions = ({
       }))
     : transactions
 
-  const searchOptionsAndModeSwitch = (
-    <div className={styles.searchOptionsAndModeSwitch}>
-      <div className={styles.sortAndFilter} data-is-active={timeOrderBy === 'asc'}>
-        {timeOrderBy === 'asc' ? <TimeDownIcon onClick={handleTimeSort} /> : <TimeUpIcon onClick={handleTimeSort} />}
-      </div>
-      <Radio.Group
-        className={styles.layoutButtons}
-        options={[
-          { label: t('transaction.professional'), value: Professional },
-          { label: t('transaction.lite'), value: Lite },
-        ]}
-        onChange={({ target: { value } }) => onChangeLayout(value)}
-        value={layout}
-        optionType="button"
-        buttonStyle="solid"
-      />
-    </div>
-  )
-
   return (
     <>
-      <Card className={styles.transactionListOptionsCard} rounded="top">
-        <CardHeader
-          className={styles.cardHeader}
-          leftContent={
-            <div className={styles.txHeaderLabels}>
-              <Link
-                to={`/address/${address}?${new URLSearchParams({ ...searchParams, tx_status: 'committed' })}`}
-                data-is-active={!isPendingListActive}
-              >{`${t('transaction.transactions')} (${
-                counts.committed === '-' ? counts.committed : localeNumberString(counts.committed)
-              })`}</Link>
-              <Link
-                to={`/address/${address}?${new URLSearchParams({ ...searchParams, tx_status: 'pending' })}`}
-                data-is-active={isPendingListActive}
-              >{`${t('transaction.pending_transactions')} (${
-                counts.pending === '-' ? counts.pending : localeNumberString(counts.pending)
-              })`}</Link>
-            </div>
-          }
-          rightContent={!isMobile && searchOptionsAndModeSwitch}
-        />
-        {isMobile && searchOptionsAndModeSwitch}
-      </Card>
-
       <AddressTransactionsPanel>
         {layout === 'lite' ? (
           <LiteTransactionList address={address} list={transactions} />
