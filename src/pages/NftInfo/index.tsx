@@ -13,6 +13,7 @@ import DobTraits from '../../components/DobTraits'
 import { DEPRECATED_DOB_COLLECTION } from '../../constants/marks'
 import Annotation from '../../components/Annotation'
 import Cover from './Cover'
+import { ReactComponent as NameMissing } from './NameMissing.svg'
 import { formatNftDisplayId } from '../../utils/util'
 
 const primaryColor = getPrimaryColor()
@@ -100,6 +101,14 @@ const NftInfo = () => {
                 ) : (
                   '-'
                 )}
+              </div>
+            </div>
+            <div className={styles.item}>
+              <div>Collection</div>
+              <div>
+                <Link to={`/nft-collections/${collection}`} className={styles.collection}>
+                  {data?.collection.name ?? <NameMissing />}
+                </Link>
               </div>
             </div>
             <div className={styles.item}>
