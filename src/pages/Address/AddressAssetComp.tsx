@@ -131,7 +131,7 @@ export const AddressSporeComp = ({
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
-      href={`/nft-collections/${collection?.typeHash}`}
+      href={`/nft-info/${collection?.typeHash}/${udtTypeScript.args}`}
       property={
         isMerged ? `${t('rgbpp.amount')}: ${(+amount).toLocaleString('en')}` : `id: ${id.slice(0, 8)}...${id.slice(-8)}`
       }
@@ -164,7 +164,7 @@ export const AddressMNFTComp = ({ account, isRGBPP }: { account: MNFT; isRGBPP?:
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
-      href={`/nft-collections/${collection?.typeHash}`}
+      href={`/nft-info/${collection?.typeHash}/${amount}`}
       property={`#${amount}`}
       name={sliceNftName(symbol)}
       udtLabel="m-NFT"
@@ -198,10 +198,12 @@ export const AddressNRC721Comp = ({ account, isRGBPP }: { account: NRC721; isRGB
       })
   }, [udtIconFile])
 
+  const id = BigInt(`0x${amount}`).toString()
+
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
-      href={`/nft-collections/${collection?.typeHash}`}
+      href={`/nft-info/${collection?.typeHash}/${id}`}
       property={`id: ${amount}`}
       name={!symbol ? '?' : sliceNftName(`${symbol} #${collection.typeHash.slice(2, 5)}`)}
       isUnverified={!symbol}

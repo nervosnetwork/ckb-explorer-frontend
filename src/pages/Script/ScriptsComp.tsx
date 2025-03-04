@@ -75,6 +75,13 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
 
   return (
     <>
+      {total >= 5000 && (
+        <div className={styles.notice}>
+          {t('transaction.range_notice', {
+            count: 5000,
+          })}
+        </div>
+      )}
       <div className={styles.scriptTransactionsPanel}>
         {ckbTransactions.length > 0 ? (
           ckbTransactions.map(tr => (
@@ -196,6 +203,14 @@ export const ScriptCells = ({
 
   return (
     <>
+      {total >= 500 && (
+        <div className={styles.notice}>
+          {t('transaction.range_notice', {
+            count: 500,
+          })}
+        </div>
+      )}
+
       <div className={styles.scriptCellsPanel}>
         <table>
           <thead>
