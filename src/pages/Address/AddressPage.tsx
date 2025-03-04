@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Tooltip, Radio } from 'antd'
-import { FC, useMemo } from 'react'
+import { FC, useMemo, useEffect } from 'react'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Address as AddressInfo } from '../../models/Address'
 import { LayoutLiteProfessional } from '../../constants/common'
@@ -180,6 +180,15 @@ export const Address = () => {
       initialData: { transactions: [], total: '-' },
     },
   )
+
+  useEffect(() => {
+    transactionCountQuery.refetch()
+    pendingTransactionCountQuery.refetch()
+    addressPendingTransactionsQuery.refetch()
+    addressInfoQuery.refetch()
+    addressTransactionsQuery.refetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPendingTxListActive])
 
   const transactionCounts: Record<'committed' | 'pending', number | '-'> = useMemo(() => {
     let committed: number | '-' = '-'
