@@ -29,10 +29,6 @@ $hover-bg: rgb(40 40 40 / 50%);
   left: 0;
   width: 100%;
   height: 300px;
-
-  // @media (min-width: 768px) {
-  //   height: 300px;
-  // }
 }
 
 // Background
@@ -332,6 +328,7 @@ $hover-bg: rgb(40 40 40 / 50%);
 }
 
 .glowingLineContainer {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -354,6 +351,69 @@ $hover-bg: rgb(40 40 40 / 50%);
 
     to {
       filter: drop-shadow(0 0 5px rgb(167 134 255 / 60%)) drop-shadow(0 0 15px rgb(255 255 255 / 20%));
+    }
+  }
+}
+
+.flatCude {
+  position: fixed;
+  z-index: 1;
+  top: 200px;
+  animation: flat-cube-animation 8s ease-in-out infinite;
+
+  @media screen and (width <768px) {
+    top: 110px;
+  }
+
+  @keyframes flat-cube-animation {
+    0% {
+      opacity: 0;
+      transform: translateX(-50vw) rotate3d(0, 0, 1, 0deg);
+    }
+
+    40% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+      transform: translateX(0) rotate3d(0, 1, 1, 317deg);
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+.cube3d {
+  position: fixed;
+  z-index: 1;
+  animation: cube-3d-animation 8s ease-in-out infinite;
+  top: 170px;
+
+  @media screen and (width <768px) {
+    top: 80px;
+  }
+
+  @keyframes cube-3d-animation {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+
+    50% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+
+    60% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateX(50vw);
     }
   }
 }

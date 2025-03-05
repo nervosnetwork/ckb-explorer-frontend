@@ -14,6 +14,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 import { useCountdown } from '../../hooks'
 import { explorerService, useStatistics } from '../../services/ExplorerService'
 import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
+import FlatCube from './FlatCube'
 
 // https://github.com/nervosnetwork/ckb/pull/4807/files#diff-1beb40a3d17a41c5906970fca040280ff421695a65b0f3da51e6abb06329c4a6R10
 const ESTIMATED_ACTIVATION_TIME = {
@@ -218,9 +219,12 @@ export default function CountdownPage() {
   return (
     <div className={styles.countdownPage}>
       <div className={styles.glowingLineContainer}>
+        <div className={styles.flatCude}>
+          <FlatCube />
+        </div>
+        <img src="/images/3d_cube.gif" className={styles.cube3d} alt="cube3d" />
         <img className={styles.glowingLine} src={glowingLine} alt="line" />
       </div>
-      <img src="/images/3d_cube.gif" className={styles.cubes3d} alt="cubes3d" />
 
       <div className={styles.squaresBg}>
         <Squares
