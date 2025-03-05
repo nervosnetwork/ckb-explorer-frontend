@@ -220,6 +220,7 @@ export default function CountdownPage() {
       <div className={styles.glowingLineContainer}>
         <img className={styles.glowingLine} src={glowingLine} alt="line" />
       </div>
+      <img src="/images/3d_cube.gif" className={styles.cubes3d} alt="cubes3d" />
 
       <div className={styles.squaresBg}>
         <Squares
