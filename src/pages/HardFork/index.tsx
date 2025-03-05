@@ -17,6 +17,7 @@ import { explorerService, useStatistics } from '../../services/ExplorerService'
 import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
 import FlatCube from './FlatCube'
 import { ESTIMATED_ACTIVATION_TIME } from '../../constants/common'
+import comments from './comments'
 
 const targetVers = [0, 200] // 0.200.0
 
@@ -53,107 +54,6 @@ export default function CountdownPage() {
 
   const minerPercent = miners ? ((miners[1] / miners[0]) * 100).toFixed(2) : '-'
 
-  const comments = [
-    {
-      name: 'Nervos CKB Docs',
-      avatars: 'https://docs.nervos.org/img/logo-dark.png',
-      content: t('hardfork.comment1'),
-      date: '',
-      link: 'https://docs.nervos.org/docs/history-and-hard-forks/intro-to-hard-fork',
-    },
-    {
-      name: 'Nervos CKB Docs',
-      avatars: 'https://docs.nervos.org/img/logo-dark.png',
-      content: t('hardfork.comment2'),
-      date: '',
-      link: 'https://docs.nervos.org/docs/history-and-hard-forks/intro-to-hard-fork',
-    },
-    {
-      name: 'Nervos CKB Docs',
-      avatars: 'https://docs.nervos.org/img/logo-dark.png',
-      content: t('hardfork.comment3'),
-      date: '',
-      link: 'https://docs.nervos.org/docs/history-and-hard-forks/intro-to-hard-fork',
-    },
-    {
-      name: 'doitian',
-      avatars: 'https://avatars.githubusercontent.com/u/35768?v=4',
-      content: t('hardfork.comment4'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/ckb/issues/4806#issuecomment-2673768017',
-    },
-    {
-      name: 'doitian',
-      avatars: 'https://avatars.githubusercontent.com/u/35768?v=4',
-      content: t('hardfork.comment5'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/ckb/issues/4806#issuecomment-2673786997',
-    },
-    {
-      name: 'doitian',
-      avatars: 'https://avatars.githubusercontent.com/u/35768?v=4',
-      content: t('hardfork.comment6'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/ckb/issues/4806#issuecomment-2673786997',
-    },
-    {
-      name: 'gpBlockchain',
-      avatars: 'https://avatars.githubusercontent.com/u/32102187?v=4&size=80',
-      content: t('hardfork.comment7'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/ckb/issues/4806#issuecomment-2677703878',
-    },
-    {
-      name: 'CKB Consensus Change',
-      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
-      content: t('hardfork.comment8'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
-    },
-    {
-      name: 'CKB Consensus Change',
-      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
-      content: t('hardfork.comment9'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
-    },
-    {
-      name: 'CKB Consensus Change',
-      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
-      content: t('hardfork.comment10'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
-    },
-    {
-      name: 'CKB Consensus Change',
-      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
-      content: t('hardfork.comment11'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
-    },
-    {
-      name: 'CKB Consensus Change',
-      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
-      content: t('hardfork.comment12'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
-    },
-    {
-      name: 'CKB Consensus Change',
-      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
-      content: t('hardfork.comment13'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
-    },
-    {
-      name: 'CKB Consensus Change',
-      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
-      content: t('hardfork.comment14'),
-      date: '',
-      link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
-    },
-  ]
-
   const utcOffset = dayjs().utcOffset() / 60
 
   const progress = [
@@ -173,8 +73,11 @@ export default function CountdownPage() {
       comments
         .map(value => ({ value, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
-        .map(({ value }) => value),
-    [comments],
+        .map(({ value }) => ({
+          ...value,
+          content: t(value.content),
+        })),
+    [t],
   )
 
   useEffect(() => {

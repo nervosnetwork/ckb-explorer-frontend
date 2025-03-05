@@ -125,6 +125,7 @@ export default () => {
         startAutoPlay()
       }, 800)
     },
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
     [currentIndex, banners.length, exitingIndex],
   )
 
@@ -136,7 +137,7 @@ export default () => {
     autoPlayRef.current = setInterval(() => {
       goToBanner((currentIndex + 1) % banners.length)
     }, 7000)
-  }, [goToBanner])
+  }, [goToBanner, currentIndex, banners.length])
 
   useEffect(() => {
     startAutoPlay()
