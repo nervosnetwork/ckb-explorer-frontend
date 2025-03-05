@@ -3,12 +3,17 @@
 import { useEffect, useMemo, useState } from 'react'
 import confetti from 'canvas-confetti'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
+import { Tooltip } from 'antd'
+import { useQuery } from '@tanstack/react-query'
 import Squares from './Squares'
 import styles from './styles.module.scss'
 import glowingLine from './glowingLine.png'
 import { InfiniteMovingCard } from './InfiniteMovingCard'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../components/ui/Accordion'
 import { useCountdown } from '../../hooks'
+import { explorerService, useStatistics } from '../../services/ExplorerService'
+import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
 
 // https://github.com/nervosnetwork/ckb/pull/4807/files#diff-1beb40a3d17a41c5906970fca040280ff421695a65b0f3da51e6abb06329c4a6R10
 const ESTIMATED_ACTIVATION_TIME = {
@@ -16,11 +21,38 @@ const ESTIMATED_ACTIVATION_TIME = {
   end: new Date('2025-07-01T06:32:53'),
   epoch: 12_293,
 }
+const targetVers = [0, 200] // 0.200.0
 
 export default function CountdownPage() {
   const [days, hours, minutes, seconds, countdown] = useCountdown(ESTIMATED_ACTIVATION_TIME.end)
   const [isEnd, setIsEnd] = useState(false)
   const { t } = useTranslation()
+
+  const statistics = useStatistics()
+  const currentEpoch = +statistics.epochInfo.epochLength
+    ? +statistics.epochInfo.epochNumber + +statistics.epochInfo.index / +statistics.epochInfo.epochLength
+    : +statistics.epochInfo.epochNumber
+
+  const { data: minerVersions } = useQuery({
+    queryKey: ['statisticMinerVersionDistribution'],
+    queryFn: () => explorerService.api.fetchStatisticMinerVersionDistribution(),
+    refetchInterval: 60 * 1000, // 1min
+  })
+
+  const miners =
+    minerVersions?.data.reduce(
+      (acc, cur) => {
+        acc[0] += cur.blocksCount
+        const vers = cur.version.split('.')
+        if (+vers[0] > targetVers[0] || +vers[1] >= targetVers[1]) {
+          acc[1] += cur.blocksCount
+        }
+        return acc
+      },
+      [0, 0] as [number, number],
+    ) ?? null
+
+  const minerPercent = miners ? ((miners[1] / miners[0]) * 100).toFixed(2) : '-'
 
   const comments = [
     {
@@ -67,60 +99,74 @@ export default function CountdownPage() {
     },
     {
       name: 'gpBlockchain',
-      avatars: 'https://avatars.githubusercontent.com/u/3198439?v=4',
+      avatars: 'https://avatars.githubusercontent.com/u/32102187?v=4&size=80',
       content: t('hardfork.comment7'),
       date: '',
       link: 'https://github.com/nervosnetwork/ckb/issues/4806#issuecomment-2677703878',
     },
     {
       name: 'CKB Consensus Change',
-      avatars: 'https://www.svgrepo.com/show/243051/docs.svg',
+      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
       content: t('hardfork.comment8'),
       date: '',
       link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
     },
     {
       name: 'CKB Consensus Change',
-      avatars: 'https://www.svgrepo.com/show/243051/docs.svg',
+      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
       content: t('hardfork.comment9'),
       date: '',
       link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
     },
     {
       name: 'CKB Consensus Change',
-      avatars: 'https://www.svgrepo.com/show/243051/docs.svg',
+      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
       content: t('hardfork.comment10'),
       date: '',
       link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
     },
     {
       name: 'CKB Consensus Change',
-      avatars: 'https://www.svgrepo.com/show/243051/docs.svg',
+      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
       content: t('hardfork.comment11'),
       date: '',
       link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
     },
     {
       name: 'CKB Consensus Change',
-      avatars: 'https://www.svgrepo.com/show/243051/docs.svg',
+      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
       content: t('hardfork.comment12'),
       date: '',
       link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
     },
     {
       name: 'CKB Consensus Change',
-      avatars: 'https://www.svgrepo.com/show/243051/docs.svg',
+      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
       content: t('hardfork.comment13'),
       date: '',
       link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
     },
     {
       name: 'CKB Consensus Change',
-      avatars: 'https://www.svgrepo.com/show/243051/docs.svg',
+      avatars: 'https://avatars.githubusercontent.com/u/35361817?s=200&v=4',
       content: t('hardfork.comment14'),
       date: '',
       link: 'https://github.com/nervosnetwork/rfcs/blob/3a6ae4fa5d59b6e33fa7bd563d336706d135c0d8/rfcs/0053-ckb-hardfork/0053-ckb-hardfork.md',
     },
+  ]
+
+  const utcOffset = dayjs().utcOffset() / 60
+
+  const progress = [
+    { label: 'current_epoch', value: Number(currentEpoch.toFixed(2)).toLocaleString('en') },
+    { label: 'target_epoch', value: ESTIMATED_ACTIVATION_TIME.epoch.toLocaleString('en') },
+    {
+      label: 'estimated_time',
+      value: dayjs(ESTIMATED_ACTIVATION_TIME.end).format('YYYY.MM.DD hh:mm:ss'),
+      tooltip: `UTC ${utcOffset > 0 ? `+ ${utcOffset}` : utcOffset}`,
+    },
+    { label: 'miner_percent', value: minerPercent },
+    // todo add exchanges
   ]
 
   const shuffledComments = useMemo(
@@ -187,7 +233,7 @@ export default function CountdownPage() {
 
       <main className={styles.mainContainer}>
         <h1 className={styles.mainTitle}>
-          {countdown <= 3 ? 'NEXT HARDFORK OF CKB' : 'CKB Network Hardfork is completed 🎉'}
+          {countdown > 3 ? 'NEXT HARDFORK OF CKB' : 'CKB Network Hardfork is completed 🎉'}
         </h1>
         <div className={styles.countdownSection}>
           {countdown > 3 && (
@@ -242,6 +288,30 @@ export default function CountdownPage() {
               <span>75%</span>
               <span>100%</span>
             </div>
+          </div>
+
+          <div className={styles.progressMetrics}>
+            {progress.map(({ label, value, tooltip }) => {
+              return (
+                <div key={label} className={styles.progressMetricItem}>
+                  <div>
+                    {value}
+                    {tooltip ? (
+                      <Tooltip
+                        placement="topRight"
+                        color="#fff"
+                        arrowPointAtCenter
+                        overlayInnerStyle={{ color: '#333333' }}
+                        title={tooltip}
+                      >
+                        <WarningCircle width={12} height={12} />
+                      </Tooltip>
+                    ) : null}
+                  </div>
+                  <div>{t(`hardfork.metrics.${label}`)}</div>
+                </div>
+              )
+            })}
           </div>
         </div>
 

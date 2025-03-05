@@ -1,3 +1,5 @@
+@import '../../styles//variables.module.scss';
+
 // Variables
 $background-color: #000;
 $text-color: #fff;
@@ -182,6 +184,60 @@ $hover-bg: rgb(40 40 40 / 50%);
       left: 50%;
       transform: translateX(-50%);
     }
+  }
+}
+
+.progressMetrics {
+  display: flex;
+  width: 100%;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+
+  .progressMetricItem {
+    box-sizing: border-box;
+    position: relative;
+    flex-basis: calc(25% - 1px);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    padding: 0 1rem 2rem;
+
+    &::before {
+      position: absolute;
+      content: '';
+      display: inline-block;
+      width: 1px;
+      height: 32px;
+      background-color: $dim-color;
+      left: 0;
+    }
+
+    &:first-of-type::before {
+      display: none;
+    }
+
+    & > div:first-of-type {
+      font-size: 1.375rem;
+      font-weight: 500;
+      vertical-align: middle;
+
+      svg {
+        margin-left: 0.5rem;
+      }
+    }
+
+    @media screen and (width < $extraLargeBreakPoint) {
+      flex-basis: unset;
+      flex-grow: 1;
+      flex-shrink: 1;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (width < $mobileBreakPoint) {
+    flex-direction: column;
   }
 }
 

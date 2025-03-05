@@ -113,7 +113,13 @@
       "comment14": "The final phase mirrors the testnet deployment process. Once network participants are ready, the mainnet hardfork is initiated. Key steps include:\nRelease of the mainnet hardfork binary and activation epoch\nA preparation period of at least three months\nActivation upon majority node upgrade\n.Once activated at the specified epoch, the hardfork is deemed successfully deployed, marking the completion of the upgrade.",
       "ckb_vm_desc": "One notable addition is the inclusion of a new system call called \"Spawn\", which can be further explored in the RFC50: CKB-VM Syscalls 3. In essence, Spawn serves as an alternative to dynamic library calls and Exec. With Spawn, a Script can create a child Script with an independent memory area, and data can be passed between the parent and child Scripts without restriction.\n Implemented more macro-op fusions to reduce cycle consumption, making Scripts run more efficiently.\nAdded a new data2 value in the Scripthash_type field to smoothly manage different VM versions, ensuring a seamless upgrade path.",
       "spawn_desc": "The Meepo hard fork in 2025 has introduced a range of enhancements into CKB Script development, with one major innovation being Spawn.\nIn CKB Script, Spawn refers to a concept and a set of syscalls for creating new processes. Unlike the exec syscall introduced during CKB’s first hard fork in 2021, Spawn enables direct cross-script calls, simplifying development process while offering greater control and optimization.",
-      "fee_estimator_desc": "As the number of transactions on CKB continues to grow, accurate fee rate estimation becomes increasingly essential. CKB v0.120.0 introduces a new experimental feature, Fee Estimator, to help developers and users determine optimal transaction fee rates."
+      "fee_estimator_desc": "As the number of transactions on CKB continues to grow, accurate fee rate estimation becomes increasingly essential. CKB v0.120.0 introduces a new experimental feature, Fee Estimator, to help developers and users determine optimal transaction fee rates.",
+      "metrics": {
+        "current_epoch": "Current Epoch",
+        "target_epoch": "Target Epoch",
+        "miner_percent": "Miners %",
+        "estimated_time": "Estimated Time"
+      }
     },
     "glossary": {
       "block_height": "Also known as Block Number. The block height, which indicates the length of the blockchain, increases after the addition of the new block.",
