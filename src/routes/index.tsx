@@ -16,6 +16,7 @@ import { isChainTypeError } from '../utils/chain'
 import { SupportedLngs } from '../utils/i18n'
 import { useSyncEffect } from '../hooks'
 import RGBPPTransactionList from '../pages/RGBPP/TransactionList'
+import { IS_MAINNET } from '../constants/common'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -347,11 +348,13 @@ const routes: RouteProps[] = [
     path: '/tools/molecule-parser',
     component: MoleculeParser,
   },
-  {
+]
+if (IS_MAINNET) {
+  routes.push({
     path: '/hardfork',
     component: HardFork,
-  },
-]
+  })
+}
 
 type PageErrorBoundaryState = {
   error?: Error | null
