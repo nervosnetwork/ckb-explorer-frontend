@@ -8,6 +8,8 @@ th='th'
 toekn='toekn'
 # echart config
 metalness = 'metalness'
+# game name
+Dota='Dota'
 
 [files]
 extend-exclude=["*.test.*"]
