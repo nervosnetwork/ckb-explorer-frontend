@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 import { Tooltip } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { useLocation } from 'react-router'
+import { OpenInNewWindowIcon } from '@radix-ui/react-icons'
 import SquareBackground from '../../components/SquareBackground'
 import styles from './styles.module.scss'
 import glowingLine from './glowingLine.png'
@@ -18,6 +19,7 @@ import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg
 import FlatCube from './FlatCube'
 import { ESTIMATED_ACTIVATION_TIME } from '../../constants/common'
 import comments from './comments'
+import { Link } from '../../components/Link'
 
 const targetVers = [0, 200] // 0.200.0
 
@@ -245,15 +247,42 @@ export default function CountdownPage() {
         <Accordion type="single" collapsible defaultValue={hash.slice(1)}>
           <AccordionItem value="ckb-vm-2" id="ckb-vm-2">
             <AccordionTrigger>CKB-VM V2</AccordionTrigger>
-            <AccordionContent>{t('hardfork.ckb_vm_desc')}</AccordionContent>
+            <AccordionContent>
+              {t('hardfork.ckb_vm_desc')}
+              <Link
+                to="https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0049-ckb-vm-version-2/0049-ckb-vm-version-2.md"
+                className={styles.rfc}
+              >
+                RFC 0049: CKB-VM Version 2
+                <OpenInNewWindowIcon />
+              </Link>
+            </AccordionContent>
           </AccordionItem>
           <AccordionItem value="syscall" id="syscall">
-            <AccordionTrigger>Spawn: Direct Cross-Script Calling</AccordionTrigger>
-            <AccordionContent>{t('hardfork.spawn_desc')}</AccordionContent>
+            <AccordionTrigger>VM Syscalls 3: Unix-like process in CKB</AccordionTrigger>
+            <AccordionContent>
+              {t('hardfork.syscall_desc')}
+              <Link
+                to="https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0050-vm-syscalls-3/0050-vm-syscalls-3.md"
+                className={styles.rfc}
+              >
+                RFC 0050: VM Syscalls 3
+                <OpenInNewWindowIcon />
+              </Link>
+            </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="fee-estimator" id="fee-estimator">
-            <AccordionTrigger>Fee Estimator</AccordionTrigger>
-            <AccordionContent>{t('hardfork.fee_estimator_desc')}</AccordionContent>
+          <AccordionItem value="data-structure" id="data-structure">
+            <AccordionTrigger>Data Structure Update</AccordionTrigger>
+            <AccordionContent>
+              {t('hardfork.data_structure_desc')}
+              <Link
+                to="https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0048-remove-block-header-version-reservation-rule/0048-remove-block-header-version-reservation-rule.md"
+                className={styles.rfc}
+              >
+                RFC 0048: Remove Block Header Version Reservation Rule
+                <OpenInNewWindowIcon />
+              </Link>
+            </AccordionContent>
           </AccordionItem>
         </Accordion>
       </main>

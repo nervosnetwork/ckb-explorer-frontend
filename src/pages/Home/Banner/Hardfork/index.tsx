@@ -29,9 +29,9 @@ const HardforkBanner = () => {
         <div className={styles.illustration}>
           <img src={Cube} alt="3d cube" />
           <div className={styles.annotation}>
-            <Link to="/hardfork#syscall">Direct Cross-Script Calling</Link>
+            <Link to="/hardfork#syscall">VM Syscalls 3</Link>
             <Link to="/hardfork#ckb-vm-2">CKB-VM V2</Link>
-            <Link to="/hardfork#fee-estimator">Fee Estimator</Link>
+            <Link to="/hardfork#data-structure">Data Structure</Link>
           </div>
         </div>
       </div>
