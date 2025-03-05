@@ -9,6 +9,7 @@ $border-color: rgb(255 255 255 / 10%);
 $accent-color: #fff;
 $card-bg: rgb(20 20 20 / 50%);
 $hover-bg: rgb(40 40 40 / 50%);
+$glowing-line-width: 76px;
 
 // Page container
 .countdownPage {
@@ -33,7 +34,7 @@ $hover-bg: rgb(40 40 40 / 50%);
 
 // Background
 .backgroundOverlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: -1;
@@ -343,6 +344,7 @@ $hover-bg: rgb(40 40 40 / 50%);
   position: relative;
   z-index: 1;
   animation: glow 2s ease-in-out infinite alternate;
+  width: $glowing-line-width;
 
   @keyframes glow {
     from {
@@ -356,23 +358,33 @@ $hover-bg: rgb(40 40 40 / 50%);
 }
 
 .cubeContainer {
-  position: fixed;
+  position: absolute;
   z-index: 1;
-  top: 200px;
   width: 50vw;
   overflow-x: hidden;
   height: 150px;
+  box-sizing: border-box;
 
   &:first-of-type {
-    left: 0;
+    left: calc(-1 * $glowing-line-width / 2 + 5px); // 50% width of glowing line image
+    top: 100px;
   }
 
   &:last-of-type {
-    right: 0;
+    right: calc(-1 * $glowing-line-width / 2 + 5px); // 50% width of glowing line image
+    top: 80px;
   }
 
   @media screen and (width <768px) {
-    top: 110px;
+    &:first-of-type {
+      top: 30px;
+      left: calc(-1 * $glowing-line-width / 2 + 20px); // 50% width of glowing line image
+    }
+
+    &:last-of-type {
+      top: 10px;
+      right: calc(-1 * $glowing-line-width / 2 + 20px); // 50% width of glowing line image
+    }
   }
 }
 
@@ -404,7 +416,7 @@ $hover-bg: rgb(40 40 40 / 50%);
 }
 
 .cube3d {
-  margin-top: -20px;
+  margin-top: 0;
   animation: cube-3d-animation 8s ease-in-out infinite;
 
   @keyframes cube-3d-animation {

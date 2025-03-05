@@ -9,7 +9,7 @@ import styles from './index.module.scss'
 import { getKnowledgeSize } from './utils'
 import { NumberTicker } from '../../../components/ui/NumberTicker'
 import { IS_MAINNET } from '../../../constants/common'
-import { HalvingBanner } from './HalvingBanner'
+import HardforkBanner from './Hardfork'
 
 const { BACKUP_NODES: backupNodes } = config
 
@@ -57,10 +57,10 @@ export default () => {
         </div>
       ),
     },
-    // {
-    //   key: 'halving',
-    //   component: <HalvingBanner />,
-    // },
+    {
+      key: 'hardfork',
+      component: <HardforkBanner />,
+    },
   ]
 
   // testnet banners
@@ -91,10 +91,6 @@ export default () => {
           </div>
         </div>
       ),
-    },
-    {
-      key: 'testHalving',
-      component: <HalvingBanner />,
     },
   ]
 

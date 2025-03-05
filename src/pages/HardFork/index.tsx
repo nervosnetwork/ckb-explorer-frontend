@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import { Tooltip } from 'antd'
 import { useQuery } from '@tanstack/react-query'
-import Squares from './Squares'
+import { useLocation } from 'react-router'
+import SquareBackground from '../../components/SquareBackground'
 import styles from './styles.module.scss'
 import glowingLine from './glowingLine.png'
 import { InfiniteMovingCard } from './InfiniteMovingCard'
@@ -15,19 +16,16 @@ import { useCountdown } from '../../hooks'
 import { explorerService, useStatistics } from '../../services/ExplorerService'
 import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
 import FlatCube from './FlatCube'
+import { ESTIMATED_ACTIVATION_TIME } from '../../constants/common'
 
-// https://github.com/nervosnetwork/ckb/pull/4807/files#diff-1beb40a3d17a41c5906970fca040280ff421695a65b0f3da51e6abb06329c4a6R10
-const ESTIMATED_ACTIVATION_TIME = {
-  start: new Date('2025-03-05T08:00:00'),
-  end: new Date('2025-07-01T06:32:53'),
-  epoch: 12_293,
-}
 const targetVers = [0, 200] // 0.200.0
 
 export default function CountdownPage() {
   const [days, hours, minutes, seconds, countdown] = useCountdown(ESTIMATED_ACTIVATION_TIME.end)
   const [isEnd, setIsEnd] = useState(false)
   const { t } = useTranslation()
+
+  const { hash } = useLocation()
 
   const statistics = useStatistics()
   const currentEpoch = +statistics.epochInfo.epochLength
@@ -179,6 +177,12 @@ export default function CountdownPage() {
     [comments],
   )
 
+  useEffect(() => {
+    const id = hash.slice(1)
+    const element = document.getElementById(id)
+    element?.scrollIntoView({ behavior: 'smooth' })
+  }, [hash])
+
   const handleConfetti = () => {
     const end = Date.now() + 3 * 1000 // 3 seconds
     const colors = ['#a786ff', '#fd8bbc', '#eca184', '#f8deb1']
@@ -231,7 +235,7 @@ export default function CountdownPage() {
       </div>
 
       <div className={styles.squaresBg}>
-        <Squares
+        <SquareBackground
           speed={0.1}
           squareSize={24}
           direction="down" // up, down, left, right, diagonal
@@ -335,16 +339,16 @@ export default function CountdownPage() {
           speed="slow"
         />
 
-        <Accordion type="single" collapsible>
-          <AccordionItem value="item-1">
+        <Accordion type="single" collapsible defaultValue={hash.slice(1)}>
+          <AccordionItem value="ckb-vm-2" id="ckb-vm-2">
             <AccordionTrigger>CKB-VM V2</AccordionTrigger>
             <AccordionContent>{t('hardfork.ckb_vm_desc')}</AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-2">
+          <AccordionItem value="syscall" id="syscall">
             <AccordionTrigger>Spawn: Direct Cross-Script Calling</AccordionTrigger>
             <AccordionContent>{t('hardfork.spawn_desc')}</AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-3">
+          <AccordionItem value="fee-estimator" id="fee-estimator">
             <AccordionTrigger>Fee Estimator</AccordionTrigger>
             <AccordionContent>{t('hardfork.fee_estimator_desc')}</AccordionContent>
           </AccordionItem>

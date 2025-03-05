@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import styles from './index.module.scss'
 
-const FlatCube = ({ size = 72 }) => {
+const FlatCube = ({ size = 80 }) => {
   const pieces = Array(9).fill(null)
 
   return (

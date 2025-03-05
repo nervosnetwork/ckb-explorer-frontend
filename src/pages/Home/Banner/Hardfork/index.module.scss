@@ -1,0 +1,145 @@
+@import '../../../../styles/variables.module';
+
+.container {
+  $background-color: #000;
+  $text-color: #fff;
+  $text-secondary: rgb(255 255 255 / 60%);
+  $dim-color: #333;
+  $border-color: rgb(255 255 255 / 10%);
+  $accent-color: #fff;
+  $card-bg: rgb(20 20 20 / 50%);
+  $hover-bg: rgb(40 40 40 / 50%);
+
+  position: relative;
+  background-color: $background-color;
+  color: $text-color;
+  height: 200px;
+  overflow: hidden;
+  font-family: Roboto, inherit, sans-serif;
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 120px;
+
+    @media screen and (width <=$extraLargeBreakPoint) {
+      padding: 0 60px;
+    }
+
+    @media screen and (width <= 900px) {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: $text-color;
+      text-transform: uppercase;
+      font-size: 2rem;
+      font-weight: 700;
+      white-space: nowrap;
+
+      @media screen and (width <= 900px) {
+        font-size: 1.5rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+      }
+
+      a {
+        filter: drop-shadow(0 0 3px currentcolor);
+      }
+    }
+
+    .epoch {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.875rem;
+      line-height: 1;
+
+      span:first-of-type {
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 1.6;
+      }
+
+      @media screen and (width <= 900px) {
+        align-items: center;
+      }
+    }
+  }
+
+  .illustration {
+    position: relative;
+
+    .annotation {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: flex-end;
+      position: absolute;
+      top: 0;
+      right: 120%;
+      white-space: nowrap;
+
+      a {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          content: '';
+          display: block;
+          width: 35px;
+          height: 1px;
+          background: currentcolor;
+          top: 50%;
+          right: -50px;
+          transform: translateY(-50%);
+        }
+
+        &:last-of-type::before {
+          position: absolute;
+          content: '';
+          display: block;
+          width: 35px;
+          height: 1px;
+          background: currentcolor;
+          top: 50%;
+          right: -85px;
+          transform: translateY(-50%) rotate(-45deg);
+          transform-origin: left center;
+        }
+
+        &:first-of-type::before {
+          position: absolute;
+          content: '';
+          display: block;
+          width: 35px;
+          height: 1px;
+          background: currentcolor;
+          top: 50%;
+          right: -85px;
+          transform: translateY(-50%) rotate(45deg);
+          transform-origin: left center;
+        }
+      }
+    }
+
+    @media screen and (width <= 900px) {
+      margin-top: -1rem;
+
+      .annotation {
+        display: none;
+      }
+    }
+  }
+
+  .grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: lighten;
+  }
+}

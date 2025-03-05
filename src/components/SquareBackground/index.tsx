@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import './Squares.scss'
+import styles from './index.module.scss'
 
 type CanvasStrokeStyle = string | CanvasGradient | CanvasPattern
 
@@ -135,7 +135,7 @@ const Squares: React.FC<SquaresProps> = ({
     }
   }, [direction, speed, borderColor, hoverFillColor, squareSize])
 
-  return <canvas ref={canvasRef} className="squaresCanvas" />
+  return <canvas ref={canvasRef} className={styles.container} />
 }
 
 export default Squares
