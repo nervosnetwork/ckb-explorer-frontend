@@ -1,0 +1,135 @@
+.scroller {
+  position: relative;
+
+  // z-index: 20;
+  max-width: 80rem; /* max-w-7xl */
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+}
+
+.scrollerList {
+  display: flex;
+  min-width: 100%;
+  flex-shrink: 0;
+  gap: 1rem; /* gap-4 */
+  padding-top: 1rem; /* py-4 */
+  padding-bottom: 1rem;
+  width: max-content;
+  flex-wrap: nowrap;
+}
+
+.animate {
+  animation: scroll var(--animation-duration, 80s) var(--animation-direction, forwards) linear infinite;
+}
+
+.pauseOnHover:hover {
+  animation-play-state: paused;
+}
+
+.card {
+  width: 350px;
+  max-width: 100%;
+  position: relative;
+  border-radius: 4px;
+  flex-shrink: 0;
+  padding: 24px 16px; /* px-8 py-6 */
+  cursor: pointer;
+  background: rgb(12 12 12);
+  transition: all 0.3s;
+
+  &:hover {
+    background: #ffffff1a;
+  }
+
+  @media (width >= 768px) {
+    width: 450px;
+  }
+}
+
+.cardBackground {
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  left: -0.5px;
+  top: -0.5px;
+  height: calc(100% + 4px);
+  width: calc(100% + 4px);
+  z-index: -1;
+}
+
+.user {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #f0f0f0;
+  border-radius: 999px;
+  background-position: bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.username {
+  color: #ccc;
+}
+
+.quote {
+  position: relative;
+
+  // z-index: 20;
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.5rem;
+  color: #f0f0f0; /* text-gray-100 */
+  font-weight: 400; /* font-normal */
+  display: block;
+  white-space: pre-line;
+  word-break: break-word;
+  max-height: 5em; /* 限制最多 3 行 */
+  overflow: hidden;
+}
+
+.author {
+  position: relative;
+
+  // z-index: 20;
+  margin-top: 1.5rem; /* mt-6 */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.authorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.name,
+.title {
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.6;
+  color: #9ca3af; /* text-gray-400 */
+  font-weight: 400; /* font-normal */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-50% - 0.5rem)); /* Half width plus half of the gap */
+  }
+}
+
+/* Define slate colors as CSS variables for consistency */
+:root {
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+}

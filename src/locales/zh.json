@@ -97,6 +97,25 @@
       "expected": "预计",
       "share_text": "📢 @NervosNetwork CKB 预计于 {{date}} 迎来{{times}}减半🚀，\n\n📅距离减半倒计时还有 {{countdown}}。\n\n🔗 访问👉 https://explorer.nervos.org 了解更多"
     },
+    "hardfork": {
+      "comment1": "什么是硬分叉？硬分叉是对区块链协议的重大更新，它永久性地偏离了之前的版本。它引入了非向后兼容的更改，要求所有网络节点升级。如果大多数节点在指定的纪元号前升级成功，则部署分叉。运行过时版本的节点会失去连接，因为它们遵循的旧规则已不再适用。",
+      "comment2": "硬分叉的目的：Nervos CKB 实施硬分叉以增强网络的功能和安全性。这些升级引入了新的功能，如修改数据结构、RISC-V 扩展和新的系统调用。硬分叉还能解决关键问题、修复安全漏洞、解决无法通过向后兼容更新修补的协议限制，从而确保平台的长期稳定性和发展。",
+      "comment3": "CKB 硬分叉过程： Nervos CKB 硬分叉过程分为三个阶段。首先，创建、讨论和敲定方案，然后是实施和本地测试，耗时约九个月。接下来，更新会部署到公共预览网络和测试网络，以进一步进行稳定性测试。最后，经过三个月的准备期后，在主网上激活分叉，确保平稳过渡。",
+      "comment4": "主网: 60 天前的区块是: 14908742 \n0x216095bfc3bb68e7509db4b3f98b105ac5565586876a795a9c5c3d0dfe134cb5 in Sun Dec 22 03:04:27 PM CST 2024\nyou can view this block in https://explorer.nervos.org/block\n0x216095bfc3bb68e7509db4b3f98b105ac5565586876a795a9c5c3d0dfe134cb5.\nTestNet:the 60 days ago block is: 15641938 0xd92fe833fd53c6e0c7f05516609c3bbf4777aa05d016523cf1ff8aeaeec6fc13 in Sun Dec 22 03:09:16 PM CST 2024\nyou can view this block in https://pudge.explorer.nervos.org/block/0xd92fe833fd53c6e0c7f05516609c3bbf4777aa05d016523cf1ff8aeaeec6fc13",
+      "comment5": "改进:\nNetRpcImpl::get_peers return Remoteaddress.addresses dedup #4795: NetRpcImpl::get_peers return Remoteaddress.addresses without duplicates (@eval-exec)\nThis is a breaking change of RPC.\nUpgrade openssl from 0.10.68 to 0.10.70, fix https://rustsec.org/advisories/RUSTSEC-2025-0004 #4801: Upgrade openssl from 0.10.68 to 0.10.70, fix RUSTSEC-2025-0004 (@eval-exec)\nImproving spawn and exec syscalls #4785: Improving spawn and exec syscalls (@mohanson)",
+      "comment6": "Features\nchore: 2nd hardfork mainnet activation params #4807: Activate CKB Edition Meepo (2024) on the Mainnet (@zhangsoledad)\nThis is a breaking change of consensus once activated.\nfeat: impl filter with transport #4800: Implement nodes filter with P2P transport service types (@driftluo)\nfeat: mark dns address connected time on peer store #4793: Mark DNS address connected time on peer store (@driftluo)\nhttps://github.com/nervosnetwork/ckb/issues/4806#issuecomment-2673786997",
+      "comment7": "Third-party adaptation\nmainnet hardfork && improving spawn\nhttps://github.com/nervosnetwork/ckb-light-client.git @quake\nhttps://github.com/nervosnetwork/ckb-light-client/tree/develop/wasm @Officeyutong\nneuron\nimproving spawn\nhttps://github.com/nervosnetwork/ckb-testtool @XuJiandong @mohanson\nhttps://github.com/nervosnetwork/ckb-standalone-debugger @XuJiandong @mohanson",
+      "comment8": "Nervos CKB 硬分叉是一种重大的协议升级，会导致与之前区块链版本的永久性差异。与只要求矿工节点升级的软分叉不同，硬分叉要求所有节点都进行更新，以维持共识。这可以确保平稳过渡，同时引入必要的新功能和安全增强功能。.",
+      "comment9": "Nervos CKB 实施了硬叉，引入了重大改进。这些改进包括新的功能，如修改数据结构、RISC-V 扩展和新的系统调用，以增强平台的实用性。此外，hardforks 还解决了无法通过向后兼容更新修复的关键问题和限制，从而解决了安全问题。这些更新的组合确保了长期的可扩展性和可靠性。",
+      "comment10": "为防止频繁升级造成网络不稳定，Nervos CKB 遵循一种时间策略，确保硬分叉之间至少间隔一年（2,190 个历元）。这一策略使每次升级都具有实质性和前向兼容性，为开发人员提供了充足的时间进行测试和调整，同时保持了网络的稳定性。",
+      "comment11": "Nervos CKB 中的每个硬叉都被称为 “版本”，其名称灵感来自 Dota 英雄。格式如下：CKB 版本 [名称]（年份），例如 CKB 版本 Meepo（2025 年）。主网和测试网使用相同的名称，仅在必要时添加后缀。这种约定在网络升级时保持一致。",
+      "comment12": "第一阶段首先是创建详细的硬分叉提案，然后是社区讨论，征求反馈意见并加以改进。最终确定的建议将作为 RFC 发布。然后开始开发和初步测试，并根据需要调整建议。发布硬分叉节点版本供本地预览，同时更新 SDK、探索器和钱包。这一阶段通常需要 9 个月左右的时间。",
+      "comment13": "一旦实施工作接近尾声，将部署一个公共预览网络进行进一步测试。我们会密切监控网络的稳定性。一旦认为网络稳定，测试网络就会进行硬分叉，包括： \n 节点二进制发布 \n 公布纪元号 \n 在指定的纪元激活 升级不会立即发生，而是在公布的纪元生效。如果大多数节点升级成功，硬分叉将被视为部署成功。运行过时版本的节点将无法连接硬叉后的测试网络。",
+      "comment14": "最后阶段与测试网部署过程相同。一旦网络参与者准备就绪，就会启动主网硬分叉。关键步骤包括： \n 发布主网硬叉二进制文件和激活纪元 \n 至少三个月的准备期 \n 多数节点升级后激活 \n 一旦在指定纪元激活，硬叉即被视为成功部署，标志着升级的完成。",
+      "ckb_vm_desc": "其中一个值得注意的新增功能是包含了一个名为 “Spawn ”的新系统调用，可以在 RFC50: CKB-VM Syscalls 3 中进一步了解。从本质上讲，Spawn 可以替代动态库调用和 Exec。有了 Spawn，脚本可以创建具有独立内存区域的子脚本，数据可以在父脚本和子脚本之间无限制地传递。\n执行更多的宏操作融合以减少周期消耗，从而使脚本运行得更高效。\n在 Scripthash_type 字段中添加了新的 data2 值，以便顺利管理不同的虚拟机版本，确保无缝升级路径。",
+      "spawn_desc": "2025 年的 Meepo 硬分叉为 CKB 脚本开发引入了一系列增强功能，其中一项主要创新就是 Spawn。\n在 CKB 脚本中，Spawn 指的是创建新进程的一个概念和一组系统调用。与 2021 年 CKB 第一次硬分叉时引入的 exec 系统调用不同，Spawn 可以直接跨脚本调用，在简化开发流程的同时提供更强的控制和优化能力。",
+      "fee_estimator_desc": "随着 CKB 上交易数量的不断增长，准确估算费率变得越来越重要。CKB v0.120.0 引入了一项新的实验性功能--费用估算器，以帮助开发人员和用户确定最佳交易费率。"
+    },
     "components": {
       "multi_filter_button": {
         "select": "选择"
