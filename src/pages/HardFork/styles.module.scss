@@ -345,6 +345,17 @@ $hover-bg: rgb(40 40 40 / 50%);
 .glowingLine {
   position: relative;
   z-index: 1;
+  animation: glow 2s ease-in-out infinite alternate;
+
+  @keyframes glow {
+    from {
+      filter: none; // drop-shadow(0 0 1px rgba(167, 134, 255, 0.1));
+    }
+
+    to {
+      filter: drop-shadow(0 0 5px rgb(167 134 255 / 60%)) drop-shadow(0 0 15px rgb(255 255 255 / 20%));
+    }
+  }
 }
 
 .animeBlockWrap {
