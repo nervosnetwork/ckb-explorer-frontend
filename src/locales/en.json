@@ -17,7 +17,8 @@
       "minutes": "MINS",
       "seconds": "SECS",
       "minaraTime": "Est May 10th 2022",
-      "miranaAlive": "MIRANA IS LIVE"
+      "miranaAlive": "MIRANA IS LIVE",
+      "extra": "Extra"
     },
     "unit": {
       "days": "days",
@@ -202,7 +203,7 @@
       "sUDT": "sUDT",
       "inscriptions": "Inscriptions",
       "docs": "Docs",
-      "search_placeholder": "Block/Transaction/Address/Script Hash/Args/BTC Address/BTC Txid/DID",
+      "search_placeholder": "Block/Transaction/Address/Script Hash/Args/BTC Address/BTC Txid/DID/Fiber Peer Id/Fiber Node Id",
       "search_by_name_placeholder": "Token Name",
       "more": "More",
       "mainnet": "LINA",
@@ -228,7 +229,18 @@
       "wallet_renrenbit": "Renrenbit",
       "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
       "wallets_memo": "In alphabetical order",
-      "nft_collections": "NFT Collections"
+      "nft_collections": "NFT Collections",
+      "fiber_network": "Fiber Network",
+      "fiber_statistics": "Statistics",
+      "fiber_graph_nodes": "Graph Nodes",
+      "coins": "Coins"
+    },
+    "banner": {
+      "fiber_title": "Fiber Network is making Satoshi’s vision a reality",
+      "fiber_subtitle": "The Next-generation Common Lightning Network",
+      "learn_more": "Learn More",
+      "find_nodes": "Find Nodes",
+      "coming_soon": "Coming soon"
     },
     "blockchain": {
       "latest_block": "Latest Block",
@@ -245,7 +257,7 @@
       "testnet": "Testnet"
     },
     "statistic": {
-      "transaction_num": "BTC Transaction Count",
+      "btc_transaction_count": "BTC Transaction Count",
       "new_btc_address": "New BTC Address",
       "rgbpp_transaction_list": "RGB++ Transaction List",
       "transaction_count": "Transaction Count",
@@ -310,6 +322,7 @@
       "circulating_supply": "Circulating Supply",
       "burnt": "Burnt",
       "locked": "Unvested",
+      "week": "Time (week)",
       "year": "Time (year)",
       "nominal_apc": "Nominal DAO Compensation Rate",
       "inflation_rate": "Inflation Rate",
@@ -344,6 +357,9 @@
       "ckb_amount": "CKB Amount",
       "contract_resource_distributed": "Contract Resource Distribution",
       "contract_resource_distributed_description": "The x axis represents contract's unique address count, the y axis represents the contract's CKB amount, the symbol size represents the contract's transaction count.",
+      "active_addresses": "Active Addresses",
+      "active_addresses_description": "The number of unique addresses that have participated in the network as a sender or receiver.",
+      "active_address_count": "Active Addresses Count",
       "country": "Country/Region",
       "node_country_distribution": "Nodes distribution by Country/Region",
       "top_50_holders": "Top 50 Holders",
@@ -358,7 +374,33 @@
       "over_three_years": "> 3y",
       "ckb_hodl_wave": "CKB HODL Wave",
       "h24_transaction_count": "24hr Transaction Count",
-      "holder_count": "Holder Count"
+      "holder_count": "Holder Count",
+      "address_label": {
+        "anyoneCanPayLock": "Anyone Can Pay",
+        "btcTimeLock": "BTC Time",
+        "cheque": "Cheque",
+        "flashSigner": "Flash Signer",
+        "godwokenCustodianLock": "Godwoken Custodian",
+        "godwokenDepositLock": "Godwoken Deposit",
+        "godwokenStakeLock": "Godwoken Stake",
+        "godwokenWithdrawalLock": "Godwoken Withdrawal",
+        "iCkbLogic": "iCKB Logic",
+        "joyId": "Joy ID",
+        "nostr": "Nostr",
+        "omniLockV1": "Omni Lock V1",
+        "omniLockV2": "Omni Lock V2",
+        "pwLock": "Portal Wallet",
+        "rgb++": "RGB++",
+        "secp256K1/blake160": "Secp256k1/Blake160",
+        "secp256K1/multisig": "Secp256k1/Multisig",
+        "singleUseLock": "Single Use",
+        "udtLimitOrderr": "UDT Limit Order",
+        "unipassV2": "Unipass V2",
+        "unipassV3": "Unipass V3",
+        "wrOwnedOwner": "WR Owned Owner",
+        "forceBridge": "Force Bridge",
+        "others": "Others"
+      }
     },
     "home": {
       "height": "Height",
@@ -389,13 +431,19 @@
       "youtube": "YouTube",
       "forum": "Forum",
       "tools": "Tools",
-      "api-doc": "API Documentation"
+      "api-doc": "API Documentation",
+      "knowledge_base": "Knowledge Base",
+      "network": "Network",
+      "community_nodes": "Community Nodes",
+      "media_kit": "Media Kit",
+      "ckb_world": "CKB World",
+      "eco_fund": "Eco Fund"
     },
     "search": {
       "loading": "Loading...",
       "no_search_result": "Oops! Your search did not match any record.",
       "empty_result": "Oops! Your search did not match any record. \n\nPlease make sure input contains only one of the following items:\n",
-      "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Script Hash/ Args/ BTC Address/ BTC Txid/DID",
+      "empty_result_items": "Block Number/ Block Hash/ Transaction Hash/ Address/ Script Hash/ Args/ BTC Address/ BTC Txid/DID/Fiber Peer Id/Fiber Node Id",
       "address_type_testnet_error": "Testnet address detected，please goto",
       "address_type_mainnet_error": "Mainnet address detected，please goto",
       "address_type_testnet_url": "testnet explorer",
@@ -419,7 +467,8 @@
       "bitcoin_address": "BTC Address",
       "token_collection": "Token Collection",
       "token_item": "Token Item",
-      "did": "DID"
+      "did": "DID",
+      "fiber_graph_node": "Fiber Graph Node"
     },
     "cell": {
       "live_cell": "Live Cell",
@@ -638,6 +687,9 @@
       "isomorphic-binding-with-index": "Isomorphic bound to CKB Tx {{index}}",
       "isomorphic-binding-with-index-commitment": "Isomorphic bound to CKB Tx {{index}}\n\nCommitment:\n{{commitment}}",
       "loading": "Loading...",
+      "fiber_channel": "Fiber Channel",
+      "deployment": "Deployment",
+      "deployed_script": "Deployed Script",
       "range_notice": "Only the latest {{count}} related items will be displayed here."
     },
     "block": {
@@ -1047,6 +1099,7 @@
       "token-info": "Token Info",
       "xudt-data": "XUDT Data",
       "btc-time-lock": "BTC Time Lock",
+      "spore-cluster": "Spore Cluster",
       "spore": "Spore",
       "json": "JSON",
       "select-x-from-y": "Selected {{x}} chars from {{y}}",
@@ -1104,6 +1157,71 @@
       "view_address": "View Address",
       "view_btc_utxo": "View BTC UTXO",
       "view_cell_info": "View Cell Info"
+    },
+    "fiber": {
+      "fiber_node": "Fiber Network Node",
+      "peer": {
+        "peer_id": "ID",
+        "name": "Name",
+        "channels_count": "Channels",
+        "channels": "Channels",
+        "open_time": "First Channel",
+        "update_time": "Last Update",
+        "total_local_balance": "Local Balance",
+        "rpc_addr": "RPC Address",
+        "connect_id": "Connect"
+      },
+      "channel": {
+        "channel_id": "Channel ID",
+        "fiber_peers": "Fiber Peers",
+        "state": "State",
+        "open_time": "Open Time",
+        "update_time": "Last Update Time",
+        "shutdown_time": "Shutdown Time",
+        "balance": "Balance",
+        "local": "Local",
+        "remote": "Remote",
+        "tlc_balance": "TLC Balance",
+        "offered": "Offered",
+        "received": "Received"
+      },
+      "action": {
+        "open": "Open",
+        "close": "Close"
+      },
+      "graph": {
+        "total_capacity": "Total Capacity",
+        "total_liquidity": "Total Liquidity",
+        "total_nodes": "Total Nodes",
+        "total_channels": "Total Channels",
+        "mean": "Mean",
+        "median": "Median",
+        "mean_locked_capacity": "Mean Locked Capacity",
+        "mean_fee_rate": "Mean Fee Rate",
+        "median_locked_capacity": "Median Locked Capacity",
+        "median_fee_rate": "Median Fee Rate",
+        "public_fiber_node_world_map": "Public Fiber Node World Map",
+        "public_fiber_nodes": "Public Fiber Nodes",
+        "node": {
+          "id": "Node ID",
+          "name": "Name",
+          "alias": "Alias",
+          "auto_accept_funding_amount": "Auto-accepting Threshold",
+          "first_seen": "First Seen",
+          "node_id": "Node ID",
+          "chain": "Chain",
+          "chain_hash": "Chain Hash",
+          "addresses": "Addresses",
+          "total_capacity": "Capacity",
+          "open_channels": "Open Channels",
+          "total_liquidity": "Total Liquidity",
+          "liquidity_allocation": "Liquidity Allocation",
+          "not_found": "Node not found"
+        },
+        "channel": {
+          "connected_node": "Connected Node"
+        }
+      }
     }
   }
 }

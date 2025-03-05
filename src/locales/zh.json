@@ -17,7 +17,8 @@
       "minutes": "分钟",
       "seconds": "秒",
       "minaraTime": "美国东部时间: 2022 年 05 月 10 日",
-      "miranaAlive": "MIRANA 已经激活"
+      "miranaAlive": "MIRANA 已经激活",
+      "extra": "额外信息"
     },
     "unit": {
       "days": "天",
@@ -237,7 +238,18 @@
       "wallet_renrenbit": "Renrenbit",
       "wallet_renrenbit_description": "A digital asset management platform offering 100% reserve",
       "wallets_memo": "In alphabetical order",
-      "nft_collections": "NFT 藏品"
+      "nft_collections": "NFT 藏品",
+      "fiber_network": "Fiber Network",
+      "fiber_statistics": "总览",
+      "fiber_graph_nodes": "节点",
+      "coins": "代币"
+    },
+    "banner": {
+      "fiber_title": "Fiber Network 不忘初心",
+      "fiber_subtitle": "下一代通用闪电网络",
+      "learn_more": "了解更多",
+      "find_nodes": "更多节点",
+      "coming_soon": "敬请期待"
     },
     "blockchain": {
       "latest_block": "最高块",
@@ -254,7 +266,7 @@
       "testnet": "Testnet"
     },
     "statistic": {
-      "transaction_num": "BTC 交易数量",
+      "btc_transaction_count": "BTC 交易数量",
       "new_btc_address": "新增加 BTC 地址",
       "rgbpp_transaction_list": "RGB++ 交易列表",
       "transaction_count": "交易数量",
@@ -318,6 +330,7 @@
       "circulating_supply": "总流通量",
       "burnt": "销毁量",
       "locked": "未解锁数量",
+      "week": "时间 (周)",
       "year": "时间 (年)",
       "nominal_apc": "基准补偿率",
       "inflation_rate": "通胀率",
@@ -352,6 +365,9 @@
       "ckb_amount": "CKB 数量",
       "contract_resource_distributed": "合约资源分布图",
       "contract_resource_distributed_description": "横轴表示合约的唯一地址数量, 纵轴是合约的 CKB 数量, 图标大小代表合约的交易数量",
+      "active_addresses": "活跃地址",
+      "active_addresses_description": "活跃地址是指在特定时间段内有交易记录的地址",
+      "active_address_count": "活跃地址数量",
       "country": "国家（地区）",
       "node_country_distribution": "节点国家(地区)分布图",
       "top_50_holders": "前 50 持有地址",
@@ -398,7 +414,13 @@
       "youtube": "YouTube",
       "forum": "Forum",
       "tools": "工具箱",
-      "api-doc": "API 文档"
+      "api-doc": "API 文档",
+      "knowledge_base": "知识库",
+      "network": "网络",
+      "community_nodes": "社区节点",
+      "media_kit": "媒体包",
+      "ckb_world": "CKB World",
+      "eco_fund": "Eco Fund"
     },
     "search": {
       "loading": "加载中...",
@@ -428,7 +450,8 @@
       "bitcoin_address": "BTC 地址",
       "token_collection": "藏品集",
       "token_item": "藏品",
-      "did": "分布式数字身份（DID）"
+      "did": "分布式数字身份（DID）",
+      "fiber_graph_node": "Fiber Graph Node"
     },
     "address": {
       "address": "地址",
@@ -632,6 +655,9 @@
       "isomorphic-binding-with-index": "与CKB Tx {{index}} 同构绑定",
       "isomorphic-binding-with-index-commitment": "与 CKB Tx {{index}} 同构绑定\n\nCommitment:\n{{commitment}}",
       "loading": "Loading...",
+      "fiber_channel": "Fiber Channel",
+      "deployment": "部署",
+      "deployed_script": "部署脚本",
       "range_notice": "只显示最近的 5,000 条相关交易"
     },
     "block": {
@@ -1042,6 +1068,7 @@
       "token-info": "Token Info",
       "xudt-data": "XUDT Data",
       "btc-time-lock": "BTC Time Lock",
+      "spore-cluster": "Spore Cluster",
       "spore": "Spore",
       "json": "JSON",
       "select-x-from-y": "从 {{y}} 字符起选择了 {{x}} 个字符",
@@ -1099,6 +1126,71 @@
       "view_address": "查看地址",
       "view_btc_utxo": "查看 BTC UTXO",
       "view_cell_info": "查看 Cell 信息"
+    },
+    "fiber": {
+      "fiber_node": "Fiber 节点",
+      "peer": {
+        "peer_id": "ID",
+        "name": "名称",
+        "channels_count": "通道数",
+        "channels": "通道",
+        "open_time": "开启时间",
+        "update_time": "最后更新时间",
+        "total_local_balance": "本地余额",
+        "rpc_addr": "RPC 地址",
+        "connect_id": "连接 ID"
+      },
+      "channel": {
+        "channel_id": "通道 ID",
+        "fiber_peers": "Fiber 节点",
+        "state": "状态",
+        "open_time": "开启时间",
+        "update_time": "最后更新时间",
+        "shutdown_time": "关闭时间",
+        "balance": "余额",
+        "local": "本地",
+        "remote": "远程",
+        "tlc_balance": "TLC 余额",
+        "offered": "已提供",
+        "received": "已接收"
+      },
+      "action": {
+        "open": "开启",
+        "close": "关闭"
+      },
+      "graph": {
+        "total_capacity": "总 Capacity",
+        "total_liquidity": "总流动性",
+        "total_nodes": "总节点数",
+        "total_channels": "总通道数",
+        "mean": "均值",
+        "median": "中位数",
+        "mean_locked_capacity": "平均锁定 Capacity",
+        "mean_fee_rate": "平均费率",
+        "median_locked_capacity": "中位数锁定 Capacity",
+        "median_fee_rate": "中位数费率",
+        "public_fiber_node_world_map": "公开 Fiber 节点地图",
+        "public_fiber_nodes": "公开 Fiber 节点",
+        "node": {
+          "id": "节点 ID",
+          "name": "名称",
+          "alias": "别名",
+          "auto_accept_funding_amount": "资金设定",
+          "first_seen": "首次发现",
+          "node_id": "节点 ID",
+          "chain": "链",
+          "chain_hash": "链哈希",
+          "addresses": "地址",
+          "total_capacity": "总容量",
+          "open_channels": "开启通道",
+          "total_liquidity": "总流动性",
+          "liquidity_allocation": "流动性分布",
+          "not_found": "未找到节点"
+        },
+        "channel": {
+          "connected_node": "连接节点"
+        }
+      }
     }
   }
 }

@@ -90,7 +90,7 @@ const useOption = (
               name: t('statistic.new_btc_address'),
             },
             {
-              name: t('statistic.transaction_num'),
+              name: t('statistic.btc_transaction_count'),
             },
           ],
     },
@@ -120,7 +120,7 @@ const useOption = (
       },
       {
         position: 'right',
-        name: isXXL || isThumbnail ? '' : t('statistic.transaction_num'),
+        name: isXXL || isThumbnail ? '' : t('statistic.btc_transaction_count'),
         nameTextStyle: {
           align: 'right',
         },
@@ -143,7 +143,7 @@ const useOption = (
         data: dataset.map(data => data.addressesCount + 1),
       },
       {
-        name: t('statistic.transaction_num'),
+        name: t('statistic.btc_transaction_count'),
         type: 'line',
         yAxisIndex: 1,
         symbol: isThumbnail ? 'none' : 'circle',

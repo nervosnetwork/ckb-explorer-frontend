@@ -8,6 +8,8 @@ import styles from './styles.module.scss'
 import { handleNftImgError, patchMibaoImg } from '../../../utils/util'
 import { getPrimaryColor } from '../../../constants/common'
 import NFTTag from '../../../components/NFTTag'
+import { DEPRECATED_DOB_COLLECTION } from '../../../constants/marks'
+import Annotation from '../../../components/Annotation'
 
 const primaryColor = getPrimaryColor()
 
@@ -32,6 +34,8 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
     }
   }, [info?.description])
 
+  const annotation = DEPRECATED_DOB_COLLECTION.find(item => item.id === id)
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -53,6 +57,7 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
         <span>{isLoading ? t(`nft.loading`) : info?.name}</span>
       </div>
       <div className={styles.tags}>
+        {annotation ? <Annotation content={annotation.reason} /> : null}
         {isLoading ? t('nft.loading') : info?.tags.map(tag => <NFTTag key={tag} tagName={tag} to="/nft-collections" />)}
       </div>
       <div className={styles.desc}>{desc}</div>

@@ -5,14 +5,16 @@ import { useTranslation } from 'react-i18next'
 import { Link } from '../../components/Link'
 import NftItemTransfers from './NftItemTransfers'
 import Pagination from '../../components/Pagination'
-import { ReactComponent as Cover } from '../../assets/nft_cover.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { getPrimaryColor } from '../../constants/common'
 import styles from './styles.module.scss'
-import { patchMibaoImg, handleNftImgError, formatNftDisplayId, hexToBase64 } from '../../utils/util'
-import { getImgFromSporeCell } from '../../utils/spore'
 import { useSearchParams } from '../../hooks'
 import DobTraits from '../../components/DobTraits'
+import { DEPRECATED_DOB_COLLECTION } from '../../constants/marks'
+import Annotation from '../../components/Annotation'
+import Cover from './Cover'
+import { ReactComponent as NameMissing } from './NameMissing.svg'
+import { formatNftDisplayId } from '../../utils/util'
 
 const primaryColor = getPrimaryColor()
 const UNIQUE_ITEM_LABEL = 'Unique Item'
@@ -26,6 +28,7 @@ const NftInfo = () => {
   } = useTranslation()
 
   const { page = '1' } = useSearchParams('page')
+
   const { data } = useQuery(['nft-item-info', collection, id], () =>
     explorerService.api.fetchNFTCollectionItem(collection, id),
   )
@@ -41,54 +44,13 @@ const NftInfo = () => {
     }
     history.push(`/${language}/nft-info/${collection}/${id}?page=${pageNo}`)
   }
-  const coverUrl = data?.icon_url || data?.collection.icon_url
-  const dob = data?.dob
 
-  const renderCover = () => {
-    if (dob) {
-      const src = dob.asset?.startsWith('0x')
-        ? `data:${dob.media_type};base64,${hexToBase64(dob.asset.slice(2))}`
-        : dob.asset
-
-      return (
-        <img
-          src={src}
-          alt="cover"
-          loading="lazy"
-          className={styles.cover}
-          style={{
-            background: dob['prev.bgcolor'] ?? 'transparent',
-          }}
-        />
-      )
-    }
-    const cell = data?.cell
-    const standard = data?.standard
-
-    if (standard === 'spore' && cell && cell.data) {
-      const img = getImgFromSporeCell(cell.data)
-      return <img src={img} alt="cover" loading="lazy" className={styles.cover} />
-    }
-
-    if (coverUrl) {
-      return (
-        <img
-          src={`${patchMibaoImg(coverUrl)}?size=medium&tid=${data?.token_id}`}
-          alt="cover"
-          loading="lazy"
-          className={styles.cover}
-          onError={handleNftImgError}
-        />
-      )
-    }
-
-    return <Cover className={styles.cover} />
-  }
+  const annotation = DEPRECATED_DOB_COLLECTION.find(item => item.id === collection)
 
   return (
     <div className={styles.container}>
       <div className={styles.overview}>
-        {renderCover()}
+        <Cover item={data ?? null} />
         <div className={styles.info}>
           <div className={styles.name}>
             {data
@@ -142,6 +104,14 @@ const NftInfo = () => {
               </div>
             </div>
             <div className={styles.item}>
+              <div>Collection</div>
+              <div>
+                <Link to={`/nft-collections/${collection}`} className={styles.collection}>
+                  {data?.collection.name ?? <NameMissing />}
+                </Link>
+              </div>
+            </div>
+            <div className={styles.item}>
               <div>Token ID</div>
               <div>{`${data?.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
                 data?.token_id ?? '',
@@ -154,10 +124,18 @@ const NftInfo = () => {
                 {data ? t(`nft.${data.collection.standard === 'spore' ? 'dob' : data.collection.standard}`) : '-'}
               </div>
             </div>
-            {dob ? (
+            {data?.dob ? (
               <div className={styles.item}>
                 <div>{t('nft.traits')}</div>
-                <DobTraits dob={dob} />
+                <DobTraits dob={data.dob} />
+              </div>
+            ) : null}
+            {annotation ? (
+              <div className={styles.item}>
+                <div>{t(`common.extra`)}</div>
+                <div className={styles.extra}>
+                  <Annotation content={annotation.reason} />
+                </div>
               </div>
             ) : null}
           </div>

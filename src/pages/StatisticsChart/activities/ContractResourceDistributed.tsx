@@ -59,7 +59,7 @@ const useOption = (
                         <td>${Number(ckbAmount).toLocaleString('en')}</td>
                       </tr>
                       <tr>
-                        <td>${t('statistic.transaction_num')}: </td>
+                        <td>${t('statistic.transaction_count')}: </td>
                         <td>${Number(txCount).toLocaleString('en')}</td>
                       </tr>
                       <tr>

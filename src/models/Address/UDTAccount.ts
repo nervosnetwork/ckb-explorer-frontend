@@ -1,3 +1,5 @@
+import { Script } from '../Script'
+
 export interface XUDT {
   symbol: string
   decimal: string
@@ -54,6 +56,7 @@ export interface Spore {
   collection: {
     typeHash: string | null
   }
+  udtTypeScript: Script
 }
 
 export interface OmigaInscription {

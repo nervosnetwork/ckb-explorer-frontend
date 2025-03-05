@@ -2,6 +2,14 @@
 
 .container {
   margin: 40px 120px 60px;
+
+  .tableList {
+    display: block;
+  }
+
+  .cardList {
+    display: none;
+  }
 }
 
 .tags {
@@ -322,11 +330,11 @@
   .container {
     margin: 20px 16px 60px;
 
-    table[data-role='desktop-list'] {
+    .tableList {
       display: none;
     }
 
-    div[data-role='mobile-list'] {
+    .cardList {
       display: block;
     }
   }

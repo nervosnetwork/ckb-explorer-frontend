@@ -1,0 +1,403 @@
+@import '../../../styles/variables.module';
+@import '../../../styles/card.module';
+@import '../../../styles/text.module';
+
+.container {
+  text-wrap: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 24px 120px;
+  font-size: 1rem;
+
+  // Common element styles
+  a {
+    color: var(--primary-color);
+  }
+
+  dl {
+    display: flex;
+
+    dt,
+    dd {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 0;
+      padding: 0;
+    }
+
+    dt::after {
+      content: ':';
+      margin-right: 4px;
+    }
+  }
+
+  table {
+    width: 100%;
+    text-align: left;
+    cursor: default;
+
+    td,
+    th {
+      padding: 8px 16px 8px 8px;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    tbody tr:hover {
+      background: #ccc;
+    }
+  }
+
+  svg {
+    pointer-events: none;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    appearance: none;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  // Overview section
+  .overview {
+    @extend %base-card;
+
+    display: flex;
+    flex-direction: column;
+    padding: 16px 40px 40px;
+
+    .name {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e5e5e5;
+
+      button {
+        margin-left: 16px;
+        color: #999;
+      }
+    }
+
+    .info {
+      display: flex;
+
+      & > div {
+        flex: 0 0 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        &[data-side='left'] {
+          padding-right: 40px;
+          border-right: 1px solid #e5e5e5;
+
+          @media screen and (width < $mobileBreakPoint) {
+            border-right: none;
+          }
+        }
+
+        &[data-side='right'] {
+          padding-left: 40px;
+
+          @media screen and (width < $mobileBreakPoint) {
+            padding-left: 0;
+          }
+        }
+      }
+
+      dl {
+        justify-content: space-between;
+        margin: 0;
+      }
+
+      dt {
+        color: #666;
+      }
+
+      dd {
+        text-align: right;
+      }
+
+      .totalLiquidity {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: flex-start;
+
+        & > div {
+          margin-right: auto;
+        }
+
+        .liquidityAllocation {
+          flex-shrink: 0;
+          width: 300px;
+        }
+      }
+    }
+  }
+
+  // Liquidity styles
+  .liquidityTitle {
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+
+  .liquidity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    span:last-child {
+      text-align: right;
+    }
+  }
+
+  // ID styles
+  .id,
+  .connectId {
+    overflow: hidden;
+
+    & > span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+    }
+  }
+
+  // Thresholds styles
+  .thresholds {
+    line-height: 1;
+
+    dt {
+      align-items: start;
+    }
+
+    dd {
+      margin-left: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+
+      img {
+        flex: 0 0;
+      }
+
+      .token {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4px;
+      }
+    }
+  }
+
+  // Activities section
+  .activities {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+
+    .channels,
+    .transactions {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-basis: 50%;
+      background: #fff;
+      padding: 16px;
+      border-radius: 4px;
+      box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
+      font-size: 0.8em;
+
+      * {
+        font-size: inherit;
+      }
+
+      & > h3 {
+        position: relative;
+        margin: 0 0 28px;
+        padding: 0;
+        color: #333;
+        font-size: 1.25rem;
+
+        &::after {
+          display: block;
+          content: '';
+          position: absolute;
+          top: calc(100% + 12px);
+          left: -16px;
+          width: calc(100% + 32px);
+          height: 4px;
+          background: #f5f5f5;
+        }
+      }
+    }
+  }
+
+  // Responsive styles
+  @media screen and (width < $mobileBreakPoint) {
+    .info {
+      flex-direction: column;
+
+      & > div {
+        gap: 0;
+
+        &[data-side='left'] {
+          border-right: none;
+          padding-bottom: 16px;
+          padding-right: 0;
+        }
+
+        &[data-side='right'] {
+          padding-left: 0;
+        }
+
+        dl {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          padding: 16px 0;
+          border-bottom: 1px solid #e5e5e5;
+        }
+      }
+
+      .thresholds .token {
+        gap: 8px;
+        justify-content: flex-start;
+      }
+    }
+
+    .activities {
+      flex-direction: column;
+    }
+  }
+
+  @media screen and (width < 500px) {
+    .activities {
+      thead {
+        display: none;
+      }
+
+      tbody tr {
+        display: flex;
+        flex-direction: column;
+        padding: 16px 0;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid #ccc;
+        }
+
+        td {
+          text-align: left;
+          padding: 0;
+        }
+      }
+    }
+  }
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    margin: 24px 20px;
+  }
+
+  @media screen and (width < 1030px) {
+    font-size: 14px;
+  }
+}
+
+// Addresses styles
+.addresses {
+  select {
+    max-width: 24vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media screen and (width < $extraLargeBreakPoint) {
+      max-width: 20vw;
+    }
+  }
+
+  button {
+    margin: 0 4px;
+  }
+
+  svg {
+    color: #999;
+  }
+}
+
+// Transaction styles
+.tx {
+  padding: 8px 40px;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    padding: 8px;
+  }
+
+  time {
+    margin-right: auto;
+  }
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .addr {
+    @extend %hash;
+  }
+
+  a {
+    @extend %monospace;
+
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+
+    div {
+      font-family: inherit;
+
+      &:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+
+// Pagination styles
+.pagination {
+  margin: auto 0 0;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  form {
+    display: none;
+  }
+
+  @media screen and (width < $largeBreakPoint) {
+    margin: 20px 0 0;
+  }
+}

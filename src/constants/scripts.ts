@@ -268,7 +268,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'data1',
     tag: 'xUDT',
-    category: 'lock',
+    category: 'type',
   },
   {
     codeHashes: ['0x4a4dce1df3dffff7f8b2cd7dff7303df3b6150c9788cb75dcf6747247132b9f5'],
@@ -393,6 +393,13 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'Stable++ Asset',
+  },
+  {
+    codeHashes: ['0xbfa35a9c38a676682b65ade8f02be164d48632281477e36f8dc2f41f79e56bfc'],
+    txHashes: ['0xf6a5eef65101899db9709c8de1cc28f23c1bee90d857ebe176f6647ef109e20d-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'USDI Asset',
   },
 ]
 
@@ -660,7 +667,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'xUDT(final_rls)',
-    category: 'lock',
+    category: 'type',
   },
   {
     codeHashes: ['0x50bd8d6680b8b9cf98b73f3c08faf8b2a21914311954118ad6609be6e78a1b95'],
@@ -668,7 +675,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'data1',
     tag: 'xUDT',
-    category: 'lock',
+    category: 'type',
   },
   {
     codeHashes: [
@@ -804,6 +811,22 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'dep_group',
     hashType: 'data1',
     tag: 'UDT Limit Order',
+  },
+  {
+    codeHashes: ['0xcc9dc33ef234e14bc788c43a4848556a5fb16401a04662fc55db9bb201987037'],
+    txHashes: ['0x03d029480416c2fc927dfbfe0ed1916ffaf55d1e1f3146c55cf2d3dd5e674e61-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'USDI Asset',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0x6c67887fe201ee0c7853f1682c0b77c0e6214044c156c7558269390a8afa6d7c'],
+    txHashes: ['0x89af398edc7ed0054506b33349b031097d94378e11e77bf0690ee69d82623a43-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Fiber Channel',
+    category: 'lock',
   },
 ]
 

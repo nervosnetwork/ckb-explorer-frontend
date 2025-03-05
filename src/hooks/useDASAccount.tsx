@@ -1,7 +1,6 @@
 import { createContext, FC, useCallback, useContext, useMemo, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { explorerService } from '../services/ExplorerService'
-import type { DASAccount, DASAccountMap } from '../services/ExplorerService/fetcher'
+import { type DASAccountMap, explorerService, type DASAccount } from '../services/ExplorerService'
 import { unique } from '../utils/array'
 import { throttle } from '../utils/function'
 import { pick } from '../utils/object'

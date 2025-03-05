@@ -1,0 +1,114 @@
+@import '../../../styles/variables.module';
+@import '../../../styles/card.module';
+
+.container {
+  text-wrap: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 24px 120px;
+  font-size: 1rem;
+
+  a {
+    color: var(--primary-color);
+  }
+
+  svg {
+    pointer-events: none;
+  }
+
+  dl {
+    display: flex;
+
+    dt,
+    dd {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 0;
+      padding: 0;
+    }
+
+    dt::after {
+      content: ':';
+      margin-right: 4px;
+    }
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    appearance: none;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  .overview {
+    @extend %base-card;
+  }
+
+  .id {
+    overflow: hidden;
+
+    & > span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+    }
+  }
+
+  .transactions {
+    @extend %base-card;
+
+    margin-top: 8px;
+    padding-top: 16px;
+
+    h3 {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .peers {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .local,
+    .remote {
+      @extend %base-card;
+
+      flex: 1 0 40%;
+      border: 1px solid #ccc;
+      padding: 32px;
+
+      dl:first-child {
+        dt {
+          align-items: flex-start;
+        }
+
+        a {
+          font-weight: 400;
+        }
+      }
+
+      dl:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  @media screen and (width < $extraLargeBreakPoint) {
+    margin: 24px 20px;
+  }
+
+  @media screen and (width < 1030px) {
+    font-size: 14px;
+  }
+}

@@ -13,8 +13,7 @@ import {
 import Loading from '../../components/Loading'
 import { localeNumberString } from '../../utils/number'
 import { getFeeRateSamples } from '../../utils/chart'
-import { explorerService, useStatistics } from '../../services/ExplorerService'
-import { FeeRateTracker } from '../../services/ExplorerService/fetcher'
+import { type FeeRateTracker, explorerService, useStatistics } from '../../services/ExplorerService'
 
 const FeeRateTrackerPage = () => {
   const { t } = useTranslation()

@@ -3,6 +3,7 @@ import { Popover, Tooltip } from 'antd'
 import classNames from 'classnames'
 import { Trans, useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
+import type { NFTCollection } from '../../services/ExplorerService'
 import { Link } from '../../components/Link'
 import SortButton from '../../components/SortButton'
 import { handleNftImgError, patchMibaoImg } from '../../utils/util'
@@ -11,7 +12,6 @@ import { ReactComponent as FilterIcon } from './filter.svg'
 import { getPrimaryColor } from '../../constants/common'
 import { useIsMobile, useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
-import type { NFTCollection } from '../../services/ExplorerService/fetcher'
 import { useNFTCollectionsSortParam } from './util'
 import { parseSimpleDate } from '../../utils/date'
 import MultiFilterButton from '../../components/MultiFilterButton'
@@ -19,6 +19,8 @@ import NFTTag, { whiteList } from '../../components/NFTTag'
 import { Card } from '../../components/Card'
 import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
 import AddressText from '../../components/AddressText'
+import { DEPRECATED_DOB_COLLECTION } from '../../constants/marks'
+import Annotation from '../../components/Annotation'
 
 const primaryColor = getPrimaryColor()
 function useFilterList(): Record<'title' | 'value', string>[] {
@@ -276,6 +278,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
             } catch {
               typeHash = item.sn
             }
+            const annotation = DEPRECATED_DOB_COLLECTION.find(i => i.id === typeHash)
             return (
               <tr key={item.id}>
                 <td>
@@ -311,6 +314,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
                 </td>
                 <td>
                   <div className={styles.tags}>
+                    {annotation ? <Annotation content={annotation.reason} /> : null}
                     {item.tags.map(tag => (
                       <NFTTag key={`${item.id}${item.tags}`} tagName={tag} />
                     ))}
@@ -391,6 +395,7 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
             } catch {
               // ignore
             }
+            const annotation = DEPRECATED_DOB_COLLECTION.find(i => i.id === typeHash)
             return (
               <Card key={item.id} className={styles.tokensCard}>
                 <div>
@@ -463,6 +468,7 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
                   </dl>
                 ) : null}
                 <dl className={styles.tokenInfo} style={{ flexDirection: 'row' }}>
+                  {annotation ? <Annotation content={annotation.reason} /> : null}
                   {item.tags.map(tag => (
                     <NFTTag tagName={tag} />
                   ))}

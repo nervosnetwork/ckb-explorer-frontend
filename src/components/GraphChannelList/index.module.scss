@@ -1,0 +1,143 @@
+@import '../../styles/variables.module';
+@import '../../styles/text.module';
+
+.container {
+  font-size: 0.875rem;
+
+  a {
+    color: var(--primary-color);
+  }
+
+  svg {
+    pointer-events: none;
+  }
+
+  dl {
+    display: flex;
+    gap: 4px;
+
+    @media screen and (width <= $mobileBreakPoint) {
+      display: block;
+    }
+  }
+
+  dl,
+  dd,
+  dt {
+    margin: 0;
+
+    /* white-space: pre; */
+
+    /* flex-wrap: wrap; */
+  }
+
+  dt {
+    &::after {
+      content: ':';
+    }
+  }
+
+  dd {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .channel {
+    margin-bottom: 4px;
+    background: #fff;
+    padding: 8px 40px;
+
+    @media screen and (width <= $largeBreakPoint) {
+      padding: 8px;
+    }
+
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+
+  .funding {
+    display: flex;
+    gap: 4px;
+    flex-wrap: nowrap;
+    overflow: hidden;
+
+    dd {
+      overflow: hidden;
+    }
+
+    a.address {
+      @extend %hash;
+
+      min-width: 180px;
+    }
+  }
+
+  .outPoint {
+    dd {
+      overflow: hidden;
+    }
+
+    a {
+      @extend %hash;
+    }
+  }
+
+  .copy {
+    width: 12px;
+  }
+
+  .nodesContainer {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    margin-top: 8px;
+    background: rgb(0 0 0 / 3%);
+
+    dt,
+    dd {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+  }
+
+  .nodes {
+    display: flex;
+
+    &[data-is-full-width='false'] {
+      flex-direction: column;
+    }
+
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 1rem;
+
+      span {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    gap: 20px;
+
+    .node {
+      flex: 1;
+      overflow: hidden;
+
+      dd {
+        overflow: hidden;
+      }
+
+      a {
+        @extend %hash;
+      }
+    }
+
+    @media screen and (width <= $mobileBreakPoint) {
+      flex-direction: column;
+    }
+  }
+}

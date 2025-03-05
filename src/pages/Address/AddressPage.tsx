@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Tooltip, Radio } from 'antd'
-import { FC, useMemo } from 'react'
+import { FC, useMemo, useEffect } from 'react'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Address as AddressInfo } from '../../models/Address'
 import { LayoutLiteProfessional } from '../../constants/common'
@@ -37,6 +37,7 @@ import { isValidBTCAddress } from '../../utils/bitcoin'
 import { defaultAddressInfo } from './state'
 import { BTCAddressOverviewCard } from './BTCAddressComp'
 import Qrcode from '../../components/Qrcode'
+import { FaucetMenu } from '../../components/FaucetMenu'
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
@@ -180,6 +181,15 @@ export const Address = () => {
     },
   )
 
+  useEffect(() => {
+    transactionCountQuery.refetch()
+    pendingTransactionCountQuery.refetch()
+    addressPendingTransactionsQuery.refetch()
+    addressInfoQuery.refetch()
+    addressTransactionsQuery.refetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPendingTxListActive])
+
   const transactionCounts: Record<'committed' | 'pending', number | '-'> = useMemo(() => {
     let committed: number | '-' = '-'
     if (isRGBPP) {
@@ -229,6 +239,7 @@ export const Address = () => {
             customActions={[
               <Qrcode text={address} />,
               isBtcAddress ? <LinkToBtcAddress address={address} /> : null,
+              <FaucetMenu address={address} />,
               counterpartAddr ? (
                 <Tooltip
                   placement="top"

@@ -29,6 +29,8 @@ import NFTTokenIcon from './m_nft.svg'
 import CoTACellIcon from './cota_cell.svg'
 import CoTARegCellIcon from './cota_reg_cell.svg'
 import SporeCellIcon from './spore.svg'
+import CodeIcon from './code.svg'
+import FiberIcon from './fiber.svg'
 import { CellInfoModal } from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
@@ -85,11 +87,29 @@ const TransactionCellIndexAddress = ({
 
 export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   const { t } = useTranslation()
-  const cellType = getCellType(cell)
+  const { type: cellType, info } = getCellType(cell)
   let detailTitle = t('transaction.ckb_capacity')
   let detailIcon
   let tooltip: string | ReactNode = ''
   switch (cellType) {
+    case 'Fiber Channel': {
+      detailTitle = t('transaction.fiber_channel')
+      detailIcon = FiberIcon
+      break
+    }
+    case 'deployment': {
+      detailTitle = t('transaction.deployment')
+      detailIcon = CodeIcon
+      if (info?.tag) {
+        tooltip = (
+          <span>
+            {`${t('transaction.deployed_script')}: `}
+            <a href={`/scripts#${info.tag}`}>{info.tag}</a>
+          </span>
+        )
+      }
+      break
+    }
     case 'nervos_dao_deposit':
       detailTitle = t('transaction.nervos_dao_deposit')
       detailIcon = NervosDAODepositIcon

@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios'
 import BigNumber from 'bignumber.js'
 import { Dayjs } from 'dayjs'
-import { ReactNode } from 'react'
 import { pick } from '../../utils/object'
 import { shannonToCkb, toCamelcase } from '../../utils/util'
 import { requesterV1, requesterV2 } from './requester'
@@ -17,6 +16,18 @@ import {
   LiveCell,
   TokenCollection,
   BitcoinAddresses,
+  Fiber,
+  UDTQueryResult,
+  RGBTransaction,
+  FeeRateTracker,
+  NFTCollection,
+  NFTItem,
+  ScriptInfo,
+  CKBTransactionInScript,
+  CellInScript,
+  TransferListRes,
+  DASAccountMap,
+  SubmitTokenInfoParams,
 } from './types'
 import { assert } from '../../utils/error'
 import { Cell } from '../../models/Cell'
@@ -26,8 +37,7 @@ import { BtcTx, Transaction } from '../../models/Transaction'
 import { Address, AddressType, UDTAccount } from '../../models/Address'
 import { OmigaInscriptionCollection, UDT } from '../../models/UDT'
 import { XUDT, XUDTHolderAllocation } from '../../models/Xudt'
-import { HashType } from '../../constants/common'
-import { Dob, getDobs } from '../DobsService'
+import { getDobs } from '../DobsService'
 import { isDob0 } from '../../utils/spore'
 
 async function v1Get<T>(...args: Parameters<typeof requesterV1.get>) {
@@ -70,6 +80,7 @@ export enum SearchResultType {
   TokenItem = 'token_item',
   DID = 'did',
   BtcAddress = 'bitcoin_address',
+  FiberGraphNode = 'fiber_graph_node',
 }
 
 enum SearchQueryType {
@@ -112,6 +123,14 @@ export type AggregateSearchResult =
         addressHash: string
       },
       SearchResultType.BtcAddress
+    >
+  | Response.Wrapper<
+      {
+        nodeName: string
+        nodeId: string
+        peerId: string
+      },
+      SearchResultType.FiberGraphNode
     >
 
 export const getBtcTxList = (idList: string[]): Promise<Record<string, RawBtcRPC.BtcTx>> => {
@@ -810,6 +829,18 @@ export const apiFetcher = {
       }))
     }),
 
+  fetchStatisticActiveAddresses: () =>
+    v1GetUnwrappedList<ChartItem.ActiveAddresses>(`/daily_statistics/activity_address_contract_distribution`).then(
+      items =>
+        items.map<{
+          createdAtUnixtimestamp: string
+          distribution: Record<string, number>
+        }>(({ createdAtUnixtimestamp, ...list }) => ({
+          createdAtUnixtimestamp,
+          distribution: Object.assign({}, ...list.activityAddressContractDistribution),
+        })),
+    ),
+
   fetchFlushChartCache: () => v1GetUnwrapped<{ flushCacheInfo: string[] }>(`statistics/flush_cache_info`),
 
   fetchSimpleUDT: (typeHash: string) => v1GetUnwrapped<UDT>(`/udts/${typeHash}`),
@@ -1196,6 +1227,120 @@ export const apiFetcher = {
       },
     }),
   getBtcTxList,
+
+  // ==================
+  // Fiber
+  // ==================
+  getFiberPeerList: (page = 1, pageSize = 10) => {
+    return requesterV2
+      .get(
+        `/fiber/peers?${new URLSearchParams({
+          page: page.toString(),
+          page_size: pageSize.toString(),
+        })}`,
+      )
+      .then(res =>
+        toCamelcase<
+          Response.Response<{
+            fiberPeers: Fiber.Peer.ItemInList[]
+            meta: {
+              total: number
+              pageSize: number
+            }
+          }>
+        >(res.data),
+      )
+  },
+
+  getFiberPeerDetail: (id: string) => {
+    return requesterV2
+      .get(`/fiber/peers/${id}`)
+      .then(res => toCamelcase<Response.Response<Fiber.Peer.Detail>>(res.data))
+  },
+
+  getFiberChannel: (id: string) => {
+    return requesterV2
+      .get(`/fiber/channels/${id}`)
+      .then(res => toCamelcase<Response.Response<Fiber.Channel.Detail>>(res.data))
+  },
+
+  addFiberPeer: (params: { rpc: string; id: string; name?: string }) => {
+    return requesterV2
+      .post(`/fiber/peers`, {
+        name: params.name,
+        rpc_listening_addr: params.rpc,
+        peer_id: params.id,
+      })
+      .catch(e => {
+        if (Array.isArray(e.response?.data)) {
+          const res = e.response.data[0]
+          if (res) {
+            throw new Error(res.title)
+          }
+        }
+        throw e
+      })
+  },
+
+  getGraphNodes: (page = 1, pageSize = 10) => {
+    return requesterV2
+      .get(
+        `/fiber/graph_nodes?${new URLSearchParams({
+          page: page.toString(),
+          page_size: pageSize.toString(),
+        })}`,
+      )
+      .then(res =>
+        toCamelcase<
+          Response.Response<{
+            fiberGraphNodes: Fiber.Graph.Node[]
+            meta: {
+              total: number
+              pageSize: number
+            }
+          }>
+        >(res.data),
+      )
+  },
+
+  getGraphNodeDetail: (id: string) => {
+    return requesterV2
+      .get(`/fiber/graph_nodes/${id}`)
+      .then(res => toCamelcase<Response.Response<Fiber.Graph.NodeDetail>>(res.data))
+  },
+  getGraphChannels: (page = 1, pageSize = 10) => {
+    return requesterV2
+      .get(
+        `/fiber/graph_channels?${new URLSearchParams({
+          page: page.toString(),
+          page_size: pageSize.toString(),
+          status: 'open',
+        })}`,
+      )
+      .then(res =>
+        toCamelcase<
+          Response.Response<{
+            fiberGraphChannels: Fiber.Graph.Channel[]
+            meta: {
+              total: number
+              pageSize: number
+            }
+          }>
+        >(res.data),
+      )
+  },
+
+  getGraphHistory: () => {
+    return requesterV2
+      .get('/fiber/statistics')
+      .then(res => toCamelcase<Response.Response<Fiber.Graph.Statistics>>(res.data))
+  },
+
+  getGraphNodeIPs: () => {
+    return requesterV2
+      .get('/fiber/graph_nodes/addresses')
+      .then(res => toCamelcase<Response.Response<Fiber.Graph.GraphNodeIps>>(res.data))
+  },
 }
 
 // ====================
@@ -1205,185 +1350,3 @@ export const apiFetcher = {
 export type APIFetcher = typeof apiFetcher
 
 export type APIReturn<T extends keyof APIFetcher> = Awaited<ReturnType<APIFetcher[T]>>
-
-export namespace FeeRateTracker {
-  export interface TransactionFeeRate {
-    id: number
-    timestamp: number
-    feeRate: number
-    confirmationTime: number
-  }
-
-  export interface PendingTransactionFeeRate {
-    id: number
-    feeRate: number
-  }
-
-  export interface LastNDaysTransactionFeeRate {
-    date: string
-    feeRate: string
-  }
-
-  export interface TransactionFeesStatistic {
-    transactionFeeRates: TransactionFeeRate[]
-    pendingTransactionFeeRates: PendingTransactionFeeRate[]
-    lastNDaysTransactionFeeRates: LastNDaysTransactionFeeRate[]
-  }
-
-  export interface FeeRateCard {
-    priority: string
-    icon: ReactNode
-    feeRate?: string
-    priorityClass: string
-    confirmationTime: number
-  }
-}
-
-export interface NFTCollection {
-  id: number
-  standard: string
-  name: string
-  description: string
-  h24_ckb_transactions_count: string
-  creator: string | null
-  icon_url: string | null
-  items_count: number | null
-  holders_count: number | null
-  type_script: { code_hash: string; hash_type: 'data' | 'type'; args: string } | null
-  tags: string[]
-  sn: string
-  timestamp: number
-}
-
-export interface NFTItem {
-  icon_url: string | null
-  id: number
-  token_id: string
-  owner: string | null
-  standard: string | null
-  cell: {
-    cell_index: number
-    data: string | null
-    status: string
-    tx_hash: string
-  } | null
-  collection: NFTCollection
-  name: string | null
-  metadata_url: string | null
-  type_script: Record<'code_hash' | 'hash_type' | 'args' | 'script_hash', string>
-  dob?: Dob
-}
-
-export interface ScriptInfo {
-  id: string
-  scriptName: string
-  scriptType: string
-  codeHash: string
-  hashType: HashType
-  capacityOfDeployedCells: string
-  capacityOfReferringCells: string
-  countOfTransactions: number
-  countOfDeployedCells: number
-  countOfReferringCells: number
-}
-
-export interface CKBTransactionInScript {
-  isBtcTimeLock: boolean
-  isRgbTransaction: boolean
-  rgbTxid: string | null
-  id: number
-  txHash: string
-  blockId: number
-  blockNumber: number
-  blockTimestamp: number
-  transactionFee: number
-  isCellbase: boolean
-  txStatus: string
-  displayInputs: Cell[]
-  displayOutputs: Cell[]
-}
-
-export interface CellInScript {
-  id: number
-  capacity: string
-  data: string
-  ckbTransactionId: number
-  createdAt: string
-  updatedAt: string
-  status: string
-  addressId: number
-  blockId: number
-  txHash: string
-  cellIndex: number
-  generatedById?: number
-  consumedById?: number
-  cellType: string
-  dataSize: number
-  occupiedCapacity: number
-  blockTimestamp: number
-  consumedBlockTimestamp: number
-  typeHash?: string
-  udtAmount: number
-  dao: string
-  lockScriptId?: number
-  typeScriptId?: number
-}
-
-export interface TransferRes {
-  id: number
-  from: string | null
-  to: string | null
-  action: 'mint' | 'normal' | 'destruction'
-  item: NFTItem
-  transaction: {
-    tx_hash: string
-    block_number: number
-    block_timestamp: number
-  }
-}
-
-export interface TransferListRes {
-  data: TransferRes[]
-  pagination: {
-    count: number
-    page: number
-    next: number | null
-    prev: number | null
-    last: number
-  }
-}
-
-export type DASAccount = string
-
-export type DASAccountMap = Record<string, DASAccount | null>
-
-export type UDTQueryResult = {
-  fullName: string
-  symbol: string | null
-  typeHash: string
-  iconFile: string | null
-  udtType: UDT['udtType']
-}
-
-type SubmitTokenInfoParams = {
-  symbol: string
-  email: string
-  operator_website: string
-  total_amount: number
-
-  full_name?: string
-  decimal?: number
-  description?: string
-  icon_file?: string
-  token?: string
-}
-
-export interface RGBTransaction {
-  txHash: string
-  blockId: number
-  blockNumber: number
-  blockTimestamp: number
-  leapDirection: string
-  rgbCellChanges: number
-  rgbTxid: string
-}

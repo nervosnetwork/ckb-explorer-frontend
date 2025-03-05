@@ -32,15 +32,6 @@
     width: 100%;
   }
 
-  .cover {
-    width: 440px;
-    height: 440px;
-    flex-shrink: 0;
-    border-radius: 8px;
-    object-fit: scale-down;
-    background: #fafafa;
-  }
-
   .name {
     font-size: 24px;
     font-weight: 500;
@@ -118,4 +109,12 @@
   border-top-right-radius: 6px;
   margin-right: 6px;
   font-size: 16px;
+}
+
+.extra {
+  width: min-content;
+}
+
+.collection {
+  color: var(--primary-color);
 }

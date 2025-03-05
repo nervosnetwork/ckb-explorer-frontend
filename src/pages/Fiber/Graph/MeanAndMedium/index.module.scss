@@ -1,0 +1,78 @@
+@import '../../../../styles//variables.module.scss';
+
+.container {
+  --font-size-base: 14px;
+  --font-size-large: 16px;
+  --font-size-small: 12px;
+  --color-text-primary: #333;
+  --color-text-secondary: #666;
+  --color-text-tertiary: #999;
+  --color-bg-primary: #fafafa;
+  --color-bg-secondary: #f0f0f0;
+  --color-bg-active: #fff;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 20px;
+
+  font-size: var(--font-size-base);
+  background: var(--color-bg-primary);
+  padding: var(--spacing-sm);
+  border-radius: var(--spacing-xs);
+
+  .switch {
+    background: var(--color-bg-secondary);
+    width: min-content;
+    display: flex;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs);
+    border-radius: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+
+    button {
+      appearance: none;
+      border: none;
+      font-size: var(--font-size-small);
+      font-weight: 500;
+      width: 48px;
+      height: 24px;
+      border-radius: var(--spacing-xs);
+      color: var(--color-text-tertiary);
+      cursor: pointer;
+
+      &[data-is-active='true'] {
+        background: var(--color-bg-active);
+        color: var(--color-text-primary);
+      }
+    }
+  }
+
+  .values {
+    color: var(--color-text-secondary);
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+    }
+
+    .value {
+      color: var(--color-text-primary);
+      font-size: var(--font-size-large);
+      font-weight: 500;
+
+      small {
+        margin-left: var(--spacing-xs);
+      }
+    }
+
+    @media screen and (width < $extraLargeBreakPoint) {
+      display: flex;
+      gap: var(--spacing-md);
+    }
+  }
+
+  hr {
+    opacity: 0.2;
+    margin: var(--spacing-sm) 0;
+  }
+}
