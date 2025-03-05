@@ -55,7 +55,7 @@ export const HalvingInfo = () => {
                   overlayInnerStyle={{ color: '#333333' }}
                   title={`UTC ${utcOffset > 0 ? `+ ${utcOffset}` : utcOffset}`}
                 >
-                  <WarningCircle width={12} height={12} />
+                  <WarningCircle width={16} height={16} />
                 </Tooltip>
               </div>
             </div>

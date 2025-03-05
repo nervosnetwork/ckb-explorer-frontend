@@ -16,6 +16,7 @@ import { isChainTypeError } from '../utils/chain'
 import { SupportedLngs } from '../utils/i18n'
 import { useSyncEffect } from '../hooks'
 import RGBPPTransactionList from '../pages/RGBPP/TransactionList'
+import { IS_MAINNET } from '../constants/common'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -82,6 +83,7 @@ const Hasher = lazy(() => import('../pages/Tools/Hasher'))
 const BroadcastTx = lazy(() => import('../pages/Tools/BroadcastTx'))
 const CamelCase = lazy(() => import('../pages/Tools/CamelCase'))
 const MoleculeParser = lazy(() => import('../pages/Tools/MoleculeParser'))
+const HardFork = lazy(() => import('../pages/HardFork'))
 // ======
 const FiberGraph = lazy(() => import('../pages/Fiber/Graph'))
 const FiberPeerList = lazy(() => import('../pages/Fiber/PeerList'))
@@ -386,6 +388,12 @@ const routes: RouteProps[] = [
     component: FiberGraphChannelList,
   },
 ]
+if (IS_MAINNET) {
+  routes.push({
+    path: '/hardfork',
+    component: HardFork,
+  })
+}
 
 type PageErrorBoundaryState = {
   error?: Error | null
