@@ -245,19 +245,6 @@ export default function CountdownPage() {
         />
 
         <Accordion type="single" collapsible defaultValue={hash.slice(1)}>
-          <AccordionItem value="ckb-vm-2" id="ckb-vm-2">
-            <AccordionTrigger>CKB-VM V2</AccordionTrigger>
-            <AccordionContent>
-              {t('hardfork.ckb_vm_desc')}
-              <Link
-                to="https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0049-ckb-vm-version-2/0049-ckb-vm-version-2.md"
-                className={styles.rfc}
-              >
-                RFC 0049: CKB-VM Version 2
-                <OpenInNewWindowIcon />
-              </Link>
-            </AccordionContent>
-          </AccordionItem>
           <AccordionItem value="syscall" id="syscall">
             <AccordionTrigger>VM Syscalls 3: Unix-like process in CKB</AccordionTrigger>
             <AccordionContent>
@@ -271,8 +258,21 @@ export default function CountdownPage() {
               </Link>
             </AccordionContent>
           </AccordionItem>
+          <AccordionItem value="ckb-vm-2" id="ckb-vm-2">
+            <AccordionTrigger>CKB-VM V2: More Secure, Efficient, and Scalable</AccordionTrigger>
+            <AccordionContent>
+              {t('hardfork.ckb_vm_desc')}
+              <Link
+                to="https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0049-ckb-vm-version-2/0049-ckb-vm-version-2.md"
+                className={styles.rfc}
+              >
+                RFC 0049: CKB-VM Version 2
+                <OpenInNewWindowIcon />
+              </Link>
+            </AccordionContent>
+          </AccordionItem>
           <AccordionItem value="data-structure" id="data-structure">
-            <AccordionTrigger>Data Structure Update</AccordionTrigger>
+            <AccordionTrigger>Data Structure Update: Unlock Softfork Signaling</AccordionTrigger>
             <AccordionContent>
               {t('hardfork.data_structure_desc')}
               <Link
