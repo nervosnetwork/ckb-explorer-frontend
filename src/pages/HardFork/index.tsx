@@ -10,8 +10,15 @@ import { InfiniteMovingCard } from './InfiniteMovingCard'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../components/ui/Accordion'
 import { useCountdown } from '../../hooks'
 
+// https://github.com/nervosnetwork/ckb/pull/4807/files#diff-1beb40a3d17a41c5906970fca040280ff421695a65b0f3da51e6abb06329c4a6R10
+const ESTIMATED_ACTIVATION_TIME = {
+  start: new Date('2025-03-05T08:00:00'),
+  end: new Date('2025-07-01T06:32:53'),
+  epoch: 12_293,
+}
+
 export default function CountdownPage() {
-  const [days, hours, minutes, seconds, countdown] = useCountdown(new Date('2025-02-02T00:00:00'))
+  const [days, hours, minutes, seconds, countdown] = useCountdown(ESTIMATED_ACTIVATION_TIME.end)
   const [isEnd, setIsEnd] = useState(false)
   const { t } = useTranslation()
 
@@ -192,14 +199,17 @@ export default function CountdownPage() {
                   <div className={styles.timerValue}>{days.toString().padStart(2, '0')}</div>
                   <div className={styles.timerLabel}>DAYS</div>
                 </div>
+                <div className={styles.timerValue}>:</div>
                 <div className={styles.timerBlock}>
                   <div className={styles.timerValue}>{hours.toString().padStart(2, '0')}</div>
                   <div className={styles.timerLabel}>HOURS</div>
                 </div>
+                <div className={styles.timerValue}>:</div>
                 <div className={styles.timerBlock}>
                   <div className={styles.timerValue}>{minutes.toString().padStart(2, '0')}</div>
                   <div className={styles.timerLabel}>MINUTES</div>
                 </div>
+                <div className={styles.timerValue}>:</div>
                 <div className={styles.timerBlock}>
                   <div className={styles.timerValue}>{seconds.toString().padStart(2, '0')}</div>
                   <div className={styles.timerLabel}>SECONDS</div>
@@ -210,14 +220,27 @@ export default function CountdownPage() {
 
           <div className={styles.progressContainer}>
             <div className={styles.progressBar}>
-              <div className={styles.progressFill} style={{ width: '25%' }} />
+              <div
+                className={styles.progressFill}
+                style={{
+                  width: `${Math.max(
+                    0,
+                    Math.min(
+                      100,
+                      ((new Date().getTime() - ESTIMATED_ACTIVATION_TIME.start.getTime()) /
+                        (ESTIMATED_ACTIVATION_TIME.end.getTime() - ESTIMATED_ACTIVATION_TIME.start.getTime())) *
+                        100,
+                    ),
+                  )}%`,
+                }}
+              />
             </div>
             <div className={styles.progressMarkers}>
-              <span style={{ opacity: 0 }}>0%</span>
+              <span>0%</span>
               <span>25%</span>
               <span>50%</span>
               <span>75%</span>
-              <span style={{ opacity: 0 }}>100%</span>
+              <span>100%</span>
             </div>
           </div>
         </div>
