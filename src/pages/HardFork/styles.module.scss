@@ -355,20 +355,37 @@ $hover-bg: rgb(40 40 40 / 50%);
   }
 }
 
-.flatCude {
+.cubeContainer {
   position: fixed;
   z-index: 1;
   top: 200px;
-  animation: flat-cube-animation 8s ease-in-out infinite;
+  width: 50vw;
+  overflow-x: hidden;
+  height: 150px;
+
+  &:first-of-type {
+    left: 0;
+  }
+
+  &:last-of-type {
+    right: 0;
+  }
 
   @media screen and (width <768px) {
     top: 110px;
   }
+}
+
+.flatCube {
+  margin-top: 10px;
+  height: min-content;
+  width: min-content;
+  animation: flat-cube-animation 8s ease-in-out infinite;
 
   @keyframes flat-cube-animation {
     0% {
       opacity: 0;
-      transform: translateX(-50vw) rotate3d(0, 0, 1, 0deg);
+      transform: translateX(0) rotate3d(0, 0, 1, 0deg);
     }
 
     40% {
@@ -377,7 +394,7 @@ $hover-bg: rgb(40 40 40 / 50%);
 
     50% {
       opacity: 0;
-      transform: translateX(0) rotate3d(0, 1, 1, 317deg);
+      transform: translateX(50vw) rotate3d(0, 1, 1, 317deg);
     }
 
     100% {
@@ -387,24 +404,18 @@ $hover-bg: rgb(40 40 40 / 50%);
 }
 
 .cube3d {
-  position: fixed;
-  z-index: 1;
+  margin-top: -20px;
   animation: cube-3d-animation 8s ease-in-out infinite;
-  top: 170px;
-
-  @media screen and (width <768px) {
-    top: 80px;
-  }
 
   @keyframes cube-3d-animation {
     0% {
       opacity: 0;
-      transform: translateX(0);
+      transform: translateX(-80px);
     }
 
     50% {
       opacity: 0;
-      transform: translateX(0);
+      transform: translateX(-80px);
     }
 
     60% {

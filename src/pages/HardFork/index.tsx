@@ -219,10 +219,14 @@ export default function CountdownPage() {
   return (
     <div className={styles.countdownPage}>
       <div className={styles.glowingLineContainer}>
-        <div className={styles.flatCude}>
-          <FlatCube />
+        <div className={styles.cubeContainer}>
+          <div className={styles.flatCube}>
+            <FlatCube />
+          </div>
         </div>
-        <img src="/images/3d_cube.gif" className={styles.cube3d} alt="cube3d" />
+        <div className={styles.cubeContainer}>
+          <img src="/images/3d_cube.gif" className={styles.cube3d} alt="cube3d" />
+        </div>
         <img className={styles.glowingLine} src={glowingLine} alt="line" />
       </div>
 
