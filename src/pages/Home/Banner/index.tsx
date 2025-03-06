@@ -40,6 +40,10 @@ export default () => {
   // mainnet banners
   const mainnetBanners: BannerItem[] = [
     {
+      key: 'hardfork',
+      component: <HardforkBanner />,
+    },
+    {
       key: 'knowledge',
       component: (
         <div className={styles.root}>
@@ -56,10 +60,6 @@ export default () => {
           </div>
         </div>
       ),
-    },
-    {
-      key: 'hardfork',
-      component: <HardforkBanner />,
     },
   ]
 

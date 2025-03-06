@@ -134,7 +134,9 @@ export default function CountdownPage() {
           </div>
         </div>
         <div className={styles.cubeContainer}>
-          <img src="/images/3d_cube.gif" className={styles.cube3d} alt="cube3d" />
+          <div className={styles.cube3d}>
+            <img src="/images/3d_cube.gif" alt="cube3d" />
+          </div>
         </div>
         <img className={styles.glowingLine} src={glowingLine} alt="line" />
       </div>
