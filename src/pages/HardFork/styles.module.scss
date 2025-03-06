@@ -338,6 +338,15 @@ $glowing-line-width: 76px;
   @media (width >= 768px) {
     height: 300px;
   }
+
+  @media screen and (width >768px) {
+    &:has(.cube3d:hover) {
+      .flatCube,
+      .cube3d {
+        animation-play-state: paused;
+      }
+    }
+  }
 }
 
 .glowingLine {
@@ -362,7 +371,7 @@ $glowing-line-width: 76px;
   z-index: 1;
   width: 50vw;
   overflow-x: hidden;
-  height: 150px;
+  height: 180px;
   box-sizing: border-box;
 
   &:first-of-type {
@@ -393,6 +402,7 @@ $glowing-line-width: 76px;
   height: min-content;
   width: min-content;
   animation: flat-cube-animation 8s ease-in-out infinite;
+  animation-play-state: running;
 
   @keyframes flat-cube-animation {
     0% {
@@ -416,8 +426,36 @@ $glowing-line-width: 76px;
 }
 
 .cube3d {
+  position: relative;
+  width: min-content;
   margin-top: 0;
   animation: cube-3d-animation 8s ease-in-out infinite;
+  animation-play-state: running;
+
+  @media screen and (width >768px) {
+    &:hover {
+      &::after {
+        display: block;
+      }
+    }
+
+    &::after {
+      display: none;
+      content: 'A New High Dimension of CKB VM!';
+      position: absolute;
+      top: 90%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.875rem;
+      color: #333;
+      padding: 2px 20px;
+      white-space: nowrap;
+      border-radius: 2px;
+      box-shadow: 0 0 12px 4px rgb(255 255 255 / 90%), inset 0 0 6px rgb(220 220 240 / 80%);
+      background: linear-gradient(135deg, rgb(240 240 250 / 100%), rgb(200 200 215 / 100%));
+      border: 1px solid rgb(255 255 255 / 50%);
+    }
+  }
 
   @keyframes cube-3d-animation {
     0% {
