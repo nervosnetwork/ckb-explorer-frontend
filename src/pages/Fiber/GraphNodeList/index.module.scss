@@ -238,3 +238,14 @@
     padding: 8px;
   }
 }
+
+.nameFallback {
+  color: #999;
+  text-underline-offset: 2px;
+  text-decoration: underline;
+  font-weight: 400;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}

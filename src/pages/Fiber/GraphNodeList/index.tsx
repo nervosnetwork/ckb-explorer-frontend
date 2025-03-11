@@ -28,7 +28,9 @@ const fields = [
       return (
         <Tooltip title={v}>
           <div className={styles.name}>
-            <Link to={`/fiber/graph/node/${i.nodeId}`}>{v || <span style={{ color: '#999' }}>Untitled</span>}</Link>
+            <Link to={`/fiber/graph/node/${i.nodeId}`}>
+              {v || <span className={styles.nameFallback}>Untitled</span>}
+            </Link>
           </div>
         </Tooltip>
       )
