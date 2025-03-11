@@ -27,6 +27,7 @@ import type { NodeTransaction } from './types'
 import Pagination from '../Pagination'
 import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
 import styles from './index.module.scss'
+import { uniqueColor } from '../../../utils/color'
 
 interface QueryResponse extends Response.Response<Fiber.Graph.NodeDetail> {}
 
@@ -348,9 +349,17 @@ const GraphNode = () => {
                       if (!liquidity) return null
                       return (
                         <div key={key} className={styles.liquidity}>
+                          <span
+                            className={styles.marker}
+                            style={{
+                              backgroundColor: uniqueColor(key),
+                            }}
+                          />
                           <span>{parseNumericAbbr(liquidity.amount, 2)}</span>
                           <span>{liquidity.symbol}</span>
-                          {liquidity.usd && <span>({parseNumericAbbr(liquidity.usd, 2)} USD)</span>}
+                          {liquidity.usd && (
+                            <span className={styles.usd}>({parseNumericAbbr(liquidity.usd, 2)} USD)</span>
+                          )}
                         </div>
                       )
                     })}
@@ -360,9 +369,10 @@ const GraphNode = () => {
                 <div className={styles.liquidityTitle}>{t('fiber.graph.node.liquidity_allocation')}</div>
                 {totalLiquidity.size ? (
                   <LiquidityChart
-                    assets={[...totalLiquidity.values()].map(i => ({
-                      symbol: i.symbol,
-                      usd: i.usd?.toFixed() ?? '0',
+                    assets={[...totalLiquidity.entries()].map(([key, v]) => ({
+                      key,
+                      symbol: v.symbol,
+                      usd: v.usd?.toFixed() ?? '0',
                     }))}
                   />
                 ) : null}

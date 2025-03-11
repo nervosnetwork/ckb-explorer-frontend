@@ -137,7 +137,7 @@ const fields = [
             </Link>
           </Tooltip>
           <button type="button" data-copy-text={`0x${v}`}>
-            <CopyIcon />
+            <CopyIcon color="#999" />
           </button>
         </span>
       )
@@ -164,7 +164,7 @@ const fields = [
             <span>{addr}</span>
           </Tooltip>
           <button type="button" data-copy-text={v}>
-            <CopyIcon />
+            <CopyIcon color="#999" />
           </button>
           {/* <a href={rpcAddr} title={rpcAddr} target="_blank" rel="noopener noreferrer"> */}
           {/*   <OpenInNewWindowIcon /> */}
