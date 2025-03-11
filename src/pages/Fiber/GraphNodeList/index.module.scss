@@ -18,6 +18,31 @@
 
     font-size: 1rem;
 
+    tbody {
+      tr:not([data-role='pagination']) {
+        position: relative;
+
+        td {
+          padding-top: 24px;
+          padding-bottom: 24px;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 40px;
+          right: 16px;
+          height: 1px;
+          background-color: #f5f5f5;
+
+          @media screen and (width < $extraLargeBreakPoint) {
+            left: 16px;
+          }
+        }
+      }
+    }
+
     tr[data-role='pagination']:hover {
       background: #fff;
     }
@@ -83,7 +108,7 @@
 
     & > span:first-child {
       display: block;
-      max-width: 240px;
+      max-width: 220px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -130,7 +155,7 @@
     }
   }
 
-  @media screen and (width < 1240px) {
+  @media screen and (width < $extraLargeBreakPoint) {
     table {
       thead tr:not([data-role='header']),
       tbody tr:not([data-role='pagination']) {
@@ -209,6 +234,7 @@
             width: 100%;
             height: 4px;
             background: #e5e5e5;
+            left: 0;
           }
         }
 
