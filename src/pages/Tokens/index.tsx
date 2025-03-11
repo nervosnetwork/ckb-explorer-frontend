@@ -13,7 +13,7 @@ import SortButton from '../../components/SortButton'
 import { TokensPanel, TokensContentEmpty, TokensLoadingPanel } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import { localeNumberString } from '../../utils/number'
-import SUDTTokenIcon from '../../assets/sudt_token.png'
+import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import Loading from '../../components/Loading'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import styles from './styles.module.scss'
@@ -80,7 +80,7 @@ const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) =
             <WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />
           </Tooltip>
         )}
-        <img className={styles.icon} src={token.iconFile ? token.iconFile : SUDTTokenIcon} alt="token icon" />
+        <img className={styles.icon} src={token.iconFile ? token.iconFile : FtFallbackIcon} alt="token icon" />
       </span>
       <span className={styles.symbol}>
         {isKnown ? (
@@ -229,7 +229,7 @@ const TokenTable: FC<{
               )}
             </div>
 
-            <img className={styles.icon} src={token.iconFile ? token.iconFile : SUDTTokenIcon} alt="token icon" />
+            <img className={styles.icon} src={token.iconFile ? token.iconFile : FtFallbackIcon} alt="token icon" />
             <div className={styles.right}>
               <div className={styles.symbolAndName}>
                 {isKnown ? (

@@ -14,10 +14,11 @@ import { PAGE_SIZE, TIME_TEMPLATE } from '../../../constants/common'
 import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import styles from './index.module.scss'
-import { shannonToCkb } from '../../../utils/util'
+import { handleFtImgError, shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString } from '../../../utils/number'
 import GraphNodeIps from '../../../components/GraphNodeIps'
+import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
 
 const fields = [
   {
@@ -41,19 +42,52 @@ const fields = [
     label: 'auto_accept_funding_amount',
     transformer: (_: unknown, n: Fiber.Graph.Node) => {
       const thresholds = getFundingThreshold(n)
+      const displays = thresholds.slice(0, 2)
+      const hiddens = thresholds.slice(2)
 
       return (
         <div className={styles.funding}>
-          {thresholds.map(threshold => {
+          {displays.map(threshold => {
             return (
               <Tooltip key={threshold.id} title={threshold.title}>
                 <span className={styles.token}>
-                  <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
+                  <img
+                    src={threshold.icon ?? FtFallbackIcon}
+                    alt="icon"
+                    width="12"
+                    height="12"
+                    loading="lazy"
+                    onError={handleFtImgError}
+                  />
                   {threshold.display}
                 </span>
               </Tooltip>
             )
           })}
+          {hiddens.length ? (
+            <div>
+              <span className={styles.hiddenThresholds}>
+                <span className={styles.count}>{`+${hiddens.length}`}</span>
+                <div className={styles.items}>
+                  {hiddens.map(threshold => {
+                    return (
+                      <div>
+                        <img
+                          src={threshold.icon ?? FtFallbackIcon}
+                          alt="icon"
+                          width="12"
+                          height="12"
+                          loading="lazy"
+                          onError={handleFtImgError}
+                        />
+                        {threshold.display}
+                      </div>
+                    )
+                  })}
+                </div>
+              </span>
+            </div>
+          ) : null}
         </div>
       )
     },
