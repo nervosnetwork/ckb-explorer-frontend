@@ -11,7 +11,7 @@ import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
 import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
-import { shannonToCkb } from '../../../utils/util'
+import { handleFtImgError, shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { formalizeChannelAsset } from '../../../utils/fiber'
 import { fetchPrices } from '../../../services/UtilityService'
@@ -25,6 +25,7 @@ import Qrcode from '../../../components/Qrcode'
 import { ReactComponent as CopyIcon } from '../../../components/Copy/icon.svg'
 import type { NodeTransaction } from './types'
 import Pagination from '../Pagination'
+import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
 import styles from './index.module.scss'
 
 interface QueryResponse extends Response.Response<Fiber.Graph.NodeDetail> {}
@@ -297,10 +298,10 @@ const GraphNode = () => {
                       </option>
                     ))}
                   </select>
+                  <Qrcode text={addr} size={16} />
                   <button type="button" data-copy-text={addr}>
-                    <CopyIcon />
+                    <CopyIcon width={16} height={16} />
                   </button>
-                  <Qrcode text={addr} />
                 </dd>
               </dl>
               <dl>
@@ -317,7 +318,14 @@ const GraphNode = () => {
                   {getFundingThreshold(node).map(threshold => (
                     <Tooltip key={threshold.id} title={threshold.title}>
                       <span className={styles.token}>
-                        <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
+                        <img
+                          src={threshold.icon ?? FtFallbackIcon}
+                          alt="icon"
+                          width="12"
+                          height="12"
+                          loading="lazy"
+                          onError={handleFtImgError}
+                        />
                         {threshold.display}
                       </span>
                     </Tooltip>

@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 // TODO: add address verification
 // network type
 // joyID
-const Qrcode = ({ text }: { text: string }) => {
+const Qrcode = ({ text, size }: { text: string; size?: number }) => {
   const qrRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Qrcode = ({ text }: { text: string }) => {
   return (
     <div className={styles.container}>
       <label htmlFor="address-qr">
-        <QrCodeIcon />
+        <QrCodeIcon width={size} height={size} />
       </label>
       <input id="address-qr" />
       <canvas ref={qrRef} className={styles.qrcode} />
