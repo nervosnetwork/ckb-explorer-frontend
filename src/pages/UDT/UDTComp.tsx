@@ -17,7 +17,7 @@ import { OmigaInscriptionCollection, UDT, isOmigaInscriptionCollection, MintStat
 import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../components/Card'
 import { SubmitTokenInfo, TokenInfo } from '../../components/SubmitTokenInfo'
 import { useIsMobile } from '../../hooks'
-import SUDTTokenIcon from '../../assets/sudt_token.png'
+import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import { isMainnet } from '../../utils/chain'
 // TODO: replaced to svg format
 import ArrowUpIcon from '../../assets/arrow_up.png'
@@ -170,7 +170,7 @@ export const UDTOverviewCard = ({
   const cardTitle = (
     <div className={styles.cardTitle}>
       <div className={styles.top}>
-        <img className={styles.icon} src={iconFile || SUDTTokenIcon} alt="hash icon" />
+        <img className={styles.icon} src={iconFile || FtFallbackIcon} alt="hash icon" />
         {isMobile && modifyTokenInfo}
       </div>
       {symbol ?? t('udt.sudt')}

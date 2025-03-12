@@ -2,6 +2,7 @@ import type { BigNumber } from 'bignumber.js'
 import type { Fiber } from '../../../services/ExplorerService'
 
 export interface AssetRecord {
+  key: string
   symbol: string
   usd: string
 }

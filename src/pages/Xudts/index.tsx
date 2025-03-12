@@ -25,7 +25,7 @@ import { Card } from '../../components/Card'
 import XUDTTag from '../../components/XUDTTag'
 import { SubmitTokenInfo } from '../../components/SubmitTokenInfo'
 import { BooleanT } from '../../utils/array'
-import XUDTTokenIcon from '../../assets/sudt_token.png'
+import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { scripts } from '../ScriptList'
 
@@ -91,7 +91,7 @@ const TokenInfo: FC<{ token: XUDT }> = ({ token }) => {
         <dl className={styles.tokenInfo}>
           <dt className={styles.title}>Name</dt>
           <dd>
-            <img className={styles.icon} src={token.iconFile ? token.iconFile : XUDTTokenIcon} alt="token icon" />
+            <img className={styles.icon} src={token.iconFile ? token.iconFile : FtFallbackIcon} alt="token icon" />
             <Link className={styles.link} to={`/xudt/${token.typeHash}`}>
               {symbol}
             </Link>
@@ -211,7 +211,7 @@ const TokenTable: FC<{
         const symbol = token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
         return (
           <div className={styles.container}>
-            <img className={styles.icon} src={token.iconFile ? token.iconFile : XUDTTokenIcon} alt="token icon" />
+            <img className={styles.icon} src={token.iconFile ? token.iconFile : FtFallbackIcon} alt="token icon" />
             <div className={styles.right}>
               <div className={styles.symbolAndName}>
                 {token.published ? (
