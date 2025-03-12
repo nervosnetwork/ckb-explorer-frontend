@@ -1176,7 +1176,7 @@
           "name": "名称",
           "alias": "别名",
           "auto_accept_funding_amount": "资金设定",
-          "first_seen": "首次发现",
+          "first_seen_last_update": "首次发现/最后更新",
           "node_id": "节点 ID",
           "chain": "链",
           "chain_hash": "链哈希",

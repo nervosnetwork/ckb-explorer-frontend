@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
-import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
+import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import BigNumber from 'bignumber.js'
@@ -15,7 +15,6 @@ import { handleFtImgError, shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { formalizeChannelAsset } from '../../../utils/fiber'
 import { fetchPrices } from '../../../services/UtilityService'
-import { TIME_TEMPLATE } from '../../../constants/common'
 import Content from '../../../components/Content'
 import { Link } from '../../../components/Link'
 import Loading from '../../../components/Loading'
@@ -34,6 +33,7 @@ interface QueryResponse extends Response.Response<Fiber.Graph.NodeDetail> {}
 const CHANNEL_PAGE_SIZE = 10
 const ACTIVITY_PAGE_SIZE = 39
 const CKB_PRICE_ID = '0x0000000000000000000000000000000000000000000000000000000000000000'
+const TIME_TEMPLATE = 'YYYY-MM-DD'
 
 const useNodeData = (id: string | undefined) => {
   return useQuery({
@@ -270,6 +270,10 @@ const GraphNode = () => {
     e.preventDefault()
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
   }
+  const firstSeen = node.timestamp
+  const lastUpdate = node.deletedAtTimestamp ?? node.lastUpdatedTimestamp
+  const firstSeenISO = new Date(+firstSeen).toISOString()
+  const lastUpdateISO = new Date(+lastUpdate).toISOString()
 
   return (
     <Content>
@@ -306,8 +310,21 @@ const GraphNode = () => {
                 </dd>
               </dl>
               <dl>
-                <dt>{t('fiber.graph.node.first_seen')}</dt>
-                <dd>{dayjs(+node.timestamp).format(TIME_TEMPLATE)}</dd>
+                <dt>{t('fiber.graph.node.first_seen_last_update')}</dt>
+                <dd className={styles.times}>
+                  <time dateTime={firstSeenISO} title={firstSeenISO}>
+                    <Link1Icon color="var(--primary-color)" />
+                    {dayjs(+firstSeen).format(TIME_TEMPLATE)}
+                  </time>
+                  <time dateTime={lastUpdateISO} title={lastUpdateISO} data-is-offline={!!node.deletedAtTimestamp}>
+                    {node.deletedAtTimestamp ? (
+                      <LinkBreak1Icon color="#666" />
+                    ) : (
+                      <UpdateIcon color="var(--primary-color)" />
+                    )}
+                    {dayjs(+lastUpdate).format(TIME_TEMPLATE)}
+                  </time>
+                </dd>
               </dl>
               <dl>
                 <dt>{t('fiber.graph.node.total_capacity')}</dt>

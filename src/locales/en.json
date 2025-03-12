@@ -1207,7 +1207,7 @@
           "name": "Name",
           "alias": "Alias",
           "auto_accept_funding_amount": "Auto-accepting Threshold",
-          "first_seen": "First Seen",
+          "first_seen_last_update": "First Seen/Last Update",
           "node_id": "Node ID",
           "chain": "Chain",
           "chain_hash": "Chain Hash",
