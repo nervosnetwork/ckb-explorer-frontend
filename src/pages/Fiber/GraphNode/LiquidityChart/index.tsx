@@ -2,12 +2,13 @@ import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { EChartOption } from 'echarts'
 import { SmartChartPage } from '../../../StatisticsChart/common'
-import { parseNumericAbbr, variantColors } from '../../../../utils/chart'
+import { parseNumericAbbr } from '../../../../utils/chart'
 import type { AssetRecord } from '../types'
+import { uniqueColor } from '../../../../utils/color'
 
 const useChartOption = (list: AssetRecord[]): EChartOption => {
   const { t } = useTranslation()
-  const colors = variantColors(list.length)
+  const colors = list.map(i => uniqueColor(i.key))
 
   return {
     color: colors,

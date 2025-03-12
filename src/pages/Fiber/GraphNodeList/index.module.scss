@@ -18,6 +18,31 @@
 
     font-size: 1rem;
 
+    tbody {
+      tr:not([data-role='pagination']) {
+        position: relative;
+
+        td {
+          padding-top: 24px;
+          padding-bottom: 24px;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 40px;
+          right: 16px;
+          height: 1px;
+          background-color: #f5f5f5;
+
+          @media screen and (width < $extraLargeBreakPoint) {
+            left: 16px;
+          }
+        }
+      }
+    }
+
     tr[data-role='pagination']:hover {
       background: #fff;
     }
@@ -83,7 +108,7 @@
 
     & > span:first-child {
       display: block;
-      max-width: 240px;
+      max-width: 220px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -130,7 +155,7 @@
     }
   }
 
-  @media screen and (width < 1240px) {
+  @media screen and (width < $extraLargeBreakPoint) {
     table {
       thead tr:not([data-role='header']),
       tbody tr:not([data-role='pagination']) {
@@ -209,6 +234,7 @@
             width: 100%;
             height: 4px;
             background: #e5e5e5;
+            left: 0;
           }
         }
 
@@ -236,5 +262,77 @@
 
   @media screen and (width < $extraLargeBreakPoint) {
     padding: 8px;
+  }
+}
+
+.nameFallback {
+  color: #999;
+  text-underline-offset: 2px;
+  text-decoration: underline;
+  font-weight: 400;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+.hiddenThresholds {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #f0f0f0;
+  line-height: 1;
+  border-radius: 50%;
+
+  .count {
+    cursor: pointer;
+    mix-blend-mode: darken;
+  }
+
+  &:hover {
+    .items {
+      display: flex;
+    }
+  }
+
+  .items {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    bottom: 100%;
+    left: 0;
+    min-width: 200px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px 0 #eee;
+    font-size: 1rem;
+    font-weight: 400;
+    overflow: hidden;
+
+    & > div {
+      padding: 4px 8px;
+
+      &:hover {
+        background: #f0f0f0;
+      }
+
+      &:first-child {
+        padding-top: 8px;
+      }
+
+      &:last-child {
+        padding-bottom: 8px;
+      }
+    }
+
+    img {
+      margin-right: 8px;
+    }
   }
 }

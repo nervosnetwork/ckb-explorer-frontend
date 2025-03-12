@@ -5,7 +5,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { Tooltip } from 'antd'
 import { OpenInNewWindowIcon, SizeIcon, TimerIcon } from '@radix-ui/react-icons'
 import { explorerService, LiveCell } from '../../services/ExplorerService'
-import SUDTTokenIcon from '../../assets/sudt_token.png'
+import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import CKBTokenIcon from './ckb_token_icon.png'
 import { ReactComponent as TypeHashIcon } from './type_script.svg'
 import { ReactComponent as DataIcon } from './data.svg'
@@ -112,7 +112,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'udt': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = cell.extraInfo.symbol || 'UDT'
       assetTypeText = 'UDT'
       attribute = cell.extraInfo.decimal
@@ -125,7 +125,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'xudt_compatible': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = cell.extraInfo?.symbol || 'xUDT-compatible'
       attribute =
         cell.extraInfo?.decimal && cell.extraInfo?.amount
@@ -138,7 +138,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'xudt': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = cell.extraInfo?.symbol || 'xUDT'
       assetTypeText = 'xUDT'
       attribute =
@@ -152,7 +152,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'omiga_inscription': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = cell.extraInfo.symbol || t('udt.inscription')
       assetTypeText = 'xUDT'
       attribute = cell.extraInfo.decimal
@@ -199,7 +199,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'nrc_721': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetTypeText = 'NFT'
       assetName = !cell.extraInfo.symbol
         ? '?'
@@ -217,7 +217,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'm_nft': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetTypeText = 'NFT'
       assetName = cell.extraInfo.className
       attribute = cell.extraInfo.tokenId ? `#${parseInt(cell.extraInfo.tokenId, 16)}` : '/'
@@ -229,7 +229,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     default: {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetTypeText = 'Unknown Cell'
       assetName = 'UNKNOWN'
       attribute = '-'

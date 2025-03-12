@@ -6,7 +6,7 @@ import { Tooltip } from 'antd'
 import { ReactComponent as ListIcon } from './list.svg'
 import { ReactComponent as GridIcon } from './grid.svg'
 import { explorerService, LiveCell, RGBCells } from '../../services/ExplorerService'
-import SUDTTokenIcon from '../../assets/sudt_token.png'
+import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import CKBTokenIcon from './ckb_token_icon.png'
 import { ReactComponent as CopyIcon } from './copy.svg'
 import { ReactComponent as TypeHashIcon } from './type_script.svg'
@@ -127,7 +127,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'udt': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = cell.extraInfo.symbol || 'UDT'
       attribute = cell.extraInfo.decimal
         ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
@@ -136,7 +136,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'xudt_compatible': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = cell.extraInfo?.symbol || 'xUDT-compatible'
       attribute =
         cell.extraInfo?.decimal && cell.extraInfo?.amount
@@ -146,7 +146,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'xudt': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = cell.extraInfo?.symbol || 'xUDT'
       attribute =
         cell.extraInfo?.decimal && cell.extraInfo?.amount
@@ -156,7 +156,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'omiga_inscription': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = cell.extraInfo.symbol || t('udt.inscription')
       attribute = cell.extraInfo.decimal
         ? parseUDTAmount(cell.extraInfo.amount, cell.extraInfo.decimal)
@@ -188,19 +188,19 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       break
     }
     case 'nrc_721': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = 'NRC 721'
       attribute = '-'
       break
     }
     case 'm_nft': {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = cell.extraInfo.className
       attribute = `#${parseInt(cell.extraInfo.tokenId, 16)}`
       break
     }
     default: {
-      icon = SUDTTokenIcon
+      icon = FtFallbackIcon
       assetName = 'UNKNOWN'
       attribute = '-'
     }
