@@ -117,7 +117,7 @@ export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[],
 
   // check if lowest fee rate has ideal confirmation time
   const lowests = validSamples.slice(0, SAMPLES_MIN_COUNT)
-  const avgOfLowests = lowests.reduce((acc, cur) => acc + cur.confirmationTime, 0) / validSamples.length
+  const avgOfLowests = lowests.reduce((acc, cur) => acc + cur.confirmationTime, 0) / lowests.length
 
   const ACCEPTABLE_CONFIRMATION_TIME = 2 * avgBlockTime
 
@@ -135,7 +135,7 @@ export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[],
 
   // Calculate the Interquartile Range (IQR)
   const iqr = q3 - q1
-  // // Define the lower and upper bounds for outliers
+  // Define the lower and upper bounds for outliers
   const lowerBound = q1 - 1.5 * iqr
   const upperBound = q3 + 1.5 * iqr
 

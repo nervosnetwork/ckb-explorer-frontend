@@ -32,7 +32,7 @@ const getWeightedMedian = (tfrs: FeeRateTracker.TransactionFeeRate[]): number =>
     return 0
   }
   return tfrs.length % 2 === 0
-    ? (tfrs[tfrs.length / 2 - 1].confirmationTime + tfrs[tfrs.length / 2 - 1].confirmationTime) / 2
+    ? (tfrs[tfrs.length / 2 - 1].confirmationTime + tfrs[tfrs.length / 2].confirmationTime) / 2
     : tfrs[(tfrs.length - 1) / 2].confirmationTime
 }
 
