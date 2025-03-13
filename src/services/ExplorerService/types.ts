@@ -697,6 +697,8 @@ export namespace Fiber {
       nodeId: string
       addresses: string[]
       timestamp: string
+      lastUpdatedTimestamp: string
+      deletedAtTimestamp: string | null
       chainHash: string
       autoAcceptMinCkbFundingAmount: string
       udtCfgInfos: UdtConfigInfo[]

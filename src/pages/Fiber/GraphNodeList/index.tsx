@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { InfoCircledIcon, LinkBreak2Icon } from '@radix-ui/react-icons'
+import { InfoCircledIcon, Link1Icon, LinkBreak2Icon, UpdateIcon } from '@radix-ui/react-icons'
 import dayjs from 'dayjs'
 import Content from '../../../components/Content'
 import { useSetToast } from '../../../components/Toast'
@@ -10,7 +10,7 @@ import { explorerService } from '../../../services/ExplorerService'
 import type { Fiber } from '../../../services/ExplorerService'
 import { ReactComponent as CopyIcon } from '../../../components/Copy/icon.svg'
 import Pagination from '../Pagination'
-import { PAGE_SIZE, TIME_TEMPLATE } from '../../../constants/common'
+import { PAGE_SIZE } from '../../../constants/common'
 import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import styles from './index.module.scss'
@@ -19,6 +19,8 @@ import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString } from '../../../utils/number'
 import GraphNodeIps from '../../../components/GraphNodeIps'
 import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
+
+const TIME_TEMPLATE = 'YYYY-MM-DD'
 
 const fields = [
   {
@@ -118,10 +120,27 @@ const fields = [
   },
   {
     key: 'timestamp',
-    label: 'first_seen',
-    transformer: (v: unknown) => {
-      if (typeof v !== 'string') return v
-      return dayjs(+v).format(TIME_TEMPLATE)
+    label: 'first_seen_last_update',
+    transformer: (_: unknown, n: Fiber.Graph.Node) => {
+      const { timestamp, deletedAtTimestamp, lastUpdatedTimestamp } = n
+
+      const firstSeen = timestamp
+      const lastSeen = deletedAtTimestamp ?? lastUpdatedTimestamp
+
+      const firstSeenISO = new Date(+firstSeen).toISOString()
+      const lastSeenISO = new Date(+lastSeen).toISOString()
+      return (
+        <div className={styles.times}>
+          <time dateTime={firstSeenISO} title={firstSeenISO}>
+            <Link1Icon color="var(--primary-color)" />
+            {dayjs(+firstSeen).format(TIME_TEMPLATE)}
+          </time>
+          <time dateTime={lastSeenISO} title={lastSeenISO} data-is-offline={!!deletedAtTimestamp}>
+            {deletedAtTimestamp ? <LinkBreak2Icon color="#666" /> : <UpdateIcon color="var(--primary-color)" />}
+            {dayjs(+lastSeen).format(TIME_TEMPLATE)}
+          </time>
+        </div>
+      )
     },
   },
   {
