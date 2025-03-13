@@ -336,3 +336,18 @@
     }
   }
 }
+
+.times {
+  display: flex;
+  flex-direction: column;
+
+  time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  time[data-is-offline='true'] {
+    color: #999;
+  }
+}

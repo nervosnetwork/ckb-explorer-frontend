@@ -420,3 +420,26 @@
     margin: 20px 0 0;
   }
 }
+
+.times {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  gap: 0 !important;
+
+  time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &:first-child {
+      border-right: 1px solid #e5e5e5;
+      padding-right: 4px;
+      margin-right: 4px;
+    }
+
+    &[data-is-offline='true'] {
+      color: #999;
+    }
+  }
+}
