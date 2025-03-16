@@ -67,7 +67,7 @@ const fields = [
             )
           })}
           {hiddens.length ? (
-            <div>
+            <div data-hover="stop-propagation">
               <span className={styles.hiddenThresholds}>
                 <span className={styles.count}>{`+${hiddens.length}`}</span>
                 <div className={styles.items}>
