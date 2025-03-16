@@ -40,8 +40,8 @@
   }
 
   tbody {
-    tr:hover {
-      background: #ccc;
+    tr:hover:not(:has([data-hover='stop-propagation']:hover)) {
+      background: #efefef;
     }
   }
 
