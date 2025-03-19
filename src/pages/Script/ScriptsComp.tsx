@@ -22,7 +22,7 @@ import { ReactComponent as LiveCellIcon } from './radio-wave-on.svg'
 import { ReactComponent as DeadCellIcon } from './radio-wave-off.svg'
 import { useSetToast } from '../../components/Toast'
 import { CellBasicInfo, transformToCellBasicInfo, transformToTransaction } from '../../utils/transformer'
-import { usePrevious } from '../../hooks'
+import { usePrevious, useSearchParams } from '../../hooks'
 import CellModal from '../../components/Cell/CellModal'
 import { Switch } from '../../components/ui/Switch'
 import { HelpTip } from '../../components/HelpTip'
@@ -36,8 +36,9 @@ export const ScriptTransactions = ({ page, size, count }: { page: number; size: 
   const { codeHash, hashType } = useParams<{ codeHash: string; hashType: string }>()
 
   const [transactionsEmpty, setTransactionsEmpty] = useState(false)
-  const [restrict, setRestrict] = useState(false)
   const previousTransactionEmpty = usePrevious(transactionsEmpty)
+  const { restrict } = useSearchParams('restrict')
+  const isRestricted = restrict === 'true'
 
   const {
     data = {
@@ -46,11 +47,11 @@ export const ScriptTransactions = ({ page, size, count }: { page: number; size: 
     },
     isLoading,
     error,
-  } = useQuery(['scripts_ckb_transactions', codeHash, hashType, restrict, page, size], async () => {
+  } = useQuery(['scripts_ckb_transactions', codeHash, hashType, isRestricted, page, size], async () => {
     const { transactions, total } = await explorerService.api.fetchScriptCKBTransactions(
       codeHash,
       hashType,
-      restrict,
+      isRestricted,
       page,
       size,
     )
@@ -67,18 +68,16 @@ export const ScriptTransactions = ({ page, size, count }: { page: number; size: 
   const { total, ckbTransactions } = data
   const totalPages = Math.ceil(total / size)
 
-  const isChecked = restrict === true
   const onChange = (page: number) => {
     const search = new URLSearchParams(window.location.search)
     search.set('page', page.toString()) // we can also use { ...search, page, search }
     search.set('size', size.toString())
-    search.set('restrict', isChecked.toString())
+    search.set('restrict', isRestricted.toString())
     const url = `/${language}/script/${codeHash}/${hashType}?${search}`
     history.push(url)
   }
 
   const switchRestrictMode = (checked: boolean) => {
-    setRestrict(checked)
     history.push(`/${language}/script/${codeHash}/${hashType}?restrict=${checked.toString()}`)
   }
 
@@ -113,7 +112,7 @@ export const ScriptTransactions = ({ page, size, count }: { page: number; size: 
         <Switch
           id="script-restrict-mode"
           style={{ marginLeft: '4px' }}
-          checked={isChecked}
+          checked={isRestricted}
           onCheckedChange={checked => switchRestrictMode(checked)}
         />
       </div>
