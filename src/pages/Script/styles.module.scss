@@ -13,6 +13,19 @@
   }
 }
 
+.countInfo {
+  color: #666666;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.scriptTransactionsConfigPanel {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 12px 40px;
+}
+
 .scriptTabs:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
   ) {

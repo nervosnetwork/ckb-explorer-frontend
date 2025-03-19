@@ -994,7 +994,9 @@
       "LockScript": "Lock Script",
       "TypeScript": "Type Script",
       "deployed_script": "Deployed Script",
-      "open_source_script": "Open-Source Script"
+      "open_source_script": "Open-Source Script",
+      "restrict_mode": "Restricted Mode",
+      "restrict_tooltip": "In Restricted Mode, this transaction list will not include transactions that merely reference current script as one of their dependencies."
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",
