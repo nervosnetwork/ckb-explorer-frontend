@@ -658,7 +658,21 @@
       "fiber_channel": "Fiber Channel",
       "deployment": "部署",
       "deployed_script": "部署脚本",
-      "range_notice": "只显示最近的 5,000 条相关交易"
+      "range_notice": "只显示最近的 5,000 条相关交易",
+      "status_label": {
+        "pending": {
+          "label": "待处理",
+          "tooltip": "交易尚未被提交到区块中"
+        },
+        "rejected": {
+          "label": "已拒绝",
+          "tooltip": "交易被拒绝，不会被提交到区块中"
+        },
+        "untracked": {
+          "label": "未追踪",
+          "tooltip": "交易未被浏览器追踪，请与发送方确认"
+        }
+      }
     },
     "block": {
       "block": "区块",
@@ -963,7 +977,9 @@
       "LockScript": "Lock Script",
       "TypeScript": "Type Script",
       "deployed_script": "部署的脚本",
-      "open_source_script": "已开源脚本"
+      "open_source_script": "已开源脚本",
+      "restrict_mode": "受限模式",
+      "restrict_tooltip": "在受限模式下，此交易列表不会包含仅仅将当前脚本作为其依赖项之一的交易。"
     },
     "fee_rate_tracker": {
       "title": "费率追踪",

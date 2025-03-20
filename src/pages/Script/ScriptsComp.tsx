@@ -11,6 +11,7 @@ import { explorerService } from '../../services/ExplorerService'
 import { TransactionCellInfoPanel } from '../Transaction/TransactionCell/styled'
 import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
+import { localeNumberString } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
 import Capacity from '../../components/Capacity'
 import styles from './styles.module.scss'
@@ -21,10 +22,12 @@ import { ReactComponent as LiveCellIcon } from './radio-wave-on.svg'
 import { ReactComponent as DeadCellIcon } from './radio-wave-off.svg'
 import { useSetToast } from '../../components/Toast'
 import { CellBasicInfo, transformToCellBasicInfo, transformToTransaction } from '../../utils/transformer'
-import { usePrevious } from '../../hooks'
+import { usePrevious, useSearchParams } from '../../hooks'
 import CellModal from '../../components/Cell/CellModal'
+import { Switch } from '../../components/ui/Switch'
+import { HelpTip } from '../../components/HelpTip'
 
-export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
+export const ScriptTransactions = ({ page, size, count }: { page: number; size: number; count: number }) => {
   const {
     t,
     i18n: { language },
@@ -34,6 +37,8 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
 
   const [transactionsEmpty, setTransactionsEmpty] = useState(false)
   const previousTransactionEmpty = usePrevious(transactionsEmpty)
+  const { restrict } = useSearchParams('restrict')
+  const isRestricted = restrict === 'true'
 
   const {
     data = {
@@ -42,8 +47,14 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
     },
     isLoading,
     error,
-  } = useQuery(['scripts_ckb_transactions', codeHash, hashType, page, size], async () => {
-    const { transactions, total } = await explorerService.api.fetchScriptCKBTransactions(codeHash, hashType, page, size)
+  } = useQuery(['scripts_ckb_transactions', codeHash, hashType, isRestricted, page, size], async () => {
+    const { transactions, total } = await explorerService.api.fetchScriptCKBTransactions(
+      codeHash,
+      hashType,
+      isRestricted,
+      page,
+      size,
+    )
 
     if (!transactions.length) {
       setTransactionsEmpty(true)
@@ -58,7 +69,16 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
   const totalPages = Math.ceil(total / size)
 
   const onChange = (page: number) => {
-    history.push(`/${language}/script/${codeHash}/${hashType}?page=${page}&size=${size}`)
+    const search = new URLSearchParams(window.location.search)
+    search.set('page', page.toString()) // we can also use { ...search, page, search }
+    search.set('size', size.toString())
+    search.set('restrict', isRestricted.toString())
+    const url = `/${language}/script/${codeHash}/${hashType}?${search}`
+    history.push(url)
+  }
+
+  const switchRestrictMode = (checked: boolean) => {
+    history.push(`/${language}/script/${codeHash}/${hashType}?restrict=${checked.toString()}`)
   }
 
   const status = (() => {
@@ -75,13 +95,28 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
 
   return (
     <>
-      {total >= 5000 && (
+      {count >= 5000 && (
         <div className={styles.notice}>
           {t('transaction.range_notice', {
             count: 5000,
           })}
         </div>
       )}
+      <div className={styles.scriptTransactionsConfigPanel}>
+        <span className={styles.countInfo}>Total {localeNumberString(count)} Transactions</span>
+
+        <label style={{ marginLeft: 'auto' }} htmlFor="script-restrict-mode">
+          {t('scripts.restrict_mode')}
+        </label>
+        <HelpTip title={t('scripts.restrict_tooltip')} />
+        <Switch
+          id="script-restrict-mode"
+          style={{ marginLeft: '4px' }}
+          checked={isRestricted}
+          onCheckedChange={checked => switchRestrictMode(checked)}
+        />
+      </div>
+
       <div className={styles.scriptTransactionsPanel}>
         {ckbTransactions.length > 0 ? (
           ckbTransactions.map(tr => (

@@ -156,45 +156,62 @@ export const TransactionOverviewCard: FC<{
     content: liteTxCyclesDataContent,
   }
   const overviewItems: CardCellInfo<'left' | 'right'>[] = []
-  if (txStatus === 'committed') {
-    overviewItems.push(blockHeightData, timestampData)
-    if (confirmation >= 0) {
-      if (isProfessional) {
-        overviewItems.push(bytes ? feeWithFeeRateData : txFeeData, txStatusData)
-      } else {
-        overviewItems.push(txStatusData)
+  switch (txStatus) {
+    case 'committed': {
+      overviewItems.push(blockHeightData, timestampData)
+      if (confirmation >= 0) {
+        if (isProfessional) {
+          overviewItems.push(bytes ? feeWithFeeRateData : txFeeData, txStatusData)
+        } else {
+          overviewItems.push(txStatusData)
+        }
       }
+      break
     }
-  } else if (txStatus === 'rejected') {
-    overviewItems.push(
-      blockHeightData,
-      {
-        ...timestampData,
-        content: 'Rejected',
-      },
-      {
+    case 'rejected': {
+      overviewItems.push(
+        blockHeightData,
+        {
+          ...timestampData,
+          content: 'Rejected',
+        },
+        {
+          ...txStatusData,
+          content: t('transaction.status_label.rejected.label'),
+          contentTooltip: detailedMessage,
+        },
+      )
+      break
+    }
+    case 'pending': {
+      // pending
+      overviewItems.push(
+        {
+          ...blockHeightData,
+          content: '···',
+        },
+        {
+          ...timestampData,
+          content: '···',
+        },
+        {
+          ...txStatusData,
+          content: t('transaction.status_label.pending.label'),
+          contentTooltip: t('transaction.status_label.pending.tooltip'),
+        },
+      )
+      break
+    }
+    default: {
+      // unknown
+      overviewItems.push({
         ...txStatusData,
-        content: 'Rejected',
-        contentTooltip: detailedMessage,
-      },
-    )
-  } else {
-    // pending
-    overviewItems.push(
-      {
-        ...blockHeightData,
-        content: '···',
-      },
-      {
-        ...timestampData,
-        content: '···',
-      },
-      {
-        ...txStatusData,
-        content: 'Pending',
-      },
-    )
+        content: t('transaction.status_label.untracked.label'),
+        contentTooltip: t('transaction.status_label.untracked.tooltip'),
+      })
+    }
   }
+
   if (isProfessional) {
     overviewItems.push(liteTxSizeData, liteTxCyclesData)
   }
