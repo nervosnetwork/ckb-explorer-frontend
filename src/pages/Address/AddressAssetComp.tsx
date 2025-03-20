@@ -3,7 +3,7 @@ import { ReactEventHandler, useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import axios, { AxiosResponse } from 'axios'
 import { CoTA, OmigaInscription, MNFT, NRC721, SUDT, XUDT, Spore } from '../../models/Address'
-import SUDTTokenIcon from '../../assets/sudt_token.png'
+import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import { parseUDTAmount } from '../../utils/number'
 import { getSporeImg } from '../../utils/spore'
 import { formatNftDisplayId, handleNftImgError, patchMibaoImg } from '../../utils/util'
@@ -70,7 +70,7 @@ export const AddressXudtComp = ({
   isOriginal?: boolean
 }) => {
   const { symbol, decimal, amount, typeHash, udtIconFile } = account
-  const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
+  const [icon, setIcon] = useState(udtIconFile || FtFallbackIcon)
 
   useEffect(() => {})
   return (
@@ -80,14 +80,14 @@ export const AddressXudtComp = ({
       property={parseUDTAmount(amount, decimal)}
       name={symbol}
       udtLabel={isOriginal ? 'xUDT' : 'xUDT-compatible'}
-      icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(SUDTTokenIcon) }}
+      icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(FtFallbackIcon) }}
     />
   )
 }
 
 export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP?: boolean }) => {
   const { symbol, decimal, amount, typeHash, udtIconFile } = account
-  const [icon, setIcon] = useState(udtIconFile || SUDTTokenIcon)
+  const [icon, setIcon] = useState(udtIconFile || FtFallbackIcon)
 
   useEffect(() => {})
   return (
@@ -97,7 +97,7 @@ export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP?:
       property={parseUDTAmount(amount, decimal)}
       name={symbol}
       udtLabel="sUDT"
-      icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(SUDTTokenIcon) }}
+      icon={{ url: patchMibaoImg(icon), errorHandler: () => setIcon(FtFallbackIcon) }}
     />
   )
 }

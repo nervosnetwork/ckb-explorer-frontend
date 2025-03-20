@@ -211,15 +211,8 @@ export const ScriptPage = () => {
             )
           }}
         >
-          <ScriptTabPane
-            tab={
-              <ScriptTabTitle>
-                {`${t('transaction.transactions')} (${localeNumberString(countOfTransactions!)})`}
-              </ScriptTabTitle>
-            }
-            key="transactions"
-          >
-            <ScriptTransactions page={currentPage} size={pageSize} />
+          <ScriptTabPane tab={<ScriptTabTitle>{`${t('transaction.transactions')}`}</ScriptTabTitle>} key="transactions">
+            <ScriptTransactions page={currentPage} size={pageSize} count={countOfTransactions} />
           </ScriptTabPane>
           <ScriptTabPane
             tab={

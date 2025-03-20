@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
-import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
+import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import BigNumber from 'bignumber.js'
@@ -11,11 +11,10 @@ import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
 import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
-import { shannonToCkb } from '../../../utils/util'
+import { handleFtImgError, shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { formalizeChannelAsset } from '../../../utils/fiber'
 import { fetchPrices } from '../../../services/UtilityService'
-import { TIME_TEMPLATE } from '../../../constants/common'
 import Content from '../../../components/Content'
 import { Link } from '../../../components/Link'
 import Loading from '../../../components/Loading'
@@ -25,13 +24,16 @@ import Qrcode from '../../../components/Qrcode'
 import { ReactComponent as CopyIcon } from '../../../components/Copy/icon.svg'
 import type { NodeTransaction } from './types'
 import Pagination from '../Pagination'
+import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
 import styles from './index.module.scss'
+import { uniqueColor } from '../../../utils/color'
 
 interface QueryResponse extends Response.Response<Fiber.Graph.NodeDetail> {}
 
 const CHANNEL_PAGE_SIZE = 10
 const ACTIVITY_PAGE_SIZE = 39
 const CKB_PRICE_ID = '0x0000000000000000000000000000000000000000000000000000000000000000'
+const TIME_TEMPLATE = 'YYYY-MM-DD'
 
 const useNodeData = (id: string | undefined) => {
   return useQuery({
@@ -268,6 +270,10 @@ const GraphNode = () => {
     e.preventDefault()
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
   }
+  const firstSeen = node.timestamp
+  const lastUpdate = node.deletedAtTimestamp ?? node.lastUpdatedTimestamp
+  const firstSeenISO = new Date(+firstSeen).toISOString()
+  const lastUpdateISO = new Date(+lastUpdate).toISOString()
 
   return (
     <Content>
@@ -297,15 +303,28 @@ const GraphNode = () => {
                       </option>
                     ))}
                   </select>
+                  <Qrcode text={addr} size={16} />
                   <button type="button" data-copy-text={addr}>
-                    <CopyIcon />
+                    <CopyIcon width={16} height={16} />
                   </button>
-                  <Qrcode text={addr} />
                 </dd>
               </dl>
               <dl>
-                <dt>{t('fiber.graph.node.first_seen')}</dt>
-                <dd>{dayjs(+node.timestamp).format(TIME_TEMPLATE)}</dd>
+                <dt>{t('fiber.graph.node.first_seen_last_update')}</dt>
+                <dd className={styles.times}>
+                  <time dateTime={firstSeenISO} title={firstSeenISO}>
+                    <Link1Icon color="var(--primary-color)" />
+                    {dayjs(+firstSeen).format(TIME_TEMPLATE)}
+                  </time>
+                  <time dateTime={lastUpdateISO} title={lastUpdateISO} data-is-offline={!!node.deletedAtTimestamp}>
+                    {node.deletedAtTimestamp ? (
+                      <LinkBreak1Icon color="#666" />
+                    ) : (
+                      <UpdateIcon color="var(--primary-color)" />
+                    )}
+                    {dayjs(+lastUpdate).format(TIME_TEMPLATE)}
+                  </time>
+                </dd>
               </dl>
               <dl>
                 <dt>{t('fiber.graph.node.total_capacity')}</dt>
@@ -317,7 +336,14 @@ const GraphNode = () => {
                   {getFundingThreshold(node).map(threshold => (
                     <Tooltip key={threshold.id} title={threshold.title}>
                       <span className={styles.token}>
-                        <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
+                        <img
+                          src={threshold.icon ?? FtFallbackIcon}
+                          alt="icon"
+                          width="12"
+                          height="12"
+                          loading="lazy"
+                          onError={handleFtImgError}
+                        />
                         {threshold.display}
                       </span>
                     </Tooltip>
@@ -340,9 +366,17 @@ const GraphNode = () => {
                       if (!liquidity) return null
                       return (
                         <div key={key} className={styles.liquidity}>
+                          <span
+                            className={styles.marker}
+                            style={{
+                              backgroundColor: uniqueColor(key),
+                            }}
+                          />
                           <span>{parseNumericAbbr(liquidity.amount, 2)}</span>
                           <span>{liquidity.symbol}</span>
-                          {liquidity.usd && <span>({parseNumericAbbr(liquidity.usd, 2)} USD)</span>}
+                          {liquidity.usd && (
+                            <span className={styles.usd}>({parseNumericAbbr(liquidity.usd, 2)} USD)</span>
+                          )}
                         </div>
                       )
                     })}
@@ -352,9 +386,10 @@ const GraphNode = () => {
                 <div className={styles.liquidityTitle}>{t('fiber.graph.node.liquidity_allocation')}</div>
                 {totalLiquidity.size ? (
                   <LiquidityChart
-                    assets={[...totalLiquidity.values()].map(i => ({
-                      symbol: i.symbol,
-                      usd: i.usd?.toFixed() ?? '0',
+                    assets={[...totalLiquidity.entries()].map(([key, v]) => ({
+                      key,
+                      symbol: v.symbol,
+                      usd: v.usd?.toFixed() ?? '0',
                     }))}
                   />
                 ) : null}

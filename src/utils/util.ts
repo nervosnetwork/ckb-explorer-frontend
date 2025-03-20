@@ -22,6 +22,7 @@ import { isMainnet } from './chain'
 import { Script } from '../models/Script'
 import { Cell } from '../models/Cell'
 import { parseBtcTimeLockArgs } from './rgbpp'
+import FtFallbackIcon from '../assets/ft_fallback_icon.png'
 
 export const shannonToCkbDecimal = (value: BigNumber | string | number, decimal?: number) => {
   if (!value) return 0
@@ -194,6 +195,10 @@ export const handleNftImgError = (e: SyntheticEvent<HTMLImageElement, Event>) =>
     return
   }
   e.currentTarget.src = '/images/nft_placeholder.png'
+}
+
+export const handleFtImgError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
+  e.currentTarget.src = FtFallbackIcon
 }
 
 export const patchMibaoImg = (url: string) => {

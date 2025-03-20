@@ -28,7 +28,7 @@ import { FaucetMenu } from '../../components/FaucetMenu'
 import SimpleModal from '../../components/Modal'
 import HolderAllocation from './HolderAllocation'
 import { ReactComponent as EditIcon } from '../../assets/edit.svg'
-import XUDTTokenIcon from '../../assets/sudt_token.png'
+import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { scripts } from '../ScriptList'
 import { IS_MAINNET } from '../../constants/common'
@@ -183,7 +183,7 @@ export const UDTOverviewCard = ({
 
   const cardTitle = (
     <div className={styles.cardTitle}>
-      <img className={styles.icon} src={xudt?.iconFile ?? XUDTTokenIcon} alt="hash icon" />
+      <img className={styles.icon} src={xudt?.iconFile ?? FtFallbackIcon} alt="hash icon" />
       {xudt?.symbol ?? t('xudt.xudt')}
       {isMobile ? modifyTokenInfo : null}
     </div>

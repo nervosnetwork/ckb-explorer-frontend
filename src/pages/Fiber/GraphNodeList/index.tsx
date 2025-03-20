@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Tooltip } from 'antd'
-import { InfoCircledIcon, LinkBreak2Icon } from '@radix-ui/react-icons'
+import { InfoCircledIcon, Link1Icon, LinkBreak2Icon, UpdateIcon } from '@radix-ui/react-icons'
 import dayjs from 'dayjs'
 import Content from '../../../components/Content'
 import { useSetToast } from '../../../components/Toast'
@@ -10,14 +10,17 @@ import { explorerService } from '../../../services/ExplorerService'
 import type { Fiber } from '../../../services/ExplorerService'
 import { ReactComponent as CopyIcon } from '../../../components/Copy/icon.svg'
 import Pagination from '../Pagination'
-import { PAGE_SIZE, TIME_TEMPLATE } from '../../../constants/common'
+import { PAGE_SIZE } from '../../../constants/common'
 import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import styles from './index.module.scss'
-import { shannonToCkb } from '../../../utils/util'
+import { handleFtImgError, shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString } from '../../../utils/number'
 import GraphNodeIps from '../../../components/GraphNodeIps'
+import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
+
+const TIME_TEMPLATE = 'YYYY-MM-DD'
 
 const fields = [
   {
@@ -28,7 +31,9 @@ const fields = [
       return (
         <Tooltip title={v}>
           <div className={styles.name}>
-            <Link to={`/fiber/graph/node/${i.nodeId}`}>{v || <span style={{ color: '#999' }}>Untitled</span>}</Link>
+            <Link to={`/fiber/graph/node/${i.nodeId}`}>
+              {v || <span className={styles.nameFallback}>Untitled</span>}
+            </Link>
           </div>
         </Tooltip>
       )
@@ -39,19 +44,52 @@ const fields = [
     label: 'auto_accept_funding_amount',
     transformer: (_: unknown, n: Fiber.Graph.Node) => {
       const thresholds = getFundingThreshold(n)
+      const displays = thresholds.slice(0, 2)
+      const hiddens = thresholds.slice(2)
 
       return (
         <div className={styles.funding}>
-          {thresholds.map(threshold => {
+          {displays.map(threshold => {
             return (
               <Tooltip key={threshold.id} title={threshold.title}>
                 <span className={styles.token}>
-                  <img src={threshold.icon} alt="icon" width="12" height="12" loading="lazy" />
+                  <img
+                    src={threshold.icon ?? FtFallbackIcon}
+                    alt="icon"
+                    width="12"
+                    height="12"
+                    loading="lazy"
+                    onError={handleFtImgError}
+                  />
                   {threshold.display}
                 </span>
               </Tooltip>
             )
           })}
+          {hiddens.length ? (
+            <div data-hover="stop-propagation">
+              <span className={styles.hiddenThresholds}>
+                <span className={styles.count}>{`+${hiddens.length}`}</span>
+                <div className={styles.items}>
+                  {hiddens.map(threshold => {
+                    return (
+                      <div>
+                        <img
+                          src={threshold.icon ?? FtFallbackIcon}
+                          alt="icon"
+                          width="12"
+                          height="12"
+                          loading="lazy"
+                          onError={handleFtImgError}
+                        />
+                        {threshold.display}
+                      </div>
+                    )
+                  })}
+                </div>
+              </span>
+            </div>
+          ) : null}
         </div>
       )
     },
@@ -82,10 +120,27 @@ const fields = [
   },
   {
     key: 'timestamp',
-    label: 'first_seen',
-    transformer: (v: unknown) => {
-      if (typeof v !== 'string') return v
-      return dayjs(+v).format(TIME_TEMPLATE)
+    label: 'first_seen_last_update',
+    transformer: (_: unknown, n: Fiber.Graph.Node) => {
+      const { timestamp, deletedAtTimestamp, lastUpdatedTimestamp } = n
+
+      const firstSeen = timestamp
+      const lastSeen = deletedAtTimestamp ?? lastUpdatedTimestamp
+
+      const firstSeenISO = new Date(+firstSeen).toISOString()
+      const lastSeenISO = new Date(+lastSeen).toISOString()
+      return (
+        <div className={styles.times}>
+          <time dateTime={firstSeenISO} title={firstSeenISO}>
+            <Link1Icon color="var(--primary-color)" />
+            {dayjs(+firstSeen).format(TIME_TEMPLATE)}
+          </time>
+          <time dateTime={lastSeenISO} title={lastSeenISO} data-is-offline={!!deletedAtTimestamp}>
+            {deletedAtTimestamp ? <LinkBreak2Icon color="#666" /> : <UpdateIcon color="var(--primary-color)" />}
+            {dayjs(+lastSeen).format(TIME_TEMPLATE)}
+          </time>
+        </div>
+      )
     },
   },
   {
@@ -101,7 +156,7 @@ const fields = [
             </Link>
           </Tooltip>
           <button type="button" data-copy-text={`0x${v}`}>
-            <CopyIcon />
+            <CopyIcon color="#999" />
           </button>
         </span>
       )
@@ -128,7 +183,7 @@ const fields = [
             <span>{addr}</span>
           </Tooltip>
           <button type="button" data-copy-text={v}>
-            <CopyIcon />
+            <CopyIcon color="#999" />
           </button>
           {/* <a href={rpcAddr} title={rpcAddr} target="_blank" rel="noopener noreferrer"> */}
           {/*   <OpenInNewWindowIcon /> */}

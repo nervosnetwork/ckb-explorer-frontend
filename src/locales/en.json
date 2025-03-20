@@ -690,7 +690,21 @@
       "fiber_channel": "Fiber Channel",
       "deployment": "Deployment",
       "deployed_script": "Deployed Script",
-      "range_notice": "Only the latest {{count}} related items will be displayed here."
+      "range_notice": "Only the latest {{count}} related items will be displayed here.",
+      "status_label": {
+        "pending": {
+          "label": "Pending",
+          "tooltip": "The transaction is pending and has not been committed in a block yet."
+        },
+        "rejected": {
+          "label": "Rejected",
+          "tooltip": "The transaction is rejected and will not be committed in a block."
+        },
+        "untracked": {
+          "label": "Untracked",
+          "tooltip": "The transaction is untracked and please confirm with the sender"
+        }
+      }
     },
     "block": {
       "block": "Block",
@@ -994,7 +1008,9 @@
       "LockScript": "Lock Script",
       "TypeScript": "Type Script",
       "deployed_script": "Deployed Script",
-      "open_source_script": "Open-Source Script"
+      "open_source_script": "Open-Source Script",
+      "restrict_mode": "Restricted Mode",
+      "restrict_tooltip": "In Restricted Mode, this transaction list will not include transactions that merely reference current script as one of their dependencies."
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",
@@ -1207,7 +1223,7 @@
           "name": "Name",
           "alias": "Alias",
           "auto_accept_funding_amount": "Auto-accepting Threshold",
-          "first_seen": "First Seen",
+          "first_seen_last_update": "First Seen/Last Update",
           "node_id": "Node ID",
           "chain": "Chain",
           "chain_hash": "Chain Hash",

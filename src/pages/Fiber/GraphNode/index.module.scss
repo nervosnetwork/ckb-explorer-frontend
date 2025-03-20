@@ -28,7 +28,6 @@
     }
 
     dt::after {
-      content: ':';
       margin-right: 4px;
     }
   }
@@ -163,6 +162,17 @@
     span:last-child {
       text-align: right;
     }
+
+    .marker {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 4px;
+    }
+
+    .usd {
+      color: #666;
+    }
   }
 
   // ID styles
@@ -188,20 +198,25 @@
     dd {
       margin-left: 8px;
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      max-width: 250px;
+      gap: 8px 0;
 
       img {
         flex: 0 0;
       }
 
       .token {
-        width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-between;
         gap: 4px;
+
+        &:not(:first-child) {
+          margin-left: 8px;
+          padding-left: 8px;
+          border-left: 1px solid #e5e5e5;
+        }
       }
     }
   }
@@ -325,6 +340,9 @@
     max-width: 24vw;
     overflow: hidden;
     text-overflow: ellipsis;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding-left: 8px;
 
     @media screen and (width < $extraLargeBreakPoint) {
       max-width: 20vw;
@@ -399,5 +417,28 @@
 
   @media screen and (width < $largeBreakPoint) {
     margin: 20px 0 0;
+  }
+}
+
+.times {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  gap: 0 !important;
+
+  time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    &:first-child {
+      border-right: 1px solid #e5e5e5;
+      padding-right: 4px;
+      margin-right: 4px;
+    }
+
+    &[data-is-offline='true'] {
+      color: #999;
+    }
   }
 }

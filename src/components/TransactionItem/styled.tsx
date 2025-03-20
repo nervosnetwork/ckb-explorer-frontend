@@ -14,6 +14,10 @@ export const TransactionPanel = styled.div`
   flex-direction: column;
   font-size: 16px;
 
+  &:first-child {
+    margin-top: 0;
+  }
+
   @media (max-width: ${variables.mobileBreakPoint}) {
     padding: 15px 20px;
     font-size: 13px;
