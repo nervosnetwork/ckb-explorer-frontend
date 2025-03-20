@@ -5,6 +5,7 @@ import camelcase from 'camelcase'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Tooltip from 'antd/es/tooltip'
+import { SyncOutlined as Loading } from '@ant-design/icons'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService } from '../../services/ExplorerService'
@@ -27,7 +28,7 @@ import CellModal from '../../components/Cell/CellModal'
 import { Switch } from '../../components/ui/Switch'
 import { HelpTip } from '../../components/HelpTip'
 
-export const ScriptTransactions = ({ page, size, count }: { page: number; size: number; count: number }) => {
+export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
   const {
     t,
     i18n: { language },
@@ -95,7 +96,7 @@ export const ScriptTransactions = ({ page, size, count }: { page: number; size: 
 
   return (
     <>
-      {count >= 5000 && (
+      {total >= 5000 && (
         <div className={styles.notice}>
           {t('transaction.range_notice', {
             count: 5000,
@@ -103,7 +104,9 @@ export const ScriptTransactions = ({ page, size, count }: { page: number; size: 
         </div>
       )}
       <div className={styles.scriptTransactionsConfigPanel}>
-        <span className={styles.countInfo}>Total {localeNumberString(count)} Transactions</span>
+        <span className={styles.countInfo}>
+          Total {isLoading ? <Loading spin /> : localeNumberString(total)} Transactions
+        </span>
 
         <label style={{ marginLeft: 'auto' }} htmlFor="script-restrict-mode">
           {t('scripts.restrict_mode')}

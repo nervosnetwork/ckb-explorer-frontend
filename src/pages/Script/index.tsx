@@ -212,7 +212,7 @@ export const ScriptPage = () => {
           }}
         >
           <ScriptTabPane tab={<ScriptTabTitle>{`${t('transaction.transactions')}`}</ScriptTabTitle>} key="transactions">
-            <ScriptTransactions page={currentPage} size={pageSize} count={countOfTransactions} />
+            <ScriptTransactions page={currentPage} size={pageSize} />
           </ScriptTabPane>
           <ScriptTabPane
             tab={
