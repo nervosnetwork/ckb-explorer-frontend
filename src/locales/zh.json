@@ -18,7 +18,8 @@
       "seconds": "秒",
       "minaraTime": "美国东部时间: 2022 年 05 月 10 日",
       "miranaAlive": "MIRANA 已经激活",
-      "extra": "额外信息"
+      "extra": "额外信息",
+      "no_data": "暂无数据"
     },
     "unit": {
       "days": "天",
