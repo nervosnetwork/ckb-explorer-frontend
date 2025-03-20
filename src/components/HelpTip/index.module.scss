@@ -8,4 +8,8 @@
   width: 15px;
   height: 15px;
   margin: 0 5px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 }

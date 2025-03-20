@@ -690,7 +690,21 @@
       "fiber_channel": "Fiber Channel",
       "deployment": "Deployment",
       "deployed_script": "Deployed Script",
-      "range_notice": "Only the latest {{count}} related items will be displayed here."
+      "range_notice": "Only the latest {{count}} related items will be displayed here.",
+      "status_label": {
+        "pending": {
+          "label": "Pending",
+          "tooltip": "The transaction is pending and has not been committed in a block yet."
+        },
+        "rejected": {
+          "label": "Rejected",
+          "tooltip": "The transaction is rejected and will not be committed in a block."
+        },
+        "untracked": {
+          "label": "Untracked",
+          "tooltip": "The transaction is untracked and please confirm with the sender"
+        }
+      }
     },
     "block": {
       "block": "Block",
