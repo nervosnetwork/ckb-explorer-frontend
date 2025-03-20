@@ -392,7 +392,12 @@ const GraphNode = () => {
                       usd: v.usd?.toFixed() ?? '0',
                     }))}
                   />
-                ) : null}
+                ) : (
+                  <div className={styles.noData}>
+                    <img src="/images/icons/empty-data.svg" alt="empty data" />
+                    <span>{t('common.no_data')}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -400,30 +405,54 @@ const GraphNode = () => {
         <div className={styles.activities}>
           <div className={styles.channels}>
             <h3>{t('fiber.peer.channels')}</h3>
-            <GraphChannelList
-              list={displayedChannels.slice((+channelPage - 1) * CHANNEL_PAGE_SIZE, +channelPage * CHANNEL_PAGE_SIZE)}
-              node={node.nodeId}
-              startIndex={(+channelPage - 1) * CHANNEL_PAGE_SIZE}
-            />
-            <div className={styles.pagination}>
-              <Pagination totalPages={Math.ceil(displayedChannels.length / CHANNEL_PAGE_SIZE)} keyword="channel_page" />
-            </div>
+            {displayedChannels.length ? (
+              <>
+                <GraphChannelList
+                  list={displayedChannels.slice(
+                    (+channelPage - 1) * CHANNEL_PAGE_SIZE,
+                    +channelPage * CHANNEL_PAGE_SIZE,
+                  )}
+                  node={node.nodeId}
+                  startIndex={(+channelPage - 1) * CHANNEL_PAGE_SIZE}
+                />
+                <div className={styles.pagination}>
+                  <Pagination
+                    totalPages={Math.ceil(displayedChannels.length / CHANNEL_PAGE_SIZE)}
+                    keyword="channel_page"
+                  />
+                </div>
+              </>
+            ) : (
+              <div className={styles.noData}>
+                <img src="/images/icons/empty-data.svg" alt="empty data" />
+                <span>{t('common.no_data')}</span>
+              </div>
+            )}
           </div>
           <div className={styles.transactions}>
             <h3>Open & Closed Transactions</h3>
-            <div>
-              {openAndClosedTxs
-                .slice((+activityPage - 1) * ACTIVITY_PAGE_SIZE, ACTIVITY_PAGE_SIZE * +activityPage)
-                .map(tx => (
-                  <TransactionRenderer key={tx.hash} tx={tx} />
-                ))}
-            </div>
-            <div className={styles.pagination}>
-              <Pagination
-                totalPages={Math.ceil(openAndClosedTxs.length / ACTIVITY_PAGE_SIZE)}
-                keyword="activity_page"
-              />
-            </div>
+            {openAndClosedTxs.length ? (
+              <>
+                <div>
+                  {openAndClosedTxs
+                    .slice((+activityPage - 1) * ACTIVITY_PAGE_SIZE, ACTIVITY_PAGE_SIZE * +activityPage)
+                    .map(tx => (
+                      <TransactionRenderer key={tx.hash} tx={tx} />
+                    ))}
+                </div>
+                <div className={styles.pagination}>
+                  <Pagination
+                    totalPages={Math.ceil(openAndClosedTxs.length / ACTIVITY_PAGE_SIZE)}
+                    keyword="activity_page"
+                  />
+                </div>
+              </>
+            ) : (
+              <div className={styles.noData}>
+                <img src="/images/icons/empty-data.svg" alt="empty data" />
+                <span>{t('common.no_data')}</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
