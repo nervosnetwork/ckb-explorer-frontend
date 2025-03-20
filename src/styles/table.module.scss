@@ -40,7 +40,7 @@
   }
 
   tbody {
-    tr:hover:not(:has([data-hover='stop-propagation']:hover)) {
+    tr:not([data-role='pagination']):hover:not(:has([data-hover='stop-propagation']:hover)) {
       background: #efefef;
     }
   }
