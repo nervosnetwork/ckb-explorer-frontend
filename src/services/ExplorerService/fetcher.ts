@@ -1098,12 +1098,19 @@ export const apiFetcher = {
       })
       .then(res => toCamelcase<Response.Response<ScriptInfo>>(res.data)),
 
-  fetchScriptCKBTransactions: async (codeHash: string, hashType: string, page: number, pageSize: number) => {
+  fetchScriptCKBTransactions: async (
+    codeHash: string,
+    hashType: string,
+    restrict: boolean,
+    page: number,
+    pageSize: number,
+  ) => {
     const res = await requesterV2
       .get('scripts/ckb_transactions', {
         params: {
           code_hash: codeHash,
           hash_type: hashType,
+          restrict,
           page,
           page_size: pageSize,
         },

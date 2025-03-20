@@ -963,7 +963,9 @@
       "LockScript": "Lock Script",
       "TypeScript": "Type Script",
       "deployed_script": "部署的脚本",
-      "open_source_script": "已开源脚本"
+      "open_source_script": "已开源脚本",
+      "restrict_mode": "受限模式",
+      "restrict_tooltip": "在受限模式下，此交易列表不会包含仅仅将当前脚本作为其依赖项之一的交易。"
     },
     "fee_rate_tracker": {
       "title": "费率追踪",
