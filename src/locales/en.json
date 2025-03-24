@@ -18,7 +18,8 @@
       "seconds": "SECS",
       "minaraTime": "Est May 10th 2022",
       "miranaAlive": "MIRANA IS LIVE",
-      "extra": "Extra"
+      "extra": "Extra",
+      "no_data": "No Data"
     },
     "unit": {
       "days": "days",
