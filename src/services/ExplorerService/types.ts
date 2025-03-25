@@ -696,6 +696,7 @@ export namespace Fiber {
       nodeName: string
       nodeId: string
       addresses: string[]
+      createdTimestamp: string
       timestamp: string
       lastUpdatedTimestamp: string
       deletedAtTimestamp: string | null

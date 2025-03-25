@@ -282,7 +282,7 @@ const GraphNode = () => {
     e.preventDefault()
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
   }
-  const firstSeen = node.timestamp
+  const firstSeen = node.createdTimestamp
   const lastUpdate = node.deletedAtTimestamp ?? node.lastUpdatedTimestamp
   const firstSeenISO = new Date(+firstSeen).toISOString()
   const lastUpdateISO = new Date(+lastUpdate).toISOString()
