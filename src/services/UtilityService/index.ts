@@ -8,19 +8,18 @@ export const fetchPrices = async (): Promise<{
   return data
 }
 
+export interface IpInfo {
+  countryCode: string
+  city: string
+  lat: number
+  lon: number
+  isp: string
+}
+
 export const fetchIpsInfo = async (
   ips: string[],
 ): Promise<{
-  ips: Record<
-    string,
-    {
-      countryCode: string
-      city: string
-      lat: number
-      lon: number
-      ips: string
-    }
-  >
+  ips: Record<string, IpInfo>
 }> => {
   const data = await fetch(`${UTILITY_ENDPOINT}/api/ips`, {
     method: 'POST',

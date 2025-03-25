@@ -71,3 +71,13 @@ export const formalizeChannelAsset = (ch: Fiber.Graph.Channel) => {
     totalLiquidity,
   }
 }
+
+const IP_REGEXP = /\/ip4\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/
+
+export const getIpFromP2pAddr = (p2pAddr: string) => {
+  const match = p2pAddr.match(IP_REGEXP)
+  if (match) {
+    return match[1]
+  }
+  return null
+}
