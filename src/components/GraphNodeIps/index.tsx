@@ -1,17 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { explorerService } from '../../services/ExplorerService'
 import { fetchIpsInfo } from '../../services/UtilityService'
+import { getIpFromP2pAddr } from '../../utils/fiber'
 import NodesMap, { isValidIpPoint, type IpPoint } from './NodesMap'
-
-const IP_REGEXP = /\/ip4\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/
-
-const getIpFromP2pAddr = (p2pAddr: string) => {
-  const match = p2pAddr.match(IP_REGEXP)
-  if (match) {
-    return match[1]
-  }
-  return null
-}
 
 const GraphNodeIps = () => {
   const { data: nodes } = useQuery({
