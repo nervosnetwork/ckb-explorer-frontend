@@ -122,9 +122,9 @@ const fields = [
     key: 'timestamp',
     label: 'first_seen_last_update',
     transformer: (_: unknown, n: Fiber.Graph.Node) => {
-      const { timestamp, deletedAtTimestamp, lastUpdatedTimestamp } = n
+      const { createdTimestamp, deletedAtTimestamp, lastUpdatedTimestamp } = n
 
-      const firstSeen = timestamp
+      const firstSeen = createdTimestamp
       const lastSeen = deletedAtTimestamp ?? lastUpdatedTimestamp
 
       const firstSeenISO = new Date(+firstSeen).toISOString()
