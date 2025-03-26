@@ -1229,6 +1229,8 @@
           "chain": "Chain",
           "chain_hash": "Chain Hash",
           "addresses": "Addresses",
+          "addresses_and_isp": "Addresses & ISP",
+          "isp": "ISP",
           "total_capacity": "Capacity",
           "open_channels": "Open Channels",
           "total_liquidity": "Total Liquidity",

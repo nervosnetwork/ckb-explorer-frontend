@@ -19,6 +19,8 @@ import { parseNumericAbbr } from '../../../utils/chart'
 import { localeNumberString } from '../../../utils/number'
 import GraphNodeIps from '../../../components/GraphNodeIps'
 import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
+import { fetchIpsInfo, IpInfo } from '../../../services/UtilityService'
+import { getIpFromP2pAddr } from '../../../utils/fiber'
 
 const TIME_TEMPLATE = 'YYYY-MM-DD'
 
@@ -122,9 +124,9 @@ const fields = [
     key: 'timestamp',
     label: 'first_seen_last_update',
     transformer: (_: unknown, n: Fiber.Graph.Node) => {
-      const { timestamp, deletedAtTimestamp, lastUpdatedTimestamp } = n
+      const { createdTimestamp, deletedAtTimestamp, lastUpdatedTimestamp } = n
 
-      const firstSeen = timestamp
+      const firstSeen = createdTimestamp
       const lastSeen = deletedAtTimestamp ?? lastUpdatedTimestamp
 
       const firstSeenISO = new Date(+firstSeen).toISOString()
@@ -164,8 +166,8 @@ const fields = [
   },
   {
     key: 'addresses',
-    label: 'addresses',
-    transformer: (v: unknown) => {
+    label: 'addresses_and_isp',
+    transformer: (v: unknown, n: Fiber.Graph.Node & { ipInfo: IpInfo | null }) => {
       if (!Array.isArray(v)) return v
       const addr = v[0]
       if (!addr || typeof addr !== 'string') {
@@ -177,25 +179,29 @@ const fields = [
           </Tooltip>
         )
       }
+
+      const [, protocol, ip] = addr.split('/')
+      const { ipInfo } = n
+
       return (
-        <span className={styles.address}>
-          <Tooltip title={addr}>
-            <span>{addr}</span>
-          </Tooltip>
-          <button type="button" data-copy-text={v}>
-            <CopyIcon color="#999" />
-          </button>
-          {/* <a href={rpcAddr} title={rpcAddr} target="_blank" rel="noopener noreferrer"> */}
-          {/*   <OpenInNewWindowIcon /> */}
-          {/* </a> */}
-          {v.length > 1 ? (
-            <Tooltip title={`${v.length - 1} more address(es)`}>
-              <span className={styles.more}>
-                <InfoCircledIcon />
-              </span>
+        <div className={styles.address}>
+          <span>
+            <Tooltip title={addr}>
+              <span>{`${ip} (${protocol.toUpperCase()})`}</span>
+              <button type="button" data-copy-text={v}>
+                <CopyIcon color="#999" />
+              </button>
             </Tooltip>
-          ) : null}
-        </span>
+            {v.length > 1 ? (
+              <Tooltip title={`${v.length - 1} more address(es)`}>
+                <span className={styles.more}>
+                  <InfoCircledIcon />
+                </span>
+              </Tooltip>
+            ) : null}
+          </span>
+          {ipInfo ? <span>{`${ipInfo.isp}@${ipInfo.city}`}</span> : null}
+        </div>
       )
     },
   },
@@ -214,6 +220,18 @@ const GraphNodeList = () => {
   const list = data?.data.fiberGraphNodes ?? []
   const pageInfo = data?.meta ?? { total: 1, pageSize: PAGE_SIZE }
   const totalPages = Math.ceil(pageInfo.total / pageInfo.pageSize)
+
+  const ips = list
+    .map(i => i.addresses[0])
+    .filter(a => !!a)
+    .map(getIpFromP2pAddr)
+    .filter(ip => !!ip) as string[]
+
+  const { data: ipInfos } = useQuery({
+    queryKey: ['fiber_graph_ips_info', ips.join(',')],
+    queryFn: () => (ips.length ? fetchIpsInfo(ips) : undefined),
+    enabled: !!ips.length,
+  })
 
   const handleCopy = (e: React.SyntheticEvent) => {
     const elm = e.target
@@ -254,10 +272,22 @@ const GraphNodeList = () => {
                 <tr>
                   {fields.map(f => {
                     const v = i[f.key as keyof typeof i]
+                    const primaryAddr = i.addresses[0]
+                    let ipInfo = null
+                    if (primaryAddr && ipInfos) {
+                      const ip = getIpFromP2pAddr(primaryAddr)
+                      if (ip) {
+                        ipInfo = ipInfos.ips[ip]
+                      }
+                    }
+                    const n = {
+                      ...i,
+                      ipInfo,
+                    }
                     return (
                       <td key={f.key}>
                         <span className={styles.cellLabel}>{t(`fiber.graph.node.${f.label}`)}</span>
-                        {f.transformer?.(v, i) ?? v}
+                        {f.transformer?.(v, n) ?? v}
                       </td>
                     )
                   })}

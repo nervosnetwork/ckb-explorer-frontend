@@ -13,8 +13,8 @@ import { useSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import { handleFtImgError, shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
-import { formalizeChannelAsset } from '../../../utils/fiber'
-import { fetchPrices } from '../../../services/UtilityService'
+import { formalizeChannelAsset, getIpFromP2pAddr } from '../../../utils/fiber'
+import { fetchIpsInfo, fetchPrices } from '../../../services/UtilityService'
 import Content from '../../../components/Content'
 import { Link } from '../../../components/Link'
 import Loading from '../../../components/Loading'
@@ -249,6 +249,18 @@ const GraphNode = () => {
   const { data: prices } = usePriceData()
   const node = data?.data
 
+  const ips =
+    (node?.addresses
+      ?.filter(a => !!a)
+      .map(getIpFromP2pAddr)
+      .filter(ip => !!ip) as string[]) ?? []
+
+  const { data: ipInfos } = useQuery({
+    queryKey: ['fiber_graph_ips_info', ips.join(',')],
+    queryFn: () => (ips.length ? fetchIpsInfo(ips) : undefined),
+    enabled: !!ips.length,
+  })
+
   useEffect(() => {
     if (node?.addresses[0]) {
       setAddr(node.addresses[0])
@@ -270,10 +282,13 @@ const GraphNode = () => {
     e.preventDefault()
     navigator?.clipboard.writeText(copyText).then(() => setToast({ message: t('common.copied') }))
   }
-  const firstSeen = node.timestamp
+  const firstSeen = node.createdTimestamp
   const lastUpdate = node.deletedAtTimestamp ?? node.lastUpdatedTimestamp
   const firstSeenISO = new Date(+firstSeen).toISOString()
   const lastUpdateISO = new Date(+lastUpdate).toISOString()
+
+  const ipOfSelectedAddr = getIpFromP2pAddr(addr)
+  const ipInfo = ipOfSelectedAddr && ipInfos?.ips ? ipInfos.ips[ipOfSelectedAddr] : null
 
   return (
     <Content>
@@ -309,6 +324,12 @@ const GraphNode = () => {
                   </button>
                 </dd>
               </dl>
+              {ipInfo ? (
+                <dl>
+                  <dt>{t('fiber.graph.node.isp')}</dt>
+                  <dd>{`${ipInfo.isp}@${ipInfo.city}`}</dd>
+                </dl>
+              ) : null}
               <dl>
                 <dt>{t('fiber.graph.node.first_seen_last_update')}</dt>
                 <dd className={styles.times}>
