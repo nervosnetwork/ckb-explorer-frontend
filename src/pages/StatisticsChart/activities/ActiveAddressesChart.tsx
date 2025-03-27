@@ -134,6 +134,15 @@ ${t('statistic.active_address_count')}: ${filteredParams.reduce(
   }
 }
 
+const toCSV = (data: Awaited<ReturnType<typeof explorerService.api.fetchStatisticActiveAddresses>>) => {
+  if (!Array.isArray(data)) {
+    return []
+  }
+  return data.flatMap(item => {
+    return Object.entries(item.distribution).map(([key, value]) => [item.createdAtUnixtimestamp, key, value.toString()])
+  })
+}
+
 export const ActiveAddressesChart = ({ isThumbnail = false }: { isThumbnail?: boolean }) => {
   const [t] = useTranslation()
   return (
@@ -143,6 +152,7 @@ export const ActiveAddressesChart = ({ isThumbnail = false }: { isThumbnail?: bo
       isThumbnail={isThumbnail}
       fetchData={explorerService.api.fetchStatisticActiveAddresses}
       getEChartOption={useOption}
+      toCSV={toCSV}
       queryKey="fetchStatisticActiveAddresses"
     />
   )
