@@ -213,6 +213,12 @@ export namespace ChartItem {
     createdAtUnixtimestamp: string
     activityAddressContractDistribution: Record<string, number>[]
   }
+
+  export interface AssetActivity {
+    ckbTransactionsCount: string
+    holdersCount: string
+    createdAtUnixtimestamp: string
+  }
 }
 
 export interface NervosDaoDepositor {

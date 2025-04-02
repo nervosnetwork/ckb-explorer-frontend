@@ -18,6 +18,7 @@ import { UncleRateChart } from './mining/UncleRate'
 import { BalanceDistributionChart } from './activities/BalanceDistribution'
 import { ContractResourceDistributedChart } from './activities/ContractResourceDistributed'
 import { ActiveAddressesChart } from './activities/ActiveAddressesChart'
+import { AssetActivityChart } from './activities/AssetActivity'
 import { TxFeeHistoryChart } from './activities/TxFeeHistory'
 import { BlockTimeDistributionChart } from './block/BlockTimeDistribution'
 import { EpochTimeDistributionChart } from './block/EpochTimeDistribution'
@@ -127,6 +128,12 @@ const useChartsData = () => {
           chart: <ActiveAddressesChart isThumbnail />,
           path: '/charts/active-addresses',
           description: t('statistic.active_addresses_description'),
+        },
+        {
+          title: t('statistic.asset_activity'),
+          chart: <AssetActivityChart isThumbnail />,
+          path: '/charts/asset-activity',
+          description: t('statistic.asset_activity_description'),
         },
         {
           title: `${t('statistic.knowledge_size')}`,

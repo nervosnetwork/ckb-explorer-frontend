@@ -841,6 +841,17 @@ export const apiFetcher = {
         })),
     ),
 
+  fetchStatisticAssetActivity: async () => {
+    return requesterV2
+      .get('udt_hourly_statistics')
+      .then(res => toCamelcase<ChartItem.AssetActivity[]>(res.data.data))
+      .then(list =>
+        list.sort((a, b) => {
+          return Number(a.createdAtUnixtimestamp) - Number(b.createdAtUnixtimestamp)
+        }),
+      )
+  },
+
   fetchFlushChartCache: () => v1GetUnwrapped<{ flushCacheInfo: string[] }>(`statistics/flush_cache_info`),
 
   fetchSimpleUDT: (typeHash: string) => v1GetUnwrapped<UDT>(`/udts/${typeHash}`),
