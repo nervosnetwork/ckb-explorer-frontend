@@ -88,7 +88,10 @@ const MetricCard = ({ title, metric, chart, unit = '' }: MetricCardProps) => (
       <div>
         <span>{title}</span>
         {typeof metric?.diff === 'number' && (
-          <span data-is-negative={metric.diff < 0}>{parseNumericAbbr(metric.diff)}</span>
+          <span data-is-negative={metric.diff < 0}>{`${metric.diff < 0 ? '-' : '+'}${parseNumericAbbr(
+            Math.abs(metric.diff),
+            2,
+          )}`}</span>
         )}
       </div>
       <div>{metric?.value && <span>{`${parseNumericAbbr(metric.value, 2)} ${unit}`.trim()}</span>}</div>
