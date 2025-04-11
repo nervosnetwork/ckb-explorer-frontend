@@ -733,17 +733,32 @@ export namespace Fiber {
       fiberGraphChannels: Channel[]
     }
 
-    export type Statistics = Record<
+    export type Statistics = (Record<
       | 'totalNodes'
       | 'totalChannels'
-      | 'totalLiquidity'
+      | 'totalCapacity'
       | 'meanValueLocked'
       | 'meanFeeRate'
       | 'mediumValueLocked'
       | 'mediumFeeRate'
       | 'createdAtUnixtimestamp',
       string
-    >[]
+    > & {
+      totalLiquidity:
+        | (
+            | {
+                symbol: 'CKB'
+                amount: string
+              }
+            | {
+                symbol: string
+                amount: string
+                decimal: string
+                typeHash: string
+              }
+          )[]
+        | null
+    })[]
 
     export type GraphNodeIps = {
       nodeId: string

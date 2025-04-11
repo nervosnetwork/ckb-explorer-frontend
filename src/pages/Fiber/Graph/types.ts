@@ -37,10 +37,12 @@ export interface GraphMetrics {
   nodes: Dataset[]
   channels: Dataset[]
   capacity: Dataset[]
+  liquidity: Dataset[]
   latest: {
     capacity: MetricDiff | null
     nodes: MetricDiff | null
     channels: MetricDiff | null
+    liquidity: MetricDiff | null
   }
 }
 

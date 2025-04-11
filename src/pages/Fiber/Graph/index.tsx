@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
 import { explorerService } from '../../../services/ExplorerService'
+import { fetchPrices } from '../../../services/UtilityService'
 import { parseNumericAbbr } from '../../../utils/chart'
 import HistoryChart from './HistoryChart'
 import styles from './index.module.scss'
@@ -21,7 +22,13 @@ const FiberGraph = () => {
     refetchInterval: REFETCH_INTERVAL,
   })
 
-  const metrics = calculateGraphMetrics(data)
+  const { data: price } = useQuery({
+    queryKey: ['utility', 'prices'] as const,
+    queryFn: fetchPrices,
+    refetchInterval: 30000,
+  })
+
+  const metrics = calculateGraphMetrics(data, price)
   const last = data?.data[data?.data.length - 1]
 
   const meanAndMediumProps = {
@@ -38,10 +45,10 @@ const FiberGraph = () => {
       <div className={styles.history}>
         <div className={styles.vertical}>
           <MetricCard
-            title={t('fiber.graph.total_capacity')}
-            metric={metrics.latest.capacity}
-            chart={<HistoryChart dataset={metrics.capacity} color="#00cc9b" seriaName="CKB" />}
-            unit="CKB"
+            title={t('fiber.graph.total_liquidity')}
+            metric={metrics.latest.liquidity}
+            chart={<HistoryChart dataset={metrics.liquidity} color="#00cc9b" seriaName="USD" />}
+            unit="USD"
           />
 
           <MetricCard
