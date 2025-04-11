@@ -42,6 +42,7 @@ const getOption =
           type: 'line',
           yAxisIndex: 0,
           symbol: 'none',
+          smooth: true,
           symbolSize: 3,
           areaStyle: {
             opacity: 0.2,

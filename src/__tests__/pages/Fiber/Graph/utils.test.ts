@@ -29,14 +29,16 @@ describe('Fiber Graph Utils', () => {
         {
           totalNodes: '10',
           totalChannels: '20',
-          totalLiquidity: '1000000000', // 10 CKB in shannon
+          totalCapacity: '1000000000', // 10 CKB in shannon
           createdAtUnixtimestamp: '1600000000',
+          totalLiquidity: null,
         },
         {
           totalNodes: '15',
           totalChannels: '25',
-          totalLiquidity: '2000000000', // 20 CKB in shannon
+          totalCapacity: '2000000000', // 20 CKB in shannon
           createdAtUnixtimestamp: '1600001000',
+          totalLiquidity: null,
         },
       ],
     }
@@ -47,10 +49,12 @@ describe('Fiber Graph Utils', () => {
         nodes: [],
         channels: [],
         capacity: [],
+        liquidity: [],
         latest: {
           capacity: null,
           nodes: null,
           channels: null,
+          liquidity: null,
         },
       })
     })
@@ -97,10 +101,12 @@ describe('Fiber Graph Utils', () => {
         nodes: [],
         channels: [],
         capacity: [],
+        liquidity: [],
         latest: {
           capacity: null,
           nodes: null,
           channels: null,
+          liquidity: null,
         },
       })
     })

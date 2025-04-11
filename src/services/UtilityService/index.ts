@@ -49,3 +49,5 @@ export const claimTestToken = async (address: string, token: string) => {
   })
   return data
 }
+
+export const CKB_PRICE_ID = '0x0000000000000000000000000000000000000000000000000000000000000000'

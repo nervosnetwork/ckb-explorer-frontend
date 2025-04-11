@@ -14,7 +14,7 @@ import { getFundingThreshold } from '../utils'
 import { handleFtImgError, shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
 import { formalizeChannelAsset, getIpFromP2pAddr } from '../../../utils/fiber'
-import { fetchIpsInfo, fetchPrices } from '../../../services/UtilityService'
+import { CKB_PRICE_ID, fetchIpsInfo, fetchPrices } from '../../../services/UtilityService'
 import Content from '../../../components/Content'
 import { Link } from '../../../components/Link'
 import Loading from '../../../components/Loading'
@@ -32,7 +32,6 @@ interface QueryResponse extends Response.Response<Fiber.Graph.NodeDetail> {}
 
 const CHANNEL_PAGE_SIZE = 10
 const ACTIVITY_PAGE_SIZE = 39
-const CKB_PRICE_ID = '0x0000000000000000000000000000000000000000000000000000000000000000'
 const TIME_TEMPLATE = 'YYYY-MM-DD'
 
 const useNodeData = (id: string | undefined) => {
