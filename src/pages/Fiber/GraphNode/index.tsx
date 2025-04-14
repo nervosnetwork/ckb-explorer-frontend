@@ -32,7 +32,7 @@ interface QueryResponse extends Response.Response<Fiber.Graph.NodeDetail> {}
 
 const CHANNEL_PAGE_SIZE = 10
 const ACTIVITY_PAGE_SIZE = 39
-const TIME_TEMPLATE = 'YYYY-MM-DD'
+const TIME_TEMPLATE = 'YYYY-MM-DD HH:mm:ss'
 
 const useNodeData = (id: string | undefined) => {
   return useQuery({
@@ -178,27 +178,33 @@ const TransactionRenderer = ({ tx }: { tx: NodeTransaction }) => {
     const account = tx.accounts[0]!
     return (
       <div key={key} className={styles.tx}>
-        <div title={t('fiber.action.open')}>
-          <Link1Icon />
-          at <time dateTime={tx.block.timestamp.toString()}>{timestamp}</time>
-          <Tooltip title={tooltip}>
-            <Link to={link} className="monospace">
-              <OpenInNewWindowIcon />
-            </Link>
-          </Tooltip>
-        </div>
-        <div>
-          By
-          <span className={styles.addr}>
-            <Tooltip title={account.address}>
-              <Link to={`/address/${account.address}`} className="monospace">
-                <div>{account.address.slice(0, -8)}</div>
-                <div>{account.address.slice(-8)}</div>
+        <dl title={t('fiber.action.open')}>
+          <dt>
+            <Link1Icon height={20} width={20} fill="#666" color="#666" />
+          </dt>
+          <dd>
+            <time dateTime={tx.block.timestamp.toString()}>at {timestamp}</time>
+            <Tooltip title={tooltip}>
+              <Link to={link} className="monospace">
+                <OpenInNewWindowIcon />
               </Link>
             </Tooltip>
-          </span>
-          <span>({account.amount})</span>
-        </div>
+          </dd>
+        </dl>
+        <dl>
+          <dt>By</dt>
+          <dd>
+            <span className={styles.addr}>
+              <Tooltip title={account.address}>
+                <Link to={`/address/${account.address}`} className="monospace">
+                  <div>{account.address.slice(0, -8)}</div>
+                  <div>{account.address.slice(-8)}</div>
+                </Link>
+              </Tooltip>
+            </span>
+            <span>({account.amount})</span>
+          </dd>
+        </dl>
       </div>
     )
   }
@@ -206,28 +212,34 @@ const TransactionRenderer = ({ tx }: { tx: NodeTransaction }) => {
   const [acc1, acc2] = tx.accounts
   return (
     <div key={key} className={styles.tx}>
-      <div title={t('fiber.action.close')}>
-        <LinkBreak1Icon />
-        at <time dateTime={tx.block.timestamp.toString()}>{timestamp}</time>
-        <Tooltip title={tooltip}>
-          <Link to={link} className="monospace">
-            <OpenInNewWindowIcon />
-          </Link>
-        </Tooltip>
-      </div>
+      <dl title={t('fiber.action.close')}>
+        <dt>
+          <LinkBreak1Icon />
+        </dt>
+        <dd>
+          <time dateTime={tx.block.timestamp.toString()}>at {timestamp}</time>
+          <Tooltip title={tooltip}>
+            <Link to={link} className="monospace">
+              <OpenInNewWindowIcon />
+            </Link>
+          </Tooltip>
+        </dd>
+      </dl>
       {[acc1, acc2].filter(Boolean).map((acc, i) => (
-        <div key={acc.address}>
-          {i === 0 ? 'To' : 'And'}
-          <span className={styles.addr}>
-            <Tooltip title={acc.address}>
-              <Link to={`/address/${acc.address}`} className="monospace">
-                <div>{acc.address.slice(0, -8)}</div>
-                <div>{acc.address.slice(-8)}</div>
-              </Link>
-            </Tooltip>
-          </span>
-          <span>({acc.amount})</span>
-        </div>
+        <dl key={acc.address}>
+          <dt>{i === 0 ? 'To' : 'And'}</dt>
+          <dd>
+            <span className={styles.addr}>
+              <Tooltip title={acc.address}>
+                <Link to={`/address/${acc.address}`} className="monospace">
+                  <div>{acc.address.slice(0, -8)}</div>
+                  <div>{acc.address.slice(-8)}</div>
+                </Link>
+              </Tooltip>
+            </span>
+            <span>({acc.amount})</span>
+          </dd>
+        </dl>
       ))}
     </div>
   )
