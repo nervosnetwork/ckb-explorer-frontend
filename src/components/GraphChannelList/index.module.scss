@@ -2,7 +2,7 @@
 @import '../../styles/text.module';
 
 .container {
-  font-size: 0.875rem;
+  font-size: 14px !important;
 
   a {
     color: var(--primary-color);
@@ -10,15 +10,6 @@
 
   svg {
     pointer-events: none;
-  }
-
-  dl {
-    display: flex;
-    gap: 4px;
-
-    @media screen and (width <= $mobileBreakPoint) {
-      display: block;
-    }
   }
 
   dl,
@@ -32,6 +23,9 @@
   }
 
   dt {
+    color: #666;
+    font-weight: 400;
+
     &::after {
       content: ':';
     }
@@ -46,20 +40,29 @@
   .channel {
     margin-bottom: 4px;
     background: #fff;
-    padding: 8px 40px;
+    padding: 8px 0;
+
+    > dl {
+      display: grid;
+      grid-template-columns: 16% 83%;
+
+      @media screen and (width <= $mobileBreakPoint) {
+        display: block;
+      }
+    }
 
     @media screen and (width <= $largeBreakPoint) {
-      padding: 8px;
+      padding: 8px 0;
     }
 
     h1 {
-      font-size: 1.2rem;
+      color: #333;
+      font-weight: bolder;
     }
   }
 
   .funding {
     display: flex;
-    gap: 4px;
     flex-wrap: nowrap;
     overflow: hidden;
 
@@ -89,8 +92,6 @@
   }
 
   .nodesContainer {
-    border-radius: 6px;
-    border: 1px solid #ccc;
     padding: 8px;
     margin-top: 8px;
     background: rgb(0 0 0 / 3%);
@@ -104,10 +105,7 @@
 
   .nodes {
     display: flex;
-
-    &[data-is-full-width='false'] {
-      flex-direction: column;
-    }
+    flex-direction: column;
 
     h3 {
       display: flex;
