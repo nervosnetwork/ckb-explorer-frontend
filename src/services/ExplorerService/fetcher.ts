@@ -1289,12 +1289,25 @@ export const apiFetcher = {
       })
   },
 
-  getGraphNodes: (page = 1, pageSize = 10) => {
+  getGraphNodes: ({
+    addressHash,
+    page = 1,
+    pageSize = 10,
+  }: {
+    addressHash?: string
+    page?: number
+    pageSize?: number
+  }) => {
     return requesterV2
       .get(
         `/fiber/graph_nodes?${new URLSearchParams({
           page: page.toString(),
           page_size: pageSize.toString(),
+          ...(addressHash
+            ? {
+                address_hash: addressHash,
+              }
+            : {}),
         })}`,
       )
       .then(res =>

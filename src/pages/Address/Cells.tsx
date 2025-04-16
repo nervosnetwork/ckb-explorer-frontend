@@ -238,7 +238,7 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
 
   const outPointStr = `${cell.txHash.slice(0, 8)}...${cell.txHash.slice(-8)}#${cell.cellIndex}`
   const parsedBlockCreateAt = parseSimpleDateNoSecond(cell.blockTimestamp)
-  const title = `${cell.blockNumber}: ${ckb} `
+  const title = `${cell.blockNumber}: ${ckb}`
   const cellInfo = {
     ...cell,
     id: Number(cell.cellId),
@@ -329,7 +329,13 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
         <Tooltip placement="top" title={<HeaderTooltip cell={cell} />}>
           <h5 className={styles.cellTitle}>
             <span>{title}</span>
-            <span> CKB ({parsedBlockCreateAt})</span>
+            <span style={{ whiteSpace: 'nowrap' }}>CKB ({parsedBlockCreateAt})</span>
+            <div className={styles.cellTags}>
+              {cell.tags.find(tag => tag === 'fiber') !== undefined && <span className={styles.fiberTag}>Fiber</span>}
+              {cell.tags.find(tag => tag === 'deployment') !== undefined && (
+                <span className={styles.deploymentTag}>Deployment</span>
+              )}
+            </div>
           </h5>
         </Tooltip>
 

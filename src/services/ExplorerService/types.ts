@@ -393,6 +393,7 @@ export interface LiveCell {
   blockNumber: string
   typeScript: Script
   lockScript: Script
+  tags: string[]
   extraInfo: {
     collection: {
       typeHash: string

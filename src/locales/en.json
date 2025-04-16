@@ -692,6 +692,7 @@
       "deployment": "Deployment",
       "deployed_script": "Deployed Script",
       "range_notice": "Only the latest {{count}} related items will be displayed here.",
+      "fiber_cell": "The current Output is the Fiber Network transaction output.",
       "status_label": {
         "pending": {
           "label": "Pending",
