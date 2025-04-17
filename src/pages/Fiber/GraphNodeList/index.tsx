@@ -214,7 +214,7 @@ const GraphNodeList = () => {
 
   const { data } = useQuery({
     queryKey: ['fiber', 'graph', 'nodes', +page, +pageSize],
-    queryFn: () => explorerService.api.getGraphNodes(+page, +pageSize),
+    queryFn: () => explorerService.api.getGraphNodes({ page: +page, pageSize: +pageSize }),
   })
 
   const list = data?.data.fiberGraphNodes ?? []
