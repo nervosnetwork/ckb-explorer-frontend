@@ -16,7 +16,7 @@ export const ChartsTitle = styled.div`
 `
 
 export const ChartsPanel = styled.div`
-  margin-top: 20px;
+  margin: 20px 0;
   padding: 20px;
   background: white;
   border-radius: 6px;
