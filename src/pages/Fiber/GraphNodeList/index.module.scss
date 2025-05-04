@@ -119,6 +119,18 @@
       display: flex;
       align-items: center;
     }
+
+    .isp {
+      display: flex;
+      align-items: center;
+
+      & > span:first-child {
+        display: block;
+        max-width: 20ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
   }
 
   .header {

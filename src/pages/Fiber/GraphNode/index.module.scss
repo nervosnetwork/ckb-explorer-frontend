@@ -359,6 +359,15 @@
   }
 }
 
+.isp {
+  dd > span:first-child {
+    display: block;
+    max-width: 20ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 // Transaction styles
 .tx {
   font-size: 14px !important;
