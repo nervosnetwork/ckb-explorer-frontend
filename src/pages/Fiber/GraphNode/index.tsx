@@ -336,9 +336,14 @@ const GraphNode = () => {
                 </dd>
               </dl>
               {ipInfo ? (
-                <dl>
+                <dl className={styles.isp}>
                   <dt>{t('fiber.graph.node.isp')}</dt>
-                  <dd>{`${ipInfo.isp}@${ipInfo.city}`}</dd>
+                  <dd>
+                    <Tooltip title={`${ipInfo.isp}`}>
+                      <span>{ipInfo.isp}</span>
+                    </Tooltip>
+                    <span>@{ipInfo.city}</span>
+                  </dd>
                 </dl>
               ) : null}
               <dl>
