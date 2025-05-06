@@ -88,8 +88,8 @@ const TransactionCellIndexAddress = ({
   const deprecatedAddr = useDeprecatedAddr(cell.addressHash)!
   const newAddr = useNewAddr(cell.addressHash)
   const address = isAddrNew ? newAddr : deprecatedAddr
-  const isFiber = cell.tags?.findIndex(tag => tag === 'fiber') !== -1
-  const isDeployment = cell.tags?.findIndex(tag => tag === 'deployment') !== -1
+  const isFiber = (cell.tags ?? []).find(tag => tag === 'fiber') !== undefined
+  const isDeployment = (cell.tags ?? []).find(tag => tag === 'deployment') !== undefined
 
   let since
   try {
