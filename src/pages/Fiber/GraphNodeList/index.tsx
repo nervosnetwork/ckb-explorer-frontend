@@ -200,7 +200,14 @@ const fields = [
               </Tooltip>
             ) : null}
           </span>
-          {ipInfo ? <span>{`${ipInfo.isp}@${ipInfo.city}`}</span> : null}
+          {ipInfo ? (
+            <Tooltip title={`${ipInfo.isp}@${ipInfo.city}`}>
+              <div className={styles.isp}>
+                <span>{ipInfo.isp}</span>
+                <span>@{ipInfo.city}</span>
+              </div>
+            </Tooltip>
+          ) : null}
         </div>
       )
     },
