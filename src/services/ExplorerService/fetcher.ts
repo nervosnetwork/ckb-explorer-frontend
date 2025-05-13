@@ -23,6 +23,7 @@ import {
   NFTCollection,
   NFTItem,
   ScriptInfo,
+  ScriptDetail,
   CKBTransactionInScript,
   CellInScript,
   TransferListRes,
@@ -1107,7 +1108,33 @@ export const apiFetcher = {
           hash_type: hashType,
         },
       })
-      .then(res => toCamelcase<Response.Response<ScriptInfo>>(res.data)),
+      .then(res => toCamelcase<Response.Response<ScriptInfo[]>>(res.data)),
+
+  fetchScripts: (page: number, pageSize: number, sort?: string, scriptType?: string) =>
+    requesterV2
+      .get<{
+        data: ScriptDetail[]
+        meta: {
+          total: number
+          pageSize: number
+        }
+      }>('scripts', {
+        params: {
+          page,
+          pageSize,
+          sort,
+          script_type: scriptType,
+        },
+      })
+      .then(res =>
+        toCamelcase<{
+          data: ScriptDetail[]
+          meta: {
+            total: number
+            pageSize: number
+          }
+        }>(res.data),
+      ),
 
   fetchScriptCKBTransactions: async (
     codeHash: string,

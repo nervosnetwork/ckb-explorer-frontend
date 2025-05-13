@@ -33,7 +33,7 @@ const ScriptComp = ({ script }: { script: Script }) => {
       <ScriptItem title={t('address.code_hash')}>
         <div className="scriptCodeHash">
           <span className="monospace">{script.codeHash}</span>
-          {hashTag && <HashTag content={hashTag.tag} />}
+          {hashTag && <HashTag content={hashTag.tag} script={script} />}
         </div>
       </ScriptItem>
       <ScriptItem title={t('address.hash_type')}>

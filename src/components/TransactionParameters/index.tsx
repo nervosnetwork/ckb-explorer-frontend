@@ -85,6 +85,7 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
           const {
             outPoint: { txHash, index },
             depType,
+            script: { codeHash, hashType, name },
           } = cellDep
           const hashTag = matchTxHash(txHash, Number(index))
           return (
@@ -94,7 +95,11 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
                 tooltip={t('glossary.out_point_tx_hash')}
                 value={txHash}
                 linkUrl={`/transaction/${txHash}`}
-                tag={hashTag && <HashTag content={hashTag.tag} category={hashTag.category} />}
+                tag={
+                  hashTag && (
+                    <HashTag content={name} category={hashTag.category} script={{ codeHash, hashType, args: '' }} />
+                  )
+                }
               />
               <Field
                 title={t('transaction.out_point_index')}

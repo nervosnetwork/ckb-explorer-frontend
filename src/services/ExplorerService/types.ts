@@ -499,16 +499,40 @@ export interface NFTItem {
 }
 
 export interface ScriptInfo {
-  id: string
-  scriptName: string
-  scriptType: string
-  codeHash: string
-  hashType: HashType
+  name: string
+  dataHash: string
+  typeHash: string
+  hashType: HashType | null
+  isTypeScript: boolean
+  isLockScript: boolean
   capacityOfDeployedCells: string
   capacityOfReferringCells: string
   countOfTransactions: number
-  countOfDeployedCells: number
   countOfReferringCells: number
+  rfc: string
+  website: string
+  sourceUrl: string
+  deprecated: boolean
+  verified: boolean
+  scriptOutPoint: string
+  depType: string
+  description: string
+}
+export interface ScriptDetail {
+  typeHash: string
+  dataHash: string
+  hashType: HashType | null
+  txHash: string
+  depType: string
+  name: string
+  rfc: string
+  sourceCode: string
+  website: string
+  isTypeScript: boolean
+  isLockScript: boolean
+  deprecated: boolean
+  deployedBlockTimestamp: number
+  totalReferringCellsCapacity: string
 }
 
 export interface CKBTransactionInScript {

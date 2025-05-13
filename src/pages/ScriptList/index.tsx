@@ -1,16 +1,32 @@
-import { FC } from 'react'
-import { useLocation } from 'react-router'
+import { FC, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { ColumnGroupType, ColumnType } from 'antd/lib/table'
+import { Table } from 'antd'
+import { TFunction } from 'i18next'
+import classNames from 'classnames'
 import Content from '../../components/Content'
 import styles from './styles.module.scss'
-import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
-import { isMainnet } from '../../utils/chain'
+import { explorerService } from '../../services/ExplorerService'
+import { usePaginationParamsInPage, useSortParam, useSearchParams } from '../../hooks'
+import Pagination from '../../components/Pagination'
+import type { ScriptDetail } from '../../models/Script'
+import { QueryResult } from '../../components/QueryResult'
+import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
+import { Card } from '../../components/Card'
+import SortButton from '../../components/SortButton'
+import Capacity from '../../components/Capacity'
+import MultiFilterButton from '../../components/MultiFilterButton'
 import { Link } from '../../components/Link'
-
-const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
+import Loading from '../../components/Loading'
+import SmallLoading from '../../components/Loading/SmallLoading'
+import { parseSimpleDate } from '../../utils/date'
+import { shannonToCkb } from '../../utils/util'
 
 type ScriptAttributes = Record<'name' | 'description', string> &
   Partial<Record<'code' | 'rfc' | 'deprecated' | 'website' | 'doc', string>>
+
+type SortField = 'capacity' | 'timestamp'
 
 export const scripts = new Map<string, ScriptAttributes>([
   [
@@ -365,64 +381,237 @@ export const scripts = new Map<string, ScriptAttributes>([
   ],
 ])
 
-const keysWithLinkValueInScript: (keyof ScriptAttributes)[] = ['rfc', 'code', 'doc', 'deprecated', 'website']
+const getfilterList = (t: TFunction) => [
+  {
+    key: 'lock',
+    value: 'lock',
+    title: t('scripts.LockScript'),
+    to: '/scripts',
+  },
+  {
+    key: 'type',
+    value: 'type',
+    title: t('scripts.TypeScript'),
+    to: '/scripts',
+  },
+]
+const ScriptInfo: FC<{ script: ScriptDetail }> = ({ script }) => {
+  const { t } = useTranslation()
+  const codeHash = script.hashType === null ? script.typeHash : script.dataHash
+  const hashType = script.hashType === null ? 'type' : script.hashType
+
+  const fields: { name: string; value: ReactNode }[] = [
+    {
+      name: t('scripts.capacity_of_referring_cells'),
+      value: <Capacity capacity={shannonToCkb(script.totalReferringCellsCapacity)} display="short" />,
+    },
+    {
+      name: t('scripts.timestamp'),
+      value: script.deployedBlockTimestamp ? parseSimpleDate(+script.deployedBlockTimestamp) : null,
+    },
+  ]
+
+  return (
+    <Card key={script.typeHash} className={styles.tokensCard}>
+      <dl className={styles.tokenInfo}>
+        <dt className={styles.title}>Name</dt>
+        <dd>
+          <Link className={styles.link} to={`/script/${codeHash}/${hashType}`}>
+            {script.name}
+          </Link>
+        </dd>
+      </dl>
+      <dl className={styles.tokenInfo}>
+        <dt className={styles.title}>{t('scripts.script_type')}</dt>
+        {script.isTypeScript && <dd className={styles.value}>{t('scripts.TypeScript')}</dd>}
+        {script.isLockScript && <dd className={styles.value}>{t('scripts.LockScript')}</dd>}
+      </dl>
+      {fields.map(field => (
+        <dl className={styles.tokenInfo}>
+          <dt className={styles.title}>{field.name}</dt>
+          <dd className={styles.value}>{field.value}</dd>
+        </dl>
+      ))}
+    </Card>
+  )
+}
+
+export function ScriptCard({
+  query,
+  sortParam,
+}: {
+  query: UseQueryResult<{
+    data: ScriptDetail[]
+    meta: {
+      total: number
+      pageSize: number
+    }
+  }>
+  sortParam?: ReturnType<typeof useSortParam<SortField>>
+}) {
+  const { t } = useTranslation()
+
+  return (
+    <>
+      <Card className={styles.filterSortCard} shadow={false}>
+        <FilterSortContainerOnMobile key="scripts-sort">
+          <span className={styles.sortOption}>{t('scripts.script_name')}</span>
+          <span className={styles.sortOption}>
+            {t('scripts.script_type')}
+            <MultiFilterButton filterName="script_type" key="" filterList={getfilterList(t)} />
+          </span>
+          <span className={styles.sortOption}>
+            {t('scripts.capacity_of_referring_cells')}
+            <SortButton field="capacity" sortParam={sortParam} />
+          </span>
+          <></>
+          <span className={styles.sortOption}>
+            {t('scripts.timestamp')}
+            <SortButton field="timestamp" sortParam={sortParam} />
+          </span>
+        </FilterSortContainerOnMobile>
+      </Card>
+
+      <QueryResult
+        query={query}
+        loadingRender={() => (
+          <div className={styles.tokensLoadingPanel}>
+            <SmallLoading />
+          </div>
+        )}
+      >
+        {data => (
+          <div>
+            {data?.data.map(script => (
+              <ScriptInfo key={script.typeHash} script={script} />
+            ))}
+          </div>
+        )}
+      </QueryResult>
+    </>
+  )
+}
+
+const ScriptTable: FC<{
+  query: UseQueryResult<{
+    data: ScriptDetail[]
+    meta: {
+      total: number
+      pageSize: number
+    }
+  }>
+  sortParam?: ReturnType<typeof useSortParam<SortField>>
+}> = ({ query, sortParam }) => {
+  const { t } = useTranslation()
+
+  const columns: (ColumnGroupType<ScriptDetail> | ColumnType<ScriptDetail>)[] = [
+    {
+      title: t('scripts.script_name'),
+      className: styles.colName,
+      render: (_, script) => {
+        const codeHash = script.hashType === null ? script.typeHash : script.dataHash
+        const hashType = script.hashType === null ? 'type' : script.hashType
+
+        return (
+          <div className={styles.container}>
+            <div className={styles.right}>
+              <div className={styles.symbolAndName}>
+                <Link className={styles.link} to={`/script/${codeHash}/${hashType}`}>
+                  {script.name}
+                </Link>
+                <span className={styles.name}>{codeHash}</span>
+              </div>
+            </div>
+          </div>
+        )
+      },
+    },
+    {
+      title: (
+        <>
+          {t('scripts.script_type')}
+          <MultiFilterButton filterName="script_type" key="" filterList={getfilterList(t)} />
+        </>
+      ),
+      className: styles.colTags,
+      render: (_, script) => (
+        <div className={styles.tags}>
+          {script.isTypeScript && <span className={styles.tag}>{t('scripts.type_script')}</span>}
+          {script.isLockScript && <span className={styles.tag}>{t('scripts.lock_script')}</span>}
+        </div>
+      ),
+    },
+    {
+      title: (
+        <>
+          {t('scripts.capacity_of_referring_cells')}
+          <SortButton field="capacity" sortParam={sortParam} />
+        </>
+      ),
+      className: styles.colTransactions,
+      render: (_, script) => <Capacity capacity={shannonToCkb(script.totalReferringCellsCapacity)} display="short" />,
+    },
+    {
+      title: (
+        <>
+          {t('scripts.timestamp')}
+          <SortButton field="timestamp" sortParam={sortParam} />
+        </>
+      ),
+      className: styles.colCreatedTime,
+      render: (_, script) => parseSimpleDate(+script.deployedBlockTimestamp),
+    },
+  ]
+
+  return (
+    <Table
+      className={styles.tokensTable}
+      columns={columns}
+      dataSource={query.data?.data}
+      pagination={false}
+      loading={
+        query.isLoading
+          ? {
+              indicator: <Loading className={styles.loading} show />,
+            }
+          : false
+      }
+    />
+  )
+}
 
 const ScriptList: FC = () => {
   const { t } = useTranslation()
-  const location = useLocation()
-  const defaultOpenLabel = decodeURIComponent(location.hash.slice(1))
+  const { script_type: scriptType } = useSearchParams('script_type') ?? {}
+  const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
+  const sortParam = useSortParam<SortField>(undefined, 'capacity.desc')
+  const { sort } = sortParam
+
+  const query = useQuery(['scripts', currentPage, _pageSize, sort, scriptType], () =>
+    explorerService.api.fetchScripts(currentPage, _pageSize, sort ?? undefined, scriptType),
+  )
+
+  const meta = query?.data?.meta ?? { total: 0, pageSize: 10 }
+  const pageSize = meta.pageSize ?? _pageSize
+  const totalPages = Math.ceil(meta.total / pageSize)
 
   return (
     <Content>
-      <div className={styles.title}>{t(`script_list.title`)}</div>
-      <div className={styles.container}>
-        {[...scripts].map(([label, meta]) => {
-          const script = scriptDataList.find(s => s.tag === label)
-          if (!script) return null
-          return (
-            <details key={label} id={label} open={label === defaultOpenLabel}>
-              <summary data-deprecated={!!meta.deprecated} title={meta.deprecated ? 'Deprecated' : undefined}>
-                <b>{`${meta.name}:`}</b>
-                {meta.description}
-              </summary>
-              <div>
-                <h3>{`${t('script_list.links')}:`}</h3>
-                <div className={styles.links}>
-                  {keysWithLinkValueInScript.map(key =>
-                    meta[key] ? (
-                      <a key={key} href={meta[key]} target="_blank" rel="noopener noreferrer">
-                        {t(`script_list.link.${key}`)}
-                      </a>
-                    ) : null,
-                  )}
-                  <Link
-                    to={`/script/${script.codeHashes[0]}/${script.hashType}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t('script_list.link.detail')}
-                  </Link>
-                </div>
-                <>
-                  <h3>{`${t(`script_list.on_chain_data`)}:`}</h3>
-                  {script.codeHashes.map((codeHash: string, idx: number) => (
-                    <pre key={codeHash}>
-                      {`{
-  "code_hash": "${codeHash}",
-  "hash_type": "${script.hashType}",
-  "out_point": {
-    "tx_hash": "${script.txHashes[idx]?.split('-')[0]}",
-    "index": "0x${(+script.txHashes[idx]?.split('-')[1]).toString(16)}"
-  },
-  "dep_type": "${script.depType}"
-}`}
-                    </pre>
-                  ))}
-                </>
-              </div>
-            </details>
-          )
-        })}
+      <div className={classNames(styles.tokensPanel, 'container')}>
+        <div className={styles.title}>{t(`script_list.title`)}</div>
+        <div className={styles.cards}>
+          <ScriptCard query={query} sortParam={sortParam} />
+        </div>
+        <div className={styles.table}>
+          <ScriptTable query={query} sortParam={sortParam} />
+        </div>
+
+        <Pagination
+          className={styles.pagination}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onChange={setPage}
+        />
       </div>
     </Content>
   )

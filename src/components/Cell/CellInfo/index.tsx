@@ -12,7 +12,7 @@ import { hexToUtf8 } from '../../../utils/string'
 import { TransactionCellDetailTab, TransactionCellDetailPane, TransactionCellDetailTitle } from './styled'
 import SmallLoading from '../../Loading/SmallLoading'
 import CloseIcon from './modal_close.png'
-import { getBtcTimeLockInfo, getBtcUtxo, getContractHashTag } from '../../../utils/util'
+import { getBtcTimeLockInfo, getBtcUtxo } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import HashTag from '../../HashTag'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
@@ -181,13 +181,24 @@ const JSONKeyValueView = ({ title = '', value = '' }: { title?: string; value?: 
 )
 
 ///
-const ScriptRender = ({ content: script }: { content: Script }) => {
+const ScriptRender = ({ content: script, state }: { content: Script; state: CellInfo }) => {
   const { t } = useTranslation()
   let hashTag: Pick<ContractHashTag, 'tag' | 'category'> | undefined
+
   if (isTypeIdScript(script)) {
     hashTag = { tag: TYPE_ID_TAG }
   } else {
-    hashTag = getContractHashTag(script)
+    const category = (() => {
+      switch (state) {
+        case CellInfo.LOCK:
+          return 'lock'
+        case CellInfo.TYPE:
+          return 'type'
+        default:
+          return undefined
+      }
+    })()
+    hashTag = script.verifiedScriptName ? { tag: script.verifiedScriptName, category } : undefined
   }
   const btcUtxo = getBtcUtxo(script)
   const btcTimeLockInfo = !btcUtxo ? getBtcTimeLockInfo(script) : null
@@ -201,7 +212,7 @@ const ScriptRender = ({ content: script }: { content: Script }) => {
         <JSONKeyValueView
           value={
             <div>
-              <HashTag content={hashTag.tag} category={hashTag.category} />
+              <HashTag content={hashTag.tag} category={hashTag.category} script={script} />
             </div>
           }
         />
@@ -238,11 +249,11 @@ const ScriptRender = ({ content: script }: { content: Script }) => {
   )
 }
 
-const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
+const CellInfoValueRender = ({ content, state }: { content: CellInfoValue; state: CellInfo }) => {
   const { t } = useTranslation()
 
   if (isScript(content)) {
-    return <ScriptRender content={content} />
+    return <ScriptRender content={content} state={state} />
   }
 
   if (isCapacityUsage(content)) {
@@ -315,14 +326,14 @@ const CellInfoValueView = ({
 
 const CellInfoNormalValueView = ({ content, state }: { content: CellInfoValue; state: CellInfo }) => (
   <div data-state={state} className={styles.transactionCellInfoValuePanel}>
-    <CellInfoValueRender content={content} />
+    <CellInfoValueRender content={content} state={state} />
   </div>
 )
 
 const CellInfoValueJSONView = ({ content, state }: { content: CellInfoValue; state: CellInfo }) => (
   <div data-state={state} data-is-decodable="true" className={styles.transactionCellInfoValuePanel}>
     <span>{'{'}</span>
-    <CellInfoValueRender content={content} />
+    <CellInfoValueRender content={content} state={state} />
     <span>{'}'}</span>
   </div>
 )
