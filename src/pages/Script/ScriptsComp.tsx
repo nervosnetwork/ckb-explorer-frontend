@@ -28,7 +28,15 @@ import CellModal from '../../components/Cell/CellModal'
 import { Switch } from '../../components/ui/Switch'
 import { HelpTip } from '../../components/HelpTip'
 
-export const ScriptTransactions = ({ page, size }: { page: number; size: number }) => {
+export const ScriptTransactions = ({
+  page,
+  size,
+  countOfTransactions,
+}: {
+  page: number
+  size: number
+  countOfTransactions: number
+}) => {
   const {
     t,
     i18n: { language },
@@ -105,7 +113,7 @@ export const ScriptTransactions = ({ page, size }: { page: number; size: number 
       )}
       <div className={styles.scriptTransactionsConfigPanel}>
         <span className={styles.countInfo}>
-          Total {isLoading ? <Loading spin /> : localeNumberString(total)} Transactions
+          Total {isLoading ? <Loading spin /> : localeNumberString(countOfTransactions)} Transactions
         </span>
 
         <label style={{ marginLeft: 'auto' }} htmlFor="script-restrict-mode">

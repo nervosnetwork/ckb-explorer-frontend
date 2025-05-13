@@ -14,7 +14,7 @@
 }
 
 .countInfo {
-  color: #666666;
+  color: #666;
   font-size: 16px;
   font-weight: 400;
 }
@@ -179,6 +179,8 @@
   align-items: center;
   gap: 16px;
   width: 100%;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 12px;
 
   .headerTitle {
     font-size: 24px;
@@ -193,6 +195,7 @@
 
   .openSourceAction {
     padding: 6px 8px;
+    margin: 0 6px;
     display: flex;
     align-items: center;
     border-radius: 24px;
@@ -204,6 +207,31 @@
       border-color: var(--primary-color);
     }
   }
+
+  .rfcAction {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+  }
+
+  .websiteAction {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+  }
+
+  .headerLink {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 8px;
+  }
+}
+
+.headerDescription {
+  padding: 12px 0;
+  font-size: 16px;
+  color: #333;
 }
 
 .notice {

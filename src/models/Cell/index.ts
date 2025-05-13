@@ -59,6 +59,7 @@ export interface Cell$Base {
   interest: string
   daoTypeHash: string
   cellInfo: CellInfo
+  tags?: string[]
   since?: {
     raw: string
     median_timestamp?: string

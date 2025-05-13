@@ -88,6 +88,8 @@ const TransactionCellIndexAddress = ({
   const deprecatedAddr = useDeprecatedAddr(cell.addressHash)!
   const newAddr = useNewAddr(cell.addressHash)
   const address = isAddrNew ? newAddr : deprecatedAddr
+  const isFiber = (cell.tags ?? []).find(tag => tag === 'fiber') !== undefined
+  const isDeployment = (cell.tags ?? []).find(tag => tag === 'deployment') !== undefined
 
   let since
   try {
@@ -127,6 +129,12 @@ const TransactionCellIndexAddress = ({
             <LockTimeIcon className={styles.locktime} />
           </Tooltip>
         ) : null}
+        {isFiber ? (
+          <Tooltip placement="top" title={t(`transaction.fiber_cell`)}>
+            <span className={styles.fiberTag}>Fiber</span>
+          </Tooltip>
+        ) : null}
+        {isDeployment ? <span className={styles.deploymentTag}>Deployment</span> : null}
       </div>
     </div>
   )

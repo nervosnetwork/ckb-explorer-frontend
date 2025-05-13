@@ -303,3 +303,21 @@
 .transactionCellNftInfo {
   white-space: pre-line;
 }
+
+.fiberTag {
+  color: #333;
+  padding: 2px 4px;
+  background: #4ffff4;
+  border-radius: 32px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.deploymentTag {
+  color: #333;
+  padding: 2px 4px;
+  background: #d5ebff;
+  border-radius: 32px;
+  font-weight: 700;
+  font-size: 12px;
+}

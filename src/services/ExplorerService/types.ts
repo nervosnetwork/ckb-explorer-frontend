@@ -399,6 +399,7 @@ export interface LiveCell {
   blockNumber: string
   typeScript: Script
   lockScript: Script
+  tags: string[]
   extraInfo: {
     collection: {
       typeHash: string
@@ -498,16 +499,40 @@ export interface NFTItem {
 }
 
 export interface ScriptInfo {
-  id: string
-  scriptName: string
-  scriptType: string
-  codeHash: string
-  hashType: HashType
+  name: string
+  dataHash: string
+  typeHash: string
+  hashType: HashType | null
+  isTypeScript: boolean
+  isLockScript: boolean
   capacityOfDeployedCells: string
   capacityOfReferringCells: string
   countOfTransactions: number
-  countOfDeployedCells: number
   countOfReferringCells: number
+  rfc: string
+  website: string
+  sourceUrl: string
+  deprecated: boolean
+  verified: boolean
+  scriptOutPoint: string
+  depType: string
+  description: string
+}
+export interface ScriptDetail {
+  typeHash: string
+  dataHash: string
+  hashType: HashType | null
+  txHash: string
+  depType: string
+  name: string
+  rfc: string
+  sourceCode: string
+  website: string
+  isTypeScript: boolean
+  isLockScript: boolean
+  deprecated: boolean
+  deployedBlockTimestamp: number
+  totalReferringCellsCapacity: string
 }
 
 export interface CKBTransactionInScript {
@@ -733,17 +758,32 @@ export namespace Fiber {
       fiberGraphChannels: Channel[]
     }
 
-    export type Statistics = Record<
+    export type Statistics = (Record<
       | 'totalNodes'
       | 'totalChannels'
-      | 'totalLiquidity'
+      | 'totalCapacity'
       | 'meanValueLocked'
       | 'meanFeeRate'
       | 'mediumValueLocked'
       | 'mediumFeeRate'
       | 'createdAtUnixtimestamp',
       string
-    >[]
+    > & {
+      totalLiquidity:
+        | (
+            | {
+                symbol: 'CKB'
+                amount: string
+              }
+            | {
+                symbol: string
+                amount: string
+                decimal: string
+                typeHash: string
+              }
+          )[]
+        | null
+    })[]
 
     export type GraphNodeIps = {
       nodeId: string

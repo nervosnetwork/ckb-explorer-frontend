@@ -35,64 +35,62 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string; startIn
         return (
           <div key={ch.channelOutpoint} className={styles.channel}>
             <h1>Channel #{i + 1 + startIndex}</h1>
-            <div>
-              <dl className={styles.outPoint}>
-                <dt>Out Point</dt>
-                <dd>
-                  <Tooltip title={`${outPoint.txHash}#${outPoint.index}`}>
-                    <Link to={`/transaction/${outPoint.txHash}#${outPoint.index}`}>
-                      <div>{outpoint.slice(0, -15)}</div>
-                      <div>{outpoint.slice(-15)}</div>
-                    </Link>
-                  </Tooltip>
-                  <button type="button" data-copy-text={outPoint.txHash} className={styles.copy}>
-                    <CopyIcon />
-                  </button>
-                </dd>
-              </dl>
+            <dl className={styles.outPoint}>
+              <dt>Out Point</dt>
+              <dd>
+                <Tooltip title={`${outPoint.txHash}#${outPoint.index}`}>
+                  <Link to={`/transaction/${outPoint.txHash}#${outPoint.index}`}>
+                    <div>{outpoint.slice(0, -15)}</div>
+                    <div>{outpoint.slice(-15)}</div>
+                  </Link>
+                </Tooltip>
+                <button type="button" data-copy-text={outPoint.txHash} className={styles.copy}>
+                  <CopyIcon />
+                </button>
+              </dd>
+            </dl>
 
-              <dl className={styles.amount}>
-                <dt>Liquidity</dt>
-                <dd>
-                  <span>{`${parseNumericAbbr(totalLiquidity)} ${funding.symbol}`}</span>
-                </dd>
-              </dl>
+            <dl className={styles.amount}>
+              <dt>Liquidity</dt>
+              <dd>
+                <span>{`${parseNumericAbbr(totalLiquidity)} ${funding.symbol}`}</span>
+              </dd>
+            </dl>
 
-              <dl className={styles.funding}>
-                <dt>Source</dt>
-                <dd>
-                  <Tooltip title={`${localeNumberString(funding.value)} ${funding.symbol}`}>
-                    <span>{`${parseNumericAbbr(funding.amount)} ${funding.symbol}`}</span>
-                  </Tooltip>
-                  from
-                  <Tooltip title={ch.openTransactionInfo.address}>
-                    <Link to={`/address/${ch.openTransactionInfo.address}`} className={styles.address}>
-                      <div>{ch.openTransactionInfo.address.slice(0, -15)}</div>
-                      <div>{ch.openTransactionInfo.address.slice(-15)}</div>
-                    </Link>
-                  </Tooltip>
-                </dd>
-              </dl>
-              <dl>
-                <dt>Position</dt>
-                <dd>
-                  On
-                  <Tooltip title={dayjs(+ch.createdTimestamp).format(TIME_TEMPLATE)}>
-                    <Link to={`/block/${ch.openTransactionInfo.blockNumber}`}>
-                      {localeNumberString(ch.openTransactionInfo.blockNumber)}
-                    </Link>
-                  </Tooltip>
-                </dd>
-              </dl>
-            </div>
+            <dl className={styles.funding}>
+              <dt>Source</dt>
+              <dd>
+                <Tooltip title={`${localeNumberString(funding.value)} ${funding.symbol}`}>
+                  <span>{`${parseNumericAbbr(funding.amount)} ${funding.symbol}`}</span>
+                </Tooltip>
+                from
+                <Tooltip title={ch.openTransactionInfo.address}>
+                  <Link to={`/address/${ch.openTransactionInfo.address}`} className={styles.address}>
+                    <div>{ch.openTransactionInfo.address.slice(0, -15)}</div>
+                    <div>{ch.openTransactionInfo.address.slice(-15)}</div>
+                  </Link>
+                </Tooltip>
+              </dd>
+            </dl>
+            <dl>
+              <dt>Position</dt>
+              <dd>
+                On
+                <Tooltip title={dayjs(+ch.createdTimestamp).format(TIME_TEMPLATE)}>
+                  <Link to={`/block/${ch.openTransactionInfo.blockNumber}`}>
+                    {localeNumberString(ch.openTransactionInfo.blockNumber)}
+                  </Link>
+                </Tooltip>
+              </dd>
+            </dl>
 
             <div className={styles.nodesContainer}>
               <h1>Nodes</h1>
               <div className={styles.nodes}>
                 <div className={styles.node}>
                   <h3>
-                    First Node
                     {node ? <span>{node === ch.node1 ? <HomeIcon /> : <GlobeIcon />}</span> : null}
+                    First Node
                   </h3>
                   <dl>
                     <dt>ID</dt>
@@ -115,8 +113,8 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string; startIn
                 </div>
                 <div className={styles.node}>
                   <h3>
-                    Second Node
                     {node ? <span>{node === ch.node2 ? <HomeIcon /> : <GlobeIcon />}</span> : null}
+                    Second Node
                   </h3>
                   <dl>
                     <dt>ID</dt>

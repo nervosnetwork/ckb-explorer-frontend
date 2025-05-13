@@ -44,6 +44,7 @@ const fields = [
   {
     key: 'autoAcceptMinCkbFundingAmount',
     label: 'auto_accept_funding_amount',
+    width: 140,
     transformer: (_: unknown, n: Fiber.Graph.Node) => {
       const thresholds = getFundingThreshold(n)
       const displays = thresholds.slice(0, 2)
@@ -114,6 +115,7 @@ const fields = [
   {
     key: 'openChannelsCount',
     label: 'open_channels',
+    width: 100,
     transformer: (v: unknown) => {
       if (typeof v !== 'string') return v
 
@@ -200,7 +202,14 @@ const fields = [
               </Tooltip>
             ) : null}
           </span>
-          {ipInfo ? <span>{`${ipInfo.isp}@${ipInfo.city}`}</span> : null}
+          {ipInfo ? (
+            <Tooltip title={`${ipInfo.isp}@${ipInfo.city}`}>
+              <div className={styles.isp}>
+                <span>{ipInfo.isp}</span>
+                <span>@{ipInfo.city}</span>
+              </div>
+            </Tooltip>
+          ) : null}
         </div>
       )
     },
@@ -214,7 +223,7 @@ const GraphNodeList = () => {
 
   const { data } = useQuery({
     queryKey: ['fiber', 'graph', 'nodes', +page, +pageSize],
-    queryFn: () => explorerService.api.getGraphNodes(+page, +pageSize),
+    queryFn: () => explorerService.api.getGraphNodes({ page: +page, pageSize: +pageSize }),
   })
 
   const list = data?.data.fiberGraphNodes ?? []
@@ -253,7 +262,7 @@ const GraphNodeList = () => {
         <table>
           <thead>
             <tr data-role="header">
-              <td colSpan={fields.length}>
+              <td colSpan={fields.length} style={{ width: '100%' }}>
                 <h1 className={styles.header}>
                   <span>{t('fiber.graph.public_fiber_nodes')}</span>
                 </h1>
@@ -262,7 +271,11 @@ const GraphNodeList = () => {
             <div className={styles.tableSeparator} />
             <tr>
               {fields.map(f => {
-                return <th key={f.key}>{t(`fiber.graph.node.${f.label}`)}</th>
+                return (
+                  <Tooltip key={f.key} title={t(`fiber.graph.node.${f.label}`)}>
+                    <th style={{ maxWidth: f.width }}>{t(`fiber.graph.node.${f.label}`)}</th>
+                  </Tooltip>
+                )
               })}
             </tr>
           </thead>
@@ -285,7 +298,7 @@ const GraphNodeList = () => {
                       ipInfo,
                     }
                     return (
-                      <td key={f.key}>
+                      <td key={f.key} style={{ maxWidth: f.width }}>
                         <span className={styles.cellLabel}>{t(`fiber.graph.node.${f.label}`)}</span>
                         {f.transformer?.(v, n) ?? v}
                       </td>

@@ -23,6 +23,7 @@ import {
   NFTCollection,
   NFTItem,
   ScriptInfo,
+  ScriptDetail,
   CKBTransactionInScript,
   CellInScript,
   TransferListRes,
@@ -1107,7 +1108,33 @@ export const apiFetcher = {
           hash_type: hashType,
         },
       })
-      .then(res => toCamelcase<Response.Response<ScriptInfo>>(res.data)),
+      .then(res => toCamelcase<Response.Response<ScriptInfo[]>>(res.data)),
+
+  fetchScripts: (page: number, pageSize: number, sort?: string, scriptType?: string) =>
+    requesterV2
+      .get<{
+        data: ScriptDetail[]
+        meta: {
+          total: number
+          pageSize: number
+        }
+      }>('scripts', {
+        params: {
+          page,
+          pageSize,
+          sort,
+          script_type: scriptType,
+        },
+      })
+      .then(res =>
+        toCamelcase<{
+          data: ScriptDetail[]
+          meta: {
+            total: number
+            pageSize: number
+          }
+        }>(res.data),
+      ),
 
   fetchScriptCKBTransactions: async (
     codeHash: string,
@@ -1300,12 +1327,25 @@ export const apiFetcher = {
       })
   },
 
-  getGraphNodes: (page = 1, pageSize = 10) => {
+  getGraphNodes: ({
+    addressHash,
+    page = 1,
+    pageSize = 10,
+  }: {
+    addressHash?: string
+    page?: number
+    pageSize?: number
+  }) => {
     return requesterV2
       .get(
         `/fiber/graph_nodes?${new URLSearchParams({
           page: page.toString(),
           page_size: pageSize.toString(),
+          ...(addressHash
+            ? {
+                address_hash: addressHash,
+              }
+            : {}),
         })}`,
       )
       .then(res =>

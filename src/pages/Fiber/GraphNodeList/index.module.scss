@@ -18,6 +18,13 @@
 
     font-size: 1rem;
 
+    td,
+    th {
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     tbody {
       tr:not([data-role='pagination']) {
         position: relative;
@@ -118,6 +125,18 @@
     .more {
       display: flex;
       align-items: center;
+    }
+
+    .isp {
+      display: flex;
+      align-items: center;
+
+      & > span:first-child {
+        display: block;
+        max-width: 16ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 

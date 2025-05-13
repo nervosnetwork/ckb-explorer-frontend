@@ -144,7 +144,7 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
           <JSONKeyValueView
             value={
               <div>
-                <HashTag content={hashTag.tag} category={hashTag.category} />
+                <HashTag content={hashTag.tag} category={hashTag.category} script={content} />
               </div>
             }
           />

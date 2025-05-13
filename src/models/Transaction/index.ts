@@ -6,6 +6,11 @@ export interface CellDep {
     index: string
     txHash: string
   }
+  script: {
+    codeHash: string
+    hashType: string
+    name: string
+  }
 }
 
 export interface Transaction {
