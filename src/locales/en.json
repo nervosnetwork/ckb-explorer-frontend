@@ -985,17 +985,7 @@
       "no-traits": "No Traits"
     },
     "script_list": {
-      "title": "Scripts",
-      "links": "Links",
-      "on_chain_data": "On-chain data",
-      "link": {
-        "rfc": "RFC",
-        "code": "Source Code",
-        "doc": "Documentation",
-        "deprecated": "Deprecated",
-        "website": "Website",
-        "detail": "Detail"
-      }
+      "title": "Scripts"
     },
     "scripts": {
       "script": "Script",
@@ -1011,12 +1001,25 @@
       "referring_cells": "Referring Cells",
       "capacity_of_deployed_cells": "Capacity of deployed cells",
       "capacity_of_referring_cells": "Capacity of referring cells",
-      "LockScript": "Lock Script",
-      "TypeScript": "Type Script",
+      "lock_script": "Lock Script",
+      "type_script": "Type Script",
       "deployed_script": "Deployed Script",
       "open_source_script": "Open-Source Script",
       "restrict_mode": "Restricted Mode",
-      "restrict_tooltip": "In Restricted Mode, this transaction list will not include transactions that merely reference current script as one of their dependencies."
+      "restrict_tooltip": "In Restricted Mode, this transaction list will not include transactions that merely reference current script as one of their dependencies.",
+      "timestamp": "Deployment Time",
+      "data_hash": "Data Hash",
+      "type_hash": "Type Hash",
+      "outpoint_tx_hash": "Outpoint Tx Hash",
+      "outpoint_index": "Outpoint Index",
+      "outpoint_dep_type": "Outpoint Dep Type",
+      "deprecated": "Deprecated",
+      "verified": "Verified",
+      "link": {
+        "rfc": "RFC",
+        "code": "Source Code",
+        "website": "Website"
+      }
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",

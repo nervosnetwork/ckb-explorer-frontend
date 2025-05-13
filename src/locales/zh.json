@@ -954,17 +954,7 @@
       "no-traits": "没有特征"
     },
     "script_list": {
-      "title": "脚本",
-      "links": "相关链接",
-      "on_chain_data": "链上数据",
-      "link": {
-        "rfc": "RFC",
-        "code": "源代码",
-        "doc": "文档",
-        "deprecated": "已废弃",
-        "website": "官网",
-        "detail": "详情"
-      }
+      "title": "脚本"
     },
     "scripts": {
       "script": "Script",
@@ -985,7 +975,15 @@
       "deployed_script": "部署的脚本",
       "open_source_script": "已开源脚本",
       "restrict_mode": "受限模式",
-      "restrict_tooltip": "在受限模式下，此交易列表不会包含仅仅将当前脚本作为其依赖项之一的交易。"
+      "restrict_tooltip": "在受限模式下，此交易列表不会包含仅仅将当前脚本作为其依赖项之一的交易。",
+      "timestamp": "部署上链时间",
+      "deprecated": "已废弃",
+      "verified": "已验证",
+      "link": {
+        "rfc": "RFC",
+        "code": "源代码",
+        "website": "官网"
+      }
     },
     "fee_rate_tracker": {
       "title": "费率追踪",

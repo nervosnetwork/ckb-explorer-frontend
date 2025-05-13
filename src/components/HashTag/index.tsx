@@ -4,9 +4,18 @@ import { Link } from '../Link'
 import { TYPE_ID_TAG, TYPE_ID_RFC } from '../../utils/typeid'
 import { TagPanel } from './styled'
 import { scripts } from '../../pages/ScriptList'
+import { Script } from '../../models/Script'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 
-export default ({ content, category = 'lock' }: { content: string; category?: 'lock' | 'type' }) => {
+export default ({
+  content,
+  category = 'lock',
+  script,
+}: {
+  content: string
+  category?: 'lock' | 'type'
+  script: Script
+}) => {
   const { t } = useTranslation()
   if (content === TYPE_ID_TAG) {
     return (
@@ -21,7 +30,7 @@ export default ({ content, category = 'lock' }: { content: string; category?: 'l
   return (
     <TagPanel isLock={category === 'lock'}>
       <Link
-        to={`/scripts#${content}`}
+        to={`/script/${script.codeHash}/${script.hashType}`}
         rel="noopener noreferrer"
         target="_blank"
         style={{ color: '#000', display: 'flex', alignItems: 'center', gap: 4 }}
