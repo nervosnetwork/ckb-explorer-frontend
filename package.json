@@ -78,7 +78,7 @@
     "@testing-library/react": "12.1.5",
     "@types/canvas-confetti": "^1.9.0",
     "@types/echarts": "4.9.22",
-    "@types/eslint": "8.56.11",
+    "@types/eslint": "8.56.12",
     "@types/jest": "29.5.12",
     "@types/lodash.debounce": "4.0.9",
     "@types/node": "16.18.126",
