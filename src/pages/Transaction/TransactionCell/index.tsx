@@ -42,6 +42,7 @@ import CellModal from '../../../components/Cell/CellModal'
 import { CellBasicInfo } from '../../../utils/transformer'
 import { getSporeImg } from '../../../utils/spore'
 import { explorerService } from '../../../services/ExplorerService'
+import Skeleton from '../../../components/ui/Skeleton'
 
 export const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, isCellBase }) => {
   const alias = useDASAccount(address)
@@ -152,7 +153,7 @@ const TransactionCellIndexAddress = ({
 const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
   const [imageUrl, setImageUrl] = useState('')
   const { collection: { typeHash } = {}, tokenId = '' } = cell.extraInfo
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['nft-item-info', typeHash, tokenId],
     () => explorerService.api.fetchNFTCollectionItem(typeHash!, tokenId),
     {
@@ -170,56 +171,78 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
     })
   }, [cell.extraInfo.data, cell.extraInfo.tokenId])
 
+  const textSkeleton = <Skeleton style={{ height: 16, width: 150 }} />
+
   return (
     <div className={styles.dodInfo}>
-      <img src={imageUrl} alt="nft" className={styles.dodInfoImage} onError={handleNftImgError} />
+      {imageUrl ? (
+        <img src={imageUrl} alt="nft" className={styles.dodInfoImage} onError={handleNftImgError} />
+      ) : (
+        <Skeleton shape="square" style={{ width: 72, height: 72 }} />
+      )}
       <div className={styles.dodInfoDetails}>
         <div className={styles.dodInfoItem}>
           <div className={styles.dodInfoLabel}>Name</div>
           <div className={styles.dodInfoValue}>
-            <Link to={`/nft-info/${typeHash}/${data?.token_id}`} className={styles.dodInfoValue}>
-              <span className="monospace">
-                {data?.collection.name ?? 'Unique Item'}{' '}
-                {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
-              </span>
-            </Link>
+            {isLoading ? (
+              textSkeleton
+            ) : (
+              <Link to={`/nft-info/${typeHash}/${data?.token_id}`} className={styles.dodInfoValue}>
+                <span className="monospace">
+                  {data?.collection.name ?? 'Unique Item'}{' '}
+                  {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
+                </span>
+              </Link>
+            )}
           </div>
         </div>
         <div className={styles.dodInfoRow}>
           <div className={styles.dodInfoItem}>
             <div className={styles.dodInfoLabel}>Collection</div>
             <div className={styles.dodInfoValue}>
-              <Link to={`/nft-collections/${typeHash}`} className={styles.collection}>
-                {data?.collection.name ?? 'Unique Item'}
-              </Link>
+              {isLoading ? (
+                textSkeleton
+              ) : (
+                <Link to={`/nft-collections/${typeHash}`} className={styles.collection}>
+                  {data?.collection.name ?? 'Unique Item'}
+                </Link>
+              )}
             </div>
           </div>
           <div className={styles.dodInfoItem}>
             <div className={styles.dodInfoLabel}>Token ID</div>
             <div className={`${styles.dodInfoValue}`}>
-              <Link to={`/nft-info/${typeHash}/${data?.token_id}`} className="monospace">
-                {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
-              </Link>
+              {isLoading ? (
+                textSkeleton
+              ) : (
+                <Link to={`/nft-info/${typeHash}/${data?.token_id}`} className="monospace">
+                  {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
+                </Link>
+              )}
             </div>
           </div>
           <div className={styles.dodInfoItem}>
             <div className={styles.dodInfoLabel}>Created At</div>
-            <div>{dayjs(data?.created_at).format('YYYY/MM/DD HH:mm:ss')}</div>
+            <div>{isLoading ? textSkeleton : dayjs(data?.created_at).format('YYYY/MM/DD HH:mm:ss')}</div>
           </div>
           <div className={styles.dodInfoItem}>
             <div className={styles.dodInfoLabel}>Creator</div>
-            <div>
-              {data?.collection.creator ? (
-                <Link to={`/address/${data.collection.creator}`} className={styles.dodInfoValue}>
-                  <span className="monospace">{`${data.collection.creator.slice(
-                    0,
-                    6,
-                  )}...${data.collection.creator.slice(-6)}`}</span>
-                </Link>
-              ) : (
-                '-'
-              )}
-            </div>
+            {isLoading ? (
+              textSkeleton
+            ) : (
+              <div>
+                {data?.collection.creator ? (
+                  <Link to={`/address/${data.collection.creator}`} className={styles.dodInfoValue}>
+                    <span className="monospace">{`${data.collection.creator.slice(
+                      0,
+                      6,
+                    )}...${data.collection.creator.slice(-6)}`}</span>
+                  </Link>
+                ) : (
+                  '-'
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

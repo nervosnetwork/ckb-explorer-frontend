@@ -1,0 +1,11 @@
+.skeleton {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  border-radius: 0.25em;
+  background-color: #bababa;
+
+  &.circle {
+    border-radius: calc(infinity * 1px);
+  }
+}
