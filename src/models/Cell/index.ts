@@ -34,6 +34,16 @@ export interface CellInfo {
   data: string
 }
 
+export interface SporeCellInfo {
+  clusterName: string
+  tokenId: string
+  collection: {
+    typeHash: string
+  }
+  published: boolean
+  data: string
+}
+
 export interface Cell$Base {
   id: number
   addressHash: string
@@ -130,6 +140,11 @@ export interface XUDT extends Cell$Base {
   extraInfo: Record<'amount' | 'decimal' | 'name' | 'symbol', string>
 }
 
+export interface Cell$Spore extends Cell$Base {
+  cellType: 'spore_cell' | 'did_cell'
+  extraInfo: SporeCellInfo
+}
+
 export type Cell =
   | Cell$NoExtra
   | Cell$UDT
@@ -138,4 +153,5 @@ export type Cell =
   | Cell$NftToken
   | Cell$Nrc721Token
   | Omiga$XUDT
+  | Cell$Spore
   | XUDT
