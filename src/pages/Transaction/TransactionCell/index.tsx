@@ -1,12 +1,19 @@
-import { useState, ReactNode, FC } from 'react'
+import { useState, ReactNode, FC, useEffect } from 'react'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 import { Link } from '../../../components/Link'
 import { IOType } from '../../../constants/common'
 import { parseUDTAmount } from '../../../utils/number'
-import { parseSimpleDate } from '../../../utils/date'
+import { dayjs, parseSimpleDate } from '../../../utils/date'
 import { sliceNftName } from '../../../utils/string'
-import { shannonToCkb, shannonToCkbDecimal, parseSince } from '../../../utils/util'
+import {
+  shannonToCkb,
+  shannonToCkbDecimal,
+  parseSince,
+  formatNftDisplayId,
+  handleNftImgError,
+} from '../../../utils/util'
 import { UDT_CELL_TYPES } from '../../../utils/cell'
 import TransactionCellArrow from '../../../components/Transaction/TransactionCellArrow'
 import Capacity from '../../../components/Capacity'
@@ -30,9 +37,11 @@ import { useDeprecatedAddr, useIsMobile, useNewAddr } from '../../../hooks'
 import { useDASAccount } from '../../../hooks/useDASAccount'
 import styles from './styles.module.scss'
 import AddressText from '../../../components/AddressText'
-import { Cell, UDTInfo } from '../../../models/Cell'
+import { Cell, Cell$Spore, UDTInfo } from '../../../models/Cell'
 import CellModal from '../../../components/Cell/CellModal'
 import { CellBasicInfo } from '../../../utils/transformer'
+import { getSporeImg } from '../../../utils/spore'
+import { explorerService } from '../../../services/ExplorerService'
 
 export const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, isCellBase }) => {
   const alias = useDASAccount(address)
@@ -140,6 +149,84 @@ const TransactionCellIndexAddress = ({
   )
 }
 
+const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
+  const [imageUrl, setImageUrl] = useState('')
+  const { collection: { typeHash } = {}, tokenId = '' } = cell.extraInfo
+  const { data } = useQuery(
+    ['nft-item-info', typeHash, tokenId],
+    () => explorerService.api.fetchNFTCollectionItem(typeHash!, tokenId),
+    {
+      enabled: !!typeHash && !!tokenId,
+    },
+  )
+  const tokenIdStr = `${data?.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
+    data?.token_id ?? '',
+    data?.standard ?? null,
+  )}`
+
+  useEffect(() => {
+    getSporeImg({ data: cell.extraInfo.data, id: cell.extraInfo.tokenId }).then(res => {
+      setImageUrl(res)
+    })
+  }, [cell.extraInfo.data, cell.extraInfo.tokenId])
+
+  return (
+    <div className={styles.dodInfo}>
+      <img src={imageUrl} alt="nft" className={styles.dodInfoImage} onError={handleNftImgError} />
+      <div className={styles.dodInfoDetails}>
+        <div className={styles.dodInfoItem}>
+          <div className={styles.dodInfoLabel}>Name</div>
+          <div className={styles.dodInfoValue}>
+            <Link to={`/nft-info/${typeHash}/${data?.token_id}`} className={styles.dodInfoValue}>
+              <span className="monospace">
+                {data?.collection.name ?? 'Unique Item'}{' '}
+                {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
+              </span>
+            </Link>
+          </div>
+        </div>
+        <div className={styles.dodInfoRow}>
+          <div className={styles.dodInfoItem}>
+            <div className={styles.dodInfoLabel}>Collection</div>
+            <div className={styles.dodInfoValue}>
+              <Link to={`/nft-collections/${typeHash}`} className={styles.collection}>
+                {data?.collection.name ?? 'Unique Item'}
+              </Link>
+            </div>
+          </div>
+          <div className={styles.dodInfoItem}>
+            <div className={styles.dodInfoLabel}>Token ID</div>
+            <div className={`${styles.dodInfoValue}`}>
+              <Link to={`/nft-info/${typeHash}/${data?.token_id}`} className="monospace">
+                {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
+              </Link>
+            </div>
+          </div>
+          <div className={styles.dodInfoItem}>
+            <div className={styles.dodInfoLabel}>Created At</div>
+            <div>{dayjs(data?.created_at).format('YYYY/MM/DD HH:mm:ss')}</div>
+          </div>
+          <div className={styles.dodInfoItem}>
+            <div className={styles.dodInfoLabel}>Creator</div>
+            <div>
+              {data?.collection.creator ? (
+                <Link to={`/address/${data.collection.creator}`} className={styles.dodInfoValue}>
+                  <span className="monospace">{`${data.collection.creator.slice(
+                    0,
+                    6,
+                  )}...${data.collection.creator.slice(-6)}`}</span>
+                </Link>
+              ) : (
+                '-'
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const useParseNftInfo = (cell: Cell) => {
   const { t } = useTranslation()
   if (cell.cellType === 'nrc_721_token') {
@@ -170,6 +257,10 @@ const useParseNftInfo = (cell: Cell) => {
     return (
       <div className={styles.transactionCellNftInfo}>{`${className}\n#${parseInt(nftInfo.tokenId, 16)}${total}`}</div>
     )
+  }
+
+  if (cell.cellType === 'spore_cell' || cell.cellType === 'did_cell') {
+    return <DOBInfo cell={cell as Cell$Spore} />
   }
 }
 
@@ -235,7 +326,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     case 'spore_cell': {
       detailTitle = t('nft.dob')
       detailIcon = SporeCellIcon
-      tooltip = t('transaction.spore')
+      tooltip = nftInfo
       break
     }
     case 'omiga_inscription': {
@@ -262,7 +353,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   return (
     <div className={styles.transactionCellDetailPanel} data-is-withdraw={cell.cellType === 'nervos_dao_withdrawing'}>
       {tooltip ? (
-        <Tooltip placement="top" title={tooltip}>
+        <Tooltip placement="top" title={tooltip} overlayInnerStyle={{ maxWidth: 'unset', width: 'max-content' }}>
           <img src={detailIcon} alt="cell detail" />
         </Tooltip>
       ) : (

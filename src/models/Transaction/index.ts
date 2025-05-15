@@ -7,9 +7,10 @@ export interface CellDep {
     txHash: string
   }
   script: {
-    codeHash: string
-    hashType: string
-    name: string
+    codeHash: string | null
+    hashType: string | null
+    name: string | null
+    isLockScript: boolean
   }
 }
 

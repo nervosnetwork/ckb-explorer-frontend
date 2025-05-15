@@ -496,6 +496,7 @@ export interface NFTItem {
   metadata_url: string | null
   type_script: Record<'code_hash' | 'hash_type' | 'args' | 'script_hash', string>
   dob?: Dob
+  created_at: string
 }
 
 export interface ScriptInfo {
