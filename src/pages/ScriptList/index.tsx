@@ -385,13 +385,13 @@ const getfilterList = (t: TFunction) => [
   {
     key: 'lock',
     value: 'lock',
-    title: t('scripts.LockScript'),
+    title: t('scripts.lock_script'),
     to: '/scripts',
   },
   {
     key: 'type',
     value: 'type',
-    title: t('scripts.TypeScript'),
+    title: t('scripts.type_script'),
     to: '/scripts',
   },
 ]
@@ -423,8 +423,8 @@ const ScriptInfo: FC<{ script: ScriptDetail }> = ({ script }) => {
       </dl>
       <dl className={styles.tokenInfo}>
         <dt className={styles.title}>{t('scripts.script_type')}</dt>
-        {script.isTypeScript && <dd className={styles.value}>{t('scripts.TypeScript')}</dd>}
-        {script.isLockScript && <dd className={styles.value}>{t('scripts.LockScript')}</dd>}
+        {script.isTypeScript && <dd className={styles.value}>{t('scripts.type_script')}</dd>}
+        {script.isLockScript && <dd className={styles.value}>{t('scripts.lock_script')}</dd>}
       </dl>
       {fields.map(field => (
         <dl className={styles.tokenInfo}>

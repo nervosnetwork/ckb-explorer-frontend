@@ -78,10 +78,10 @@
     "@testing-library/react": "12.1.5",
     "@types/canvas-confetti": "^1.9.0",
     "@types/echarts": "4.9.22",
-    "@types/eslint": "8.56.11",
+    "@types/eslint": "8.56.12",
     "@types/jest": "29.5.12",
     "@types/lodash.debounce": "4.0.9",
-    "@types/node": "16.18.98",
+    "@types/node": "16.18.126",
     "@types/qrcode": "1.5.5",
     "@types/react": "17.0.65",
     "@types/react-dom": "17.0.20",
@@ -128,6 +128,9 @@
     "ts-jest": "29.1.4",
     "typescript": "4.9.5",
     "webpack": "5.94.0"
+  },
+  "resolutions": {
+    "caniuse-lite": "1.0.30001653"
   },
   "scripts": {
     "start": "react-app-rewired start",

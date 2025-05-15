@@ -4,7 +4,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { explorerService } from '../../services/ExplorerService'
-import { matchTxHash } from '../../utils/util'
 import Loading from '../AwesomeLoadings/Spinner'
 import HashTag from '../HashTag'
 import { HelpTip } from '../HelpTip'
@@ -85,9 +84,12 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
           const {
             outPoint: { txHash, index },
             depType,
-            script: { codeHash, hashType, name },
+            script: { codeHash, hashType, name, isLockScript },
           } = cellDep
-          const hashTag = matchTxHash(txHash, Number(index))
+          const hashTag: { tag: string | null; category: 'lock' | 'type' } = {
+            tag: name,
+            category: isLockScript ? 'lock' : 'type',
+          }
           return (
             <div className={styles.fieldSet} key={`${txHash}-${index}`}>
               <Field
@@ -96,8 +98,14 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
                 value={txHash}
                 linkUrl={`/transaction/${txHash}`}
                 tag={
-                  hashTag && (
-                    <HashTag content={name} category={hashTag.category} script={{ codeHash, hashType, args: '' }} />
+                  hashTag.tag &&
+                  codeHash &&
+                  hashType && (
+                    <HashTag
+                      content={hashTag.tag}
+                      category={hashTag.category}
+                      script={{ codeHash, hashType, args: '' }}
+                    />
                   )
                 }
               />
