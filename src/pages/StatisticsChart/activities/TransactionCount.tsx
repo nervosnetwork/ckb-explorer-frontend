@@ -111,38 +111,43 @@ export const TransactionCountChart = ({ isThumbnail = false }: { isThumbnail?: b
   const onScaleTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setScaleType(e.target.value as 'linear' | 'log')
   }
+
+  const chart = (
+    <SmartChartPage
+      title={t('statistic.transaction_count')}
+      isThumbnail={isThumbnail}
+      fetchData={explorerService.api.fetchStatisticTransactionCount}
+      getEChartOption={useOption({ type: scaleType, t, language: i18n.language })}
+      toCSV={toCSV}
+      queryKey="fetchStatisticTransactionCount"
+    />
+  )
+
+  if (isThumbnail) return chart
+
   return (
     <div className={styles.container}>
-      <SmartChartPage
-        title={t('statistic.transaction_count')}
-        isThumbnail={isThumbnail}
-        fetchData={explorerService.api.fetchStatisticTransactionCount}
-        getEChartOption={useOption({ type: scaleType, t, language: i18n.language })}
-        toCSV={toCSV}
-        queryKey="fetchStatisticTransactionCount"
-      />
-      {isThumbnail ? null : (
-        <div className={styles.scaleSelector}>
-          <input
-            type="radio"
-            id="linear"
-            name="scaleType"
-            value="linear"
-            checked={scaleType === 'linear'}
-            onChange={onScaleTypeChange}
-          />
-          <label htmlFor="linear">Linear Scale</label>
-          <input
-            type="radio"
-            id="log"
-            name="scaleType"
-            value="log"
-            checked={scaleType === 'log'}
-            onChange={onScaleTypeChange}
-          />
-          <label htmlFor="log">Log Scale</label>
-        </div>
-      )}
+      {chart}
+      <div className={styles.scaleSelector}>
+        <input
+          type="radio"
+          id="linear"
+          name="scaleType"
+          value="linear"
+          checked={scaleType === 'linear'}
+          onChange={onScaleTypeChange}
+        />
+        <label htmlFor="linear">Linear Scale</label>
+        <input
+          type="radio"
+          id="log"
+          name="scaleType"
+          value="log"
+          checked={scaleType === 'log'}
+          onChange={onScaleTypeChange}
+        />
+        <label htmlFor="log">Log Scale</label>
+      </div>
     </div>
   )
 }
