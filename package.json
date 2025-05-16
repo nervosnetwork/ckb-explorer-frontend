@@ -79,7 +79,7 @@
     "@types/canvas-confetti": "^1.9.0",
     "@types/echarts": "4.9.22",
     "@types/eslint": "8.56.12",
-    "@types/jest": "29.5.12",
+    "@types/jest": "29.5.14",
     "@types/lodash.debounce": "4.0.9",
     "@types/node": "16.18.126",
     "@types/qrcode": "1.5.5",
