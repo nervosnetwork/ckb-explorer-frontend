@@ -112,18 +112,22 @@ export const TxFeeHistoryChart = ({ isThumbnail = false }: { isThumbnail?: boole
     setScaleType(e.target.value as 'linear' | 'log')
   }
 
+  const chart = (
+    <SmartChartPage
+      title={t('statistic.tx_fee_history')}
+      description={t('statistic.tx_fee_description')}
+      isThumbnail={isThumbnail}
+      fetchData={explorerService.api.fetchStatisticTxFeeHistory}
+      getEChartOption={useOption({ type: scaleType, t, language: i18n.language })}
+      toCSV={toCSV}
+      queryKey="fetchStatisticTxFeeHistory"
+    />
+  )
+
+  if (isThumbnail) return chart
   return (
     <div className={styles.container}>
-      <SmartChartPage
-        title={t('statistic.tx_fee_history')}
-        description={t('statistic.tx_fee_description')}
-        isThumbnail={isThumbnail}
-        fetchData={explorerService.api.fetchStatisticTxFeeHistory}
-        getEChartOption={useOption({ type: scaleType, t, language: i18n.language })}
-        toCSV={toCSV}
-        queryKey="fetchStatisticTxFeeHistory"
-      />
-
+      {chart}
       {isThumbnail ? null : (
         <div className={styles.scaleSelector}>
           <input
