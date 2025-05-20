@@ -262,7 +262,30 @@ function depsAreSame(oldDeps: DependencyList, deps: DependencyList): boolean {
   return oldDeps.every((i, idx) => Object.is(i, deps[idx]))
 }
 
+export const useCountdown = (targetDate: Date): [number, number, number, number, number] => {
+  const countdownDate = new Date(targetDate).getTime()
+
+  const [countdown, setCountdown] = useState(countdownDate - new Date().getTime())
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown(countdownDate - new Date().getTime())
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [countdownDate])
+
+  const expired = countdown <= 0
+  const days = expired ? 0 : Math.floor(countdown / (1000 * 60 * 60 * 24))
+  const hours = expired ? 0 : Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  const minutes = expired ? 0 : Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = expired ? 0 : Math.floor((countdown % (1000 * 60)) / 1000)
+
+  return [days, hours, minutes, seconds, countdown]
+}
+
 export * from './browser'
 export * from './route'
 export * from './halving'
 export * from './useDASAccount'
+export * from './epoch'
