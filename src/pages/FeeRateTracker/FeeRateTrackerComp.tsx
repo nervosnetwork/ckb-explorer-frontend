@@ -46,7 +46,7 @@ const colors = ChartColor.moreColors
 export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
   const { t } = useTranslation()
   let allFrs = transactionFeeRates.sort((a, b) => a.confirmationTime - b.confirmationTime)
-  const minFeeRate = allFrs.sort((a, b) => a.feeRate - b.feeRate)[0].feeRate
+  const minFeeRate = allFrs.reduce((min, current) => Math.min(min, current.feeRate), Infinity)
 
   const SCALING_FACTOR = 5
 
