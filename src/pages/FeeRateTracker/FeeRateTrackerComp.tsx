@@ -45,13 +45,26 @@ const colors = ChartColor.moreColors
 
 export const FeeRateCards = ({ transactionFeeRates }: { transactionFeeRates: FeeRateTracker.TransactionFeeRate[] }) => {
   const { t } = useTranslation()
-  const allFrs = transactionFeeRates.sort((a, b) => a.confirmationTime - b.confirmationTime)
+  let allFrs = transactionFeeRates.sort((a, b) => a.confirmationTime - b.confirmationTime)
+  const minFeeRate = allFrs.reduce((min, current) => Math.min(min, current.feeRate), Infinity)
+
+  const SCALING_FACTOR = 5
+
+  const sampleWithinScale = allFrs.filter(r => r.feeRate <= minFeeRate * SCALING_FACTOR)
+  if (sampleWithinScale.length * 3 > allFrs.length) {
+    // When more than 1/3 of transactions have fee rates within 5x of the minimum,
+    // we consider the network to have sufficient bandwidth. In this case,
+    // we filter out transactions with unusually high fee rates to provide
+    // more accurate fee rate recommendations.
+    allFrs = sampleWithinScale
+  }
+
   const avgConfirmationTime = getWeightedMedian(allFrs)
 
   const lowFrs = allFrs.filter(r => r.confirmationTime >= avgConfirmationTime)
   const lowConfirmationTime = getWeightedMedian(lowFrs)
 
-  const highFrs = allFrs.filter(r => r.confirmationTime <= avgConfirmationTime)
+  const highFrs = allFrs.filter(r => r.confirmationTime < avgConfirmationTime)
   const highConfirmationTime = getWeightedMedian(highFrs)
 
   const list = [lowFrs, allFrs, highFrs].map(calcFeeRate)

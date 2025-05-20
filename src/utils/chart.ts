@@ -116,7 +116,7 @@ export const getFeeRateSamples = (feeRates: FeeRateTracker.TransactionFeeRate[],
   const validSamples = feeRates.filter(i => i.confirmationTime).sort((a, b) => a.feeRate - b.feeRate)
 
   // check if lowest fee rate has ideal confirmation time
-  const lowests = validSamples.slice(0, SAMPLES_MIN_COUNT)
+  const lowests = validSamples.slice(0, sampleCount)
   const avgOfLowests = lowests.reduce((acc, cur) => acc + cur.confirmationTime, 0) / lowests.length
 
   const ACCEPTABLE_CONFIRMATION_TIME = 2 * avgBlockTime
