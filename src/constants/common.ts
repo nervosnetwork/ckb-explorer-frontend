@@ -177,7 +177,7 @@ export const TIME_TEMPLATE = 'YYYY-MM-DD HH:mm:ss'
 export const DEFAULT_SPORE_IMAGE = '/images/spore_placeholder.svg'
 
 // https://github.com/nervosnetwork/ckb/pull/4807/files#diff-1beb40a3d17a41c5906970fca040280ff421695a65b0f3da51e6abb06329c4a6R10
-export const ESTIMATED_ACTIVATION_TIME = {
+export const HARDFORK_ESTIMATED_ACTIVATION_TIME = {
   start: new Date('2025-03-05T08:00:00'),
   epoch: 12_293,
 }

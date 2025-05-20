@@ -17,14 +17,14 @@ import { useCountdown, useEpochCountdown } from '../../hooks'
 import { explorerService, useStatistics } from '../../services/ExplorerService'
 import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
 import FlatCube from './FlatCube'
-import { ESTIMATED_ACTIVATION_TIME } from '../../constants/common'
+import { HARDFORK_ESTIMATED_ACTIVATION_TIME } from '../../constants/common'
 import comments from './comments'
 import { Link } from '../../components/Link'
 
 const targetVers = [0, 200] // 0.200.0
 
 export default function CountdownPage() {
-  const { estimatedDate } = useEpochCountdown(ESTIMATED_ACTIVATION_TIME.epoch)
+  const { estimatedDate } = useEpochCountdown(HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch)
   const [days, hours, minutes, seconds, countdown] = useCountdown(estimatedDate)
   const [isEnd, setIsEnd] = useState(false)
   const { t } = useTranslation()
@@ -61,7 +61,7 @@ export default function CountdownPage() {
 
   const progress = [
     { label: 'current_epoch', value: Number(currentEpoch.toFixed(2)).toLocaleString('en') },
-    { label: 'target_epoch', value: ESTIMATED_ACTIVATION_TIME.epoch.toLocaleString('en') },
+    { label: 'target_epoch', value: HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch.toLocaleString('en') },
     {
       label: 'estimated_time',
       value: dayjs(estimatedDate).format('YYYY.MM.DD hh:mm:ss'),
@@ -194,8 +194,8 @@ export default function CountdownPage() {
                     0,
                     Math.min(
                       100,
-                      ((new Date().getTime() - ESTIMATED_ACTIVATION_TIME.start.getTime()) /
-                        (estimatedDate.getTime() - ESTIMATED_ACTIVATION_TIME.start.getTime())) *
+                      ((new Date().getTime() - HARDFORK_ESTIMATED_ACTIVATION_TIME.start.getTime()) /
+                        (estimatedDate.getTime() - HARDFORK_ESTIMATED_ACTIVATION_TIME.start.getTime())) *
                         100,
                     ),
                   )}%`,
