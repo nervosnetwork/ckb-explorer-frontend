@@ -64,7 +64,7 @@ export default function CountdownPage() {
     { label: 'target_epoch', value: HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch.toLocaleString('en') },
     {
       label: 'estimated_time',
-      value: dayjs(estimatedDate).format('YYYY.MM.DD hh:mm:ss'),
+      value: dayjs(estimatedDate).format('YYYY.MM.DD HH:mm:ss'),
       tooltip: `UTC ${utcOffset > 0 ? `+ ${utcOffset}` : utcOffset}`,
     },
     { label: 'miner_percent', value: minerPercent },
