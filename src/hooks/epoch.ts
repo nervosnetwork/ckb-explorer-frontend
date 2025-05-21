@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useStatistics, explorerService } from '../services/ExplorerService'
 import { THEORETICAL_EPOCH_TIME } from '../constants/common'
 
-export const useCurrentEpochOverTime = (theoretical: boolean) => {
+const useCurrentEpochOverTime = (theoretical: boolean) => {
   const statistics = useStatistics()
   const epochLength = Number(statistics.epochInfo.epochLength)
   const epochBlockIndex = Number(statistics.epochInfo.index)
@@ -21,27 +21,27 @@ export const useCurrentEpochOverTime = (theoretical: boolean) => {
     if (!firstBlock.data) {
       return {
         currentEpochUsedTime: 0,
-        currentEpochEstimatedTime: 0,
+        currentEpochRemainingTime: 0,
         averageBlockTime: 0,
         isLoading: true,
       }
     }
     // Extrapolate the end time based on how much time has elapsed since the current epoch.
-    const currentEpochEstimatedTime = (epochLength - epochBlockIndex) * averageBlockTime
+    const currentEpochRemainingTime = (epochLength - epochBlockIndex) * averageBlockTime
 
     return {
       currentEpochUsedTime: new Date().getTime() - firstBlock.data.timestamp,
-      currentEpochEstimatedTime,
+      currentEpochRemainingTime,
       averageBlockTime,
       isLoading: statistics.epochInfo.index === '0',
     }
   }
 
   const currentEpochUsedTime = (epochBlockIndex / epochLength) * THEORETICAL_EPOCH_TIME
-  const currentEpochEstimatedTime = THEORETICAL_EPOCH_TIME - currentEpochUsedTime
+  const currentEpochRemainingTime = THEORETICAL_EPOCH_TIME - currentEpochUsedTime
   return {
     currentEpochUsedTime,
-    currentEpochEstimatedTime,
+    currentEpochRemainingTime,
     averageBlockTime: THEORETICAL_EPOCH_TIME / epochLength,
     isLoading: statistics.epochInfo.index === '0',
   }
@@ -49,21 +49,44 @@ export const useCurrentEpochOverTime = (theoretical: boolean) => {
 
 export const useEpochCountdown = (targetEpoch: number) => {
   const statistics = useStatistics()
-  const currentEpoch = Number(statistics.epochInfo.epochNumber)
-  const epochLength = Number(statistics.epochInfo.epochLength)
-  const epochBlockIndex = Number(statistics.epochInfo.index)
 
-  const { currentEpochEstimatedTime, currentEpochUsedTime, isLoading } = useCurrentEpochOverTime(
-    !(currentEpoch === targetEpoch - 1 && epochBlockIndex / epochLength > 0.5),
-  )
+  const currentEpoch = +statistics.epochInfo.epochLength
+    ? +statistics.epochInfo.epochNumber + +statistics.epochInfo.index / +statistics.epochInfo.epochLength
+    : +statistics.epochInfo.epochNumber
 
-  const estimatedTime = currentEpochEstimatedTime + THEORETICAL_EPOCH_TIME * (targetEpoch - currentEpoch - 1)
-  const estimatedDate = useMemo(() => new Date(new Date().getTime() + estimatedTime), [estimatedTime])
-  const haveDone = currentEpoch >= targetEpoch
+  const remainingEpoch = Math.max(targetEpoch - currentEpoch, 0)
+  const haveDone = remainingEpoch <= 0
+
+  const { currentEpochRemainingTime, currentEpochUsedTime, isLoading } = useCurrentEpochOverTime(remainingEpoch <= 0.25) // use dynamic block time within 1/4 epoch left
+
+  const estimatedDate = useMemo(() => {
+    if (haveDone) {
+      return new Date()
+    }
+    let remainingTime = 0
+    const targetEpochNumber = Math.floor(targetEpoch)
+    const currentEpochNumber = Math.floor(currentEpoch)
+
+    if (currentEpochNumber === targetEpochNumber) {
+      // if the target epoch and current epoch are in the same cycle
+      remainingTime =
+        (currentEpochRemainingTime * (targetEpoch - currentEpoch)) / (currentEpoch + 1 - currentEpochNumber)
+    } else {
+      // if the target epoch is in the following cycles
+      remainingTime = currentEpochRemainingTime + (targetEpoch - currentEpochNumber - 1) * THEORETICAL_EPOCH_TIME
+    }
+
+    // add a tolerance when it comes to the end (1min)
+    if (remainingTime < 60 * 1000) {
+      remainingTime += 20 * 1000
+    }
+    return new Date(Date.now() + remainingTime)
+  }, [haveDone, targetEpoch, currentEpoch])
 
   return {
+    currentEpoch,
     haveDone,
-    estimatedDate,
+    estimatedDate: !haveDone && estimatedDate < new Date() ? new Date(Date.now() + 3000) : estimatedDate, // avoid negative date
     currentEpochUsedTime,
     isLoading,
   }
