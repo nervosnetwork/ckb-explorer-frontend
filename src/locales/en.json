@@ -120,7 +120,8 @@
         "current_epoch": "Current Epoch",
         "target_epoch": "Target Epoch",
         "miner_percent": "Miners %",
-        "estimated_time": "Estimated Time"
+        "estimated_time": "Estimated Time",
+        "activated": "Activated"
       }
     },
     "glossary": {

@@ -1,45 +1,51 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react/no-unescaped-entities */
-import { useEffect, useMemo, useState } from 'react'
-import confetti from 'canvas-confetti'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import { Tooltip } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { useLocation } from 'react-router'
 import { OpenInNewWindowIcon } from '@radix-ui/react-icons'
+import BigNumber from 'bignumber.js'
 import SquareBackground from '../../components/SquareBackground'
 import styles from './styles.module.scss'
 import glowingLine from './glowingLine.png'
 import { InfiniteMovingCard } from './InfiniteMovingCard'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../components/ui/Accordion'
 import { useCountdown, useEpochCountdown } from '../../hooks'
-import { explorerService, useStatistics } from '../../services/ExplorerService'
+import { explorerService } from '../../services/ExplorerService'
 import { ReactComponent as WarningCircle } from '../../assets/warning_circle.svg'
 import FlatCube from './FlatCube'
 import { HARDFORK_ESTIMATED_ACTIVATION_TIME } from '../../constants/common'
 import comments from './comments'
 import { Link } from '../../components/Link'
+import confetti from '../../utils/confetti'
 
 const targetVers = [0, 200] // 0.200.0
+const TIME_TEMPLATE = 'YYYY.MM.DD HH:mm:ss'
 
 export default function CountdownPage() {
-  const { estimatedDate } = useEpochCountdown(HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch)
-  const [days, hours, minutes, seconds, countdown] = useCountdown(estimatedDate)
-  const [isEnd, setIsEnd] = useState(false)
+  const {
+    currentEpoch,
+    estimatedDate,
+    haveDone: isActivated,
+  } = useEpochCountdown(HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch)
+  const [days, hours, minutes, seconds] = useCountdown(estimatedDate)
   const { t } = useTranslation()
 
   const { hash } = useLocation()
-
-  const statistics = useStatistics()
-  const currentEpoch = +statistics.epochInfo.epochLength
-    ? +statistics.epochInfo.epochNumber + +statistics.epochInfo.index / +statistics.epochInfo.epochLength
-    : +statistics.epochInfo.epochNumber
 
   const { data: minerVersions } = useQuery({
     queryKey: ['statisticMinerVersionDistribution'],
     queryFn: () => explorerService.api.fetchStatisticMinerVersionDistribution(),
     refetchInterval: 60 * 1000, // 1min
+  })
+
+  const activatedBlockQuery = useQuery({
+    queryKey: ['blockByEpoch', +HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch],
+    queryFn: () => explorerService.api.fetchBlockByEpoch(HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch),
+    enabled: isActivated,
   })
 
   const miners =
@@ -60,15 +66,28 @@ export default function CountdownPage() {
   const utcOffset = dayjs().utcOffset() / 60
 
   const progress = [
-    { label: 'current_epoch', value: Number(currentEpoch.toFixed(2)).toLocaleString('en') },
+    { label: 'current_epoch', value: BigNumber(currentEpoch).toFormat(2, BigNumber.ROUND_FLOOR) },
     { label: 'target_epoch', value: HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch.toLocaleString('en') },
-    {
-      label: 'estimated_time',
-      value: dayjs(estimatedDate).format('YYYY.MM.DD HH:mm:ss'),
-      tooltip: `UTC ${utcOffset > 0 ? `+ ${utcOffset}` : utcOffset}`,
-    },
+    isActivated
+      ? {
+          label: 'activated',
+          value: activatedBlockQuery.data ? (
+            <Link to={`/block/${activatedBlockQuery.data.blockHash}`}>
+              {dayjs(new Date(+activatedBlockQuery.data.timestamp)).format(TIME_TEMPLATE)}
+            </Link>
+          ) : (
+            '...'
+          ),
+          tooltip: activatedBlockQuery.data
+            ? `Block ${Number(activatedBlockQuery.data.number).toLocaleString('en')}`
+            : '',
+        }
+      : {
+          label: 'estimated_time',
+          value: dayjs(estimatedDate).format(TIME_TEMPLATE),
+          tooltip: `UTC ${utcOffset > 0 ? `+ ${utcOffset}` : utcOffset}`,
+        },
     { label: 'miner_percent', value: minerPercent },
-    // todo add exchanges
   ]
 
   const shuffledComments = useMemo(
@@ -89,42 +108,11 @@ export default function CountdownPage() {
     element?.scrollIntoView({ behavior: 'smooth' })
   }, [hash])
 
-  const handleConfetti = () => {
-    const end = Date.now() + 3 * 1000 // 3 seconds
-    const colors = ['#a786ff', '#fd8bbc', '#eca184', '#f8deb1']
-
-    const frame = () => {
-      if (Date.now() > end) return
-      confetti({
-        particleCount: 2,
-        angle: 60,
-        spread: 55,
-        startVelocity: 60,
-        origin: { x: 0, y: 0.5 },
-        colors,
-      })
-      confetti({
-        particleCount: 2,
-        angle: 120,
-        spread: 55,
-        startVelocity: 60,
-        origin: { x: 1, y: 0.5 },
-        colors,
-      })
-
-      requestAnimationFrame(frame)
-    }
-
-    frame()
-  }
-
   useEffect(() => {
-    if (isEnd) return
-    if (countdown < 0) {
-      setIsEnd(true)
-      return () => handleConfetti()
+    if (isActivated) {
+      confetti()
     }
-  }, [countdown, isEnd, setIsEnd])
+  }, [isActivated])
 
   return (
     <div className={styles.countdownPage}>
@@ -153,11 +141,9 @@ export default function CountdownPage() {
       </div>
 
       <main className={styles.mainContainer}>
-        <h1 className={styles.mainTitle}>
-          {countdown > 3 ? 'NEXT HARDFORK OF CKB' : 'CKB Network Hardfork is completed 🎉'}
-        </h1>
+        <h1 className={styles.mainTitle}>{!isActivated ? 'NEXT HARDFORK OF CKB' : 'CKB Hardfork is activated 🎉'}</h1>
         <div className={styles.countdownSection}>
-          {countdown > 3 && (
+          {!isActivated && (
             <>
               <p className={styles.comingSoon}>COMING SOON</p>
 
@@ -190,15 +176,17 @@ export default function CountdownPage() {
               <div
                 className={styles.progressFill}
                 style={{
-                  width: `${Math.max(
-                    0,
-                    Math.min(
-                      100,
-                      ((new Date().getTime() - HARDFORK_ESTIMATED_ACTIVATION_TIME.start.getTime()) /
-                        (estimatedDate.getTime() - HARDFORK_ESTIMATED_ACTIVATION_TIME.start.getTime())) *
-                        100,
-                    ),
-                  )}%`,
+                  width: isActivated
+                    ? '100%'
+                    : `${Math.max(
+                        0,
+                        Math.min(
+                          100,
+                          ((new Date().getTime() - HARDFORK_ESTIMATED_ACTIVATION_TIME.start.getTime()) /
+                            (estimatedDate.getTime() - HARDFORK_ESTIMATED_ACTIVATION_TIME.start.getTime())) *
+                            100,
+                        ),
+                      )}%`,
                 }}
               />
             </div>

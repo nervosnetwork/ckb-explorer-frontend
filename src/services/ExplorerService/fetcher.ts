@@ -375,6 +375,17 @@ export const apiFetcher = {
   },
 
   fetchBlock: (blockHeightOrHash: string) => v1GetUnwrapped<Block>(`blocks/${blockHeightOrHash}`),
+  fetchBlockByEpoch: (epochNumber: number, epochIndex = 0) => {
+    const res = requesterV2
+      .get(
+        `blocks/by_epoch?${new URLSearchParams({
+          epoch_number: epochNumber.toString(),
+          epoch_index: epochIndex.toString(),
+        })}`,
+      )
+      .then(res => toCamelcase<Response.Response<{ attributes: Block } | null>>(res.data).data?.attributes)
+    return res
+  },
 
   fetchScript: (scriptType: 'lock_scripts' | 'type_scripts', id: string) =>
     v1GetNullableWrapped<Script>(`/cell_output_${scriptType}/${id}`),
