@@ -26,6 +26,7 @@ import NFTTokenIcon from './m_nft.svg'
 import CoTACellIcon from './cota_cell.svg'
 import CoTARegCellIcon from './cota_reg_cell.svg'
 import SporeCellIcon from './spore.svg'
+import MultisigIcon from './multisig.svg'
 import { ReactComponent as LockTimeIcon } from './clock.svg'
 import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
 import SimpleModal from '../../../components/Modal'
@@ -293,6 +294,8 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   let detailIcon
   let tooltip: string | ReactNode = ''
   const nftInfo = useParseNftInfo(cell)
+  const isMultisig = (cell.tags ?? []).find(tag => tag === 'multisig') !== undefined
+
   switch (cell.cellType) {
     case 'nervos_dao_deposit':
       detailTitle = t('transaction.nervos_dao_deposit')
@@ -383,6 +386,11 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
         detailIcon && <img src={detailIcon} alt="cell detail" />
       )}
       <div>{detailTitle}</div>
+      {isMultisig ? (
+        <Tooltip placement="top" title="Multisig">
+          <img src={MultisigIcon} alt="multisig" />
+        </Tooltip>
+      ) : null}
     </div>
   )
 }

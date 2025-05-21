@@ -1,6 +1,6 @@
 import { Link } from '../../../../components/Link'
 import SquareBackground from '../../../../components/SquareBackground'
-import { ESTIMATED_ACTIVATION_TIME } from '../../../../constants/common'
+import { HARDFORK_ESTIMATED_ACTIVATION_TIME } from '../../../../constants/common'
 import Cube from './3d_cube.png'
 import styles from './index.module.scss'
 
@@ -22,7 +22,7 @@ const HardforkBanner = () => {
             <Link to="/hardfork">Next Hardfork of CKB</Link>
           </h1>
           <div className={styles.epoch}>
-            <span>{ESTIMATED_ACTIVATION_TIME.epoch.toLocaleString('en')}</span>
+            <span>{HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch.toLocaleString('en')}</span>
             <span>Target Epoch Number</span>
           </div>
         </div>
