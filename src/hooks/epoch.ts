@@ -81,7 +81,7 @@ export const useEpochCountdown = (targetEpoch: number) => {
       remainingTime += 20 * 1000
     }
     return new Date(Date.now() + remainingTime)
-  }, [haveDone, targetEpoch, currentEpoch])
+  }, [haveDone, targetEpoch, currentEpoch, currentEpochRemainingTime])
 
   return {
     currentEpoch,
