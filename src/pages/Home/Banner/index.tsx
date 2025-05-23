@@ -18,7 +18,10 @@ const { BACKUP_NODES: backupNodes } = config
 type BannerItem = {
   key: string
   component: React.ReactNode
+  isHidden?: boolean
 }
+
+const FORCE_BRIDGE_SHOWTIME = new Date('2025-06-01').getTime()
 
 export default () => {
   const [t] = useTranslation()
@@ -65,6 +68,7 @@ export default () => {
     {
       key: 'force-bridge',
       component: <ForceBridge />,
+      isHidden: Date.now() < FORCE_BRIDGE_SHOWTIME,
     },
   ]
 
@@ -173,13 +177,15 @@ export default () => {
 
       {banners.length > 1 && (
         <div className={styles.carouselDots}>
-          {banners.map((banner, index) => (
-            <div
-              key={banner.key}
-              className={`${styles.dot} ${index === currentIndex ? styles.activeDot : ''}`}
-              onClick={() => goToBanner(index)}
-            />
-          ))}
+          {banners
+            .filter(b => !b.isHidden)
+            .map((banner, index) => (
+              <div
+                key={banner.key}
+                className={`${styles.dot} ${index === currentIndex ? styles.activeDot : ''}`}
+                onClick={() => goToBanner(index)}
+              />
+            ))}
         </div>
       )}
     </div>
