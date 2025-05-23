@@ -13,7 +13,7 @@ const ForceBridge = () => {
             initial={{ opacity: 0.5, transform: 'scale(0.1)' }}
             whileInView={{ opacity: 1, transform: 'scale(1)' }}
             transition={{
-              delay: 0,
+              delay: 0.3,
               duration: 0.3,
               ease: 'easeInOut',
             }}
@@ -45,12 +45,20 @@ const ForceBridge = () => {
           <div className={styles.exitTextWrapper}>
             <motion.a
               className={styles.exitText}
-              initial={{ opacity: 0.5, transform: 'translateX(100%)' }}
-              whileInView={{ opacity: 1, transform: 'translateX(0%)' }}
+              initial={{ opacity: 0, x: '100%', y: '40px' }}
+              whileInView={{
+                opacity: [0, 1],
+                x: ['100%', '0%'],
+                y: ['40px', '40px', '0px'],
+              }}
               transition={{
-                delay: 0,
+                delay: 0.3,
                 duration: 0.5,
-                ease: 'easeInOut',
+                ease: [0.4, 0, 0.3, 1],
+                times: {
+                  x: [0, 1],
+                  y: [0, 0.5, 1],
+                },
               }}
               href="https://sunset.forcebridge.com/force-bridge"
               target="_blank"
@@ -66,12 +74,12 @@ const ForceBridge = () => {
             </motion.a>
             <motion.a
               className={styles.exitText}
-              initial={{ opacity: 0.5, transform: 'translateX(100%)' }}
+              initial={{ opacity: 0, transform: 'translateX(100%)' }}
               whileInView={{ opacity: 1, transform: 'translateX(0%)' }}
               transition={{
-                delay: 0,
+                delay: 0.3,
                 duration: 0.5,
-                ease: 'easeInOut',
+                ease: [0.4, 0, 0.3, 1],
               }}
               style={{
                 marginLeft: 'auto',
