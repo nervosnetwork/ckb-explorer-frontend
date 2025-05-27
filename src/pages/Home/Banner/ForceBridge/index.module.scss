@@ -1,0 +1,237 @@
+@import '../../../../styles/variables.module';
+
+.container {
+  $background-color: #000;
+  $text-color: #fff;
+  $text-secondary: rgb(255 255 255 / 60%);
+  $dim-color: #333;
+  $border-color: rgb(255 255 255 / 10%);
+  $accent-color: #fff;
+  $card-bg: rgb(20 20 20 / 50%);
+  $hover-bg: rgb(40 40 40 / 50%);
+
+  position: relative;
+  background-color: $background-color;
+  color: $text-color;
+  height: 270px;
+  overflow: hidden;
+  font-family: Roboto, inherit, sans-serif;
+
+  @media (width <= $mobileBreakPoint) {
+    height: 200px;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20vw;
+    margin-top: 30px;
+
+    @media screen and (width <=$xxlBreakPoint) {
+      padding: 0 15vw;
+    }
+
+    @media screen and (width <=$extraLargeBreakPoint) {
+      padding: 0 10vw;
+    }
+
+    @media screen and (width <=$largeBreakPoint) {
+      padding: 0 60px;
+    }
+  }
+
+  .endContent {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    @media (width <= $mobileBreakPoint) {
+      position: static;
+      align-items: center;
+    }
+  }
+
+  .endContentWrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    max-width: 40vw;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    @media (width <= $mobileBreakPoint) {
+      position: static;
+      align-items: center;
+    }
+  }
+
+  .title {
+    font-size: 2rem;
+    line-height: 40px;
+    font-weight: 700;
+    white-space: nowrap;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+
+    @media (width <= $mobileBreakPoint) {
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 32px;
+      margin-bottom: 24px;
+    }
+  }
+
+  .description {
+    font-size: 1rem;
+    line-height: 20px;
+    font-weight: 400;
+    margin-bottom: 20px;
+
+    @media (width <= $mobileBreakPoint) {
+      display: none;
+    }
+  }
+
+  .announcementBtn {
+    background-color: var(--primary-color);
+    cursor: pointer;
+    user-select: none;
+    font-size: 16px;
+    padding: 14px 40px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    white-space: nowrap;
+
+    @media (width <= $mobileBreakPoint) {
+      padding: 8px 40px;
+    }
+  }
+
+  .endAnimation {
+    position: absolute;
+    width: 30rem;
+    height: 15rem;
+    z-index: 1;
+    background-image: url('./lamp.webp');
+    background-size: 130%;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: -3rem;
+    left: -6rem;
+    transform-origin: top center;
+
+    @media (width <= $mobileBreakPoint) {
+      inset: 0;
+      width: 100%;
+    }
+  }
+
+  .exitContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+
+    @media (width <= $mobileBreakPoint) {
+      display: none;
+    }
+  }
+
+  .exitBackground {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20rem;
+    height: 15rem;
+    background-image: url('./gate.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .exitTextWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    width: 22rem;
+    right: 10px;
+    top: 0;
+    transform-origin: right center;
+    transform: skewY(-25deg);
+    overflow: hidden;
+  }
+
+  .exitText {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: fit-content;
+    height: 32px;
+    padding: 0 10px;
+    font-size: 1rem;
+    line-height: 20px;
+    font-weight: 400;
+    white-space: nowrap;
+    transform-origin: right center;
+    background-color: #fff;
+    color: #333;
+    border-radius: 4px;
+  }
+
+  .exitImage {
+    object-fit: contain;
+  }
+
+  @keyframes fade {
+    40% {
+      opacity: 0.8;
+    }
+
+    42% {
+      opacity: 0.1;
+    }
+
+    43% {
+      opacity: 0.8;
+    }
+
+    45% {
+      opacity: 0.1;
+    }
+
+    46% {
+      opacity: 0.8;
+    }
+  }
+
+  .neonText {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2rem;
+    line-height: 40px;
+    white-space: nowrap;
+    margin-bottom: 12px;
+    color: #ff4a4a;
+    transform: translate(50%, -30%) skewY(25deg);
+    text-shadow: 2px 2px 1px rgba(0 0 0 / 30%), 0 0 10px #ff4a4a, 0 0 50px #ff4a4a;
+  }
+
+  .neonTextFade {
+    color: #ff4a4a;
+    animation: fade 3s infinite alternate;
+  }
+}

@@ -93,6 +93,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 4px;
 
   &[data-is-withdraw='true'] {
     > img {
@@ -111,10 +112,6 @@
   > div {
     font-size: 15px;
     text-align: left;
-  }
-
-  > img {
-    margin-right: 5px;
   }
 }
 

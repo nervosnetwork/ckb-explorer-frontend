@@ -14,6 +14,7 @@ import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import type { Transaction } from '../../models/Transaction'
+import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
 import {
   useDeprecatedAddr,
   useNewAddr,
@@ -38,6 +39,10 @@ import { defaultAddressInfo } from './state'
 import { BTCAddressOverviewCard } from './BTCAddressComp'
 import Qrcode from '../../components/Qrcode'
 import { FaucetMenu } from '../../components/FaucetMenu'
+import { isMainnet } from '../../utils/chain'
+import MultisigIcon from './multisig.svg'
+
+const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
@@ -227,6 +232,9 @@ export const Address = () => {
   const deprecatedAddr = useDeprecatedAddr(address)
   const counterpartAddr = newAddr === address ? deprecatedAddr : newAddr
   const isBtcAddress = isRGBPP ? isValidBTCAddress(address) : false
+  const isMultisig =
+    scriptDataList.find(script => script.codeHashes.find(codeHash => codeHash === addressInfo?.lockScript.codeHash))
+      ?.tag === 'secp256k1 / multisig'
 
   return (
     <Content>
@@ -238,6 +246,11 @@ export const Address = () => {
             hash={address}
             customActions={[
               <Qrcode text={address} />,
+              isMultisig ? (
+                <Tooltip placement="top" title="Multisig">
+                  <img src={MultisigIcon} alt="multisig" />
+                </Tooltip>
+              ) : null,
               isBtcAddress ? <LinkToBtcAddress address={address} /> : null,
               <FaucetMenu address={address} />,
               counterpartAddr ? (
