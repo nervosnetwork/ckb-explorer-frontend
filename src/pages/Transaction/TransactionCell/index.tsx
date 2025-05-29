@@ -141,7 +141,10 @@ const TransactionCellIndexAddress = ({
           </Tooltip>
         ) : null}
         {isFiber ? (
-          <Tooltip placement="top" title={t(`transaction.fiber_cell`)}>
+          <Tooltip
+            placement="top"
+            title={ioType === IOType.Input ? t('transaction.fiber_cell_input') : t('transaction.fiber_cell_output')}
+          >
             <span className={styles.fiberTag}>Fiber</span>
           </Tooltip>
         ) : null}
