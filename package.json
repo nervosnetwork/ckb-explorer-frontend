@@ -131,7 +131,7 @@
     "webpack": "5.94.0"
   },
   "resolutions": {
-    "caniuse-lite": "1.0.30001653"
+    "caniuse-lite": "1.0.30001720"
   },
   "scripts": {
     "start": "react-app-rewired start",
