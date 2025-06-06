@@ -173,6 +173,10 @@ const routes: RouteProps[] = [
     component: DaoDepositorsExport,
   },
   {
+    path: '/udts',
+    component: Xudts,
+  },
+  {
     path: '/xudts',
     component: Xudts,
   },
