@@ -9,32 +9,32 @@ export const HalvingCountdown = () => {
 
   return (
     <div className={styles.halvingCountdown}>
-      <div className={styles.digtialClockItem}>
-        <div className={styles.digtialClockNumber}>
+      <div className={styles.digitalClockItem}>
+        <div className={styles.digitalClockNumber}>
           <span>{days}</span>
         </div>
-        <div className={styles.digtialClockText}>{t('common.days')}</div>
+        <div className={styles.digitalClockText}>{t('common.days')}</div>
       </div>
-      <div className={styles.digtialClockSeparate} />
-      <div className={styles.digtialClockItem}>
-        <div className={styles.digtialClockNumber}>
+      <div className={styles.digitalClockSeparate} />
+      <div className={styles.digitalClockItem}>
+        <div className={styles.digitalClockNumber}>
           <span>{hours.toString().padStart(2, '0')}</span>
         </div>
-        <div className={styles.digtialClockText}>{t('common.hours')}</div>
+        <div className={styles.digitalClockText}>{t('common.hours')}</div>
       </div>
-      <div className={styles.digtialClockSeparate} />
-      <div className={styles.digtialClockItem}>
-        <div className={styles.digtialClockNumber}>
+      <div className={styles.digitalClockSeparate} />
+      <div className={styles.digitalClockItem}>
+        <div className={styles.digitalClockNumber}>
           <span>{minutes.toString().padStart(2, '0')}</span>
         </div>
-        <div className={styles.digtialClockText}>{t('common.minutes')}</div>
+        <div className={styles.digitalClockText}>{t('common.minutes')}</div>
       </div>
-      <div className={styles.digtialClockSeparate} />
-      <div className={styles.digtialClockItem}>
-        <div className={styles.digtialClockNumber}>
+      <div className={styles.digitalClockSeparate} />
+      <div className={styles.digitalClockItem}>
+        <div className={styles.digitalClockNumber}>
           <span>{seconds.toString().padStart(2, '0')}</span>
         </div>
-        <div className={styles.digtialClockText}>{t('common.seconds')}</div>
+        <div className={styles.digitalClockText}>{t('common.seconds')}</div>
       </div>
     </div>
   )

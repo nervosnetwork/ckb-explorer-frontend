@@ -16,7 +16,7 @@
   align-items: flex-start;
   justify-content: space-between;
 
-  .digtialClockNumber {
+  .digitalClockNumber {
     border: 1px solid #004938;
     border-radius: 8px;
     display: flex;
@@ -46,7 +46,7 @@
     }
   }
 
-  .digtialClockSeparate {
+  .digitalClockSeparate {
     width: 8px;
     height: 100%;
 
@@ -60,7 +60,7 @@
     }
   }
 
-  .digtialClockText {
+  .digitalClockText {
     font-size: 12px;
     font-weight: 500;
     color: var(--primary-color);
@@ -68,7 +68,7 @@
   }
 
   @media (width >= $mobileBreakPoint) {
-    .digtialClockNumber {
+    .digitalClockNumber {
       width: 136px;
       height: 136px;
       margin-bottom: 8px;
@@ -79,7 +79,7 @@
       }
     }
 
-    .digtialClockSeparate {
+    .digitalClockSeparate {
       width: 16px;
 
       &::after {
@@ -89,7 +89,7 @@
       }
     }
 
-    .digtialClockText {
+    .digitalClockText {
       font-size: 14px;
     }
   }
