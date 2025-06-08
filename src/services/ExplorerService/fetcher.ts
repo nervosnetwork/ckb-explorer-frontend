@@ -922,12 +922,21 @@ export const apiFetcher = {
       .then(res => toCamelcase<string>(res.data))
   },
 
-  fetchXudt: (typeHash: string) => v1GetUnwrapped<XUDT>(`/xudts/${typeHash}`),
+  fetchXudt: (typeHash: string) => v1GetUnwrapped<XUDT>(`/fungible_tokens/${typeHash}`),
   fetchXudtHolderAllocation: (typeHash: string) =>
     requesterV1.get(`/udts/${typeHash}/holder_allocation`).then(res => toCamelcase<XUDTHolderAllocation>(res.data)),
-
   fetchXudts: (page: number, size: number, sort?: string, tags?: string, union?: string) =>
     v1GetUnwrappedPagedList<XUDT>(`/xudts`, {
+      params: {
+        page,
+        page_size: size,
+        sort,
+        tags,
+        union: union ?? 'false',
+      },
+    }),
+  fetchUdts: (page: number, size: number, sort?: string, tags?: string, union?: string) =>
+    v1GetUnwrappedPagedList<XUDT>(`/fungible_tokens`, {
       params: {
         page,
         page_size: size,

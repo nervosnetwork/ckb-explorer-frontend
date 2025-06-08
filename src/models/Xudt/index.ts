@@ -31,4 +31,8 @@ export interface XUDT {
   operatorWebsite: string
   email: string
   description: string
+  ssriContractOutpoint?: {
+    cellIndex: number
+    txHash: string
+  }
 }

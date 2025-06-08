@@ -275,10 +275,26 @@
 
 .title {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 8px;
   font-size: 24px;
   font-weight: bold;
+
+  .titleText {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .currentPath {
+    font-size: 14px;
+    color: #333;
+    font-weight: normal;
+  }
+
+  .currentPage {
+    color: var(--primary-color);
+  }
 
   a {
     font-weight: normal;

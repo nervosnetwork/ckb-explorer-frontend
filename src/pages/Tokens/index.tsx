@@ -367,15 +367,21 @@ const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
     <Content>
       <TokensPanel className="container">
         <div className="tokensTitlePanel">
-          <span className={styles.title}>
-            {isInscription ? t('udt.inscriptions') : t('udt.tokens')}
-            {sudtCodeUrl ? (
-              <Link to={sudtCodeUrl}>
-                {t('scripts.open_source_script')}
-                <OpenSourceIcon />
-              </Link>
-            ) : null}
-          </span>
+          <div className={styles.title}>
+            <span className={styles.titleText}>
+              {isInscription ? t('udt.inscriptions') : t('udt.tokens')}
+              {sudtCodeUrl ? (
+                <Link to={sudtCodeUrl}>
+                  {t('scripts.open_source_script')}
+                  <OpenSourceIcon />
+                </Link>
+              ) : null}
+            </span>
+            <span className={styles.currentPath}>
+              {t('udt.udts')} &gt;{' '}
+              <span className={styles.currentPage}>{isInscription ? t('udt.inscriptions') : t('udt.tokens')}</span>
+            </span>
+          </div>
           <button
             type="button"
             className={styles.submitTokenInfoBtn}
