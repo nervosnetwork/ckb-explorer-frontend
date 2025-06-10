@@ -709,6 +709,44 @@ export namespace Fiber {
       }
     }
 
+    export type Transaction =
+      | {
+          index?: number
+          isOpen: true
+          isUdt: boolean
+          txHash: string
+          blockNumber: number
+          blockTimestamp: number
+          capacity: string
+          udtInfo?: {
+            symbol: string
+            amount: string
+            decimal: string
+            typeHash: string
+            published: boolean
+          }
+          address: string
+        }
+      | {
+          index?: number
+          isOpen: false
+          isUdt: boolean
+          txHash: string
+          blockNumber: number
+          blockTimestamp: number
+          closeAccounts: {
+            capacity: string
+            udtInfo?: {
+              symbol: string
+              amount: string
+              decimal: string
+              typeHash: string
+              published: boolean
+            }
+            address: string
+          }[]
+        }
+
     interface ClosedTransactionInfo {
       blockNumber: number
       blockTimestamp: number
