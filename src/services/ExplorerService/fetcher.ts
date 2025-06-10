@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios'
 import BigNumber from 'bignumber.js'
 import { Dayjs } from 'dayjs'
 import { pick } from '../../utils/object'
-import { shannonToCkb, toCamelcase } from '../../utils/util'
+import { shannonToCkb, toCamelcase, toSnakeCase } from '../../utils/util'
 import { requesterV1, requesterV2 } from './requester'
 import {
   ChartItem,
@@ -1385,6 +1385,66 @@ export const apiFetcher = {
     return requesterV2
       .get(`/fiber/graph_nodes/${id}`)
       .then(res => toCamelcase<Response.Response<Fiber.Graph.NodeDetail>>(res.data))
+  },
+  getGraphNodeTransactions: (
+    id: string,
+    query: {
+      page?: string
+      pageSize?: string
+      sort?: 'block_timestamp.desc' | 'block_timestamp.asc'
+      typeHash?: string
+      minTokenAmount?: string
+      maxTokenAmount?: string
+      addressHash?: string
+      status?: 'open' | 'closed'
+      startDate?: string
+      endDate?: string
+    } = {
+      page: '1',
+      pageSize: '10',
+    },
+  ) => {
+    return requesterV2
+      .get(`/fiber/graph_nodes/${id}/transactions?${new URLSearchParams(toSnakeCase({ ...query }))}`)
+      .then(res =>
+        toCamelcase<
+          Response.Response<{
+            fiberGraphTransactions: Fiber.Graph.Transaction[]
+          }>
+        >(res.data),
+      )
+  },
+  getGraphNodeChannels: (
+    id: string,
+    query: {
+      page?: string
+      pageSize?: string
+      sort?: 'position_time.desc' | 'position_time.asc' | 'capacity.desc' | 'capacity.asc'
+      typeHash?: string
+      minTokenAmount?: string
+      maxTokenAmount?: string
+      addressHash?: string
+      status?: 'open' | 'closed'
+      startDate?: string
+      endDate?: string
+    } = {
+      page: '1',
+      pageSize: '10',
+    },
+  ) => {
+    return requesterV2
+      .get(
+        `/fiber/graph_nodes/${id}/graph_channels?${new URLSearchParams(
+          new URLSearchParams(toSnakeCase({ ...query })),
+        )}`,
+      )
+      .then(res =>
+        toCamelcase<
+          Response.Response<{
+            fiberGraphChannels: Fiber.Graph.Channel[]
+          }>
+        >(res.data),
+      )
   },
   getGraphChannels: (page = 1, pageSize = 10) => {
     return requesterV2

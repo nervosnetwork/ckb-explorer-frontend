@@ -71,6 +71,38 @@ export const toCamelcase = <T>(object: any): T => {
     ),
   ) as T
 }
+type SnakeCase<S extends string> = S extends `${infer T}${infer U}`
+  ? `${T extends Uppercase<T> ? '_' : ''}${Lowercase<T>}${SnakeCase<U>}`
+  : S
+
+type ToSnakeCaseKeys<T> = T extends object
+  ? {
+      [K in keyof T as SnakeCase<string & K>]: T[K] extends object ? ToSnakeCaseKeys<T[K]> : T[K]
+    }
+  : T
+
+export function toSnakeCase<T>(obj: T): ToSnakeCaseKeys<T> {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj as ToSnakeCaseKeys<T>
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => toSnakeCase(item)) as ToSnakeCaseKeys<T>
+  }
+
+  const result: any = {}
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      const snakeKey = key
+        .replace(/([A-Z])/g, '_$1')
+        .toLowerCase()
+        .replace(/^_/, '')
+      result[snakeKey] = toSnakeCase(obj[key])
+    }
+  }
+
+  return result as ToSnakeCaseKeys<T>
+}
 
 export const useFormatConfirmation = () => {
   const { t } = useTranslation()
