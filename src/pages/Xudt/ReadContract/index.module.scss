@@ -1,0 +1,28 @@
+@import '../../../styles/variables.module';
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #fff;
+  padding: 24px 40px;
+
+  @media screen and (width <= $mobileBreakPoint) {
+    padding: 20px;
+  }
+}
+
+.expandAllButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.expandAllButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  color: var(--primary-color);
+}

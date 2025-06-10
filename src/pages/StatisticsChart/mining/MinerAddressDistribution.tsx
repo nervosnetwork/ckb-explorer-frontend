@@ -97,6 +97,9 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
   const history = useHistory()
   const onClick = useCallback(
     (param: echarts.CallbackDataParams) => {
+      if (param && param.data.title === 'other') {
+        return
+      }
       if (param && param.data.title) {
         history.push(`/${language}/address/${param.data.title}`)
       }

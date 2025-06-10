@@ -9,4 +9,5 @@ export default {
   DOBS_SERVICE_URL: process.env.REACT_APP_DOBS_SERVICE_URL,
   BTC_TEST_IDENTIFIER: process.env.REACT_APP_BTC_TESETNET_IDENTIFIER!,
   METRICS_API_URL: process.env.REACT_APP_METRICS_API_URL,
+  REACT_APP_SSRI_RPC_URL: process.env.REACT_APP_SSRI_RPC_URL || 'https://ssri.magickbase.com/',
 }

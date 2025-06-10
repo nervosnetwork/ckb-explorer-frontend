@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
 import Content from '../../components/Content'
-import UDTComp, { UDTOverviewCard } from './UDTComp'
+import UDTComp from './UDTComp'
+import { UDTOverviewCard } from './UDTOverviewCard'
 import { usePaginationParamsInPage, useSearchParams, useUpdateSearchParams } from '../../hooks'
 import Filter from '../../components/Filter'
 import { localeNumberString } from '../../utils/number'
@@ -13,6 +15,7 @@ import { QueryResult } from '../../components/QueryResult'
 import styles from './styles.module.scss'
 import { Cell } from '../../models/Cell'
 import { assert } from '../../utils/error'
+import ReadContract from './ReadContract'
 
 export const Xudt = () => {
   const { t } = useTranslation()
@@ -21,8 +24,9 @@ export const Xudt = () => {
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
 
   const { filter } = useSearchParams('filter')
-
   const updateSearchParams = useUpdateSearchParams<'filter' | 'page'>()
+
+  const [currentTab, setCurrentTab] = useState<'transactions' | 'contract'>('transactions')
 
   const queryXudt = useQuery(['xudt', typeHash], () => explorerService.api.fetchXudt(typeHash))
   const xudt = queryXudt.data
@@ -81,12 +85,28 @@ export const Xudt = () => {
             queryXudtHolderAllocation.refetch()
           }}
         />
-
         <div className={styles.udtTransactionTitlePanel}>
           <div className={styles.udtTransactionContainer}>
-            <div className={styles.udtTransactionTitle}>
+            <div
+              className={classNames(styles.udtTransactionTitle, {
+                [styles.udtTransactionTitleActive]: currentTab === 'transactions',
+              })}
+              onClick={() => setCurrentTab('transactions')}
+            >
               {`${t('transaction.transactions')} (${localeNumberString(total)})`}
             </div>
+            {!!xudt?.ssriContractOutpoint?.txHash && (
+              <div
+                className={classNames(styles.udtTransactionTitle, {
+                  [styles.udtTransactionTitleActive]: currentTab === 'contract',
+                })}
+                onClick={() => setCurrentTab('contract')}
+              >
+                {t('xudt.read_contract.title')}
+              </div>
+            )}
+          </div>
+          {currentTab === 'transactions' && (
             <div className={styles.searchAndfilter}>
               <Filter
                 defaultValue={filter ?? ''}
@@ -96,22 +116,25 @@ export const Xudt = () => {
                 onReset={() => updateSearchParams(params => ({ ...params, filter: null }))}
               />
             </div>
-          </div>
+          )}
         </div>
 
-        <QueryResult query={querySimpleUDTTransactions} delayLoading>
-          {data => (
-            <UDTComp
-              currentPage={currentPage}
-              pageSize={pageSize}
-              transactions={data?.transactions ?? []}
-              total={data?.total ?? 0}
-              onPageChange={setPage}
-              filterNoResult={filterNoResult}
-              xudt={xudt}
-            />
-          )}
-        </QueryResult>
+        {currentTab === 'transactions' && (
+          <QueryResult query={querySimpleUDTTransactions} delayLoading>
+            {data => (
+              <UDTComp
+                currentPage={currentPage}
+                pageSize={pageSize}
+                transactions={data?.transactions ?? []}
+                total={data?.total ?? 0}
+                onPageChange={setPage}
+                filterNoResult={filterNoResult}
+                xudt={xudt}
+              />
+            )}
+          </QueryResult>
+        )}
+        {currentTab === 'contract' && <ReadContract xudt={xudt} />}
       </div>
     </Content>
   )

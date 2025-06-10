@@ -243,7 +243,7 @@
       "fiber_network": "Fiber Network",
       "fiber_statistics": "总览",
       "fiber_graph_nodes": "节点",
-      "coins": "代币"
+      "coins": "UDT"
     },
     "banner": {
       "fiber_title": "Fiber Network 不忘初心",
@@ -811,6 +811,8 @@
       "no_more_data": "没有更多数据了"
     },
     "udt": {
+      "udts": "UDT 列表",
+      "description": "所有满足 UDT 特征或特性的代币都将包含在此处。这包括 xUDT 和 sUDT。",
       "sudt": "sUDT",
       "name": "代币名称",
       "symbol": "代币符号",
@@ -826,7 +828,7 @@
       "submit_token_info": "提交代币信息",
       "modify_token_info": "修改代币信息",
       "unknown_token_description": "此代币信息暂时不完整，如果你是此代币的拥有者，请提交代币信息",
-      "tokens": "代币",
+      "tokens": "sUDT 列表",
       "transactions": "24小时交易数",
       "address_count": "持币用户数",
       "created_time": "创建时间",
@@ -859,12 +861,19 @@
       "title": {
         "tags": "标签"
       },
+      "read_contract": {
+        "title": "读取合约",
+        "query": "查询",
+        "add_parameter": "添加参数",
+        "expand_all": "展开所有",
+        "collapse_all": "收起所有"
+      },
       "holder_distribution": "地址分布",
       "holder_distribution_description": "当前资产有 {{ckb}} 个 CKB 用户及 {{btc}} 个 BTC 用户，BTC holder 是指拥有此资产的去重 BTC 地址数量。",
       "lock_hash": "Lock Hash",
       "count": "Count",
       "xudt": "xUDT",
-      "xudts": "xUDTs",
+      "xudts": "xUDT 列表",
       "name": "名称",
       "symbol": "符号",
       "total_amount": "总量",

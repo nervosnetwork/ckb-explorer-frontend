@@ -1,8 +1,8 @@
 import { Table, Tooltip } from 'antd'
-import { useHistory } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { FC, ReactNode, useState } from 'react'
+import { FC, ReactNode, useMemo, useState } from 'react'
 import { ColumnGroupType, ColumnType } from 'antd/lib/table'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
@@ -196,7 +196,8 @@ const TokenTable: FC<{
   >
   sortParam?: ReturnType<typeof useSortParam<SortField>>
   isEmpty: boolean
-}> = ({ query, sortParam, isEmpty }) => {
+  isXudts: boolean
+}> = ({ query, sortParam, isEmpty, isXudts }) => {
   const { t } = useTranslation()
   const RGBPP_VIEW = 'rgbpp'
   const { location } = useHistory()
@@ -261,7 +262,7 @@ const TokenTable: FC<{
           title: (
             <Tooltip title={t('xudt.display_rgbpp_holders')}>
               <Link
-                to={`${location.pathname}?${new URLSearchParams({ ...urlQuery, view: 'ckb' })}`}
+                to={`/xudts?${new URLSearchParams({ ...urlQuery, view: 'ckb' })}`}
                 style={{ color: 'var(--primary-color)' }}
               >
                 {t('xudt.rgbpp_holders_count')}
@@ -272,16 +273,21 @@ const TokenTable: FC<{
           render: (_, token) => localeNumberString(token.holdersCount),
         }
       : {
-          title: (
+          title: isXudts ? (
             <Tooltip title={t('xudt.display_unique_ckb_addresses')}>
               <Link
-                to={`${location.pathname}?${new URLSearchParams({ ...urlQuery, view: RGBPP_VIEW })}`}
+                to={`/xudts?${new URLSearchParams({ ...urlQuery, view: RGBPP_VIEW })}`}
                 style={{ color: 'var(--primary-color)' }}
               >
                 {t('xudt.unique_addresses')}
               </Link>
               <SortButton field="addresses_count" sortParam={sortParam} />
             </Tooltip>
+          ) : (
+            <div>
+              <span>{t('xudt.address_count')}</span>
+              <SortButton field="addresses_count" sortParam={sortParam} />
+            </div>
           ),
           className: styles.colAddressCount,
           render: (_, token) => localeNumberString(token.addressesCount),
@@ -320,6 +326,8 @@ const xudtCodeUrl = scripts.get('xUDT')?.code
 
 const Xudts = () => {
   const { t } = useTranslation()
+  const { pathname } = useLocation()
+  const isXudts = useMemo(() => pathname.includes('xudts'), [pathname])
   const { tags } = useSearchParams('tags')
   const [isSubmitTokenInfoModalOpen, setIsSubmitTokenInfoModalOpen] = useState<boolean>(false)
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
@@ -331,7 +339,9 @@ const Xudts = () => {
       data: tokens,
       total,
       pageSize,
-    } = await explorerService.api.fetchXudts(currentPage, _pageSize, sort ?? undefined, tags, 'true')
+    } = isXudts
+      ? await explorerService.api.fetchXudts(currentPage, _pageSize, sort ?? undefined, tags, 'true')
+      : await explorerService.api.fetchUdts(currentPage, _pageSize, sort ?? undefined, tags, 'true')
     if (tokens.length === 0) {
       throw new Error('Tokens empty')
     }
@@ -356,15 +366,27 @@ const Xudts = () => {
     <Content>
       <div className={classNames(styles.tokensPanel, 'container')}>
         <div className={styles.tokensTitlePanel}>
-          <div className={styles.title}>
-            {t('xudt.xudts')}
-            {xudtCodeUrl ? (
-              <Link to={xudtCodeUrl}>
-                {t('scripts.open_source_script')}
-                <OpenSourceIcon />
-              </Link>
-            ) : null}
-          </div>
+          {isXudts ? (
+            <div className={styles.title}>
+              <span className={styles.titleText}>
+                {t('xudt.xudts')}
+                {xudtCodeUrl ? (
+                  <Link to={xudtCodeUrl}>
+                    {t('scripts.open_source_script')}
+                    <OpenSourceIcon />
+                  </Link>
+                ) : null}
+              </span>
+              <span className={styles.currentPath}>
+                {t('udt.udts')} &gt; <span className={styles.currentPage}>{t('xudt.xudts')}</span>
+              </span>
+            </div>
+          ) : (
+            <div className={styles.title}>
+              <span className={styles.titleText}>{t('udt.udts')}</span>
+              <span className={styles.description}>{t('udt.description')}</span>
+            </div>
+          )}
 
           <button
             type="button"
@@ -379,7 +401,7 @@ const Xudts = () => {
           <TokensCard query={query} sortParam={sortParam} isEmpty={isEmpty} />
         </div>
         <div className={styles.table}>
-          <TokenTable query={query} sortParam={sortParam} isEmpty={isEmpty} />
+          <TokenTable query={query} sortParam={sortParam} isEmpty={isEmpty} isXudts={isXudts} />
         </div>
 
         <Pagination

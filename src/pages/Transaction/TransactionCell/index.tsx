@@ -99,8 +99,6 @@ const TransactionCellIndexAddress = ({
   const deprecatedAddr = useDeprecatedAddr(cell.addressHash)!
   const newAddr = useNewAddr(cell.addressHash)
   const address = isAddrNew ? newAddr : deprecatedAddr
-  const isFiber = (cell.tags ?? []).find(tag => tag === 'fiber') !== undefined
-  const isDeployment = (cell.tags ?? []).find(tag => tag === 'deployment') !== undefined
 
   let since
   try {
@@ -140,15 +138,6 @@ const TransactionCellIndexAddress = ({
             <LockTimeIcon className={styles.locktime} />
           </Tooltip>
         ) : null}
-        {isFiber ? (
-          <Tooltip
-            placement="top"
-            title={ioType === IOType.Input ? t('transaction.fiber_cell_input') : t('transaction.fiber_cell_output')}
-          >
-            <span className={styles.fiberTag}>Fiber</span>
-          </Tooltip>
-        ) : null}
-        {isDeployment ? <span className={styles.deploymentTag}>Deployment</span> : null}
       </div>
     </div>
   )
@@ -298,6 +287,8 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   let tooltip: string | ReactNode = ''
   const nftInfo = useParseNftInfo(cell)
   const isMultisig = (cell.tags ?? []).find(tag => tag === 'multisig') !== undefined
+  const isFiber = (cell.tags ?? []).find(tag => tag === 'fiber') !== undefined
+  const isDeployment = (cell.tags ?? []).find(tag => tag === 'deployment') !== undefined
 
   switch (cell.cellType) {
     case 'nervos_dao_deposit':
@@ -389,6 +380,20 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
         detailIcon && <img src={detailIcon} alt="cell detail" />
       )}
       <div>{detailTitle}</div>
+      {(() => {
+        if (!isFiber) return null
+
+        if (cell.fiberGraphChannelInfo) {
+          return (
+            <Link to={`/fiber/graph/node/${cell.fiberGraphChannelInfo.node1}`} className="monospace">
+              <span className={styles.fiberTag}>Fiber</span>
+            </Link>
+          )
+        }
+
+        return <span className={styles.fiberTag}>Fiber</span>
+      })()}
+      {isDeployment ? <span className={styles.deploymentTag}>Deployment</span> : null}
       {isMultisig ? (
         <Tooltip placement="top" title="Multisig">
           <img src={MultisigIcon} alt="multisig" />
