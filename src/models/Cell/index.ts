@@ -81,6 +81,10 @@ export interface Cell$Base {
     consumedTxid: string
     status: 'bound' | 'unbound' | 'binding' | 'normal'
   }
+  fiberGraphChannelInfo?: {
+    node1: string
+    node2: string
+  }
 }
 
 export interface Cell$NoExtra extends Cell$Base {

@@ -94,13 +94,13 @@ const useMenuDataList = () => {
       name: t('navbar.tokens'),
       icon: <Assets />,
       children: [
-        { type: 'label', name: t('navbar.coins') },
+        { type: LinkType.Inner, name: t('navbar.coins'), url: '/udts', attrs: [] },
         { type: 'separator' },
         {
           type: LinkType.Inner,
           name: t('navbar.xUDT'),
           url: '/xudts',
-          attrs: ['inset', 'hot'],
+          attrs: ['inset'],
         },
         {
           type: LinkType.Inner,
@@ -119,7 +119,7 @@ const useMenuDataList = () => {
           type: LinkType.Inner,
           name: t('navbar.nft_collections'),
           url: '/nft-collections',
-          attrs: ['hot'],
+          attrs: [],
         },
       ],
     },
