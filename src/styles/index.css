@@ -96,6 +96,10 @@ a {
   }
 }
 
+.text-primary {
+  color: var(--primary-color);
+}
+
 .ant-tooltip-inner {
   white-space: pre-wrap;
   border-radius: 8px;

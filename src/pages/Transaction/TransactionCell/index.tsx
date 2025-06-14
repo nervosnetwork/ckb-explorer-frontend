@@ -1,9 +1,12 @@
-import { useState, ReactNode, FC, useEffect } from 'react'
+/* eslint-disable no-console */
+import { useState, ReactNode, FC, useEffect, useRef } from 'react'
 import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
+import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Link } from '../../../components/Link'
-import { IOType } from '../../../constants/common'
+import { IOType, IS_MAINNET } from '../../../constants/common'
+import { MainnetContractHashTags, TestnetContractHashTags, ZERO_LOCK_CODE_HASH } from '../../../constants/scripts'
 import { parseUDTAmount } from '../../../utils/number'
 import { dayjs, parseSimpleDate } from '../../../utils/date'
 import { sliceNftName } from '../../../utils/string'
@@ -23,6 +26,9 @@ import UDTTokenIcon from '../../../assets/udt_token.png'
 import NFTIssuerIcon from './m_nft_issuer.svg'
 import NFTClassIcon from './m_nft_class.svg'
 import NFTTokenIcon from './m_nft.svg'
+import MoreIcon from './more.svg'
+import DobIcon from './dob.svg'
+import ZeroLockIcon from './zero_lock.svg'
 import CoTACellIcon from './cota_cell.svg'
 import CoTARegCellIcon from './cota_reg_cell.svg'
 import SporeCellIcon from './spore.svg'
@@ -44,6 +50,13 @@ import { CellBasicInfo } from '../../../utils/transformer'
 import { getSporeImg } from '../../../utils/spore'
 import { explorerService } from '../../../services/ExplorerService'
 import Skeleton from '../../../components/ui/Skeleton'
+import { Popover, PopoverContent, PopoverTrigger } from '../../../components/ui/Popover'
+
+const scriptDataList = IS_MAINNET ? MainnetContractHashTags : TestnetContractHashTags
+const scriptDataMap = scriptDataList.reduce((acc, item) => {
+  acc[item.tag] = item
+  return acc
+}, {} as Record<string, (typeof scriptDataList)[number]>)
 
 export const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, isCellBase }) => {
   const alias = useDASAccount(address)
@@ -144,32 +157,20 @@ const TransactionCellIndexAddress = ({
 }
 
 const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
-  const [imageUrl, setImageUrl] = useState('')
-  const { collection: { typeHash } = {}, tokenId = '' } = cell.extraInfo
-  const { data, isLoading } = useQuery(
-    ['nft-item-info', typeHash, tokenId],
-    () => explorerService.api.fetchNFTCollectionItem(typeHash!, tokenId),
-    {
-      enabled: !!typeHash && !!tokenId,
-    },
-  )
-  const tokenIdStr = `${data?.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
-    data?.token_id ?? '',
-    data?.standard ?? null,
-  )}`
+  const { collection: { typeHash } = {} } = cell.extraInfo
+  const { data: dobInfo, isLoading } = useDOBInfo(cell)
 
-  useEffect(() => {
-    getSporeImg({ data: cell.extraInfo.data, id: cell.extraInfo.tokenId }).then(res => {
-      setImageUrl(res)
-    })
-  }, [cell.extraInfo.data, cell.extraInfo.tokenId])
+  const tokenIdStr = `${dobInfo.nftInfo?.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
+    dobInfo.nftInfo?.token_id ?? '',
+    dobInfo.nftInfo?.standard ?? null,
+  )}`
 
   const textSkeleton = <Skeleton style={{ height: 16, width: 150 }} />
 
   return (
     <div className={styles.dodInfo}>
-      {imageUrl ? (
-        <img src={imageUrl} alt="nft" className={styles.dodInfoImage} onError={handleNftImgError} />
+      {dobInfo.cover ? (
+        <img src={dobInfo.cover} alt="nft" className={styles.dodInfoImage} onError={handleNftImgError} />
       ) : (
         <Skeleton shape="square" style={{ width: 72, height: 72 }} />
       )}
@@ -180,9 +181,9 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
             {isLoading ? (
               textSkeleton
             ) : (
-              <Link to={`/nft-info/${typeHash}/${data?.token_id}`} className={styles.dodInfoValue}>
+              <Link to={`/nft-info/${typeHash}/${dobInfo.nftInfo?.token_id}`} className={styles.dodInfoValue}>
                 <span className="monospace">
-                  {data?.collection.name ?? 'Unique Item'}{' '}
+                  {dobInfo.nftInfo?.collection.name ?? 'Unique Item'}{' '}
                   {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
                 </span>
               </Link>
@@ -197,7 +198,7 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
                 textSkeleton
               ) : (
                 <Link to={`/nft-collections/${typeHash}`} className={styles.collection}>
-                  {data?.collection.name ?? 'Unique Item'}
+                  {dobInfo.nftInfo?.collection.name ?? 'Unique Item'}
                 </Link>
               )}
             </div>
@@ -208,7 +209,7 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
               {isLoading ? (
                 textSkeleton
               ) : (
-                <Link to={`/nft-info/${typeHash}/${data?.token_id}`} className="monospace">
+                <Link to={`/nft-info/${typeHash}/${dobInfo.nftInfo?.token_id}`} className="monospace">
                   {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
                 </Link>
               )}
@@ -216,7 +217,7 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
           </div>
           <div className={styles.dodInfoItem}>
             <div className={styles.dodInfoLabel}>Created At</div>
-            <div>{isLoading ? textSkeleton : dayjs(data?.created_at).format('YYYY/MM/DD HH:mm:ss')}</div>
+            <div>{isLoading ? textSkeleton : dayjs(dobInfo.nftInfo?.created_at).format('YYYY/MM/DD HH:mm:ss')}</div>
           </div>
           <div className={styles.dodInfoItem}>
             <div className={styles.dodInfoLabel}>Creator</div>
@@ -224,12 +225,12 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
               textSkeleton
             ) : (
               <div>
-                {data?.collection.creator ? (
-                  <Link to={`/address/${data.collection.creator}`} className={styles.dodInfoValue}>
-                    <span className="monospace">{`${data.collection.creator.slice(
+                {dobInfo.nftInfo?.collection.creator ? (
+                  <Link to={`/address/${dobInfo.nftInfo.collection.creator}`} className={styles.dodInfoValue}>
+                    <span className="monospace">{`${dobInfo.nftInfo.collection.creator.slice(
                       0,
                       6,
-                    )}...${data.collection.creator.slice(-6)}`}</span>
+                    )}...${dobInfo.nftInfo.collection.creator.slice(-6)}`}</span>
                   </Link>
                 ) : (
                   '-'
@@ -280,15 +281,195 @@ const useParseNftInfo = (cell: Cell) => {
   }
 }
 
+const useDOBInfo = (cell: Cell) => {
+  const [cover, setCover] = useState('/images/spore_placeholder.svg')
+
+  const { typeHash, tokenId } = (() => {
+    if (cell.cellType !== 'spore_cell' && cell.cellType !== 'did_cell') {
+      return { typeHash: undefined, tokenId: undefined }
+    }
+
+    if (!cell.extraInfo || !('collection' in cell.extraInfo)) {
+      return { typeHash: undefined, tokenId: undefined }
+    }
+
+    return {
+      typeHash: cell.extraInfo.collection?.typeHash,
+      tokenId: cell.extraInfo.tokenId,
+    }
+  })()
+
+  const { data, isLoading } = useQuery(
+    ['nft-item-info', typeHash, tokenId],
+    () => explorerService.api.fetchNFTCollectionItem(typeHash!, tokenId!),
+    {
+      enabled: !!typeHash && !!tokenId && (cell.cellType === 'spore_cell' || cell.cellType === 'did_cell'),
+    },
+  )
+
+  useEffect(() => {
+    if (cell.cellType !== 'spore_cell' && cell.cellType !== 'did_cell') {
+      return
+    }
+
+    if (!cell.extraInfo) {
+      return
+    }
+
+    getSporeImg({ data: cell.extraInfo.data, id: cell.extraInfo.tokenId }).then(res => {
+      setCover(res)
+    })
+  }, [cell])
+
+  return {
+    data: {
+      cover,
+      nftInfo: data,
+    },
+    isLoading,
+  }
+}
+
+const HoverablePopover = ({ children, content }: { children: ReactNode; content: ReactNode }) => {
+  const [open, setOpen] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+    setOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    if (!isClicked) {
+      timeoutRef.current = setTimeout(() => {
+        setOpen(false)
+      }, 300)
+    }
+  }
+
+  const handleClick = () => {
+    setIsClicked(true)
+    setOpen(prev => !prev)
+  }
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen)
+    if (!newOpen) {
+      setIsClicked(false)
+    }
+  }
+
+  return (
+    <Popover open={open} onOpenChange={handleOpenChange}>
+      <PopoverTrigger asChild onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick}>
+        {children}
+      </PopoverTrigger>
+      <PopoverContent onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        {content}
+      </PopoverContent>
+    </Popover>
+  )
+}
+
 export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   const { t } = useTranslation()
-  let detailTitle = t('transaction.ckb_capacity')
+  let detailTitle: JSX.Element | string = <span>{t('transaction.ckb_capacity')}</span>
   let detailIcon
   let tooltip: string | ReactNode = ''
   const nftInfo = useParseNftInfo(cell)
+  const { data: dobInfo } = useDOBInfo(cell)
+
+  const lockScript = addressToScript(cell.addressHash)
   const isMultisig = (cell.tags ?? []).find(tag => tag === 'multisig') !== undefined
   const isFiber = (cell.tags ?? []).find(tag => tag === 'fiber') !== undefined
   const isDeployment = (cell.tags ?? []).find(tag => tag === 'deployment') !== undefined
+  const isDob = cell.cellType === 'spore_cell' || cell.cellType === 'did_cell'
+  const isZeroLock = lockScript.codeHash === ZERO_LOCK_CODE_HASH
+
+  const tokenIdStr = `${dobInfo.nftInfo?.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
+    dobInfo.nftInfo?.token_id ?? '',
+    dobInfo.nftInfo?.standard ?? null,
+  )}`
+
+  const taglists = [
+    {
+      key: 'Dob',
+      tag: 'Dob Protocol',
+      description: 'This cell is related to Dob Protocol.',
+      display: isDob,
+      link: `/script/${scriptDataMap.Spore.codeHashes[0]}/${scriptDataMap.Spore.hashType}`,
+      icon: DobIcon,
+      iconColor: '#FFFEC1',
+    },
+    {
+      key: 'Deployment',
+      tag: 'Deployment',
+      description: 'This cell is related to Deployment.',
+      display: isDeployment,
+      link: '/scripts',
+      icon: DobIcon, // The ui doesn't provide an icon yet, so use another icon for now.
+    },
+    {
+      key: 'Multisig',
+      tag: (
+        <>
+          Multisig <span className="text-primary">@{lockScript.codeHash.slice(0, 6)}</span>
+        </>
+      ),
+      description: 'This cell is related to Multisig. It can be used to create a multisig address.',
+      display: isMultisig,
+      link: `/script/${lockScript.codeHash}/${lockScript.hashType}`,
+      icon: MultisigIcon,
+      iconColor: '#DCEDFF',
+    },
+    {
+      key: 'Fiber',
+      tag: 'Fiber Network',
+      description: 'This cell is related to Fiber Network.',
+      display: isFiber,
+      link: cell.fiberGraphChannelInfo ? `/fiber/graph/node/${cell.fiberGraphChannelInfo.node1}` : '/fiber/graph/nodes',
+      icon: DobIcon, // FIXME: The ui doesn't provide an icon yet, so use another icon for now.
+    },
+    {
+      key: 'ZeroLock',
+      tag: 'Zero Lock',
+      description: 'This cell is related to Zero Lock.',
+      display: isZeroLock,
+      link: '/script/0x0000000000000000000000000000000000000000000000000000000000000000/data',
+      icon: ZeroLockIcon,
+    },
+  ]
+  const isDisplayTagList = taglists.filter(tag => tag.display).length > 0
+
+  const CellTag = ({
+    tag,
+    description,
+    link,
+    icon,
+    iconColor,
+  }: {
+    tag: string | ReactNode
+    description: string
+    link: string
+    icon: string
+    iconColor?: string
+  }) => {
+    return (
+      <Link to={link}>
+        <div className={styles.transactionCellTag}>
+          <div className={styles.tagHeader}>
+            <img src={icon} className={styles.tagIcon} style={{ backgroundColor: iconColor }} alt={`${tag} tag icon`} />
+            <span>{tag}</span>
+            <img src={MoreIcon} style={{ marginLeft: 'auto' }} width={20} height={20} alt="more" />
+          </div>
+          <div className={styles.tagDescription}>{description}</div>
+        </div>
+      </Link>
+    )
+  }
 
   switch (cell.cellType) {
     case 'nervos_dao_deposit':
@@ -344,8 +525,10 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     }
     case 'did_cell':
     case 'spore_cell': {
-      detailTitle = t('nft.dob')
-      detailIcon = SporeCellIcon
+      detailTitle = `${dobInfo.nftInfo?.collection.name ?? 'Unique Item'} ${
+        tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 3)}...${tokenIdStr.slice(-3)}` : tokenIdStr
+      }`
+      detailIcon = dobInfo.cover
       tooltip = nftInfo
       break
     }
@@ -380,24 +563,40 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
         detailIcon && <img src={detailIcon} alt="cell detail" />
       )}
       <div>{detailTitle}</div>
-      {(() => {
-        if (!isFiber) return null
 
-        if (cell.fiberGraphChannelInfo) {
-          return (
-            <Link to={`/fiber/graph/node/${cell.fiberGraphChannelInfo.node1}`} className="monospace">
-              <span className={styles.fiberTag}>Fiber</span>
-            </Link>
-          )
-        }
-
-        return <span className={styles.fiberTag}>Fiber</span>
-      })()}
-      {isDeployment ? <span className={styles.deploymentTag}>Deployment</span> : null}
-      {isMultisig ? (
-        <Tooltip placement="top" title="Multisig">
-          <img src={MultisigIcon} alt="multisig" />
-        </Tooltip>
+      {isDisplayTagList ? (
+        <HoverablePopover
+          content={
+            <div className={styles.transactionCellTagList}>
+              {taglists
+                .filter(tag => tag.display)
+                .map(tag => (
+                  <CellTag
+                    key={tag.key}
+                    tag={tag.tag}
+                    description={tag.description}
+                    link={tag.link}
+                    icon={tag.icon}
+                    iconColor={tag.iconColor}
+                  />
+                ))}
+            </div>
+          }
+        >
+          <div className={styles.transactionCellTags}>
+            {taglists
+              .filter(tag => tag.display)
+              .map(tag => (
+                <img
+                  key={tag.key}
+                  src={tag.icon}
+                  className={styles.tagIcon}
+                  style={{ backgroundColor: tag.iconColor }}
+                  alt={`${tag.tag} icon`}
+                />
+              ))}
+          </div>
+        </HoverablePopover>
       ) : null}
     </div>
   )
