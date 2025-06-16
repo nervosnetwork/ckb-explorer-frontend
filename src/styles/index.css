@@ -1,3 +1,4 @@
+@import url("tailwindcss");
 @import url('../assets/fonts/fonts.css');
 
 body {
@@ -51,6 +52,7 @@ body[data-chain-type='testnet'] {
 }
 
 .container {
+  max-width: 100%;
   width: auto;
   margin: 0 120px;
 }

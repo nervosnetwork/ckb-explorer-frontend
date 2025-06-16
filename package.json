@@ -30,9 +30,11 @@
     "@sentry/react": "7.117.0",
     "@sentry/tracing": "7.114.0",
     "@spore-sdk/core": "0.2.0-beta.8",
+    "@tailwindcss/postcss": "^4.1.10",
     "@tanstack/react-query": "4.0.5",
     "@types/cytoscape": "^3.21.2",
     "antd": "4.24.5",
+    "autoprefixer": "^10.4.21",
     "axios": "1.8.2",
     "bech32": "2.0.0",
     "bignumber.js": "9.1.2",
@@ -67,6 +69,7 @@
     "react-scripts": "5.0.1",
     "sass": "1.77.5",
     "styled-components": "5.3.11",
+    "tailwindcss": "^4.1.10",
     "uvcanvas": "^0.2.1"
   },
   "devDependencies": {
