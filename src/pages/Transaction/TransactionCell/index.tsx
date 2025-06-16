@@ -30,6 +30,7 @@ import MoreIcon from './more.svg'
 import DobIcon from './dob.svg'
 import ZeroLockIcon from './zero_lock.svg'
 import CoTACellIcon from './cota_cell.svg'
+import FiberIcon from './fiber.svg'
 import CoTARegCellIcon from './cota_reg_cell.svg'
 import SporeCellIcon from './spore.svg'
 import MultisigIcon from './multisig.svg'
@@ -431,7 +432,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       description: 'This cell is related to Fiber Network.',
       display: isFiber,
       link: cell.fiberGraphChannelInfo ? `/fiber/graph/node/${cell.fiberGraphChannelInfo.node1}` : '/fiber/graph/nodes',
-      icon: DobIcon, // FIXME: The ui doesn't provide an icon yet, so use another icon for now.
+      icon: FiberIcon,
     },
     {
       key: 'ZeroLock',
