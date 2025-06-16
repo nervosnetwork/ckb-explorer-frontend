@@ -21,8 +21,6 @@ type BannerItem = {
   isHidden?: boolean
 }
 
-const FORCE_BRIDGE_SHOWTIME = new Date('2025-06-01').getTime()
-
 export default () => {
   const [t] = useTranslation()
   const { data: size } = useQuery(
@@ -69,7 +67,7 @@ export default () => {
     {
       key: 'force-bridge',
       component: <ForceBridge />,
-      isHidden: !IS_MAINNET || Date.now() < FORCE_BRIDGE_SHOWTIME,
+      isHidden: true,
     },
     {
       key: 'fiber',
