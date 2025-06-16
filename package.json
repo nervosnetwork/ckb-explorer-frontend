@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "4.8.1",
+    "@ckb-ccc/connector": "^1.0.17",
+    "@ckb-ccc/core": "^1.8.1",
+    "@ckb-ccc/ssri": "^0.2.7",
     "@ckb-lumos/base": "0.23.0",
     "@ckb-lumos/bi": "0.23.0",
     "@ckb-lumos/codec": "0.23.0",
@@ -19,6 +22,7 @@
     "@nervosnetwork/ckb-sdk-utils": "0.109.1",
     "@radix-ui/react-accordion": "^1.0.3",
     "@radix-ui/react-icons": "1.3.0",
+    "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-radio-group": "1.1.3",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
@@ -26,9 +30,11 @@
     "@sentry/react": "7.117.0",
     "@sentry/tracing": "7.114.0",
     "@spore-sdk/core": "0.2.0-beta.8",
+    "@tailwindcss/postcss": "^4.1.10",
     "@tanstack/react-query": "4.0.5",
     "@types/cytoscape": "^3.21.2",
     "antd": "4.24.5",
+    "autoprefixer": "^10.4.21",
     "axios": "1.8.2",
     "bech32": "2.0.0",
     "bignumber.js": "9.1.2",
@@ -42,11 +48,13 @@
     "default-passive-events": "2.0.0",
     "echarts": "4.9.0",
     "echarts-gl": "1.1.2",
+    "framer-motion": "6",
     "history": "5.3.0",
     "i18next": "20.6.1",
     "jsbi": "3.2.5",
     "lint-staged": "^13.2.3",
     "lodash.debounce": "4.0.8",
+    "lucide-react": "^0.511.0",
     "moment": "2.30.1",
     "observable-hooks": "^4.2.3",
     "qrcode": "1.5.3",
@@ -61,6 +69,7 @@
     "react-scripts": "5.0.1",
     "sass": "1.77.5",
     "styled-components": "5.3.11",
+    "tailwindcss": "^4.1.10",
     "uvcanvas": "^0.2.1"
   },
   "devDependencies": {
@@ -130,7 +139,7 @@
     "webpack": "5.94.0"
   },
   "resolutions": {
-    "caniuse-lite": "1.0.30001653"
+    "caniuse-lite": "1.0.30001720"
   },
   "scripts": {
     "start": "react-app-rewired start",

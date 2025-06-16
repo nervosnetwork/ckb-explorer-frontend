@@ -13,15 +13,20 @@
   position: relative;
   background-color: $background-color;
   color: $text-color;
-  height: 200px;
+  height: 270px;
   overflow: hidden;
   font-family: Roboto, inherit, sans-serif;
+
+  @media (width <= $mobileBreakPoint) {
+    height: 200px;
+  }
 
   .content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 120px;
+    margin-top: 30px;
 
     @media screen and (width <=$extraLargeBreakPoint) {
       padding: 0 60px;

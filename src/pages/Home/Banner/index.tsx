@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { BarChartIcon } from '@radix-ui/react-icons'
 import { useTranslation } from 'react-i18next'
 import { Tooltip } from 'antd'
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { Link } from '../../../components/Link'
 import config from '../../../config'
 import styles from './index.module.scss'
@@ -10,6 +10,7 @@ import { getKnowledgeSize } from './utils'
 import { NumberTicker } from '../../../components/ui/NumberTicker'
 import { IS_MAINNET } from '../../../constants/common'
 import HardforkBanner from './Hardfork'
+import ForceBridge from './ForceBridge'
 
 const { BACKUP_NODES: backupNodes } = config
 
@@ -17,6 +18,7 @@ const { BACKUP_NODES: backupNodes } = config
 type BannerItem = {
   key: string
   component: React.ReactNode
+  isHidden?: boolean
 }
 
 export default () => {
@@ -37,11 +39,11 @@ export default () => {
     { refetchInterval: 12 * 1000 },
   )
 
-  // mainnet banners
-  const mainnetBanners: BannerItem[] = [
+  const banners: BannerItem[] = [
     {
       key: 'hardfork',
       component: <HardforkBanner />,
+      isHidden: !IS_MAINNET,
     },
     {
       key: 'knowledge',
@@ -60,11 +62,13 @@ export default () => {
           </div>
         </div>
       ),
+      isHidden: !IS_MAINNET,
     },
-  ]
-
-  // testnet banners
-  const testnetBanners: BannerItem[] = [
+    {
+      key: 'force-bridge',
+      component: <ForceBridge />,
+      isHidden: true,
+    },
     {
       key: 'fiber',
       component: (
@@ -91,10 +95,9 @@ export default () => {
           </div>
         </div>
       ),
+      isHidden: IS_MAINNET,
     },
-  ]
-
-  const banners = IS_MAINNET ? mainnetBanners : testnetBanners
+  ].filter(b => !b.isHidden)
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [exitingIndex, setExitingIndex] = useState<number | null>(null)
@@ -154,8 +157,8 @@ export default () => {
             <div
               key={banner.key}
               className={`
-                ${styles.bannerItem} 
-                ${index === currentIndex ? styles.currentBanner : ''} 
+                ${styles.bannerItem}
+                ${index === currentIndex ? styles.currentBanner : ''}
                 ${index === exitingIndex ? styles.exitingBanner : ''}
               `}
             >

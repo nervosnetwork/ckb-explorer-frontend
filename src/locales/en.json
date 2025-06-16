@@ -120,7 +120,8 @@
         "current_epoch": "Current Epoch",
         "target_epoch": "Target Epoch",
         "miner_percent": "Miners %",
-        "estimated_time": "Estimated Time"
+        "estimated_time": "Estimated Time",
+        "activated": "Activated"
       }
     },
     "glossary": {
@@ -234,7 +235,7 @@
       "fiber_network": "Fiber Network",
       "fiber_statistics": "Statistics",
       "fiber_graph_nodes": "Graph Nodes",
-      "coins": "Coins"
+      "coins": "UDT"
     },
     "banner": {
       "fiber_title": "Fiber Network is making Satoshi’s vision a reality",
@@ -696,7 +697,8 @@
       "deployment": "Deployment",
       "deployed_script": "Deployed Script",
       "range_notice": "Only the latest {{count}} related items will be displayed here.",
-      "fiber_cell": "The current Output is the Fiber Network transaction output.",
+      "fiber_cell_input": "The current input is the Fiber Network transaction input.",
+      "fiber_cell_output": "The current output is the Fiber Network transaction output.",
       "status_label": {
         "pending": {
           "label": "Pending",
@@ -841,6 +843,8 @@
       "no_more_data": "No more data"
     },
     "udt": {
+      "udts": "UDT List",
+      "description": "All the Tokens satisfying UDT features or traits will be included here. This includes xUDTs and sUDTs.",
       "sudt": "sUDT",
       "name": "Name",
       "symbol": "Symbol",
@@ -856,7 +860,7 @@
       "submit_token_info": "Submit Token Info",
       "modify_token_info": "Modify Token Info",
       "unknown_token_description": "The token’s information is incomplete. If you are the owner of this token, please submit token info.",
-      "tokens": "Tokens",
+      "tokens": "sUDT List",
       "transactions": "24hr Transactions",
       "address_count": "Address Count",
       "created_time": "Created Time",
@@ -889,12 +893,19 @@
       "title": {
         "tags": "Tags"
       },
+      "read_contract": {
+        "title": "Read Contract",
+        "query": "Query",
+        "add_parameter": "Add Parameter",
+        "expand_all": "Expand All",
+        "collapse_all": "Collapse All"
+      },
       "holder_distribution": "Holder Distribution",
       "holder_distribution_description": "There are {{ckb}} CKB Holders and {{btc}} BTC holders of the current asset. BTC holder refers to the number of unique BTC addresses that own this asset.",
       "lock_hash": "Lock Hash",
       "count": "Count",
       "xudt": "xUDT",
-      "xudts": "xUDTs",
+      "xudts": "xUDT List",
       "name": "Name",
       "symbol": "Symbol",
       "total_amount": "Total Amount",
