@@ -1,0 +1,21 @@
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1;
+  font-weight: 500;
+  user-select: none;
+}
+
+.pointerEventsNone {
+  pointer-events: none;
+}
+
+.opacity50 {
+  opacity: 0.5;
+}
+
+.cursorNotAllowed {
+  cursor: not-allowed;
+}

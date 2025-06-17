@@ -1,0 +1,134 @@
+$background: #fff;
+$textForeground: #1f2937;
+$textMutedForeground: #6b7280;
+$borderColor: #e2e8f0;
+$muted: #f3f4f6;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: rgb(0 0 0 / 50%);
+
+  &[data-state='open'] {
+    animation: fade-in 0.2s ease-in-out;
+  }
+
+  &[data-state='closed'] {
+    animation: fade-out 0.2s ease-in-out;
+  }
+}
+
+.content {
+  position: fixed;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  background-color: $background;
+
+  &[data-vaul-drawer-direction='top'] {
+    inset: 0 0 auto;
+    margin-bottom: 6rem;
+    max-height: 80vh;
+    border-bottom: 1px solid $borderColor;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
+
+  &[data-vaul-drawer-direction='bottom'] {
+    inset: auto 0 0;
+    margin-top: 6rem;
+    max-height: 80vh;
+    border-top: 1px solid $borderColor;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+
+  &[data-vaul-drawer-direction='right'] {
+    inset: 0 0 0 auto;
+    width: 75%;
+    border-left: 1px solid $borderColor;
+
+    @media (width >= 640px) {
+      max-width: 24rem;
+    }
+  }
+
+  &[data-vaul-drawer-direction='left'] {
+    inset: 0 auto 0 0;
+    width: 75%;
+    border-right: 1px solid $borderColor;
+
+    @media (width >= 640px) {
+      max-width: 24rem;
+    }
+  }
+}
+
+.handle {
+  display: none;
+  margin: 1rem auto 0;
+  width: 100px;
+  height: 0.5rem;
+  background-color: $muted;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 1rem;
+
+  @media (width >= 768px) {
+    gap: 0.375rem;
+  }
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.textLeft {
+  text-align: left;
+}
+
+.footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.title {
+  color: $textForeground;
+  font-weight: 600;
+}
+
+.description {
+  color: $textMutedForeground;
+  font-size: 0.875rem;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

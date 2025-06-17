@@ -22,8 +22,11 @@
     "@nervosnetwork/ckb-sdk-utils": "0.109.1",
     "@radix-ui/react-accordion": "^1.0.3",
     "@radix-ui/react-icons": "1.3.0",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-radio-group": "1.1.3",
+    "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
     "@rgbpp-sdk/ckb": "0.0.0-snap-20240723160302",
@@ -70,7 +73,8 @@
     "sass": "1.77.5",
     "styled-components": "5.3.11",
     "tailwindcss": "^4.1.10",
-    "uvcanvas": "^0.2.1"
+    "uvcanvas": "^0.2.1",
+    "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@sentry/webpack-plugin": "2.18.0",
