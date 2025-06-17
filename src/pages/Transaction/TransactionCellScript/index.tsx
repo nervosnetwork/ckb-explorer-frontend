@@ -279,19 +279,19 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
         >
           <TransactionCellDetailPane
             tab={
-              <>
+              <div className={styles.tabItem}>
                 <TransactionCellDetailTitle>{t('transaction.lock_script')}</TransactionCellDetailTitle>
                 <HelpTip title={t('glossary.lock_script')} placement="bottom" containerRef={ref} />
-              </>
+              </div>
             }
             key={CellInfo.LOCK}
           />
           <TransactionCellDetailPane
             tab={
-              <>
+              <div className={styles.tabItem}>
                 <TransactionCellDetailTitle>{t('transaction.type_script')}</TransactionCellDetailTitle>
                 <HelpTip title={t('glossary.type_script')} placement="bottom" containerRef={ref} />
-              </>
+              </div>
             }
             key={CellInfo.TYPE}
           />
@@ -301,10 +301,10 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
           />
           <TransactionCellDetailPane
             tab={
-              <>
+              <div className={styles.tabItem}>
                 <TransactionCellDetailTitle>{t('transaction.capacity_usage')}</TransactionCellDetailTitle>
                 <HelpTip title={t('glossary.capacity_usage')} placement="bottom" containerRef={ref} />
-              </>
+              </div>
             }
             key={CellInfo.CAPACITY}
           />
