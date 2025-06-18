@@ -1,6 +1,5 @@
 import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../components/Link'
 import NftItemTransfers from './NftItemTransfers'
@@ -15,6 +14,7 @@ import Annotation from '../../components/Annotation'
 import Cover from './Cover'
 import { ReactComponent as NameMissing } from './NameMissing.svg'
 import { formatNftDisplayId } from '../../utils/util'
+import Tooltip from '../../components/Tooltip'
 
 const primaryColor = getPrimaryColor()
 const UNIQUE_ITEM_LABEL = 'Unique Item'
@@ -71,8 +71,12 @@ const NftInfo = () => {
                       color: primaryColor,
                     }}
                   >
-                    <Tooltip title={data.owner}>
-                      <span className="monospace">{`${data.owner.slice(0, 12)}...${data.owner.slice(-12)}`}</span>
+                    <Tooltip
+                      trigger={
+                        <span className="monospace">{`${data.owner.slice(0, 12)}...${data.owner.slice(-12)}`}</span>
+                      }
+                    >
+                      {data.owner}
                     </Tooltip>
                   </Link>
                 ) : (
@@ -91,11 +95,15 @@ const NftInfo = () => {
                       color: primaryColor,
                     }}
                   >
-                    <Tooltip title={data.collection.creator}>
-                      <span className="monospace">{`${data.collection.creator.slice(
-                        0,
-                        12,
-                      )}...${data.collection.creator.slice(-12)}`}</span>
+                    <Tooltip
+                      trigger={
+                        <span className="monospace">{`${data.collection.creator.slice(
+                          0,
+                          12,
+                        )}...${data.collection.creator.slice(-12)}`}</span>
+                      }
+                    >
+                      {data.collection.creator}
                     </Tooltip>
                   </Link>
                 ) : (

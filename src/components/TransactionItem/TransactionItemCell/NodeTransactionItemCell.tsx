@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import { Cell } from '@ckb-lumos/base'
-import { Tooltip } from 'antd'
 import classNames from 'classnames'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -10,24 +9,23 @@ import { NodeCellCapacityAmount } from './NodeCellCapacityAmount'
 import CurrentAddressIcon from '../../../assets/current_address.svg'
 import { encodeNewAddress, compareAddress } from '../../../utils/address'
 import styles from './index.module.scss'
-import { useBoolean } from '../../../hooks'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import EllipsisMiddle from '../../EllipsisMiddle'
 import { IOType } from '../../../constants/common'
 import { CellInputIcon, CellOutputIcon } from '../../Transaction/TransactionCellArrow'
 import { useCKBNode } from '../../../hooks/useCKBNode'
+import Tooltip from '../../Tooltip'
 
 const Address: FC<{
   address: string
   to?: string
 }> = ({ address, to }) => {
-  const [truncated, truncatedCtl] = useBoolean(false)
-
   const content = (
-    <Tooltip trigger={truncated ? 'hover' : []} placement="top" title={<CopyTooltipText content={address} />}>
-      <EllipsisMiddle className={classNames('monospace', styles.text)} onTruncateStateChange={truncatedCtl.toggle}>
-        {address}
-      </EllipsisMiddle>
+    <Tooltip
+      trigger={<EllipsisMiddle className={classNames('monospace', styles.text)}>{address}</EllipsisMiddle>}
+      placement="top"
+    >
+      <CopyTooltipText content={address} />
     </Tooltip>
   )
 
@@ -79,8 +77,11 @@ const NodeTransactionItemCell = ({
         <Address address={address} to={`/address/${address}`} />
         {ioType === IOType.Output && <CellOutputIcon cell={{ status: cellStatus.data ?? 'dead' }} />}
         {!highLight && (
-          <Tooltip placement="top" title={`${t('address.current-address')} `}>
-            <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
+          <Tooltip
+            trigger={<img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />}
+            placement="top"
+          >
+            {`${t('address.current-address')} `}
           </Tooltip>
         )}
       </div>

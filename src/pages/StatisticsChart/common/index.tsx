@@ -143,7 +143,11 @@ const ChartPage = ({
       >
         <div className="chartDetailTitlePanel">
           <span>{title}</span>
-          {description && <HelpTip placement="bottom" title={description} iconProps={{ alt: 'chart help' }} />}
+          {description && (
+            <HelpTip placement="bottom" iconProps={{ alt: 'chart help' }}>
+              {description}
+            </HelpTip>
+          )}
         </div>
         {csv && (
           <a

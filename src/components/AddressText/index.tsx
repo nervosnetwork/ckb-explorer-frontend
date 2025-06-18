@@ -1,4 +1,3 @@
-import { Tooltip } from 'antd'
 import { ComponentProps, FC } from 'react'
 import classNames from 'classnames'
 import { LinkProps } from 'react-router-dom'
@@ -7,6 +6,7 @@ import { useBoolean } from '../../hooks'
 import EllipsisMiddle from '../EllipsisMiddle'
 import CopyTooltipText from '../Text/CopyTooltipText'
 import styles from './styles.module.scss'
+import Tooltip from '../Tooltip'
 
 const AddressText: FC<{
   children: string
@@ -37,32 +37,34 @@ const AddressText: FC<{
 
   const content = (
     <Tooltip
-      trigger={isTruncated && !disableTooltip ? 'hover' : []}
       placement="top"
-      title={<CopyTooltipText content={address} />}
+      trigger={
+        ellipsisMiddle ? (
+          <EllipsisMiddle
+            onClick={onClick}
+            style={style}
+            useTextWidthForPlaceholderWidth={useTextWidthForPlaceholderWidth}
+            fontKey={fontKey}
+            className={classNames(
+              {
+                monospace,
+              },
+              linkProps == null && containerClass,
+              className,
+            )}
+            onTruncateStateChange={truncatedCtl.toggle}
+          >
+            {address}
+          </EllipsisMiddle>
+        ) : (
+          <span className={className} style={{ wordBreak: 'break-all', maxWidth: '100%' }}>
+            {address}
+          </span>
+        )
+      }
+      disabled={!isTruncated || disableTooltip}
     >
-      {ellipsisMiddle ? (
-        <EllipsisMiddle
-          onClick={onClick}
-          style={style}
-          useTextWidthForPlaceholderWidth={useTextWidthForPlaceholderWidth}
-          fontKey={fontKey}
-          className={classNames(
-            {
-              monospace,
-            },
-            linkProps == null && containerClass,
-            className,
-          )}
-          onTruncateStateChange={truncatedCtl.toggle}
-        >
-          {address}
-        </EllipsisMiddle>
-      ) : (
-        <span className={className} style={{ wordBreak: 'break-all', maxWidth: '100%' }}>
-          {address}
-        </span>
-      )}
+      <CopyTooltipText content={address} />
     </Tooltip>
   )
 

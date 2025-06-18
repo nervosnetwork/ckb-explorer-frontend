@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
-import { Popover } from 'antd'
+import Popover from '../Popover'
 import styles from './styles.module.scss'
 
 const HIDDEN_TAGS = ['duplicate', 'suspicious', 'supply-unlimited', 'out-of-length-range']
@@ -46,17 +46,16 @@ const XUDTTag = ({ tagName, to, tooltip = false }: { tagName: string; to?: strin
   if (tooltip) {
     return (
       <Popover
-        overlayClassName={styles.tagPopover}
-        content={
-          <>
-            <div>{t(`xudt.tags_description.${tag}`)}</div>
-            <a href={`/${i18n.language}${to}?tags=${tag}`}>{t('xudt.tags_description.view_more')}</a>
-          </>
+        trigger={
+          <button type="button" className={classNames(styles.container, styles.normal)} data-type={tagName}>
+            {content}
+          </button>
         }
       >
-        <button type="button" className={classNames(styles.container, styles.normal)} data-type={tagName}>
-          {content}
-        </button>
+        <>
+          <div>{t(`xudt.tags_description.${tag}`)}</div>
+          <a href={`/${i18n.language}${to}?tags=${tag}`}>{t('xudt.tags_description.view_more')}</a>
+        </>
       </Popover>
     )
   }

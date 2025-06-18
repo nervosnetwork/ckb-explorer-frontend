@@ -5,7 +5,6 @@ import { ArrowDownWideNarrow, ArrowUpNarrowWide, FilterIcon } from 'lucide-react
 import { utils } from '@ckb-lumos/base'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon, UpdateIcon } from '@radix-ui/react-icons'
-import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import BigNumber from 'bignumber.js'
 import type { Response, Fiber } from '../../../services/ExplorerService'
@@ -28,6 +27,7 @@ import Pagination from '../Pagination'
 import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
 import styles from './index.module.scss'
 import { uniqueColor } from '../../../utils/color'
+import Tooltip from '../../../components/Tooltip'
 
 import { Button } from '../../../components/ui/Button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/Select'
@@ -185,10 +185,14 @@ const TransactionRenderer = ({ tx }: { tx: Fiber.Graph.Transaction }) => {
           </dt>
           <dd>
             <time dateTime={tx.blockTimestamp.toString()}>at {timestamp}</time>
-            <Tooltip title={tooltip}>
-              <Link to={link} className="monospace">
-                <OpenInNewWindowIcon />
-              </Link>
+            <Tooltip
+              trigger={
+                <Link to={link} className="monospace">
+                  <OpenInNewWindowIcon />
+                </Link>
+              }
+            >
+              {tooltip}
             </Tooltip>
           </dd>
         </dl>
@@ -196,11 +200,15 @@ const TransactionRenderer = ({ tx }: { tx: Fiber.Graph.Transaction }) => {
           <dt>By</dt>
           <dd>
             <span className={styles.addr}>
-              <Tooltip title={tx.address}>
-                <Link to={`/address/${tx.address}`} className="monospace">
-                  <div>{tx.address.slice(0, -8)}</div>
-                  <div>{tx.address.slice(-8)}</div>
-                </Link>
+              <Tooltip
+                trigger={
+                  <Link to={`/address/${tx.address}`} className="monospace">
+                    <div>{tx.address.slice(0, -8)}</div>
+                    <div>{tx.address.slice(-8)}</div>
+                  </Link>
+                }
+              >
+                {tx.address}
               </Tooltip>
             </span>
             <span>({tx.capacity})</span>
@@ -218,10 +226,14 @@ const TransactionRenderer = ({ tx }: { tx: Fiber.Graph.Transaction }) => {
         </dt>
         <dd>
           <time dateTime={tx.blockTimestamp.toString()}>at {timestamp}</time>
-          <Tooltip title={tooltip}>
-            <Link to={link} className="monospace">
-              <OpenInNewWindowIcon />
-            </Link>
+          <Tooltip
+            trigger={
+              <Link to={link} className="monospace">
+                <OpenInNewWindowIcon />
+              </Link>
+            }
+          >
+            {tooltip}
           </Tooltip>
         </dd>
       </dl>
@@ -230,11 +242,15 @@ const TransactionRenderer = ({ tx }: { tx: Fiber.Graph.Transaction }) => {
           <dt>{i === 0 ? 'To' : 'And'}</dt>
           <dd>
             <span className={styles.addr}>
-              <Tooltip title={acc.address}>
-                <Link to={`/address/${acc.address}`} className="monospace">
-                  <div>{acc.address.slice(0, -8)}</div>
-                  <div>{acc.address.slice(-8)}</div>
-                </Link>
+              <Tooltip
+                trigger={
+                  <Link to={`/address/${acc.address}`} className="monospace">
+                    <div>{acc.address.slice(0, -8)}</div>
+                    <div>{acc.address.slice(-8)}</div>
+                  </Link>
+                }
+              >
+                {acc.address}
               </Tooltip>
             </span>
             <span>({acc.capacity})</span>
@@ -422,9 +438,7 @@ const GraphNode = () => {
                 <dl className={styles.isp}>
                   <dt>{t('fiber.graph.node.isp')}</dt>
                   <dd>
-                    <Tooltip title={`${ipInfo.isp}`}>
-                      <span>{ipInfo.isp}</span>
-                    </Tooltip>
+                    <Tooltip trigger={<span>{ipInfo.isp}</span>}>{`${ipInfo.isp}`}</Tooltip>
                     <span>@{ipInfo.city}</span>
                   </dd>
                 </dl>
@@ -454,18 +468,23 @@ const GraphNode = () => {
                 <dt>{t('fiber.graph.node.auto_accept_funding_amount')}</dt>
                 <dd>
                   {getFundingThreshold(node).map(threshold => (
-                    <Tooltip key={threshold.id} title={threshold.title}>
-                      <span className={styles.token}>
-                        <img
-                          src={threshold.icon ?? FtFallbackIcon}
-                          alt="icon"
-                          width="12"
-                          height="12"
-                          loading="lazy"
-                          onError={handleFtImgError}
-                        />
-                        {threshold.display}
-                      </span>
+                    <Tooltip
+                      trigger={
+                        <span className={styles.token}>
+                          <img
+                            src={threshold.icon ?? FtFallbackIcon}
+                            alt="icon"
+                            width="12"
+                            height="12"
+                            loading="lazy"
+                            onError={handleFtImgError}
+                          />
+                          {threshold.display}
+                        </span>
+                      }
+                      key={threshold.id}
+                    >
+                      {threshold.title}
                     </Tooltip>
                   ))}
                 </dd>

@@ -1,9 +1,7 @@
-import { Table, Tooltip } from 'antd'
 import { useHistory, useLocation } from 'react-router'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { FC, ReactNode, useMemo, useState } from 'react'
-import { ColumnGroupType, ColumnType } from 'antd/lib/table'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
 import { TFunction } from 'i18next'
@@ -14,7 +12,6 @@ import Pagination from '../../components/Pagination'
 import SortButton from '../../components/SortButton'
 import MultiFilterButton from '../../components/MultiFilterButton'
 import { localeNumberString } from '../../utils/number'
-import Loading from '../../components/Loading'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import styles from './styles.module.scss'
 import { usePaginationParamsInPage, useSearchParams, useSortParam } from '../../hooks'
@@ -28,6 +25,7 @@ import { BooleanT } from '../../utils/array'
 import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { scripts } from '../ScriptList'
+import Tooltip from '../../components/Tooltip'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -204,11 +202,12 @@ const TokenTable: FC<{
   const urlQuery = new URLSearchParams(location.search)
   const isRgbppView = urlQuery.get('view') === RGBPP_VIEW
 
-  const nullableColumns: (ColumnGroupType<XUDT> | ColumnType<XUDT> | false | undefined)[] = [
+  const nullableColumns = [
     {
       title: `${t('xudt.symbol')}&${t('xudt.name')}`,
       className: styles.colName,
-      render: (_, token) => {
+      key: 'name',
+      render: (token: XUDT) => {
         const symbol = token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
         return (
           <div className={styles.container}>
@@ -233,13 +232,14 @@ const TokenTable: FC<{
     },
     {
       title: (
-        <>
+        <span>
           {t('xudt.title.tags')}
           <MultiFilterButton filterName="tags" key="" filterList={getfilterList(t)} />
-        </>
+        </span>
       ),
       className: styles.colTags,
-      render: (_, token) => (
+      key: 'tags',
+      render: (token: XUDT) => (
         <div className={styles.tags}>
           {token.xudtTags?.map(tag => (
             <XUDTTag tagName={tag} />
@@ -249,39 +249,51 @@ const TokenTable: FC<{
     },
     {
       title: (
-        <>
+        <span>
           {t('xudt.transactions')}
           <SortButton field="transactions" sortParam={sortParam} />
-        </>
+        </span>
       ),
       className: styles.colTransactions,
-      render: (_, token) => localeNumberString(token.h24CkbTransactionsCount),
+      key: 'transactions',
+      render: (token: XUDT) => localeNumberString(token.h24CkbTransactionsCount),
     },
     isRgbppView
       ? {
           title: (
-            <Tooltip title={t('xudt.display_rgbpp_holders')}>
-              <Link
-                to={`/xudts?${new URLSearchParams({ ...urlQuery, view: 'ckb' })}`}
-                style={{ color: 'var(--primary-color)' }}
-              >
-                {t('xudt.rgbpp_holders_count')}
-              </Link>
+            <Tooltip
+              trigger={
+                <Link
+                  to={`/xudts?${new URLSearchParams({ ...urlQuery, view: 'ckb' })}`}
+                  style={{ color: 'var(--primary-color)' }}
+                >
+                  {t('xudt.rgbpp_holders_count')}
+                </Link>
+              }
+            >
+              {t('xudt.display_rgbpp_holders')}
             </Tooltip>
           ),
           className: styles.colAddressCount,
-          render: (_, token) => localeNumberString(token.holdersCount),
+          key: 'holders_count',
+          render: (token: XUDT) => localeNumberString(token.holdersCount),
         }
       : {
           title: isXudts ? (
-            <Tooltip title={t('xudt.display_unique_ckb_addresses')}>
-              <Link
-                to={`/xudts?${new URLSearchParams({ ...urlQuery, view: RGBPP_VIEW })}`}
-                style={{ color: 'var(--primary-color)' }}
-              >
-                {t('xudt.unique_addresses')}
-              </Link>
-              <SortButton field="addresses_count" sortParam={sortParam} />
+            <Tooltip
+              trigger={
+                <span>
+                  <Link
+                    to={`/xudts?${new URLSearchParams({ ...urlQuery, view: RGBPP_VIEW })}`}
+                    style={{ color: 'var(--primary-color)' }}
+                  >
+                    {t('xudt.unique_addresses')}
+                  </Link>
+                  <SortButton field="addresses_count" sortParam={sortParam} />
+                </span>
+              }
+            >
+              {t('xudt.display_unique_ckb_addresses')}
             </Tooltip>
           ) : (
             <div>
@@ -290,35 +302,46 @@ const TokenTable: FC<{
             </div>
           ),
           className: styles.colAddressCount,
-          render: (_, token) => localeNumberString(token.addressesCount),
+          key: 'addresses_count',
+          render: (token: XUDT) => localeNumberString(token.addressesCount),
         },
     {
       title: (
-        <>
+        <span>
           {t('xudt.created_time')}
           <SortButton field="created_time" sortParam={sortParam} />
-        </>
+        </span>
       ),
       className: styles.colCreatedTime,
-      render: (_, token) => dayjs(+token.createdAt).format('YYYY-MM-DD'),
+      key: 'created_time',
+      render: (token: XUDT) => dayjs(+token.createdAt).format('YYYY-MM-DD'),
     },
   ]
   const columns = nullableColumns.filter(BooleanT())
 
   return (
-    <Table
-      className={styles.tokensTable}
-      columns={columns}
-      dataSource={isEmpty ? [] : query.data?.tokens ?? []}
-      pagination={false}
-      loading={
-        query.isLoading
-          ? {
-              indicator: <Loading className={styles.loading} show />,
-            }
-          : false
-      }
-    />
+    <table className={styles.tokensTable}>
+      <thead>
+        <tr>
+          {columns.map(column => (
+            <th key={column.key} style={{ width: `${100 / columns.length}%` }}>
+              {column.title}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {(isEmpty ? [] : query.data?.tokens ?? []).map(token => (
+          <tr key={token.typeHash}>
+            {columns.map(column => (
+              <td key={column.key} className={column.className} style={{ width: `${100 / columns.length}%` }}>
+                {column.render?.(token)}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
 

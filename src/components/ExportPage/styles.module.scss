@@ -366,3 +366,63 @@
     }
   }
 }
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.inputContent {
+  flex: 1;
+  max-width: 256px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  line-height: 19px;
+  color: #333;
+  padding: 0;
+  margin: 0;
+}
+
+.datePickerTrigger {
+  display: flex;
+  gap: 4px;
+  height: 40px;
+  cursor: pointer;
+  font-feature-settings: 'tnum', 'tnum';
+  align-items: center;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #000000d9;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  margin: 0;
+  padding: 6.5px 11px;
+  position: relative;
+  transition: border 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    border-color: var(--primary-color);
+  }
+
+  .datePickerIcon {
+    width: 16px;
+    height: 16px;
+    color: #d9d9d9;
+  }
+
+  span {
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+  }
+}

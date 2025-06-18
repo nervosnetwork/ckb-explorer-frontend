@@ -1,6 +1,5 @@
 import { useParams, useHistory } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { Popover } from 'antd'
 import { TFunction, useTranslation } from 'react-i18next'
 import { Link } from '../../components/Link'
 import Content from '../../components/Content'
@@ -11,12 +10,13 @@ import Filter from '../../components/Filter'
 import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
 import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
 import { explorerService } from '../../services/ExplorerService'
-import { useSearchParams, useIsMobile } from '../../hooks'
+import { useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
 import { CsvExport } from '../../components/CsvExport'
 import PaginationWithRear from '../../components/PaginationWithRear'
 import NftHolderList from './NftHolderList'
 import Pagination from '../../components/Pagination'
+import Popover from '../../components/Popover'
 
 const tabs = ['transfers', 'holders', 'inventory']
 function getFilterList(t: TFunction): Record<'title' | 'value', string>[] {
@@ -46,7 +46,6 @@ const NftCollectionInfo = () => {
   } = useTranslation()
   const { tab = tabs[0], page = '1' } = useSearchParams('tab', 'page', 'tx_type')
   const { type, filter, sort } = useSearchParams('type', 'filter', 'sort')
-  const isMobile = useIsMobile()
 
   const filteredList = getFilterList(t)
   const isFilteredByType = filteredList.some(f => f.value === type)
@@ -163,26 +162,19 @@ const NftCollectionInfo = () => {
             ) : null}
             {tab === tabs[0] && (
               <div className={styles.typeFilter} data-is-active={isFilteredByType}>
-                <Popover
-                  placement="bottomRight"
-                  trigger={isMobile ? 'click' : 'hover'}
-                  overlayClassName={styles.antPopover}
-                  content={
-                    <div className={styles.filterItems}>
-                      {filteredList.map(f => (
-                        <Link
-                          key={f.value}
-                          to={`/nft-collections/${id}?${new URLSearchParams({ type: f.value })}`}
-                          data-is-active={f.value === type}
-                        >
-                          {f.title}
-                          <SelectedCheckIcon />
-                        </Link>
-                      ))}
-                    </div>
-                  }
-                >
-                  <FilterIcon />
+                <Popover trigger={<FilterIcon />}>
+                  <div className={styles.filterItems}>
+                    {filteredList.map(f => (
+                      <Link
+                        key={f.value}
+                        to={`/nft-collections/${id}?${new URLSearchParams({ type: f.value })}`}
+                        data-is-active={f.value === type}
+                      >
+                        {f.title}
+                        <SelectedCheckIcon />
+                      </Link>
+                    ))}
+                  </div>
                 </Popover>
               </div>
             )}

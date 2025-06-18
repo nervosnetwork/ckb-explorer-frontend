@@ -1,0 +1,21 @@
+.content {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px 16px;
+  min-width: 30px;
+  min-height: 32px;
+  color: #333;
+  text-align: left;
+  text-decoration: none;
+  word-wrap: break-word;
+  max-width: 320px;
+  box-shadow: 0 2px 10px 0 #eee;
+}
+
+.arrow {
+  fill: #fff;
+}
+
+:global(div[data-radix-popper-content-wrapper]) {
+  z-index: 1030 !important;
+}

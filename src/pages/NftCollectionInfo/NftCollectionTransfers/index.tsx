@@ -1,6 +1,5 @@
 import { FC, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
 // TODO: Refactor is needed. Should not directly import anything from the descendants of ExplorerService.
@@ -12,6 +11,7 @@ import { dayjs } from '../../../utils/date'
 import { useParsedDate, useTimestamp } from '../../../hooks'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import Cover from '../ItemCover'
+import Tooltip from '../../../components/Tooltip'
 
 const primaryColor = getPrimaryColor()
 
@@ -125,10 +125,14 @@ const TransferTableRow: FC<{
             fontWeight: 700,
           }}
         >
-          <Tooltip title={item.transaction.tx_hash}>
-            <span className="monospace">
-              {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
-            </span>
+          <Tooltip
+            trigger={
+              <span className="monospace">
+                {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
+              </span>
+            }
+          >
+            {item.transaction.tx_hash}
           </Tooltip>
         </Link>
       </td>
@@ -143,8 +147,8 @@ const TransferTableRow: FC<{
               fontWeight: 700,
             }}
           >
-            <Tooltip title={item.from}>
-              <span className="monospace">{`${item.from.slice(0, 8)}...${item.from.slice(-8)}`}</span>
+            <Tooltip trigger={<span className="monospace">{`${item.from.slice(0, 8)}...${item.from.slice(-8)}`}</span>}>
+              {item.from}
             </Tooltip>
           </Link>
         ) : (
@@ -160,8 +164,8 @@ const TransferTableRow: FC<{
               fontWeight: 700,
             }}
           >
-            <Tooltip title={item.to}>
-              <span className="monospace">{`${item.to.slice(0, 8)}...${item.to.slice(-8)}`}</span>
+            <Tooltip trigger={<span className="monospace">{`${item.to.slice(0, 8)}...${item.to.slice(-8)}`}</span>}>
+              {item.to}
             </Tooltip>
           </Link>
         ) : (
@@ -222,10 +226,14 @@ const TransferCard: FC<{
                 fontWeight: 700,
               }}
             >
-              <Tooltip title={item.transaction.tx_hash}>
-                <span className="monospace">
-                  {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
-                </span>
+              <Tooltip
+                trigger={
+                  <span className="monospace">
+                    {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
+                  </span>
+                }
+              >
+                {item.transaction.tx_hash}
               </Tooltip>
             </Link>
           </dd>
@@ -249,8 +257,10 @@ const TransferCard: FC<{
                   fontWeight: 700,
                 }}
               >
-                <Tooltip title={item.from}>
-                  <span className="monospace">{`${item.from.slice(0, 10)}...${item.from.slice(-10)}`}</span>
+                <Tooltip
+                  trigger={<span className="monospace">{`${item.from.slice(0, 10)}...${item.from.slice(-10)}`}</span>}
+                >
+                  {item.from}
                 </Tooltip>
               </Link>
             ) : (
@@ -269,8 +279,10 @@ const TransferCard: FC<{
                   fontWeight: 700,
                 }}
               >
-                <Tooltip title={item.to}>
-                  <span className="monospace">{`${item.to.slice(0, 10)}...${item.to.slice(-10)}`}</span>
+                <Tooltip
+                  trigger={<span className="monospace">{`${item.to.slice(0, 10)}...${item.to.slice(-10)}`}</span>}
+                >
+                  {item.to}
                 </Tooltip>
               </Link>
             ) : (

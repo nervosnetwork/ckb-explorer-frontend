@@ -1,6 +1,5 @@
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Dropdown } from 'antd'
 import { TFunction, useTranslation } from 'react-i18next'
 import { scriptToAddress } from '@nervosnetwork/ckb-sdk-utils'
 import { Cell } from '../../../models/Cell'
@@ -11,6 +10,7 @@ import { CellBasicInfo } from '../../../utils/transformer'
 import { ReactComponent as MoreIcon } from '../../../assets/more.svg'
 import { BTCExplorerLink, Link } from '../../Link'
 import styles from '../styles.module.scss'
+import Popover from '../../Popover'
 
 export const useGenerateMenuItem = ({
   t,
@@ -54,7 +54,13 @@ export const useGenerateMenuItem = ({
         : []),
       {
         label: (
-          <button type="button" onClick={() => onViewCell(cell)} className={styles.viewCell}>
+          <button
+            type="button"
+            onClick={() => {
+              onViewCell(cell)
+            }}
+            className={styles.viewCell}
+          >
             {t('utxo_graph.view_cell_info')}
           </button>
         ),
@@ -65,12 +71,11 @@ export const useGenerateMenuItem = ({
   )
 }
 
-const CellNode = (props: Cell & { modalRef?: HTMLDivElement | null; onViewCell: (cell: CellBasicInfo) => void }) => {
+const CellNode = (props: Cell & { onViewCell: (cell: CellBasicInfo) => void }) => {
   const {
     capacity,
     occupiedCapacity,
     status,
-    modalRef,
     id,
     onViewCell,
     generatedTxHash,
@@ -79,6 +84,7 @@ const CellNode = (props: Cell & { modalRef?: HTMLDivElement | null; onViewCell: 
     rgbInfo,
     cellIndex,
   } = props
+  const ref = useRef<HTMLDivElement>(null)
   const { t } = useTranslation()
   const { data: cell } = useQuery(['lock', id], async () => {
     try {
@@ -113,23 +119,21 @@ const CellNode = (props: Cell & { modalRef?: HTMLDivElement | null; onViewCell: 
     return <div className={styles.cellNodeContainer}>Cellbase for Block</div>
   }
   return (
-    <div className={styles.cellNodeContainer}>
+    <div className={styles.cellNodeContainer} ref={ref}>
       <span className={styles.cellStatus} data-status={status} />
       <span>{`${(+shannonToCkb(capacity)).toLocaleString('en')} CKB`}</span>
-      <Dropdown
-        menu={{
-          items,
-          onClick(e) {
-            e.domEvent.stopPropagation()
-          },
-        }}
-        trigger={['click']}
-        getPopupContainer={() => modalRef ?? document.body}
+      <Popover
+        trigger={
+          <button type="button" className={styles.more} onClick={e => e.stopPropagation()}>
+            <MoreIcon />
+          </button>
+        }
+        portalContainer={ref.current}
       >
-        <button type="button" className={styles.more} onClick={e => e.stopPropagation()}>
-          <MoreIcon />
-        </button>
-      </Dropdown>
+        {items.map(item => {
+          return <div key={item.key}>{item.label}</div>
+        })}
+      </Popover>
     </div>
   )
 }

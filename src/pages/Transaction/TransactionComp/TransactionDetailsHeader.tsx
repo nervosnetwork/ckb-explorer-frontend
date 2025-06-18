@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Radio } from 'antd'
+import classNames from 'classnames'
 import { LayoutLiteProfessional } from '../../../constants/common'
 import { Card } from '../../../components/Card'
 import { useIsMobile, useUpdateSearchParams } from '../../../hooks'
@@ -26,17 +26,20 @@ export const TransactionDetailsHeader: FC<{
 
   const professionalLiteBox = (
     <div className={styles.professionalLiteBox}>
-      <Radio.Group
-        className={styles.layoutButtons}
-        options={[
-          { label: t('transaction.professional'), value: LayoutLiteProfessional.Professional },
-          { label: t('transaction.lite'), value: LayoutLiteProfessional.Lite },
-        ]}
-        onChange={({ target: { value } }) => onChangeLayout(value)}
-        value={layout}
-        optionType="button"
-        buttonStyle="solid"
-      />
+      <button
+        type="button"
+        className={classNames(styles.button, layout === LayoutLiteProfessional.Professional ? styles.selected : '')}
+        onClick={() => onChangeLayout(LayoutLiteProfessional.Professional)}
+      >
+        {t('transaction.professional')}
+      </button>
+      <button
+        className={classNames(styles.button, layout === LayoutLiteProfessional.Lite ? styles.selected : '')}
+        type="button"
+        onClick={() => onChangeLayout(LayoutLiteProfessional.Lite)}
+      >
+        {t('transaction.lite')}
+      </button>
     </div>
   )
 

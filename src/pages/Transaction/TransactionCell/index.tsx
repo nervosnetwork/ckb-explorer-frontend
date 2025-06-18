@@ -1,6 +1,4 @@
-/* eslint-disable no-console */
 import { useState, ReactNode, FC, useEffect, useRef } from 'react'
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
@@ -51,6 +49,7 @@ import { CellBasicInfo } from '../../../utils/transformer'
 import { getSporeImg } from '../../../utils/spore'
 import { explorerService } from '../../../services/ExplorerService'
 import Skeleton from '../../../components/ui/Skeleton'
+import Tooltip from '../../../components/Tooltip'
 import { Popover, PopoverContent, PopoverTrigger } from '../../../components/ui/Popover'
 
 const scriptDataList = IS_MAINNET ? MainnetContractHashTags : TestnetContractHashTags
@@ -66,11 +65,11 @@ export const Addr: FC<{ address: string; isCellBase: boolean }> = ({ address, is
   if (alias && address) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Tooltip title=".bit Name">
+        <Tooltip trigger=".bit Name">
           <BitAccountIcon className={styles.icon} />
         </Tooltip>
 
-        <Tooltip placement="top" title={<CopyTooltipText content={address} />}>
+        <Tooltip placement="top" trigger={<CopyTooltipText content={address} />}>
           <Link to={`/address/${address}`} className="monospace">
             {alias}
           </Link>
@@ -145,7 +144,7 @@ const TransactionCellIndexAddress = ({
         {since ? (
           <Tooltip
             placement="top"
-            title={t(`transaction.since.${since.base}.${since.type}`, {
+            trigger={t(`transaction.since.${since.base}.${since.type}`, {
               since: since.value,
             })}
           >
@@ -557,8 +556,12 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   return (
     <div className={styles.transactionCellDetailPanel} data-is-withdraw={cell.cellType === 'nervos_dao_withdrawing'}>
       {tooltip ? (
-        <Tooltip placement="top" title={tooltip} overlayInnerStyle={{ maxWidth: 'unset', width: 'max-content' }}>
-          <img src={detailIcon} alt="cell detail" />
+        <Tooltip
+          placement="top"
+          trigger={<img src={detailIcon} alt="cell detail" />}
+          contentStyle={{ maxWidth: 'unset', width: 'max-content' }}
+        >
+          {tooltip}
         </Tooltip>
       ) : (
         detailIcon && <img src={detailIcon} alt="cell detail" />

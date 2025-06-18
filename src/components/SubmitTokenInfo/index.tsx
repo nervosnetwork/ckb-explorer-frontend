@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
-import Tooltip from 'antd/lib/tooltip'
 import { AxiosError } from 'axios'
 import CloseIcon from '../../assets/modal_close.png'
 import HelpIcon from '../../assets/qa_help.png'
@@ -24,6 +23,7 @@ import {
   REPORT_EMAIL_BODY_EN,
   REPORT_EMAIL_BODY_ZH,
 } from '../../constants/common'
+import Tooltip from '../Tooltip'
 
 const emptyTokenInfo = {
   tokenType: '',
@@ -40,8 +40,8 @@ const emptyTokenInfo = {
 export type TokenInfo = typeof emptyTokenInfo
 
 const LabelTooltip = ({ title, icon }: { title: string; icon?: string }) => (
-  <Tooltip placement="bottom" title={title}>
-    <img src={icon ?? HelpIcon} alt="tooltip" className={styles.tooltipIcon} />
+  <Tooltip trigger={<img src={icon ?? HelpIcon} alt="tooltip" className={styles.tooltipIcon} />} placement="bottom">
+    {title}
   </Tooltip>
 )
 
@@ -411,14 +411,19 @@ export const SubmitTokenInfo = ({
                 <div className={styles.report}>
                   {t('udt.email_vericode')}
 
-                  <Tooltip placement="top" arrowPointAtCenter title={t('udt.wrong_email')}>
-                    <a
-                      href={`mailto:${REPORT_EMAIL_ADDRESS}?subject=${REPORT_EMAIL_SUBJECT}&body=${
-                        language === 'zh' ? REPORT_EMAIL_BODY_ZH : REPORT_EMAIL_BODY_EN
-                      }`}
-                    >
-                      {t('udt.report')}
-                    </a>
+                  <Tooltip
+                    trigger={
+                      <a
+                        href={`mailto:${REPORT_EMAIL_ADDRESS}?subject=${REPORT_EMAIL_SUBJECT}&body=${
+                          language === 'zh' ? REPORT_EMAIL_BODY_ZH : REPORT_EMAIL_BODY_EN
+                        }`}
+                      >
+                        {t('udt.report')}
+                      </a>
+                    }
+                    placement="top"
+                  >
+                    {t('udt.wrong_email')}
                   </Tooltip>
                 </div>
                 <div className={styles.vericodeEmail}>{initialInfo.creatorEmail}</div>

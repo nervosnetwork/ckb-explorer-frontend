@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useHistory } from 'react-router'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { Tooltip } from 'antd'
 import { TFunction, useTranslation } from 'react-i18next'
 import { Link } from '../../components/Link'
 import Content from '../../components/Content'
@@ -14,7 +13,7 @@ import { shannonToCkb } from '../../utils/util'
 import Capacity from '../../components/Capacity'
 import styles from './styles.module.scss'
 import { type ScriptInfo, explorerService } from '../../services/ExplorerService'
-import { ScriptTab, ScriptTabPane, ScriptTabTitle } from './styled'
+import { ScriptTabTitle } from './styled'
 import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { ReactComponent as VerifiedIcon } from '../../assets/verified-icon.svg'
@@ -22,6 +21,8 @@ import { ReactComponent as DeprecatedIcon } from '../../assets/deprecated-icon.s
 import { ReactComponent as RFCIcon } from '../../assets/rfc-icon.svg'
 import { ReactComponent as WebsiteIcon } from '../../assets/website-icon.svg'
 import { HashType } from '../../constants/common'
+import Tooltip from '../../components/Tooltip'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/Tabs'
 
 const getScriptInfo = (scriptInfo: ScriptInfo, t: TFunction) => {
   const {
@@ -189,27 +190,37 @@ export const ScriptPage = () => {
 
             <span className={styles.headerLink}>
               {verified === true ? (
-                <Tooltip title={t('scripts.verified')} placement="top">
-                  <VerifiedIcon />
+                <Tooltip trigger={<VerifiedIcon />} placement="top">
+                  {t('scripts.verified')}
                 </Tooltip>
               ) : null}
               {deprecated === true ? (
-                <Tooltip title={t('scripts.deprecated')} placement="top">
-                  <DeprecatedIcon />
+                <Tooltip trigger={<DeprecatedIcon />} placement="top">
+                  {t('scripts.deprecated')}
                 </Tooltip>
               ) : null}
               {rfc ? (
-                <Tooltip title={t('scripts.link.rfc')} placement="top">
-                  <Link to={rfc} className={styles.rfcAction}>
-                    <RFCIcon />
-                  </Link>
+                <Tooltip
+                  trigger={
+                    <Link to={rfc} className={styles.rfcAction}>
+                      <RFCIcon />
+                    </Link>
+                  }
+                  placement="top"
+                >
+                  {t('scripts.link.rfc')}
                 </Tooltip>
               ) : null}
               {website ? (
-                <Tooltip title={t('scripts.link.website')} placement="top">
-                  <Link to={website} className={styles.websiteAction}>
-                    <WebsiteIcon />
-                  </Link>
+                <Tooltip
+                  trigger={
+                    <Link to={website} className={styles.websiteAction}>
+                      <WebsiteIcon />
+                    </Link>
+                  }
+                  placement="top"
+                >
+                  {t('scripts.link.website')}
                 </Tooltip>
               ) : null}
               {sourceUrl ? (
@@ -224,12 +235,12 @@ export const ScriptPage = () => {
         </Card>
 
         <ScriptInfosCard scriptInfos={scriptInfos} />
-        <ScriptTab
+        <Tabs
           key={currentLanguage + countOfTransactions + countOfDeployedCells + countOfReferringCells}
           className={styles.scriptTabs}
-          activeKey={tab ?? 'transactions'}
-          animated={{ inkBar: false }}
-          onTabClick={key => {
+          value={tab ?? 'transactions'}
+          style={{ width: '100%', marginTop: 24 }}
+          onValueChange={key => {
             const currentTab = tab ?? 'transactions'
             if (currentTab === key) return
 
@@ -252,38 +263,32 @@ export const ScriptPage = () => {
               history.push(`/${language}/script/${codeHash}/${hashType}?page=${pageOfTransactions}&size=${pageSize}`)
             }
           }}
-          renderTabBar={(props, DefaultTabBar) => {
-            return (
-              <Card rounded="top" className={styles.cardHeader}>
-                <DefaultTabBar {...props} className={styles.tablist} />
-              </Card>
-            )
-          }}
         >
-          <ScriptTabPane tab={<ScriptTabTitle>{`${t('transaction.transactions')}`}</ScriptTabTitle>} key="transactions">
-            <ScriptTransactions page={currentPage} size={pageSize} countOfTransactions={countOfTransactions} />
-          </ScriptTabPane>
-          <ScriptTabPane
-            tab={
+          <TabsList style={{ width: '100%', display: 'flex' }}>
+            <TabsTrigger value="transactions">
+              <ScriptTabTitle>{`${t('transaction.transactions')}`}</ScriptTabTitle>
+            </TabsTrigger>
+            <TabsTrigger value="deployed_cells">
               <ScriptTabTitle>
                 {`${t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`}
               </ScriptTabTitle>
-            }
-            key="deployed_cells"
-          >
-            <ScriptCells page={currentPage} size={pageSize} cellType="deployed_cells" />
-          </ScriptTabPane>
-          <ScriptTabPane
-            tab={
+            </TabsTrigger>
+            <TabsTrigger value="referring_cells">
               <ScriptTabTitle>
                 {`${t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`}
               </ScriptTabTitle>
-            }
-            key="referring_cells"
-          >
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="transactions" style={{ width: '100%' }}>
+            <ScriptTransactions page={currentPage} size={pageSize} countOfTransactions={countOfTransactions} />
+          </TabsContent>
+          <TabsContent value="deployed_cells" style={{ width: '100%' }}>
+            <ScriptCells page={currentPage} size={pageSize} cellType="deployed_cells" />
+          </TabsContent>
+          <TabsContent value="referring_cells" style={{ width: '100%' }}>
             <ScriptCells page={currentPage} size={100} cellType="referring_cells" />
-          </ScriptTabPane>
-        </ScriptTab>
+          </TabsContent>
+        </Tabs>
       </div>
     </Content>
   )

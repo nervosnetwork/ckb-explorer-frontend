@@ -1,11 +1,9 @@
-import { Table, Tooltip } from 'antd'
 import { WarningOutlined } from '@ant-design/icons'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { FC, Fragment, ReactNode, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
-import { ColumnGroupType, ColumnType } from 'antd/lib/table'
 import { Link } from '../../components/Link'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
@@ -14,7 +12,6 @@ import { TokensPanel, TokensContentEmpty, TokensLoadingPanel } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import { localeNumberString } from '../../utils/number'
 import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
-import Loading from '../../components/Loading'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import styles from './styles.module.scss'
 import { useIsMobile, usePaginationParamsInPage, useSortParam } from '../../hooks'
@@ -27,6 +24,7 @@ import { Card } from '../../components/Card'
 import { scripts } from '../ScriptList'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { BooleanT } from '../../utils/array'
+import Tooltip from '../../components/Tooltip'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -76,8 +74,8 @@ const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) =
     <div key={token.typeHash} className={styles.tokenInfo}>
       <span>
         {isOmigaInscriptionCollection(token) && (token.isRepeatedSymbol ?? !token.published) && (
-          <Tooltip placement="topLeft" title={t('udt.repeat_inscription_symbol')} arrowPointAtCenter>
-            <WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />
+          <Tooltip trigger={<WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />} placement="top">
+            {t('udt.repeat_inscription_symbol')}
           </Tooltip>
         )}
         <img className={styles.icon} src={token.iconFile ? token.iconFile : FtFallbackIcon} alt="token icon" />
@@ -105,8 +103,11 @@ const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) =
             ) : (
               <>
                 {defaultName}
-                <Tooltip placement="bottom" title={t('udt.unknown_token_description')}>
-                  <img className={styles.helpIcon} src={HelpIcon} alt="token icon" />
+                <Tooltip
+                  trigger={<img className={styles.helpIcon} src={HelpIcon} alt="token icon" />}
+                  placement="bottom"
+                >
+                  {t('udt.unknown_token_description')}
                 </Tooltip>
               </>
             )}
@@ -204,16 +205,12 @@ const TokenTable: FC<{
 }> = ({ isInscription, query, sortParam }) => {
   const { t } = useTranslation()
 
-  const nullableColumns: (
-    | ColumnGroupType<UDT | OmigaInscriptionCollection>
-    | ColumnType<UDT | OmigaInscriptionCollection>
-    | false
-    | undefined
-  )[] = [
+  const nullableColumns = [
     {
       title: t('udt.name'),
       className: styles.colName,
-      render: (_, token) => {
+      key: 'name',
+      render: (token: UDT) => {
         const { fullName } = token
         const name = fullName
         const symbol = token.symbol || `#${token.typeHash.substring(token.typeHash.length - 4)}`
@@ -223,8 +220,8 @@ const TokenTable: FC<{
           <div className={styles.container}>
             <div className={styles.warningIcon}>
               {isOmigaInscriptionCollection(token) && (token.isRepeatedSymbol ?? !token.published) && (
-                <Tooltip title={t('udt.repeat_inscription_symbol')}>
-                  <WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />
+                <Tooltip trigger={<WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />}>
+                  {t('udt.repeat_inscription_symbol')}
                 </Tooltip>
               )}
             </div>
@@ -248,8 +245,11 @@ const TokenTable: FC<{
                   <>
                     {symbol}
                     <span className={styles.name}>{defaultName}</span>
-                    <Tooltip placement="bottom" title={t('udt.unknown_token_description')}>
-                      <img className={styles.helpIcon} src={HelpIcon} alt="token icon" />
+                    <Tooltip
+                      trigger={<img className={styles.helpIcon} src={HelpIcon} alt="token icon" />}
+                      placement="bottom"
+                    >
+                      {t('udt.unknown_token_description')}
                     </Tooltip>
                   </>
                 )}
@@ -263,13 +263,14 @@ const TokenTable: FC<{
     },
     isInscription && {
       title: (
-        <>
+        <span>
           {t('udt.status')}
           <SortButton field="mint_status" sortParam={sortParam} />
-        </>
+        </span>
       ),
       className: styles.colStatus,
-      render: (_, token) => {
+      key: 'status',
+      render: (token: UDT) => {
         if (!isOmigaInscriptionCollection(token)) return null
 
         return (
@@ -282,51 +283,63 @@ const TokenTable: FC<{
     },
     {
       title: (
-        <>
+        <span>
           {t('udt.transactions')}
           <SortButton field="transactions" sortParam={sortParam} />
-        </>
+        </span>
       ),
       className: styles.colTransactions,
-      render: (_, token) => localeNumberString(token.h24CkbTransactionsCount),
+      key: 'transactions',
+      render: (token: UDT) => localeNumberString(token.h24CkbTransactionsCount),
     },
     {
       title: (
-        <>
+        <span>
           {t('udt.address_count')}
           <SortButton field="addresses_count" sortParam={sortParam} />
-        </>
+        </span>
       ),
       className: styles.colAddressCount,
-      render: (_, token) => localeNumberString(token.addressesCount),
+      key: 'addresses_count',
+      render: (token: UDT) => localeNumberString(token.addressesCount),
     },
     {
       title: (
-        <>
+        <span>
           {t('udt.created_time')}
           <SortButton field="created_time" sortParam={sortParam} />
-        </>
+        </span>
       ),
       className: styles.colCreatedTime,
-      render: (_, token) => dayjs(+token.createdAt).format('YYYY-MM-DD'),
+      key: 'created_time',
+      render: (token: UDT) => dayjs(+token.createdAt).format('YYYY-MM-DD'),
     },
   ]
   const columns = nullableColumns.filter(BooleanT())
 
   return (
-    <Table
-      className={styles.tokensTable}
-      columns={columns}
-      dataSource={query.data?.tokens ?? []}
-      pagination={false}
-      loading={
-        query.isLoading
-          ? {
-              indicator: <Loading className={styles.loading} show />,
-            }
-          : false
-      }
-    />
+    <table className={styles.tokensTable}>
+      <thead>
+        <tr>
+          {columns.map(column => (
+            <th key={column.key} style={{ width: `${100 / columns.length}%` }}>
+              {column.title}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {query.data?.tokens.map(token => (
+          <tr key={token.typeHash}>
+            {columns.map(column => (
+              <td key={column.key} className={column.className} style={{ width: `${100 / columns.length}%` }}>
+                {column.render?.(token)}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
 

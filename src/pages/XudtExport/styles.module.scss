@@ -396,9 +396,26 @@
       text-align: end;
     }
 
+    .inputContainer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #e5e5e5;
+      border-radius: 4px;
+      padding: 8px;
+    }
+
     .inputContent {
       flex: 1;
       max-width: 256px;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 16px;
+      line-height: 19px;
+      color: #333;
+      padding: 0;
+      margin: 0;
     }
   }
 }

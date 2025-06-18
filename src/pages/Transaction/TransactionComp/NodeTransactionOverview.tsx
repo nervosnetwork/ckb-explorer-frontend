@@ -1,6 +1,5 @@
 import { useState, FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { ResultFormatter } from '@ckb-lumos/rpc'
 import { Link } from '../../../components/Link'
@@ -25,6 +24,7 @@ import { useIsMobile } from '../../../hooks'
 import { useCKBNode } from '../../../hooks/useCKBNode'
 import styles from './TransactionOverview.module.scss'
 import TransactionParameters from '../../../components/TransactionParameters'
+import Tooltip from '../../../components/Tooltip'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 const TransactionBlockHeight = ({ txStatus }: { txStatus: NodeRpc.TransactionWithStatus['tx_status'] }) => (
@@ -212,10 +212,15 @@ export const NodeTransactionOverviewCard: FC<{
         title={t('transaction.transaction')}
         hash={rawTransaction.hash}
         customActions={[
-          <Tooltip placement="top" title={t(`transaction.export-transaction`)}>
-            <SimpleButton className={styles.exportTxAction} onClick={handleExportTxClick}>
-              <DownloadIcon />
-            </SimpleButton>
+          <Tooltip
+            trigger={
+              <SimpleButton className={styles.exportTxAction} onClick={handleExportTxClick}>
+                <DownloadIcon />
+              </SimpleButton>
+            }
+            placement="top"
+          >
+            {t(`transaction.export-transaction`)}
           </Tooltip>,
         ]}
       />

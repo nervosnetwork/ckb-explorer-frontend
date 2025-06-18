@@ -3,7 +3,6 @@
 
   background: #fff;
   color: #333;
-  box-shadow: 0 4px 4px 0 rgb(16 16 16 / 5%);
   border-radius: 4px;
   overflow: hidden;
 
@@ -101,7 +100,6 @@
   align-items: center;
   margin-right: 50px;
   font-size: 14px;
-  font-weight: regular;
 
   @media (width <= 1505px) {
     margin-right: calc(56px - (1505px - 100vw) / 8);
@@ -117,7 +115,7 @@
   }
 
   &:hover {
-    font-weight: medium;
+    font-weight: 400;
     color: var(--primary-color);
   }
 

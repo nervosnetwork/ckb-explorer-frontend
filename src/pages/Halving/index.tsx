@@ -1,4 +1,3 @@
-import { Progress, Tooltip, Popover, Table } from 'antd'
 import BigNumber from 'bignumber.js'
 import classnames from 'classnames'
 import { useTranslation } from 'react-i18next'
@@ -20,6 +19,8 @@ import { getPrimaryColor, EPOCHS_PER_HALVING, THEORETICAL_EPOCH_TIME } from '../
 import styles from './index.module.scss'
 import { useCurrentLanguage } from '../../utils/i18n'
 import { Link } from '../../components/Link'
+import Popover from '../../components/Popover'
+import Tooltip from '../../components/Tooltip'
 
 function numberToOrdinal(number: number) {
   switch (number) {
@@ -143,6 +144,41 @@ export const HalvingCountdownPage = () => {
       )
     }
 
+    interface HalvingHistoryItem {
+      key: number
+      event: string
+      epoch: string
+      height: number | undefined
+    }
+
+    const dataSource: HalvingHistoryItem[] = new Array(halvingCount - 1).fill({}).map((_, index) => ({
+      key: index,
+      event: `${t(`ordinal.${numberToOrdinal(index + 1)}`)}
+    ${t('symbol.char_space')}
+    ${t('halving.halving')}`,
+      epoch: new BigNumber(EPOCHS_PER_HALVING * (index + 1)).toFormat(),
+      height: getTargetBlockByHavingCount(index + 1),
+    }))
+    const columns = [
+      {
+        title: 'Event',
+        dataIndex: 'event',
+        key: 'event',
+        render: (event: HalvingHistoryItem['event']) => <span className={styles.textCapitalize}>{event}</span>,
+      },
+      { title: 'Epoch', dataIndex: 'epoch', key: 'epoch' },
+      {
+        title: 'Height',
+        dataIndex: 'height',
+        key: 'height',
+        render: (block: HalvingHistoryItem['height']) => (
+          <Link className={styles.textPrimary} to={`/block/${block}`}>
+            {block ? new BigNumber(block).toFormat() : '-'}
+          </Link>
+        ),
+      },
+    ]
+
     return (
       <div className={styles.halvingPanelWrapper}>
         <div className={styles.halvingPanel}>
@@ -154,87 +190,76 @@ export const HalvingCountdownPage = () => {
             {halvingCount > 1 && (
               <Popover
                 placement="top"
-                arrowPointAtCenter
-                content={
-                  <Table
-                    onHeaderRow={() => ({
-                      className: styles.historyTableHeaderRow,
-                    })}
-                    size="middle"
-                    className={styles.historyTable}
-                    pagination={false}
-                    dataSource={new Array(halvingCount - 1).fill({}).map((_, index) => ({
-                      key: index,
-                      event: `${t(`ordinal.${numberToOrdinal(index + 1)}`)}
-                  ${t('symbol.char_space')}
-                  ${t('halving.halving')}`,
-                      epoch: new BigNumber(EPOCHS_PER_HALVING * (index + 1)).toFormat(),
-                      height: getTargetBlockByHavingCount(index + 1),
-                    }))}
-                    columns={[
-                      {
-                        title: 'Event',
-                        dataIndex: 'event',
-                        key: 'event',
-                        render: event => <span className={styles.textCapitalize}>{event}</span>,
-                      },
-                      { title: 'Epoch', dataIndex: 'epoch', key: 'epoch' },
-                      {
-                        title: 'Height',
-                        dataIndex: 'height',
-                        key: 'height',
-                        render: block => (
-                          <Link className={styles.textPrimary} to={`/block/${block}`}>
-                            {new BigNumber(block).toFormat()}
-                          </Link>
-                        ),
-                      },
-                    ]}
+                trigger={
+                  <CalendarIcon
+                    style={{ marginLeft: 4, cursor: 'pointer' }}
+                    width={isMobile ? 16 : 20}
+                    height={isMobile ? 16 : 20}
                   />
                 }
-                title={null}
-                trigger="hover"
-                overlayClassName={styles.halvingPopover}
               >
-                <CalendarIcon
-                  style={{ marginLeft: 4, cursor: 'pointer' }}
-                  width={isMobile ? 16 : 20}
-                  height={isMobile ? 16 : 20}
-                />
+                <table className={styles.historyTable}>
+                  <thead>
+                    <tr className={styles.historyTableHeaderRow}>
+                      {columns.map(column => (
+                        <th key={column.key} style={{ padding: 8 }}>
+                          {column.title}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dataSource.map(item => (
+                      <tr key={item.key}>
+                        {columns.map(column => (
+                          <td key={column.key} style={{ padding: 8 }}>
+                            {item[column.dataIndex as keyof HalvingHistoryItem]}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </Popover>
             )}
             <div style={{ marginLeft: 'auto' }} />
 
             <Tooltip
-              placement={isMobile ? 'topRight' : 'top'}
-              color="#fff"
-              arrowPointAtCenter
-              overlayStyle={{ minWidth: isMobile ? 200 : 400 }}
-              overlayInnerStyle={{ color: '#333333' }}
-              title={
-                <>
-                  <p>{t('halving.countdown_tooltip_section1')}</p>
-                  <p>
-                    <strong>{t('halving.countdown_tooltip_section2')}</strong>
-                  </p>
-                  <p>{t('halving.countdown_tooltip_section3')}</p>
-                </>
+              trigger={
+                <WarningCircle width={isMobile ? 16 : 20} height={isMobile ? 16 : 20} style={{ cursor: 'pointer' }} />
               }
             >
-              <WarningCircle width={isMobile ? 16 : 20} height={isMobile ? 16 : 20} style={{ cursor: 'pointer' }} />
+              <>
+                <p>{t('halving.countdown_tooltip_section1')}</p>
+                <p>
+                  <strong>{t('halving.countdown_tooltip_section2')}</strong>
+                </p>
+                <p>{t('halving.countdown_tooltip_section3')}</p>
+              </>
             </Tooltip>
           </div>
 
           <HalvingCountdown />
 
           <div>
-            <Progress
+            <div
               className={styles.halvingProgress}
-              strokeColor={getPrimaryColor()}
-              percent={Number(percent.toFixed(2))}
-              strokeWidth={isMobile ? 8 : 12}
-              showInfo={false}
-            />
+              style={{
+                backgroundColor: 'transparent',
+                height: isMobile ? 8 : 12,
+                borderRadius: 4,
+                border: `1px solid ${getPrimaryColor()}`,
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: getPrimaryColor(),
+                  height: (isMobile ? 8 : 12) - 2,
+                  width: `${Math.max(Number(percent.toFixed(2)), 2)}%`,
+                  borderRadius: 4,
+                }}
+              />
+            </div>
             <div className={styles.halvingProgressMarks}>
               <span>25%</span>
               <span>50%</span>
@@ -318,12 +343,16 @@ export const HalvingCountdownPage = () => {
         </div>
       </div>
 
-      <Tooltip title={t('halving.share_tooltip')}>
-        <a className={styles.shareWrapper} href={shareUrl} target="_blank" rel="noreferrer">
-          <div className={styles.xIconBg}>
-            <XIcon fill="white" height={40} width={40} />
-          </div>
-        </a>
+      <Tooltip
+        trigger={
+          <a className={styles.shareWrapper} href={shareUrl} target="_blank" rel="noreferrer">
+            <div className={styles.xIconBg}>
+              <XIcon fill="white" height={40} width={40} />
+            </div>
+          </a>
+        }
+      >
+        {t('halving.share_tooltip')}
       </Tooltip>
     </Content>
   )

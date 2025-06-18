@@ -364,6 +364,57 @@
   background-color: #fffcf2;
 }
 
+.professionalLiteBox {
+  margin-left: 10px;
+
+  @media (width <= $mobileBreakPoint) {
+    width: 100%;
+  }
+
+  .button {
+    height: 40px;
+    width: 120px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 38px;
+    color: #333;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+    box-shadow: none !important;
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+
+    @media (width <= $mobileBreakPoint) {
+      height: 40px;
+      width: 50%;
+    }
+  }
+
+  .selected {
+    color: #fff;
+    background: #333;
+    border-color: #333 !important;
+
+    &:hover {
+      background: #333;
+    }
+  }
+
+  @media (width <= $mobileBreakPoint) {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 16px;
+    margin: 0;
+  }
+}
+
 .copyCodeHash {
   display: flex;
   align-items: center;

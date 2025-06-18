@@ -12,7 +12,7 @@ const ScriptItem = ({ title, tooltip, children }: { title: string; tooltip?: str
   <ScriptItemPanel>
     <div className="scriptTitle">
       <span>{title}</span>
-      {tooltip && <HelpTip title={tooltip} />}
+      {tooltip && <HelpTip>{tooltip}</HelpTip>}
       <span>:</span>
     </div>
     <div className="scriptContent">{children}</div>

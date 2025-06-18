@@ -22,7 +22,7 @@ const Field = ({
       {title ? (
         <>
           <span>{title}</span>
-          {tooltip && <HelpTip title={tooltip} />}
+          {tooltip && <HelpTip>{tooltip}</HelpTip>}
           <span>:</span>
         </>
       ) : (
@@ -38,7 +38,7 @@ const Field = ({
         ) : (
           value
         )}
-        {valueTooltip && <HelpTip title={valueTooltip} />}
+        {valueTooltip && <HelpTip>{valueTooltip}</HelpTip>}
       </div>
       {tag && <div>{tag}</div>}
     </div>
@@ -174,7 +174,7 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
         <div className={styles.section} key={item.title}>
           <div className={styles.sectionTitle}>
             <span>{item.title}</span>
-            {item.tooltip && <HelpTip title={item.tooltip} />}
+            {item.tooltip && <HelpTip>{item.tooltip}</HelpTip>}
           </div>
           <div className={styles.sectionValue}>{item.content}</div>
         </div>

@@ -4,12 +4,12 @@ import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { CopyIcon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
 import QRCode from 'qrcode'
-import { Tooltip } from 'antd'
 import Content from '../../../components/Content'
 import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
 import styles from './index.module.scss'
 import Loading from '../../../components/Loading'
+import Tooltip from '../../../components/Tooltip'
 
 const Peer = () => {
   const [t] = useTranslation()
@@ -125,9 +125,7 @@ const Peer = () => {
               <dl>
                 <dt>{t('fiber.peer.connect_id')}</dt>
                 <dd className={styles.connectId}>
-                  <Tooltip title={connectId}>
-                    <span>{connectId}</span>
-                  </Tooltip>
+                  <Tooltip trigger={<span>{connectId}</span>}>{connectId}</Tooltip>
                   <button type="button" data-copy-text={connectId}>
                     <CopyIcon />
                   </button>
@@ -168,10 +166,14 @@ const Peer = () => {
                   return (
                     <tr key={c.channelId}>
                       <td>
-                        <Tooltip title={c.channelId}>
-                          <Link to={`/fiber/channels/${c.channelId}`} className="monospace">
-                            {`${c.channelId.slice(0, 10)}...${c.channelId.slice(-10)}`}
-                          </Link>
+                        <Tooltip
+                          trigger={
+                            <Link to={`/fiber/channels/${c.channelId}`} className="monospace">
+                              {`${c.channelId.slice(0, 10)}...${c.channelId.slice(-10)}`}
+                            </Link>
+                          }
+                        >
+                          {c.channelId}
                         </Tooltip>
                       </td>
                       <td>{c.stateName}</td>

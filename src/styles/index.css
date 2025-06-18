@@ -109,7 +109,7 @@ a {
 }
 
 .ant-input:focus {
-  border-color: none;
+  border-color: transparent;
 }
 
 .ant-input-affix-wrapper:hover,

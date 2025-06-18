@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import cytoscape from 'cytoscape'
 import { useQuery } from '@tanstack/react-query'
-import { Dropdown } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { scriptToAddress } from '@nervosnetwork/ckb-sdk-utils'
 import debounce from 'lodash.debounce'
@@ -15,6 +14,7 @@ import TxNode from './GraphNode/txNode'
 import styles from './styles.module.scss'
 import { useGenerateMenuItem } from './GraphNode/cellNode'
 import { CellBasicInfo } from '../../utils/transformer'
+import Popover from '../Popover'
 
 function generateCellGraph(
   container: HTMLElement,
@@ -96,14 +96,12 @@ export const CellGraph = ({
   isGenesisOutput,
   onViewCell,
   onViewTxGraph,
-  modalRef,
   cellIndex,
   rgbInfo,
   occupiedCapacity,
   status,
 }: CellBasicInfo & {
   onViewTxGraph: (txHash: string) => void
-  modalRef?: HTMLDivElement | null
   onViewCell: (cell: CellBasicInfo) => void
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
@@ -165,7 +163,7 @@ export const CellGraph = ({
             type="button"
             key={v}
           >
-            <TxNode txHash={v} modalRef={modalRef} />
+            <TxNode txHash={v} />
           </button>
         ) : null,
       )}
@@ -177,9 +175,16 @@ export const CellGraph = ({
         className={styles.cell}
       >
         {`${(+shannonToCkb(capacity)).toLocaleString('en')} CKB`}
-        <Dropdown
-          menu={{
-            items: useGenerateMenuItem({
+        <Popover
+          trigger={
+            <button type="button" className={styles.more} onClick={e => e.stopPropagation()}>
+              <MoreIcon />
+            </button>
+          }
+          portalContainer={ref.current}
+        >
+          <div onClick={e => e.stopPropagation()}>
+            {useGenerateMenuItem({
               t,
               address,
               btcUtxo,
@@ -195,15 +200,11 @@ export const CellGraph = ({
                 rgbInfo,
                 status,
               },
-            }),
-          }}
-          trigger={['click']}
-          getPopupContainer={() => modalRef ?? document.body}
-        >
-          <button type="button" className={styles.more} onClick={e => e.stopPropagation()}>
-            <MoreIcon />
-          </button>
-        </Dropdown>
+            }).map(item => {
+              return <div key={item.key}>{item.label}</div>
+            })}
+          </div>
+        </Popover>
       </div>
     </div>
   )
