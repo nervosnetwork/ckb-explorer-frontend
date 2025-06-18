@@ -2,13 +2,16 @@
   width: 100%;
   margin: 100px 0;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   > img {
     max-width: 100%;
     width: 270px;
   }
 
-  @media (max-width: 750px) {
+  @media (width <= 750px) {
     margin: 60px 0;
 
     > img {

@@ -363,3 +363,24 @@
   border: 1px solid #ffdba6;
   background-color: #fffcf2;
 }
+
+.copyCodeHash {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+  margin-top: 4px;
+  padding-top: 4px;
+}
+
+.copyIcon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-left: auto;
+  color: #f1f1f1;
+  transition: color 0.1s ease;
+
+  &:hover {
+    color: var(--primary-color) !important;
+  }
+}
