@@ -97,14 +97,6 @@
 
 .halvingProgress {
   line-height: 0;
-
-  :global {
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-progress-inner {
-      background-color: transparent;
-      border: 1px solid var(--primary-color);
-    }
-  }
 }
 
 .halvingProgressMarks {
@@ -405,72 +397,4 @@
 .halvingPopover {
   border-radius: 4px;
   width: 300px;
-
-  :global {
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-popover-inner {
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-popover-inner-content {
-      padding: 0 16px;
-    }
-  }
-}
-
-.historyTable {
-  :global {
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-table {
-      /* stylelint-disable-next-line selector-class-pattern */
-      .ant-table-thead {
-        tr > th {
-          background: transparent;
-          color: #666;
-          padding: 8px 20px;
-
-          &::before {
-            width: 0 !important;
-          }
-
-          &:first-child {
-            padding-left: 0;
-          }
-
-          &:last-child {
-            padding-right: 0;
-          }
-        }
-      }
-
-      /* stylelint-disable-next-line selector-class-pattern */
-      .ant-table-tbody {
-        tr > td {
-          padding: 8px 20px;
-          font-weight: 500;
-          border: 0;
-
-          &:first-child {
-            padding-left: 0;
-          }
-
-          &:last-child {
-            padding-right: 0;
-          }
-        }
-      }
-    }
-  }
-}
-
-:global {
-  /* stylelint-disable */
-  .ant-tooltip-placement-top .ant-tooltip-arrow,
-  .ant-popover-placement-top .ant-popover-arrow,
-  .ant-tooltip-placement-topRight .ant-tooltip-arrow {
-    /* stylelint-enable */
-    bottom: 1px;
-  }
 }

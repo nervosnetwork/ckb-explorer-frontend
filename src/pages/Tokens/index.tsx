@@ -1,4 +1,4 @@
-import { WarningOutlined } from '@ant-design/icons'
+import { TriangleAlert } from 'lucide-react'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { FC, Fragment, ReactNode, useState } from 'react'
@@ -72,9 +72,9 @@ const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) =
 
   return (
     <div key={token.typeHash} className={styles.tokenInfo}>
-      <span>
+      <span className="flex items-center gap-1">
         {isOmigaInscriptionCollection(token) && (token.isRepeatedSymbol ?? !token.published) && (
-          <Tooltip trigger={<WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />} placement="top">
+          <Tooltip trigger={<TriangleAlert className="text-[#FFB21E]" size={16} />} placement="top">
             {t('udt.repeat_inscription_symbol')}
           </Tooltip>
         )}
@@ -220,7 +220,7 @@ const TokenTable: FC<{
           <div className={styles.container}>
             <div className={styles.warningIcon}>
               {isOmigaInscriptionCollection(token) && (token.isRepeatedSymbol ?? !token.published) && (
-                <Tooltip trigger={<WarningOutlined style={{ fontSize: '16px', color: '#FFB21E' }} />}>
+                <Tooltip trigger={<TriangleAlert className="text-[#FFB21E]" size={16} />}>
                   {t('udt.repeat_inscription_symbol')}
                 </Tooltip>
               )}
