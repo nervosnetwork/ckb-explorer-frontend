@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import camelcase from 'camelcase'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { SyncOutlined as Loading } from '@ant-design/icons'
+import { RefreshCw } from 'lucide-react'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService } from '../../services/ExplorerService'
@@ -113,7 +113,8 @@ export const ScriptTransactions = ({
       )}
       <div className={styles.scriptTransactionsConfigPanel}>
         <span className={styles.countInfo}>
-          Total {isLoading ? <Loading spin /> : localeNumberString(countOfTransactions)} Transactions
+          Total {isLoading ? <RefreshCw className="animate-spin" size={16} /> : localeNumberString(countOfTransactions)}{' '}
+          Transactions
         </span>
 
         <label style={{ marginLeft: 'auto' }} htmlFor="script-restrict-mode">

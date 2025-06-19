@@ -168,16 +168,6 @@
   }
 }
 
-/* stylelint-disable-next-line selector-class-pattern */
-:global(.ant-input[disabled]) {
-  color: #333 !important;
-}
-
-/* stylelint-disable-next-line selector-class-pattern */
-:global(.ant-input-suffix) {
-  color: #333 !important;
-}
-
 .doneBtn {
   margin-top: 40px;
   height: 47px;

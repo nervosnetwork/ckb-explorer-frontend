@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "4.8.1",
     "@ckb-ccc/connector": "^1.0.17",
     "@ckb-ccc/core": "^1.8.1",
     "@ckb-ccc/ssri": "^0.2.7",

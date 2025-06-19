@@ -71,13 +71,6 @@
       color: var(--primary-color);
     }
   }
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  &:global(.ant-dropdown-open) {
-    .icon {
-      transform: rotate(0deg);
-    }
-  }
 }
 
 .mobileSubmenuTrigger {
