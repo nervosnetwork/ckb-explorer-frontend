@@ -1,32 +1,35 @@
 import * as React from 'react'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import styles from './Tabs.module.scss'
 
-const Tabs = TabsPrimitive.Root
+function Tabs({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.Root> & { type?: 'underline' | 'default' }) {
+  return (
+    <TabsPrimitive.Root
+      data-slot="tabs"
+      className={classNames(styles.tabs, props.type === 'underline' && styles.underline, className)}
+      {...props}
+    />
+  )
+}
 
-const TabsList = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.List ref={ref} className={classnames(styles.tabsList, className)} {...props} />
-))
-TabsList.displayName = TabsPrimitive.List.displayName
+function TabsList({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.List>) {
+  return <TabsPrimitive.List data-slot="tabs-list" className={classNames(styles.tabsList, className)} {...props} />
+}
 
-const TabsTrigger = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger ref={ref} className={classnames(styles.tabsTrigger, className)} {...props} />
-))
-TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
+function TabsTrigger({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+  return (
+    <TabsPrimitive.Trigger data-slot="tabs-trigger" className={classNames(styles.tabsTrigger, className)} {...props} />
+  )
+}
 
-const TabsContent = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content ref={ref} className={classnames(styles.tabsContent, className)} {...props} />
-))
-TabsContent.displayName = TabsPrimitive.Content.displayName
+function TabsContent({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Content>) {
+  return (
+    <TabsPrimitive.Content data-slot="tabs-content" className={classNames(styles.tabsContent, className)} {...props} />
+  )
+}
 
 export { Tabs, TabsList, TabsTrigger, TabsContent }

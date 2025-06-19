@@ -31,7 +31,10 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     category: 'lock',
   },
   {
-    codeHashes: ['0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8'],
+    codeHashes: [
+      '0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8',
+      '0x36c971b8d41fbd94aabca77dc75e826729ac98447b46f91e00796155dddb0d29',
+    ],
     txHashes: ['0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-1'],
     depType: 'dep_group',
     hashType: 'type',
@@ -414,7 +417,10 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     category: 'lock',
   },
   {
-    codeHashes: ['0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8'],
+    codeHashes: [
+      '0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8',
+      '0x36c971b8d41fbd94aabca77dc75e826729ac98447b46f91e00796155dddb0d29',
+    ],
     txHashes: ['0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37-1'],
     depType: 'dep_group',
     hashType: 'type',
@@ -858,3 +864,5 @@ export const LUMOS_TESTNET_CONFIG: Config = {
   PREFIX: predefined.AGGRON4.PREFIX,
   SCRIPTS: LUMOS_TESTNET_SCRIPTS,
 }
+
+export const ZERO_LOCK_CODE_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'

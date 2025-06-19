@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Input } from 'antd'
 import { Trans, useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import CommonModal from '../../../components/CommonModal'
@@ -115,30 +114,27 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
 
           <div className={styles.divider} />
           <div className={styles.modalContent}>
-            <h2>{t('nervos_dao.deposit_amount')}</h2>
-            <Input
+            <h2>{t('nervos_dao.deposit_amount')} (CKB)</h2>
+            <input
               value={
                 /\.$/.test(depositValue)
                   ? `${localeNumberString(depositValue.slice(0, -1))}.`
                   : localeNumberString(depositValue)
               }
               className={styles.input}
-              suffix="CKB"
               onChange={handleDepositChange}
             />
             <h2>{t('nervos_dao.estimated_compensation')}</h2>
-            <p>{t(`nervos_dao.estimated_rewards`, { days: 30 })}</p>
-            <Input
+            <p>{t(`nervos_dao.estimated_rewards`, { days: 30 })} (CKB)</p>
+            <input
               value={localeNumberString(monthReward.toFixed(MAX_DECIMAL_DIGITS))}
               className={styles.input}
-              suffix="CKB"
               disabled
             />
-            <p>{t(`nervos_dao.estimated_rewards`, { days: 360 })}</p>
-            <Input
+            <p>{t(`nervos_dao.estimated_rewards`, { days: 360 })} (CKB)</p>
+            <input
               value={localeNumberString(yearReward.toFixed(MAX_DECIMAL_DIGITS))}
               className={styles.input}
-              suffix="CKB"
               disabled
             />
             <div className={styles.notice}>{t('nervos_dao.deposit_notice')}</div>
@@ -151,7 +147,7 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
                 </Link>
               </h2>
             </div>
-            <Input value={`${estimatedApc}%`} className={styles.input} disabled />
+            <input value={`${estimatedApc}%`} className={styles.input} disabled />
 
             <h2 className={styles.years}>
               {t('nervos_dao.estimated_rewards_in_years')}

@@ -28,5 +28,5 @@ export default (props: UTXOGraphProps) => {
       />
     )
   }
-  return <CellGraph {...currentViewInfo} onViewTxGraph={onViewTxGraph} modalRef={modalRef} onViewCell={onViewCell} />
+  return <CellGraph {...currentViewInfo} onViewTxGraph={onViewTxGraph} onViewCell={onViewCell} />
 }

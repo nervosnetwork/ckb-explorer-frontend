@@ -10,8 +10,6 @@ import { explorerService, RawBtcRPC } from '../../services/ExplorerService'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb, deprecatedAddrToNewAddr } from '../../utils/util'
 import {
-  AddressAssetsTab,
-  AddressAssetsTabPane,
   AddressAssetsTabPaneTitle,
   AddressLockScriptController,
   AddressLockScriptPanel,
@@ -38,6 +36,7 @@ import DefinedTokens from './DefinedTokens'
 import { AddressOmigaInscriptionComp } from './AddressAssetComp'
 import { useCKBNode } from '../../hooks/useCKBNode'
 import { useTransactions } from '../../hooks/transaction'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/Tabs'
 
 enum AssetInfo {
   UDT = 1,
@@ -129,7 +128,7 @@ const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
 }
 
 export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { udtAccounts = [] } = address
   const [activeTab, setActiveTab] = useState<AssetInfo>(AssetInfo.UDT)
 
@@ -236,44 +235,46 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
 
       {hasAssets || hasInscriptions || hasCells ? (
         <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
-          <AddressAssetsTab animated={false} key={i18n.language} activeKey={activeTab.toString()}>
-            {hasCells ? (
-              <AddressAssetsTabPane
-                tab={
+          <Tabs value={activeTab.toString()} type="underline">
+            <TabsList>
+              {!!hasCells && (
+                <TabsTrigger value={AssetInfo.CELLs.toString()}>
                   <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.CELLs)}>
                     {t('address.live_cell_tab')}
                   </AddressAssetsTabPaneTitle>
-                }
-                key={AssetInfo.CELLs}
-              >
-                <div className={styles.assetCardList}>
-                  <Cells address={address.addressHash} count={+address.liveCellsCount} />
-                </div>
-              </AddressAssetsTabPane>
-            ) : null}
-            {hasAssets && (
-              <AddressAssetsTabPane
-                tab={
+                </TabsTrigger>
+              )}
+              {!!hasAssets && (
+                <TabsTrigger value={AssetInfo.UDT.toString()}>
                   <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.UDT)}>
                     {t('address.user_defined_token')}
                   </AddressAssetsTabPaneTitle>
-                }
-                key={AssetInfo.UDT}
-              >
-                <div className={styles.assetCardList}>
-                  <DefinedTokens udts={udts} cotaList={cotaList} />
-                </div>
-              </AddressAssetsTabPane>
-            )}
-            {hasInscriptions ? (
-              <AddressAssetsTabPane
-                tab={
+                </TabsTrigger>
+              )}
+              {!!hasInscriptions && (
+                <TabsTrigger value={AssetInfo.INSCRIPTION.toString()}>
                   <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.INSCRIPTION)}>
                     {t('address.inscription')}
                   </AddressAssetsTabPaneTitle>
-                }
-                key={AssetInfo.INSCRIPTION}
-              >
+                </TabsTrigger>
+              )}
+            </TabsList>
+            {!!hasCells && (
+              <TabsContent value={AssetInfo.CELLs.toString()} style={{ width: '100%' }}>
+                <div className={styles.assetCardList}>
+                  <Cells address={address.addressHash} count={+address.liveCellsCount} />
+                </div>
+              </TabsContent>
+            )}
+            {!!hasAssets && (
+              <TabsContent value={AssetInfo.UDT.toString()} style={{ width: '100%' }}>
+                <div className={styles.assetCardList}>
+                  <DefinedTokens udts={udts} cotaList={cotaList} />
+                </div>
+              </TabsContent>
+            )}
+            {!!hasInscriptions && (
+              <TabsContent value={AssetInfo.INSCRIPTION.toString()} style={{ width: '100%' }}>
                 <div className={styles.assetCardList}>
                   <div className={styles.inscriptions}>
                     <ul>
@@ -296,9 +297,9 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                     </ul>
                   </div>
                 </div>
-              </AddressAssetsTabPane>
-            ) : null}
-          </AddressAssetsTab>
+              </TabsContent>
+            )}
+          </Tabs>
         </AddressUDTAssetsPanel>
       ) : null}
 

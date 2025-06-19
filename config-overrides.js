@@ -1,6 +1,5 @@
 /* config-overrides.js */
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
-const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const webpack = require('webpack')
 
@@ -45,7 +44,6 @@ module.exports = {
             process.env.SENTRY_PROJECT ||
             (isMainnet ? 'ckb-explorer-frontend-mainnet' : 'ckb-explorer-frontend-testnet'),
         }),
-        new AntdDayjsWebpackPlugin(),
       )
     }
 
@@ -53,6 +51,7 @@ module.exports = {
     const oneOf = config.module.rules.find(rule => typeof rule.oneOf === 'object')
     if (oneOf) {
       const moduleSassRule = oneOf.oneOf.find(rule => regexEqual(rule.test, /\.module\.(scss|sass)$/))
+      const cssRule = oneOf.oneOf.find(rule => regexEqual(rule.test, /\.css$/))
       if (moduleSassRule) {
         // Get the config object for css-loader plugin
         const cssLoader = moduleSassRule.use.find(({ loader }) => loader?.includes('css-loader'))
@@ -73,6 +72,29 @@ module.exports = {
             },
           }
         }
+      }
+
+      if (cssRule) {
+        // Update CSS rule to include PostCSS with Tailwind CSS
+        const cssLoader = cssRule.use.find(({ loader }) => loader?.includes('css-loader'))
+        if (cssLoader) {
+          cssLoader.options = {
+            ...cssLoader.options,
+            importLoaders: 2,
+          }
+        }
+
+        cssRule.use = [
+          ...cssRule.use,
+          {
+            loader: require.resolve('postcss-loader'),
+            options: {
+              postcssOptions: {
+                plugins: [require('@tailwindcss/postcss')(), require('autoprefixer')()],
+              },
+            },
+          },
+        ]
       }
     }
 

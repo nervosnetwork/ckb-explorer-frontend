@@ -1,5 +1,4 @@
 import { memo, ReactNode } from 'react'
-import { Col, Row } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { TableTitleRowItem, TableContentRowItem, HighlightLink, TableMinerContentPanel } from './styled'
 import AddressText from '../AddressText'
@@ -43,8 +42,8 @@ export const TableMinerContentItem = memo(
     return (
       <TableMinerContentPanel width={width} fontSize={fontSize}>
         {content ? (
-          <Row justify={textCenter ? 'center' : 'start'}>
-            <Col span={20} xl={16}>
+          <div style={{ display: 'flex', justifyContent: textCenter ? 'center' : 'start', overflow: 'hidden' }}>
+            <div style={{ flexBasis: `0 0 100%`, overflow: 'hidden' }}>
               <AddressText
                 className="tableMinerText"
                 linkProps={{
@@ -54,8 +53,8 @@ export const TableMinerContentItem = memo(
               >
                 {content}
               </AddressText>
-            </Col>
-          </Row>
+            </div>
+          </div>
         ) : (
           <div className="tableMinerTextDisable">{t('address.unable_decode_address')}</div>
         )}

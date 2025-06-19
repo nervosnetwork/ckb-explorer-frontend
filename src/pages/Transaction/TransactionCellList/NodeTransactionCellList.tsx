@@ -1,4 +1,3 @@
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import type { Cell } from '@ckb-lumos/base'
@@ -10,6 +9,7 @@ import { ReactComponent as Warning } from './warning.svg'
 import { TransactionCellList } from './TransactionCellList'
 import styles from './styles.module.scss'
 import { useIsDeprecatedAddressesDisplayed } from './useIsDeprecatedAddressesDisplayed'
+import Tooltip from '../../../components/Tooltip'
 
 export default ({ cells = [], ioType }: { cells?: Cell[]; ioType: IOType }) => {
   const { t } = useTranslation()
@@ -21,14 +21,19 @@ export default ({ cells = [], ioType }: { cells?: Cell[]; ioType: IOType }) => {
     return (
       <div className={styles.cellListTitle}>
         {`${title} (${cells.length ?? '-'})`}
-        <Tooltip placement="top" title={t(`address.view-deprecated-address`)}>
-          <Link className={styles.newAddrToggle} to={addrFormatToggleURL} role="presentation">
-            {!isDeprecatedAddressesDisplayed ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
-          </Link>
+        <Tooltip
+          trigger={
+            <Link className={styles.newAddrToggle} to={addrFormatToggleURL} role="presentation">
+              {!isDeprecatedAddressesDisplayed ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
+            </Link>
+          }
+          placement="top"
+        >
+          {t(`address.view-deprecated-address`)}
         </Tooltip>
         {!isDeprecatedAddressesDisplayed ? null : (
-          <Tooltip placement="top" title={t('address.displaying-deprecated-address')}>
-            <Warning />
+          <Tooltip trigger={<Warning />} placement="top">
+            {t('address.displaying-deprecated-address')}
           </Tooltip>
         )}
       </div>

@@ -1,4 +1,3 @@
-import { Tooltip } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -19,6 +18,7 @@ import { useIsMobile } from '../../../hooks'
 import Cellbase from '../../../components/Transaction/Cellbase'
 import TransactionReward from '../TransactionReward'
 import Loading from '../../../components/Loading'
+import Tooltip from '../../../components/Tooltip'
 
 export default ({ blockHash, blockNumber }: { blockHash?: string; blockNumber?: string }) => {
   const { t } = useTranslation()
@@ -38,14 +38,19 @@ export default ({ blockHash, blockNumber }: { blockHash?: string; blockNumber?: 
     return (
       <div className={styles.cellListTitle}>
         {`${t('transaction.input')} (1)`}
-        <Tooltip placement="top" title={t(`address.view-deprecated-address`)}>
-          <Link className={styles.newAddrToggle} to={addrFormatToggleURL} role="presentation">
-            {!isDeprecatedAddressesDisplayed ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
-          </Link>
+        <Tooltip
+          trigger={
+            <Link className={styles.newAddrToggle} to={addrFormatToggleURL} role="presentation">
+              {!isDeprecatedAddressesDisplayed ? <DeprecatedAddrOff /> : <DeprecatedAddrOn />}
+            </Link>
+          }
+          placement="top"
+        >
+          {t(`address.view-deprecated-address`)}
         </Tooltip>
         {!isDeprecatedAddressesDisplayed ? null : (
-          <Tooltip placement="top" title={t('address.displaying-deprecated-address')}>
-            <Warning />
+          <Tooltip trigger={<Warning />} placement="top">
+            {t('address.displaying-deprecated-address')}
           </Tooltip>
         )}
       </div>

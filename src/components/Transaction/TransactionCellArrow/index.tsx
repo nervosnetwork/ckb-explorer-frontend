@@ -1,4 +1,3 @@
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../Link'
 import { IOType } from '../../../constants/common'
@@ -9,6 +8,7 @@ import LiveCellBlueIcon from './live_cell_blue.png'
 import { isMainnet } from '../../../utils/chain'
 import { RightArrowImage, LeftArrowImage } from './styled'
 import { Cell } from '../../../models/Cell'
+import Tooltip from '../../Tooltip'
 
 export const RightArrow = ({ status = 'live' }: { status?: Cell['status'] }) => {
   if (status === 'live') {
@@ -49,8 +49,8 @@ export const CellOutputIcon = ({ cell }: { cell: Partial<Pick<Cell, 'status' | '
   }
 
   return (
-    <Tooltip placement="topRight" title={t('transaction.unspent_output')} arrowPointAtCenter>
-      <RightArrow status="live" />
+    <Tooltip trigger={<RightArrow status="live" />} placement="top">
+      {t('transaction.unspent_output')}
     </Tooltip>
   )
 }

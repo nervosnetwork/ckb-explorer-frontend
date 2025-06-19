@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
 import { InfoCircledIcon, Link1Icon, LinkBreak2Icon, UpdateIcon } from '@radix-ui/react-icons'
 import dayjs from 'dayjs'
 import Content from '../../../components/Content'
@@ -21,6 +20,7 @@ import GraphNodeIps from '../../../components/GraphNodeIps'
 import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
 import { fetchIpsInfo, IpInfo } from '../../../services/UtilityService'
 import { getIpFromP2pAddr } from '../../../utils/fiber'
+import Tooltip from '../../../components/Tooltip'
 
 const TIME_TEMPLATE = 'YYYY-MM-DD'
 
@@ -31,12 +31,16 @@ const fields = [
     transformer: (v: unknown, i: Fiber.Graph.Node) => {
       if (typeof v !== 'string') return v
       return (
-        <Tooltip title={v}>
-          <div className={styles.name}>
-            <Link to={`/fiber/graph/node/${i.nodeId}`}>
-              {v || <span className={styles.nameFallback}>Untitled</span>}
-            </Link>
-          </div>
+        <Tooltip
+          trigger={
+            <div className={styles.name}>
+              <Link to={`/fiber/graph/node/${i.nodeId}`}>
+                {v || <span className={styles.nameFallback}>Untitled</span>}
+              </Link>
+            </div>
+          }
+        >
+          {v}
         </Tooltip>
       )
     },
@@ -54,18 +58,23 @@ const fields = [
         <div className={styles.funding}>
           {displays.map(threshold => {
             return (
-              <Tooltip key={threshold.id} title={threshold.title}>
-                <span className={styles.token}>
-                  <img
-                    src={threshold.icon ?? FtFallbackIcon}
-                    alt="icon"
-                    width="12"
-                    height="12"
-                    loading="lazy"
-                    onError={handleFtImgError}
-                  />
-                  {threshold.display}
-                </span>
+              <Tooltip
+                trigger={
+                  <span className={styles.token}>
+                    <img
+                      src={threshold.icon ?? FtFallbackIcon}
+                      alt="icon"
+                      width="12"
+                      height="12"
+                      loading="lazy"
+                      onError={handleFtImgError}
+                    />
+                    {threshold.display}
+                  </span>
+                }
+                key={threshold.id}
+              >
+                {threshold.title}
               </Tooltip>
             )
           })}
@@ -105,11 +114,7 @@ const fields = [
 
       const ckb = shannonToCkb(v)
       const amount = parseNumericAbbr(ckb, 2)
-      return (
-        <Tooltip title={`${localeNumberString(ckb)} CKB`}>
-          <span>{`${amount} CKB`}</span>
-        </Tooltip>
-      )
+      return <Tooltip trigger={<span>{`${amount} CKB`}</span>}>{`${localeNumberString(ckb)} CKB`}</Tooltip>
     },
   },
   {
@@ -154,10 +159,14 @@ const fields = [
       if (typeof v !== 'string') return v
       return (
         <span className={styles.nodeId}>
-          <Tooltip title={v}>
-            <Link to={`/fiber/graph/node/${v}`} className="monospace">
-              {v.length > 16 ? `0x${v.slice(0, 8)}...${v.slice(-8)}` : `0x${v}`}
-            </Link>
+          <Tooltip
+            trigger={
+              <Link to={`/fiber/graph/node/${v}`} className="monospace">
+                {v.length > 16 ? `0x${v.slice(0, 8)}...${v.slice(-8)}` : `0x${v}`}
+              </Link>
+            }
+          >
+            {v}
           </Tooltip>
           <button type="button" data-copy-text={`0x${v}`}>
             <CopyIcon color="#999" />
@@ -174,10 +183,14 @@ const fields = [
       const addr = v[0]
       if (!addr || typeof addr !== 'string') {
         return (
-          <Tooltip title="Not Revealed">
-            <span>
-              <LinkBreak2Icon />
-            </span>
+          <Tooltip
+            trigger={
+              <span>
+                <LinkBreak2Icon />
+              </span>
+            }
+          >
+            Not Revealed
           </Tooltip>
         )
       }
@@ -188,26 +201,40 @@ const fields = [
       return (
         <div className={styles.address}>
           <span>
-            <Tooltip title={addr}>
-              <span>{`${ip} (${protocol.toUpperCase()})`}</span>
-              <button type="button" data-copy-text={v}>
-                <CopyIcon color="#999" />
-              </button>
+            <Tooltip
+              trigger={
+                <span>
+                  <span>{`${ip} (${protocol.toUpperCase()})`}</span>
+                  <button type="button" data-copy-text={v}>
+                    <CopyIcon color="#999" />
+                  </button>
+                </span>
+              }
+            >
+              {addr}
             </Tooltip>
             {v.length > 1 ? (
-              <Tooltip title={`${v.length - 1} more address(es)`}>
-                <span className={styles.more}>
-                  <InfoCircledIcon />
-                </span>
+              <Tooltip
+                trigger={
+                  <span className={styles.more}>
+                    <InfoCircledIcon />
+                  </span>
+                }
+              >
+                {`${v.length - 1} more address(es)`}
               </Tooltip>
             ) : null}
           </span>
           {ipInfo ? (
-            <Tooltip title={`${ipInfo.isp}@${ipInfo.city}`}>
-              <div className={styles.isp}>
-                <span>{ipInfo.isp}</span>
-                <span>@{ipInfo.city}</span>
-              </div>
+            <Tooltip
+              trigger={
+                <div className={styles.isp}>
+                  <span>{ipInfo.isp}</span>
+                  <span>@{ipInfo.city}</span>
+                </div>
+              }
+            >
+              {`${ipInfo.isp}@${ipInfo.city}`}
             </Tooltip>
           ) : null}
         </div>
@@ -272,8 +299,11 @@ const GraphNodeList = () => {
             <tr>
               {fields.map(f => {
                 return (
-                  <Tooltip key={f.key} title={t(`fiber.graph.node.${f.label}`)}>
-                    <th style={{ maxWidth: f.width }}>{t(`fiber.graph.node.${f.label}`)}</th>
+                  <Tooltip
+                    trigger={<th style={{ maxWidth: f.width }}>{t(`fiber.graph.node.${f.label}`)}</th>}
+                    key={f.key}
+                  >
+                    {t(`fiber.graph.node.${f.label}`)}
                   </Tooltip>
                 )
               })}

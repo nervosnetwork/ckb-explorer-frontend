@@ -50,6 +50,9 @@ export const PaginationLeftItem = styled.div`
   }
 
   .paginationLeftButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 20px;
     width: 30px;
     height: 30px;
@@ -99,6 +102,9 @@ export const PaginationLeftItem = styled.div`
   }
 
   .paginationRightButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 20px;
     background: #f5f5f5;
     width: 30px;

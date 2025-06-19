@@ -1,3 +1,4 @@
+@import url("tailwindcss");
 @import url('../assets/fonts/fonts.css');
 
 body {
@@ -15,7 +16,6 @@ body {
   --btc-primary-color: #fb992c;
   --btc-primary-dimmed-color: #ffdba6;
   --btc-secondary-color: #fff5e2;
-  --antd-wave-shadow-color: var(--primary-color);
   --destructive: 0 100% 50%;
   --destructive-foreground: 210 40% 98%;
 
@@ -51,6 +51,7 @@ body[data-chain-type='testnet'] {
 }
 
 .container {
+  max-width: 100%;
   width: auto;
   margin: 0 120px;
 }
@@ -90,71 +91,10 @@ a {
   }
 }
 
-@media (width <= 750px) {
-  .ant-popover-inner-content {
-    padding: 5px;
-  }
-}
-
-.ant-tooltip-inner {
-  white-space: pre-wrap;
-  border-radius: 8px;
-  padding: 10px 16px;
-}
-
-.ant-input:focus {
-  border-color: none;
-}
-
-.ant-input-affix-wrapper:hover,
-.ant-input-affix-wrapper:focus {
-  border-color: #e5e5e5 !important;
-  box-shadow: none;
-}
-
-.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active,
-.ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab-active {
+.text-primary {
   color: var(--primary-color);
 }
 
-.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
-.ant-tabs-tab-btn:focus,
-.ant-tabs-tab-remove:focus,
-.ant-tabs-tab-btn:active,
-.ant-tabs-tab-remove:active {
+a:hover {
   color: var(--primary-color);
-}
-
-.ant-radio-checked .ant-radio-inner {
-  border-color: var(--primary-color);
-}
-
-.ant-radio-inner::after {
-  background-color: var(--primary-color);
-}
-
-.ant-radio-checked::after {
-  border-color: var(--primary-color);
-}
-
-.ant-radio-wrapper:hover .ant-radio,
-.ant-radio:hover .ant-radio-inner,
-.ant-radio-input:focus + .ant-radio-inner {
-  border-color: var(--primary-color);
-}
-
-a:hover,
-.ant-btn-primary:hover,
-.ant-tabs-tab:hover {
-  color: var(--primary-color);
-}
-
-.ant-input-number-affix-wrapper {
-  border-radius: 4px;
-  box-shadow: none;
-}
-
-.ant-input-number-affix-wrapper.ant-input-number-affix-wrapper-focused,
-.ant-input-number-affix-wrapper:hover {
-  border-color: var(--primary-color) !important;
 }

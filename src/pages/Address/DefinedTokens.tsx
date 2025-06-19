@@ -1,6 +1,5 @@
 import { type FC, useState, useMemo } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import { ReactComponent as ListIcon } from './list.svg'
 import { ReactComponent as GridIcon } from './grid.svg'
 import { parseUDTAmount } from '../../utils/number'
@@ -17,6 +16,7 @@ import {
   AddressXudtComp,
   AddressNRC721Comp,
 } from './AddressAssetComp'
+import Tooltip from '../../components/Tooltip'
 
 const TokenTable: FC<{ udts: UDTAccount[]; cotaList: NFTItem[] }> = ({ udts, cotaList }) => {
   const { t } = useTranslation()
@@ -125,10 +125,15 @@ const DefinedTokens: FC<{ udts: UDTAccount[]; cotaList?: NFTItem[] }> = ({ udts,
       <div className={styles.toolbar}>
         <div>Count: {count.toLocaleString('en')}</div>
         <div className={styles.filters}>
-          <Tooltip placement="top" title={isDisplayedAsList ? t('sort.card') : t('sort.list')}>
-            <button type="button" onClick={() => setIsDisplayedAsList(i => !i)}>
-              {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
-            </button>
+          <Tooltip
+            trigger={
+              <button type="button" onClick={() => setIsDisplayedAsList(i => !i)}>
+                {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
+              </button>
+            }
+            placement="top"
+          >
+            {isDisplayedAsList ? t('sort.card') : t('sort.list')}
           </Tooltip>
         </div>
       </div>

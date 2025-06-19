@@ -14,6 +14,9 @@
 }
 
 .countInfo {
+  display: flex;
+  gap: 2px;
+  align-items: center;
   color: #666;
   font-size: 16px;
   font-weight: 400;
@@ -29,13 +32,19 @@
 .scriptTabs:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
   ) {
-  .cardHeader {
-    padding: 0;
+  background-color: #fff;
+
+  > div[role='tablist'] {
+    height: 56px;
+    padding: 0 30px;
+
+    @media (width <= $mobileBreakPoint) {
+      padding: 0;
+    }
   }
 
-  .tablist {
-    height: 56px;
-    margin-bottom: 0;
+  .cardHeader {
+    padding: 0;
   }
 }
 
@@ -191,6 +200,9 @@
   .headerSubTitle {
     font-size: 16px;
     color: #666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .openSourceAction {

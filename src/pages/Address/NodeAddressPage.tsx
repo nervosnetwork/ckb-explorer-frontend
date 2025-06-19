@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import Content from '../../components/Content'
 import { AddressContentPanel } from './styled'
 import { NodeAddressOverviewCard, NodeAddressTransactions } from './AddressComp'
@@ -11,6 +10,7 @@ import styles from './styles.module.scss'
 import { Link } from '../../components/Link'
 import Qrcode from '../../components/Qrcode'
 import { DASInfo } from './AddressPage'
+import Tooltip from '../../components/Tooltip'
 
 export const NodeAddressPage = () => {
   const { address } = useParams<{ address: string }>()
@@ -31,17 +31,19 @@ export const NodeAddressPage = () => {
               <Qrcode text={address} />,
               counterpartAddr ? (
                 <Tooltip
+                  trigger={
+                    <Link
+                      className={styles.openInNew}
+                      to={`/address/${counterpartAddr}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ShareIcon />
+                    </Link>
+                  }
                   placement="top"
-                  title={t(`address.${newAddr === address ? 'visit-deprecated-address' : 'view-new-address'}`)}
                 >
-                  <Link
-                    className={styles.openInNew}
-                    to={`/address/${counterpartAddr}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <ShareIcon />
-                  </Link>
+                  {t(`address.${newAddr === address ? 'visit-deprecated-address' : 'view-new-address'}`)}
                 </Tooltip>
               ) : null,
             ]}

@@ -1404,15 +1404,17 @@ export const apiFetcher = {
       pageSize: '10',
     },
   ) => {
+    const filteredQuery = Object.fromEntries(Object.entries(query).filter(([, value]) => value !== undefined))
     return requesterV2
-      .get(`/fiber/graph_nodes/${id}/transactions?${new URLSearchParams(toSnakeCase({ ...query }))}`)
-      .then(res =>
-        toCamelcase<
+      .get(`/fiber/graph_nodes/${id}/transactions?${new URLSearchParams(toSnakeCase({ ...filteredQuery }))}`)
+      .then(res => ({
+        fiberGraphTransactions: toCamelcase<
           Response.Response<{
             fiberGraphTransactions: Fiber.Graph.Transaction[]
           }>
-        >(res.data),
-      )
+        >(res.data).data.fiberGraphTransactions,
+        meta: toCamelcase<{ total: number; pageSize: number }>(res.data.meta),
+      }))
   },
   getGraphNodeChannels: (
     id: string,
@@ -1432,19 +1434,21 @@ export const apiFetcher = {
       pageSize: '10',
     },
   ) => {
+    const filteredQuery = Object.fromEntries(Object.entries(query).filter(([, value]) => value !== undefined))
     return requesterV2
       .get(
         `/fiber/graph_nodes/${id}/graph_channels?${new URLSearchParams(
-          new URLSearchParams(toSnakeCase({ ...query })),
+          new URLSearchParams(toSnakeCase({ ...filteredQuery })),
         )}`,
       )
-      .then(res =>
-        toCamelcase<
+      .then(res => ({
+        fiberGraphChannels: toCamelcase<
           Response.Response<{
             fiberGraphChannels: Fiber.Graph.Channel[]
           }>
-        >(res.data),
-      )
+        >(res.data).data.fiberGraphChannels,
+        meta: toCamelcase<{ total: number; pageSize: number }>(res.data.meta),
+      }))
   },
   getGraphChannels: (page = 1, pageSize = 10) => {
     return requesterV2

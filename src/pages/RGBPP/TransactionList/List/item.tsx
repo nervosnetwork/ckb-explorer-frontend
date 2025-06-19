@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import AddressText from '../../../../components/AddressText'
 import { BTCExplorerLink, Link } from '../../../../components/Link'
 import { useStatistics } from '../../../../services/ExplorerService'
@@ -10,6 +9,7 @@ import { TransactionLeapDirection } from '../../../../components/RGBPP/types'
 import styles from './styles.module.scss'
 import { HelpTip } from '../../../../components/HelpTip'
 import Portal from '../../../../components/Portal'
+import Tooltip from '../../../../components/Tooltip'
 
 export type Transaction = {
   ckbTxId: string
@@ -57,13 +57,17 @@ const Item = ({ item }: { item: Transaction }) => {
         {item.type === TransactionLeapDirection.NONE ? (
           <div className={styles.type}>
             <span>{t('rgbpp.transaction.direction.other')}</span>
-            <HelpTip title={t('rgbpp.transaction.direction.description.other')} />
+            <HelpTip>{t('rgbpp.transaction.direction.description.other')}</HelpTip>
           </div>
         ) : (
-          <Tooltip title={t(`address.leap_${item.type}`)}>
-            <div style={{ width: 'min-content' }}>
-              <Portal type={item.type} />
-            </div>
+          <Tooltip
+            trigger={
+              <div style={{ width: 'min-content' }}>
+                <Portal type={item.type} />
+              </div>
+            }
+          >
+            {t(`address.leap_${item.type}`)}
           </Tooltip>
         )}
       </td>

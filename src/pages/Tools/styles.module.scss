@@ -87,13 +87,6 @@
     height: 14px;
     margin-left: auto;
   }
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  &:global(.ant-dropdown-open) {
-    .icon {
-      transform: rotate(0deg);
-    }
-  }
 }
 
 .panel {

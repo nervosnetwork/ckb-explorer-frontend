@@ -74,6 +74,9 @@
     height: 38px;
     font-size: 14px;
     border-radius: 4px;
+    color: #333;
+    padding: 0 8px;
+    width: 100%;
   }
 
   .notice {
@@ -163,16 +166,6 @@
     padding: 0 4px;
     margin: 0 4px;
   }
-}
-
-/* stylelint-disable-next-line selector-class-pattern */
-:global(.ant-input[disabled]) {
-  color: #333 !important;
-}
-
-/* stylelint-disable-next-line selector-class-pattern */
-:global(.ant-input-suffix) {
-  color: #333 !important;
 }
 
 .doneBtn {

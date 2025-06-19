@@ -1,13 +1,14 @@
 import { useState, FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { AddressAssetsTab, AddressAssetsTabPane, AddressAssetsTabPaneTitle, AddressUDTAssetsPanel } from './styled'
+import { AddressAssetsTabPaneTitle, AddressUDTAssetsPanel } from './styled'
 import styles from './styles.module.scss'
 import { Address, UDTAccount } from '../../models/Address'
 import { Card } from '../../components/Card'
 import Cells from './Cells'
 import RgbppAssets from './RgbppAssets'
 import { explorerService } from '../../services/ExplorerService'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/Tabs'
 // import RgbppAssets from './RgbppAssets'
 
 enum AssetInfo {
@@ -17,7 +18,7 @@ enum AssetInfo {
 }
 
 export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState<AssetInfo>(AssetInfo.RGBPP)
 
   const { data } = useQuery(['bitcoin addresses', address], () =>
@@ -90,30 +91,39 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
 
       {hasAssets || hasCells ? (
         <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
-          <AddressAssetsTab animated={false} key={i18n.language} activeKey={activeTab.toString()}>
-            {hasCells ? (
-              <AddressAssetsTabPane
-                tab={
+          <Tabs value={activeTab.toString()} type="underline">
+            <TabsList>
+              {hasCells && (
+                <TabsTrigger value={AssetInfo.CELLs.toString()}>
                   <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.CELLs)}>
                     {t('address.live_cell_tab')}
                   </AddressAssetsTabPaneTitle>
-                }
-                key={AssetInfo.CELLs}
-              >
-                <div className={styles.assetCardList}>
-                  <Cells address={address.bitcoinAddressHash} count={+address.liveCellsCount} />
-                </div>
-              </AddressAssetsTabPane>
-            ) : null}
-            {hasAssets ? (
-              <AddressAssetsTabPane
-                tab={
+                </TabsTrigger>
+              )}
+              {hasAssets && (
+                <TabsTrigger value={AssetInfo.RGBPP.toString()}>
                   <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.RGBPP)}>
                     {t('address.rgb_plus_plus')}
                   </AddressAssetsTabPaneTitle>
-                }
-                key={AssetInfo.RGBPP}
-              >
+                </TabsTrigger>
+              )}
+              {hasInvalid && (
+                <TabsTrigger value={AssetInfo.Invalid.toString()}>
+                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.Invalid)}>
+                    {t('address.invalid')}
+                  </AddressAssetsTabPaneTitle>
+                </TabsTrigger>
+              )}
+            </TabsList>
+            {hasCells && (
+              <TabsContent value={AssetInfo.CELLs.toString()} style={{ width: '100%' }}>
+                <div className={styles.assetCardList}>
+                  <Cells address={address.bitcoinAddressHash} count={+address.liveCellsCount} />
+                </div>
+              </TabsContent>
+            )}
+            {hasAssets && (
+              <TabsContent value={AssetInfo.RGBPP.toString()} style={{ width: '100%' }}>
                 <div className={styles.assetCardList}>
                   <RgbppAssets
                     address={address.bitcoinAddressHash}
@@ -122,17 +132,10 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
                     inscriptions={inscriptions}
                   />
                 </div>
-              </AddressAssetsTabPane>
-            ) : null}
-            {hasInvalid ? (
-              <AddressAssetsTabPane
-                tab={
-                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.Invalid)}>
-                    {t('address.invalid')}
-                  </AddressAssetsTabPaneTitle>
-                }
-                key={AssetInfo.Invalid}
-              >
+              </TabsContent>
+            )}
+            {hasInvalid && (
+              <TabsContent value={AssetInfo.Invalid.toString()} style={{ width: '100%' }}>
                 <div className={styles.assetCardList}>
                   <RgbppAssets
                     address={address.bitcoinAddressHash}
@@ -143,9 +146,9 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
                     inscriptions={[]}
                   />
                 </div>
-              </AddressAssetsTabPane>
-            ) : null}
-          </AddressAssetsTab>
+              </TabsContent>
+            )}
+          </Tabs>
         </AddressUDTAssetsPanel>
       ) : null}
     </Card>

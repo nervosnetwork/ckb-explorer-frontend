@@ -59,47 +59,25 @@
 }
 
 .txHeaderLabels {
+  height: 80px;
   display: flex;
   align-items: stretch;
 
   @media (width <= $mobileBreakPoint) {
-    margin-bottom: 1rem;
+    height: 50px;
   }
 
   a {
+    display: flex;
+    align-items: center;
     position: relative;
     height: 100%;
+    font-size: 20px;
     font-weight: 400;
     white-space: nowrap;
-    margin-right: 1rem;
 
     &[data-is-active='true'] {
-      font-weight: 600; // 500 is set in figma, but not obvious enough in fact
-      &::after {
-        content: '';
-        display: block;
-        width: 72px;
-        height: 4px;
-        background: var(--primary-color);
-        position: absolute;
-        bottom: -24px;
-        left: 50%;
-        transform: translateX(-50%);
-
-        @media (width <= $mobileBreakPoint) {
-          width: 104px;
-          height: 2px;
-          bottom: -10px;
-        }
-      }
-    }
-
-    &:first-child {
-      margin-right: 4rem;
-
-      @media (width <= $extraLargeBreakPoint) {
-        margin-right: 1rem;
-      }
+      font-weight: 600;
     }
 
     &:hover {
@@ -118,15 +96,11 @@
   }
 
   .cardHeader {
-    padding: 20px 0;
+    padding: 0;
     overflow: scroll;
 
     &::-webkit-scrollbar {
       display: none;
-    }
-
-    @media (width <= $mobileBreakPoint) {
-      padding: 10px 0;
     }
   }
 }
@@ -167,48 +141,6 @@
 
   @media (width <= $mobileBreakPoint) {
     width: 100%;
-  }
-
-  :global {
-    /* stylelint-disable-next-line selector-class-pattern */
-    .ant-radio-button-wrapper {
-      height: 40px;
-      width: 50%;
-      text-align: center;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 38px;
-      color: #333;
-      border: 1px solid #e5e5e5;
-      box-shadow: none;
-
-      &::before {
-        content: none;
-      }
-
-      &:hover {
-        color: #333;
-        background: #fff;
-      }
-
-      &:first-child {
-        border-radius: 4px 0 0 4px;
-      }
-
-      &:last-child {
-        border-radius: 0 4px 4px 0;
-      }
-
-      /* stylelint-disable-next-line selector-class-pattern */
-      &.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-        background: #333;
-        border-color: #333;
-
-        &:hover {
-          background: #333;
-        }
-      }
-    }
   }
 }
 
@@ -362,4 +294,76 @@
   color: #ffb21e;
   border: 1px solid #ffdba6;
   background-color: #fffcf2;
+}
+
+.professionalLiteBox {
+  margin-left: 10px;
+
+  @media (width <= $mobileBreakPoint) {
+    width: 100%;
+  }
+
+  .button {
+    height: 40px;
+    width: 120px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 38px;
+    color: #333;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+    box-shadow: none !important;
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+
+    @media (width <= $mobileBreakPoint) {
+      height: 40px;
+      width: 50%;
+    }
+  }
+
+  .selected {
+    color: #fff;
+    background: #333;
+    border-color: #333 !important;
+
+    &:hover {
+      background: #333;
+    }
+  }
+
+  @media (width <= $mobileBreakPoint) {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 16px;
+    margin: 0;
+  }
+}
+
+.copyCodeHash {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #e5e5e5;
+  margin-top: 4px;
+  padding-top: 4px;
+}
+
+.copyIcon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-left: auto;
+  color: #f1f1f1;
+  transition: color 0.1s ease;
+
+  &:hover {
+    color: var(--primary-color) !important;
+  }
 }

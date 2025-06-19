@@ -1,7 +1,6 @@
 import { ReactNode, FC } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
-import { Tooltip } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { Trans, useTranslation } from 'react-i18next'
 import { Link } from '../../components/Link'
@@ -28,6 +27,7 @@ import { RawBtcRPC, useLatestBlockNumber } from '../../services/ExplorerService'
 import { Transaction } from '../../models/Transaction'
 import { CardHeader } from '../../components/Card/CardHeader'
 import { useCKBNode } from '../../hooks/useCKBNode'
+import Tooltip from '../../components/Tooltip'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -53,8 +53,8 @@ const BlockMinerMessage = ({ minerMessage }: { minerMessage: string }) => {
   return (
     <BlockMinerMessagePanel>
       <AddressText monospace={false}>{minerMessage}</AddressText>
-      <Tooltip placement="top" title={`UTF-8: ${hexToUtf8(minerMessage)}`}>
-        <img className="blockMinerMessageUtf8" src={MoreIcon} alt="more" />
+      <Tooltip placement="top" trigger={<img className="blockMinerMessageUtf8" src={MoreIcon} alt="more" />}>
+        {`UTF-8: ${hexToUtf8(minerMessage)}`}
       </Tooltip>
     </BlockMinerMessagePanel>
   )
@@ -76,20 +76,25 @@ const BlockMinerReward = ({
   return (
     <BlockMinerRewardPanel sent={!!sentBlockNumber}>
       <div className="block__miner__reward_value">{value}</div>
-      <Tooltip placement="top" title={tooltip}>
-        <div
-          className="blockMinerRewardTip"
-          role="button"
-          tabIndex={-1}
-          onKeyDown={() => {}}
-          onClick={() => {
-            if (sentBlockNumber) {
-              history.push(`/${language}/block/${sentBlockNumber}#${CELL_BASE_ANCHOR}`)
-            }
-          }}
-        >
-          <img src={sentBlockNumber ? MinerRewardIcon : HelpIcon} alt="miner reward" />
-        </div>
+      <Tooltip
+        placement="top"
+        trigger={
+          <div
+            className="blockMinerRewardTip"
+            role="button"
+            tabIndex={-1}
+            onKeyDown={() => {}}
+            onClick={() => {
+              if (sentBlockNumber) {
+                history.push(`/${language}/block/${sentBlockNumber}#${CELL_BASE_ANCHOR}`)
+              }
+            }}
+          >
+            <img src={sentBlockNumber ? MinerRewardIcon : HelpIcon} alt="miner reward" />
+          </div>
+        }
+      >
+        {tooltip}
       </Tooltip>
     </BlockMinerRewardPanel>
   )
@@ -154,24 +159,33 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
       tooltip: t('glossary.block_height'),
       content: (
         <div className={styles.blockNumber}>
-          <Tooltip placement="top" title={t('block.view_prev_block')}>
-            <Link
-              to={`/block/${blockNumber - 1}`}
-              className={styles.prev}
-              data-disabled={!block.number || +blockNumber <= 0}
-            >
-              <LeftArrow />
-            </Link>
+          <Tooltip
+            placement="top"
+            trigger={
+              <Link
+                to={`/block/${blockNumber - 1}`}
+                className={styles.prev}
+                data-disabled={!block.number || +blockNumber <= 0}
+              >
+                <LeftArrow />
+              </Link>
+            }
+          >
+            {t('block.view_prev_block')}
           </Tooltip>
           {localeNumberString(blockNumber)}
-          <Tooltip title={t('block.view_next_block')}>
-            <Link
-              to={`/block/${blockNumber + 1}`}
-              className={styles.next}
-              data-disabled={!blockNumber || +blockNumber >= +tipBlockNumber}
-            >
-              <LeftArrow />
-            </Link>
+          <Tooltip
+            trigger={
+              <Link
+                to={`/block/${blockNumber + 1}`}
+                className={styles.next}
+                data-disabled={!blockNumber || +blockNumber >= +tipBlockNumber}
+              >
+                <LeftArrow />
+              </Link>
+            }
+          >
+            {t('block.view_next_block')}
           </Tooltip>
         </div>
       ),

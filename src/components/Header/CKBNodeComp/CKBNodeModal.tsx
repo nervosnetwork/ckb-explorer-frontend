@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren, useRef, useState } from 'react'
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useCKBNode } from '../../../hooks/useCKBNode'
 import CommonModal from '../../CommonModal'
@@ -11,6 +10,7 @@ import { ReactComponent as DeleteIcon } from './delete.svg'
 import { useSetToast } from '../../Toast'
 import BackIcon from './back.png'
 import styles from './style.module.scss'
+import Tooltip from '../../Tooltip'
 
 function isValidHttpUrl(str: string) {
   let url
@@ -142,7 +142,7 @@ export const CKBNodeModal = ({ onClose }: { onClose: () => void }) => {
 
       <div className={styles.switcher}>
         <label htmlFor="node-connect-mode">{t('node.node_connect_mode')}</label>
-        <HelpTip title={t('node.node_connect_tooltip')} />
+        <HelpTip>{t('node.node_connect_tooltip')}</HelpTip>
         <Switch
           id="node-connect-mode"
           style={{ marginLeft: 'auto' }}
@@ -163,7 +163,7 @@ export const CKBNodeModal = ({ onClose }: { onClose: () => void }) => {
                 checked={nodeService.nodeEndpoint === url}
               />
               <div className={styles.nodeAlias}>
-                <Tooltip placement="topLeft" title={alias}>
+                <Tooltip trigger={<span>{alias}</span>} placement="top">
                   {alias}
                 </Tooltip>
               </div>

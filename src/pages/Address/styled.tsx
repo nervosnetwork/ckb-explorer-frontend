@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import { Tabs } from 'antd'
-import TabPane from 'antd/lib/tabs/TabPane'
 import SimpleButton from '../../components/SimpleButton'
 import { TransactionPanel } from '../../components/TransactionItem/styled'
 import variables from '../../styles/variables.module.scss'
@@ -84,52 +82,6 @@ export const AddressTransactionsPanel = styled.div`
     }
   }
 `
-
-export const AddressAssetsTab = styled(Tabs)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  background-color: #fff;
-  border-radius: 6px 6px 0 0;
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  .ant-tabs-tab-btn {
-    &:active,
-    &:focus {
-      color: var(--primary-color);
-    }
-  }
-  /* stylelint-disable-next-line selector-class-pattern */
-  .ant-tabs-tab {
-    color: #000;
-  }
-  /* stylelint-disable-next-line selector-class-pattern */
-  .ant-tabs-tab-active span {
-    color: var(--primary-color);
-  }
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  .ant-tabs-nav .ant-tabs-ink-bar {
-    height: 4px;
-    bottom: 3px;
-    background: transparent;
-
-    ::after {
-      content: ' ';
-      position: absolute;
-      left: 50%;
-      right: 0;
-      height: 100%;
-      max-width: 72px;
-      width: 100%;
-      background: linear-gradient(to right, var(--primary-color) 100%, transparent 100%);
-      transform: translateX(-50%);
-    }
-  }
-`
-
-export const AddressAssetsTabPane = styled(TabPane)``
 
 export const AddressAssetsTabPaneTitle = styled.span`
   font-family: Roboto, sans-serif;

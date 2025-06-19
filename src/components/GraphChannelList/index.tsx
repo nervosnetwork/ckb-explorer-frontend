@@ -1,5 +1,4 @@
 import { HomeIcon, GlobeIcon } from '@radix-ui/react-icons'
-import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import type { FC } from 'react'
 import { Link } from 'react-router-dom'
@@ -10,6 +9,7 @@ import { formalizeChannelAsset } from '../../utils/fiber'
 import { localeNumberString } from '../../utils/number'
 import { ReactComponent as CopyIcon } from '../Copy/icon.svg'
 import styles from './index.module.scss'
+import Tooltip from '../Tooltip'
 
 const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string; startIndex?: number }> = ({
   list,
@@ -38,11 +38,15 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string; startIn
             <dl className={styles.outPoint}>
               <dt>Out Point</dt>
               <dd>
-                <Tooltip title={`${outPoint.txHash}#${outPoint.index}`}>
-                  <Link to={`/transaction/${outPoint.txHash}#${outPoint.index}`}>
-                    <div>{outpoint.slice(0, -15)}</div>
-                    <div>{outpoint.slice(-15)}</div>
-                  </Link>
+                <Tooltip
+                  trigger={
+                    <Link to={`/transaction/${outPoint.txHash}#${outPoint.index}`}>
+                      <div>{outpoint.slice(0, -15)}</div>
+                      <div>{outpoint.slice(-15)}</div>
+                    </Link>
+                  }
+                >
+                  {`${outPoint.txHash}#${outPoint.index}`}
                 </Tooltip>
                 <button type="button" data-copy-text={outPoint.txHash} className={styles.copy}>
                   <CopyIcon />
@@ -60,15 +64,19 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string; startIn
             <dl className={styles.funding}>
               <dt>Source</dt>
               <dd>
-                <Tooltip title={`${localeNumberString(funding.value)} ${funding.symbol}`}>
-                  <span>{`${parseNumericAbbr(funding.amount)} ${funding.symbol}`}</span>
+                <Tooltip trigger={<span>{`${parseNumericAbbr(funding.amount)} ${funding.symbol}`}</span>}>
+                  {`${localeNumberString(funding.value)} ${funding.symbol}`}
                 </Tooltip>
                 from
-                <Tooltip title={ch.openTransactionInfo.address}>
-                  <Link to={`/address/${ch.openTransactionInfo.address}`} className={styles.address}>
-                    <div>{ch.openTransactionInfo.address.slice(0, -15)}</div>
-                    <div>{ch.openTransactionInfo.address.slice(-15)}</div>
-                  </Link>
+                <Tooltip
+                  trigger={
+                    <Link to={`/address/${ch.openTransactionInfo.address}`} className={styles.address}>
+                      <div>{ch.openTransactionInfo.address.slice(0, -15)}</div>
+                      <div>{ch.openTransactionInfo.address.slice(-15)}</div>
+                    </Link>
+                  }
+                >
+                  {ch.openTransactionInfo.address}
                 </Tooltip>
               </dd>
             </dl>
@@ -76,10 +84,14 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string; startIn
               <dt>Position</dt>
               <dd>
                 On
-                <Tooltip title={dayjs(+ch.createdTimestamp).format(TIME_TEMPLATE)}>
-                  <Link to={`/block/${ch.openTransactionInfo.blockNumber}`}>
-                    {localeNumberString(ch.openTransactionInfo.blockNumber)}
-                  </Link>
+                <Tooltip
+                  trigger={
+                    <Link to={`/block/${ch.openTransactionInfo.blockNumber}`}>
+                      {localeNumberString(ch.openTransactionInfo.blockNumber)}
+                    </Link>
+                  }
+                >
+                  {dayjs(+ch.createdTimestamp).format(TIME_TEMPLATE)}
                 </Tooltip>
               </dd>
             </dl>
@@ -95,11 +107,15 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string; startIn
                   <dl>
                     <dt>ID</dt>
                     <dd>
-                      <Tooltip title={ch.node1}>
-                        <Link to={`/fiber/graph/node/${ch.node1}`} className="monospace">
-                          <div>{`0x${ch.node1.slice(0, -8)}`}</div>
-                          <div>{ch.node1.slice(-8)}</div>
-                        </Link>
+                      <Tooltip
+                        trigger={
+                          <Link to={`/fiber/graph/node/${ch.node1}`} className="monospace">
+                            <div>{`0x${ch.node1.slice(0, -8)}`}</div>
+                            <div>{ch.node1.slice(-8)}</div>
+                          </Link>
+                        }
+                      >
+                        {ch.node1}
                       </Tooltip>
                       <button type="button" data-copy-text={ch.node1} className={styles.copy}>
                         <CopyIcon />
@@ -119,11 +135,15 @@ const GraphChannelList: FC<{ list: Fiber.Graph.Channel[]; node?: string; startIn
                   <dl>
                     <dt>ID</dt>
                     <dd>
-                      <Tooltip title={ch.node2}>
-                        <Link to={`/fiber/graph/node/${ch.node2}`}>
-                          <div>{`0x${ch.node2.slice(0, -8)}`}</div>
-                          <div>{ch.node2.slice(-8)}</div>
-                        </Link>
+                      <Tooltip
+                        trigger={
+                          <Link to={`/fiber/graph/node/${ch.node2}`}>
+                            <div>{`0x${ch.node2.slice(0, -8)}`}</div>
+                            <div>{ch.node2.slice(-8)}</div>
+                          </Link>
+                        }
+                      >
+                        {ch.node2}
                       </Tooltip>
                       <button type="button" data-copy-text={ch.node2} className={styles.copy}>
                         <CopyIcon />

@@ -261,7 +261,6 @@ export interface UXTOTxGraph {
 export const TxGraph = ({
   txHash,
   onViewCellGraph,
-  modalRef,
   onViewCell,
 }: {
   txHash: string
@@ -462,13 +461,7 @@ export const TxGraph = ({
             onClick={() => onViewCellGraph(v)}
             key={id}
           >
-            <CellNode
-              {...v}
-              status="dead"
-              isGenesisOutput={v.fromCellbase}
-              modalRef={modalRef}
-              onViewCell={onViewCell}
-            />
+            <CellNode {...v} status="dead" isGenesisOutput={v.fromCellbase} onViewCell={onViewCell} />
           </button>
         )
       })}
@@ -485,7 +478,7 @@ export const TxGraph = ({
             onClick={() => onViewCellGraph(v)}
             key={id}
           >
-            <CellNode {...v} modalRef={modalRef} onViewCell={onViewCell} />
+            <CellNode {...v} onViewCell={onViewCell} />
           </button>
         )
       })}
@@ -497,7 +490,7 @@ export const TxGraph = ({
           width: nodesPosition[txHash]?.w,
         }}
       >
-        <TxNode txHash={txHash} modalRef={modalRef} />
+        <TxNode txHash={txHash} />
       </div>
       {hasMoreInput ? (
         <button

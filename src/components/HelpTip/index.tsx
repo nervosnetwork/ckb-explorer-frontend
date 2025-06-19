@@ -1,29 +1,22 @@
-import { ComponentProps, FC, RefObject } from 'react'
-import { Tooltip, TooltipProps } from 'antd'
+import { ComponentProps, FC } from 'react'
 import classNames from 'classnames'
 import HelpIcon from '../../assets/qa_help.png'
 import styles from './index.module.scss'
-import { useIsMobile } from '../../hooks'
+import Tooltip, { TooltipProps } from '../Tooltip'
 
 export const HelpTip: FC<
-  TooltipProps & {
+  Omit<TooltipProps, 'trigger'> & {
     iconProps?: ComponentProps<'img'>
-    // Setting a container ref can avoid scrolling together with deeper scrolling containers.
-    containerRef?: RefObject<HTMLDivElement>
+    trigger?: React.ReactNode
   }
-> = ({ iconProps, containerRef, ...props }) => {
-  const isMobile = useIsMobile()
-
+> = ({ iconProps, ...props }) => {
   const finalProps: TooltipProps = {
-    placement: isMobile ? 'topLeft' : 'top',
-    getPopupContainer: () => containerRef?.current ?? document.body,
-    arrowPointAtCenter: true,
+    placement: 'top',
     ...props,
+    trigger: props.trigger ?? (
+      <img src={HelpIcon} alt="help icon" {...iconProps} className={classNames(styles.icon, iconProps?.className)} />
+    ),
   }
 
-  return (
-    <Tooltip {...finalProps} overlayClassName={classNames(styles.tooltip, finalProps.className)}>
-      <img src={HelpIcon} alt="help icon" {...iconProps} className={classNames(styles.icon, iconProps?.className)} />
-    </Tooltip>
-  )
+  return <Tooltip {...finalProps} contentClassName={classNames(styles.tooltip, finalProps.contentClassName)} />
 }

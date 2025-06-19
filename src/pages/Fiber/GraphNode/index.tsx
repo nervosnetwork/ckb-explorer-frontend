@@ -1,15 +1,16 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
+import { ArrowDownWideNarrow, ArrowUpNarrowWide, FilterIcon } from 'lucide-react'
+import { utils } from '@ckb-lumos/base'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon, UpdateIcon } from '@radix-ui/react-icons'
-import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import BigNumber from 'bignumber.js'
 import type { Response, Fiber } from '../../../services/ExplorerService'
 import { explorerService } from '../../../services/ExplorerService'
 import { useSetToast } from '../../../components/Toast'
-import { useSearchParams } from '../../../hooks'
+import { useIsMobile, useSearchParams, useUpdateSearchParams } from '../../../hooks'
 import { getFundingThreshold } from '../utils'
 import { handleFtImgError, shannonToCkb } from '../../../utils/util'
 import { parseNumericAbbr } from '../../../utils/chart'
@@ -26,12 +27,64 @@ import Pagination from '../Pagination'
 import FtFallbackIcon from '../../../assets/ft_fallback_icon.png'
 import styles from './index.module.scss'
 import { uniqueColor } from '../../../utils/color'
+import Tooltip from '../../../components/Tooltip'
+
+import { Button } from '../../../components/ui/Button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/Select'
+import { Popover, PopoverContent, PopoverTrigger } from '../../../components/ui/Popover'
+import { Drawer, DrawerContent, DrawerTrigger } from '../../../components/ui/Drawer'
+
+import { Label } from '../../../components/ui/Label'
+import { Input } from '../../../components/ui/Input'
+import { Tabs, TabsList, TabsTrigger } from '../../../components/ui/Tabs'
 
 interface QueryResponse extends Response.Response<Fiber.Graph.NodeDetail> {}
 
 const CHANNEL_PAGE_SIZE = 10
 const ACTIVITY_PAGE_SIZE = 39
 const TIME_TEMPLATE = 'YYYY-MM-DD HH:mm:ss'
+
+const ResponsivePopover = ({ children, content }: { children: ReactNode; content: ReactNode }) => {
+  const isMobile = useIsMobile()
+  if (isMobile) {
+    return (
+      <Drawer>
+        <DrawerTrigger>{children}</DrawerTrigger>
+        <DrawerContent
+          style={{
+            padding: 24,
+          }}
+        >
+          {content}
+        </DrawerContent>
+      </Drawer>
+    )
+  }
+
+  return (
+    <Popover>
+      <PopoverTrigger>{children}</PopoverTrigger>
+      <PopoverContent>{content}</PopoverContent>
+    </Popover>
+  )
+}
+
+const isChannelSort = (
+  sort?: string,
+): sort is 'position_time.desc' | 'position_time.asc' | 'capacity.desc' | 'capacity.asc' | undefined => {
+  if (!sort) return true
+  return ['position_time.desc', 'position_time.asc', 'capacity.desc', 'capacity.asc'].includes(sort)
+}
+
+const isTxSort = (sort?: string): sort is 'block_timestamp.desc' | 'block_timestamp.asc' | undefined => {
+  if (!sort) return true
+  return ['block_timestamp.desc', 'block_timestamp.asc'].includes(sort)
+}
+
+const isTxStatus = (status?: string): status is 'open' | 'closed' | undefined => {
+  if (!status) return true
+  return ['open', 'closed'].includes(status)
+}
 
 const useNodeData = (id: string | undefined) => {
   return useQuery({
@@ -52,15 +105,14 @@ const usePriceData = () => {
 const useTransactions = (id: string, query: Parameters<typeof explorerService.api.getGraphNodeTransactions>[1]) => {
   return useQuery({
     queryKey: ['fiber', 'graph', 'node', id, 'transaction', query] as const,
-    queryFn: () =>
-      explorerService.api.getGraphNodeTransactions(id!, query).then(res => res.data.fiberGraphTransactions),
+    queryFn: () => explorerService.api.getGraphNodeTransactions(id!, query),
     enabled: !!id,
   })
 }
 const useNodeChannels = (id: string, query: Parameters<typeof explorerService.api.getGraphNodeChannels>[1]) => {
   return useQuery({
     queryKey: ['fiber', 'graph', 'node', id, 'channels', query] as const,
-    queryFn: () => explorerService.api.getGraphNodeChannels(id!, query).then(res => res.data.fiberGraphChannels),
+    queryFn: () => explorerService.api.getGraphNodeChannels(id!, query),
     enabled: !!id,
   })
 }
@@ -133,10 +185,14 @@ const TransactionRenderer = ({ tx }: { tx: Fiber.Graph.Transaction }) => {
           </dt>
           <dd>
             <time dateTime={tx.blockTimestamp.toString()}>at {timestamp}</time>
-            <Tooltip title={tooltip}>
-              <Link to={link} className="monospace">
-                <OpenInNewWindowIcon />
-              </Link>
+            <Tooltip
+              trigger={
+                <Link to={link} className="monospace">
+                  <OpenInNewWindowIcon />
+                </Link>
+              }
+            >
+              {tooltip}
             </Tooltip>
           </dd>
         </dl>
@@ -144,11 +200,15 @@ const TransactionRenderer = ({ tx }: { tx: Fiber.Graph.Transaction }) => {
           <dt>By</dt>
           <dd>
             <span className={styles.addr}>
-              <Tooltip title={tx.address}>
-                <Link to={`/address/${tx.address}`} className="monospace">
-                  <div>{tx.address.slice(0, -8)}</div>
-                  <div>{tx.address.slice(-8)}</div>
-                </Link>
+              <Tooltip
+                trigger={
+                  <Link to={`/address/${tx.address}`} className="monospace">
+                    <div>{tx.address.slice(0, -8)}</div>
+                    <div>{tx.address.slice(-8)}</div>
+                  </Link>
+                }
+              >
+                {tx.address}
               </Tooltip>
             </span>
             <span>({tx.capacity})</span>
@@ -166,10 +226,14 @@ const TransactionRenderer = ({ tx }: { tx: Fiber.Graph.Transaction }) => {
         </dt>
         <dd>
           <time dateTime={tx.blockTimestamp.toString()}>at {timestamp}</time>
-          <Tooltip title={tooltip}>
-            <Link to={link} className="monospace">
-              <OpenInNewWindowIcon />
-            </Link>
+          <Tooltip
+            trigger={
+              <Link to={link} className="monospace">
+                <OpenInNewWindowIcon />
+              </Link>
+            }
+          >
+            {tooltip}
           </Tooltip>
         </dd>
       </dl>
@@ -178,11 +242,15 @@ const TransactionRenderer = ({ tx }: { tx: Fiber.Graph.Transaction }) => {
           <dt>{i === 0 ? 'To' : 'And'}</dt>
           <dd>
             <span className={styles.addr}>
-              <Tooltip title={acc.address}>
-                <Link to={`/address/${acc.address}`} className="monospace">
-                  <div>{acc.address.slice(0, -8)}</div>
-                  <div>{acc.address.slice(-8)}</div>
-                </Link>
+              <Tooltip
+                trigger={
+                  <Link to={`/address/${acc.address}`} className="monospace">
+                    <div>{acc.address.slice(0, -8)}</div>
+                    <div>{acc.address.slice(-8)}</div>
+                  </Link>
+                }
+              >
+                {acc.address}
               </Tooltip>
             </span>
             <span>({acc.capacity})</span>
@@ -200,13 +268,72 @@ const GraphNode = () => {
   const {
     channel_state: channelState,
     channel_page: channelPage = '1',
+    channel_sort: channelSort = 'position_time.desc',
+    channel_type_hash: channelTypeHash,
+    channel_time_range: channelTimeRange,
+    channel_amount_range: channelAmountRange,
+    channel_address: channelAddress,
+
     activity_page: activityPage = '1',
-  } = useSearchParams('channel_state', 'channel_page', 'activity_page')
+    tx_sort: txSort = 'block_timestamp.desc',
+    tx_type_hash: txTypeHash,
+    tx_time_range: txTimeRange,
+    tx_amount_range: txAmountRange,
+    tx_status: txStatus,
+    tx_address: txAddress,
+  } = useSearchParams(
+    'channel_state',
+    'channel_page',
+    'channel_sort',
+    'channel_type_hash',
+    'channel_time_range',
+    'channel_amount_range',
+    'channel_address',
+    'activity_page',
+    'tx_sort',
+    'tx_type_hash',
+    'tx_time_range',
+    'tx_amount_range',
+    'tx_status',
+    'tx_address',
+  )
+
+  const [txSortKey, txSortOrder] = txSort?.split('.')
+  const [minTxAmount, maxTxAmount] = (txAmountRange ?? '').split('-')
+  const [minChannelAmount, maxChannelAmount] = (channelAmountRange ?? '').split('-')
+  const [channelSortKey, channelSortOrder] = channelSort.split('.')
+
+  const updateSearchParams = useUpdateSearchParams<
+    | 'channel_state'
+    | 'channel_sort'
+    | 'channel_type_hash'
+    | 'channel_time_range'
+    | 'channel_amount_range'
+    | 'channel_address'
+    | 'channel_page'
+    | 'activity_page'
+    | 'tx_sort'
+    | 'tx_type_hash'
+    | 'tx_time_range'
+    | 'tx_amount_range'
+    | 'tx_status'
+    | 'tx_address'
+  >()
+
   const setToast = useSetToast()
 
   const { data, isLoading } = useNodeData(id)
   const { data: prices } = usePriceData()
   const node = data?.data
+
+  const relatedTokens = (node?.udtCfgInfos ?? []).map(i => ({
+    typeHash: utils.computeScriptHash({
+      codeHash: i.codeHash,
+      hashType: i.hashType,
+      args: i.args,
+    }),
+    symbol: i.symbol,
+  }))
 
   const ips =
     (node?.addresses
@@ -226,15 +353,33 @@ const GraphNode = () => {
     }
   }, [node])
 
-  const { data: openAndClosedTxs } = useTransactions(id, {
+  const { data: txData = { fiberGraphTransactions: [], meta: { total: 0, pageSize: 0 } } } = useTransactions(id, {
     page: activityPage,
     pageSize: ACTIVITY_PAGE_SIZE.toString(),
+    sort: isTxSort(txSort) ? txSort : undefined,
+    typeHash: txTypeHash,
+    minTokenAmount: txAmountRange?.split('-')[0],
+    maxTokenAmount: txAmountRange?.split('-')[1],
+    addressHash: txAddress !== '' ? txAddress : undefined,
+    status: isTxStatus(txStatus) ? txStatus : undefined,
+    startDate: txTimeRange?.split('-')[0],
+    endDate: txTimeRange?.split('-')[1],
   })
-  const { data: channels = [] } = useNodeChannels(id, {
+  const { data: channelData = { fiberGraphChannels: [], meta: { total: 0, pageSize: 0 } } } = useNodeChannels(id, {
     page: channelPage,
     pageSize: CHANNEL_PAGE_SIZE.toString(),
+    sort: isChannelSort(channelSort) ? channelSort : undefined,
+    typeHash: channelTypeHash,
+    minTokenAmount: channelAmountRange?.split('-')[0],
+    maxTokenAmount: channelAmountRange?.split('-')[1],
+    addressHash: channelAddress,
+    startDate: channelTimeRange?.split('-')[0],
+    endDate: channelTimeRange?.split('-')[1],
     status: channelState === 'closed' ? 'closed' : 'open',
   })
+  const { fiberGraphChannels: channels = [], meta: channelMeta } = channelData
+  const { fiberGraphTransactions: openAndClosedTxs = [], meta: txMeta } = txData
+
   const totalLiquidity = useTotalLiquidity(channels, prices)
 
   if (isLoading) return <Loading show />
@@ -293,9 +438,7 @@ const GraphNode = () => {
                 <dl className={styles.isp}>
                   <dt>{t('fiber.graph.node.isp')}</dt>
                   <dd>
-                    <Tooltip title={`${ipInfo.isp}`}>
-                      <span>{ipInfo.isp}</span>
-                    </Tooltip>
+                    <Tooltip trigger={<span>{ipInfo.isp}</span>}>{`${ipInfo.isp}`}</Tooltip>
                     <span>@{ipInfo.city}</span>
                   </dd>
                 </dl>
@@ -325,18 +468,23 @@ const GraphNode = () => {
                 <dt>{t('fiber.graph.node.auto_accept_funding_amount')}</dt>
                 <dd>
                   {getFundingThreshold(node).map(threshold => (
-                    <Tooltip key={threshold.id} title={threshold.title}>
-                      <span className={styles.token}>
-                        <img
-                          src={threshold.icon ?? FtFallbackIcon}
-                          alt="icon"
-                          width="12"
-                          height="12"
-                          loading="lazy"
-                          onError={handleFtImgError}
-                        />
-                        {threshold.display}
-                      </span>
+                    <Tooltip
+                      trigger={
+                        <span className={styles.token}>
+                          <img
+                            src={threshold.icon ?? FtFallbackIcon}
+                            alt="icon"
+                            width="12"
+                            height="12"
+                            loading="lazy"
+                            onError={handleFtImgError}
+                          />
+                          {threshold.display}
+                        </span>
+                      }
+                      key={threshold.id}
+                    >
+                      {threshold.title}
                     </Tooltip>
                   ))}
                 </dd>
@@ -395,7 +543,123 @@ const GraphNode = () => {
         </div>
         <div className={styles.activities}>
           <div className={styles.channels}>
-            <h3>{t('fiber.peer.channels')}</h3>
+            <div className={styles.tabHeader}>
+              <span className={styles.tabTitle}>{t('fiber.peer.channels')}</span>
+
+              <div className={styles.tabActions}>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  style={{ borderWidth: 1 }}
+                  onClick={() => {
+                    updateSearchParams(params => ({
+                      ...params,
+                      channel_sort: `${channelSortKey}.${channelSortOrder === 'desc' ? 'asc' : 'desc'}`,
+                    }))
+                  }}
+                >
+                  {channelSortOrder === 'desc' ? <ArrowDownWideNarrow /> : <ArrowUpNarrowWide />}
+                </Button>
+                <Select
+                  value={channelSortKey}
+                  onValueChange={value =>
+                    updateSearchParams(params => ({ ...params, channel_sort: `${value}.${channelSortOrder}` }))
+                  }
+                >
+                  <SelectTrigger style={{ borderWidth: 1, padding: '0.5rem 0.75rem', width: '180px' }}>
+                    <SelectValue placeholder="sorting" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="position_time">position time</SelectItem>
+                    <SelectItem value="capacity">capacity</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <ResponsivePopover
+                  content={
+                    <div className={styles.filterList}>
+                      <div className={styles.filterItem}>
+                        <Label>Address</Label>
+                        <Input
+                          placeholder="input address for filter"
+                          value={channelAddress}
+                          onChange={e =>
+                            updateSearchParams(params => ({
+                              ...params,
+                              channel_address: e.target.value === '' ? undefined : e.target.value,
+                            }))
+                          }
+                        />
+                      </div>
+
+                      <div className={styles.filterItem}>
+                        <Label>Transaction Type</Label>
+                        <Tabs
+                          value={channelState ?? undefined}
+                          onValueChange={value => updateSearchParams(params => ({ ...params, channel_state: value }))}
+                        >
+                          <TabsList>
+                            <TabsTrigger value={undefined as unknown as string}>All</TabsTrigger>
+                            <TabsTrigger value="open">Open</TabsTrigger>
+                            <TabsTrigger value="closed">Closed</TabsTrigger>
+                          </TabsList>
+                        </Tabs>
+                      </div>
+
+                      <div className={styles.filterItem}>
+                        <Label>Asset</Label>
+                        <Select
+                          value={channelTypeHash}
+                          onValueChange={value =>
+                            updateSearchParams(params => ({ ...params, channel_type_hash: value }))
+                          }
+                        >
+                          <SelectTrigger style={{ borderWidth: 1, padding: '0.5rem 0.75rem', width: '100%' }}>
+                            <SelectValue placeholder="filter token" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={null as unknown as string}>All</SelectItem>
+                            <SelectItem value="0x0">CKB</SelectItem>
+                            {relatedTokens.map(token => (
+                              <SelectItem value={token.typeHash} key={token.typeHash}>
+                                {token.symbol}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
+                        <div className={styles.group}>
+                          <Input
+                            placeholder="Min Amount"
+                            value={minChannelAmount}
+                            onChange={e =>
+                              updateSearchParams(params => ({
+                                ...params,
+                                channel_amount_range: `${e.target.value}-${maxChannelAmount ?? ''}`,
+                              }))
+                            }
+                          />
+                          <Input
+                            placeholder="Max Amount"
+                            value={maxChannelAmount}
+                            onChange={e =>
+                              updateSearchParams(params => ({
+                                ...params,
+                                channel_amount_range: `${minChannelAmount ?? ''}-${e.target.value}`,
+                              }))
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  }
+                >
+                  <Button variant="outline" size="icon" style={{ borderWidth: 1 }}>
+                    <FilterIcon />
+                  </Button>
+                </ResponsivePopover>
+              </div>
+            </div>
             {channels.length ? (
               <>
                 <GraphChannelList
@@ -404,7 +668,7 @@ const GraphNode = () => {
                   startIndex={(+channelPage - 1) * CHANNEL_PAGE_SIZE}
                 />
                 <div className={styles.pagination}>
-                  <Pagination totalPages={Math.ceil(channels.length / CHANNEL_PAGE_SIZE)} keyword="channel_page" />
+                  <Pagination totalPages={Math.ceil(channelMeta.total / channelMeta.pageSize)} keyword="channel_page" />
                 </div>
               </>
             ) : (
@@ -415,7 +679,120 @@ const GraphNode = () => {
             )}
           </div>
           <div className={styles.transactions}>
-            <h3>Open & Closed Transactions</h3>
+            <div className={styles.tabHeader}>
+              <span className={styles.tabTitle}>Open & Closed Transactions</span>
+
+              <div className={styles.tabActions}>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  style={{ borderWidth: 1 }}
+                  onClick={() => {
+                    updateSearchParams(params => ({
+                      ...params,
+                      tx_sort: `${txSortKey}.${txSortOrder === 'desc' ? 'asc' : 'desc'}`,
+                    }))
+                  }}
+                >
+                  {txSortOrder === 'desc' ? <ArrowDownWideNarrow /> : <ArrowUpNarrowWide />}
+                </Button>
+                <Select
+                  value={txSortKey}
+                  onValueChange={value =>
+                    updateSearchParams(params => ({ ...params, tx_sort: `${value}.${txSortOrder}` }))
+                  }
+                >
+                  <SelectTrigger style={{ borderWidth: 1, padding: '0.5rem 0.75rem', width: '180px' }}>
+                    <SelectValue placeholder="sorting" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="block_timestamp">block timestamp</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <ResponsivePopover
+                  content={
+                    <div className={styles.filterList}>
+                      <div className={styles.filterItem}>
+                        <Label>Address</Label>
+                        <Input
+                          placeholder="input address for filter"
+                          value={txAddress}
+                          onChange={e =>
+                            updateSearchParams(params => ({
+                              ...params,
+                              tx_address: e.target.value === '' ? undefined : e.target.value,
+                            }))
+                          }
+                        />
+                      </div>
+
+                      <div className={styles.filterItem}>
+                        <Label>Transaction Type</Label>
+                        <Tabs
+                          value={txStatus ?? undefined}
+                          onValueChange={value => updateSearchParams(params => ({ ...params, tx_status: value }))}
+                        >
+                          <TabsList>
+                            <TabsTrigger value={undefined as unknown as string}>All</TabsTrigger>
+                            <TabsTrigger value="open">Open</TabsTrigger>
+                            <TabsTrigger value="closed">Closed</TabsTrigger>
+                          </TabsList>
+                        </Tabs>
+                      </div>
+
+                      <div className={styles.filterItem}>
+                        <Label>Asset</Label>
+                        <Select
+                          value={txTypeHash}
+                          onValueChange={value => updateSearchParams(params => ({ ...params, tx_type_hash: value }))}
+                        >
+                          <SelectTrigger style={{ borderWidth: 1, padding: '0.5rem 0.75rem', width: '100%' }}>
+                            <SelectValue placeholder="filter token" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={null as unknown as string}>All</SelectItem>
+                            <SelectItem value="0x0">CKB</SelectItem>
+                            {relatedTokens.map(token => (
+                              <SelectItem value={token.typeHash} key={token.typeHash}>
+                                {token.symbol}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
+                        <div className={styles.group}>
+                          <Input
+                            placeholder="Min Amount"
+                            value={minTxAmount}
+                            onChange={e =>
+                              updateSearchParams(params => ({
+                                ...params,
+                                tx_amount_range: `${e.target.value}-${maxTxAmount ?? ''}`,
+                              }))
+                            }
+                          />
+                          <Input
+                            placeholder="Max Amount"
+                            value={maxTxAmount}
+                            onChange={e =>
+                              updateSearchParams(params => ({
+                                ...params,
+                                tx_amount_range: `${minTxAmount ?? ''}-${e.target.value}`,
+                              }))
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  }
+                >
+                  <Button variant="outline" size="icon" style={{ borderWidth: 1 }}>
+                    <FilterIcon />
+                  </Button>
+                </ResponsivePopover>
+              </div>
+            </div>
             {openAndClosedTxs?.length ? (
               <>
                 <div>
@@ -424,10 +801,7 @@ const GraphNode = () => {
                   ))}
                 </div>
                 <div className={styles.pagination}>
-                  <Pagination
-                    totalPages={Math.ceil(openAndClosedTxs.length / ACTIVITY_PAGE_SIZE)}
-                    keyword="activity_page"
-                  />
+                  <Pagination totalPages={Math.ceil(txMeta.total / txMeta.pageSize)} keyword="activity_page" />
                 </div>
               </>
             ) : (

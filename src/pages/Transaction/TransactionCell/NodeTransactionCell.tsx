@@ -1,5 +1,4 @@
 import { useState, ReactNode } from 'react'
-import { Tooltip } from 'antd'
 import type { Cell } from '@ckb-lumos/base'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -39,6 +38,7 @@ import { getCellType } from '../../../utils/cell'
 import { encodeNewAddress, encodeDeprecatedAddress } from '../../../utils/address'
 import { Addr } from './index'
 import { useCKBNode } from '../../../hooks/useCKBNode'
+import Tooltip from '../../../components/Tooltip'
 
 const TransactionCellIndexAddress = ({
   cell,
@@ -184,8 +184,8 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     <TransactionCellDetailPanel isWithdraw={cellType === 'nervos_dao_withdrawing'}>
       <div className="transactionCellDetailPanel">
         {tooltip ? (
-          <Tooltip placement="top" title={tooltip}>
-            <img src={detailIcon} alt="cell detail" />
+          <Tooltip trigger={<img src={detailIcon} alt="cell detail" />} placement="top">
+            {tooltip}
           </Tooltip>
         ) : (
           detailIcon && <img src={detailIcon} alt="cell detail" />

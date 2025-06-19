@@ -1,6 +1,5 @@
 import { useMemo, type FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import dayjs from 'dayjs'
 import styles from './styles.module.scss'
 import { type RawBtcRPC } from '../../../services/ExplorerService'
@@ -14,6 +13,7 @@ import { ReactComponent as BtcIcon } from './btc.svg'
 import { ReactComponent as DirectionIcon } from '../../../assets/direction.svg'
 import { BTCExplorerLink } from '../../Link'
 import { TIME_TEMPLATE } from '../../../constants/common'
+import Tooltip from '../../Tooltip'
 
 const MAX_ITEMS = 10
 
@@ -71,13 +71,10 @@ const BtcTransaction: FC<{
                   </div>
                   BTC
                   {boundIndex !== undefined ? (
-                    <Tooltip
-                      placement="top"
-                      title={t('transaction.isomorphic-binding-with-index', {
+                    <Tooltip placement="top" trigger={<UsedSeal />}>
+                      {t('transaction.isomorphic-binding-with-index', {
                         index: `Input #${boundIndex}`,
                       })}
-                    >
-                      <UsedSeal />
                     </Tooltip>
                   ) : (
                     <div className={styles.iconPlaceholder} />
@@ -109,9 +106,8 @@ const BtcTransaction: FC<{
                 ) : (
                   <div style={{ display: 'flex', gap: 8 }}>
                     OP RETURN
-                    <Tooltip
-                      placement="top"
-                      title={t(
+                    <Tooltip placement="top" trigger={<MoreIcon className={styles.opReturn} />}>
+                      {t(
                         `transaction.${
                           commitment ? 'isomorphic-binding-with-index-commitment' : 'isomorphic-binding-with-index'
                         }`,
@@ -119,8 +115,6 @@ const BtcTransaction: FC<{
                           commitment,
                         },
                       )}
-                    >
-                      <MoreIcon className={styles.opReturn} />
                     </Tooltip>
                   </div>
                 )}
@@ -133,7 +127,14 @@ const BtcTransaction: FC<{
                   {boundIndex !== undefined ? (
                     <Tooltip
                       placement="top"
-                      title={t(
+                      trigger={
+                        <div className={styles.newSeal}>
+                          <NewSeal />
+                          <ViewNewSeal />
+                        </div>
+                      }
+                    >
+                      {t(
                         `transaction.${
                           commitment ? 'isomorphic-binding-with-index-commitment' : 'isomorphic-binding-with-index'
                         }`,
@@ -142,11 +143,6 @@ const BtcTransaction: FC<{
                           commitment,
                         },
                       )}
-                    >
-                      <div className={styles.newSeal}>
-                        <NewSeal />
-                        <ViewNewSeal />
-                      </div>
                     </Tooltip>
                   ) : (
                     <div className={styles.iconPlaceholder} />

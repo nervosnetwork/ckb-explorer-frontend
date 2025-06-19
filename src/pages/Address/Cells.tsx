@@ -2,7 +2,6 @@ import { type FC, useState, useRef, useEffect } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { Tooltip } from 'antd'
 import { OpenInNewWindowIcon, SizeIcon, TimerIcon } from '@radix-ui/react-icons'
 import { explorerService, LiveCell } from '../../services/ExplorerService'
 import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
@@ -28,6 +27,7 @@ import { CellBasicInfo } from '../../utils/transformer'
 import { sliceNftName } from '../../utils/string'
 import { Link } from '../../components/Link'
 import { isTypeIdScript } from '../../utils/typeid'
+import Tooltip from '../../components/Tooltip'
 
 enum Sort {
   TimeAsc = 'block_timestamp.asc',
@@ -326,17 +326,22 @@ const Cell: FC<{ cell: LiveCell }> = ({ cell }) => {
   return (
     <li key={cell.txHash + cell.cellIndex} className={styles.card}>
       <TransactionCellInfo cell={cellInfo} isDefaultStyle={false}>
-        <Tooltip placement="top" title={<HeaderTooltip cell={cell} />}>
-          <h5 className={styles.cellTitle}>
-            <span>{title}</span>
-            <span style={{ whiteSpace: 'nowrap' }}>CKB ({parsedBlockCreateAt})</span>
-            <div className={styles.cellTags}>
-              {cell.tags.find(tag => tag === 'fiber') !== undefined && <span className={styles.fiberTag}>Fiber</span>}
-              {cell.tags.find(tag => tag === 'deployment') !== undefined && (
-                <span className={styles.deploymentTag}>Deployment</span>
-              )}
-            </div>
-          </h5>
+        <Tooltip
+          trigger={
+            <h5 className={styles.cellTitle}>
+              <span>{title}</span>
+              <span style={{ whiteSpace: 'nowrap' }}>CKB ({parsedBlockCreateAt})</span>
+              <div className={styles.cellTags}>
+                {cell.tags.find(tag => tag === 'fiber') !== undefined && <span className={styles.fiberTag}>Fiber</span>}
+                {cell.tags.find(tag => tag === 'deployment') !== undefined && (
+                  <span className={styles.deploymentTag}>Deployment</span>
+                )}
+              </div>
+            </h5>
+          }
+          placement="top"
+        >
+          <HeaderTooltip cell={cell} />
         </Tooltip>
 
         <div className={styles.cellContent}>
@@ -459,30 +464,45 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
       <div className={styles.toolbar}>
         <div>UTXO: {count.toLocaleString('en')}</div>
         <div className={styles.filters}>
-          <Tooltip placement="top" title={t('sort.time')}>
-            <button
-              type="button"
-              data-sort={params.sort === Sort.TimeAsc ? Sort.TimeDesc : Sort.TimeAsc}
-              onClick={handleSortChange}
-              data-is-active={params.sort === Sort.TimeAsc || params.sort === Sort.TimeDesc}
-            >
-              {params.sort === Sort.TimeAsc ? <TimeUpIcon /> : <TimeDownIcon />}
-            </button>
+          <Tooltip
+            trigger={
+              <button
+                type="button"
+                data-sort={params.sort === Sort.TimeAsc ? Sort.TimeDesc : Sort.TimeAsc}
+                onClick={handleSortChange}
+                data-is-active={params.sort === Sort.TimeAsc || params.sort === Sort.TimeDesc}
+              >
+                {params.sort === Sort.TimeAsc ? <TimeUpIcon /> : <TimeDownIcon />}
+              </button>
+            }
+            placement="top"
+          >
+            {t('sort.time')}
           </Tooltip>
-          <Tooltip placement="top" title={t('sort.capacity')}>
-            <button
-              type="button"
-              data-sort={params.sort === Sort.CapacityAsc ? Sort.CapacityDesc : Sort.CapacityAsc}
-              onClick={handleSortChange}
-              title={t('sort.capacity')}
-            >
-              <SortIcon data-current-sort={params.sort} className={styles.capacitySortIcon} />
-            </button>
+          <Tooltip
+            trigger={
+              <button
+                type="button"
+                data-sort={params.sort === Sort.CapacityAsc ? Sort.CapacityDesc : Sort.CapacityAsc}
+                onClick={handleSortChange}
+                title={t('sort.capacity')}
+              >
+                <SortIcon data-current-sort={params.sort} className={styles.capacitySortIcon} />
+              </button>
+            }
+            placement="top"
+          >
+            {t('sort.capacity')}
           </Tooltip>
-          <Tooltip placement="top" title={isDisplayedAsList ? t('sort.card') : t('sort.list')}>
-            <button type="button" onClick={() => setIsDisplayedAsList(i => !i)}>
-              {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
-            </button>
+          <Tooltip
+            trigger={
+              <button type="button" onClick={() => setIsDisplayedAsList(i => !i)}>
+                {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
+              </button>
+            }
+            placement="top"
+          >
+            {isDisplayedAsList ? t('sort.card') : t('sort.list')}
           </Tooltip>
         </div>
       </div>
