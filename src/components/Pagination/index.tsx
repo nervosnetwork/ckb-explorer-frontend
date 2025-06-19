@@ -41,7 +41,7 @@ const Pagination = ({
     'pagination.end_page',
   )}`
 
-  const annotationComp = annotation ? <HelpTip title={annotation} iconProps={{ alt: 'annotation' }} /> : null
+  const annotationComp = annotation ? <HelpTip iconProps={{ alt: 'annotation' }}>{annotation}</HelpTip> : null
 
   const changePage = (page: number) => {
     if (page && page >= 1 && page <= total) {

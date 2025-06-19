@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { BarChartIcon } from '@radix-ui/react-icons'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { Link } from '../../../components/Link'
 import config from '../../../config'
@@ -11,6 +10,7 @@ import { NumberTicker } from '../../../components/ui/NumberTicker'
 import { IS_MAINNET } from '../../../constants/common'
 import HardforkBanner from './Hardfork'
 import ForceBridge from './ForceBridge'
+import Tooltip from '../../../components/Tooltip'
 
 const { BACKUP_NODES: backupNodes } = config
 
@@ -81,16 +81,20 @@ export default () => {
             <Link to="https://www.ckbfiber.net/" target="_blank" rel="noopener noreferrer">
               <span>{t(`banner.learn_more`)}</span>
             </Link>
-            <Tooltip title={t('banner.coming_soon')}>
-              <Link
-                to="/fiber/graph/nodes"
-                aria-disabled
-                onClick={(e: React.SyntheticEvent<HTMLAnchorElement>) => {
-                  e.preventDefault()
-                }}
-              >
-                <span>{t('banner.find_nodes')}</span>
-              </Link>
+            <Tooltip
+              trigger={
+                <Link
+                  to="/fiber/graph/nodes"
+                  aria-disabled
+                  onClick={(e: React.SyntheticEvent<HTMLAnchorElement>) => {
+                    e.preventDefault()
+                  }}
+                >
+                  <span>{t('banner.find_nodes')}</span>
+                </Link>
+              }
+            >
+              {t('banner.coming_soon')}
             </Tooltip>
           </div>
         </div>

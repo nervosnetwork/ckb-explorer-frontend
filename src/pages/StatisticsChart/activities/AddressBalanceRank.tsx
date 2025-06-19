@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, assertIsArray, parseNumericAbbr } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
@@ -13,6 +12,7 @@ import { ChartColorConfig } from '../../../constants/common'
 import EllipsisMiddle from '../../../components/EllipsisMiddle'
 import { Link } from '../../../components/Link'
 import styles from './addressRankingBalance.module.scss'
+import Tooltip from '../../../components/Tooltip'
 
 const getAddressWithRanking = (statisticAddressBalanceRanks: ChartItem.AddressBalanceRank[], ranking?: string) => {
   if (!ranking) return ''
@@ -190,8 +190,8 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
                   </td>
                   <td>
                     {r === b ? null : (
-                      <Tooltip title={t('statistic.rounded')} placement="top">
-                        <span className={styles.roundSign}>~</span>
+                      <Tooltip trigger={<span className={styles.roundSign}>~</span>} placement="top">
+                        {t('statistic.rounded')}
                       </Tooltip>
                     )}
                     {localeNumberString(r)}

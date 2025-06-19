@@ -6,7 +6,6 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/legendScroll'
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import {
   DaoOverviewPanel,
@@ -33,6 +32,7 @@ import { ChartColor } from '../../../constants/common'
 import { assertNotArray } from '../../../utils/chart'
 import { APIReturn } from '../../../services/ExplorerService'
 import styles from './DaoOverview.module.scss'
+import Tooltip from '../../../components/Tooltip'
 
 type NervosDaoInfo = APIReturn<'fetchNervosDao'>
 
@@ -135,12 +135,12 @@ const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; fi
     <div className="daoOverviewItemContainer">
       <div className="daoOverviewItemTop">
         <span className="daoOverviewItemTitle">{item.title}</span>
-        {item.titleTooltip && <HelpTip title={item.titleTooltip} />}
+        {item.titleTooltip && <HelpTip>{item.titleTooltip}</HelpTip>}
         {item.change && (
           <>
             <img className="daoOverviewItemChangeIcon" src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
-            <Tooltip placement="top" title={item.tooltip}>
-              <span className="daoOverviewItemChange">{item.change}</span>
+            <Tooltip trigger={<span className="daoOverviewItemChange">{item.change}</span>} placement="top">
+              {item.tooltip}
             </Tooltip>
           </>
         )}
@@ -326,7 +326,7 @@ export default ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
         <DaoOverviewPieChartPanel>
           <NervosDaoOverviewPieTitle>
             <span>{t('nervos_dao.secondary_issuance')}</span>
-            <HelpTip title={t('glossary.secondary_issuance')} />
+            <HelpTip>{t('glossary.secondary_issuance')}</HelpTip>
           </NervosDaoOverviewPieTitle>
           <ReactChartCore
             option={useOption(nervosDao, ChartColor.daoColors, isMobile)}

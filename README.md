@@ -42,7 +42,7 @@ Visit the live explorer at [explorer.nervos.org](https://explorer.nervos.org).
 
 ### Prerequisites
 
-- Node.js v18.13.0 or later
+- Node.js v20.10.0 or later
 - Yarn 1.13.0 or later
 - Git
 

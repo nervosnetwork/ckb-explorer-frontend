@@ -1,8 +1,6 @@
 import { FC, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { ColumnGroupType, ColumnType } from 'antd/lib/table'
-import { Table } from 'antd'
 import { TFunction } from 'i18next'
 import classNames from 'classnames'
 import Content from '../../components/Content'
@@ -18,7 +16,6 @@ import SortButton from '../../components/SortButton'
 import Capacity from '../../components/Capacity'
 import MultiFilterButton from '../../components/MultiFilterButton'
 import { Link } from '../../components/Link'
-import Loading from '../../components/Loading'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { parseSimpleDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
@@ -504,11 +501,12 @@ const ScriptTable: FC<{
 }> = ({ query, sortParam }) => {
   const { t } = useTranslation()
 
-  const columns: (ColumnGroupType<ScriptDetail> | ColumnType<ScriptDetail>)[] = [
+  const columns = [
     {
       title: t('scripts.script_name'),
       className: styles.colName,
-      render: (_, script) => {
+      key: 'name',
+      render: (script: ScriptDetail) => {
         const codeHash = script.hashType === null ? script.typeHash : script.dataHash
         const hashType = script.hashType === null ? 'type' : script.hashType
 
@@ -528,13 +526,14 @@ const ScriptTable: FC<{
     },
     {
       title: (
-        <>
+        <div>
           {t('scripts.script_type')}
           <MultiFilterButton filterName="script_type" key="" filterList={getfilterList(t)} />
-        </>
+        </div>
       ),
+      key: 'script_type',
       className: styles.colTags,
-      render: (_, script) => (
+      render: (script: ScriptDetail) => (
         <div className={styles.tags}>
           {script.isTypeScript && <span className={styles.tag}>{t('scripts.type_script')}</span>}
           {script.isLockScript && <span className={styles.tag}>{t('scripts.lock_script')}</span>}
@@ -543,40 +542,51 @@ const ScriptTable: FC<{
     },
     {
       title: (
-        <>
+        <div>
           {t('scripts.capacity_of_referring_cells')}
           <SortButton field="capacity" sortParam={sortParam} />
-        </>
+        </div>
       ),
+      key: 'capacity',
       className: styles.colTransactions,
-      render: (_, script) => <Capacity capacity={shannonToCkb(script.totalReferringCellsCapacity)} display="short" />,
+      render: (script: ScriptDetail) => (
+        <Capacity capacity={shannonToCkb(script.totalReferringCellsCapacity)} display="short" />
+      ),
     },
     {
       title: (
-        <>
+        <div>
           {t('scripts.timestamp')}
           <SortButton field="timestamp" sortParam={sortParam} />
-        </>
+        </div>
       ),
+      key: 'timestamp',
       className: styles.colCreatedTime,
-      render: (_, script) => parseSimpleDate(+script.deployedBlockTimestamp),
+      render: (script: ScriptDetail) => parseSimpleDate(+script.deployedBlockTimestamp),
     },
   ]
 
   return (
-    <Table
-      className={styles.tokensTable}
-      columns={columns}
-      dataSource={query.data?.data}
-      pagination={false}
-      loading={
-        query.isLoading
-          ? {
-              indicator: <Loading className={styles.loading} show />,
-            }
-          : false
-      }
-    />
+    <table className={styles.tokensTable}>
+      <thead>
+        <tr>
+          {columns.map(column => (
+            <th key={column.key}>{column.title}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {query.data?.data.map(script => (
+          <tr key={script.typeHash}>
+            {columns.map(column => (
+              <td key={column.key} className={column.className}>
+                {column.render?.(script)}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
 

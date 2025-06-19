@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
 import { explorerService } from '../../../services/ExplorerService'
@@ -10,6 +9,7 @@ import { getPrimaryColor } from '../../../constants/common'
 import NFTTag from '../../../components/NFTTag'
 import { DEPRECATED_DOB_COLLECTION } from '../../../constants/marks'
 import Annotation from '../../../components/Annotation'
+import Tooltip from '../../../components/Tooltip'
 
 const primaryColor = getPrimaryColor()
 
@@ -85,16 +85,20 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
             {isLoading ? t(`nft.loading`) : null}
 
             {!isLoading && info?.creator ? (
-              <Tooltip title={info.creator}>
-                <Link
-                  to={`/address/${info.creator}`}
-                  title={info.creator}
-                  className="monospace"
-                  style={{
-                    color: primaryColor,
-                    fontWeight: 700,
-                  }}
-                >{`${info.creator.slice(0, 12)}...${info.creator.slice(-12)}`}</Link>
+              <Tooltip
+                trigger={
+                  <Link
+                    to={`/address/${info.creator}`}
+                    title={info.creator}
+                    className="monospace"
+                    style={{
+                      color: primaryColor,
+                      fontWeight: 700,
+                    }}
+                  >{`${info.creator.slice(0, 12)}...${info.creator.slice(-12)}`}</Link>
+                }
+              >
+                {info.creator}
               </Tooltip>
             ) : (
               '-'
@@ -109,11 +113,15 @@ const NftCollectionOverview = ({ id }: { id: string }) => {
             {isLoading ? t(`nft.loading`) : null}
 
             {!isLoading && info?.type_script?.args ? (
-              <Tooltip title={info.type_script.args}>
-                <span title={info.type_script.args} className="monospace">{`${info.type_script.args.slice(
-                  0,
-                  12,
-                )}...${info.type_script.args.slice(-12)}`}</span>
+              <Tooltip
+                trigger={
+                  <span title={info.type_script.args} className="monospace">{`${info.type_script.args.slice(
+                    0,
+                    12,
+                  )}...${info.type_script.args.slice(-12)}`}</span>
+                }
+              >
+                {info.type_script.args}
               </Tooltip>
             ) : (
               '-'

@@ -1,5 +1,4 @@
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
-import { Popover, Tooltip } from 'antd'
 import classNames from 'classnames'
 import { Trans, useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
@@ -10,7 +9,7 @@ import { handleNftImgError, patchMibaoImg } from '../../utils/util'
 import { ReactComponent as SelectedCheckIcon } from '../../assets/selected_check_icon.svg'
 import { ReactComponent as FilterIcon } from './filter.svg'
 import { getPrimaryColor } from '../../constants/common'
-import { useIsMobile, useSearchParams } from '../../hooks'
+import { useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
 import { useNFTCollectionsSortParam } from './util'
 import { parseSimpleDate } from '../../utils/date'
@@ -21,6 +20,8 @@ import { FilterSortContainerOnMobile } from '../../components/FilterSortContaine
 import AddressText from '../../components/AddressText'
 import { DEPRECATED_DOB_COLLECTION } from '../../constants/marks'
 import Annotation from '../../components/Annotation'
+import Tooltip from '../../components/Tooltip'
+import Popover from '../../components/Popover'
 
 const primaryColor = getPrimaryColor()
 function useFilterList(): Record<'title' | 'value', string>[] {
@@ -106,7 +107,6 @@ export const isTxFilterType = (s?: string): boolean => {
 }
 
 const TypeFilter = () => {
-  const isMobile = useIsMobile()
   const { t } = useTranslation()
   const { type } = useSearchParams('type')
   const isActive = isTxFilterType(type)
@@ -114,26 +114,19 @@ const TypeFilter = () => {
   return (
     <div className={styles.typeFilter} data-is-active={isActive}>
       {t('nft.standard')}
-      <Popover
-        placement={isMobile ? 'bottomRight' : 'bottomLeft'}
-        trigger={isMobile ? 'click' : 'hover'}
-        overlayClassName={styles.antPopover}
-        content={
-          <div className={styles.filterItems}>
-            {list.map(f => (
-              <Link
-                key={f.value}
-                to={`/nft-collections?${new URLSearchParams({ type: f.value })}`}
-                data-is-active={f.value === type}
-              >
-                {f.title}
-                <SelectedCheckIcon />
-              </Link>
-            ))}
-          </div>
-        }
-      >
-        <FilterIcon className={styles.filter} />
+      <Popover trigger={<FilterIcon className={styles.filter} />}>
+        <div className={styles.filterItems}>
+          {list.map(f => (
+            <Link
+              key={f.value}
+              to={`/nft-collections?${new URLSearchParams({ type: f.value })}`}
+              data-is-active={f.value === type}
+            >
+              {f.title}
+              <SelectedCheckIcon />
+            </Link>
+          ))}
+        </div>
       </Popover>
     </div>
   )
@@ -207,29 +200,27 @@ const TypeInfo: React.FC<{ nft: NFTCollection }> = ({ nft: item }) => {
   const { t } = useTranslation()
   return t(`glossary.${item.standard}`) ? (
     <Tooltip
+      trigger={<span>{t(`nft.${item.standard === 'spore' ? 'dobs' : item.standard}`)}</span>}
       placement="top"
-      overlayClassName={styles.nftTooltip}
-      title={
-        <Trans
-          i18nKey={`glossary.${item.standard}`}
-          components={{
-            cota_link: (
-              // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
-              <a
-                href="https://talk.nervos.org/t/rfc-cota-a-compact-token-aggregator-standard-for-extremely-low-cost-nfts-and-fts/6338"
-                target="_blank"
-                rel="noreferrer"
-              />
-            ),
-            m_nft_link: (
-              // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
-              <a href="https://github.com/nervina-labs/ckb-nft-scripts" target="_blank" rel="noreferrer" />
-            ),
-          }}
-        />
-      }
+      contentClassName={styles.nftTooltip}
     >
-      {t(`nft.${item.standard === 'spore' ? 'dobs' : item.standard}`)}
+      <Trans
+        i18nKey={`glossary.${item.standard}`}
+        components={{
+          cota_link: (
+            // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
+            <a
+              href="https://talk.nervos.org/t/rfc-cota-a-compact-token-aggregator-standard-for-extremely-low-cost-nfts-and-fts/6338"
+              target="_blank"
+              rel="noreferrer"
+            />
+          ),
+          m_nft_link: (
+            // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
+            <a href="https://github.com/nervina-labs/ckb-nft-scripts" target="_blank" rel="noreferrer" />
+          ),
+        }}
+      />
     </Tooltip>
   ) : (
     t(`nft.${item.standard}`)
@@ -331,16 +322,20 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
                 <td>
                   <div>
                     {item.creator ? (
-                      <Tooltip title={item.creator}>
-                        <AddressText
-                          style={{ marginLeft: 'auto' }}
-                          disableTooltip
-                          linkProps={{
-                            to: `/address/${item.creator}`,
-                          }}
-                        >
-                          {item.creator}
-                        </AddressText>
+                      <Tooltip
+                        trigger={
+                          <AddressText
+                            style={{ marginLeft: 'auto' }}
+                            disableTooltip
+                            linkProps={{
+                              to: `/address/${item.creator}`,
+                            }}
+                          >
+                            {item.creator}
+                          </AddressText>
+                        }
+                      >
+                        {item.creator}
                       </Tooltip>
                     ) : (
                       '-'
@@ -454,15 +449,19 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
                   <dl className={styles.tokenInfo}>
                     <dt>{t(`nft.minter_address`)}</dt>
                     <dd>
-                      <Tooltip title={item.creator}>
-                        <Link
-                          to={`/address/${item.creator}`}
-                          className="monospace"
-                          style={{
-                            color: primaryColor,
-                            fontWeight: 500,
-                          }}
-                        >{`${item.creator.slice(0, 8)}...${item.creator.slice(-8)}`}</Link>
+                      <Tooltip
+                        trigger={
+                          <Link
+                            to={`/address/${item.creator}`}
+                            className="monospace"
+                            style={{
+                              color: primaryColor,
+                              fontWeight: 500,
+                            }}
+                          >{`${item.creator.slice(0, 8)}...${item.creator.slice(-8)}`}</Link>
+                        }
+                      >
+                        {item.creator}
                       </Tooltip>
                     </dd>
                   </dl>

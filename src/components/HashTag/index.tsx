@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import { Link } from '../Link'
 import { TYPE_ID_TAG, TYPE_ID_RFC } from '../../utils/typeid'
 import { TagPanel } from './styled'
 import { scripts } from '../../pages/ScriptList'
 import { Script } from '../../models/Script'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
+import Tooltip from '../Tooltip'
 
 export default ({
   content,
@@ -36,11 +36,7 @@ export default ({
         style={{ color: '#000', display: 'flex', alignItems: 'center', gap: 4 }}
       >
         {content}
-        {codeUrl ? (
-          <Tooltip title={t(`scripts.open_source_script`)}>
-            <OpenSourceIcon />
-          </Tooltip>
-        ) : null}
+        {codeUrl ? <Tooltip trigger={<OpenSourceIcon />}>{t(`scripts.open_source_script`)}</Tooltip> : null}
       </Link>
     </TagPanel>
   )

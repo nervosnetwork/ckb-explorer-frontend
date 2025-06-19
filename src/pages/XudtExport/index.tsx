@@ -1,4 +1,3 @@
-import { InputNumber } from 'antd'
 import { useState } from 'react'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
@@ -117,22 +116,27 @@ const XudtExport = () => {
               </div>
               <div className={styles.inputPanel}>
                 <label className={styles.inputLabel}>{t('export_transactions.block_height')}</label>
-                <InputNumber
-                  className={classNames(styles.inputContent)}
-                  size="large"
-                  prefix={<BlockIcon />}
-                  style={{ width: '100%' }}
-                  min={0}
-                  parser={heightParser}
-                  value={blockHeight}
-                  controls={false}
-                  onChange={h =>
-                    updateSearchParams(
-                      params => (h ? { ...params, height: h.toString() } : omit(params, ['height'])),
-                      true,
-                    )
-                  }
-                />
+                <div className={styles.inputContainer}>
+                  <BlockIcon />
+                  <input
+                    className={classNames(styles.inputContent)}
+                    type="number"
+                    style={{ width: '100%' }}
+                    min={0}
+                    value={blockHeight}
+                    onChange={e => {
+                      const h = e.target.value
+                      if (h === '' || h === undefined) {
+                        return
+                      }
+                      const height = heightParser(h)
+                      updateSearchParams(
+                        params => (height ? { ...params, height: height.toString() } : omit(params, ['height'])),
+                        true,
+                      )
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>

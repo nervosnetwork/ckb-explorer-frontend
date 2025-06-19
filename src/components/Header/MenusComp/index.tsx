@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { FC, memo, PropsWithChildren, useState } from 'react'
+import { FC, memo, PropsWithChildren, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dropdown, DropdownProps } from 'antd'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { Link } from '../../Link'
@@ -16,6 +15,7 @@ import { ReactComponent as NewIcon } from './new.svg'
 import { useCKBNode } from '../../../hooks/useCKBNode'
 import { NervosDao, RGBPP, Faucet, Home, Charts, Assets, FeeRate, Fiber } from './icons'
 import NewBadge from './NewBadge'
+import Popover from '../../Popover'
 
 export enum LinkType {
   Inner,
@@ -141,56 +141,61 @@ const useMenuDataList = () => {
 }
 
 const SubmenuDropdown: FC<
-  PropsWithChildren<DropdownProps & { menu: (MenuData | MenuItemLabel | MenuSeparator)[] }>
-> = ({ children, menu, ...props }) => {
+  PropsWithChildren<{ menu: (MenuData | MenuItemLabel | MenuSeparator)[]; isMobile?: boolean }>
+> = ({ children, menu, isMobile, ...props }) => {
+  const portalContainer = useRef<HTMLDivElement>(null)
+
   return (
-    <Dropdown
-      overlay={
-        <div className={styles.submenu}>
-          {menu.map(menuItem => {
-            switch (menuItem.type) {
-              case 'separator':
-                return <div key={Math.random()} className={styles.separator} />
-              case 'label':
-                return (
-                  <div key={menuItem.name} className={styles.label}>
-                    {menuItem.name}
-                  </div>
-                )
-              case LinkType.Inner: {
-                const isHot = menuItem.attrs?.includes('hot')
-                const isInset = menuItem.attrs?.includes('inset')
-                return (
-                  <Link key={menuItem.name} className={styles.link} to={menuItem.url ?? '/'} data-is-inset={isInset}>
-                    {menuItem.name}
-                    {/* {isHot ? <Hot className={styles.hot} title="HOT" /> : null} */}
-                    {isHot ? <img alt="hot" className={styles.hot} title="HOT" src="/images/Hot.gif" /> : null}
-                  </Link>
-                )
-              }
-              default: {
-                return (
-                  <a
-                    key={menuItem.name}
-                    className={styles.link}
-                    href={menuItem.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {menuItem.name}
-                  </a>
-                )
-              }
-            }
-          })}
-        </div>
-      }
-      mouseEnterDelay={0}
-      transitionName=""
+    <Popover
       {...props}
+      trigger={children}
+      showArrow={false}
+      contentStyle={{
+        padding: 0,
+        fontSize: 14,
+        width: isMobile ? 'var(--radix-popper-anchor-width)' : 'auto',
+      }}
+      portalContainer={portalContainer.current}
     >
-      {children}
-    </Dropdown>
+      <div className={styles.submenu} ref={portalContainer}>
+        {menu.map(menuItem => {
+          switch (menuItem.type) {
+            case 'separator':
+              return <div key={Math.random()} className={styles.separator} />
+            case 'label':
+              return (
+                <div key={menuItem.name} className={styles.label}>
+                  {menuItem.name}
+                </div>
+              )
+            case LinkType.Inner: {
+              const isHot = menuItem.attrs?.includes('hot')
+              const isInset = menuItem.attrs?.includes('inset')
+              return (
+                <Link key={menuItem.name} className={styles.link} to={menuItem.url ?? '/'} data-is-inset={isInset}>
+                  {menuItem.name}
+                  {/* {isHot ? <Hot className={styles.hot} title="HOT" /> : null} */}
+                  {isHot ? <img alt="hot" className={styles.hot} title="HOT" src="/images/Hot.gif" /> : null}
+                </Link>
+              )
+            }
+            default: {
+              return (
+                <a
+                  key={menuItem.name}
+                  className={styles.link}
+                  href={menuItem.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {menuItem.name}
+                </a>
+              )
+            }
+          }
+        })}
+      </div>
+    </Popover>
   )
 }
 
@@ -205,54 +210,52 @@ export const MoreMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
 
   return (
     <Wrapper>
-      <Dropdown
+      <Popover
         onOpenChange={setOpen}
         open={open}
-        overlay={
-          <div className={styles.submenu}>
-            <Link className={styles.link} to="/tools/address-conversion">
-              {t('footer.tools')}
-            </Link>
+        showArrow={false}
+        trigger={
+          isMobile ? (
+            <MobileMenuOuterLink className={styles.mobileSubmenuTrigger}>
+              {t('navbar.more')}
+              <ArrowIcon className={styles.icon} />
+            </MobileMenuOuterLink>
+          ) : (
             <span
-              className={classNames(styles.link, styles.clickable)}
-              onClick={() => {
-                setOpen(false)
-                setLanguageModalVisible(true)
-              }}
+              className={classNames(styles.clickable, styles.headerMenusItem, styles.submenuTrigger, styles.moreMenus)}
             >
-              {t('navbar.language')}
+              <MenuIcon className={styles.moreIcon} />
+              {/* TODO: remove this after 2024-08-01 */}
+              {dayjs().isBefore(dayjs('2024-08-01')) && <NewIcon className={styles.newIcon} />}
             </span>
-            <span
-              className={classNames(styles.link, styles.clickable, styles.linkWithBadge)}
-              onClick={() => {
-                setOpen(false)
-                setNodeModalVisible(true)
-              }}
-            >
-              {t('navbar.node')}
-              <span className={classNames(styles.nodeStatus, { [styles.activate]: isActivated })} />
-            </span>
-          </div>
+          )
         }
-        mouseEnterDelay={0}
-        transitionName=""
-        placement="bottomRight"
       >
-        {isMobile ? (
-          <MobileMenuOuterLink className={styles.mobileSubmenuTrigger}>
-            {t('navbar.more')}
-            <ArrowIcon className={styles.icon} />
-          </MobileMenuOuterLink>
-        ) : (
+        <div className={styles.submenu}>
+          <Link className={styles.link} to="/tools/address-conversion">
+            {t('footer.tools')}
+          </Link>
           <span
-            className={classNames(styles.clickable, styles.headerMenusItem, styles.submenuTrigger, styles.moreMenus)}
+            className={classNames(styles.link, styles.clickable)}
+            onClick={() => {
+              setOpen(false)
+              setLanguageModalVisible(true)
+            }}
           >
-            <MenuIcon className={styles.moreIcon} />
-            {/* TODO: remove this after 2024-08-01 */}
-            {dayjs().isBefore(dayjs('2024-08-01')) && <NewIcon className={styles.newIcon} />}
+            {t('navbar.language')}
           </span>
-        )}
-      </Dropdown>
+          <span
+            className={classNames(styles.link, styles.clickable, styles.linkWithBadge)}
+            onClick={() => {
+              setOpen(false)
+              setNodeModalVisible(true)
+            }}
+          >
+            {t('navbar.node')}
+            <span className={classNames(styles.nodeStatus, { [styles.activate]: isActivated })} />
+          </span>
+        </div>
+      </Popover>
       {languageModalVisible ? <LanguageModal onClose={() => setLanguageModalVisible(false)} /> : null}
       {nodeModalVisible ? <CKBNodeModal onClose={() => setNodeModalVisible(false)} /> : null}
     </Wrapper>
@@ -272,7 +275,7 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
           const isNew = menu.attrs?.includes('new')
           if (menu.children) {
             return (
-              <SubmenuDropdown key={menu.name} menu={menu.children}>
+              <SubmenuDropdown key={menu.name} menu={menu.children} isMobile={isMobile}>
                 <MobileMenuOuterLink className={styles.mobileSubmenuTrigger}>
                   {menu.icon}
                   {menu.name}

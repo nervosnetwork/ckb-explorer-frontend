@@ -10,8 +10,6 @@ import {
   TransactionDetailPanel,
   TransactionCellDetailPanel,
   TransactionCellInfoValuePanel,
-  TransactionCellDetailTab,
-  TransactionCellDetailPane,
   TransactionCellDetailTitle,
 } from './styled'
 import CloseIcon from './modal_close.png'
@@ -29,6 +27,7 @@ import { Script } from '../../../models/Script'
 import { ReactComponent as CompassIcon } from './compass.svg'
 import styles from './styles.module.scss'
 import { BTCExplorerLink } from '../../../components/Link'
+import { Tabs, TabsList, TabsTrigger } from '../../../components/ui/Tabs'
 
 enum CellInfo {
   LOCK = 1,
@@ -262,53 +261,43 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
 
   return (
     <TransactionDetailContainer ref={ref}>
+      <div className="transactionDetailModalClose">
+        <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
+      </div>
       <TransactionCellDetailPanel>
-        <TransactionCellDetailTab
-          tabBarExtraContent={
-            <div className="transactionDetailModalClose">
-              <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
-            </div>
-          }
-          tabBarStyle={{ fontSize: '10px' }}
-          onTabClick={key => {
+        <Tabs
+          onValueChange={key => {
             const state = parseInt(key, 10)
             if (state && !Number.isNaN(state)) {
               changeType(state)
             }
           }}
+          style={{ width: '100%' }}
         >
-          <TransactionCellDetailPane
-            tab={
-              <div className={styles.tabItem}>
+          <TabsList style={{ width: '100%', display: 'flex' }}>
+            <TabsTrigger value={CellInfo.LOCK.toString()}>
+              <>
                 <TransactionCellDetailTitle>{t('transaction.lock_script')}</TransactionCellDetailTitle>
-                <HelpTip title={t('glossary.lock_script')} placement="bottom" containerRef={ref} />
-              </div>
-            }
-            key={CellInfo.LOCK}
-          />
-          <TransactionCellDetailPane
-            tab={
-              <div className={styles.tabItem}>
+                <HelpTip>{t('glossary.lock_script')}</HelpTip>
+              </>
+            </TabsTrigger>
+            <TabsTrigger value={CellInfo.TYPE.toString()}>
+              <>
                 <TransactionCellDetailTitle>{t('transaction.type_script')}</TransactionCellDetailTitle>
-                <HelpTip title={t('glossary.type_script')} placement="bottom" containerRef={ref} />
-              </div>
-            }
-            key={CellInfo.TYPE}
-          />
-          <TransactionCellDetailPane
-            tab={<TransactionCellDetailTitle>{t('transaction.data')}</TransactionCellDetailTitle>}
-            key={CellInfo.DATA}
-          />
-          <TransactionCellDetailPane
-            tab={
-              <div className={styles.tabItem}>
+                <HelpTip>{t('glossary.type_script')}</HelpTip>
+              </>
+            </TabsTrigger>
+            <TabsTrigger value={CellInfo.DATA.toString()}>
+              <TransactionCellDetailTitle>{t('transaction.data')}</TransactionCellDetailTitle>
+            </TabsTrigger>
+            <TabsTrigger value={CellInfo.CAPACITY.toString()}>
+              <>
                 <TransactionCellDetailTitle>{t('transaction.capacity_usage')}</TransactionCellDetailTitle>
-                <HelpTip title={t('glossary.capacity_usage')} placement="bottom" containerRef={ref} />
-              </div>
-            }
-            key={CellInfo.CAPACITY}
-          />
-        </TransactionCellDetailTab>
+                <HelpTip>{t('glossary.capacity_usage')}</HelpTip>
+              </>
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
       </TransactionCellDetailPanel>
 
       <TransactionDetailPanel>

@@ -53,9 +53,7 @@ interface ChartCategory {
 const ChartTitle = ({ chartData }: { chartData: ChartData }) => (
   <div className="chartCardTitlePenal">
     <div className="chartCardTitle">{chartData.title}</div>
-    {chartData.description && (
-      <HelpTip placement="bottom" title={chartData.description} iconProps={{ alt: 'chart help' }} />
-    )}
+    {chartData.description && <HelpTip iconProps={{ alt: 'chart help' }}>{chartData.description}</HelpTip>}
   </div>
 )
 

@@ -1,5 +1,4 @@
 import { FC, ReactNode, useState } from 'react'
-import { Popover, Tooltip } from 'antd'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../Link'
@@ -33,6 +32,8 @@ import EllipsisMiddle from '../../EllipsisMiddle'
 import { Cell, Cell$UDT, UDTInfo } from '../../../models/Cell'
 import SimpleModal from '../../Modal'
 import CellModal from '../../Cell/CellModal'
+import Tooltip from '../../Tooltip'
+import Popover from '../../Popover'
 
 const AddressTextWithAlias: FC<{
   address: string
@@ -43,18 +44,24 @@ const AddressTextWithAlias: FC<{
   const [truncated, truncatedCtl] = useBoolean(false)
 
   const content = (
-    <Tooltip trigger={truncated || alias ? 'hover' : []} placement="top" title={<CopyTooltipText content={address} />}>
-      <EllipsisMiddle className={classNames('monospace', styles.text)} onTruncateStateChange={truncatedCtl.toggle}>
-        {alias ?? address}
-      </EllipsisMiddle>
+    <Tooltip
+      disabled={!truncated && !alias}
+      trigger={
+        <EllipsisMiddle className={classNames('monospace', styles.text)} onTruncateStateChange={truncatedCtl.toggle}>
+          {alias ?? address}
+        </EllipsisMiddle>
+      }
+      placement="top"
+    >
+      <CopyTooltipText content={address} />
     </Tooltip>
   )
 
   return (
     <div className={classNames(styles.addressTextWithAlias, styles.addressWidthModify)}>
       {alias && (
-        <Tooltip title=".bit Name">
-          <BitAccountIcon className={styles.icon} />
+        <Tooltip trigger={<BitAccountIcon className={styles.icon} />} placement="top">
+          .bit Name
         </Tooltip>
       )}
 
@@ -166,25 +173,26 @@ const WithdrawPopoverInfo = ({ cell }: { cell: Cell }) => {
 }
 
 const TransactionCellNervosDao = ({ cell, ioType }: { cell: Cell; ioType: IOType }) => {
-  const isMobile = useIsMobile()
   const { t } = useTranslation()
   return (
     <TransactionCellWithdraw>
       <Capacity capacity={shannonToCkb(cell.capacity)} />
       {ioType === IOType.Input ? (
-        <Popover placement="right" title="" content={<WithdrawPopoverInfo cell={cell} />} trigger="click">
-          <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
+        <Popover
+          placement="right"
+          trigger={
+            <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
+          }
+        >
+          <WithdrawPopoverInfo cell={cell} />
         </Popover>
       ) : (
         <Tooltip
-          placement={isMobile ? 'topRight' : 'top'}
-          title={t(isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip')}
-          arrowPointAtCenter
-          overlayStyle={{
-            fontSize: '14px',
-          }}
+          trigger={
+            <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
+          }
         >
-          <img src={isDaoWithdrawCell(cell.cellType) ? NervosDAOWithdrawingIcon : NervosDAOCellIcon} alt="withdraw" />
+          {t(isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip')}
         </Tooltip>
       )}
     </TransactionCellWithdraw>
@@ -192,21 +200,13 @@ const TransactionCellNervosDao = ({ cell, ioType }: { cell: Cell; ioType: IOType
 }
 
 const TransactionCellUDT = ({ cell }: { cell: Cell$UDT }) => {
-  const isMobile = useIsMobile()
   const { extraInfo } = cell
 
   return (
     <TransactionCellUDTPanel>
       <span>{useUdtAmount(extraInfo)}</span>
-      <Tooltip
-        placement={isMobile ? 'topRight' : 'top'}
-        title={`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
-        arrowPointAtCenter
-        overlayStyle={{
-          fontSize: '14px',
-        }}
-      >
-        <img src={UDTTokenIcon} className="transactionCellUdtIcon" alt="udt token" />
+      <Tooltip trigger={<img src={UDTTokenIcon} className="transactionCellUdtIcon" alt="udt token" />}>
+        {`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
       </Tooltip>
     </TransactionCellUDTPanel>
   )
@@ -285,20 +285,29 @@ const TransactionCell = ({ cell, address, ioType }: { cell: Cell; address?: stri
         />
         {ioType === IOType.Output && <CellOutputIcon cell={cell} />}
         {!highLight && !isMobile && (
-          <Tooltip placement="top" title={`${t('address.current-address')} `}>
-            <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
+          <Tooltip
+            trigger={<img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />}
+            placement="top"
+          >
+            {`${t('address.current-address')} `}
           </Tooltip>
         )}
       </div>
       <TransactionCellCapacityPanel>
         {!highLight && isMobile && (
-          <Tooltip placement="top" title={`${t('address.current-address')} `}>
-            <img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />
+          <Tooltip
+            trigger={<img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />}
+            placement="top"
+          >
+            {`${t('address.current-address')} `}
           </Tooltip>
         )}
         <TransactionCellCapacity cell={cell} ioType={ioType} />
-        <Tooltip placement="top" title={`${t('transaction.ckb-cell-info')} `}>
-          <CellInfoIcon className={styles.hoverIconButton} onClick={() => setShowModal(true)} />
+        <Tooltip
+          trigger={<CellInfoIcon className={styles.hoverIconButton} onClick={() => setShowModal(true)} />}
+          placement="top"
+        >
+          {`${t('transaction.ckb-cell-info')} `}
         </Tooltip>
         <SimpleModal isShow={showModal} setIsShow={setShowModal}>
           <CellModal cell={cell} onClose={() => setShowModal(false)} />

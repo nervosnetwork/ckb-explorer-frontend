@@ -48,7 +48,10 @@ export const Molecule: React.FC<Props> = ({ updateCodecMap }) => {
       <div className={styles.field} style={{ marginBottom: 16 }}>
         <label htmlFor="input-schema">
           Input schema(mol)
-          <HelpTip title="Uint8/16/.../512, Byte32, BytesVec, Bytes, BytesVec, BytesOpt are used as primitive schemas, please do not override." />
+          <HelpTip>
+            Uint8/16/.../512, Byte32, BytesVec, Bytes, BytesVec, BytesOpt are used as primitive schemas, please do not
+            override.
+          </HelpTip>
         </label>
         <div className={styles.content}>
           <textarea

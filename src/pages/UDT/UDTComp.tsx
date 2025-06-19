@@ -1,4 +1,3 @@
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { FC, useState } from 'react'
 import BigNumber from 'bignumber.js'
@@ -30,6 +29,7 @@ import { ReactComponent as EditIcon } from '../../assets/edit.svg'
 import { ReactComponent as ViewOriginalIcon } from './view_original.svg'
 import Loading from '../../components/Loading'
 import { RawBtcRPC } from '../../services/ExplorerService'
+import Tooltip from '../../components/Tooltip'
 
 const typeScriptIcon = (show: boolean) => {
   if (show) {
@@ -56,10 +56,15 @@ const IssuerContent: FC<{ address: string }> = ({ address }) => {
       </AddressText>
 
       {newAddress !== address && (
-        <Tooltip placement="top" title={t(`udt.view-deprecated-address`)}>
-          <Link to={`/address/${address}`} className={styles.openInNew} target="_blank">
-            <OpenInNew />
-          </Link>
+        <Tooltip
+          trigger={
+            <Link to={`/address/${address}`} className={styles.openInNew} target="_blank">
+              <OpenInNew />
+            </Link>
+          }
+          placement="top"
+        >
+          {t(`udt.view-deprecated-address`)}
         </Tooltip>
       )}
     </>
@@ -197,15 +202,20 @@ export const UDTOverviewCard = ({
           hash={typeHash}
           customActions={[
             isOmigaInscriptionCollection(udt) && udt.mintStatus === MintStatus.RebaseStart ? (
-              <Tooltip placement="top" title={t('udt.view_original')}>
-                <Link
-                  to={`/inscription/${udt.infoTypeHash}?view=original`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.viewOriginal}
-                >
-                  <ViewOriginalIcon />
-                </Link>
+              <Tooltip
+                trigger={
+                  <Link
+                    to={`/inscription/${udt.infoTypeHash}?view=original`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.viewOriginal}
+                  >
+                    <ViewOriginalIcon />
+                  </Link>
+                }
+                placement="top"
+              >
+                {t('udt.view_original')}
               </Tooltip>
             ) : null,
           ]}

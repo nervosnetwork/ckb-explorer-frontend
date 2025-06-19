@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Tooltip } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
 import { getPrimaryColor } from '../../../constants/common'
@@ -7,6 +6,7 @@ import { dayjs, useParseDate } from '../../../utils/date'
 import styles from './styles.module.scss'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import type { TransferRes } from '../../../services/ExplorerService'
+import Tooltip from '../../../components/Tooltip'
 
 const primaryColor = getPrimaryColor()
 
@@ -56,10 +56,14 @@ const NftItemTransfers: React.FC<{ list: TransferRes[]; isLoading: boolean }> = 
                         fontWeight: 700,
                       }}
                     >
-                      <Tooltip title={item.transaction.tx_hash}>
-                        <span className="monospace">
-                          {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
-                        </span>
+                      <Tooltip
+                        trigger={
+                          <span className="monospace">
+                            {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
+                          </span>
+                        }
+                      >
+                        {item.transaction.tx_hash}
                       </Tooltip>
                     </Link>
                   </td>
@@ -78,8 +82,12 @@ const NftItemTransfers: React.FC<{ list: TransferRes[]; isLoading: boolean }> = 
                           fontWeight: 700,
                         }}
                       >
-                        <Tooltip title={item.from}>
-                          <span className="monospace">{`${item.from.slice(0, 8)}...${item.from.slice(-8)}`}</span>
+                        <Tooltip
+                          trigger={
+                            <span className="monospace">{`${item.from.slice(0, 8)}...${item.from.slice(-8)}`}</span>
+                          }
+                        >
+                          {item.from}
                         </Tooltip>
                       </Link>
                     ) : (
@@ -95,8 +103,10 @@ const NftItemTransfers: React.FC<{ list: TransferRes[]; isLoading: boolean }> = 
                           fontWeight: 700,
                         }}
                       >
-                        <Tooltip title={item.to}>
-                          <span className="monospace">{`${item.to.slice(0, 8)}...${item.to.slice(-8)}`}</span>
+                        <Tooltip
+                          trigger={<span className="monospace">{`${item.to.slice(0, 8)}...${item.to.slice(-8)}`}</span>}
+                        >
+                          {item.to}
                         </Tooltip>
                       </Link>
                     ) : (
@@ -131,10 +141,14 @@ const NftItemTransfers: React.FC<{ list: TransferRes[]; isLoading: boolean }> = 
                         fontWeight: 700,
                       }}
                     >
-                      <Tooltip title={item.transaction.tx_hash}>
-                        <span className="monospace">
-                          {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
-                        </span>
+                      <Tooltip
+                        trigger={
+                          <span className="monospace">
+                            {`${item.transaction.tx_hash.slice(0, 10)}...${item.transaction.tx_hash.slice(-10)}`}
+                          </span>
+                        }
+                      >
+                        {item.transaction.tx_hash}
                       </Tooltip>
                     </Link>
                   </dd>
@@ -158,8 +172,12 @@ const NftItemTransfers: React.FC<{ list: TransferRes[]; isLoading: boolean }> = 
                           fontWeight: 700,
                         }}
                       >
-                        <Tooltip title={item.from}>
-                          <span className="monospace">{`${item.from.slice(0, 10)}...${item.from.slice(-10)}`}</span>
+                        <Tooltip
+                          trigger={
+                            <span className="monospace">{`${item.from.slice(0, 10)}...${item.from.slice(-10)}`}</span>
+                          }
+                        >
+                          {item.from}
                         </Tooltip>
                       </Link>
                     ) : (
@@ -178,8 +196,12 @@ const NftItemTransfers: React.FC<{ list: TransferRes[]; isLoading: boolean }> = 
                           fontWeight: 700,
                         }}
                       >
-                        <Tooltip title={item.to}>
-                          <span className="monospace">{`${item.to.slice(0, 10)}...${item.to.slice(-10)}`}</span>
+                        <Tooltip
+                          trigger={
+                            <span className="monospace">{`${item.to.slice(0, 10)}...${item.to.slice(-10)}`}</span>
+                          }
+                        >
+                          {item.to}
                         </Tooltip>
                       </Link>
                     ) : (

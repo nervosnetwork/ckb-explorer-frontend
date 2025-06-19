@@ -5,11 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import classNames from 'classnames'
-import { Tooltip } from 'antd'
 import type { ContractHashTag } from '../../../constants/scripts'
 import { explorerService } from '../../../services/ExplorerService'
 import { hexToUtf8 } from '../../../utils/string'
-import { TransactionCellDetailTab, TransactionCellDetailPane, TransactionCellDetailTitle } from './styled'
+import { TransactionCellDetailTitle } from './styled'
 import SmallLoading from '../../Loading/SmallLoading'
 import CloseIcon from './modal_close.png'
 import { getBtcTimeLockInfo, getBtcUtxo } from '../../../utils/util'
@@ -36,6 +35,8 @@ import { useIsMobile } from '../../../hooks'
 import { BTCExplorerLink } from '../../Link'
 import { CellInfoProps } from './types'
 import UTXOGraph from '../../UTXOGraph'
+import Tooltip from '../../Tooltip'
+import { Tabs, TabsList, TabsTrigger } from '../../ui/Tabs'
 
 enum CellInfo {
   LOCK = 'lock',
@@ -425,20 +426,20 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
     switch (cell.rgbInfo?.status) {
       case 'binding':
         return (
-          <Tooltip placement="top" title={t('cell.bind_description.binding')}>
-            <PendingBindIcon />
+          <Tooltip trigger={<PendingBindIcon />} placement="top">
+            {t('cell.bind_description.binding')}
           </Tooltip>
         )
       case 'bound':
         return (
-          <Tooltip placement="top" title={t('cell.bind_description.bound')}>
-            <BindIcon />
+          <Tooltip trigger={<BindIcon />} placement="top">
+            {t('cell.bind_description.bound')}
           </Tooltip>
         )
       case 'unbound':
         return (
-          <Tooltip placement="top" title={t('cell.bind_description.unbound')}>
-            <UnboundIcon />
+          <Tooltip trigger={<UnboundIcon />} placement="top">
+            {t('cell.bind_description.unbound')}
           </Tooltip>
         )
       default:
@@ -520,58 +521,31 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
         <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
       </div>
       <div className={styles.transactionDetailPanel}>
-        <TransactionCellDetailTab
-          tabBarStyle={{ fontSize: '10px' }}
-          onTabClick={key => {
-            const state = key as CellInfo
-            if (state) {
-              changeType(state)
-            }
-          }}
-          activeKey={selectedInfo}
-        >
-          <TransactionCellDetailPane
-            tab={
-              <div className={styles.tabItem}>
+        <Tabs className={styles.tabs} value={selectedInfo} onValueChange={v => changeType(v as CellInfo)}>
+          <TabsList className={styles.tabsList}>
+            <TabsTrigger value={CellInfo.LOCK}>
+              <>
                 <TransactionCellDetailTitle>{t('transaction.lock_script')}</TransactionCellDetailTitle>
-                <HelpTip title={t('glossary.lock_script')} placement="bottom" containerRef={ref} />
-              </div>
-            }
-            key={CellInfo.LOCK}
-          />
-          <TransactionCellDetailPane
-            tab={
-              <div className={styles.tabItem}>
+                <HelpTip>{t('glossary.lock_script')}</HelpTip>
+              </>
+            </TabsTrigger>
+            <TabsTrigger value={CellInfo.TYPE}>
+              <>
                 <TransactionCellDetailTitle>{t('transaction.type_script')}</TransactionCellDetailTitle>
-                <HelpTip title={t('glossary.type_script')} placement="bottom" containerRef={ref} />
-              </div>
-            }
-            key={CellInfo.TYPE}
-          />
-          <TransactionCellDetailPane
-            tab={<TransactionCellDetailTitle>{t('transaction.data')}</TransactionCellDetailTitle>}
-            key={CellInfo.DATA}
-          />
-          <TransactionCellDetailPane
-            tab={
-              <div className={styles.tabItem}>
+                <HelpTip>{t('glossary.type_script')}</HelpTip>
+              </>
+            </TabsTrigger>
+            <TabsTrigger value={CellInfo.DATA}>{t('transaction.data')}</TabsTrigger>
+            <TabsTrigger value={CellInfo.CAPACITY}>
+              <>
                 <TransactionCellDetailTitle>{t('transaction.capacity_usage')}</TransactionCellDetailTitle>
-                <HelpTip title={t('glossary.capacity_usage')} placement="bottom" containerRef={ref} />
-              </div>
-            }
-            key={CellInfo.CAPACITY}
-          />
-          {cell.rgbInfo && (
-            <TransactionCellDetailPane
-              tab={<TransactionCellDetailTitle>{t('transaction.rgbpp')}</TransactionCellDetailTitle>}
-              key={CellInfo.RGBPP}
-            />
-          )}
-          <TransactionCellDetailPane
-            tab={<TransactionCellDetailTitle>{t('transaction.utxo_graph')}</TransactionCellDetailTitle>}
-            key={CellInfo.UTXO}
-          />
-        </TransactionCellDetailTab>
+                <HelpTip>{t('glossary.capacity_usage')}</HelpTip>
+              </>
+            </TabsTrigger>
+            {cell.rgbInfo && <TabsTrigger value={CellInfo.RGBPP}>{t('transaction.rgbpp')}</TabsTrigger>}
+            <TabsTrigger value={CellInfo.UTXO}>{t('transaction.utxo_graph')}</TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
 
       <div className={styles.transactionDetailPanel}>

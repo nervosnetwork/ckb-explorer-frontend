@@ -2,7 +2,6 @@ import { type FC, useState, useRef, useEffect } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { Tooltip } from 'antd'
 import { ReactComponent as ListIcon } from './list.svg'
 import { ReactComponent as GridIcon } from './grid.svg'
 import { explorerService, LiveCell, RGBCells } from '../../services/ExplorerService'
@@ -30,6 +29,7 @@ import { CellBasicInfo } from '../../utils/transformer'
 import { isTypeIdScript } from '../../utils/typeid'
 import { BTCExplorerLink } from '../../components/Link'
 import InvalidRGBPPAssetList from './InvalidRGBPPAssetList'
+import Tooltip from '../../components/Tooltip'
 
 const fetchCells = async ({
   address,
@@ -255,9 +255,7 @@ const AssetItem: FC<{ cells: LiveCell[]; btcTxId: string; vout: number; width: n
 
         {cells.length > 1 ? (
           <div className={styles.multipleAssetsAlert}>
-            <Tooltip title={t('rgbpp.assets.multiple_warning')} arrowPointAtCenter>
-              <AlertIcon />
-            </Tooltip>
+            <Tooltip trigger={<AlertIcon />}>{t('rgbpp.assets.multiple_warning')}</Tooltip>
           </div>
         ) : null}
       </h5>
@@ -531,28 +529,35 @@ const RgbAssets: FC<{
             <div className={styles.filters}>
               <Tooltip
                 placement="top"
-                title={t(`address.${isMerged ? 'view-as-asset-items' : 'view-as-merged-assets'}`)}
+                trigger={
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMerged(i => !i)
+                      setIsDisplayedAsList(false)
+                    }}
+                  >
+                    {isMerged ? <AssetItemsIcon /> : <MergedAssetIcon />}
+                  </button>
+                }
               >
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsMerged(i => !i)
-                    setIsDisplayedAsList(false)
-                  }}
-                >
-                  {isMerged ? <AssetItemsIcon /> : <MergedAssetIcon />}
-                </button>
+                {t(`address.${isMerged ? 'view-as-asset-items' : 'view-as-merged-assets'}`)}
               </Tooltip>
-              <Tooltip placement="top" title={isDisplayedAsList ? t('sort.card') : t('sort.list')}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsDisplayedAsList(i => !i)
-                    setIsMerged(false)
-                  }}
-                >
-                  {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
-                </button>
+              <Tooltip
+                trigger={
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsDisplayedAsList(i => !i)
+                      setIsMerged(false)
+                    }}
+                  >
+                    {isDisplayedAsList ? <GridIcon /> : <ListIcon />}
+                  </button>
+                }
+                placement="top"
+              >
+                {isDisplayedAsList ? t('sort.card') : t('sort.list')}
               </Tooltip>
             </div>
           </>

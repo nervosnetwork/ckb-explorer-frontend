@@ -1,12 +1,12 @@
 import classNames from 'classnames'
 import { FC, PropsWithChildren } from 'react'
-import { Dropdown } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as ArrowIcon } from './arrow.svg'
 import SimpleButton from '../../components/SimpleButton'
 import Content from '../../components/Content'
 import { Link } from '../../components/Link'
 import styles from './styles.module.scss'
+import Popover from '../../components/Popover'
 
 const ToolsContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
   const { t } = useTranslation()
@@ -46,25 +46,25 @@ const ToolsContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
         </div>
         <div className={styles.toolsMain}>
           <div className={styles.toolMenuBar}>
-            <Dropdown
-              menu={{
-                items: MENU_ITEMS.map(menu => ({
-                  key: menu.url,
-                  label: (
-                    <Link key={menu.url} className={styles.link} to={menu.url ?? '/'}>
-                      {menu.label}
-                    </Link>
-                  ),
-                })),
-              }}
-              placement="bottomLeft"
-              trigger={['click']}
+            <Popover
+              trigger={
+                <SimpleButton className={styles.menuButton}>
+                  {t('footer.tools')}
+                  <ArrowIcon className={styles.icon} />
+                </SimpleButton>
+              }
             >
-              <SimpleButton className={styles.menuButton}>
-                {t('footer.tools')}
-                <ArrowIcon className={styles.icon} />
-              </SimpleButton>
-            </Dropdown>
+              {MENU_ITEMS.map(menu => ({
+                key: menu.url,
+                label: (
+                  <Link key={menu.url} className={styles.link} to={menu.url ?? '/'}>
+                    {menu.label}
+                  </Link>
+                ),
+              })).map(item => {
+                return <div key={item.key}>{item.label}</div>
+              })}
+            </Popover>
           </div>
           {children}
         </div>

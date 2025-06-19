@@ -3,7 +3,6 @@
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
-import { Tooltip } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { useLocation } from 'react-router'
 import { OpenInNewWindowIcon } from '@radix-ui/react-icons'
@@ -21,6 +20,7 @@ import { HARDFORK_ESTIMATED_ACTIVATION_TIME } from '../../constants/common'
 import comments from './comments'
 import { Link } from '../../components/Link'
 import confetti from '../../utils/confetti'
+import Tooltip from '../../components/Tooltip'
 
 const targetVers = [0, 200] // 0.200.0
 const TIME_TEMPLATE = 'YYYY.MM.DD HH:mm:ss'
@@ -206,14 +206,8 @@ export default function CountdownPage() {
                   <div>
                     {value}
                     {tooltip ? (
-                      <Tooltip
-                        placement="topRight"
-                        color="#fff"
-                        arrowPointAtCenter
-                        overlayInnerStyle={{ color: '#333333' }}
-                        title={tooltip}
-                      >
-                        <WarningCircle width={12} height={12} />
+                      <Tooltip trigger={<WarningCircle width={12} height={12} />} placement="top">
+                        {tooltip}
                       </Tooltip>
                     ) : null}
                   </div>

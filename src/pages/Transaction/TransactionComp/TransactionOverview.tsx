@@ -2,7 +2,6 @@
 import { useState, FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
-import { Tooltip } from 'antd'
 import { Link } from '../../../components/Link'
 import Capacity from '../../../components/Capacity'
 import SimpleButton from '../../../components/SimpleButton'
@@ -21,6 +20,7 @@ import { useSetToast } from '../../../components/Toast'
 import { useIsMobile } from '../../../hooks'
 import styles from './TransactionOverview.module.scss'
 import TransactionParameters from '../../../components/TransactionParameters'
+import Tooltip from '../../../components/Tooltip'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
@@ -247,10 +247,15 @@ export const TransactionOverviewCard: FC<{
         title={t('transaction.transaction')}
         hash={txHash}
         customActions={[
-          <Tooltip placement="top" title={t(`transaction.export-transaction`)}>
-            <SimpleButton className={styles.exportTxAction} onClick={handleExportTxClick}>
-              <DownloadIcon />
-            </SimpleButton>
+          <Tooltip
+            trigger={
+              <SimpleButton className={styles.exportTxAction} onClick={handleExportTxClick}>
+                <DownloadIcon />
+              </SimpleButton>
+            }
+            placement="top"
+          >
+            {t(`transaction.export-transaction`)}
           </Tooltip>,
         ]}
         rightContent={

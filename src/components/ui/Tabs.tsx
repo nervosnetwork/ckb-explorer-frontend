@@ -3,8 +3,17 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 import classNames from 'classnames'
 import styles from './Tabs.module.scss'
 
-function Tabs({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Root>) {
-  return <TabsPrimitive.Root data-slot="tabs" className={classNames(styles.tabs, className)} {...props} />
+function Tabs({
+  className,
+  ...props
+}: React.ComponentProps<typeof TabsPrimitive.Root> & { type?: 'underline' | 'default' }) {
+  return (
+    <TabsPrimitive.Root
+      data-slot="tabs"
+      className={classNames(styles.tabs, props.type === 'underline' && styles.underline, className)}
+      {...props}
+    />
+  )
 }
 
 function TabsList({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.List>) {

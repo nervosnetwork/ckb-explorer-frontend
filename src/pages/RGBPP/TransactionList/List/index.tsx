@@ -25,9 +25,7 @@ const RGBTransactionList: React.FC<{ list: Transaction[] }> = ({ list }) => {
                 key % 2 === 0 && (
                   <div>
                     {header.title}
-                    {header.filter && (
-                      <FilterButton filterName="type" key={header.key} filteredList={filterFields} isMobile />
-                    )}
+                    {header.filter && <FilterButton filterName="type" key={header.key} filteredList={filterFields} />}
                     {header.order && <SortButton key={header.key} field={header.order} />}
                   </div>
                 )
@@ -41,9 +39,7 @@ const RGBTransactionList: React.FC<{ list: Transaction[] }> = ({ list }) => {
                 key % 2 === 1 && (
                   <div>
                     {header.title}
-                    {header.filter && (
-                      <FilterButton filterName="type" key={header.key} filteredList={filterFields} isMobile />
-                    )}
+                    {header.filter && <FilterButton filterName="type" key={header.key} filteredList={filterFields} />}
                     {header.order && <SortButton key={header.key} field={header.order} />}
                   </div>
                 )
@@ -116,7 +112,7 @@ const getFilterList = (
       title: (
         <div>
           <span>{t('rgbpp.transaction.direction.other')}</span>
-          <HelpTip title={t('rgbpp.transaction.direction.description.other')} />
+          <HelpTip>{t('rgbpp.transaction.direction.description.other')}</HelpTip>
         </div>
       ),
       to: '',

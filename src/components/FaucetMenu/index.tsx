@@ -1,7 +1,7 @@
 import { OpenInNewWindowIcon } from '@radix-ui/react-icons'
-import { Dropdown } from 'antd'
 import { IS_MAINNET } from '../../constants/common'
 import { claimTestToken } from '../../services/UtilityService'
+import Popover from '../Popover'
 import { useSetToast } from '../Toast'
 import { ReactComponent as FaucetIcon } from './faucet.svg'
 
@@ -83,50 +83,40 @@ export const FaucetMenu = ({ address, tokenId }: { address?: string; tokenId?: s
 
   if (CLAIMABLE_TEST_TOKENS.some(token => token.tokenId && token.tokenId === tokenId)) {
     return (
-      <Dropdown
-        overlay={
-          <div>
-            <form onSubmit={handleFormSubmit} className={styles.form}>
-              <input name="address" placeholder="address" type="text" />
-              <button type="submit">Claim</button>
-            </form>
-          </div>
-        }
-        mouseEnterDelay={0}
-      >
-        <FaucetIcon />
-      </Dropdown>
+      <Popover trigger={<FaucetIcon />}>
+        <div>
+          <form onSubmit={handleFormSubmit} className={styles.form}>
+            <input name="address" placeholder="address" type="text" />
+            <button type="submit">Claim</button>
+          </form>
+        </div>
+      </Popover>
     )
   }
 
   if (address) {
     return (
-      <Dropdown
-        overlay={
-          <div className={styles.container}>
-            {CLAIMABLE_TEST_TOKENS.map(token => {
-              return (
-                <div key={token.symbol} className={styles.item}>
-                  <button
-                    type="button"
-                    data-token={token.symbol}
-                    data-action="claim"
-                    onClick={handleClick}
-                  >{`${token.symbol} Test Token`}</button>
-                  {token.link ? (
-                    <a href={token.link} target="_blank" rel="noopener noreferrer">
-                      <OpenInNewWindowIcon />
-                    </a>
-                  ) : null}
-                </div>
-              )
-            })}
-          </div>
-        }
-        mouseEnterDelay={0}
-      >
-        <FaucetIcon />
-      </Dropdown>
+      <Popover trigger={<FaucetIcon />} contentStyle={{ padding: 0 }}>
+        <div className={styles.container}>
+          {CLAIMABLE_TEST_TOKENS.map(token => {
+            return (
+              <div key={token.symbol} className={styles.item}>
+                <button
+                  type="button"
+                  data-token={token.symbol}
+                  data-action="claim"
+                  onClick={handleClick}
+                >{`${token.symbol} Test Token`}</button>
+                {token.link ? (
+                  <a href={token.link} target="_blank" rel="noopener noreferrer">
+                    <OpenInNewWindowIcon />
+                  </a>
+                ) : null}
+              </div>
+            )
+          })}
+        </div>
+      </Popover>
     )
   }
   return null

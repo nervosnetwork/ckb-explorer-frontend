@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Tooltip } from 'antd'
 import { CopyIcon, InfoCircledIcon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
 import Content from '../../../components/Content'
 import { useSetToast } from '../../../components/Toast'
@@ -15,6 +14,7 @@ import AddPeerForm from './AddPeerForm'
 import Pagination from '../Pagination'
 import { PAGE_SIZE } from '../../../constants/common'
 import { useSearchParams } from '../../../hooks'
+import Tooltip from '../../../components/Tooltip'
 
 const fields = [
   {
@@ -23,10 +23,14 @@ const fields = [
     transformer: (v: unknown, i: Fiber.Peer.ItemInList) => {
       if (typeof v !== 'string') return v
       return (
-        <Tooltip title={v}>
-          <div className={styles.name}>
-            <Link to={`/fiber/peers/${i.peerId}`}>{v}</Link>
-          </div>
+        <Tooltip
+          trigger={
+            <div className={styles.name}>
+              <Link to={`/fiber/peers/${i.peerId}`}>{v}</Link>
+            </div>
+          }
+        >
+          {v}
         </Tooltip>
       )
     },
@@ -48,9 +52,7 @@ const fields = [
       const amount = parseNumericAbbr(ckb)
       return (
         <div className={styles.balance}>
-          <Tooltip title={`${localeNumberString(ckb)} CKB`}>
-            <span>{`${amount} CKB`}</span>
-          </Tooltip>
+          <Tooltip trigger={<span>{`${amount} CKB`}</span>}>{`${localeNumberString(ckb)} CKB`}</Tooltip>
           <small>Share: coming soon</small>
         </div>
       )
@@ -77,10 +79,14 @@ const fields = [
       if (typeof v !== 'string') return v
       return (
         <span className={styles.peerId}>
-          <Tooltip title={v}>
-            <Link to={`/fiber/peers/${v}`} className="monospace">
-              {v.length > 16 ? `${v.slice(0, 8)}...${v.slice(-8)}` : v}
-            </Link>
+          <Tooltip
+            trigger={
+              <Link to={`/fiber/peers/${v}`} className="monospace">
+                {v.length > 16 ? `${v.slice(0, 8)}...${v.slice(-8)}` : v}
+              </Link>
+            }
+          >
+            {v}
           </Tooltip>
           <button type="button" data-copy-text={v}>
             <CopyIcon />
@@ -98,9 +104,7 @@ const fields = [
       if (!rpcAddr || typeof rpcAddr !== 'string') return v
       return (
         <span className={styles.rpc}>
-          <Tooltip title={rpcAddr}>
-            <span>{rpcAddr}</span>
-          </Tooltip>
+          <Tooltip trigger={<span>{rpcAddr}</span>}>{rpcAddr}</Tooltip>
           <button type="button" data-copy-text={v}>
             <CopyIcon />
           </button>
@@ -108,10 +112,14 @@ const fields = [
             <OpenInNewWindowIcon />
           </a>
           {v.length > 1 ? (
-            <Tooltip title={`${v.length - 1} more rpc address(es)`}>
-              <span className={styles.more}>
-                <InfoCircledIcon />
-              </span>
+            <Tooltip
+              trigger={
+                <span className={styles.more}>
+                  <InfoCircledIcon />
+                </span>
+              }
+            >
+              {`${v.length - 1} more rpc address(es)`}
             </Tooltip>
           ) : null}
         </span>

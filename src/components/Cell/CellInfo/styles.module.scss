@@ -375,9 +375,14 @@
   }
 }
 
-.tabItem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
+.tabs {
+  overflow-x: auto;
+
+  .tabsList {
+    width: 100%;
+
+    @media (max-width: $mobileBreakPoint) {
+      justify-content: flex-start;
+    }
+  }
 }
