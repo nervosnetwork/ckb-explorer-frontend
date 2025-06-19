@@ -26,7 +26,7 @@ import NFTClassIcon from './m_nft_class.svg'
 import NFTTokenIcon from './m_nft.svg'
 import MoreIcon from './more.svg'
 import DobIcon from './dob.svg'
-import ZeroLockIcon from './zero_lock.svg'
+import OwnerlessIcon from './ownerless.svg'
 import CoTACellIcon from './cota_cell.svg'
 import FiberIcon from './fiber.svg'
 import CoTARegCellIcon from './cota_reg_cell.svg'
@@ -434,12 +434,12 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       icon: FiberIcon,
     },
     {
-      key: 'ZeroLock',
-      tag: 'Zero Lock',
-      description: 'This cell is related to Zero Lock.',
+      key: 'Ownerless',
+      tag: 'Ownerless Cell',
+      description: `This cell ownerless because it's bound to a zero lock script.`,
       display: isZeroLock,
       link: '/script/0x0000000000000000000000000000000000000000000000000000000000000000/data',
-      icon: ZeroLockIcon,
+      icon: OwnerlessIcon,
     },
   ]
   const isDisplayTagList = taglists.filter(tag => tag.display).length > 0
