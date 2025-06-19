@@ -235,8 +235,8 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
 
       {hasAssets || hasInscriptions || hasCells ? (
         <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
-          <Tabs value={activeTab.toString()} style={{ width: '100%' }}>
-            <TabsList style={{ width: '100%', display: 'flex' }}>
+          <Tabs value={activeTab.toString()} type="underline">
+            <TabsList>
               {!!hasCells && (
                 <TabsTrigger value={AssetInfo.CELLs.toString()}>
                   <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.CELLs)}>

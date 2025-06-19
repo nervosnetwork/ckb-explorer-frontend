@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 $background: #fff;
 $muted: #f3f4f6;
 $textForeground: #1f2937;
@@ -11,6 +13,47 @@ $shadowSm: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  &.underline {
+    width: 100%;
+    overflow: hidden;
+    gap: 0;
+
+    :global(> [data-slot='tabs-list']) {
+      justify-content: flex-start;
+      max-width: 100%;
+      overflow: auto;
+      background-color: transparent;
+      height: 100%;
+      padding: 0;
+      gap: 20px;
+
+      :global(> [data-slot='tabs-trigger']) {
+        position: relative;
+        box-shadow: none;
+        border-radius: 0;
+        border: none;
+        min-height: 3rem;
+        padding: 0;
+
+        &[data-state='active'] * {
+          font-weight: 600;
+        }
+
+        &[data-state='active']::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 50%;
+          height: 4px;
+          max-width: 70px;
+          background-color: var(--primary-color);
+        }
+      }
+    }
+  }
 }
 
 .tabsList {

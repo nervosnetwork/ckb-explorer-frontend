@@ -76,5 +76,5 @@ export const TransactionDetailCapacityUsage = styled(TransactionDetailItem)`
 `
 
 export const TransactionCellDetailTitle = styled.span`
-  font-size: 16px;
+  font-size: 0.875rem;
 `

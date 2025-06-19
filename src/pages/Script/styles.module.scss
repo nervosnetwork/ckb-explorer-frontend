@@ -36,7 +36,11 @@
 
   > div[role='tablist'] {
     height: 56px;
-    padding: 0 20px;
+    padding: 0 30px;
+
+    @media (width <= $mobileBreakPoint) {
+      padding: 0;
+    }
   }
 
   .cardHeader {
@@ -196,6 +200,9 @@
   .headerSubTitle {
     font-size: 16px;
     color: #666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .openSourceAction {

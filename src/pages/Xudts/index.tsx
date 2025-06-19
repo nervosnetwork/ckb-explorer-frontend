@@ -26,6 +26,7 @@ import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { scripts } from '../ScriptList'
 import Tooltip from '../../components/Tooltip'
+import Loading from '../../components/Loading'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -219,7 +220,7 @@ const TokenTable: FC<{
                     <Link className={styles.link} to={`/xudt/${token.typeHash}`}>
                       {symbol}
                     </Link>
-                    <span className={styles.name}>{token.fullName}</span>
+                    <Tooltip trigger={<span className={styles.name}>{token.fullName}</span>}>{token.fullName}</Tooltip>
                   </>
                 ) : (
                   symbol
@@ -319,6 +320,39 @@ const TokenTable: FC<{
   ]
   const columns = nullableColumns.filter(BooleanT())
 
+  let content: ReactNode = null
+  if (query.isLoading) {
+    content = (
+      <tr>
+        <td colSpan={columns.length}>
+          <Loading className={styles.loading} show />
+        </td>
+      </tr>
+    )
+  } else if (isEmpty) {
+    content = (
+      <tr>
+        <td colSpan={columns.length}>
+          <div className={styles.tokensContentEmpty}>{t('xudt.tokens_empty')}</div>
+        </td>
+      </tr>
+    )
+  } else {
+    content = (
+      <>
+        {(query.data?.tokens ?? []).map(token => (
+          <tr key={token.typeHash}>
+            {columns.map(column => (
+              <td key={column.key} className={column.className} style={{ width: `${100 / columns.length}%` }}>
+                {column.render?.(token)}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </>
+    )
+  }
+
   return (
     <table className={styles.tokensTable}>
       <thead>
@@ -330,17 +364,7 @@ const TokenTable: FC<{
           ))}
         </tr>
       </thead>
-      <tbody>
-        {(isEmpty ? [] : query.data?.tokens ?? []).map(token => (
-          <tr key={token.typeHash}>
-            {columns.map(column => (
-              <td key={column.key} className={column.className} style={{ width: `${100 / columns.length}%` }}>
-                {column.render?.(token)}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
+      <tbody>{content}</tbody>
     </table>
   )
 }

@@ -238,8 +238,9 @@ export const ScriptPage = () => {
         <Tabs
           key={currentLanguage + countOfTransactions + countOfDeployedCells + countOfReferringCells}
           className={styles.scriptTabs}
+          type="underline"
           value={tab ?? 'transactions'}
-          style={{ width: '100%', marginTop: 24 }}
+          style={{ marginTop: 24 }}
           onValueChange={key => {
             const currentTab = tab ?? 'transactions'
             if (currentTab === key) return
@@ -264,7 +265,7 @@ export const ScriptPage = () => {
             }
           }}
         >
-          <TabsList style={{ width: '100%', display: 'flex' }}>
+          <TabsList>
             <TabsTrigger value="transactions">
               <ScriptTabTitle>{`${t('transaction.transactions')}`}</ScriptTabTitle>
             </TabsTrigger>

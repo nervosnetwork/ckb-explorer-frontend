@@ -59,47 +59,25 @@
 }
 
 .txHeaderLabels {
+  height: 80px;
   display: flex;
   align-items: stretch;
 
   @media (width <= $mobileBreakPoint) {
-    margin-bottom: 1rem;
+    height: 50px;
   }
 
   a {
+    display: flex;
+    align-items: center;
     position: relative;
     height: 100%;
+    font-size: 20px;
     font-weight: 400;
     white-space: nowrap;
-    margin-right: 1rem;
 
     &[data-is-active='true'] {
-      font-weight: 600; // 500 is set in figma, but not obvious enough in fact
-      &::after {
-        content: '';
-        display: block;
-        width: 72px;
-        height: 4px;
-        background: var(--primary-color);
-        position: absolute;
-        bottom: -24px;
-        left: 50%;
-        transform: translateX(-50%);
-
-        @media (width <= $mobileBreakPoint) {
-          width: 104px;
-          height: 2px;
-          bottom: -10px;
-        }
-      }
-    }
-
-    &:first-child {
-      margin-right: 4rem;
-
-      @media (width <= $extraLargeBreakPoint) {
-        margin-right: 1rem;
-      }
+      font-weight: 600;
     }
 
     &:hover {
@@ -118,15 +96,11 @@
   }
 
   .cardHeader {
-    padding: 20px 0;
+    padding: 0;
     overflow: scroll;
 
     &::-webkit-scrollbar {
       display: none;
-    }
-
-    @media (width <= $mobileBreakPoint) {
-      padding: 10px 0;
     }
   }
 }

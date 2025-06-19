@@ -25,6 +25,7 @@ import { scripts } from '../ScriptList'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { BooleanT } from '../../utils/array'
 import Tooltip from '../../components/Tooltip'
+import Loading from '../../components/Loading'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -239,7 +240,11 @@ const TokenTable: FC<{
                     }
                   >
                     {symbol}
-                    {!isOmigaInscriptionCollection(token) && <span className={styles.name}>{name}</span>}
+                    {!isOmigaInscriptionCollection(token) && (
+                      <Tooltip trigger={<span className={styles.name}>{name}</span>} placement="bottom">
+                        {name}
+                      </Tooltip>
+                    )}
                   </Link>
                 ) : (
                   <>
@@ -255,7 +260,11 @@ const TokenTable: FC<{
                 )}
               </div>
 
-              {token.description && <div className={styles.description}>{token.description}</div>}
+              {token.description && (
+                <Tooltip trigger={<div className={styles.description}>{token.description}</div>} placement="bottom">
+                  {token.description}
+                </Tooltip>
+              )}
             </div>
           </div>
         )
@@ -317,6 +326,39 @@ const TokenTable: FC<{
   ]
   const columns = nullableColumns.filter(BooleanT())
 
+  let content: ReactNode = null
+  if (query.isLoading) {
+    content = (
+      <tr>
+        <td colSpan={columns.length}>
+          <Loading className={styles.loading} show />
+        </td>
+      </tr>
+    )
+  } else if (!query.data?.tokens.length) {
+    content = (
+      <tr>
+        <td colSpan={columns.length}>
+          <div className={styles.tokensContentEmpty}>{t('udt.tokens_empty')}</div>
+        </td>
+      </tr>
+    )
+  } else {
+    content = (
+      <>
+        {query.data?.tokens.map(token => (
+          <tr key={token.typeHash}>
+            {columns.map(column => (
+              <td key={column.key} className={column.className} style={{ width: `${100 / columns.length}%` }}>
+                {column.render?.(token)}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </>
+    )
+  }
+
   return (
     <table className={styles.tokensTable}>
       <thead>
@@ -328,17 +370,7 @@ const TokenTable: FC<{
           ))}
         </tr>
       </thead>
-      <tbody>
-        {query.data?.tokens.map(token => (
-          <tr key={token.typeHash}>
-            {columns.map(column => (
-              <td key={column.key} className={column.className} style={{ width: `${100 / columns.length}%` }}>
-                {column.render?.(token)}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
+      <tbody>{content}</tbody>
     </table>
   )
 }

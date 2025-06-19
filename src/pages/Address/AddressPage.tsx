@@ -44,6 +44,7 @@ import { isMainnet } from '../../utils/chain'
 import MultisigIcon from './multisig.svg'
 import Tooltip from '../../components/Tooltip'
 import { useSetToast } from '../../components/Toast'
+import { Tabs, TabsList, TabsTrigger } from '../../components/ui/Tabs'
 
 const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
 
@@ -307,24 +308,34 @@ export const Address = () => {
           <CardHeader
             className={styles.cardHeader}
             leftContent={
-              <div className={styles.txHeaderLabels}>
-                <Link
-                  to={`/address/${address}?${new URLSearchParams({ ...searchParams, tx_status: 'committed' })}`}
-                  data-is-active={!isPendingTxListActive}
-                >{`${t('transaction.transactions')} (${
-                  transactionCounts.committed === '-'
-                    ? transactionCounts.committed
-                    : localeNumberString(transactionCounts.committed)
-                })`}</Link>
-                <Link
-                  to={`/address/${address}?${new URLSearchParams({ ...searchParams, tx_status: 'pending' })}`}
-                  data-is-active={isPendingTxListActive}
-                >{`${t('transaction.pending_transactions')} (${
-                  transactionCounts.pending === '-'
-                    ? transactionCounts.pending
-                    : localeNumberString(transactionCounts.pending)
-                })`}</Link>
-              </div>
+              <Tabs
+                type="underline"
+                className={styles.txHeaderLabels}
+                defaultValue={isPendingTxListActive ? 'pending' : 'committed'}
+              >
+                <TabsList>
+                  <TabsTrigger value="committed">
+                    <Link
+                      to={`/address/${address}?${new URLSearchParams({ ...searchParams, tx_status: 'committed' })}`}
+                      data-is-active={!isPendingTxListActive}
+                    >{`${t('transaction.transactions')} (${
+                      transactionCounts.committed === '-'
+                        ? transactionCounts.committed
+                        : localeNumberString(transactionCounts.committed)
+                    })`}</Link>
+                  </TabsTrigger>
+                  <TabsTrigger value="pending">
+                    <Link
+                      to={`/address/${address}?${new URLSearchParams({ ...searchParams, tx_status: 'pending' })}`}
+                      data-is-active={isPendingTxListActive}
+                    >{`${t('transaction.pending_transactions')} (${
+                      transactionCounts.pending === '-'
+                        ? transactionCounts.pending
+                        : localeNumberString(transactionCounts.pending)
+                    })`}</Link>
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
             }
             rightContent={!isMobile && searchOptionsAndModeSwitch}
           />
