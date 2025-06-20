@@ -14,7 +14,7 @@ import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import type { Transaction } from '../../models/Transaction'
-import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
+import { MainnetContractHashTags, TestnetContractHashTags, SCRIPT_TAGS } from '../../constants/scripts'
 import {
   useDeprecatedAddr,
   useNewAddr,
@@ -244,7 +244,7 @@ export const Address = () => {
   const isBtcAddress = isRGBPP ? isValidBTCAddress(address) : false
   const isMultisig =
     scriptDataList.find(script => script.codeHashes.find(codeHash => codeHash === addressInfo?.lockScript.codeHash))
-      ?.tag === 'secp256k1 / multisig'
+      ?.tag === SCRIPT_TAGS.SECP_MULTISIG
 
   return (
     <Content>
