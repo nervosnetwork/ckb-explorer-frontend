@@ -214,6 +214,10 @@ export const MoreMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
         onOpenChange={setOpen}
         open={open}
         showArrow={false}
+        contentStyle={{
+          padding: 0,
+          width: isMobile ? 'var(--radix-popper-anchor-width)' : 'auto',
+        }}
         trigger={
           isMobile ? (
             <MobileMenuOuterLink className={styles.mobileSubmenuTrigger}>
