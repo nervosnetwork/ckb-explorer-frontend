@@ -1,3 +1,5 @@
+@import '../../styles/variables.module';
+
 .blockCardGroup {
   margin-top: 10px;
 }
@@ -27,4 +29,64 @@
   align-items: center;
   margin-bottom: 4px;
   background: #fff;
+}
+
+.blockListPanel {
+  @media (min-width: $mobileBreakPoint) {
+    margin-top: 25px;
+    margin-bottom: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px 0 rgb(77 77 77 / 21%);
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    margin-top: 0;
+    padding: 0 20px;
+
+    .blockGreenBackground {
+      margin-left: -20px;
+      height: 61px;
+      width: calc(100% + 40px);
+      z-index: 1;
+    }
+  }
+}
+
+.contentTable {
+  @media (max-width: $mobileBreakPoint) {
+    margin-top: -41px;
+    z-index: 2;
+  }
+}
+
+.highLightValue {
+  color: var(--primary-color);
+  font-size: 13px;
+  height: 16px;
+  min-width: 0;
+}
+
+.blockRewardContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  @media (max-width: $mobileBreakPoint) {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  ::after {
+    display: inline;
+    content: '+';
+    color: #7f7d7d;
+    font-size: 13px;
+  }
+}
+
+.blockRewardPanel {
+  margin-right: 8px;
+  display: flex;
+  justify-content: center;
 }

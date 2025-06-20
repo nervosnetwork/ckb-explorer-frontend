@@ -1,9 +1,7 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import { MouseEventHandler, ReactNode } from 'react'
-import styled from 'styled-components'
-
-const ButtonPanel = styled.div`
-  cursor: pointer;
-`
+import classNames from 'classnames'
+import styles from './index.module.scss'
 
 export default ({
   id,
@@ -20,9 +18,9 @@ export default ({
   onMouseOver?: MouseEventHandler<HTMLDivElement>
   children: ReactNode | string
 }) => (
-  <ButtonPanel
+  <div
     id={id}
-    className={className}
+    className={classNames(styles.buttonPanel, className)}
     title={title}
     role="button"
     tabIndex={-1}
@@ -39,5 +37,5 @@ export default ({
     }}
   >
     {children}
-  </ButtonPanel>
+  </div>
 )

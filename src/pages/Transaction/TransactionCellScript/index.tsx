@@ -1,17 +1,11 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import type { Cell } from '@ckb-lumos/base'
+import classNames from 'classnames'
 import { useState, ReactNode, useRef, FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import type { ContractHashTag } from '../../../constants/scripts'
-import {
-  TransactionDetailContainer,
-  TransactionDetailPanel,
-  TransactionCellDetailPanel,
-  TransactionCellInfoValuePanel,
-  TransactionCellDetailTitle,
-} from './styled'
 import CloseIcon from './modal_close.png'
 import { getBtcTimeLockInfo, getBtcUtxo, getContractHashTag } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
@@ -180,11 +174,14 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
 }
 
 const CellInfoValueJSONView = ({ content, state }: { content: CellInfoValue; state: CellInfo }) => (
-  <TransactionCellInfoValuePanel data-is-decodable="true" isData={state === CellInfo.DATA}>
+  <div
+    className={classNames(styles.transactionCellInfoValuePanel, state === CellInfo.DATA && styles.isData)}
+    data-is-decodable="true"
+  >
     <span>{'{'}</span>
     <CellInfoValueRender content={content} />
     <span>{'}'}</span>
-  </TransactionCellInfoValuePanel>
+  </div>
 )
 
 export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function }) => {
@@ -260,11 +257,11 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
   const isContentATypeIdScript = isContentAScript && isTypeIdScript(content as Script)
 
   return (
-    <TransactionDetailContainer ref={ref}>
+    <div className={styles.transactionDetailContainer} ref={ref}>
       <div className="transactionDetailModalClose">
         <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
       </div>
-      <TransactionCellDetailPanel>
+      <div className={styles.transactionCellDetailPanel}>
         <Tabs
           onValueChange={key => {
             const state = parseInt(key, 10)
@@ -277,30 +274,30 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
           <TabsList style={{ width: '100%', display: 'flex' }}>
             <TabsTrigger value={CellInfo.LOCK.toString()}>
               <>
-                <TransactionCellDetailTitle>{t('transaction.lock_script')}</TransactionCellDetailTitle>
+                <span className={styles.transactionCellDetailTitle}>{t('transaction.lock_script')}</span>
                 <HelpTip>{t('glossary.lock_script')}</HelpTip>
               </>
             </TabsTrigger>
             <TabsTrigger value={CellInfo.TYPE.toString()}>
               <>
-                <TransactionCellDetailTitle>{t('transaction.type_script')}</TransactionCellDetailTitle>
+                <span className={styles.transactionCellDetailTitle}>{t('transaction.type_script')}</span>
                 <HelpTip>{t('glossary.type_script')}</HelpTip>
               </>
             </TabsTrigger>
             <TabsTrigger value={CellInfo.DATA.toString()}>
-              <TransactionCellDetailTitle>{t('transaction.data')}</TransactionCellDetailTitle>
+              <span className={styles.transactionCellDetailTitle}>{t('transaction.data')}</span>
             </TabsTrigger>
             <TabsTrigger value={CellInfo.CAPACITY.toString()}>
               <>
-                <TransactionCellDetailTitle>{t('transaction.capacity_usage')}</TransactionCellDetailTitle>
+                <span className={styles.transactionCellDetailTitle}>{t('transaction.capacity_usage')}</span>
                 <HelpTip>{t('glossary.capacity_usage')}</HelpTip>
               </>
             </TabsTrigger>
           </TabsList>
         </Tabs>
-      </TransactionCellDetailPanel>
+      </div>
 
-      <TransactionDetailPanel>
+      <div className={styles.transactionDetailPanel}>
         <div className="transactionDetailContent">
           <CellInfoValueJSONView content={content} state={selectedInfo} />
         </div>
@@ -336,7 +333,7 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
             ) : null}
           </div>
         )}
-      </TransactionDetailPanel>
-    </TransactionDetailContainer>
+      </div>
+    </div>
   )
 }

@@ -1,17 +1,9 @@
-import { FC, memo, useMemo, useRef } from 'react'
+import { FC, HTMLAttributes, memo, useMemo, useRef } from 'react'
 import { useHistory } from 'react-router'
+import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { useResizeDetector } from 'react-resize-detector'
-import {
-  HomeHeaderItemPanel,
-  BlockPanel,
-  TableMorePanel,
-  TableHeaderPanel,
-  HomeTablePanel,
-  TransactionPanel,
-  HomeStatisticItemPanel,
-} from './styled'
 import Content from '../../components/Content'
 import { parseTime, parseTimeNoSecond } from '../../utils/date'
 import { BLOCK_POLLING_TIME, ListPageParams, DELAY_BLOCK_NUMBER, EPOCHS_PER_HALVING } from '../../constants/common'
@@ -42,15 +34,26 @@ interface BlockchainData {
   showSeparate: boolean
 }
 
+const TableMorePanel: FC<HTMLAttributes<HTMLDivElement>> = props => {
+  const { children, className, ...rest } = props
+  return (
+    <div className={classNames(styles.tableMorePanel, className)} {...rest}>
+      {children}
+    </div>
+  )
+}
+
 const StatisticItem = ({ blockchain, isFirst }: { blockchain: BlockchainData; isFirst?: boolean }) => (
-  <HomeStatisticItemPanel isFirst={isFirst}>
+  <div className={`${styles.homeStatisticItemPanel} ${isFirst ? styles.isFirst : ''}`}>
     <div className="homeStatisticItemName">{blockchain.name}</div>
-    <div className="homeStatisticItemValue">{blockchain.value}</div>
-  </HomeStatisticItemPanel>
+    <div className="homeStatisticItemValue" style={{ fontSize: isFirst ? '26px' : '20px' }}>
+      {blockchain.value}
+    </div>
+  </div>
 )
 
 const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => (
-  <HomeHeaderItemPanel>
+  <div className={styles.homeHeaderItemPanel}>
     <div className="blockchainItemContent">
       <div className="blockchainItemName">{blockchain.name}</div>
       <div className="blockchainItemValue">
@@ -59,7 +62,7 @@ const BlockchainItem = ({ blockchain }: { blockchain: BlockchainData }) => (
       </div>
     </div>
     {blockchain.showSeparate && <div className="blockchainItemBetweenSeparate" />}
-  </HomeHeaderItemPanel>
+  </div>
 )
 
 const parseHashRate = (hashRate: string | undefined) => (hashRate ? handleHashRate(Number(hashRate) * 1000) : '- -')
@@ -166,7 +169,12 @@ const BlockList: FC<{
       {blocks.map((block, index) => (
         <div key={block.number}>
           <BlockCardItem block={block} isDelayBlock={index < DELAY_BLOCK_NUMBER} />
-          {blocks.length - 1 !== index && <div className="blockCardSeparate" />}
+          {blocks.length - 1 !== index && (
+            <div
+              className="blockCardSeparate"
+              style={{ transform: `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})` }}
+            />
+          )}
         </div>
       ))}
     </>
@@ -190,7 +198,12 @@ const TransactionList: FC<{
       {transactions.map((transaction, index) => (
         <div key={transaction.transactionHash}>
           <TransactionCardItem transaction={transaction} tipBlockNumber={tipBlockNumber} />
-          {transactions.length - 1 !== index && <div className="transactionCardSeparate" />}
+          {transactions.length - 1 !== index && (
+            <div
+              className="transactionCardSeparate"
+              style={{ transform: `scaleY(${Math.ceil((1.0 / window.devicePixelRatio) * 10.0) / 10.0})` }}
+            />
+          )}
         </div>
       ))}
     </>
@@ -307,12 +320,12 @@ export default () => {
           </>
         )}
       </div>
-      <HomeTablePanel className="container">
-        <BlockPanel>
-          <TableHeaderPanel>
+      <div className={`${styles.homeTablePanel} container`}>
+        <div className={styles.blockPanel}>
+          <div className={styles.tableHeaderPanel}>
             <img src={LatestBlocksIcon} alt="latest blocks" />
             <span>{t('home.latest_blocks')}</span>
-          </TableHeaderPanel>
+          </div>
           <BlockList blocks={nodeConnectModeActivated ? nodeLatestBlocks : blocks} />
           <TableMorePanel
             onClick={() => {
@@ -330,13 +343,13 @@ export default () => {
           >
             <span>{t('home.more')}</span>
           </TableMorePanel>
-        </BlockPanel>
+        </div>
 
-        <TransactionPanel>
-          <TableHeaderPanel>
+        <div className={styles.transactionPanel}>
+          <div className={styles.tableHeaderPanel}>
             <img src={LatestTransactionsIcon} alt="latest transactions" />
             <span>{t('home.latest_transactions')}</span>
-          </TableHeaderPanel>
+          </div>
           <TransactionList
             transactions={nodeConnectModeActivated ? nodeLatestTransactions : transactions}
             tipBlockNumber={tipBlockNumber}
@@ -357,8 +370,8 @@ export default () => {
           >
             <span>{t('home.more')}</span>
           </TableMorePanel>
-        </TransactionPanel>
-      </HomeTablePanel>
+        </div>
+      </div>
     </Content>
   )
 }

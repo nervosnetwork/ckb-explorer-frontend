@@ -103,6 +103,138 @@
   }
 }
 
+.transactionDetailContainer {
+  :global(.transactionDetailSeparate) {
+    width: auto;
+    height: 1px;
+    background: #eaeaea;
+    margin-top: -3px;
+  }
+}
+
+.transactionCellDetailTitle {
+  font-size: 16px;
+}
+
+.transactionCellDetailPanel {
+  width: 100%;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: $mobileBreakPoint) {
+    div {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 1300px) {
+    div {
+      font-size: 15px;
+    }
+  }
+
+  :global(.transactionDetailModalClose) {
+    padding: 17px 0 17px 17px;
+
+    > img {
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+
+    @media (max-width: $mobileBreakPoint) {
+      padding: 15px 0 15px 15px;
+
+      > img {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}
+
+.transactionDetailPanel {
+  width: 100%;
+  margin-top: 20px;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin-top: 10px;
+  }
+
+  :global(.transactionDetailContent) {
+    border: none;
+    width: 100%;
+    text-align: left;
+    min-height: 120px;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: 20px 6px;
+    margin-top: 5px;
+    font-size: 16px;
+    color: #888;
+    font-weight: bold;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+
+    @media (max-width: $mobileBreakPoint) {
+      font-size: 10px;
+      padding: 10px;
+    }
+
+    &:global(.utxoGraphContent) {
+      max-height: 400px;
+    }
+  }
+
+  :global(.transactionDetailLoading) {
+    padding: 20px 0;
+
+    @media (max-width: $mobileBreakPoint) {
+      padding: 10px 0;
+    }
+  }
+}
+
+.transactionCellInfoValuePanel {
+  &.isData {
+    > div {
+      > div:nth-child(1) {
+        min-width: 80px;
+
+        @media (max-width: $mobileBreakPoint) {
+          min-width: 40px;
+        }
+      }
+    }
+  }
+
+  > div {
+    display: flex;
+    margin: 2px 0 2px 30px;
+
+    @media (max-width: $mobileBreakPoint) {
+      margin: 2px 0 2px 12px;
+    }
+
+    > div:nth-child(1) {
+      min-width: 120px;
+
+      @media (max-width: $mobileBreakPoint) {
+        min-width: 70px;
+      }
+    }
+
+    > div:nth-child(2) {
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+  }
+}
+
 .tabItem {
   display: flex;
   align-items: center;

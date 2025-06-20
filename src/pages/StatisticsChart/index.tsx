@@ -10,7 +10,6 @@ import { KnowledgeSizeChart } from './activities/KnowledgeSize'
 import { CellCountChart } from './activities/CellCount'
 import { CkbHodlWaveChart } from './activities/CkbHodlWave'
 import { TotalDaoDepositChart } from './nervosDao/TotalDaoDeposit'
-import { ChartsPanel, ChartCardPanel, ChartsTitle, ChartsContent } from './styled'
 import { AddressBalanceRankChart } from './activities/AddressBalanceRank'
 import { DifficultyChart } from './mining/Difficulty'
 import { HashRateChart } from './mining/HashRate'
@@ -37,6 +36,7 @@ import NodeGeoDistributionChart from './mining/NodeGeoDistribution'
 import { useIsMobile } from '../../hooks'
 import { HelpTip } from '../../components/HelpTip'
 import { Link } from '../../components/Link'
+import styles from './index.module.scss'
 
 interface ChartData {
   title: string
@@ -60,13 +60,13 @@ const ChartTitle = ({ chartData }: { chartData: ChartData }) => (
 const ChartCard = ({ chartData }: { chartData: ChartData }) => {
   const isMobile = useIsMobile()
   return (
-    <ChartCardPanel>
+    <div className={styles.chartCardPanel}>
       {isMobile && <ChartTitle chartData={chartData} />}
       <Link to={chartData.path}>
         {!isMobile && <ChartTitle chartData={chartData} />}
         <div className="chartCardBody">{chartData.chart}</div>
       </Link>
-    </ChartCardPanel>
+    </div>
   )
 }
 
@@ -280,19 +280,19 @@ export default () => {
   const chartsData = useChartsData()
   return (
     <Content>
-      <ChartsContent className="container">
-        <ChartsTitle>{t('statistic.charts_title')}</ChartsTitle>
+      <div className={`${styles.chartsContent} container`}>
+        <div className={styles.chartsTitle}>{t('statistic.charts_title')}</div>
         {chartsData().map(chartData => (
-          <ChartsPanel key={chartData.category}>
+          <div className={styles.chartsPanel} key={chartData.category}>
             <div className="chartsCategoryTitle">{chartData.category}</div>
             <div className="chartsCategoryPanel">
               {chartData.charts.map(chart => (
                 <ChartCard chartData={chart} key={chart.title} />
               ))}
             </div>
-          </ChartsPanel>
+          </div>
         ))}
-      </ChartsContent>
+      </div>
     </Content>
   )
 }

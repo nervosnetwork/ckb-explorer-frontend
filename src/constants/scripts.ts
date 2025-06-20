@@ -3,6 +3,11 @@ import type { ScriptConfigs, Config } from '@ckb-lumos/config-manager'
 import { predefined } from '@ckb-lumos/config-manager'
 import { Script } from '../models/Script'
 
+export const SCRIPT_TAGS = {
+  SECP_MULTISIG: 'secp256k1 / multisig',
+  SECP_MULTISIG_LOCKTIME: 'secp256k1 / multisig / locktime',
+} as const
+
 export interface ContractHashTag {
   codeHashes: string[] // The code hashes whose hash type are type in mainnet and testnet are different
   txHashes: string[] //  mainnet and testnet contract tx hashes
@@ -15,8 +20,8 @@ export interface ContractHashTag {
 
 export const ScriptTagExtraRules = new Map<string, (s: Script) => string>([
   [
-    'secp256k1 / multisig',
-    script => (script.args.length === 28 * 2 + 2 ? 'secp256k1 / multisig / locktime' : 'secp256k1 / multisig'),
+    SCRIPT_TAGS.SECP_MULTISIG,
+    script => (script.args.length === 28 * 2 + 2 ? SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME : SCRIPT_TAGS.SECP_MULTISIG),
   ],
 ])
 
@@ -39,7 +44,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     depType: 'dep_group',
     hashType: 'type',
     lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
-    tag: 'secp256k1 / multisig',
+    tag: SCRIPT_TAGS.SECP_MULTISIG,
     category: 'lock',
   },
   {
@@ -425,7 +430,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     depType: 'dep_group',
     hashType: 'type',
     lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
-    tag: 'secp256k1 / multisig',
+    tag: SCRIPT_TAGS.SECP_MULTISIG,
     category: 'lock',
   },
   {

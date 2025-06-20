@@ -1,0 +1,64 @@
+@import '../../styles/variables.module';
+
+.searchPanel {
+  margin-top: 200px;
+  margin-bottom: 240px;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin-top: 120px;
+    margin-bottom: 150px;
+  }
+
+  :global(.searchFailBar) {
+    width: 600px;
+    margin: 0 auto;
+
+    @media (max-width: $mobileBreakPoint) {
+      width: 340px;
+    }
+  }
+}
+
+.searchContent {
+  font-size: 14px;
+  color: #606060;
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center;
+  white-space: pre-wrap;
+  width: 600px;
+
+  @media (max-width: $mobileBreakPoint) {
+    width: 340px;
+  }
+
+  a {
+    color: var(--primary-color);
+    margin-left: 3px;
+  }
+
+  a:hover {
+    color: var(--primary-color);
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 375px) {
+    font-size: 11px;
+  }
+
+  :global(.searchFailItems) {
+    font-weight: bold;
+    font-size: 16px;
+
+    @media (max-width: $mobileBreakPoint) {
+      font-size: 12px;
+    }
+
+    @media (max-width: 375px) {
+      font-size: 11px;
+    }
+  }
+}

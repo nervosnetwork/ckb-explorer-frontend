@@ -367,3 +367,78 @@
     color: var(--primary-color) !important;
   }
 }
+
+.addressLockScriptPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+.addressContentPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 40px;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin: 0;
+    padding: 20px;
+  }
+}
+
+.addressLockScriptController {
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+
+  > img {
+    width: 12px;
+    height: 12px;
+    margin: 2px 0 0 5px;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    font-size: 14px;
+    margin-top: 0;
+
+    > img {
+      margin: 0 0 0 5px;
+    }
+  }
+}
+
+.addressTransactionsPanel {
+  width: 100%;
+  margin-top: 4px;
+
+  @media (max-width: $mobileBreakPoint) {
+    :global(.transactionPanel):first-child {
+      margin-top: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+.addressAssetsTabPaneTitle {
+  font-family: Roboto, sans-serif;
+  color: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19px;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.addressUDTAssetsPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @media (max-width: $mobileBreakPoint) {
+    padding-top: 16px;
+    border-top: 1px solid #f5f5f5;
+  }
+}

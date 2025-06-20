@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import SearchBlack from '../../assets/search_black.png'
 import ClearLogo from '../../assets/clear.png'
-import { FilterImage, FilterPanel, ResetButtonPanel, FilterInputPanel } from './styled'
+import styles from './index.module.scss'
+import SimpleButton from '../SimpleButton'
 
 const Filter = ({
   defaultValue = '',
@@ -28,8 +29,8 @@ const Filter = ({
   }, [defaultValue])
 
   const FilterIcon = ({ isClear }: { isClear?: boolean }) => (
-    <FilterImage
-      isClear={isClear}
+    <SimpleButton
+      className={isClear ? `${styles.filterImage} ${styles.isClear}` : styles.filterImage}
       onClick={() => {
         if (isClear) {
           setFilterValue('')
@@ -37,29 +38,30 @@ const Filter = ({
       }}
     >
       <img src={isClear ? ClearLogo : SearchBlack} alt="search logo" />
-    </FilterImage>
+    </SimpleButton>
   )
 
   const ResetFilter = () => {
     return (
-      <ResetButtonPanel
+      <div
+        className={styles.resetButtonPanel}
         onClick={() => {
           setFilterValue('')
           onReset()
         }}
       >
         {t('search.reset')}
-      </ResetButtonPanel>
+      </div>
     )
   }
 
   return (
-    <FilterPanel>
+    <div className={styles.filterPanel}>
       {showReset && <ResetFilter />}
       <FilterIcon />
-      <FilterInputPanel
+      <input
+        className={showReset ? `${styles.filterInputPanel} ${styles.showReset}` : styles.filterInputPanel}
         ref={inputElement}
-        showReset={showReset ?? false}
         placeholder={placeholder}
         value={filterValue}
         onChange={event => setFilterValue(event.target.value)}
@@ -75,7 +77,7 @@ const Filter = ({
         }}
       />
       {showClear && <FilterIcon isClear />}
-    </FilterPanel>
+    </div>
   )
 }
 

@@ -1,0 +1,256 @@
+@import '../../../styles/variables.module';
+
+.transactionCellPanel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.transactionCellContentPanel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 16px;
+  color: #000;
+  text-align: center;
+
+  &.isCellbase {
+    align-items: flex-start;
+
+    :global(.transactionCellDetail) {
+      flex: 0.6;
+    }
+
+    :global(.transactionCellCapacity) {
+      display: none;
+    }
+
+    :global(.transactionDetailCellInfo) {
+      display: none;
+    }
+  }
+
+  :global(.transactionCellAddress) {
+    display: flex;
+    flex: 0.4;
+    min-width: 0;
+  }
+
+  :global(.transactionCellDetail) {
+    flex: 0.22;
+  }
+
+  :global(.transactionCellCapacity) {
+    flex: 0.3;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  :global(.transactionDetailCellInfo) {
+    flex: 0.08;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  a {
+    color: var(--primary-color);
+  }
+
+  a:hover {
+    color: var(--primary-color);
+  }
+}
+
+.transactionCellInfoPanel {
+  :global(.transactionCellInfoContent) {
+    color: rgb(0 0 0 / 60%);
+    cursor: pointer;
+    width: 45px;
+
+    @media (max-width: $mobileBreakPoint) {
+      width: auto;
+    }
+
+    :global(.transactionCellInfoSeparate) {
+      background: rgb(0 0 0 / 60%);
+      width: 45px;
+      height: 1px;
+      transform: scaleY(0.5);
+
+      @media (max-width: $mobileBreakPoint) {
+        width: auto;
+      }
+    }
+
+    &:hover {
+      color: var(--primary-color);
+
+      :global(.transactionCellInfoSeparate) {
+        background: var(--primary-color);
+      }
+    }
+  }
+}
+
+.transactionCellAddressPanel {
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+
+  :global(.transactionCellIndex) {
+    margin-right: 3px;
+    color: #666;
+
+    > div {
+      width: 70px;
+      text-align: start;
+
+      @media (max-width: $xxlBreakPoint) {
+        width: 50px;
+      }
+    }
+  }
+}
+
+.transactionCellHashPanel {
+  color: #000;
+  text-align: center;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 16px;
+
+  &.highLight {
+    color: var(--primary-color);
+    text-align: left;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    text-align: left;
+
+    > a {
+      font-weight: 500;
+    }
+  }
+
+  @media (min-width: $mobileBreakPoint) {
+    font-weight: 500;
+  }
+
+  > span {
+    margin: 0 3px;
+  }
+
+  :global(.transactionCellAddressLink) {
+    max-width: 70%;
+
+    @media (max-width: $mobileBreakPoint) {
+      max-width: unset;
+    }
+  }
+
+  :global(.transactionCellAddressNoLink) {
+    color: #000;
+  }
+}
+
+.transactionCellDetailPanel {
+  width: 100%;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  &.isWithdraw {
+    :global(.transactionCellDetailPanel) {
+      > img {
+        width: 16px;
+        height: 20px;
+      }
+    }
+  }
+
+  :global(.transactionCellDetailPanel) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    > div {
+      font-size: 15px;
+      text-align: left;
+    }
+
+    > img {
+      margin-right: 5px;
+      width: 18px;
+      height: 14px;
+    }
+  }
+}
+
+.transactionCellCardSeparate {
+  width: 100%;
+  height: 1px;
+  background: #ccc;
+  margin: 8px 0;
+  transform: scaleY(0.5);
+}
+
+.transactionCellDetailModal {
+  background-color: #fff;
+  margin: 15% auto 0;
+  padding: 20px 40px;
+  border: 1px solid #888;
+  width: 75%;
+
+  @media (max-width: $mobileBreakPoint) {
+    width: 90%;
+    margin-top: 40%;
+    padding: 10px;
+  }
+}
+
+.transactionCellCardPanel {
+  > div:nth-child(2) {
+    margin-bottom: 15px;
+  }
+
+  > div:nth-child(4) {
+    margin-bottom: 12px;
+  }
+}
+
+.transactionCellCardContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+
+  :global(.transactionCellCardTitle) {
+    flex: 1;
+    min-width: 0;
+    font-size: 16px;
+    color: #666;
+    margin-top: 3px;
+  }
+
+  :global(.transactionCellCardValue) {
+    display: flex;
+    font-size: 16px;
+    color: #000;
+  }
+
+  a {
+    color: var(--primary-color);
+  }
+
+  a:hover {
+    color: var(--primary-color);
+  }
+}

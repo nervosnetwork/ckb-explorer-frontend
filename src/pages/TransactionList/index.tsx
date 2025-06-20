@@ -19,7 +19,7 @@ import { Column, Table } from './Table'
 import { RouteState } from '../../routes/state'
 import { assert } from '../../utils/error'
 import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
-import { TableTitleRowItem } from '../../components/Table/styled'
+import { TableTitleRowItem } from '../../components/Table/TableComp'
 import { Transaction } from '../../models/Transaction'
 import { CardCellFactory, CardListWithCellsList } from '../../components/CardList'
 

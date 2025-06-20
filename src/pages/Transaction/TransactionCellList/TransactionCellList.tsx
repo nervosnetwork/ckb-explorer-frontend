@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from 'react'
-import { TransactionCellListPanel, TransactionCellListTitlePanel } from './styled'
 import { useIsMobile } from '../../../hooks'
+import styles from './styles.module.scss'
 
 export const TransactionCellList: FC<
   PropsWithChildren<{
@@ -10,14 +10,14 @@ export const TransactionCellList: FC<
 > = ({ title, extra, children }) => {
   const isMobile = useIsMobile()
   return (
-    <TransactionCellListPanel>
-      <TransactionCellListTitlePanel>
+    <div className={styles.transactionCellListPanel}>
+      <div className={styles.transactionCellListTitlePanel}>
         <div className="transactionCellListTitles">
           {title}
           {!isMobile ? extra : null}
         </div>
-      </TransactionCellListTitlePanel>
+      </div>
       {children}
-    </TransactionCellListPanel>
+    </div>
   )
 }

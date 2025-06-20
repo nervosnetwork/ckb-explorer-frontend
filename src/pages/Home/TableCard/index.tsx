@@ -5,7 +5,6 @@ import { HighLightLink } from '../../../components/Text'
 import { localeNumberString } from '../../../utils/number'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../../utils/util'
 import { TableMinerContentItem } from '../../../components/Table'
-import { BlockCardPanel, TransactionCardPanel } from './styled'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
 import { useParsedDate } from '../../../hooks'
@@ -29,7 +28,7 @@ const _BlockCardItem: FC<{
   const parsedBlockCreateAt = useParsedDate(block.timestamp)
 
   return (
-    <BlockCardPanel>
+    <div className={styles.blockCardPanel}>
       <div className="blockCardHeight">
         <div>
           <span>#</span>
@@ -59,7 +58,7 @@ const _BlockCardItem: FC<{
           {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${t('home.cells')}`}
         </span>
       </div>
-    </BlockCardPanel>
+    </div>
   )
 }
 export const BlockCardItem = memo(
@@ -88,7 +87,7 @@ const _TransactionCardItem: FC<{
 
   const [int, dec] = new BigNumber(shannonToCkb(transaction.capacityInvolved)).toFormat(2).split('.')
   return (
-    <TransactionCardPanel>
+    <div className={styles.transactionCardPanel}>
       <div className="transactionCardHash">
         <AddressText
           disableTooltip
@@ -123,7 +122,7 @@ const _TransactionCardItem: FC<{
           {`${liveCellChanges >= 0 ? '+' : '-'}${Math.abs(liveCellChanges)} ${t('home.cells')}`}
         </span>
       </div>
-    </TransactionCardPanel>
+    </div>
   )
 }
 export const TransactionCardItem = memo(

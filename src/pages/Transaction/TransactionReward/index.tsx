@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { shannonToCkb } from '../../../utils/util'
-import { RewardPenal, RewardItemPenal } from './styled'
 import { useIsMobile } from '../../../hooks'
 import Capacity from '../../../components/Capacity'
+import styles from './index.module.scss'
 
 export type Reward = {
   baseReward: string
@@ -39,17 +39,17 @@ const TransactionReward = ({ reward }: { reward: Reward }) => {
   const rewards = useRewards(reward, isMobile)
 
   return (
-    <RewardPenal>
+    <div className={styles.rewardPenal}>
       <div className="transactionRewardTitle">{t('transaction.reward_info')}</div>
       {rewards.map(reward => (
-        <RewardItemPenal key={reward.name}>
+        <div className={styles.rewardItemPenal} key={reward.name}>
           <div className="rewardName">{reward.name}</div>
           <div className="rewardCapacity">
             <Capacity capacity={shannonToCkb(reward.capacity)} />
           </div>
-        </RewardItemPenal>
+        </div>
       ))}
-    </RewardPenal>
+    </div>
   )
 }
 

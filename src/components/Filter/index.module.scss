@@ -1,0 +1,133 @@
+@import '../../styles/variables.module';
+
+.filterPanel {
+  width: 600px;
+  height: 40px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (max-width: $extraLargeBreakPoint) {
+    width: 450px;
+  }
+
+  @media (max-width: $largeBreakPoint) {
+    width: 320px;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    width: 100%;
+  }
+}
+
+.filterImage {
+  margin-right: -40px;
+  width: 34px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  cursor: default;
+
+  &.isClear {
+    margin-right: 0;
+    cursor: pointer;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    margin-left: 0;
+    margin-right: -14%;
+
+    &.isClear {
+      margin-left: -14%;
+      margin-right: 0;
+    }
+  }
+
+  img {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+
+    @media (max-width: $mobileBreakPoint) {
+      margin-top: 0;
+
+      &.isClear {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}
+
+.filterInputPanel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  padding-left: 36px;
+  padding-right: 30px;
+  background: rgb(255 255 255 / 0%);
+  opacity: 1;
+  border: 0 solid white;
+  color: #666;
+  border-radius: 4px;
+  background-color: #f4f4f4;
+
+  &.showReset {
+    width: 530px;
+  }
+
+  &:focus {
+    color: #666;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #bababa;
+  }
+
+  @media (max-width: $extraLargeBreakPoint) {
+    width: 100%;
+
+    &.showReset {
+      width: 380px;
+    }
+  }
+
+  @media (max-width: $largeBreakPoint) {
+    width: 100%;
+
+    &.showReset {
+      width: 250px;
+    }
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    width: 100%;
+    font-size: 12px;
+
+    &.showReset {
+      width: 82%;
+    }
+  }
+}
+
+.resetButtonPanel {
+  background: #f4f4f4;
+  color: #000;
+  border-radius: 2px;
+  font-size: 12px;
+  width: 55px;
+  height: 38px;
+  line-height: 38px;
+  cursor: pointer;
+
+  &:hover {
+    background: #ddd;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    width: 50px;
+  }
+}

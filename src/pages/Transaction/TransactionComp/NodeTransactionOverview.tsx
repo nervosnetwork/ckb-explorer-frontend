@@ -14,7 +14,6 @@ import {
   checkIsCellBase,
   calculateTransactionSize,
 } from '../../../utils/transaction'
-import { TransactionBlockHeightPanel, TransactionOverviewPanel } from './styled'
 import { useLatestBlockNumber } from '../../../services/ExplorerService'
 import { NodeRpc } from '../../../services/NodeService'
 import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../../components/Card'
@@ -25,16 +24,17 @@ import { useCKBNode } from '../../../hooks/useCKBNode'
 import styles from './TransactionOverview.module.scss'
 import TransactionParameters from '../../../components/TransactionParameters'
 import Tooltip from '../../../components/Tooltip'
+import baseStyles from './styles.module.scss'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 const TransactionBlockHeight = ({ txStatus }: { txStatus: NodeRpc.TransactionWithStatus['tx_status'] }) => (
-  <TransactionBlockHeightPanel>
+  <div className={baseStyles.transactionBlockHeightPanel}>
     {txStatus.status === 'committed' ? (
       <Link to={`/block/${parseInt(txStatus.block_number, 16)}`}>{localeNumberString(txStatus.block_number)}</Link>
     ) : (
       <span>{showTxStatus(txStatus.status)}</span>
     )}
-  </TransactionBlockHeightPanel>
+  </div>
 )
 
 export const NodeTransactionOverviewCard: FC<{
@@ -225,7 +225,7 @@ export const NodeTransactionOverviewCard: FC<{
         ]}
       />
 
-      <TransactionOverviewPanel>
+      <div className={baseStyles.transactionOverviewPanel}>
         <CardCellsLayout type="left-right" cells={overviewItems} borderTop={!isMobile} />
         <div>
           <div className={styles.toggles}>
@@ -247,7 +247,7 @@ export const NodeTransactionOverviewCard: FC<{
           {detailTab === 'params' ? <TransactionParameters hash={rawTransaction.hash} /> : null}
           {detailTab === 'raw' ? <RawTransactionView hash={rawTransaction.hash} /> : null}
         </div>
-      </TransactionOverviewPanel>
+      </div>
     </Card>
   )
 }

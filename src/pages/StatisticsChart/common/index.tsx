@@ -1,4 +1,5 @@
 import { ComponentProps, CSSProperties, ReactElement, ReactNode, useEffect, useMemo, useRef } from 'react'
+import classNames from 'classnames'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/pie'
@@ -15,7 +16,6 @@ import echarts from 'echarts/lib/echarts'
 import { EChartOption, ECharts } from 'echarts'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { LoadingPanel, ChartNoDataPanel, ChartDetailTitle, ChartDetailPanel, ChartNotePanel } from './styled'
 import Loading from '../../../components/Loading'
 import ChartNoDataImage from './chart_no_data.png'
 import ChartNoDataAggronImage from './chart_no_data_aggron.png'
@@ -26,22 +26,27 @@ import { useIsMobile, usePrevious, useWindowResize } from '../../../hooks'
 import { isDeepEqual } from '../../../utils/util'
 import { HelpTip } from '../../../components/HelpTip'
 import { ChartColor, ChartColorConfig } from '../../../constants/common'
+import styles from './index.module.scss'
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
 const ChartLoading = ({ show, isThumbnail = false }: { show: boolean; isThumbnail?: boolean }) => {
   const { t } = useTranslation()
   return (
-    <LoadingPanel isThumbnail={isThumbnail}>
+    <div className={classNames(styles.loadingPanel, isThumbnail && styles.isThumbnail)}>
       {show ? (
         <LoadingComp isThumbnail={isThumbnail} />
       ) : (
-        <ChartNoDataPanel isThumbnail={isThumbnail}>
-          <img alt="no data" src={isMainnet() ? ChartNoDataImage : ChartNoDataAggronImage} />
+        <div className={classNames(styles.chartNoDataPanel, isThumbnail && styles.isThumbnail)}>
+          <img
+            className={isThumbnail ? styles.isThumbnail : ''}
+            alt="no data"
+            src={isMainnet() ? ChartNoDataImage : ChartNoDataAggronImage}
+          />
           <span>{t('statistic.no_data')}</span>
-        </ChartNoDataPanel>
+        </div>
       )}
-    </LoadingPanel>
+    </div>
   )
 }
 
@@ -136,8 +141,8 @@ const ChartPage = ({
     .replace(/\s+/g, '-')
   return (
     <Content>
-      <ChartDetailTitle
-        className="container"
+      <div
+        className={`${styles.chartDetailTitle} container`}
         // TODO: refactor
         style={{ borderTopLeftRadius: style?.borderRadius, borderTopRightRadius: style?.borderRadius }}
       >
@@ -160,14 +165,14 @@ const ChartPage = ({
             {t('statistic.download_data')}
           </a>
         )}
-      </ChartDetailTitle>
-      <ChartDetailPanel
-        className="container"
+      </div>
+      <div
+        className={`${styles.chartDetailPanel} container`}
         // TODO: refactor
         style={{ borderBottomLeftRadius: style?.borderRadius, borderBottomRightRadius: style?.borderRadius }}
       >
         {children}
-      </ChartDetailPanel>
+      </div>
     </Content>
   )
 }
@@ -227,7 +232,7 @@ export function SmartChartPage<T>({
   ) : (
     <ChartPage title={title} description={description} data={toCSV?.(dataList)} style={style}>
       {content}
-      {note != null && <ChartNotePanel>{note}</ChartNotePanel>}
+      {note != null && <div className={styles.chartNotePanel}>{note}</div>}
     </ChartPage>
   )
 }

@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router'
 import classNames from 'classnames'
 import LogoIcon from './ckb_logo.png'
-import { HeaderPanel, HeaderEmptyPanel, HeaderMobileMenuPanel, HeaderLogoPanel } from './styled'
 import MenusComp, { MoreMenu } from './MenusComp'
 import { SearchComp } from './SearchComp'
 import BlockchainComp from './BlockchainComp'
@@ -15,11 +14,13 @@ import Sheet from './Sheet'
 import { createGlobalState, useGlobalState } from '../../utils/state'
 import MobileMenu from './MobileMenu'
 import { useCKBNode } from '../../hooks/useCKBNode'
+import { Link } from '../Link'
+import SimpleButton from '../SimpleButton'
 
 const LogoComp = () => (
-  <HeaderLogoPanel to="/">
+  <Link className={styles.headerLogoPanel} to="/">
     <img src={LogoIcon} alt="logo" />
-  </HeaderLogoPanel>
+  </Link>
 )
 
 const MobileMenuComp: FC<{ mobileMenuVisible: boolean; setMobileMenuVisible: (value: boolean) => void }> = ({
@@ -27,13 +28,13 @@ const MobileMenuComp: FC<{ mobileMenuVisible: boolean; setMobileMenuVisible: (va
   setMobileMenuVisible,
 }) => {
   return (
-    <HeaderMobileMenuPanel onClick={() => setMobileMenuVisible(!mobileMenuVisible)}>
+    <SimpleButton className={styles.headerMobileMenuPanel} onClick={() => setMobileMenuVisible(!mobileMenuVisible)}>
       <div className={mobileMenuVisible ? 'close' : ''}>
         <div className="menuIconFirst" />
         <div className="menuIconSecond" />
         <div className="menuIconThird" />
       </div>
-    </HeaderMobileMenuPanel>
+    </SimpleButton>
   )
 }
 
@@ -80,7 +81,7 @@ export default () => {
         [styles.expanded]: isMobile && mobileMenuVisible,
       })}
     >
-      <HeaderPanel>
+      <div className={styles.headerPanel}>
         <LogoComp />
         {!isMobile && (
           <>
@@ -90,17 +91,17 @@ export default () => {
               </div>
               <div className={styles.expandable}>{(defaultSearchBarVisible || isShowSearchBar) && <SearchComp />}</div>
             </div>
-            <BlockchainComp isMobile={isMobile} />
+            <BlockchainComp />
             <MoreMenu />
           </>
         )}
         {isMobile && (
           <>
-            <HeaderEmptyPanel />
+            <div className={styles.headerEmptyPanel} />
             <MobileMenuComp mobileMenuVisible={mobileMenuVisible} setMobileMenuVisible={setMobileMenuVisible} />
           </>
         )}
-      </HeaderPanel>
+      </div>
       <MaintainAlert />
       {isActivated ? <NodeAlert /> : null}
       <Sheet />

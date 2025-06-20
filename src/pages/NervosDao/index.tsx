@@ -2,7 +2,6 @@ import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import Content from '../../components/Content'
-import { DaoContentPanel, DaoTabBarPanel } from './styled'
 import DaoTransactions from './DaoTransactions'
 import Filter from '../../components/Filter'
 import DepositorRank from './DepositorRank'
@@ -13,6 +12,7 @@ import SimpleButton from '../../components/SimpleButton'
 import { QueryResult } from '../../components/QueryResult'
 import { defaultNervosDaoInfo } from './state'
 import { explorerService } from '../../services/ExplorerService'
+import styles from './index.module.scss'
 
 export const NervosDao = () => {
   const { push } = useHistory()
@@ -50,10 +50,10 @@ export const NervosDao = () => {
 
   return (
     <Content>
-      <DaoContentPanel className="container">
+      <div className={`${styles.daoContentPanel} container`}>
         <DaoBanner estimatedApc={queryNervosDao.data?.estimatedApc ?? defaultNervosDaoInfo.estimatedApc} />
         <DaoOverview nervosDao={queryNervosDao.data ?? defaultNervosDaoInfo} />
-        <DaoTabBarPanel>
+        <div className={styles.daoTabBarPanel}>
           <div className="nervosDaoTabBar">
             <SimpleButton
               className={tab === 'transactions' ? 'tabBarSelected' : 'tabBarNormal'}
@@ -80,7 +80,7 @@ export const NervosDao = () => {
               push(`/${language}/nervosdao?${new URLSearchParams({ tab })}`)
             }}
           />
-        </DaoTabBarPanel>
+        </div>
         {tab === 'transactions' ? (
           <QueryResult query={queryNervosDaoTransactions} delayLoading>
             {data => (
@@ -99,7 +99,7 @@ export const NervosDao = () => {
             {data => <DepositorRank depositors={data ?? []} filter={params.filter} />}
           </QueryResult>
         )}
-      </DaoContentPanel>
+      </div>
     </Content>
   )
 }

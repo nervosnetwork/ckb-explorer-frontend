@@ -283,3 +283,163 @@
     }
   }
 }
+
+.homeHeaderItemPanel {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  flex: 1;
+
+  :global(.blockchainItemContent) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 30px;
+
+    @media (max-width: $mobileBreakPoint) {
+      margin: 0 20px;
+    }
+
+    :global(.blockchainItemName) {
+      color: #555;
+      font-size: 14px;
+
+      @media (max-width: $mobileBreakPoint) {
+        font-size: 12px;
+      }
+    }
+
+    :global(.blockchainItemValue) {
+      color: #000;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      :global(.blockchainItemLeftValue) {
+        font-size: 20px;
+
+        @media (max-width: $mobileBreakPoint) {
+          font-size: 16px;
+        }
+      }
+
+      :global(.blockchainItemRightValue) {
+        font-size: 14px;
+
+        @media (max-width: $mobileBreakPoint) {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  :global(.blockchainItemBetweenSeparate) {
+    height: 90%;
+    background: #eaeaea;
+    width: 1px;
+
+    @media (max-width: $mobileBreakPoint) {
+      display: none;
+    }
+  }
+}
+
+.homeStatisticItemPanel {
+  @media (max-width: $mobileBreakPoint) {
+    flex: 1;
+    margin-left: 40px;
+
+    &.isFirst {
+      margin-left: 0;
+    }
+  }
+
+  :global(.homeStatisticItemName) {
+    font-size: 14px;
+    color: #fff;
+
+    @media (max-width: $extraLargeBreakPoint) {
+      font-size: 12px;
+    }
+  }
+
+  :global(.homeStatisticItemValue) {
+    font-size: 20px;
+    color: #fff;
+    font-weight: bold;
+
+    @media (max-width: $extraLargeBreakPoint) {
+      font-size: 18px;
+    }
+  }
+}
+
+.homeTablePanel {
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: $mobileBreakPoint) {
+    flex-direction: column;
+  }
+}
+
+.blockPanel {
+  width: 100%;
+  margin-bottom: 40px;
+  margin-right: 20px;
+  background: white;
+  flex: 1;
+  min-width: 0;
+  border: 0 solid white;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
+
+  :global(.blockCardSeparate) {
+    background: #eaeaea;
+    width: auto;
+    margin: 0 16px;
+    height: 1px;
+  }
+}
+
+.transactionPanel {
+  width: 100%;
+  margin-bottom: 40px;
+  background: white;
+  flex: 1;
+  min-width: 0;
+  border: 0 solid white;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
+
+  :global(.transactionCardSeparate) {
+    background: #eaeaea;
+    width: auto;
+    margin: 0 16px;
+    height: 1px;
+  }
+}
+
+.tableHeaderPanel {
+  height: 44px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: var(--primary-color);
+  border: 0 solid #f9f9f9;
+  border-radius: 6px 6px 0 0;
+
+  > img {
+    width: 20px;
+    height: 20px;
+    margin-left: 12px;
+    margin-right: 8px;
+  }
+
+  > span {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+  }
+}

@@ -124,9 +124,9 @@ export const isValidReactNode = (node: ReactNode) => {
   return !!node
 }
 
-export const getContractHashTag = (script: Script): ContractHashTag | undefined => {
+export const getContractHashTag = (script: Script, ignoreHashType = false): ContractHashTag | undefined => {
   if (!script.codeHash || !script.hashType) return undefined
-  const contractHashTag = matchScript(script.codeHash, script.hashType)
+  const contractHashTag = matchScript(script.codeHash, ignoreHashType ? undefined : script.hashType)
   if (!!contractHashTag && ScriptTagExtraRules.has(contractHashTag.tag)) {
     return {
       ...contractHashTag,

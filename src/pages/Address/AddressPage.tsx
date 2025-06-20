@@ -7,14 +7,13 @@ import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Address as AddressInfo } from '../../models/Address'
 import { LayoutLiteProfessional } from '../../constants/common'
 import Content from '../../components/Content'
-import { AddressContentPanel } from './styled'
 import { AddressTransactions, AddressOverviewCard } from './AddressComp'
 import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
 import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import type { Transaction } from '../../models/Transaction'
-import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
+import { MainnetContractHashTags, TestnetContractHashTags, SCRIPT_TAGS } from '../../constants/scripts'
 import {
   useDeprecatedAddr,
   useNewAddr,
@@ -244,12 +243,12 @@ export const Address = () => {
   const isBtcAddress = isRGBPP ? isValidBTCAddress(address) : false
   const isMultisig =
     scriptDataList.find(script => script.codeHashes.find(codeHash => codeHash === addressInfo?.lockScript.codeHash))
-      ?.tag === 'secp256k1 / multisig'
+      ?.tag === SCRIPT_TAGS.SECP_MULTISIG
 
   return (
     <Content>
       {isRGBPP ? <RgbppBanner path={`/address/${address}`} /> : null}
-      <AddressContentPanel className="container">
+      <div className={classNames(styles.addressContentPanel, 'container')}>
         <Card>
           <HashCardHeader
             title={addressInfo?.type === 'LockHash' ? t('address.lock_hash') : t('address.address')}
@@ -375,7 +374,7 @@ export const Address = () => {
             )}
           </QueryResult>
         )}
-      </AddressContentPanel>
+      </div>
     </Content>
   )
 }
