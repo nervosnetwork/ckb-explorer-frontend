@@ -6,7 +6,7 @@ import {
   TransactionCellMobileItem,
   TransactionCellPanel,
   TransactionCellContentPanel,
-} from '../TransactionCell/styled'
+} from '../TransactionCell/TransactionCellComp'
 import { ReactComponent as DeprecatedAddrOn } from './deprecated_addr_on.svg'
 import { ReactComponent as DeprecatedAddrOff } from './deprecated_addr_off.svg'
 import { ReactComponent as Warning } from './warning.svg'

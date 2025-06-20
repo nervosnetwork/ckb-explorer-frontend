@@ -1,0 +1,124 @@
+@import '../../styles/variables.module';
+
+.tableTitleRow {
+  background: white;
+  display: flex;
+  min-height: 65px;
+  border-radius: 6px 6px 0 0;
+  padding: 0 20px;
+  margin-bottom: 4px;
+
+  @media (max-width: $mobileBreakPoint) {
+    flex-flow: row wrap;
+    min-height: auto;
+    padding: 5px 20px;
+  }
+}
+
+.tableTitleRowItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-height: 65px;
+
+  > div,
+  > button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #333;
+    font-size: 18px;
+    font-weight: 450;
+    text-align: center;
+
+    @media (max-width: $largeBreakPoint) {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    margin: 10px 40px 10px 0;
+    min-height: auto;
+  }
+}
+
+.tableContentRow {
+  position: relative;
+  display: flex;
+  min-height: 60px;
+  background-color: white;
+  padding: 20px;
+
+  ::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: auto;
+    height: 1px;
+    left: 20px;
+    right: 20px;
+    bottom: 1px;
+    background: #d8d8d8;
+    transform: scaleY(0.5);
+  }
+
+  :hover {
+    background: #f8f9fa;
+  }
+}
+
+.tableContentRowItem {
+  color: #000;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+
+  a {
+    color: var(--primary-color);
+  }
+
+  a:hover {
+    color: var(--primary-color);
+  }
+}
+
+.tableMinerContentPanel {
+  min-width: 0;
+  line-height: 20px;
+  text-align: center;
+  margin: auto 0;
+
+  .tableMinerContent {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  .tableMinerText {
+    width: 100%;
+    justify-content: center;
+    font-weight: 500;
+
+    @media (max-width: $mobileBreakPoint) {
+      font-size: 13px;
+    }
+  }
+
+  .tableMinerTextDisable {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+
+    @media (max-width: $mobileBreakPoint) {
+      font-size: 13px;
+    }
+  }
+}
+
+.highlightLink {
+  color: var(--primary-color);
+  text-decoration: none;
+}

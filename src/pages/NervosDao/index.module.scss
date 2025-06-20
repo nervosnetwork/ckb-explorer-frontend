@@ -1,0 +1,100 @@
+@import '../../styles/variables.module';
+
+.daoContentPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 40px;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin: 0;
+    padding: 20px;
+  }
+}
+
+.daoTabBarPanel {
+  width: 100%;
+  background: white;
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  padding: 10px 40px;
+  font-size: 18px;
+  border-radius: 6px 6px 0 0;
+
+  @media (max-width: $extraLargeBreakPoint) {
+    font-size: 16px;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    padding: 10px 0;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 14px;
+    align-items: stretch;
+
+    > div {
+      padding-left: 10px;
+      padding-right: 10px;
+      width: auto;
+    }
+  }
+
+  :global(.nervosDaoTabBar) {
+    display: flex;
+    height: 30px;
+    cursor: pointer;
+    margin-right: 15px;
+
+    @media (max-width: $mobileBreakPoint) {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      margin-right: 0;
+    }
+
+    :global(.div) {
+      font-size: 20px;
+
+      @media (max-width: $mobileBreakPoint) {
+        font-size: 13px;
+      }
+    }
+
+    div:nth-child(2) {
+      margin-left: 50px;
+
+      @media (max-width: $extraLargeBreakPoint) {
+        margin-left: 30px;
+      }
+    }
+
+    :global(.tabBarNormal) {
+      width: 140px;
+      text-align: center;
+      color: #000;
+      font-weight: normal;
+      font-size: 18px;
+
+      @media (max-width: $extraLargeBreakPoint) {
+        width: 110px;
+      }
+    }
+
+    :global(.tabBarSelected) {
+      width: 140px;
+      text-align: center;
+      font-size: 18px;
+      color: #000;
+      font-weight: bold;
+      border-bottom: 3px solid var(--primary-color);
+
+      @media (max-width: $extraLargeBreakPoint) {
+        width: 110px;
+      }
+    }
+  }
+}

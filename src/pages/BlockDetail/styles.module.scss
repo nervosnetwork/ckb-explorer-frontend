@@ -98,3 +98,79 @@
   border-top: 1px solid #e5e5e5;
   padding: 20px 0;
 }
+
+.blockDetailPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 40px;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin: 0;
+    padding: 20px;
+  }
+}
+
+.blockLinkPanel {
+  min-width: 0;
+
+  a {
+    font-weight: 500;
+    color: var(--primary-color);
+  }
+
+  a:hover {
+    color: var(--primary-color);
+  }
+}
+
+.blockMinerRewardPanel {
+  display: flex;
+  flex-direction: row;
+
+  &.sent img {
+    width: 30px;
+    margin: 0 0 3px 5px;
+    cursor: pointer;
+
+    @media (max-width: $mobileBreakPoint) {
+      width: 27px;
+      margin-bottom: 1px;
+    }
+  }
+
+  :global(.blockMinerRewardTip) {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    width: 15px;
+    margin: 3px 0 0 5px;
+    cursor: default;
+
+    @media (max-width: $mobileBreakPoint) {
+      width: 15px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.blockMinerMessagePanel {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+
+  :global(.blockMinerMessageUtf8) {
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
+    margin-left: 6px;
+  }
+}
+
+.blockTransactionsPagination {
+  margin-top: 4px;
+  width: 100%;
+}

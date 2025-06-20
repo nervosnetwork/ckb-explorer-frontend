@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useMemo, useRef } from 'react'
+import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import styles from './styles.module.scss'
 import { ReactComponent as DirectionIcon } from '../../assets/direction.svg'
@@ -6,7 +7,6 @@ import { localeNumberString } from '../../utils/number'
 import TransactionCell from './TransactionItemCell'
 import TransactionCellList from './TransactionItemCellList'
 import TransactionIncome from './TransactionIncome'
-import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
 import { IOType } from '../../constants/common'
 import AddressText from '../AddressText'
 import { useParsedDate } from '../../hooks'
@@ -105,9 +105,16 @@ const TransactionItem = ({
 
   return (
     <>
-      <TransactionPanel ref={ref} circleCorner={circleCorner}>
+      <div
+        ref={ref}
+        className={classNames(styles.transactionPanel, 'transactionPanel')}
+        style={{
+          borderRadius: circleCorner.top ? '6px 6px' : '0 0',
+          borderBottomLeftRadius: circleCorner.bottom ? '6px 6px' : '0 0',
+        }}
+      >
         {titleCard}
-        <TransactionHashBlockPanel>
+        <div className={styles.transactionHashBlockPanel}>
           <div className="transactionItemContent">
             <div className={styles.left}>
               <AddressText
@@ -125,8 +132,8 @@ const TransactionItem = ({
               <Time tx={isBlock ? undefined : transaction} />
             </div>
           </div>
-        </TransactionHashBlockPanel>
-        <TransactionCellPanel>
+        </div>
+        <div className={styles.transactionCellPanel}>
           <div className="transactionItemInput">
             <TransactionCellList
               cells={transaction.displayInputs}
@@ -141,18 +148,18 @@ const TransactionItem = ({
                 cells={transaction.displayOutputs}
                 transaction={transaction}
                 render={cell => (
-                  <FullPanel key={cell.id}>
+                  <div className={styles.fullPanel} key={cell.id}>
                     <TransactionCell cell={cell} address={address} ioType={IOType.Output} />
-                  </FullPanel>
+                  </div>
                 )}
               />
             ) : (
               <div className="transactionItemOutputEmpty">{t('transaction.empty_output')}</div>
             )}
           </div>
-        </TransactionCellPanel>
+        </div>
         {address && <TransactionIncome income={transaction.income} />}
-      </TransactionPanel>
+      </div>
       {transaction.isRgbTransaction && transaction.btcTx?.vout.some(v => v.scriptPubKey.asm.includes('OP_RETURN')) ? (
         <div className={styles.btcTxContent}>
           <BtcTransaction tx={transaction.btcTx} boundCellIndex={boundCellIndex} />

@@ -8,11 +8,12 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { handleAxis } from '../../../utils/chart'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import { HomeChartLink, ChartLoadingPanel } from './styled'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 import { useIsExtraLarge } from '../../../hooks'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ReactChartCore } from '../../StatisticsChart/common'
+import styles from './index.module.scss'
+import { Link } from '../../../components/Link'
 
 const useOption = () => {
   const { t } = useTranslation()
@@ -116,18 +117,18 @@ export default memo(() => {
 
   if (query.isLoading || statisticHashRates.length === 0) {
     return (
-      <ChartLoadingPanel>
+      <div className={styles.chartLoadingPanel}>
         {query.isLoading ? (
           <SmallLoading isWhite />
         ) : (
           <img className="chartNoData" src={ChartNoDataImage} alt="chart no data" />
         )}
-      </ChartLoadingPanel>
+      </div>
     )
   }
 
   return (
-    <HomeChartLink to="/charts/hash-rate">
+    <Link to="/charts/hash-rate" className={styles.homeChartLink}>
       <ReactChartCore
         option={parseOption(statisticHashRates, isXL)}
         notMerge
@@ -136,6 +137,6 @@ export default memo(() => {
           height: isXL ? '136px' : '190px',
         }}
       />
-    </HomeChartLink>
+    </Link>
   )
 })

@@ -11,7 +11,6 @@ import { localeNumberString, handleDifficulty } from '../../utils/number'
 import { useIsMobile, useSearchParams } from '../../hooks'
 import { hexToUtf8 } from '../../utils/string'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
-import { BlockLinkPanel, BlockMinerRewardPanel, BlockMinerMessagePanel, BlockTransactionsPagination } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import MoreIcon from '../../assets/more.png'
 import MinerRewardIcon from './miner_complete.png'
@@ -34,10 +33,10 @@ const CELL_BASE_ANCHOR = 'cellbase'
 const BlockMiner = ({ miner }: { miner: string }) => {
   const { t } = useTranslation()
   if (!miner) {
-    return <BlockLinkPanel>{t('address.unable_decode_address')}</BlockLinkPanel>
+    return <div className={styles.blockLinkPanel}>{t('address.unable_decode_address')}</div>
   }
   return (
-    <BlockLinkPanel>
+    <div className={styles.blockLinkPanel}>
       <AddressText
         linkProps={{
           to: `/address/${miner}`,
@@ -45,18 +44,18 @@ const BlockMiner = ({ miner }: { miner: string }) => {
       >
         {miner}
       </AddressText>
-    </BlockLinkPanel>
+    </div>
   )
 }
 
 const BlockMinerMessage = ({ minerMessage }: { minerMessage: string }) => {
   return (
-    <BlockMinerMessagePanel>
+    <div className={styles.blockMinerMessagePanel}>
       <AddressText monospace={false}>{minerMessage}</AddressText>
       <Tooltip placement="top" trigger={<img className="blockMinerMessageUtf8" src={MoreIcon} alt="more" />}>
         {`UTF-8: ${hexToUtf8(minerMessage)}`}
       </Tooltip>
-    </BlockMinerMessagePanel>
+    </div>
   )
 }
 
@@ -74,7 +73,7 @@ const BlockMinerReward = ({
     i18n: { language },
   } = useTranslation()
   return (
-    <BlockMinerRewardPanel sent={!!sentBlockNumber}>
+    <div className={`${styles.blockMinerRewardPanel} ${sentBlockNumber ? styles.sent : ''}`}>
       <div className="block__miner__reward_value">{value}</div>
       <Tooltip
         placement="top"
@@ -96,7 +95,7 @@ const BlockMinerReward = ({
       >
         {tooltip}
       </Tooltip>
-    </BlockMinerRewardPanel>
+    </div>
   )
 }
 
@@ -297,9 +296,9 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
       title: t('block.epoch_start_number'),
       tooltip: t('glossary.epoch_start_number'),
       content: (
-        <BlockLinkPanel>
+        <div className={styles.blockLinkPanel}>
           <Link to={`/block/${epochStartNumber}`}>{localeNumberString(epochStartNumber)}</Link>
-        </BlockLinkPanel>
+        </div>
       ),
     },
     {
@@ -422,9 +421,9 @@ export const BlockComp = ({
           ),
       )}
       {totalPages > 1 && (
-        <BlockTransactionsPagination>
+        <div className={styles.blockTransactionsPagination}>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={onPageChange} />
-        </BlockTransactionsPagination>
+        </div>
       )}
     </>
   )

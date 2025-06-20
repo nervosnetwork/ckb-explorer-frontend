@@ -1,5 +1,53 @@
+@import '../../../styles/variables.module';
+
 .tooltip {
   a {
     color: var(--primary-color);
+  }
+}
+
+.cellbasePanel {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  position: relative;
+  width: 100%;
+  margin-top: 16px;
+
+  &.isDetail {
+    margin-top: 0;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    margin-top: 10px;
+    height: 16px;
+  }
+
+  :global(.cellbaseContent) {
+    color: #000;
+  }
+
+  a {
+    font-weight: 500;
+    color: var(--primary-color);
+  }
+
+  a:hover {
+    color: var(--primary-color);
+  }
+
+  :global(.cellbaseHelp) {
+    margin-left: 10px;
+    transform: translateY(2px);
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  :global(.cellbaseHelpIcon) {
+    width: 16px;
+    height: 16px;
+    margin: 2px 8px 0;
   }
 }

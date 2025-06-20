@@ -1,10 +1,10 @@
 import { ReactNode } from 'react'
 import OutsideClickHandler from 'react-outside-click-handler'
-import { ModalPanel } from './styled'
+import styles from './index.module.scss'
 
 const SimpleModal = ({ children, isShow, setIsShow }: { children: ReactNode; isShow: boolean; setIsShow: Function }) =>
   isShow ? (
-    <ModalPanel>
+    <div className={styles.modalPanel}>
       <OutsideClickHandler
         onOutsideClick={e => {
           const elm = e.target as HTMLElement
@@ -19,7 +19,7 @@ const SimpleModal = ({ children, isShow, setIsShow }: { children: ReactNode; isS
       >
         {children}
       </OutsideClickHandler>
-    </ModalPanel>
+    </div>
   ) : null
 
 export default SimpleModal

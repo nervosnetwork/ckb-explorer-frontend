@@ -7,11 +7,12 @@ import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { localeNumberString } from '../../../utils/number'
 import SmallLoading from '../../../components/Loading/SmallLoading'
-import { HomeChartLink, ChartLoadingPanel } from './styled'
+import styles from './index.module.scss'
 import ChartNoDataImage from '../../../assets/chart_no_data_white.png'
 import { useIsExtraLarge } from '../../../hooks'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ReactChartCore } from '../../StatisticsChart/common'
+import { Link } from '../../../components/Link'
 
 const useOption = () => {
   const { t } = useTranslation()
@@ -125,17 +126,17 @@ export default memo(() => {
 
   if (query.isLoading || statisticAverageBlockTimes.length === 0) {
     return (
-      <ChartLoadingPanel>
+      <div className={styles.chartLoadingPanel}>
         {query.isLoading ? (
           <SmallLoading isWhite />
         ) : (
           <img className="chartNoData" src={ChartNoDataImage} alt="chart no data" />
         )}
-      </ChartLoadingPanel>
+      </div>
     )
   }
   return (
-    <HomeChartLink to="/charts/average-block-time">
+    <Link to="/charts/average-block-time">
       <ReactChartCore
         option={parseOption(statisticAverageBlockTimes, isXL)}
         notMerge
@@ -144,6 +145,6 @@ export default memo(() => {
           height: isXL ? '136px' : '190px',
         }}
       />
-    </HomeChartLink>
+    </Link>
   )
 })

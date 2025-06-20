@@ -1,0 +1,91 @@
+/* stylelint-disable selector-class-pattern */
+@import '../../styles/variables.module';
+
+.chartsContent {
+  margin-top: 40px;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin-top: 20px;
+  }
+}
+
+.chartsTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+}
+
+.chartsPanel {
+  margin: 20px 0;
+  padding: 20px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px 0 rgb(0 0 0 / 12%);
+
+  @media (max-width: $mobileBreakPoint) {
+    padding: 20px 10px;
+  }
+
+  :global(.chartsCategoryTitle) {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+    margin-left: 10px;
+  }
+
+  :global(.chartsCategoryPanel) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 0 3px;
+  }
+}
+
+.chartCardPanel {
+  width: 280px;
+  height: 220px;
+  background: white;
+  margin: 20px 7px;
+  cursor: pointer;
+
+  @media (max-width: $mobileBreakPoint) {
+    width: 100%;
+  }
+
+  :global(.echarts-for-react) {
+    canvas {
+      cursor: pointer;
+    }
+  }
+
+  :global(.chartCardTitlePenal) {
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    background: #f8f9fa;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid #e2e2e2;
+    border-width: 1px 1px 0;
+    height: 40px;
+
+    > img {
+      width: 16px;
+      height: 16px;
+      margin-left: 10px;
+    }
+  }
+
+  :global(.chartCardTitle) {
+    height: 40px;
+    line-height: 40px;
+    color: #000;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  :global(.chartCardBody) {
+    border-radius: 0 0 6px 6px;
+    box-shadow: 2px 2px 10px 0 rgb(43 43 43 / 5%);
+    border: 1px solid #e2e2e2;
+  }
+}

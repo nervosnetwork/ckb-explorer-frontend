@@ -10,14 +10,6 @@ import UDTTokenIcon from '../../../assets/udt_token.png'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { localeNumberString, parseUDTAmount } from '../../../utils/number'
 import { isDaoCell, isDaoDepositCell, isDaoWithdrawCell, shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
-import {
-  TransactionCellPanel,
-  TransactionCellCapacityPanel,
-  WithdrawInfoPanel,
-  WithdrawItemPanel,
-  TransactionCellWithdraw,
-  TransactionCellUDTPanel,
-} from './styled'
 import { IOType } from '../../../constants/common'
 import { CellInputIcon, CellOutputIcon } from '../../Transaction/TransactionCellArrow'
 import Capacity from '../../Capacity'
@@ -92,10 +84,10 @@ const WithdrawPopoverItem = ({
   title: string
   content: ReactNode | string
 }) => (
-  <WithdrawItemPanel width={width}>
-    <div className="withdrawInfoTitle">{title}</div>
+  <div className={classNames(styles.withdrawItemPanel)}>
+    <div className={classNames('withdrawInfoTitle', width)}>{title}</div>
     <div className="withdrawInfoContent">{content}</div>
-  </WithdrawItemPanel>
+  </div>
 )
 
 const WithdrawPopoverInfo = ({ cell }: { cell: Cell }) => {
@@ -106,7 +98,7 @@ const WithdrawPopoverInfo = ({ cell }: { cell: Cell }) => {
     width = isDaoDepositCell(cell.cellType) ? 'long' : 'medium'
   }
   return (
-    <WithdrawInfoPanel>
+    <div className={styles.withdrawInfoPanel}>
       <p>
         {isDaoWithdrawCell(cell.cellType) ? t('nervos_dao.withdraw_tooltip') : t('nervos_dao.withdraw_request_tooltip')}
       </p>
@@ -168,14 +160,14 @@ const WithdrawPopoverInfo = ({ cell }: { cell: Cell }) => {
           />
         </>
       )}
-    </WithdrawInfoPanel>
+    </div>
   )
 }
 
 const TransactionCellNervosDao = ({ cell, ioType }: { cell: Cell; ioType: IOType }) => {
   const { t } = useTranslation()
   return (
-    <TransactionCellWithdraw>
+    <div className={styles.transactionCellWithdraw}>
       <Capacity capacity={shannonToCkb(cell.capacity)} />
       {ioType === IOType.Input ? (
         <Popover
@@ -195,7 +187,7 @@ const TransactionCellNervosDao = ({ cell, ioType }: { cell: Cell; ioType: IOType
           {t(isDaoDepositCell(cell.cellType) ? 'nervos_dao.deposit_tooltip' : 'nervos_dao.calculation_tooltip')}
         </Tooltip>
       )}
-    </TransactionCellWithdraw>
+    </div>
   )
 }
 
@@ -203,12 +195,12 @@ const TransactionCellUDT = ({ cell }: { cell: Cell$UDT }) => {
   const { extraInfo } = cell
 
   return (
-    <TransactionCellUDTPanel>
+    <div className={styles.transactionCellUDTPanel}>
       <span>{useUdtAmount(extraInfo)}</span>
       <Tooltip trigger={<img src={UDTTokenIcon} className="transactionCellUdtIcon" alt="udt token" />}>
         {`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
       </Tooltip>
-    </TransactionCellUDTPanel>
+    </div>
   )
 }
 
@@ -276,7 +268,7 @@ const TransactionCell = ({ cell, address, ioType }: { cell: Cell; address?: stri
   highLight = addressText !== address
 
   return (
-    <TransactionCellPanel highLight={highLight}>
+    <div className={classNames(styles.transactionCellPanel, highLight && styles.highLight)}>
       <div className="transactionCellAddress">
         {ioType === IOType.Input && <CellInputIcon cell={cell} />}
         <AddressTextWithAlias
@@ -293,7 +285,7 @@ const TransactionCell = ({ cell, address, ioType }: { cell: Cell; address?: stri
           </Tooltip>
         )}
       </div>
-      <TransactionCellCapacityPanel>
+      <div className={styles.transactionCellCapacityPanel}>
         {!highLight && isMobile && (
           <Tooltip
             trigger={<img className={styles.currentAddressIcon} src={CurrentAddressIcon} alt="current Address" />}
@@ -312,8 +304,8 @@ const TransactionCell = ({ cell, address, ioType }: { cell: Cell; address?: stri
         <SimpleModal isShow={showModal} setIsShow={setShowModal}>
           <CellModal cell={cell} onClose={() => setShowModal(false)} />
         </SimpleModal>
-      </TransactionCellCapacityPanel>
-    </TransactionCellPanel>
+      </div>
+    </div>
   )
 }
 

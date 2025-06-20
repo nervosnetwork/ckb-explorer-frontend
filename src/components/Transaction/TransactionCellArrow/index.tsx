@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../Link'
 import { IOType } from '../../../constants/common'
@@ -6,21 +7,25 @@ import RightBlueArrow from './right_blue_arrow.png'
 import LiveCellIcon from './live_cell.png'
 import LiveCellBlueIcon from './live_cell_blue.png'
 import { isMainnet } from '../../../utils/chain'
-import { RightArrowImage, LeftArrowImage } from './styled'
 import { Cell } from '../../../models/Cell'
 import Tooltip from '../../Tooltip'
+import styles from './index.module.scss'
 
 export const RightArrow = ({ status = 'live' }: { status?: Cell['status'] }) => {
   if (status === 'live') {
-    return <RightArrowImage src={isMainnet() ? LiveCellIcon : LiveCellBlueIcon} alt="right arrow" />
+    return (
+      <img className={styles.rightArrowImage} src={isMainnet() ? LiveCellIcon : LiveCellBlueIcon} alt="right arrow" />
+    )
   }
 
-  return <RightArrowImage src={isMainnet() ? RightGreenArrow : RightBlueArrow} alt="right arrow" />
+  return (
+    <img className={styles.rightArrowImage} src={isMainnet() ? RightGreenArrow : RightBlueArrow} alt="right arrow" />
+  )
 }
 
 export const LeftArrow = () => (
-  <LeftArrowImage
-    className="transactionCellLeftArrow"
+  <img
+    className={classNames(styles.leftArrowImage, 'transactionCellLeftArrow')}
     src={isMainnet() ? RightGreenArrow : RightBlueArrow}
     alt="left arrow"
   />

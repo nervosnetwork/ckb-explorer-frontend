@@ -8,7 +8,6 @@ import { Link } from '../../components/Link'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import SortButton from '../../components/SortButton'
-import { TokensPanel, TokensContentEmpty, TokensLoadingPanel } from './styled'
 import HelpIcon from '../../assets/qa_help.png'
 import { localeNumberString } from '../../utils/number'
 import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
@@ -173,11 +172,11 @@ export function TokensCard({
 
       <QueryResult
         query={query}
-        errorRender={() => <TokensContentEmpty>{t('udt.tokens_empty')}</TokensContentEmpty>}
+        errorRender={() => <div className={styles.tokensContentEmpty}>{t('udt.tokens_empty')}</div>}
         loadingRender={() => (
-          <TokensLoadingPanel>
+          <div className={styles.tokensLoadingPanel}>
             <SmallLoading />
-          </TokensLoadingPanel>
+          </div>
         )}
       >
         {data => (
@@ -410,7 +409,7 @@ const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
 
   return (
     <Content>
-      <TokensPanel className="container">
+      <div className={`${styles.tokensPanel} container`}>
         <div className="tokensTitlePanel">
           <div className={styles.title}>
             <span className={styles.titleText}>
@@ -448,7 +447,7 @@ const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
           totalPages={totalPages}
           onChange={setPage}
         />
-      </TokensPanel>
+      </div>
       {isSubmitTokenInfoModalOpen ? (
         <SubmitTokenInfo tagFilters={['sudt']} onClose={() => setIsSubmitTokenInfoModalOpen(false)} />
       ) : null}

@@ -1,12 +1,9 @@
-import { useMemo } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { DefaultTheme, ThemeProvider } from 'styled-components'
 import Routers from './routes'
 import Toast from './components/Toast'
 import { isMainnet } from './utils/chain'
 import { DASQueryContextProvider } from './hooks/useDASAccount'
 import { CKBNodeProvider } from './hooks/useCKBNode'
-import { getPrimaryColor, getSecondaryColor } from './constants/common'
 import Decoder from './components/Decoder'
 import config from './config'
 
@@ -31,28 +28,18 @@ const queryClient = new QueryClient({
 })
 
 const App = () => {
-  const theme = useMemo<DefaultTheme>(
-    () => ({
-      primary: getPrimaryColor(),
-      secondary: getSecondaryColor(),
-    }),
-    [],
-  )
-
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <div style={appStyle} data-net={isMainnet() ? 'mainnet' : 'testnet'}>
-          <QueryClientProvider client={queryClient}>
-            <CKBNodeProvider defaultEndpoint={backupNodes[0]}>
-              <DASQueryContextProvider>
-                <Routers />
-                <Toast />
-              </DASQueryContextProvider>
-            </CKBNodeProvider>
-          </QueryClientProvider>
-        </div>
-      </ThemeProvider>
+      <div style={appStyle} data-net={isMainnet() ? 'mainnet' : 'testnet'}>
+        <QueryClientProvider client={queryClient}>
+          <CKBNodeProvider defaultEndpoint={backupNodes[0]}>
+            <DASQueryContextProvider>
+              <Routers />
+              <Toast />
+            </DASQueryContextProvider>
+          </CKBNodeProvider>
+        </QueryClientProvider>
+      </div>
       <Decoder />
     </>
   )

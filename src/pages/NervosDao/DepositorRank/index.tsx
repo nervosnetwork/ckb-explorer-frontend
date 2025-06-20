@@ -4,14 +4,6 @@ import { shannonToCkb } from '../../../utils/util'
 import Capacity from '../../../components/Capacity'
 import { handleBigNumber } from '../../../utils/string'
 import { CsvExport } from '../../../components/CsvExport'
-import {
-  DepositorRankCardPanel,
-  DepositorRankPanel,
-  DepositorRankTitle,
-  DepositorSeparate,
-  DepositorRankItem,
-  DepositorFooterPanel,
-} from './styled'
 import AddressText from '../../../components/AddressText'
 import styles from './index.module.scss'
 import { useIsMobile } from '../../../hooks'
@@ -77,41 +69,41 @@ export default ({ depositors, filter }: { depositors: NervosDaoDepositor[]; filt
 
   return useIsMobile() ? (
     <>
-      <DepositorRankCardPanel>
+      <div className={styles.depositorRankCardPanel}>
         <DepositorCardGroup depositors={filteredDepositors} />
-      </DepositorRankCardPanel>
-      <DepositorFooterPanel>
+      </div>
+      <div className={styles.depositorFooterPanel}>
         <div style={{ marginLeft: 'auto' }}>
           <CsvExport link="/nervosdao/depositor/export" />
         </div>
-      </DepositorFooterPanel>
+      </div>
     </>
   ) : (
     <>
-      <DepositorRankPanel>
-        <DepositorRankTitle>
+      <div className={styles.depositorRankPanel}>
+        <div className={styles.depositorRankTitle}>
           <div>{t('nervos_dao.dao_title_rank')}</div>
           <div>{t('nervos_dao.dao_title_address')}</div>
           <div>{t('nervos_dao.dao_title_deposit_capacity')}</div>
           <div>{t('nervos_dao.dao_title_deposit_time')}</div>
-        </DepositorRankTitle>
-        <DepositorSeparate />
+        </div>
+        <div className={styles.depositorSeparate} />
         {filteredDepositors.map(depositor => (
-          <DepositorRankItem key={depositor.addressHash}>
+          <div className={styles.depositorRankItem} key={depositor.addressHash}>
             <div>{depositor.rank}</div>
             <AddressTextCol address={depositor.addressHash} />
             <div>
               <Capacity capacity={shannonToCkb(depositor.daoDeposit)} layout="responsive" />
             </div>
             <div>{handleBigNumber(depositor.averageDepositTime, 1)}</div>
-          </DepositorRankItem>
+          </div>
         ))}
-      </DepositorRankPanel>
-      <DepositorFooterPanel>
+      </div>
+      <div className={styles.depositorFooterPanel}>
         <div style={{ marginLeft: 'auto' }}>
           <CsvExport link="/nervosdao/depositor/export" />
         </div>
-      </DepositorFooterPanel>
+      </div>
     </>
   )
 }

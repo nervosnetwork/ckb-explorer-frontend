@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next'
 import debounce from 'lodash.debounce'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
-import { SearchPanel, SearchButton } from './styled'
 import { explorerService, Response, SearchResultType, type AggregateSearchResult } from '../../services/ExplorerService'
 import { getReverseAddresses } from '../../services/DidService'
 import { ethToCKb as DidEthToCkb } from '../../utils/did'
@@ -149,7 +148,13 @@ const Search: FC<{
   }
 
   return (
-    <SearchPanel moreHeight={hasButton} hasButton={hasButton}>
+    <div
+      className={styles.searchPanel}
+      style={{
+        height: hasButton ? '40px' : '32px',
+        paddingRight: hasButton ? '0' : '8px',
+      }}
+    >
       {isFetching ? (
         <SpinnerIcon className={classNames(styles.preIcon, styles.spinner)} />
       ) : (
@@ -170,12 +175,16 @@ const Search: FC<{
           <ClearIcon />
         </SimpleButton>
       )}
-      {hasButton && <SearchButton onClick={handleSearch}>{t('search.search')}</SearchButton>}
+      {hasButton && (
+        <div className={styles.searchButton} onClick={handleSearch}>
+          {t('search.search')}
+        </div>
+      )}
 
       {(isFetching || aggregateSearchResults) && (
         <AggregateSearchResults keyword={keyword} results={aggregateSearchResults ?? []} loading={isFetching} />
       )}
-    </SearchPanel>
+    </div>
   )
 })
 

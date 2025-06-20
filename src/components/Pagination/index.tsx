@@ -1,6 +1,6 @@
 import { useState } from 'react'
+import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
-import { PaginationLeftItem, PaginationRightItem, PaginationPanel } from './styled'
 import LeftBlack from './pagination_black_left.png'
 import RightBlack from './pagination_black_right.png'
 import LeftGrey from './pagination_grey_left.png'
@@ -51,12 +51,29 @@ const Pagination = ({
   }
 
   return (
-    <PaginationPanel className={className}>
-      <PaginationLeftItem isFirstPage={current === 1} isLastPage={current === total}>
-        <SimpleButton className="paginationFirstButton" onClick={() => changePage(1)}>
+    <div className={classNames(styles.paginationPanel, className)}>
+      <div
+        className={classNames(styles.paginationLeftItem, {
+          isFirstPage: current === 1,
+          isLastPage: current === total,
+        })}
+      >
+        <SimpleButton
+          className={classNames('paginationFirstButton', {
+            isFirstPage: current === 1,
+            isLastPage: current === total,
+          })}
+          onClick={() => changePage(1)}
+        >
           {t('pagination.first')}
         </SimpleButton>
-        <SimpleButton className="paginationLeftButton" onClick={() => changePage(current - 1)}>
+        <SimpleButton
+          className={classNames('paginationLeftButton', {
+            isFirstPage: current === 1,
+            isLastPage: current === total,
+          })}
+          onClick={() => changePage(current - 1)}
+        >
           <img src={current === 1 ? LeftGrey : LeftBlack} alt="left button" />
         </SimpleButton>
 
@@ -66,7 +83,13 @@ const Pagination = ({
             {annotationComp}
           </span>
         )}
-        <SimpleButton className="paginationRightButton" onClick={() => changePage(current + 1)}>
+        <SimpleButton
+          className={classNames('paginationRightButton', {
+            isFirstPage: current === 1,
+            isLastPage: current === total,
+          })}
+          onClick={() => changePage(current + 1)}
+        >
           <img src={current === total ? RightGrey : RightBlack} alt="right button" />
         </SimpleButton>
         {isMobile && (
@@ -76,7 +99,13 @@ const Pagination = ({
           </span>
         )}
 
-        <SimpleButton className="paginationLastButton" onClick={() => changePage(total)}>
+        <SimpleButton
+          className={classNames('paginationLastButton', {
+            isFirstPage: current === 1,
+            isLastPage: current === total,
+          })}
+          onClick={() => changePage(total)}
+        >
           {t('pagination.last')}
         </SimpleButton>
         {presetPageSizes ? (
@@ -99,8 +128,8 @@ const Pagination = ({
             </div>
           </div>
         ) : null}
-      </PaginationLeftItem>
-      <PaginationRightItem>
+      </div>
+      <div className={styles.paginationRightItem}>
         <span className="paginationPageLabel">{t('pagination.page')}</span>
         <input
           type="text"
@@ -120,8 +149,8 @@ const Pagination = ({
         <SimpleButton className="paginationGotoPage" onClick={() => changePage(inputPage)}>
           {t('pagination.goto')}
         </SimpleButton>
-      </PaginationRightItem>
-    </PaginationPanel>
+      </div>
+    </div>
   )
 }
 

@@ -1,6 +1,6 @@
 import { FC, memo, useCallback } from 'react'
 import Search from '../../Search'
-import { HeaderSearchPanel } from './styled'
+import styles from './index.module.scss'
 
 export const SearchComp: FC<{
   setExpanded?: (expanded: boolean) => void
@@ -13,8 +13,8 @@ export const SearchComp: FC<{
   }, [hideMobileMenu])
 
   return (
-    <HeaderSearchPanel>
+    <div className={styles.headerSearchPanel}>
       <Search onEditEnd={onEditEnd} />
-    </HeaderSearchPanel>
+    </div>
   )
 })

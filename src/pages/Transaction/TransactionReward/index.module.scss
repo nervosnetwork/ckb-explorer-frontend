@@ -1,0 +1,43 @@
+@import '../../../styles/variables.module';
+
+.rewardItemPenal {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  color: #000;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin: 5px 10px;
+    justify-content: space-between;
+  }
+
+  :global(.rewardName) {
+    font-weight: 500;
+  }
+
+  :global(.rewardCapacity) {
+    margin-left: 15px;
+
+    > span {
+      margin-left: 5px;
+    }
+  }
+}
+
+.rewardPenal {
+  @media (min-width: $mobileBreakPoint) {
+    margin-bottom: -20px;
+  }
+
+  :global(.transactionRewardTitle) {
+    margin-left: 10px;
+    margin-top: 12px;
+    color: #666;
+
+    @media (min-width: $mobileBreakPoint) {
+      display: none;
+    }
+  }
+}

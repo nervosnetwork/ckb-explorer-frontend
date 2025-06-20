@@ -1,7 +1,6 @@
 import { useState, FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { AddressAssetsTabPaneTitle, AddressUDTAssetsPanel } from './styled'
 import styles from './styles.module.scss'
 import { Address, UDTAccount } from '../../models/Address'
 import { Card } from '../../components/Card'
@@ -90,28 +89,28 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
       <div className={styles.cardTitle}>{t('address.overview')}</div>
 
       {hasAssets || hasCells ? (
-        <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
+        <div className={styles.addressUDTAssetsPanel}>
           <Tabs value={activeTab.toString()} type="underline">
             <TabsList>
               {hasCells && (
                 <TabsTrigger value={AssetInfo.CELLs.toString()}>
-                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.CELLs)}>
+                  <span className={styles.addressAssetsTabPaneTitle} onClick={() => setActiveTab(AssetInfo.CELLs)}>
                     {t('address.live_cell_tab')}
-                  </AddressAssetsTabPaneTitle>
+                  </span>
                 </TabsTrigger>
               )}
               {hasAssets && (
                 <TabsTrigger value={AssetInfo.RGBPP.toString()}>
-                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.RGBPP)}>
+                  <span className={styles.addressAssetsTabPaneTitle} onClick={() => setActiveTab(AssetInfo.RGBPP)}>
                     {t('address.rgb_plus_plus')}
-                  </AddressAssetsTabPaneTitle>
+                  </span>
                 </TabsTrigger>
               )}
               {hasInvalid && (
                 <TabsTrigger value={AssetInfo.Invalid.toString()}>
-                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.Invalid)}>
+                  <span className={styles.addressAssetsTabPaneTitle} onClick={() => setActiveTab(AssetInfo.Invalid)}>
                     {t('address.invalid')}
-                  </AddressAssetsTabPaneTitle>
+                  </span>
                 </TabsTrigger>
               )}
             </TabsList>
@@ -149,7 +148,7 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
               </TabsContent>
             )}
           </Tabs>
-        </AddressUDTAssetsPanel>
+        </div>
       ) : null}
     </Card>
   )

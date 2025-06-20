@@ -358,4 +358,60 @@
   text-align: center;
   font-size: 16px;
   margin-top: 4px;
+  margin-bottom: 180px;
+
+  @media (max-width: $mobileBreakPoint) {
+    font-size: 14px;
+    border-radius: 6px;
+    margin-bottom: 160px;
+  }
+}
+
+.tokensLoadingPanel {
+  width: 100%;
+  text-align: center;
+
+  @media (max-width: $mobileBreakPoint) {
+    height: 100px;
+    line-height: 100px;
+    margin-bottom: 160px;
+    width: 100%;
+    text-align: center;
+    margin-top: 4px;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 2px 6px 0 rgb(0 0 0 / 12%);
+    background-color: #fff;
+  }
+}
+
+.tokensPanel {
+  margin-top: 40px;
+  margin-bottom: 60px;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  :global(.tokensTitlePanel) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    @media (max-width: $mobileBreakPoint) {
+      margin-bottom: 10px;
+    }
+
+    > span {
+      color: #000;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    > a {
+      font-size: 14px;
+      color: var(--primary-color);
+    }
+  }
 }
