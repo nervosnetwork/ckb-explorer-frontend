@@ -1,22 +1,24 @@
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ContractHashTag } from '../../constants/scripts'
-import { ScriptItemPanel, ScriptPanel } from './styled'
+import { type ContractHashTag, SCRIPT_TAGS } from '../../constants/scripts'
 import HashTag from '../HashTag'
 import { getContractHashTag } from '../../utils/util'
 import { isTypeIdScript, TYPE_ID_TAG } from '../../utils/typeid'
 import { HelpTip } from '../HelpTip'
 import { Script } from '../../models/Script'
+import styles from './index.module.scss'
+
+const IGNORE_HASH_TYPE = true
 
 const ScriptItem = ({ title, tooltip, children }: { title: string; tooltip?: string; children?: ReactNode }) => (
-  <ScriptItemPanel>
+  <div className={styles.scriptItemPanel}>
     <div className="scriptTitle">
       <span>{title}</span>
       {tooltip && <HelpTip>{tooltip}</HelpTip>}
       <span>:</span>
     </div>
     <div className="scriptContent">{children}</div>
-  </ScriptItemPanel>
+  </div>
 )
 
 const ScriptComp = ({ script }: { script: Script }) => {
@@ -25,15 +27,21 @@ const ScriptComp = ({ script }: { script: Script }) => {
   if (isTypeIdScript(script)) {
     hashTag = { tag: TYPE_ID_TAG }
   } else {
-    hashTag = getContractHashTag(script)
+    hashTag = getContractHashTag(script, IGNORE_HASH_TYPE)
   }
 
   return (
-    <ScriptPanel>
+    <div className={styles.scriptPanel}>
       <ScriptItem title={t('address.code_hash')}>
         <div className="scriptCodeHash">
           <span className="monospace">{script.codeHash}</span>
-          {hashTag && <HashTag content={hashTag.tag} script={script} />}
+          {hashTag && (
+            <HashTag
+              content={hashTag.tag}
+              script={script}
+              showScriptSuffix={hashTag.tag === SCRIPT_TAGS.SECP_MULTISIG}
+            />
+          )}
         </div>
       </ScriptItem>
       <ScriptItem title={t('address.hash_type')}>
@@ -44,7 +52,7 @@ const ScriptComp = ({ script }: { script: Script }) => {
           {script.args}
         </span>
       </ScriptItem>
-    </ScriptPanel>
+    </div>
   )
 }
 

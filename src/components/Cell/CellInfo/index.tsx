@@ -8,7 +8,6 @@ import classNames from 'classnames'
 import type { ContractHashTag } from '../../../constants/scripts'
 import { explorerService } from '../../../services/ExplorerService'
 import { hexToUtf8 } from '../../../utils/string'
-import { TransactionCellDetailTitle } from './styled'
 import SmallLoading from '../../Loading/SmallLoading'
 import CloseIcon from './modal_close.png'
 import { getBtcTimeLockInfo, getBtcUtxo } from '../../../utils/util'
@@ -525,20 +524,20 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
           <TabsList className={styles.tabsList}>
             <TabsTrigger value={CellInfo.LOCK}>
               <>
-                <TransactionCellDetailTitle>{t('transaction.lock_script')}</TransactionCellDetailTitle>
+                <span className={styles.transactionCellDetailTitle}>{t('transaction.lock_script')}</span>
                 <HelpTip>{t('glossary.lock_script')}</HelpTip>
               </>
             </TabsTrigger>
             <TabsTrigger value={CellInfo.TYPE}>
               <>
-                <TransactionCellDetailTitle>{t('transaction.type_script')}</TransactionCellDetailTitle>
+                <span className={styles.transactionCellDetailTitle}>{t('transaction.type_script')}</span>
                 <HelpTip>{t('glossary.type_script')}</HelpTip>
               </>
             </TabsTrigger>
             <TabsTrigger value={CellInfo.DATA}>{t('transaction.data')}</TabsTrigger>
             <TabsTrigger value={CellInfo.CAPACITY}>
               <>
-                <TransactionCellDetailTitle>{t('transaction.capacity_usage')}</TransactionCellDetailTitle>
+                <span className={styles.transactionCellDetailTitle}>{t('transaction.capacity_usage')}</span>
                 <HelpTip>{t('glossary.capacity_usage')}</HelpTip>
               </>
             </TabsTrigger>

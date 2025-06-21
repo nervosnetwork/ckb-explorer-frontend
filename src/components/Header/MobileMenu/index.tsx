@@ -1,13 +1,13 @@
-import { MobileMenusPanel } from './styled'
+import styles from './index.module.scss'
 import MenuItems, { MoreMenu } from '../MenusComp'
 import { SearchComp } from '../SearchComp'
 import BlockchainComp from '../BlockchainComp'
 
 export default ({ hideMobileMenu }: { hideMobileMenu: () => void }) => (
-  <MobileMenusPanel>
+  <div className={styles.mobileMenusPanel}>
     <MenuItems isMobile />
-    <BlockchainComp isMobile />
+    <BlockchainComp />
     <MoreMenu isMobile />
     <SearchComp hideMobileMenu={hideMobileMenu} />
-  </MobileMenusPanel>
+  </div>
 )

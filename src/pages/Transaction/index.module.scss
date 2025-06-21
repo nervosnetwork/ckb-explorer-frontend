@@ -1,0 +1,45 @@
+@import '../../styles/variables.module';
+
+.transactionDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin: 0;
+    padding: 20px;
+  }
+
+  :global(.transactionInputs) {
+    width: 100%;
+    margin-top: 4px;
+
+    @media (max-width: $mobileBreakPoint) {
+      margin-top: 20px;
+    }
+  }
+
+  :global(.transactionOutputs) {
+    width: 100%;
+    margin-top: 24px;
+
+    @media (max-width: $mobileBreakPoint) {
+      margin-top: 20px;
+    }
+  }
+
+  :global(.transactionLite) {
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 2px 2px 6px 0 #dfdfdf;
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 16px 36px 12px;
+
+    @media (max-width: $mobileBreakPoint) {
+      padding: 16px 18px;
+    }
+  }
+}

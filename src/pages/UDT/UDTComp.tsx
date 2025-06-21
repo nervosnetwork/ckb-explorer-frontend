@@ -3,7 +3,6 @@ import { FC, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { Link } from '../../components/Link'
 import TransactionItem from '../../components/TransactionItem/index'
-import { UDTTransactionsPagination, UDTTransactionsPanel, TypeScriptController, UDTNoResultPanel } from './styled'
 import { parseUDTAmount } from '../../utils/number'
 import { ReactComponent as OpenInNew } from '../../assets/open_in_new.svg'
 import { deprecatedAddrToNewAddr } from '../../utils/util'
@@ -30,6 +29,7 @@ import { ReactComponent as ViewOriginalIcon } from './view_original.svg'
 import Loading from '../../components/Loading'
 import { RawBtcRPC } from '../../services/ExplorerService'
 import Tooltip from '../../components/Tooltip'
+import SimpleButton from '../../components/SimpleButton'
 
 const typeScriptIcon = (show: boolean) => {
   if (show) {
@@ -224,10 +224,10 @@ export const UDTOverviewCard = ({
 
         <CardCellsLayout type="left-right" cells={items} borderTop />
 
-        <TypeScriptController onClick={() => setShowType(!showType)}>
+        <SimpleButton className={styles.typeScriptController} onClick={() => setShowType(!showType)}>
           <div>{t('udt.type_script')}</div>
           <img alt="type script" src={typeScriptIcon(showType)} />
-        </TypeScriptController>
+        </SimpleButton>
         {showType && typeScript && <Script script={typeScript} />}
       </Card>
       {tokenInfo && isModifyTokenInfoModalOpen ? (
@@ -267,23 +267,23 @@ export const UDTComp = ({
 
   if (filterNoResult) {
     return (
-      <UDTNoResultPanel>
+      <div className={styles.udtNoResultPanel}>
         <span>{t('search.udt_filter_no_result')}</span>
-      </UDTNoResultPanel>
+      </div>
     )
   }
 
   if (transactions.length === 0) {
     return (
-      <UDTNoResultPanel>
+      <div className={styles.udtNoResultPanel}>
         <span>{t('transaction.no_records')}</span>
-      </UDTNoResultPanel>
+      </div>
     )
   }
 
   return (
     <>
-      <UDTTransactionsPanel>
+      <div className={styles.udtTransactionsPanel}>
         {transactions.map(
           (transaction, index) =>
             transaction && (
@@ -296,8 +296,8 @@ export const UDTComp = ({
               />
             ),
         )}
-      </UDTTransactionsPanel>
-      <UDTTransactionsPagination>
+      </div>
+      <div className={styles.udtTransactionsPagination}>
         <PaginationWithRear
           currentPage={currentPage}
           totalPages={totalPages}
@@ -310,7 +310,7 @@ export const UDTComp = ({
             />
           }
         />
-      </UDTTransactionsPagination>
+      </div>
     </>
   )
 }

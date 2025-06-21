@@ -1,5 +1,50 @@
 @import '../../styles/variables.module';
 
+.searchPanel {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 0 solid white;
+  border-radius: 4px;
+
+  [data-role='search-result-list'] {
+    display: none;
+  }
+
+  &:focus-within {
+    [data-role='search-result-list'] {
+      display: flex;
+    }
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    padding-right: 8px;
+  }
+}
+
+.searchButton {
+  flex-shrink: 0;
+  width: 72px;
+  height: calc(100% - 4px);
+  margin: 2px 2px 2px 16px;
+  border-radius: 0 4px 4px 0;
+  background-color: #121212;
+  text-align: center;
+  line-height: 34px;
+  color: #fff;
+  letter-spacing: 0.2px;
+  font-size: 14px;
+  cursor: pointer;
+
+  @media (max-width: $mobileBreakPoint) {
+    display: none;
+  }
+}
+
 .searchInputPanel {
   position: relative;
   width: 100%;

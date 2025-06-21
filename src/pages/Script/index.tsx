@@ -13,7 +13,6 @@ import { shannonToCkb } from '../../utils/util'
 import Capacity from '../../components/Capacity'
 import styles from './styles.module.scss'
 import { type ScriptInfo, explorerService } from '../../services/ExplorerService'
-import { ScriptTabTitle } from './styled'
 import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { ReactComponent as VerifiedIcon } from '../../assets/verified-icon.svg'
@@ -267,17 +266,17 @@ export const ScriptPage = () => {
         >
           <TabsList>
             <TabsTrigger value="transactions">
-              <ScriptTabTitle>{`${t('transaction.transactions')}`}</ScriptTabTitle>
+              <span className={styles.scriptTabTitle}>{`${t('transaction.transactions')}`}</span>
             </TabsTrigger>
             <TabsTrigger value="deployed_cells">
-              <ScriptTabTitle>
+              <span className={styles.scriptTabTitle}>
                 {`${t('scripts.deployed_cells')} (${localeNumberString(countOfDeployedCells)})`}
-              </ScriptTabTitle>
+              </span>
             </TabsTrigger>
             <TabsTrigger value="referring_cells">
-              <ScriptTabTitle>
+              <span className={styles.scriptTabTitle}>
                 {`${t('scripts.referring_cells')} (${localeNumberString(countOfReferringCells)})`}
-              </ScriptTabTitle>
+              </span>
             </TabsTrigger>
           </TabsList>
           <TabsContent value="transactions" style={{ width: '100%' }}>

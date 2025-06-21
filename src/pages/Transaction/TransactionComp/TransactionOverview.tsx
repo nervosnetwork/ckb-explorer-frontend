@@ -10,7 +10,6 @@ import { LayoutLiteProfessional } from '../../../constants/common'
 import { parseSimpleDate } from '../../../utils/date'
 import { localeNumberString } from '../../../utils/number'
 import { shannonToCkb, useFormatConfirmation } from '../../../utils/util'
-import { TransactionBlockHeightPanel, TransactionOverviewPanel } from './styled'
 import { explorerService, useLatestBlockNumber } from '../../../services/ExplorerService'
 import { Transaction } from '../../../models/Transaction'
 import { Card, CardCellInfo, CardCellsLayout, HashCardHeader } from '../../../components/Card'
@@ -21,16 +20,17 @@ import { useIsMobile } from '../../../hooks'
 import styles from './TransactionOverview.module.scss'
 import TransactionParameters from '../../../components/TransactionParameters'
 import Tooltip from '../../../components/Tooltip'
+import baseStyles from './styles.module.scss'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
 const TransactionBlockHeight = ({ blockNumber, txStatus }: { blockNumber: number; txStatus: string }) => (
-  <TransactionBlockHeightPanel>
+  <div className={baseStyles.transactionBlockHeightPanel}>
     {txStatus === 'committed' ? (
       <Link to={`/block/${blockNumber}`}>{localeNumberString(blockNumber)}</Link>
     ) : (
       <span>{showTxStatus(txStatus)}</span>
     )}
-  </TransactionBlockHeightPanel>
+  </div>
 )
 
 export const TransactionOverviewCard: FC<{
@@ -268,7 +268,7 @@ export const TransactionOverviewCard: FC<{
       />
 
       {(txStatus !== 'committed' || Number(blockTimestamp) > 0) && (
-        <TransactionOverviewPanel>
+        <div className={baseStyles.transactionOverviewPanel}>
           <CardCellsLayout type="left-right" cells={overviewItems} borderTop={!isMobile} />
           {isProfessional && (
             <div>
@@ -292,7 +292,7 @@ export const TransactionOverviewCard: FC<{
               {detailTab === 'raw' ? <RawTransactionView hash={txHash} /> : null}
             </div>
           )}
-        </TransactionOverviewPanel>
+        </div>
       )}
     </Card>
   )

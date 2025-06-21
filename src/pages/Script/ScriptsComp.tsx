@@ -8,7 +8,7 @@ import { RefreshCw } from 'lucide-react'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService } from '../../services/ExplorerService'
-import { TransactionCellInfoPanel } from '../Transaction/TransactionCell/styled'
+import { TransactionCellInfoPanel } from '../Transaction/TransactionCell/TransactionCellComp'
 import SimpleButton from '../../components/SimpleButton'
 import SimpleModal from '../../components/Modal'
 import { localeNumberString } from '../../utils/number'
@@ -332,19 +332,21 @@ export const CodeHashMessage = ({ codeHash }: { codeHash: string }) => {
         <AddressText>{codeHash}</AddressText>
       </div>
 
-      <CopyIcon
-        className={styles.action}
-        onClick={() => {
-          navigator.clipboard.writeText(codeHash).then(
-            () => {
-              setToast({ message: t('common.copied') })
-            },
-            error => {
-              console.error(error)
-            },
-          )
-        }}
-      />
+      {!!codeHash && (
+        <CopyIcon
+          className={styles.action}
+          onClick={() => {
+            navigator.clipboard.writeText(codeHash).then(
+              () => {
+                setToast({ message: t('common.copied') })
+              },
+              error => {
+                console.error(error)
+              },
+            )
+          }}
+        />
+      )}
     </div>
   )
 }

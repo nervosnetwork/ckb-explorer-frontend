@@ -175,3 +175,57 @@
   padding: 4px 8px;
   border-radius: 32px;
 }
+
+.mobileMenuItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 56px;
+}
+
+.mobileMenuOuterLink {
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: regular;
+  margin-top: 22px;
+  height: 21px;
+  gap: 8px;
+
+  &:hover {
+    font-weight: medium;
+    color: var(--primary-color);
+
+    svg {
+      filter: drop-shadow(0 0 4px var(--primary-color));
+      mix-blend-mode: difference;
+    }
+  }
+}
+
+.mobileMenuInnerLink {
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: regular;
+  margin-top: 22px;
+  height: 21px;
+  gap: 8px;
+
+  &:hover {
+    font-weight: medium;
+    color: var(--primary-color);
+
+    svg {
+      filter: drop-shadow(0 0 4px var(--primary-color));
+      mix-blend-mode: difference;
+    }
+  }
+}
+
+.headerMenuPanel {
+  display: flex;
+  align-items: center;
+}

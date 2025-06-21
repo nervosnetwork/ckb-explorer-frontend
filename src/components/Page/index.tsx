@@ -1,6 +1,8 @@
 import { CSSProperties, ReactNode } from 'react'
-import { PagePanel } from './styled'
+import styles from './index.module.scss'
 
 export default ({ children, style }: { children: ReactNode; style?: CSSProperties }) => (
-  <PagePanel style={style}>{children}</PagePanel>
+  <div className={styles.pagePanel} style={style}>
+    {children}
+  </div>
 )

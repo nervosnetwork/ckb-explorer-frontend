@@ -1,7 +1,7 @@
 import { Link } from '../Link'
 import Tooltip from '../Tooltip'
 import CopyTooltipText from './CopyTooltipText'
-import { HighLightPanel } from './styled'
+import { HighLightPanel } from './HighLightPanel'
 
 export const HighLightLink = ({
   value,

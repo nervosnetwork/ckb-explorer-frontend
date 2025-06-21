@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { Link } from '../../Link'
-import { MobileMenuItem, MobileMenuOuterLink, HeaderMenuPanel, MobileMenuInnerLink } from './styled'
+import { MobileMenuItem } from './MobileMenuItem'
 import styles from './index.module.scss'
 import { LanguageModal } from '../LanguageComp/LanguageModal'
 import { CKBNodeModal } from '../CKBNodeComp/CKBNodeModal'
@@ -214,12 +214,16 @@ export const MoreMenu = ({ isMobile = false }: { isMobile?: boolean }) => {
         onOpenChange={setOpen}
         open={open}
         showArrow={false}
+        contentStyle={{
+          padding: 0,
+          width: isMobile ? 'var(--radix-popper-anchor-width)' : 'auto',
+        }}
         trigger={
           isMobile ? (
-            <MobileMenuOuterLink className={styles.mobileSubmenuTrigger}>
+            <span className={classNames(styles.mobileMenuOuterLink, styles.mobileSubmenuTrigger)}>
               {t('navbar.more')}
               <ArrowIcon className={styles.icon} />
-            </MobileMenuOuterLink>
+            </span>
           ) : (
             <span
               className={classNames(styles.clickable, styles.headerMenusItem, styles.submenuTrigger, styles.moreMenus)}
@@ -276,39 +280,45 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
           if (menu.children) {
             return (
               <SubmenuDropdown key={menu.name} menu={menu.children} isMobile={isMobile}>
-                <MobileMenuOuterLink className={styles.mobileSubmenuTrigger}>
+                <span className={classNames(styles.mobileMenuOuterLink, styles.mobileSubmenuTrigger)}>
                   {menu.icon}
                   {menu.name}
                   {isNew ? <NewBadge /> : null}
                   <ArrowIcon className={styles.icon} />
-                </MobileMenuOuterLink>
+                </span>
               </SubmenuDropdown>
             )
           }
 
           if (menu.type === LinkType.Inner) {
             return (
-              <MobileMenuInnerLink key={menu.name} to={menu.url ?? '/'}>
+              <Link className={styles.mobileMenuInnerLink} key={menu.name} to={menu.url ?? '/'}>
                 {menu.icon}
                 {menu.name}
                 {isNew ? <NewBadge /> : null}
-              </MobileMenuInnerLink>
+              </Link>
             )
           }
           if (menu.type === LinkType.Outer) {
             return (
-              <MobileMenuOuterLink key={menu.name} href={menu.url} target="_blank" rel="noopener noreferrer">
+              <a
+                className={styles.mobileMenuOuterLink}
+                key={menu.name}
+                href={menu.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {menu.icon}
                 {menu.name}
                 {isNew ? <NewBadge /> : null}
-              </MobileMenuOuterLink>
+              </a>
             )
           }
           return null
         })}
     </MobileMenuItem>
   ) : (
-    <HeaderMenuPanel>
+    <div className={styles.headerMenuPanel}>
       {menuList.map(menu => {
         const isHidden = menu.attrs?.includes('hidden')
         if (isHidden) return null
@@ -358,6 +368,6 @@ export default memo(({ isMobile }: { isMobile: boolean }) => {
         }
         return null
       })}
-    </HeaderMenuPanel>
+    </div>
   )
 })

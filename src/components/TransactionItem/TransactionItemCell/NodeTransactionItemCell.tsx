@@ -4,7 +4,6 @@ import classNames from 'classnames'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../Link'
-import { TransactionCellPanel, TransactionCellCapacityPanel } from './styled'
 import { NodeCellCapacityAmount } from './NodeCellCapacityAmount'
 import CurrentAddressIcon from '../../../assets/current_address.svg'
 import { encodeNewAddress, compareAddress } from '../../../utils/address'
@@ -69,7 +68,7 @@ const NodeTransactionItemCell = ({
   const highLight = !highlightAddress || !compareAddress(highlightAddress, address)
 
   return (
-    <TransactionCellPanel highLight={highLight}>
+    <div className={classNames(styles.transactionCellPanel, highLight && styles.highLight)}>
       {ioType && ioType === IOType.Input && (
         <CellInputIcon cell={{ generatedTxHash: cell.outPoint?.txHash, cellIndex: cell.outPoint?.index }} />
       )}
@@ -85,12 +84,12 @@ const NodeTransactionItemCell = ({
           </Tooltip>
         )}
       </div>
-      <TransactionCellCapacityPanel>
+      <div className={styles.transactionCellCapacityPanel}>
         <div className="transactionCellWithoutIcon">
           <NodeCellCapacityAmount cell={cell} />
         </div>
-      </TransactionCellCapacityPanel>
-    </TransactionCellPanel>
+      </div>
+    </div>
   )
 }
 

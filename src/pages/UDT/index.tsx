@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { FC } from 'react'
 import Content from '../../components/Content'
-import { UDTContentPanel, UDTTransactionTitlePanel } from './styled'
 import UDTComp, { UDTOverviewCard } from './UDTComp'
 import { usePaginationParamsInPage, useSearchParams, useUpdateSearchParams } from '../../hooks'
 import Filter from '../../components/Filter'
@@ -75,10 +74,10 @@ export const UDT: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
 
   return (
     <Content>
-      <UDTContentPanel className="container">
+      <div className={`${styles.udtContentPanel} container`}>
         <UDTOverviewCard typeHash={typeHash} udt={udt} refetchUDT={queryUDT.refetch} />
 
-        <UDTTransactionTitlePanel>
+        <div className={styles.udtTransactionTitlePanel}>
           <div className="udtTransactionContainer">
             <div className="udtTransactionTitle">
               {`${t('transaction.transactions')} (${localeNumberString(total)})`}
@@ -93,7 +92,7 @@ export const UDT: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
               />
             </div>
           </div>
-        </UDTTransactionTitlePanel>
+        </div>
 
         <QueryResult query={querySimpleUDTTransactions} delayLoading>
           {data => (
@@ -110,7 +109,7 @@ export const UDT: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
             />
           )}
         </QueryResult>
-      </UDTContentPanel>
+      </div>
     </Content>
   )
 }

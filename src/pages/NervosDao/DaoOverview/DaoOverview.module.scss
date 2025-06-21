@@ -22,3 +22,277 @@
     }
   }
 }
+
+.daoOverviewPanel {
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 2px 2px 6px 0 #dfdfdf;
+  margin-top: 5px;
+  padding: 10px 20px;
+  background-color: #fff;
+  display: flex;
+  color: #000;
+
+  @media (max-width: $extraLargeBreakPoint) {
+    flex-direction: column;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    box-shadow: 1px 1px 3px 0 #dfdfdf;
+    padding: 5px 0 15px;
+    font-size: 13px;
+    flex-direction: column;
+  }
+
+  :global(.daoOverviewSeparate) {
+    width: 1px;
+    height: auto;
+    background: #eaeaea;
+    margin-left: 2%;
+
+    @media (max-width: $extraLargeBreakPoint) {
+      width: 100%;
+      height: 1px;
+      background: #eaeaea;
+      margin-left: 0;
+    }
+
+    @media (max-width: $mobileBreakPoint) {
+      width: 100%;
+      height: 1px;
+      background: #eaeaea;
+      margin-left: 0;
+    }
+  }
+}
+
+.daoOverviewLeftPanel {
+  display: flex;
+  flex-direction: row;
+  flex: 54;
+
+  @media (max-width: $mobileBreakPoint) {
+    margin: 0 16px;
+    flex-direction: column;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    @media (max-width: $mobileBreakPoint) {
+      flex-direction: row;
+    }
+  }
+
+  :global(.daoOverviewMiddleSeparate) {
+    width: 1px;
+    height: 130px;
+    background: #eaeaea;
+    margin: 10px 16px;
+
+    @media (max-width: $mobileBreakPoint) {
+      width: 100%;
+      height: 1px;
+      background: #eaeaea;
+      margin: 0;
+    }
+  }
+
+  :global(.daoOverviewLeftColumnSeparate) {
+    width: 1px;
+    height: auto;
+    margin: 3% 0;
+    background: #eaeaea;
+
+    @media (max-width: $mobileBreakPoint) {
+      display: none;
+    }
+  }
+}
+
+.daoOverviewRightPanel {
+  display: flex;
+  flex-direction: row;
+  flex: 44;
+
+  @media (max-width: $extraLargeBreakPoint) {
+    margin-top: 12px;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    margin: 5px 0;
+  }
+}
+
+.nervosDaoOverviewPieTitle {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #555;
+
+  @media (max-width: $mobileBreakPoint) {
+    font-size: 12px;
+    margin: 8px 16px;
+  }
+}
+
+.daoOverviewPieChartPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (max-width: $extraLargeBreakPoint) {
+    align-items: flex-start;
+    padding-right: 10px;
+  }
+}
+
+.daoOverviewPieItemsPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+
+  > div {
+    width: auto;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    justify-content: flex-start;
+  }
+}
+
+.daoOverviewLeftItemPanel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &:hover {
+    background: #f8f9fa;
+  }
+
+  :global(.daoOverviewItemContainer) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  :global(.daoOverviewItemTop) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+
+    :global(.daoOverviewItemTitle) {
+      color: #5e5e5e;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @media (max-width: $xxlBreakPoint) {
+        max-width: 200px;
+
+        &:global(.hasChange) {
+          max-width: 130px;
+        }
+      }
+
+      @media (max-width: $extraLargeBreakPoint) {
+        max-width: 200px;
+      }
+
+      @media (max-width: $mobileBreakPoint) {
+        font-size: 12px;
+        max-width: 200px;
+
+        &:global(.hasChange) {
+          max-width: 90px;
+        }
+      }
+    }
+
+    :global(.daoOverviewItemChangeIcon) {
+      margin-left: 5px;
+      margin-right: 3px;
+    }
+
+    :global(.daoOverviewItemChange) {
+      font-size: 12px;
+      font-weight: bold;
+      cursor: default;
+
+      @media (max-width: $mobileBreakPoint) {
+        font-size: 10px;
+      }
+    }
+  }
+
+  :global(.daoOverviewItemContent) {
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+
+    @media (max-width: $mobileBreakPoint) {
+      font-size: 14px;
+    }
+  }
+
+  :global(.daoOverviewBottomLine) {
+    width: 100%;
+    height: 1px;
+    background: #eaeaea;
+  }
+}
+
+.nervosDaoOverviewPieIcon {
+  width: 8px;
+  height: 8px;
+  margin-right: 11px;
+  border-radius: 9px;
+  margin-top: 8px;
+}
+
+.nervosDaoPieItemPanel {
+  display: flex;
+  flex: 1;
+
+  @media (max-width: $extraLargeBreakPoint) {
+    margin: 10px 0;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    margin: 5px 0;
+  }
+
+  > div {
+    > span {
+      font-size: 12px;
+      line-height: 14px;
+      color: #5e5e5e;
+      font-weight: bold;
+    }
+
+    > div {
+      font-size: 16px;
+      color: #000;
+
+      @media (max-width: $mobileBreakPoint) {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.nervosDaoPieCapacityPanel {
+  width: 180px;
+
+  @media (max-width: $mobileBreakPoint) {
+    width: 130px;
+  }
+}

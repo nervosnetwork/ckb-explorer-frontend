@@ -1,7 +1,8 @@
 import { useState, useEffect, useReducer, useCallback } from 'react'
+import classNames from 'classnames'
 import { useTimeoutWithUnmount } from '../../hooks'
-import { ToastItemPanel, ToastPanel } from './styled'
 import { createGlobalState, useGlobalState } from '../../utils/state'
+import styles from './index.module.scss'
 
 interface ToastMessage {
   message: string
@@ -55,14 +56,15 @@ const ToastItem = ({ data, willLeave }: { data: ToastMessage; willLeave: Functio
   )
 
   return (
-    <ToastItemPanel
+    <div
+      className={styles.toastItemPanel}
       style={{
         opacity,
         background: getColor(data.type),
       }}
     >
       <div className="toastText">{data.message}</div>
-    </ToastItemPanel>
+    </div>
   )
 }
 
@@ -133,7 +135,7 @@ export default () => {
   }, [dispatch, toast])
 
   return state.toasts.length === 0 ? null : (
-    <ToastPanel className="toast">
+    <div className={classNames(styles.toastPanel, 'toast')}>
       {state.toasts &&
         state.toasts.map((item: ToastMessage) => (
           <ToastItem
@@ -149,6 +151,6 @@ export default () => {
             data={item}
           />
         ))}
-    </ToastPanel>
+    </div>
   )
 }

@@ -16,7 +16,7 @@ import {
   TransactionCellAddressPanel,
   TransactionCellInfoPanel,
   TransactionCellMobileItem,
-} from './styled'
+} from './TransactionCellComp'
 import { LeftArrow, CellOutputIcon } from '../../../components/Transaction/TransactionCellArrow'
 import { NodeCellCapacityAmount } from '../../../components/TransactionItem/TransactionItemCell/NodeCellCapacityAmount'
 import NervosDAODepositIcon from '../../../assets/nervos_dao_cell.png'

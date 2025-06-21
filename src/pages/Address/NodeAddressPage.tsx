@@ -1,7 +1,7 @@
+import classNames from 'classnames'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
-import { AddressContentPanel } from './styled'
 import { NodeAddressOverviewCard, NodeAddressTransactions } from './AddressComp'
 import { useDeprecatedAddr, useNewAddr } from '../../hooks'
 import { Card, HashCardHeader } from '../../components/Card'
@@ -22,7 +22,7 @@ export const NodeAddressPage = () => {
 
   return (
     <Content>
-      <AddressContentPanel className="container">
+      <div className={classNames(styles.addressContentPanel, 'container')}>
         <Card>
           <HashCardHeader
             title={t('address.address')}
@@ -54,7 +54,7 @@ export const NodeAddressPage = () => {
         <NodeAddressOverviewCard address={address} />
 
         <NodeAddressTransactions address={address} />
-      </AddressContentPanel>
+      </div>
     </Content>
   )
 }

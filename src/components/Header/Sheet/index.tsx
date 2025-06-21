@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
-import { SheetPanel, SheetPointPanel, SheetItem } from './styled'
+import classNames from 'classnames'
 import { useBlockchainAlerts, useNetworkErrMsgs } from '../../../services/ExplorerService'
+import styles from './index.module.scss'
 
 const Sheet = () => {
   const { t } = useTranslation()
@@ -10,17 +11,17 @@ const Sheet = () => {
   const messages = useMemo<string[]>(() => [...chainAlerts, ...networkErrMsgs], [chainAlerts, networkErrMsgs])
 
   return messages.length > 0 ? (
-    <SheetPanel>
+    <div className={styles.sheetPanel}>
       {messages.map((context: string, index: number) => {
         const key = index
         return (
-          <SheetPointPanel key={key} isSingle={messages.length === 1}>
+          <div className={classNames(styles.sheetPointPanel, messages.length === 1 && styles.isSingle)} key={key}>
             {messages.length > 1 && <span>·</span>}
-            <SheetItem>{t(context)}</SheetItem>
-          </SheetPointPanel>
+            <div className={styles.sheetItem}>{t(context)}</div>
+          </div>
         )
       })}
-    </SheetPanel>
+    </div>
   ) : null
 }
 

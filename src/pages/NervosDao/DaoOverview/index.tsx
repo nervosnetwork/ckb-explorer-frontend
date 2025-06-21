@@ -1,5 +1,6 @@
 import { ReactNode, useCallback, FC } from 'react'
 import BigNumber from 'bignumber.js'
+import classNames from 'classnames'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
@@ -7,18 +8,6 @@ import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/legendScroll'
 import { useTranslation } from 'react-i18next'
-import {
-  DaoOverviewPanel,
-  DaoOverviewLeftPanel,
-  DaoOverviewLeftItemPanel,
-  DaoOverviewRightPanel,
-  NervosDaoPieItemPanel,
-  NervosDaoPieCapacityPanel,
-  DaoOverviewPieChartPanel,
-  DaoOverviewPieItemsPanel,
-  NervosDaoOverviewPieTitle,
-  NervosDaoOverviewPieIcon,
-} from './styled'
 import DaoUpIcon from './dao_up.png'
 import DaoDownIcon from './dao_down.png'
 import DaoBalanceIcon from './dao_balance.png'
@@ -131,15 +120,41 @@ const useNervosDaoItemContents = (nervosDao: NervosDaoInfo): NervosDaoItemConten
 }
 
 const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; firstLine?: boolean }) => (
-  <DaoOverviewLeftItemPanel hasChange={!!item.change} symbol={item.changeSymbol} hasTooltip={!!item.titleTooltip}>
+  <div className={styles.daoOverviewLeftItemPanel}>
     <div className="daoOverviewItemContainer">
       <div className="daoOverviewItemTop">
-        <span className="daoOverviewItemTitle">{item.title}</span>
+        <span
+          className={classNames('daoOverviewItemTitle', {
+            hasChange: !!item.change,
+          })}
+        >
+          {item.title}
+        </span>
         {item.titleTooltip && <HelpTip>{item.titleTooltip}</HelpTip>}
         {item.change && (
           <>
-            <img className="daoOverviewItemChangeIcon" src={daoIcon(item.changeSymbol)} alt="nervos dao change icon" />
-            <Tooltip trigger={<span className="daoOverviewItemChange">{item.change}</span>} placement="top">
+            <img
+              className="daoOverviewItemChangeIcon"
+              style={{
+                width: item.changeSymbol === 'zero' ? '10px' : '7px',
+                height: item.changeSymbol === 'zero' ? '7px' : '10px',
+              }}
+              src={daoIcon(item.changeSymbol)}
+              alt="nervos dao change icon"
+            />
+            <Tooltip
+              trigger={
+                <span
+                  className="daoOverviewItemChange"
+                  style={{
+                    color: item.changeSymbol === 'negative' ? '#FF464F' : 'var(--primary-color)',
+                  }}
+                >
+                  {item.change}
+                </span>
+              }
+              placement="top"
+            >
               {item.tooltip}
             </Tooltip>
           </>
@@ -148,7 +163,7 @@ const NervosDaoLeftItem = ({ item, firstLine }: { item: NervosDaoItemContent; fi
       <div className="daoOverviewItemContent">{item.content}</div>
       {firstLine && <span className="daoOverviewBottomLine" />}
     </div>
-  </DaoOverviewLeftItemPanel>
+  </div>
 )
 
 const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao }) => {
@@ -157,7 +172,7 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao
 
   if (isMobile) {
     return (
-      <DaoOverviewLeftPanel>
+      <div className={styles.daoOverviewLeftPanel}>
         <div>
           <NervosDaoLeftItem item={leftItems[0]} />
           <span className="daoOverviewLeftColumnSeparate" />
@@ -175,11 +190,11 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao
           <span className="daoOverviewLeftColumnSeparate" />
           <NervosDaoLeftItem item={leftItems[5]} />
         </div>
-      </DaoOverviewLeftPanel>
+      </div>
     )
   }
   return (
-    <DaoOverviewLeftPanel>
+    <div className={styles.daoOverviewLeftPanel}>
       <div>
         {leftItems.slice(0, 2).map((item, index) => (
           <NervosDaoLeftItem item={item} key={item.title} firstLine={index === 0} />
@@ -197,7 +212,7 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao
           <NervosDaoLeftItem item={item} key={item.title} firstLine={index === 0} />
         ))}
       </div>
-    </DaoOverviewLeftPanel>
+    </div>
   )
 }
 
@@ -272,15 +287,16 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
 
 const NervosDaoRightCapacity = ({ reward }: { reward: string }) => {
   return (
-    <NervosDaoPieCapacityPanel>
+    <div className={styles.nervosDaoPieCapacityPanel}>
       <Capacity capacity={shannonToCkb(Number(reward).toFixed())} />
-    </NervosDaoPieCapacityPanel>
+    </div>
   )
 }
 
 const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
-  <NervosDaoPieItemPanel>
-    <NervosDaoOverviewPieIcon
+  <div className={styles.nervosDaoPieItemPanel}>
+    <div
+      className={styles.nervosDaoOverviewPieIcon}
       style={{
         backgroundColor: item.color,
       }}
@@ -289,7 +305,7 @@ const NervosDaoPieItem = ({ item }: { item: NervosDaoPieItemContent }) => (
       <span>{item.title}</span>
       <div>{item.content}</div>
     </div>
-  </NervosDaoPieItemPanel>
+  </div>
 )
 
 export default ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
@@ -319,15 +335,15 @@ export default ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
   )
 
   return (
-    <DaoOverviewPanel>
+    <div className={styles.daoOverviewPanel}>
       <NervosDaoOverviewLeftComp nervosDao={nervosDao} />
       <span className="daoOverviewSeparate" />
-      <DaoOverviewRightPanel>
-        <DaoOverviewPieChartPanel>
-          <NervosDaoOverviewPieTitle>
+      <div className={styles.daoOverviewRightPanel}>
+        <div className={styles.daoOverviewPieChartPanel}>
+          <div className={styles.nervosDaoOverviewPieTitle}>
             <span>{t('nervos_dao.secondary_issuance')}</span>
             <HelpTip>{t('glossary.secondary_issuance')}</HelpTip>
-          </NervosDaoOverviewPieTitle>
+          </div>
           <ReactChartCore
             option={useOption(nervosDao, ChartColor.daoColors, isMobile)}
             notMerge
@@ -337,15 +353,15 @@ export default ({ nervosDao }: { nervosDao: NervosDaoInfo }) => {
               width: isExactXL ? '70%' : '100%',
             }}
           />
-        </DaoOverviewPieChartPanel>
-        <DaoOverviewPieItemsPanel>
+        </div>
+        <div className={styles.daoOverviewPieItemsPanel}>
           <div>
             {nervosDaoPieItemContents(nervosDao).map(item => (
               <NervosDaoPieItem item={item} key={item.title} />
             ))}
           </div>
-        </DaoOverviewPieItemsPanel>
-      </DaoOverviewRightPanel>
-    </DaoOverviewPanel>
+        </div>
+      </div>
+    </div>
   )
 }

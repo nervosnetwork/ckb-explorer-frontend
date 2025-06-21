@@ -55,3 +55,89 @@
 .loading {
   text-align: center;
 }
+
+.mobileSubMenuPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 22px 56px 0;
+
+  &.showSubMenu {
+    :global(.mobileMenusMainItemContent) {
+      color: var(--primary-color);
+    }
+  }
+
+  :global(.mobileMenusMainItem) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  :global(.mobileMenusMainItemContent) {
+    color: white;
+  }
+
+  :global(.mobileMenusMainItemContentHighlight) {
+    color: var(--primary-color);
+  }
+
+  :global(.mobileMenusMainItemIcon) {
+    width: 7.9px;
+    height: 4.8px;
+  }
+
+  :global(.blockchainMobileNodeVersion) {
+    font-size: 8px;
+    margin-top: -5px;
+    color: var(--primary-color);
+  }
+
+  :global(.mobileMenusSubItem) {
+    width: 300px;
+    padding: 12px 24px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+  }
+
+  a {
+    color: white;
+    text-transform: capitalize;
+  }
+
+  a:hover {
+    color: white;
+  }
+
+  :global(.mobileMenusSubIcon) {
+    width: 20px;
+    height: 20px;
+  }
+
+  :global(.mobileMenusSubTitle) {
+    font-size: 12px;
+    margin-left: 8px;
+    margin-right: 16px;
+  }
+
+  :global(.mobileMenusSubTag) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+
+    > img {
+      height: 9px;
+      width: auto;
+    }
+  }
+
+  :global(.mobileMenusSubMemo) {
+    font-size: 12px;
+    color: #888;
+    width: 100%;
+    margin: 22px 0 0 24px;
+  }
+}

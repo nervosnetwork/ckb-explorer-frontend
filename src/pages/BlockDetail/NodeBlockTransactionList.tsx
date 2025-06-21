@@ -6,7 +6,6 @@ import NodeTransactionItem from '../../components/TransactionItem/NodeTransactio
 import { localeNumberString } from '../../utils/number'
 import { Card } from '../../components/Card'
 import styles from './styles.module.scss'
-import { BlockTransactionsPagination } from './styled'
 import { CardHeader } from '../../components/Card/CardHeader'
 
 export const NodeBlockTransactionList = ({
@@ -44,7 +43,7 @@ export const NodeBlockTransactionList = ({
       ))}
 
       {totalPages > 1 && (
-        <BlockTransactionsPagination>
+        <div className={styles.blockTransactionsPagination}>
           <Pagination
             currentPage={page}
             totalPages={totalPages}
@@ -55,7 +54,7 @@ export const NodeBlockTransactionList = ({
               }
             }}
           />
-        </BlockTransactionsPagination>
+        </div>
       )}
     </>
   )

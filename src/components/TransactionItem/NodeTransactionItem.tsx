@@ -1,13 +1,12 @@
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
+import classNames from 'classnames'
 import { Transaction } from '@ckb-lumos/base'
 import styles from './styles.module.scss'
 import { useParsedDate } from '../../hooks'
 import { ReactComponent as DirectionIcon } from '../../assets/direction.svg'
 import NodeTransactionItemCell from './TransactionItemCell/NodeTransactionItemCell'
-import { FullPanel, TransactionHashBlockPanel, TransactionCellPanel, TransactionPanel } from './styled'
-import TransactionCellListPanel from './TransactionItemCellList/styled'
 import { localeNumberString, isBlockNumber } from '../../utils/number'
 import { getTransactionOutputCells, checkIsCellBase } from '../../utils/transaction'
 import Loading from '../Loading'
@@ -56,8 +55,8 @@ const NodeTransactionItem = ({
 
   return (
     <>
-      <TransactionPanel ref={ref} circleCorner={{}}>
-        <TransactionHashBlockPanel>
+      <div ref={ref} className={classNames(styles.transactionPanel, 'transactionPanel')}>
+        <div className={styles.transactionHashBlockPanel}>
           <div className="transactionItemContent">
             <div className={styles.left}>
               <AddressText
@@ -78,10 +77,10 @@ const NodeTransactionItem = ({
               </div>
             )}
           </div>
-        </TransactionHashBlockPanel>
-        <TransactionCellPanel>
+        </div>
+        <div className={styles.transactionCellPanel}>
           <div className="transactionItemInput">
-            <TransactionCellListPanel>
+            <div className={styles.transactionCellListPanel}>
               {checkIsCellBase(transaction) ? (
                 <Cellbase cell={blockHeader ? { targetBlockNumber: parseInt(blockHeader.number, 16) - 11 } : {}} />
               ) : null}
@@ -94,25 +93,25 @@ const NodeTransactionItem = ({
                   highlightAddress={highlightAddress}
                 />
               ))}
-            </TransactionCellListPanel>
+            </div>
           </div>
           <DirectionIcon className={styles.direction} />
           <div className="transactionItemOutput">
             {outputCells.length !== 0 ? (
-              <TransactionCellListPanel>
+              <div className={styles.transactionCellListPanel}>
                 {outputCells.map((cell, index) => (
                   // eslint-disable-next-line react/no-array-index-key
-                  <FullPanel key={index}>
+                  <div className={styles.fullPanel} key={index}>
                     <NodeTransactionItemCell cell={cell} ioType={IOType.Output} highlightAddress={highlightAddress} />
-                  </FullPanel>
+                  </div>
                 ))}
-              </TransactionCellListPanel>
+              </div>
             ) : (
               <div className="transactionItemOutputEmpty">{t('transaction.empty_output')}</div>
             )}
           </div>
-        </TransactionCellPanel>
-      </TransactionPanel>
+        </div>
+      </div>
     </>
   )
 }

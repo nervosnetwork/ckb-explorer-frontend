@@ -1,0 +1,44 @@
+@import '../../../styles/variables.module';
+
+.transactionIncomePanel {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+
+  @media (max-width: $mobileBreakPoint) {
+    justify-content: center;
+  }
+}
+
+.transactionCapacityValuePanel {
+  height: 36px;
+  border-radius: 18px;
+  background-color: white;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #ff6347;
+  font-size: 16px;
+
+  &.increased {
+    color: var(--primary-color);
+  }
+
+  img {
+    width: 13px;
+    margin-left: 3px;
+    margin-bottom: 2px;
+  }
+
+  @media (max-width: $mobileBreakPoint) {
+    font-size: 14px;
+
+    img {
+      width: 13px;
+      margin-right: 6px;
+      margin-bottom: 0;
+    }
+  }
+}

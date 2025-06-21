@@ -4,10 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from '../../components/Link'
 import { parseSimpleDate } from '../../utils/date'
-import { BlockListPanel, ContentTable, HighLightValue, BlockRewardContainer, BlockRewardPanel } from './styled'
 import Content from '../../components/Content'
 import { TableContentItem, TableMinerContentItem } from '../../components/Table'
-import { TableTitleRow, TableContentRow, TableTitleRowItem } from '../../components/Table/styled'
+import { TableTitleRow, TableContentRow, TableTitleRowItem } from '../../components/Table/TableComp'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
 import { DELAY_BLOCK_NUMBER } from '../../constants/common'
 import { localeNumberString } from '../../utils/number'
@@ -24,11 +23,11 @@ import { Block } from '../../models/Block'
 import { CardCellFactory, CardListWithCellsList } from '../../components/CardList'
 
 const BlockValueItem = ({ value, to }: { value: string; to: string }) => (
-  <HighLightValue>
+  <div className={styles.highLightValue}>
     <Link to={to}>
       <span>{value}</span>
     </Link>
-  </HighLightValue>
+  </div>
 )
 
 type BlockListSortByType = 'height' | 'transactions' | 'reward'
@@ -50,13 +49,13 @@ const LoadingSection = () => <div className={styles.loadingSection}>Loading...</
 const getTableContentDataList = (block: Block, index: number, page: number, isMaxW: boolean) => {
   const blockReward =
     index < DELAY_BLOCK_NUMBER && page === 1 ? (
-      <BlockRewardContainer>
+      <div className={styles.blockRewardContainer}>
         <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
-      </BlockRewardContainer>
+      </div>
     ) : (
-      <BlockRewardPanel>
+      <div className={styles.blockRewardPanel}>
         <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
-      </BlockRewardPanel>
+      </div>
     )
 
   return [
@@ -99,19 +98,19 @@ const BlockCardGroup: FC<{ blocks: Block[]; isFirstPage: boolean }> = ({ blocks,
       title: t('home.block_reward'),
       content: (block, index) =>
         index < DELAY_BLOCK_NUMBER && isFirstPage ? (
-          <BlockRewardContainer>
+          <div className={styles.blockRewardContainer}>
             <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
-          </BlockRewardContainer>
+          </div>
         ) : (
-          <BlockRewardPanel>
+          <div className={styles.blockRewardPanel}>
             <Capacity capacity={shannonToCkb(block.reward)} unit={null} />
-          </BlockRewardPanel>
+          </div>
         ),
     },
     {
       title: t('block.miner'),
       content: block => (
-        <HighLightValue>
+        <div className={styles.highLightValue}>
           <AddressText
             disableTooltip
             monospace={false}
@@ -121,7 +120,7 @@ const BlockCardGroup: FC<{ blocks: Block[]; isFirstPage: boolean }> = ({ blocks,
           >
             {block.minerHash}
           </AddressText>
-        </HighLightValue>
+        </div>
       ),
     },
     {
@@ -211,10 +210,10 @@ export default () => {
 
   return (
     <Content>
-      <BlockListPanel className="container">
+      <div className={`${styles.blockListPanel} container`}>
         <div className="blockGreenBackground" />
         {isMobile ? (
-          <ContentTable>
+          <div className={styles.contentTable}>
             <TableTitleRow>
               {TableTitles.filter(data => data.sortRule).map((data: TableTitleData) => (
                 <TableTitleRowItem width="fit-content" key={data.title}>
@@ -231,9 +230,9 @@ export default () => {
               ))}
             </TableTitleRow>
             {isLoading ? <LoadingSection /> : <BlockCardGroup blocks={blockList} isFirstPage={currentPage === 1} />}
-          </ContentTable>
+          </div>
         ) : (
-          <ContentTable>
+          <div className={styles.contentTable}>
             <TableTitleRow>
               {TableTitles.map((data: TableTitleData) => (
                 <TableTitleRowItem width={data.width} key={data.title}>
@@ -276,7 +275,7 @@ export default () => {
                   ),
               )
             )}
-          </ContentTable>
+          </div>
         )}
         <PaginationWithRear
           currentPage={currentPage}
@@ -284,7 +283,7 @@ export default () => {
           onChange={setPage}
           rear={<CsvExport link="/export-transactions?type=blocks" />}
         />
-      </BlockListPanel>
+      </div>
     </Content>
   )
 }

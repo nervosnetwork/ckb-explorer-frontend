@@ -9,13 +9,6 @@ import NodeTransactionItem from '../../components/TransactionItem/NodeTransactio
 import { explorerService, RawBtcRPC } from '../../services/ExplorerService'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb, deprecatedAddrToNewAddr } from '../../utils/util'
-import {
-  AddressAssetsTabPaneTitle,
-  AddressLockScriptController,
-  AddressLockScriptPanel,
-  AddressTransactionsPanel,
-  AddressUDTAssetsPanel,
-} from './styled'
 import Capacity from '../../components/Capacity'
 import CKBTokenIcon from './ckb_token_icon.png'
 import { useNewAddr, usePaginationParamsInListPage, useSearchParams } from '../../hooks'
@@ -37,6 +30,7 @@ import { AddressOmigaInscriptionComp } from './AddressAssetComp'
 import { useCKBNode } from '../../hooks/useCKBNode'
 import { useTransactions } from '../../hooks/transaction'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/Tabs'
+import SimpleButton from '../../components/SimpleButton'
 
 enum AssetInfo {
   UDT = 1,
@@ -103,9 +97,9 @@ const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
     : null
 
   return (
-    <AddressLockScriptPanel className={styles.addressLockScriptPanel}>
+    <div className={styles.addressLockScriptPanel}>
       <CardCellsLayout type="left-right" cells={overviewItems} borderTop />
-      <AddressLockScriptController onClick={toggleScriptDisplay}>
+      <SimpleButton className={styles.addressLockScriptController} onClick={toggleScriptDisplay}>
         {isScriptDisplayed ? (
           <div className={styles.scriptToggle}>
             <EyeOpenIcon />
@@ -117,13 +111,13 @@ const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
             <div>{t('address.lock_script_hash')}</div>
           </div>
         )}
-      </AddressLockScriptController>
+      </SimpleButton>
       {isScriptDisplayed ? (
         <Script script={address.lockScript} />
       ) : (
         <div className={`monospace ${styles.scriptHash}`}>{hash}</div>
       )}
-    </AddressLockScriptPanel>
+    </div>
   )
 }
 
@@ -234,28 +228,31 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
       <CardCellsLayout type="leftSingle-right" cells={overviewItems} borderTop />
 
       {hasAssets || hasInscriptions || hasCells ? (
-        <AddressUDTAssetsPanel className={styles.addressUDTAssetsPanel}>
+        <div className={styles.addressUDTAssetsPanel}>
           <Tabs value={activeTab.toString()} type="underline">
             <TabsList>
               {!!hasCells && (
                 <TabsTrigger value={AssetInfo.CELLs.toString()}>
-                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.CELLs)}>
+                  <span className={styles.addressAssetsTabPaneTitle} onClick={() => setActiveTab(AssetInfo.CELLs)}>
                     {t('address.live_cell_tab')}
-                  </AddressAssetsTabPaneTitle>
+                  </span>
                 </TabsTrigger>
               )}
               {!!hasAssets && (
                 <TabsTrigger value={AssetInfo.UDT.toString()}>
-                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.UDT)}>
+                  <span className={styles.addressAssetsTabPaneTitle} onClick={() => setActiveTab(AssetInfo.UDT)}>
                     {t('address.user_defined_token')}
-                  </AddressAssetsTabPaneTitle>
+                  </span>
                 </TabsTrigger>
               )}
               {!!hasInscriptions && (
                 <TabsTrigger value={AssetInfo.INSCRIPTION.toString()}>
-                  <AddressAssetsTabPaneTitle onClick={() => setActiveTab(AssetInfo.INSCRIPTION)}>
+                  <span
+                    className={styles.addressAssetsTabPaneTitle}
+                    onClick={() => setActiveTab(AssetInfo.INSCRIPTION)}
+                  >
                     {t('address.inscription')}
-                  </AddressAssetsTabPaneTitle>
+                  </span>
                 </TabsTrigger>
               )}
             </TabsList>
@@ -300,7 +297,7 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
               </TabsContent>
             )}
           </Tabs>
-        </AddressUDTAssetsPanel>
+        </div>
       ) : null}
 
       <AddressLockScript address={address} />
@@ -351,7 +348,7 @@ export const AddressTransactions = ({
 
   return (
     <>
-      <AddressTransactionsPanel>
+      <div className={styles.addressTransactionsPanel}>
         {layout === 'lite' ? (
           <LiteTransactionList address={address} list={transactions} />
         ) : (
@@ -369,7 +366,7 @@ export const AddressTransactions = ({
             {txList.length === 0 ? <div className={styles.noRecords}>{t(`transaction.no_records`)}</div> : null}
           </>
         )}
-      </AddressTransactionsPanel>
+      </div>
       <PaginationWithRear
         currentPage={currentPage}
         totalPages={totalPages}
@@ -439,7 +436,10 @@ export const NodeAddressOverviewCard: FC<{ address: string }> = ({ address }) =>
         <CardCellsLayout type="left-right" cells={overviewItems} borderTop />
       </div>
 
-      <AddressLockScriptController onClick={() => setIsScriptDisplayed(!isScriptDisplayed)}>
+      <SimpleButton
+        className={styles.addressLockScriptController}
+        onClick={() => setIsScriptDisplayed(!isScriptDisplayed)}
+      >
         {isScriptDisplayed ? (
           <div className={styles.scriptToggle}>
             <EyeOpenIcon />
@@ -451,7 +451,7 @@ export const NodeAddressOverviewCard: FC<{ address: string }> = ({ address }) =>
             <div>{t('address.lock_script_hash')}</div>
           </div>
         )}
-      </AddressLockScriptController>
+      </SimpleButton>
       {isScriptDisplayed ? (
         <Script script={lockScript} />
       ) : (
@@ -478,7 +478,7 @@ export const NodeAddressTransactions = ({ address }: { address: string }) => {
         />
       </Card>
 
-      <AddressTransactionsPanel>
+      <div className={styles.addressTransactionsPanel}>
         {data?.pages.map(page =>
           page.txs.map(tx => (
             <NodeTransactionItem
@@ -492,7 +492,7 @@ export const NodeAddressTransactions = ({ address }: { address: string }) => {
         {!isLoading && data?.pages.length === 0 ? (
           <div className={styles.noRecords}>{t(`transaction.no_records`)}</div>
         ) : null}
-      </AddressTransactionsPanel>
+      </div>
 
       {data?.pages.length !== 0 && (
         <div className={styles.cardFooterPanel} style={{ marginTop: 4 }}>

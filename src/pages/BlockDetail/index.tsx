@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query'
 import { Block as NodeBlock } from '@ckb-lumos/base'
 import { parseEpoch } from '@ckb-lumos/base/lib/since'
 import Content from '../../components/Content'
-import { BlockDetailPanel } from './styled'
 import { NodeBlockTransactionList } from './NodeBlockTransactionList'
 import { BlockOverviewCard, BlockOverviewCardProps, BlockComp } from './BlockComp'
 import { usePaginationParamsInPage } from '../../hooks'
@@ -16,6 +15,7 @@ import { defaultBlockInfo } from './state'
 import { Block } from '../../models/Block'
 import { isBlockNumber, compactToDifficulty } from '../../utils/number'
 import { encodeNewAddress } from '../../utils/address'
+import styles from './styles.module.scss'
 
 function transformNodeBlock(block: NodeBlock): BlockOverviewCardProps['block'] {
   const epoch = parseEpoch(block.header.epoch)
@@ -105,7 +105,7 @@ export default () => {
 
   return (
     <Content>
-      <BlockDetailPanel className="container">
+      <div className={`${styles.blockDetailPanel} container`}>
         <BlockOverviewCard block={block} />
 
         {nodeModeActivated ? (
@@ -123,7 +123,7 @@ export default () => {
             )}
           </QueryResult>
         )}
-      </BlockDetailPanel>
+      </div>
     </Content>
   )
 }
