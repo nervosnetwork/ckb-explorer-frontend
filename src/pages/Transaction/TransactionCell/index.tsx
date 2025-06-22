@@ -416,7 +416,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       key: 'Multisig',
       tag: (
         <>
-          Multisig <span className="text-primary">@{lockScript.codeHash.slice(0, 6)}</span>
+          Multisig <span className="text-primary">(@{lockScript.codeHash.slice(2, 10)})</span>
         </>
       ),
       description: 'This cell is related to Multisig. It can be used to create a multisig address.',
