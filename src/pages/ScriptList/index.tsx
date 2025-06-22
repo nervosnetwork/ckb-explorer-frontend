@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { TFunction } from 'i18next'
 import classNames from 'classnames'
+import { SCRIPT_TAGS } from '../../constants/scripts'
 import Content from '../../components/Content'
 import styles from './styles.module.scss'
 import { explorerService } from '../../services/ExplorerService'
@@ -36,7 +37,7 @@ export const scripts = new Map<string, ScriptAttributes>([
     },
   ],
   [
-    'secp256k1 / multisig',
+    SCRIPT_TAGS.SECP_MULTISIG,
     {
       name: 'SECP256K1/multisig',
       description: 'SECP256K1/multisig is a script which allows a group of users to sign a single transaction.',
