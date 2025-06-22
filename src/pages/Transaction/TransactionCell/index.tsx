@@ -566,7 +566,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       ) : (
         detailIcon && <img src={detailIcon} alt="cell detail" />
       )}
-      <div>{detailTitle}</div>
+      <div className="max-w-[140px] md:max-w-[200px] line-clamp-2">{detailTitle}</div>
 
       {isDisplayTagList ? (
         <HoverablePopover
