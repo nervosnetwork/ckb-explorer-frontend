@@ -259,7 +259,7 @@ export const Address = () => {
                 <Tooltip trigger={<img src={MultisigIcon} alt="multisig" />} placement="top">
                   <div>
                     <div>
-                      Multisig <span className="text-primary">(@{addressInfo?.lockScript.codeHash.slice(0, 6)})</span>
+                      Multisig <span className="text-primary">(@{addressInfo?.lockScript.codeHash.slice(2, 10)})</span>
                     </div>
                     <div>
                       <div className={styles.copyCodeHash}>

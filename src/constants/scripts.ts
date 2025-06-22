@@ -4,8 +4,8 @@ import { predefined } from '@ckb-lumos/config-manager'
 import { Script } from '../models/Script'
 
 export const SCRIPT_TAGS = {
-  SECP_MULTISIG: 'secp256k1 / multisig',
-  SECP_MULTISIG_LOCKTIME: 'secp256k1 / multisig / locktime',
+  SECP_MULTISIG: 'SECP256K1 / Multisig',
+  SECP_MULTISIG_LOCKTIME: 'SECP256K1 / Multisig / locktime',
 } as const
 
 export interface ContractHashTag {
