@@ -90,7 +90,7 @@ export const UDTOverviewCard = ({
     ? [
         {
           title: t('udt.name'),
-          content: fullName,
+          content: <div className={styles.symbolWithEllipsis}>fullName</div>,
         },
         {
           title: t('udt.owner'),
@@ -117,7 +117,12 @@ export const UDTOverviewCard = ({
     : [
         {
           title: t('udt.name'),
-          content: fullName || <span className={styles.noneName}>(None)</span>,
+          contentWrapperClass: styles.fullNameCell,
+          content: fullName ? (
+            <div className={styles.symbolWithEllipsis}>{fullName}</div>
+          ) : (
+            <span className={styles.noneName}>(None)</span>
+          ),
         },
         {
           title: t('udt.status'),
@@ -178,7 +183,9 @@ export const UDTOverviewCard = ({
         <img className={styles.icon} src={iconFile || FtFallbackIcon} alt="hash icon" />
         {isMobile && modifyTokenInfo}
       </div>
-      {symbol ?? t('udt.sudt')}
+      <span title={symbol} className={styles.symbolWithEllipsis}>
+        {symbol ?? t('udt.sudt')}
+      </span>
     </div>
   )
 

@@ -21,6 +21,7 @@ $shadowSm: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
 
     :global(> [data-slot='tabs-list']) {
       justify-content: flex-start;
+      min-width: unset;
       max-width: 100%;
       overflow: auto;
       background-color: transparent;
@@ -60,9 +61,11 @@ $shadowSm: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 100%;
   width: fit-content;
   height: 2.25rem;
   padding: 3px;
+  gap: 8px;
   background-color: $muted;
   color: $textMutedForeground;
   border-radius: 0.5rem;

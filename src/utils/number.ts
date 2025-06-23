@@ -142,3 +142,27 @@ export function isValidNoNegativeInteger(input: string | number | undefined) {
   const number = Number(input)
   return !Number.isNaN(number) && Number.isInteger(number) && number >= 0
 }
+
+export function numberToOrdinal(number: number, showText = false) {
+  if (showText) {
+    switch (number) {
+      case 1:
+        return 'first'
+      case 2:
+        return 'second'
+      default:
+        break
+    }
+  }
+
+  switch (number % 10) {
+    case 1:
+      return `${number}st`
+    case 2:
+      return `${number}nd`
+    case 3:
+      return `${number}rd`
+    default:
+      return `${number}th`
+  }
+}

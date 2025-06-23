@@ -9,29 +9,8 @@ import LoadingWhiteImage from '../../../assets/loading_white.gif'
 import halvingSuccessAni from './halving_success_ani.gif'
 import SimpleButton from '../../../components/SimpleButton'
 import { useCountdown, useHalving, useIsMobile } from '../../../hooks'
+import { numberToOrdinal } from '../../../utils/number'
 import { Link } from '../../../components/Link'
-
-function numberToOrdinal(number: number) {
-  switch (number) {
-    case 1:
-      return 'first'
-    case 2:
-      return 'second'
-    default:
-      break
-  }
-
-  switch (number % 10) {
-    case 1:
-      return `${number}st`
-    case 2:
-      return `${number}nd`
-    case 3:
-      return `${number}rd`
-    default:
-      return `${number}th`
-  }
-}
 
 export const HalvingBanner = () => {
   const { estimatedDate, halvingCount, inCelebration, isLoading } = useHalving()
