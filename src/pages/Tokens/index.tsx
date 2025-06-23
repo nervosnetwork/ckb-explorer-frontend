@@ -84,9 +84,10 @@ const TokenInfo: FC<{ token: UDT | OmigaInscriptionCollection }> = ({ token }) =
         {isKnown ? (
           <Link
             className={styles.link}
+            title={symbol}
             to={isOmigaInscriptionCollection(token) ? `/inscription/${token.infoTypeHash}` : `/sudt/${token.typeHash}`}
           >
-            {symbol}
+            <div className={styles.symbolWithEllipsis}>{symbol}</div>
           </Link>
         ) : (
           symbol
@@ -232,13 +233,14 @@ const TokenTable: FC<{
                 {isKnown ? (
                   <Link
                     className={styles.link}
+                    title={symbol}
                     to={
                       isOmigaInscriptionCollection(token)
                         ? `/inscription/${token.infoTypeHash}`
                         : `/sudt/${token.typeHash}`
                     }
                   >
-                    {symbol}
+                    <div className={styles.symbolWithEllipsis}>{symbol}</div>
                     {!isOmigaInscriptionCollection(token) && (
                       <Tooltip trigger={<span className={styles.name}>{name}</span>} placement="bottom">
                         {name}

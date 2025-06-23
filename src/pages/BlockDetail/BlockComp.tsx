@@ -3,11 +3,12 @@ import { useHistory, useLocation, useParams } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { useQuery } from '@tanstack/react-query'
 import { Trans, useTranslation } from 'react-i18next'
+import { ClipboardCopy } from 'lucide-react'
 import { Link } from '../../components/Link'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
 import { parseSimpleDate } from '../../utils/date'
-import { localeNumberString, handleDifficulty } from '../../utils/number'
+import { localeNumberString, handleDifficulty, numberToOrdinal } from '../../utils/number'
 import { useIsMobile, useSearchParams } from '../../hooks'
 import { hexToUtf8 } from '../../utils/string'
 import { deprecatedAddrToNewAddr, shannonToCkb } from '../../utils/util'
@@ -27,6 +28,7 @@ import { Transaction } from '../../models/Transaction'
 import { CardHeader } from '../../components/Card/CardHeader'
 import { useCKBNode } from '../../hooks/useCKBNode'
 import Tooltip from '../../components/Tooltip'
+import { useSetToast } from '../../components/Toast'
 
 const CELL_BASE_ANCHOR = 'cellbase'
 
@@ -129,6 +131,7 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
   const { nodeService, isActivated: nodeModeActivated } = useCKBNode()
   const isMobile = useIsMobile()
   const { t } = useTranslation()
+  const setToast = useSetToast()
   const backendTipBlockNumber = useLatestBlockNumber()
   const { data: nodeTipBlockNumber = 0 } = useQuery(
     ['node', 'tipBlockNumber'],
@@ -152,6 +155,71 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
   const rewardPending = tipBlockNumber - Number(block.number) < DELAY_BLOCK_NUMBER
   const sentBlockNumber = `${Number(block.number) + DELAY_BLOCK_NUMBER}`
   const blockNumber = Number(block.number)
+
+  const toHexString = (num: number, length: number) => `0x${num.toString(16).padStart(length, '0')}`
+  const EpochInfoTooltip = () => (
+    <Tooltip
+      placement="top"
+      trigger={
+        <img
+          src={MoreIcon}
+          alt="more"
+          style={{
+            width: 15,
+            height: 15,
+            marginLeft: 6,
+          }}
+        />
+      }
+    >
+      <div className="grid grid-cols-4 gap-2 text-nowrap">
+        <span>Epoch length</span>
+        <span className="text-right">{localeNumberString(block.epochNumber)}</span>
+        <span className="col-span-2 text-[#ccc] gap-1 flex items-center">
+          {toHexString(Number(block.epochNumber), 4)}
+          <ClipboardCopy
+            className="cursor-pointer text-primary min-w-[14px]"
+            size={14}
+            onClick={() => {
+              navigator.clipboard.writeText(toHexString(Number(block.epochNumber), 4))
+              setToast({ message: t('common.copied') })
+            }}
+          />
+          on chain
+        </span>
+
+        <span>Epoch index</span>
+        <span className="text-right">{Number(block.epochIndex)}</span>
+        <span className="col-span-2 text-[#ccc] gap-1 flex items-center">
+          {toHexString(Number(block.epochIndex), 4)}
+          <ClipboardCopy
+            className="cursor-pointer text-primary min-w-[14px]"
+            size={14}
+            onClick={() => {
+              navigator.clipboard.writeText(toHexString(Number(block.epochIndex), 4))
+              setToast({ message: t('common.copied') })
+            }}
+          />
+          on chain
+        </span>
+
+        <span>Block index</span>
+        <span className="text-right">{numberToOrdinal(Number(block.epochIndex) + 1)}</span>
+        <span className="col-span-2 text-[#ccc] gap-1 flex items-center">
+          {toHexString(Number(block.epochIndex + 1), 4)}
+          <ClipboardCopy
+            className="cursor-pointer text-primary min-w-[14px]"
+            size={14}
+            onClick={() => {
+              navigator.clipboard.writeText(toHexString(Number(block.epochIndex + 1), 4))
+              setToast({ message: t('common.copied') })
+            }}
+          />
+          of the Epoch
+        </span>
+      </div>
+    </Tooltip>
+  )
   const overviewItems: CardCellInfo<'left' | 'right'>[] = [
     {
       title: t('block.block_height'),
@@ -275,7 +343,12 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
     {
       title: t('block.epoch'),
       tooltip: t('glossary.epoch'),
-      content: localeNumberString(block.epochNumber),
+      content: (
+        <span className="flex items-center gap-1">
+          {localeNumberString(block.epochNumber)}
+          <EpochInfoTooltip />
+        </span>
+      ),
     },
     ...(block.minerReward
       ? [
@@ -309,7 +382,12 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
     {
       title: t('block.block_index'),
       tooltip: t('glossary.block_index'),
-      content: `${Number(block.epochIndex) + 1}/${block.epochLength}`,
+      content: (
+        <span className="flex items-center gap-1">
+          {numberToOrdinal(Number(block.epochIndex) + 1)} of the {block.epochLength}
+          <EpochInfoTooltip />
+        </span>
+      ),
     },
     {
       title: t('block.nonce'),

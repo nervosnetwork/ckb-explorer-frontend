@@ -23,6 +23,7 @@
   .icon {
     width: 40px;
     height: 40px;
+    flex-shrink: 0;
   }
 
   @media (width <= $mobileBreakPoint) {
@@ -45,6 +46,14 @@
     height: min-content;
     padding: 8px 0 12px;
   }
+}
+
+.symbolWithEllipsis {
+  display: inline-block;
+  max-width: 169px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .noneName {
