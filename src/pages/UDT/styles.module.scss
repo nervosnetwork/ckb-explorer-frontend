@@ -47,6 +47,14 @@
   }
 }
 
+.symbolWithEllipsis {
+  display: inline-block;
+  max-width: 169px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .noneName {
   color: #999;
 }
