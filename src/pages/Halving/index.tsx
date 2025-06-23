@@ -16,33 +16,12 @@ import SmallLoading from '../../components/Loading/SmallLoading'
 import { HalvingCountdown } from './HalvingCountdown'
 import { useCountdown, useHalving, useIsMobile, useEpochBlockMap } from '../../hooks'
 import { getPrimaryColor, EPOCHS_PER_HALVING, THEORETICAL_EPOCH_TIME } from '../../constants/common'
+import { numberToOrdinal } from '../../utils/number'
 import styles from './index.module.scss'
 import { useCurrentLanguage } from '../../utils/i18n'
 import { Link } from '../../components/Link'
 import Popover from '../../components/Popover'
 import Tooltip from '../../components/Tooltip'
-
-function numberToOrdinal(number: number) {
-  switch (number) {
-    case 1:
-      return 'first'
-    case 2:
-      return 'second'
-    default:
-      break
-  }
-
-  switch (number % 10) {
-    case 1:
-      return `${number}st`
-    case 2:
-      return `${number}nd`
-    case 3:
-      return `${number}rd`
-    default:
-      return `${number}th`
-  }
-}
 
 export const HalvingCountdownPage = () => {
   const { t } = useTranslation()
