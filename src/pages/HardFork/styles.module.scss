@@ -30,6 +30,7 @@ $glowing-line-width: 76px;
   left: 0;
   width: 100%;
   height: 300px;
+  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
 }
 
 // Background
@@ -427,7 +428,7 @@ $glowing-line-width: 76px;
 
 .cube3d {
   position: relative;
-  width: min-content;
+  width: auto;
   margin-top: 0;
   animation: cube-3d-animation 8s ease-in-out infinite;
   animation-play-state: running;
@@ -477,6 +478,12 @@ $glowing-line-width: 76px;
       transform: translateX(50vw);
     }
   }
+}
+
+.cube3d img {
+  width: 104px !important;
+  height: 140px !important;
+  display: block;
 }
 
 .animeBlockWrap {
