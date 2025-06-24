@@ -30,6 +30,7 @@ $glowing-line-width: 76px;
   left: 0;
   width: 100%;
   height: 300px;
+  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
 }
 
 // Background
