@@ -116,11 +116,13 @@ export function ScriptInfosCard({ scriptInfos }: { scriptInfos: ScriptInfo[] }) 
   const { t } = useTranslation()
   return (
     <>
-      {scriptInfos.map(scriptInfo => (
-        <Card style={{ marginTop: 24 }} key={scriptInfo.scriptOutPoint}>
-          <CardCellsLayout type="left-right" cells={getScriptInfo(scriptInfo, t)} />
-        </Card>
-      ))}
+      {scriptInfos
+        .filter(scriptInfo => !scriptInfo.deprecated)
+        .map(scriptInfo => (
+          <Card style={{ marginTop: 24 }} key={scriptInfo.scriptOutPoint}>
+            <CardCellsLayout type="left-right" cells={getScriptInfo(scriptInfo, t)} />
+          </Card>
+        ))}
     </>
   )
 }
