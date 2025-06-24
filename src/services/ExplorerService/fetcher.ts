@@ -191,19 +191,28 @@ export const apiFetcher = {
 
   // sort field, block_timestamp, capacity
   // sort type, asc, desc
-  fetchAddressLiveCells: (
-    address: string,
-    page: number,
-    size: number,
-    sort?: string,
-    boundStatus?: 'bound' | 'unbound',
-  ) => {
+  fetchAddressLiveCells: ({
+    address,
+    page,
+    size,
+    sort,
+    boundStatus,
+    tag,
+  }: {
+    address: string
+    page: number
+    size: number
+    sort?: string
+    boundStatus?: 'bound' | 'unbound'
+    tag?: string
+  }) => {
     return v1GetUnwrappedPagedList<LiveCell>(`address_live_cells/${address}`, {
       params: {
         bound_status: boundStatus,
         page,
         page_size: size,
         sort,
+        tag,
       },
     })
   },

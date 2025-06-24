@@ -2,6 +2,7 @@ import { type FC, useState, useRef, useEffect } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
 import BigNumber from 'bignumber.js'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { RefreshCw } from 'lucide-react'
 import { OpenInNewWindowIcon, SizeIcon, TimerIcon } from '@radix-ui/react-icons'
 import { explorerService, LiveCell } from '../../services/ExplorerService'
 import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
@@ -41,17 +42,20 @@ const fetchCells = async ({
   size = 10,
   sort = 'capacity.desc',
   page = 1,
+  tag,
 }: {
   address: string
   size: number
   sort: string
   page: number
+  tag?: string
 }) => {
   const boundStatus = address.startsWith('ckb') || address.startsWith('ckt') ? undefined : 'bound'
-  const res = await explorerService.api.fetchAddressLiveCells(address, page, size, sort, boundStatus)
+  const res = await explorerService.api.fetchAddressLiveCells({ address, page, size, sort, boundStatus, tag })
   return {
     data: res.data,
     nextPage: page + 1,
+    total: res.total,
   }
 }
 
@@ -408,15 +412,19 @@ const CellTable: FC<{ cells: LiveCell[] }> = ({ cells }) => {
   )
 }
 
-const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
+const Cells: FC<{ address: string; tag?: string; defaultDisplayAsList?: boolean }> = ({
+  address,
+  tag,
+  defaultDisplayAsList = false,
+}) => {
   const { t } = useTranslation()
   const [params, setParams] = useState(initialPageParams)
-  const [isDisplayedAsList, setIsDisplayedAsList] = useState(false)
+  const [isDisplayedAsList, setIsDisplayedAsList] = useState(defaultDisplayAsList)
   const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
-    ['address live cells', address, params.size, params.sort],
-    ({ pageParam = 1 }) => fetchCells({ ...params, address, page: pageParam }),
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery(
+    ['address live cells', address, params.size, params.sort, tag],
+    ({ pageParam = 1 }) => fetchCells({ ...params, address, tag, page: pageParam }),
     {
       getNextPageParam: lastPage => {
         if (lastPage.data.length < params.size) return false
@@ -433,7 +441,8 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
     setParams(p => ({ ...p, sort }))
   }
 
-  const isListDisplayed = count && data
+  const total = data?.pages[0]?.total ?? 0
+  const isListDisplayed = total && data
 
   useEffect(() => {
     const trigger = loadMoreRef.current
@@ -462,7 +471,9 @@ const Cells: FC<{ address: string; count: number }> = ({ address, count }) => {
   return (
     <div className={styles.container}>
       <div className={styles.toolbar}>
-        <div>UTXO: {count.toLocaleString('en')}</div>
+        <div className="flex items-center gap-1">
+          UTXO: {isLoading ? <RefreshCw size={14} className="animate-spin" /> : total.toLocaleString('en')}
+        </div>
         <div className={styles.filters}>
           <Tooltip
             trigger={
