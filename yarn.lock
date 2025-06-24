@@ -1639,6 +1639,25 @@
     isomorphic-ws "^5.0.0"
     ws "^8.18.0"
 
+"@ckb-ccc/core@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@ckb-ccc/core/-/core-1.9.0.tgz#92f55c6c400d9075fca6e8148ebaf14ee722d5e7"
+  integrity sha512-znKLUJ9rTThtkyUKykZXfNM+Pj1GqCrlhYwl3LZ2EZSPQnQLTD6OquWoEaXLQppgGQ3+GYGjl6ZZDJhu796mHA==
+  dependencies:
+    "@joyid/ckb" "^1.1.1"
+    "@noble/ciphers" "^0.5.3"
+    "@noble/curves" "^1.4.2"
+    "@noble/hashes" "^1.4.0"
+    abort-controller "^3.0.0"
+    bech32 "^2.0.0"
+    bitcoinjs-message "^2.2.0"
+    bs58check "^4.0.0"
+    buffer "^6.0.3"
+    cross-fetch "^4.0.0"
+    ethers "^6.13.1"
+    isomorphic-ws "^5.0.0"
+    ws "^8.18.0"
+
 "@ckb-ccc/eip6963@1.0.17":
   version "1.0.17"
   resolved "https://registry.yarnpkg.com/@ckb-ccc/eip6963/-/eip6963-1.0.17.tgz#01de64bfa679c09ff0f014af3b9c91baad4fac21"
@@ -1696,12 +1715,19 @@
     "@ckb-ccc/core" "1.8.1"
     axios "^1.7.7"
 
-"@ckb-ccc/ssri@0.2.7", "@ckb-ccc/ssri@^0.2.7":
+"@ckb-ccc/ssri@0.2.7":
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/@ckb-ccc/ssri/-/ssri-0.2.7.tgz#fc0db6dcdc6e09e35d225fe00057b9c65fd1bc3f"
   integrity sha512-1oXXCuXQOdlS4l/GZGca5MHk8ABv01S533NirX37DNl2PPk7Ct0EikdpRWte+tbogBFijTWr/OGvopQTVNi2Lg==
   dependencies:
     "@ckb-ccc/core" "1.8.1"
+
+"@ckb-ccc/ssri@^0.2.7":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@ckb-ccc/ssri/-/ssri-0.2.8.tgz#461e5bebda8897373850ab3ae8cc3b2462dfb5de"
+  integrity sha512-FtbLzdT74ztDmmkzhXO5/2sCvCdpBWmW/XTRg3sK26kGB1k1WHoWHfC3UML7xd9sWWxGAlyjlnLbR8XqZaAlew==
+  dependencies:
+    "@ckb-ccc/core" "1.9.0"
 
 "@ckb-ccc/udt@0.1.9":
   version "0.1.9"
@@ -2909,9 +2935,9 @@
     "@noble/hashes" "1.3.2"
 
 "@noble/curves@^1.4.2":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.9.1.tgz#9654a0bc6c13420ae252ddcf975eaf0f58f0a35c"
-  integrity sha512-k11yZxZg+t+gWvBbIswW0yoJlu8cHOC7dhunwOzoWH/mXGBiYyR4YY6hAEK/3EUs4UpB8la1RfdRpeGsFHkWsA==
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.9.2.tgz#73388356ce733922396214a933ff7c95afcef911"
+  integrity sha512-HxngEd2XUcg9xi20JkwlLCtYwfoFw4JGkuZpT+WlsPD4gB/cxkvTD8fSsoAnphGZhFdZYKeQIPCuFlWPm1uE0g==
   dependencies:
     "@noble/hashes" "1.8.0"
 
@@ -2920,15 +2946,10 @@
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.2.tgz#6f26dbc8fbc7205873ce3cee2f690eba0d421b39"
   integrity sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==
 
-"@noble/hashes@1.8.0":
+"@noble/hashes@1.8.0", "@noble/hashes@^1.2.0", "@noble/hashes@^1.4.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.8.0.tgz#cee43d801fcef9644b11b8194857695acd5f815a"
   integrity sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==
-
-"@noble/hashes@^1.2.0", "@noble/hashes@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.4.0.tgz#45814aa329f30e4fe0ba49426f49dfccdd066426"
-  integrity sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -8302,9 +8323,9 @@ etag@~1.8.1:
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
 ethers@^6.13.1:
-  version "6.14.3"
-  resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.14.3.tgz#7c4443c165ee59b2964e691600fd4586004b2000"
-  integrity sha512-qq7ft/oCJohoTcsNPFaXSQUm457MA5iWqkf1Mb11ujONdg7jBI6sAOrHaTi3j0CBqIGFSCeR/RMc+qwRRub7IA==
+  version "6.14.4"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.14.4.tgz#0f6fbc562a8425c7c888da307fa71ef796be0c04"
+  integrity sha512-Jm/dzRs2Z9iBrT6e9TvGxyb5YVKAPLlpna7hjxH7KH/++DSh2T/JVmQUv7iHI5E55hDbp/gEVvstWYXVxXFzsA==
   dependencies:
     "@adraffy/ens-normalize" "1.10.1"
     "@noble/curves" "1.2.0"
@@ -10532,7 +10553,7 @@ js-yaml@^4.1.0:
 
 jsbi@3.1.3:
   version "3.1.3"
-  resolved "https://registry.npmjs.org/jsbi/-/jsbi-3.1.3.tgz#f024b340032f7c7caaa6ca4b32b55e8d33f6e897"
+  resolved "https://registry.yarnpkg.com/jsbi/-/jsbi-3.1.3.tgz#f024b340032f7c7caaa6ca4b32b55e8d33f6e897"
   integrity sha512-nBJqA0C6Qns+ZxurbEoIR56wyjiUszpNy70FHvxO5ervMoCbZVE3z3kxr5nKGhlxr/9MhKTSUBs7cAwwuf3g9w==
 
 jsbi@3.2.5:
@@ -15283,7 +15304,7 @@ use-sync-external-store@^1.2.0:
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
-  integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
+  integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
 util.promisify@~1.0.0:
   version "1.0.1"
