@@ -36,6 +36,8 @@ enum AssetInfo {
   UDT = 1,
   INSCRIPTION,
   CELLs,
+  DEPLOYMENT_CELLs,
+  FIBER_CELLs,
 }
 
 const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
@@ -178,6 +180,23 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
     },
   )
 
+  const { data: deploymentCells } = useQuery(
+    ['address', 'deployment_cells', address.addressHash],
+    () =>
+      explorerService.api.fetchAddressLiveCells({ address: address.addressHash, page: 1, size: 10, tag: 'deployment' }),
+    {
+      enabled: !!address?.addressHash,
+    },
+  )
+
+  const { data: fiberCells } = useQuery(
+    ['address', 'fiber_cells', address.addressHash],
+    () => explorerService.api.fetchAddressLiveCells({ address: address.addressHash, page: 1, size: 10, tag: 'fiber' }),
+    {
+      enabled: !!address?.addressHash,
+    },
+  )
+
   const overviewItems: CardCellInfo<'left' | 'right'>[] = [
     {
       slot: 'left',
@@ -207,6 +226,8 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
   const hasAssets = udts.length > 0 || (cotaList?.length && cotaList.length > 0)
   const hasInscriptions = inscriptions.length > 0
   const hasCells = +address.liveCellsCount > 0
+  const hasDeploymentCells = Boolean(deploymentCells?.total && deploymentCells.total > 0)
+  const hasFiberCells = Boolean(fiberCells?.total && fiberCells.total > 0)
 
   useEffect(() => {
     if (hasAssets) {
@@ -238,6 +259,17 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                   </span>
                 </TabsTrigger>
               )}
+              {hasFiberCells && (
+                <TabsTrigger value={AssetInfo.FIBER_CELLs.toString()}>
+                  <span
+                    className={styles.addressAssetsTabPaneTitle}
+                    onClick={() => setActiveTab(AssetInfo.FIBER_CELLs)}
+                  >
+                    Fiber Channel(s)
+                  </span>
+                </TabsTrigger>
+              )}
+
               {!!hasAssets && (
                 <TabsTrigger value={AssetInfo.UDT.toString()}>
                   <span className={styles.addressAssetsTabPaneTitle} onClick={() => setActiveTab(AssetInfo.UDT)}>
@@ -255,11 +287,36 @@ export const AddressOverviewCard: FC<{ address: Address }> = ({ address }) => {
                   </span>
                 </TabsTrigger>
               )}
+
+              {hasDeploymentCells && (
+                <TabsTrigger value={AssetInfo.DEPLOYMENT_CELLs.toString()}>
+                  <span
+                    className={styles.addressAssetsTabPaneTitle}
+                    onClick={() => setActiveTab(AssetInfo.DEPLOYMENT_CELLs)}
+                  >
+                    Deployment(s)
+                  </span>
+                </TabsTrigger>
+              )}
             </TabsList>
             {!!hasCells && (
               <TabsContent value={AssetInfo.CELLs.toString()} style={{ width: '100%' }}>
                 <div className={styles.assetCardList}>
-                  <Cells address={address.addressHash} count={+address.liveCellsCount} />
+                  <Cells address={address.addressHash} />
+                </div>
+              </TabsContent>
+            )}
+            {!!hasDeploymentCells && (
+              <TabsContent value={AssetInfo.DEPLOYMENT_CELLs.toString()} style={{ width: '100%' }}>
+                <div className={styles.assetCardList}>
+                  <Cells address={address.addressHash} tag="deployment" />
+                </div>
+              </TabsContent>
+            )}
+            {!!hasFiberCells && (
+              <TabsContent value={AssetInfo.FIBER_CELLs.toString()} style={{ width: '100%' }}>
+                <div className={styles.assetCardList}>
+                  <Cells address={address.addressHash} tag="fiber" defaultDisplayAsList />
                 </div>
               </TabsContent>
             )}

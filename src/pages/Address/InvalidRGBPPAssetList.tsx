@@ -31,7 +31,7 @@ const fetchCells = async ({
   sort: string
   page: number
 }) => {
-  const res = await explorerService.api.fetchAddressLiveCells(address, page, size, sort, boundStatus)
+  const res = await explorerService.api.fetchAddressLiveCells({ address, page, size, sort, boundStatus })
   return {
     data: res.data,
     nextPage: page + 1,

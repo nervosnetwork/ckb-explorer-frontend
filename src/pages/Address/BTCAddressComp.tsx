@@ -117,7 +117,7 @@ export const BTCAddressOverviewCard: FC<{ address: Address }> = ({ address }) =>
             {hasCells && (
               <TabsContent value={AssetInfo.CELLs.toString()} style={{ width: '100%' }}>
                 <div className={styles.assetCardList}>
-                  <Cells address={address.bitcoinAddressHash} count={+address.liveCellsCount} />
+                  <Cells address={address.bitcoinAddressHash} />
                 </div>
               </TabsContent>
             )}
