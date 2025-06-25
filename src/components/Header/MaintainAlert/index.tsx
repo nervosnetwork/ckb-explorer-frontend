@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Trans } from 'react-i18next'
-import axios from 'axios'
 import config from '../../../config'
 import { useCKBNode } from '../../../hooks/useCKBNode'
 import { useLatestBlockNumber } from '../../../services/ExplorerService'
@@ -11,19 +10,27 @@ import styles from './styles.module.scss'
 const { BACKUP_NODES: backupNodes } = config
 const threshold = 20
 
-const getTipFromNode = (url: string): Promise<string> =>
-  axios<any, { data: { result: string } }>(url, {
-    method: 'post',
-    data: {
+const getTipFromNode = async (url: string): Promise<string> => {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
       jsonrpc: '2.0',
       id: 1,
       method: 'get_tip_block_number',
       params: [],
-    },
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then(res => res.data.result)
+    }),
+  })
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`)
+  }
+
+  const data = await response.json()
+  return data.result
+}
 
 const MaintainAlert = () => {
   const [nodeModalVisible, setNodeModalVisible] = useState(false)

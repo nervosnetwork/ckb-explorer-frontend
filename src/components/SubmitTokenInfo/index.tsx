@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
-import { AxiosError } from 'axios'
 import CloseIcon from '../../assets/modal_close.png'
 import HelpIcon from '../../assets/qa_help.png'
 import AlertIcon from '../../assets/alert.png'
@@ -24,6 +23,7 @@ import {
   REPORT_EMAIL_BODY_ZH,
 } from '../../constants/common'
 import Tooltip from '../Tooltip'
+import { isRequestError } from '../../utils/error'
 
 const emptyTokenInfo = {
   tokenType: '',
@@ -164,7 +164,7 @@ export const SubmitTokenInfo = ({
       }
       throw new Error('Fail to get code')
     } catch (e: unknown) {
-      if (e instanceof AxiosError) {
+      if (isRequestError(e)) {
         if (e.response?.status === 400) {
           const code = e.response?.data[0]?.code
           setToast({
@@ -275,7 +275,7 @@ export const SubmitTokenInfo = ({
         }
       })
       .catch(e => {
-        if (e instanceof AxiosError) {
+        if (isRequestError(e)) {
           const code = e.response?.data[0]?.code
           setToast({
             message: code ? t(`error.codes.${code}`) : e.response?.data[0]?.title,

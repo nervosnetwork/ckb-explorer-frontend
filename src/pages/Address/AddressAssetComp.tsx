@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { ReactEventHandler, useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import axios, { AxiosResponse } from 'axios'
 import { CoTA, OmigaInscription, MNFT, NRC721, SUDT, XUDT, Spore } from '../../models/Address'
 import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import { parseUDTAmount } from '../../utils/number'
@@ -72,7 +71,6 @@ export const AddressXudtComp = ({
   const { symbol, decimal, amount, typeHash, udtIconFile } = account
   const [icon, setIcon] = useState(udtIconFile || FtFallbackIcon)
 
-  useEffect(() => {})
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
@@ -89,7 +87,21 @@ export const AddressSudtComp = ({ account, isRGBPP }: { account: SUDT; isRGBPP?:
   const { symbol, decimal, amount, typeHash, udtIconFile } = account
   const [icon, setIcon] = useState(udtIconFile || FtFallbackIcon)
 
-  useEffect(() => {})
+  useEffect(() => {
+    fetch(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
+      .then(res => res.json())
+      .then(data => {
+        if (typeof data.image === 'string') {
+          setIcon(data.image)
+        } else {
+          throw new Error('Image not found in metadata')
+        }
+      })
+      .catch((err: Error) => {
+        console.error(err.message)
+      })
+  }, [udtIconFile])
+
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
@@ -147,11 +159,11 @@ export const AddressMNFTComp = ({ account, isRGBPP }: { account: MNFT; isRGBPP?:
   const [icon, setIcon] = useState(udtIconFile)
 
   useEffect(() => {
-    axios
-      .get(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
-      .then((res: AxiosResponse) => {
-        if (typeof res.data?.image === 'string') {
-          setIcon(res.data.image)
+    fetch(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
+      .then(res => res.json())
+      .then(data => {
+        if (typeof data.image === 'string') {
+          setIcon(data.image)
         } else {
           throw new Error('Image not found in metadata')
         }
@@ -184,11 +196,11 @@ export const AddressNRC721Comp = ({ account, isRGBPP }: { account: NRC721; isRGB
   const [icon, setIcon] = useState(udtIconFile)
 
   useEffect(() => {
-    axios
-      .get(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
-      .then((res: AxiosResponse) => {
-        if (typeof res.data?.image === 'string') {
-          setIcon(res.data.image)
+    fetch(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
+      .then(res => res.json())
+      .then(data => {
+        if (typeof data.image === 'string') {
+          setIcon(data.image)
         } else {
           throw new Error('Image not found in metadata')
         }
@@ -224,11 +236,11 @@ export const AddressCoTAComp = ({ account, isRGBPP }: { account: CoTA; isRGBPP?:
   const [icon, setIcon] = useState(udtIconFile)
 
   useEffect(() => {
-    axios
-      .get(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
-      .then((res: AxiosResponse) => {
-        if (typeof res.data?.image === 'string') {
-          setIcon(res.data.image)
+    fetch(/https?:\/\//.test(udtIconFile) ? udtIconFile : `https://${udtIconFile}`)
+      .then(res => res.json())
+      .then(data => {
+        if (typeof data.image === 'string') {
+          setIcon(data.image)
         } else {
           throw new Error('Image not found in metadata')
         }

@@ -1,4 +1,3 @@
-import axios from 'axios'
 import config from '../../config'
 import { IS_MAINNET } from '../../constants/common'
 
@@ -8,16 +7,19 @@ if (!node) {
   throw new Error('NodeProbService not implemented')
 }
 
-export const getPeers = (): Promise<RawPeer[]> => {
-  return axios
-    .get(`${node}/peer`, {
-      params: {
-        network: IS_MAINNET ? 'minara' : 'pudge',
-        offline_timeout: 10080,
-        unknown_offline_timeout: 10080,
-      },
-    })
-    .then(res => res.data)
+export const getPeers = async (): Promise<RawPeer[]> => {
+  const params = new URLSearchParams({
+    network: IS_MAINNET ? 'minara' : 'pudge',
+    offline_timeout: '10080',
+    unknown_offline_timeout: '10080',
+  })
+
+  const response = await fetch(`${node}/peer?${params}`)
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`)
+  }
+
+  return response.json()
 }
 
 interface LastSeen {

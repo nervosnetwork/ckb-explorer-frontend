@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { Input, Cell, OutPoint } from '@ckb-lumos/base'
 import { RPC, ResultFormatter } from '@ckb-lumos/rpc'
 import { outputToCell } from '../../utils/transaction'
@@ -22,9 +21,14 @@ export class NodeService {
       params: [hash],
     }
 
-    return axios
-      .post(this.nodeEndpoint, body)
-      .then(res => res.data)
+    return fetch(this.nodeEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+      .then(res => res.json())
       .catch(() => null)
   }
 
@@ -36,7 +40,13 @@ export class NodeService {
       params: [tx, 'passthrough'],
     }
 
-    return axios.post(this.nodeEndpoint, body).then(res => res.data)
+    return fetch(this.nodeEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    }).then(res => res.json())
   }
 
   async getCellByOutPoint(outPoint: OutPoint): Promise<Cell | undefined> {

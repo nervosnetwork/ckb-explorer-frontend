@@ -25,7 +25,7 @@ import { HelpTip } from '../../HelpTip'
 import { useSetToast } from '../../Toast'
 import { isTypeIdScript, TYPE_ID_TAG } from '../../../utils/typeid'
 import { CellBasicInfo } from '../../../utils/transformer'
-import { isAxiosError } from '../../../utils/error'
+import { isRequestError } from '../../../utils/error'
 import { Script } from '../../../models/Script'
 import { ReactComponent as CompassIcon } from './compass.svg'
 import styles from './styles.module.scss'
@@ -360,7 +360,7 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
     ['cell-info', cell, selectedInfo],
     () =>
       fetchCellInfo(cell, selectedInfo).catch(error => {
-        if (!isAxiosError(error)) return null
+        if (!isRequestError(error)) return null
         const respErrors = error.response?.data
         if (!Array.isArray(respErrors)) return null
 
