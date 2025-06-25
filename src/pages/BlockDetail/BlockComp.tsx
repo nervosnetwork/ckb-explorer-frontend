@@ -174,14 +174,14 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
     >
       <div className="grid grid-cols-4 gap-2 text-nowrap">
         <span>Epoch length</span>
-        <span className="text-right">{localeNumberString(block.epochNumber)}</span>
+        <span className="text-right">{localeNumberString(block.epochLength)}</span>
         <span className="col-span-2 text-[#ccc] gap-1 flex items-center">
-          {toHexString(Number(block.epochNumber), 4)}
+          {toHexString(Number(block.epochLength), 4)}
           <ClipboardCopy
             className="cursor-pointer text-primary min-w-[14px]"
             size={14}
             onClick={() => {
-              navigator.clipboard.writeText(toHexString(Number(block.epochNumber), 4))
+              navigator.clipboard.writeText(toHexString(Number(block.epochLength), 4))
               setToast({ message: t('common.copied') })
             }}
           />
@@ -189,7 +189,7 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
         </span>
 
         <span>Epoch index</span>
-        <span className="text-right">{Number(block.epochIndex)}</span>
+        <span className="text-right">{localeNumberString(block.epochIndex)}</span>
         <span className="col-span-2 text-[#ccc] gap-1 flex items-center">
           {toHexString(Number(block.epochIndex), 4)}
           <ClipboardCopy
