@@ -456,4 +456,9 @@
   min-width: 18px;
   border-radius: 999px;
   border: 2px solid black;
+
+  &[data-type='shield'] {
+    border: none;
+    border-radius: 0;
+  }
 }
