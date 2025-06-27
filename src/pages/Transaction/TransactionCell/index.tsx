@@ -32,6 +32,7 @@ import FiberIcon from './fiber.svg'
 import CoTARegCellIcon from './cota_reg_cell.svg'
 import SporeCellIcon from './spore.svg'
 import MultisigIcon from './multisig.svg'
+import DeploymentIcon from './deployment.svg'
 import { ReactComponent as LockTimeIcon } from './clock.svg'
 import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
 import SimpleModal from '../../../components/Modal'
@@ -410,7 +411,8 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       description: 'This cell is related to Deployment.',
       display: isDeployment,
       link: '/scripts',
-      icon: DobIcon, // The ui doesn't provide an icon yet, so use another icon for now.
+      icon: DeploymentIcon,
+      iconColor: '#ECD7FF',
     },
     {
       key: 'Multisig',
@@ -432,6 +434,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       display: isFiber,
       link: cell.fiberGraphChannelInfo ? `/fiber/graph/node/${cell.fiberGraphChannelInfo.node1}` : '/fiber/graph/nodes',
       icon: FiberIcon,
+      iconColor: '#D7FFFC',
     },
     {
       key: 'Ownerless',
