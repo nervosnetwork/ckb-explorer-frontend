@@ -1,4 +1,3 @@
-import axios from 'axios'
 import config from '../../config'
 import { IS_MAINNET } from '../../constants/common'
 
@@ -9,14 +8,11 @@ export const getBtcChainIdentify = async (txid: string) => {
     return 'mainnet'
   }
 
-  const identify = await axios
-    .get<{ chain: string }>(`${BTC_TEST_IDENTIFIER}/api/signet?${new URLSearchParams({ txid })}`)
-    .catch(() => {
-      return {
-        data: {
-          chain: 'testnet',
-        },
-      }
-    })
-  return identify.data.chain
+  try {
+    const response = await fetch(`${BTC_TEST_IDENTIFIER}/api/signet?${new URLSearchParams({ txid })}`)
+    const data = await response.json()
+    return data.chain
+  } catch {
+    return 'testnet'
+  }
 }

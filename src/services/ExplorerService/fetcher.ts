@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios'
 import BigNumber from 'bignumber.js'
 import { Dayjs } from 'dayjs'
 import { pick } from '../../utils/object'
@@ -191,19 +190,28 @@ export const apiFetcher = {
 
   // sort field, block_timestamp, capacity
   // sort type, asc, desc
-  fetchAddressLiveCells: (
-    address: string,
-    page: number,
-    size: number,
-    sort?: string,
-    boundStatus?: 'bound' | 'unbound',
-  ) => {
+  fetchAddressLiveCells: ({
+    address,
+    page,
+    size,
+    sort,
+    boundStatus,
+    tag,
+  }: {
+    address: string
+    page: number
+    size: number
+    sort?: string
+    boundStatus?: 'bound' | 'unbound'
+    tag?: string
+  }) => {
     return v1GetUnwrappedPagedList<LiveCell>(`address_live_cells/${address}`, {
       params: {
         bound_status: boundStatus,
         page,
         page_size: size,
         sort,
+        tag,
       },
     })
   },
@@ -298,7 +306,7 @@ export const apiFetcher = {
   fetchTransactionLiteDetailsByHash: (hash: string) =>
     requesterV2
       .get(`ckb_transactions/${hash}/details`)
-      .then((res: AxiosResponse) => toCamelcase<Response.Response<TransactionRecord[]>>(res.data)),
+      .then(res => toCamelcase<Response.Response<TransactionRecord[]>>(res.data)),
 
   fetchTransactions: async (page: number, size: number, sort?: string) => {
     const res = await v1GetUnwrappedPagedList<Transaction>('transactions', {
@@ -572,24 +580,26 @@ export const apiFetcher = {
     v1GetUnwrappedList<ChartItem.TotalDaoDeposit>('/daily_statistics/total_depositors_count-total_dao_deposit'),
 
   fetchStatisticBitcoin: () =>
-    requesterV2(`/bitcoin_statistics`).then((res: AxiosResponse) => toCamelcase<ChartItem.Bitcoin[]>(res.data.data)),
+    requesterV2.get(`/bitcoin_statistics`).then(res => toCamelcase<ChartItem.Bitcoin[]>(res.data.data)),
 
   fetchBitcoinAddressesRGBCells: (address: string, page: number, size: number, sort?: string) =>
-    requesterV2(`/bitcoin_addresses/${address}/rgb_cells`, {
-      params: {
-        page,
-        page_size: size,
-        sort,
-      },
-    }).then((res: AxiosResponse) =>
-      toCamelcase<{
-        data: { rgbCells: RGBCells }
-        meta: {
-          total: number
-          pageSize: number
-        }
-      }>(res.data),
-    ),
+    requesterV2
+      .get(`/bitcoin_addresses/${address}/rgb_cells`, {
+        params: {
+          page,
+          page_size: size,
+          sort,
+        },
+      })
+      .then(res =>
+        toCamelcase<{
+          data: { rgbCells: RGBCells }
+          meta: {
+            total: number
+            pageSize: number
+          }
+        }>(res.data),
+      ),
 
   fetchStatisticNewDaoDeposit: () =>
     v1GetUnwrappedList<ChartItem.NewDaoDeposit>('/daily_statistics/daily_dao_deposit-daily_dao_depositors_count'),
@@ -667,29 +677,31 @@ export const apiFetcher = {
     }),
 
   fetchStatisticMinerVersionDistribution: () =>
-    requesterV2(`/blocks/ckb_node_versions`).then((res: AxiosResponse) =>
-      toCamelcase<{ data: { version: string; blocksCount: number }[] }>(res.data),
-    ),
+    requesterV2
+      .get(`/blocks/ckb_node_versions`)
+      .then(res => toCamelcase<{ data: { version: string; blocksCount: number }[] }>(res.data)),
 
   fetchRGBTransactions: async (page: number, size: number, sort?: string, leapDirection?: string) =>
-    requesterV2('/rgb_transactions', {
-      params: {
-        page,
-        page_size: size,
-        sort,
-        leap_direction: leapDirection,
-      },
-    }).then((res: AxiosResponse) =>
-      toCamelcase<{
-        data: {
-          ckbTransactions: RGBTransaction[]
-        }
-        meta: {
-          total: number
-          pageSize: number
-        }
-      }>(res.data),
-    ),
+    requesterV2
+      .get('/rgb_transactions', {
+        params: {
+          page,
+          page_size: size,
+          sort,
+          leap_direction: leapDirection,
+        },
+      })
+      .then(res =>
+        toCamelcase<{
+          data: {
+            ckbTransactions: RGBTransaction[]
+          }
+          meta: {
+            total: number
+            pageSize: number
+          }
+        }>(res.data),
+      ),
 
   fetchStatisticTransactionFees: () =>
     requesterV2

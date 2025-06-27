@@ -32,6 +32,7 @@ import FiberIcon from './fiber.svg'
 import CoTARegCellIcon from './cota_reg_cell.svg'
 import SporeCellIcon from './spore.svg'
 import MultisigIcon from './multisig.svg'
+import DeploymentIcon from './deployment.svg'
 import { ReactComponent as LockTimeIcon } from './clock.svg'
 import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
 import SimpleModal from '../../../components/Modal'
@@ -403,6 +404,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       link: `/script/${scriptDataMap.Spore.codeHashes[0]}/${scriptDataMap.Spore.hashType}`,
       icon: DobIcon,
       iconColor: '#FFFEC1',
+      type: 'badge',
     },
     {
       key: 'Deployment',
@@ -410,7 +412,9 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       description: 'This cell is related to Deployment.',
       display: isDeployment,
       link: '/scripts',
-      icon: DobIcon, // The ui doesn't provide an icon yet, so use another icon for now.
+      icon: DeploymentIcon,
+      iconColor: '#ECD7FF',
+      type: 'badge',
     },
     {
       key: 'Multisig',
@@ -423,7 +427,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       display: isMultisig,
       link: `/script/${lockScript.codeHash}/${lockScript.hashType}`,
       icon: MultisigIcon,
-      iconColor: '#DCEDFF',
+      type: 'shield',
     },
     {
       key: 'Fiber',
@@ -432,6 +436,8 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       display: isFiber,
       link: cell.fiberGraphChannelInfo ? `/fiber/graph/node/${cell.fiberGraphChannelInfo.node1}` : '/fiber/graph/nodes',
       icon: FiberIcon,
+      iconColor: '#D7FFFC',
+      type: 'badge',
     },
     {
       key: 'Ownerless',
@@ -440,6 +446,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       display: isZeroLock,
       link: '/script/0x0000000000000000000000000000000000000000000000000000000000000000/data',
       icon: OwnerlessIcon,
+      type: 'shield',
     },
   ]
   const isDisplayTagList = taglists.filter(tag => tag.display).length > 0
@@ -450,18 +457,26 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     link,
     icon,
     iconColor,
+    type,
   }: {
     tag: string | ReactNode
     description: string
     link: string
     icon: string
     iconColor?: string
+    type: string
   }) => {
     return (
       <Link to={link}>
         <div className={styles.transactionCellTag}>
           <div className={styles.tagHeader}>
-            <img src={icon} className={styles.tagIcon} style={{ backgroundColor: iconColor }} alt={`${tag} tag icon`} />
+            <img
+              src={icon}
+              className={styles.tagIcon}
+              style={{ backgroundColor: iconColor }}
+              alt={`${tag} tag icon`}
+              data-type={type}
+            />
             <span>{tag}</span>
             <img src={MoreIcon} style={{ marginLeft: 'auto' }} width={20} height={20} alt="more" />
           </div>
@@ -582,6 +597,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
                     link={tag.link}
                     icon={tag.icon}
                     iconColor={tag.iconColor}
+                    type={tag.type}
                   />
                 ))}
             </div>
@@ -597,6 +613,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
                   className={styles.tagIcon}
                   style={{ backgroundColor: tag.iconColor }}
                   alt={`${tag.tag} icon`}
+                  data-type={tag.type}
                 />
               ))}
           </div>
