@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios'
 import * as Sentry from '@sentry/react'
 import { BrowserTracing } from '@sentry/tracing'
+import { RequestError } from '../services/ExplorerService/requester'
 
 export function assert(assertion: unknown, msg = 'assertion failed'): asserts assertion {
   if (!assertion) {
@@ -8,8 +8,8 @@ export function assert(assertion: unknown, msg = 'assertion failed'): asserts as
   }
 }
 
-export function isAxiosError<T = any>(err: unknown): err is AxiosError<T> {
-  return err && typeof err === 'object' && (err as any).isAxiosError
+export function isRequestError<T = any>(err: unknown): err is RequestError<T> {
+  return err && typeof err === 'object' && (err as any).isRequestError
 }
 
 export function initSentry(dsn: string) {

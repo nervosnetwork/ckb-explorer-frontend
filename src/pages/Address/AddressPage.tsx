@@ -25,7 +25,7 @@ import {
 } from '../../hooks'
 import { omit } from '../../utils/object'
 import { localeNumberString } from '../../utils/number'
-import { isAxiosError } from '../../utils/error'
+import { isRequestError } from '../../utils/error'
 import RgbppBanner from '../../components/RgbppBanner'
 import { Card, HashCardHeader } from '../../components/Card'
 import { ReactComponent as CopyIcon } from '../../components/Card/copy.svg'
@@ -135,7 +135,7 @@ export const Address = () => {
           total,
         }
       } catch (err) {
-        const isEmptyAddress = isAxiosError(err) && err.response?.status === 404
+        const isEmptyAddress = isRequestError(err) && err.response?.status === 404
         if (isEmptyAddress) {
           return {
             transactions: [],

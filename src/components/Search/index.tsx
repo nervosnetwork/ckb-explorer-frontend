@@ -21,7 +21,7 @@ import { addPrefixForHash, containSpecialChar } from '../../utils/string'
 import { HttpErrorCode, SearchFailType } from '../../constants/common'
 import { useForkedState, useIsMobile } from '../../hooks'
 import { isChainTypeError } from '../../utils/chain'
-import { isAxiosError } from '../../utils/error'
+import { isRequestError } from '../../utils/error'
 import styles from './index.module.scss'
 import { getURLByAggregateSearchResult } from './utils'
 import { AggregateSearchResults } from './AggregateSearchResults'
@@ -259,7 +259,7 @@ const getURLBySearchValue = async (searchValue: string) => {
     return getURLByAggregateSearchResult(data[0])
   } catch (error) {
     if (
-      isAxiosError(error) &&
+      isRequestError(error) &&
       error.response?.data &&
       error.response.status === 404 &&
       (error.response.data as Response.Error[]).find(

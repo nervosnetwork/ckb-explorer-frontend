@@ -1,4 +1,3 @@
-import axios from 'axios'
 import config from '../../config'
 
 const { DID_INDEXER_URL: didIndexerUrls } = config
@@ -8,12 +7,26 @@ const didIndexerUrl = didIndexerUrls[0]
 export const getReverseAddresses = async (account: string): Promise<ReverseAddress[] | null> => {
   if (!didIndexerUrl) return null
 
-  return axios
-    .post(`${didIndexerUrl}/v1/account/reverse/address`, {
-      account,
+  try {
+    const response = await fetch(`${didIndexerUrl}/v1/account/reverse/address`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        account,
+      }),
     })
-    .then(res => res.data?.data?.list ?? null)
-    .catch(() => null)
+
+    if (!response.ok) {
+      return null
+    }
+
+    const data = await response.json()
+    return data?.data?.list ?? null
+  } catch {
+    return null
+  }
 }
 
 interface ReverseAddress {
