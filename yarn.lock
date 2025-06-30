@@ -2849,9 +2849,9 @@
     "@tybys/wasm-util" "^0.9.0"
 
 "@nervina-labs/dob-render@^0.2.3":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@nervina-labs/dob-render/-/dob-render-0.2.4.tgz#42519649a2ad419bc8ceb16be09aa70a9885bd63"
-  integrity sha512-izQZSYFbQPQD39n7yBbYeLlA1Ml/EUGtAFLoQIE3LlW+vS+Apwdc6OrNQnqnp1h86TenuMLKHS/V+Wi/c4F0RA==
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@nervina-labs/dob-render/-/dob-render-0.2.5.tgz#e2bc0cb7c86510d6d2614555786b11ce5e37a42e"
+  integrity sha512-PZ5hcoTYfbdyI51xlHdK1j9VYTd6L1oYxEv9CzpYuu0AtkOqSNmrbn2FkI4noUJl+tqxqWSsJRju7JJiOApTpg==
   dependencies:
     satori "^0.10.13"
     svgson "^5.3.1"
