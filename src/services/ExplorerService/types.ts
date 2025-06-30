@@ -518,19 +518,21 @@ export interface ScriptInfo {
   scriptOutPoint: string
   depType: string
   description: string
+  isZeroLock: boolean
+  isDeployedCellDead: boolean
 }
 export interface ScriptDetail {
   typeHash: string
   dataHash: string
   hashType: HashType | null
-  txHash: string
   depType: string
   name: string
   rfc: string
-  sourceCode: string
+  sourceUrl: string
   website: string
   isTypeScript: boolean
   isLockScript: boolean
+  isZeroLock: boolean
   deprecated: boolean
   deployedBlockTimestamp: number
   totalReferringCellsCapacity: string

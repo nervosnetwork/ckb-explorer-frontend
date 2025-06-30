@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useMemo, useState } from 'react'
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react'
 import { ReactComponent as FilterIcon } from '../../assets/filter_icon.svg'
 import { ReactComponent as SelectedIcon } from '../../assets/selected-icon.svg'
 import { ReactComponent as NotSelectedIcon } from '../../assets/not-selected-icon.svg'
@@ -9,13 +9,14 @@ import { useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
 import Popover from '../Popover'
 
-export function MultiFilterButton({
+export function MultiFilterPopover({
   filterList,
   filterName,
-}: {
+  children,
+}: PropsWithChildren<{
   filterName: string
   filterList: { key: string; value: string; to: string; title: string | JSX.Element }[]
-}) {
+}>) {
   const [selected, setSelected] = useState<string>('')
   const { t, i18n } = useTranslation()
   const params = useSearchParams(filterName)
@@ -48,19 +49,7 @@ export function MultiFilterButton({
           <span>+{types.length}</span>
         </div>
       )}
-      <Popover
-        trigger={
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <FilterIcon
-              className={styles.filter}
-              // if the filter is the empty string, display highlight
-              // if the filter is the string list, display highlight
-              // if the filter is undefined, not display highlight
-              data-changed={filter !== undefined}
-            />
-          </div>
-        }
-      >
+      <Popover trigger={children}>
         <div className={styles.filterItems}>
           <div className={styles.selectTitle}>
             <h2>{t('components.multi_filter_button.select')}</h2>
@@ -110,6 +99,31 @@ export function MultiFilterButton({
         </div>
       </Popover>
     </div>
+  )
+}
+
+export function MultiFilterButton({
+  filterList,
+  filterName,
+}: {
+  filterName: string
+  filterList: { key: string; value: string; to: string; title: string | JSX.Element }[]
+}) {
+  const params = useSearchParams(filterName)
+  const filter = params[filterName]
+
+  return (
+    <MultiFilterPopover filterList={filterList} filterName={filterName}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <FilterIcon
+          className={styles.filter}
+          // if the filter is the empty string, display highlight
+          // if the filter is the string list, display highlight
+          // if the filter is undefined, not display highlight
+          data-changed={filter !== undefined}
+        />
+      </div>
+    </MultiFilterPopover>
   )
 }
 

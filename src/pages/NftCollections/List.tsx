@@ -2,6 +2,7 @@ import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import classNames from 'classnames'
 import { Trans, useTranslation } from 'react-i18next'
 import { TFunction } from 'i18next'
+import { ArrowDownWideNarrow, ArrowUpNarrowWide } from 'lucide-react'
 import type { NFTCollection } from '../../services/ExplorerService'
 import { Link } from '../../components/Link'
 import SortButton from '../../components/SortButton'
@@ -16,12 +17,13 @@ import { parseSimpleDate } from '../../utils/date'
 import MultiFilterButton from '../../components/MultiFilterButton'
 import NFTTag, { whiteList } from '../../components/NFTTag'
 import { Card } from '../../components/Card'
-import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
 import AddressText from '../../components/AddressText'
 import { DEPRECATED_DOB_COLLECTION } from '../../constants/marks'
 import Annotation from '../../components/Annotation'
 import Tooltip from '../../components/Tooltip'
 import Popover from '../../components/Popover'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/Select'
+import { Button } from '../../components/ui/Button'
 
 const primaryColor = getPrimaryColor()
 function useFilterList(): Record<'title' | 'value', string>[] {
@@ -359,21 +361,44 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
 
 export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] }> = ({ list, isLoading }) => {
   const { t } = useTranslation()
+  const { sortBy, orderBy, handleSortClick, updateOrderBy } = useNFTCollectionsSortParam()
 
   return (
     <>
-      <Card className={styles.filterSortCard} shadow={false}>
-        <FilterSortContainerOnMobile key="nft-collections-sort">
+      <Card className="p-2!" shadow={false}>
+        <div className="flex flex-wrap gap-2 items-center">
           <TypeFilter />
-          <SimpleSortHeader sortField="transactions" fieldI18n={t('nft.transactions')} />
-          <HolderMinterSort />
-          <SimpleSortHeader sortField="timestamp" fieldI18n={t('nft.created_time')} />
-          <div style={{ display: 'flex', flexWrap: 'nowrap', maxWidth: '100%' }}>
+          <div className="flex flex-nowrap items-center max-w-full mr-auto">
             {t('xudt.title.tags')}
             <MultiFilterButton filterName="tags" key="" filterList={getFilterList(t)} />
           </div>
-        </FilterSortContainerOnMobile>
+          <div className="flex items-center">
+            <Select
+              value={sortBy}
+              onValueChange={value => handleSortClick(value as 'transactions' | 'holder' | 'minted' | 'timestamp')}
+            >
+              <SelectTrigger className="border-r-0! rounded-r-none!">
+                <SelectValue placeholder="sorting" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="transactions">{t('nft.transactions')}</SelectItem>
+                <SelectItem value="holder">{t('nft.holder')}</SelectItem>
+                <SelectItem value="minted">{t('nft.minted')}</SelectItem>
+                <SelectItem value="timestamp">{t('nft.created_time')}</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              className="rounded-l-none!"
+              variant="outline"
+              size="icon"
+              onClick={() => updateOrderBy(orderBy === 'desc' ? 'asc' : 'desc')}
+            >
+              {orderBy === 'desc' ? <ArrowDownWideNarrow /> : <ArrowUpNarrowWide />}
+            </Button>
+          </div>
+        </div>
       </Card>
+
       <div>
         {list.length ? (
           list.map(item => {

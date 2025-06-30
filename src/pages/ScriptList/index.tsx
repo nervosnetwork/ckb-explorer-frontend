@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { ArrowDownWideNarrow, ArrowUpNarrowWide } from 'lucide-react'
 import { TFunction } from 'i18next'
 import classNames from 'classnames'
 import { SCRIPT_TAGS } from '../../constants/scripts'
@@ -11,7 +12,6 @@ import { usePaginationParamsInPage, useSortParam, useSearchParams } from '../../
 import Pagination from '../../components/Pagination'
 import type { ScriptDetail } from '../../models/Script'
 import { QueryResult } from '../../components/QueryResult'
-import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
 import { Card } from '../../components/Card'
 import SortButton from '../../components/SortButton'
 import Capacity from '../../components/Capacity'
@@ -20,6 +20,15 @@ import { Link } from '../../components/Link'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { parseSimpleDate } from '../../utils/date'
 import { shannonToCkb } from '../../utils/util'
+import { ReactComponent as OwnerLessIcon } from '../../assets/ownerless-icon.svg'
+import { ReactComponent as DeprecatedIcon } from '../../assets/deprecated-icon.svg'
+import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
+import { ReactComponent as RFCIcon } from '../../assets/rfc-icon.svg'
+import { ReactComponent as WebsiteIcon } from '../../assets/website-icon.svg'
+import Tooltip from '../../components/Tooltip'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/Select'
+import { Button } from '../../components/ui/Button'
+import { IS_MAINNET } from '../../constants/common'
 
 type ScriptAttributes = Record<'name' | 'description', string> &
   Partial<Record<'code' | 'rfc' | 'deprecated' | 'website' | 'doc', string>>
@@ -393,6 +402,65 @@ const getfilterList = (t: TFunction) => [
     to: '/scripts',
   },
 ]
+
+const getNotefilterList = (t: TFunction) => [
+  {
+    key: 'ownerless_cell',
+    value: 'ownerless_cell',
+    title: (
+      <>
+        <OwnerLessIcon />
+        {t('scripts.link.ownerless_cell')}
+      </>
+    ),
+    to: '/scripts',
+  },
+  {
+    key: 'deprecated',
+    value: 'deprecated',
+    title: (
+      <>
+        <DeprecatedIcon />
+        {t('scripts.deprecated')}
+      </>
+    ),
+    to: '/scripts',
+  },
+
+  {
+    key: 'rfc',
+    value: 'rfc',
+    title: (
+      <>
+        <RFCIcon />
+        {t('scripts.link.rfc')}
+      </>
+    ),
+    to: '/scripts',
+  },
+  {
+    key: 'website',
+    value: 'website',
+    title: (
+      <>
+        <WebsiteIcon />
+        {t('scripts.link.website')}
+      </>
+    ),
+    to: '/scripts',
+  },
+  {
+    key: 'open_source',
+    value: 'open_source',
+    title: (
+      <>
+        <OpenSourceIcon />
+        {t('scripts.link.code')}
+      </>
+    ),
+    to: '/scripts',
+  },
+]
 const ScriptInfo: FC<{ script: ScriptDetail }> = ({ script }) => {
   const { t } = useTranslation()
   const codeHash = script.hashType === null ? script.typeHash : script.dataHash
@@ -419,6 +487,30 @@ const ScriptInfo: FC<{ script: ScriptDetail }> = ({ script }) => {
           </Link>
         </dd>
       </dl>
+      {IS_MAINNET ? null : (
+        <dl className={styles.tokenInfo}>
+          <dt className={styles.title}>{t('scripts.script_note')}</dt>
+          <dd className={styles.tdNotes}>
+            {script.isZeroLock && <OwnerLessIcon />}
+            {script.deprecated && <DeprecatedIcon />}
+            {script.rfc && (
+              <Link to={script.rfc}>
+                <RFCIcon />
+              </Link>
+            )}
+            {script.website && (
+              <Link to={script.website}>
+                <WebsiteIcon />
+              </Link>
+            )}
+            {script.sourceUrl && (
+              <Link to={script.sourceUrl}>
+                <OpenSourceIcon />
+              </Link>
+            )}
+          </dd>
+        </dl>
+      )}
       <dl className={styles.tokenInfo}>
         <dt className={styles.title}>{t('scripts.script_type')}</dt>
         {script.isTypeScript && <dd className={styles.value}>{t('scripts.type_script')}</dd>}
@@ -434,9 +526,8 @@ const ScriptInfo: FC<{ script: ScriptDetail }> = ({ script }) => {
   )
 }
 
-export function ScriptCard({
+function ScriptCard({
   query,
-  sortParam,
 }: {
   query: UseQueryResult<{
     data: ScriptDetail[]
@@ -445,29 +536,38 @@ export function ScriptCard({
       pageSize: number
     }
   }>
-  sortParam?: ReturnType<typeof useSortParam<SortField>>
 }) {
   const { t } = useTranslation()
+  const { sortBy, orderBy, updateOrderBy, handleSortClick } = useSortParam<SortField>(undefined, 'capacity.desc')
 
   return (
     <>
-      <Card className={styles.filterSortCard} shadow={false}>
-        <FilterSortContainerOnMobile key="scripts-sort">
-          <span className={styles.sortOption}>{t('scripts.script_name')}</span>
-          <span className={styles.sortOption}>
+      <Card className="p-2!" shadow={false}>
+        <div className="flex flex-wrap gap-2">
+          <span className={classNames(styles.sortOption, 'gap-1 text-nowrap mr-auto')}>
             {t('scripts.script_type')}
             <MultiFilterButton filterName="script_type" key="" filterList={getfilterList(t)} />
           </span>
-          <span className={styles.sortOption}>
-            {t('scripts.capacity_of_referring_cells')}
-            <SortButton field="capacity" sortParam={sortParam} />
-          </span>
-          <></>
-          <span className={styles.sortOption}>
-            {t('scripts.timestamp')}
-            <SortButton field="timestamp" sortParam={sortParam} />
-          </span>
-        </FilterSortContainerOnMobile>
+          <div className="flex items-center">
+            <Select value={sortBy} onValueChange={value => handleSortClick(value as SortField)}>
+              <SelectTrigger className="border-r-0! rounded-r-none!">
+                <SelectValue placeholder="sorting" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="capacity">{t('scripts.capacity_of_referring_cells')}</SelectItem>
+                <SelectItem value="timestamp">{t('scripts.timestamp')}</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              className="rounded-l-none!"
+              variant="outline"
+              size="icon"
+              onClick={() => updateOrderBy(orderBy === 'desc' ? 'asc' : 'desc')}
+            >
+              {orderBy === 'desc' ? <ArrowDownWideNarrow /> : <ArrowUpNarrowWide />}
+            </Button>
+          </div>
+        </div>
       </Card>
 
       <QueryResult
@@ -518,12 +618,75 @@ const ScriptTable: FC<{
                 <Link className={styles.link} to={`/script/${codeHash}/${hashType}`}>
                   {script.name}
                 </Link>
-                <span className={styles.name}>{codeHash}</span>
+                <div className={styles.codeHash}>
+                  {codeHash.slice(0, 10)}...{codeHash.slice(-8)}
+                </div>
               </div>
             </div>
           </div>
         )
       },
+    },
+    {
+      title: (
+        <div>
+          {t('scripts.script_note')}
+          <MultiFilterButton filterName="script_note" key="" filterList={getNotefilterList(t)} />
+        </div>
+      ),
+      classNames: styles.colNotes,
+      key: 'script_note',
+      render: (script: ScriptDetail) => (
+        <div className={styles.tdNotes}>
+          {script.isZeroLock === true ? (
+            <Tooltip trigger={<OwnerLessIcon />} placement="top">
+              {t('scripts.link.ownerless_cell')}
+            </Tooltip>
+          ) : null}
+          {script.deprecated === true ? (
+            <Tooltip trigger={<DeprecatedIcon />} placement="top">
+              {t('scripts.deprecated')}
+            </Tooltip>
+          ) : null}
+          {script.rfc ? (
+            <Tooltip
+              trigger={
+                <Link to={script.rfc} className={styles.rfcAction}>
+                  <RFCIcon />
+                </Link>
+              }
+              placement="top"
+            >
+              {t('scripts.link.rfc')}
+            </Tooltip>
+          ) : null}
+          {script.website ? (
+            <Tooltip
+              trigger={
+                <Link to={script.website} className={styles.websiteAction}>
+                  <WebsiteIcon />
+                </Link>
+              }
+              placement="top"
+            >
+              {t('scripts.link.website')}
+            </Tooltip>
+          ) : null}
+          {script.sourceUrl ? (
+            <Tooltip
+              trigger={
+                <Link to={script.sourceUrl} className={styles.openSourceAction}>
+                  <OpenSourceIcon />
+                </Link>
+              }
+              placement="top"
+            >
+              {t('scripts.link.code')}
+            </Tooltip>
+          ) : null}
+        </div>
+      ),
+      hidden: IS_MAINNET,
     },
     {
       title: (
@@ -565,25 +728,37 @@ const ScriptTable: FC<{
       className: styles.colCreatedTime,
       render: (script: ScriptDetail) => parseSimpleDate(+script.deployedBlockTimestamp),
     },
+    {
+      key: 'action',
+      render: (script: ScriptDetail) => {
+        const codeHash = script.hashType === null ? script.typeHash : script.dataHash
+        const hashType = script.hashType === null ? 'type' : script.hashType
+        return (
+          <div>
+            <Link className={styles.action} to={`/script/${codeHash}/${hashType}`}>
+              {t('scripts.detail')}
+            </Link>
+          </div>
+        )
+      },
+    },
   ]
 
   return (
     <table className={styles.tokensTable}>
       <thead>
-        <tr>
-          {columns.map(column => (
-            <th key={column.key}>{column.title}</th>
-          ))}
-        </tr>
+        <tr>{columns.map(column => (column.hidden ? null : <th key={column.key}>{column.title}</th>))}</tr>
       </thead>
       <tbody>
         {query.data?.data.map(script => (
           <tr key={script.typeHash}>
-            {columns.map(column => (
-              <td key={column.key} className={column.className}>
-                {column.render?.(script)}
-              </td>
-            ))}
+            {columns.map(column =>
+              column.hidden ? null : (
+                <td key={column.key} className={column.className}>
+                  {column.render?.(script)}
+                </td>
+              ),
+            )}
           </tr>
         ))}
       </tbody>
@@ -593,13 +768,18 @@ const ScriptTable: FC<{
 
 const ScriptList: FC = () => {
   const { t } = useTranslation()
-  const { script_type: scriptType } = useSearchParams('script_type') ?? {}
+  const { script_type: scriptType } = useSearchParams('script_type') ?? []
+  const { script_note: scriptNote } = useSearchParams('script_note') ?? []
+
   const { currentPage, pageSize: _pageSize, setPage } = usePaginationParamsInPage()
   const sortParam = useSortParam<SortField>(undefined, 'capacity.desc')
   const { sort } = sortParam
 
-  const query = useQuery(['scripts', currentPage, _pageSize, sort, scriptType], () =>
-    explorerService.api.fetchScripts(currentPage, _pageSize, sort ?? undefined, scriptType),
+  const scriptTypeArr = scriptType ? decodeURIComponent(scriptType).split(',') : []
+  const scriptNoteArr = scriptNote ? decodeURIComponent(scriptNote).split(',') : []
+
+  const query = useQuery(['scripts', currentPage, _pageSize, sort, scriptTypeArr, scriptNoteArr], () =>
+    explorerService.api.fetchScripts(currentPage, _pageSize, sort ?? undefined, scriptTypeArr, scriptNoteArr),
   )
 
   const meta = query?.data?.meta ?? { total: 0, pageSize: 10 }
@@ -611,7 +791,7 @@ const ScriptList: FC = () => {
       <div className={classNames(styles.tokensPanel, 'container')}>
         <div className={styles.title}>{t(`script_list.title`)}</div>
         <div className={styles.cards}>
-          <ScriptCard query={query} sortParam={sortParam} />
+          <ScriptCard query={query} />
         </div>
         <div className={styles.table}>
           <ScriptTable query={query} sortParam={sortParam} />
