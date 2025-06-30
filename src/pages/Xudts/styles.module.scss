@@ -56,6 +56,8 @@ dt {
 
     @media (max-width: $mobileBreakPoint) {
       margin-bottom: 10px;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     > span {
@@ -81,12 +83,6 @@ dt {
   &:hover {
     color: var(--primary-color);
   }
-}
-
-.filterSortCard:not(
-    [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
-  ) {
-  padding: 16px;
 }
 
 .sortOption {

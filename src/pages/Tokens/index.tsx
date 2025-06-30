@@ -1,4 +1,4 @@
-import { TriangleAlert } from 'lucide-react'
+import { TriangleAlert, ArrowDownWideNarrow, ArrowUpNarrowWide } from 'lucide-react'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { FC, Fragment, ReactNode, useState } from 'react'
@@ -18,13 +18,14 @@ import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import { SubmitTokenInfo } from '../../components/SubmitTokenInfo'
 import { OmigaInscriptionCollection, UDT, isOmigaInscriptionCollection } from '../../models/UDT'
-import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
 import { Card } from '../../components/Card'
 import { scripts } from '../ScriptList'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { BooleanT } from '../../utils/array'
 import Tooltip from '../../components/Tooltip'
 import Loading from '../../components/Loading'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/Select'
+import { Button } from '../../components/ui/Button'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -145,30 +146,33 @@ export function TokensCard({
   sortParam?: ReturnType<typeof useSortParam<SortField>>
 }) {
   const { t } = useTranslation()
+  const sortParamByQuery = useSortParam<SortField>(undefined, 'transactions.desc')
+  const { sortBy, orderBy, handleSortClick, updateOrderBy } = sortParam ?? sortParamByQuery
 
   return (
     <>
       <Card className={styles.filterSortCard} shadow={false}>
-        <FilterSortContainerOnMobile key="tokens-sort">
-          {isInscription && (
-            <span className={styles.sortOption}>
-              {t('udt.status')}
-              <SortButton field="mint_status" sortParam={sortParam} />
-            </span>
-          )}
-          <span className={styles.sortOption}>
-            {t('udt.transactions')}
-            <SortButton field="transactions" sortParam={sortParam} />
-          </span>
-          <span className={styles.sortOption}>
-            {t('udt.address_count')}
-            <SortButton field="addresses_count" sortParam={sortParam} />
-          </span>
-          <span className={styles.sortOption}>
-            {t('udt.created_time')}
-            <SortButton field="created_time" sortParam={sortParam} />
-          </span>
-        </FilterSortContainerOnMobile>
+        <div>
+          <Select value={sortBy} onValueChange={value => handleSortClick(value as SortField)}>
+            <SelectTrigger style={{ borderWidth: 1, padding: '0.5rem 0.75rem', width: '180px' }}>
+              <SelectValue placeholder="sorting" />
+            </SelectTrigger>
+            <SelectContent>
+              {isInscription && <SelectItem value="mint_status">{t('udt.status')}</SelectItem>}
+              <SelectItem value="transactions">{t('udt.transactions')}</SelectItem>
+              <SelectItem value="addresses_count">{t('udt.address_count')}</SelectItem>
+              <SelectItem value="created_time">{t('udt.created_time')}</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button
+            variant="outline"
+            size="icon"
+            style={{ borderWidth: 1 }}
+            onClick={() => updateOrderBy(orderBy === 'desc' ? 'asc' : 'desc')}
+          >
+            {orderBy === 'desc' ? <ArrowDownWideNarrow /> : <ArrowUpNarrowWide />}
+          </Button>
+        </div>
       </Card>
 
       <QueryResult

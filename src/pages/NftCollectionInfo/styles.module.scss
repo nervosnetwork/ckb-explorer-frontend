@@ -76,7 +76,7 @@
       }
 
       @media (width <= $mobileBreakPoint) {
-        border-width: 2px;
+        border-bottom-width: 2px;
         font-size: 1.125rem;
       }
     }

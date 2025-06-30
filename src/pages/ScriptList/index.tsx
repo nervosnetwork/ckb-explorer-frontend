@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { ArrowDownWideNarrow, ArrowUpNarrowWide } from 'lucide-react'
 import { TFunction } from 'i18next'
 import classNames from 'classnames'
 import { SCRIPT_TAGS } from '../../constants/scripts'
@@ -11,7 +12,6 @@ import { usePaginationParamsInPage, useSortParam, useSearchParams } from '../../
 import Pagination from '../../components/Pagination'
 import type { ScriptDetail } from '../../models/Script'
 import { QueryResult } from '../../components/QueryResult'
-import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
 import { Card } from '../../components/Card'
 import SortButton from '../../components/SortButton'
 import Capacity from '../../components/Capacity'
@@ -26,6 +26,8 @@ import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { ReactComponent as RFCIcon } from '../../assets/rfc-icon.svg'
 import { ReactComponent as WebsiteIcon } from '../../assets/website-icon.svg'
 import Tooltip from '../../components/Tooltip'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/Select'
+import { Button } from '../../components/ui/Button'
 
 type ScriptAttributes = Record<'name' | 'description', string> &
   Partial<Record<'code' | 'rfc' | 'deprecated' | 'website' | 'doc', string>>
@@ -521,9 +523,8 @@ const ScriptInfo: FC<{ script: ScriptDetail }> = ({ script }) => {
   )
 }
 
-export function ScriptCard({
+function ScriptCard({
   query,
-  sortParam,
 }: {
   query: UseQueryResult<{
     data: ScriptDetail[]
@@ -532,33 +533,38 @@ export function ScriptCard({
       pageSize: number
     }
   }>
-  sortParam?: ReturnType<typeof useSortParam<SortField>>
 }) {
   const { t } = useTranslation()
+  const { sortBy, orderBy, updateOrderBy, handleSortClick } = useSortParam<SortField>(undefined, 'capacity.desc')
 
   return (
     <>
-      <Card className={styles.filterSortCard} shadow={false}>
-        <FilterSortContainerOnMobile key="scripts-sort">
-          <span className={styles.sortOption}>{t('scripts.script_name')}</span>
-          <span className={styles.sortOption}>
-            {t('scripts.script_note')}
-            <MultiFilterButton filterName="script_note" key="" filterList={getNotefilterList(t)} />
-          </span>
-          <span className={styles.sortOption}>
+      <Card className="p-2!" shadow={false}>
+        <div className="flex flex-wrap gap-2">
+          <span className={classNames(styles.sortOption, 'gap-1 text-nowrap mr-auto')}>
             {t('scripts.script_type')}
             <MultiFilterButton filterName="script_type" key="" filterList={getfilterList(t)} />
           </span>
-          <span className={styles.sortOption}>
-            {t('scripts.capacity_of_referring_cells')}
-            <SortButton field="capacity" sortParam={sortParam} />
-          </span>
-          <></>
-          <span className={styles.sortOption}>
-            {t('scripts.timestamp')}
-            <SortButton field="timestamp" sortParam={sortParam} />
-          </span>
-        </FilterSortContainerOnMobile>
+          <div className="flex items-center">
+            <Select value={sortBy} onValueChange={value => handleSortClick(value as SortField)}>
+              <SelectTrigger className="border-r-0! rounded-r-none!">
+                <SelectValue placeholder="sorting" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="capacity">{t('scripts.capacity_of_referring_cells')}</SelectItem>
+                <SelectItem value="timestamp">{t('scripts.timestamp')}</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              className="rounded-l-none!"
+              variant="outline"
+              size="icon"
+              onClick={() => updateOrderBy(orderBy === 'desc' ? 'asc' : 'desc')}
+            >
+              {orderBy === 'desc' ? <ArrowDownWideNarrow /> : <ArrowUpNarrowWide />}
+            </Button>
+          </div>
+        </div>
       </Card>
 
       <QueryResult
@@ -783,7 +789,7 @@ const ScriptList: FC = () => {
       <div className={classNames(styles.tokensPanel, 'container')}>
         <div className={styles.title}>{t(`script_list.title`)}</div>
         <div className={styles.cards}>
-          <ScriptCard query={query} sortParam={sortParam} />
+          <ScriptCard query={query} />
         </div>
         <div className={styles.table}>
           <ScriptTable query={query} sortParam={sortParam} />

@@ -5,19 +5,19 @@ import { FC, ReactNode, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
 import { TFunction } from 'i18next'
+import { ArrowDownWideNarrow, ArrowUpNarrowWide } from 'lucide-react'
 import type { XUDT } from '../../models/Xudt'
 import { Link } from '../../components/Link'
 import Content from '../../components/Content'
 import Pagination from '../../components/Pagination'
 import SortButton from '../../components/SortButton'
-import MultiFilterButton from '../../components/MultiFilterButton'
+import { MultiFilterButton } from '../../components/MultiFilterButton'
 import { localeNumberString } from '../../utils/number'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import styles from './styles.module.scss'
 import { usePaginationParamsInPage, useSearchParams, useSortParam } from '../../hooks'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
-import { FilterSortContainerOnMobile } from '../../components/FilterSortContainer'
 import { Card } from '../../components/Card'
 import XUDTTag from '../../components/XUDTTag'
 import { SubmitTokenInfo } from '../../components/SubmitTokenInfo'
@@ -27,6 +27,8 @@ import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { scripts } from '../ScriptList'
 import Tooltip from '../../components/Tooltip'
 import Loading from '../../components/Loading'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/Select'
+import { Button } from '../../components/ui/Button'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -135,28 +137,38 @@ export function TokensCard({
   isEmpty: boolean
 }) {
   const { t } = useTranslation()
+  const sortParamByQuery = useSortParam<SortField>(undefined, 'transactions.desc')
+  const { sortBy, orderBy, handleSortClick, updateOrderBy } = sortParam ?? sortParamByQuery
 
   return (
     <>
-      <Card className={styles.filterSortCard} shadow={false}>
-        <FilterSortContainerOnMobile key="xudts-sort">
-          <span className={styles.sortOption}>
+      <Card className="p-2!" shadow={false}>
+        <div className="flex flex-wrap gap-2">
+          <span className={classNames(styles.sortOption, 'mr-auto')}>
             {t('xudt.title.tags')}
             <MultiFilterButton filterName="tags" key="" filterList={getfilterList(t)} />
           </span>
-          <span className={styles.sortOption}>
-            {t('xudt.transactions')}
-            <SortButton field="transactions" sortParam={sortParam} />
-          </span>
-          <span className={styles.sortOption}>
-            {t('xudt.created_time')}
-            <SortButton field="created_time" sortParam={sortParam} />
-          </span>
-          <span className={styles.sortOption}>
-            {t('xudt.unique_addresses')}
-            <SortButton field="addresses_count" sortParam={sortParam} />
-          </span>
-        </FilterSortContainerOnMobile>
+          <div className="flex items-center">
+            <Select value={sortBy} onValueChange={value => handleSortClick(value as SortField)}>
+              <SelectTrigger className="border-r-0! rounded-r-none!">
+                <SelectValue placeholder="sorting" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="transactions">{t('xudt.transactions')}</SelectItem>
+                <SelectItem value="created_time">{t('xudt.created_time')}</SelectItem>
+                <SelectItem value="addresses_count">{t('xudt.unique_addresses')}</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              className="rounded-l-none!"
+              variant="outline"
+              size="icon"
+              onClick={() => updateOrderBy(orderBy === 'desc' ? 'asc' : 'desc')}
+            >
+              {orderBy === 'desc' ? <ArrowDownWideNarrow /> : <ArrowUpNarrowWide />}
+            </Button>
+          </div>
+        </div>
       </Card>
 
       {isEmpty ? (
