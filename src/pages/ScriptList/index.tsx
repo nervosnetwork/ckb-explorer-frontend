@@ -28,6 +28,7 @@ import { ReactComponent as WebsiteIcon } from '../../assets/website-icon.svg'
 import Tooltip from '../../components/Tooltip'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/Select'
 import { Button } from '../../components/ui/Button'
+import { IS_MAINNET } from '../../constants/common'
 
 type ScriptAttributes = Record<'name' | 'description', string> &
   Partial<Record<'code' | 'rfc' | 'deprecated' | 'website' | 'doc', string>>
@@ -486,28 +487,30 @@ const ScriptInfo: FC<{ script: ScriptDetail }> = ({ script }) => {
           </Link>
         </dd>
       </dl>
-      <dl className={styles.tokenInfo}>
-        <dt className={styles.title}>{t('scripts.script_note')}</dt>
-        <dd className={styles.tdNotes}>
-          {script.isZeroLock && <OwnerLessIcon />}
-          {script.deprecated && <DeprecatedIcon />}
-          {script.rfc && (
-            <Link to={script.rfc}>
-              <RFCIcon />
-            </Link>
-          )}
-          {script.website && (
-            <Link to={script.website}>
-              <WebsiteIcon />
-            </Link>
-          )}
-          {script.sourceUrl && (
-            <Link to={script.sourceUrl}>
-              <OpenSourceIcon />
-            </Link>
-          )}
-        </dd>
-      </dl>
+      {IS_MAINNET ? null : (
+        <dl className={styles.tokenInfo}>
+          <dt className={styles.title}>{t('scripts.script_note')}</dt>
+          <dd className={styles.tdNotes}>
+            {script.isZeroLock && <OwnerLessIcon />}
+            {script.deprecated && <DeprecatedIcon />}
+            {script.rfc && (
+              <Link to={script.rfc}>
+                <RFCIcon />
+              </Link>
+            )}
+            {script.website && (
+              <Link to={script.website}>
+                <WebsiteIcon />
+              </Link>
+            )}
+            {script.sourceUrl && (
+              <Link to={script.sourceUrl}>
+                <OpenSourceIcon />
+              </Link>
+            )}
+          </dd>
+        </dl>
+      )}
       <dl className={styles.tokenInfo}>
         <dt className={styles.title}>{t('scripts.script_type')}</dt>
         {script.isTypeScript && <dd className={styles.value}>{t('scripts.type_script')}</dd>}
@@ -683,6 +686,7 @@ const ScriptTable: FC<{
           ) : null}
         </div>
       ),
+      hidden: IS_MAINNET,
     },
     {
       title: (
@@ -743,20 +747,18 @@ const ScriptTable: FC<{
   return (
     <table className={styles.tokensTable}>
       <thead>
-        <tr>
-          {columns.map(column => (
-            <th key={column.key}>{column.title}</th>
-          ))}
-        </tr>
+        <tr>{columns.map(column => (column.hidden ? null : <th key={column.key}>{column.title}</th>))}</tr>
       </thead>
       <tbody>
         {query.data?.data.map(script => (
           <tr key={script.typeHash}>
-            {columns.map(column => (
-              <td key={column.key} className={column.className}>
-                {column.render?.(script)}
-              </td>
-            ))}
+            {columns.map(column =>
+              column.hidden ? null : (
+                <td key={column.key} className={column.className}>
+                  {column.render?.(script)}
+                </td>
+              ),
+            )}
           </tr>
         ))}
       </tbody>
