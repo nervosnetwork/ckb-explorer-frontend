@@ -9,15 +9,15 @@ export interface ScriptDetail {
   typeHash: string
   dataHash: string
   hashType: string | null
-  txHash: string
   depType: string
   name: string
   rfc: string
-  sourceCode: string
+  sourceUrl: string
   website: string
   isTypeScript: boolean
   isLockScript: boolean
   deprecated: boolean
   deployedBlockTimestamp: number
   totalReferringCellsCapacity: string
+  isZeroLock: boolean
 }

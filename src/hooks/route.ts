@@ -27,6 +27,7 @@ export function useSortParam<T extends string>(
   orderBy: OrderByType
   sort?: string
   handleSortClick: (sortRule?: T) => void
+  updateOrderBy: (orderBy: 'asc' | 'desc') => void
 } {
   type SortType = T | undefined
   function isSortByType(s?: string): s is SortType {
@@ -72,7 +73,11 @@ export function useSortParam<T extends string>(
     }
   }
 
-  return { sortBy, orderBy, sort, handleSortClick }
+  const updateOrderBy = (orderBy: 'asc' | 'desc') => {
+    updateSearchParams(params => omit({ ...params, sort: `${sortBy}.${orderBy}` }, ['page']), true)
+  }
+
+  return { sortBy, orderBy, sort, handleSortClick, updateOrderBy }
 }
 
 export function useUpdateSearchParams<T extends string>(): (

@@ -41,6 +41,8 @@ dt {
 
     @media (max-width: $mobileBreakPoint) {
       margin-bottom: 10px;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     > span {
@@ -59,7 +61,6 @@ dt {
 .link {
   display: flex;
   align-items: center;
-  color: var(--primary-color);
   font-size: 15px;
   font-weight: 500;
 
@@ -160,6 +161,12 @@ dt {
   }
 }
 
+.tokensTable {
+  th {
+    white-space: nowrap;
+  }
+}
+
 .tokensTable:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.'][_='']
   ) {
@@ -205,7 +212,7 @@ dt {
     }
 
     .colCreatedTime {
-      color: #00cc9b;
+      color: var(--primary-color);
       font-size: 14px;
     }
   }
@@ -231,6 +238,7 @@ dt {
     border-bottom: 0;
 
     &:first-child {
+      width: 20%;
       padding-left: $paddingX;
     }
 
@@ -251,22 +259,30 @@ dt {
     }
   }
 
+  .colNotes {
+    text-align: left;
+  }
+
+  .tdNotes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    span {
+      margin-right: 4px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
   .colName {
     .container {
       display: flex;
       position: relative;
       align-items: center;
       gap: 10px;
-
-      .warningIcon {
-        position: absolute;
-        right: 101%;
-      }
-
-      .icon {
-        width: 30px;
-        height: 30px;
-      }
 
       .right {
         display: flex;
@@ -277,27 +293,18 @@ dt {
           flex-direction: column;
           align-items: left;
           line-height: normal;
-          font-size: 14px;
           color: #333;
 
           .name {
             margin-top: 2px;
-            font-size: 12px;
+            font-size: 16px;
+          }
+
+          .codeHash {
+            font-size: 13px;
             color: #999;
+            width: 33%;
           }
-
-          .helpIcon {
-            width: 16px;
-            height: 16px;
-            margin-left: 4px;
-          }
-        }
-
-        .description {
-          line-height: normal;
-          font-size: 12px;
-          color: #666;
-          margin-top: 8px;
         }
       }
     }
@@ -335,6 +342,10 @@ dt {
     height: 100%;
     margin: 0;
   }
+}
+
+.action {
+  text-decoration: underline;
 }
 
 .pagination {
