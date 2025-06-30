@@ -1142,7 +1142,7 @@ export const apiFetcher = {
       })
       .then(res => toCamelcase<Response.Response<ScriptInfo[]>>(res.data)),
 
-  fetchScripts: (page: number, pageSize: number, sort?: string, scriptType?: string) =>
+  fetchScripts: (page: number, pageSize: number, sort?: string, scriptType?: string[], scriptNote?: string[]) =>
     requesterV2
       .get<{
         data: ScriptDetail[]
@@ -1156,6 +1156,7 @@ export const apiFetcher = {
           pageSize,
           sort,
           script_type: scriptType,
+          notes: scriptNote,
         },
       })
       .then(res =>

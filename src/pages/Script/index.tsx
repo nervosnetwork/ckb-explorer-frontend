@@ -17,6 +17,7 @@ import { Card, CardCellInfo, CardCellsLayout } from '../../components/Card'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { ReactComponent as VerifiedIcon } from '../../assets/verified-icon.svg'
 import { ReactComponent as DeprecatedIcon } from '../../assets/deprecated-icon.svg'
+import { ReactComponent as OwnerLessIcon } from '../../assets/ownerless-icon.svg'
 import { ReactComponent as RFCIcon } from '../../assets/rfc-icon.svg'
 import { ReactComponent as WebsiteIcon } from '../../assets/website-icon.svg'
 import { HashType } from '../../constants/common'
@@ -116,13 +117,11 @@ export function ScriptInfosCard({ scriptInfos }: { scriptInfos: ScriptInfo[] }) 
   const { t } = useTranslation()
   return (
     <>
-      {scriptInfos
-        .filter(scriptInfo => !scriptInfo.deprecated)
-        .map(scriptInfo => (
-          <Card style={{ marginTop: 24 }} key={scriptInfo.scriptOutPoint}>
-            <CardCellsLayout type="left-right" cells={getScriptInfo(scriptInfo, t)} />
-          </Card>
-        ))}
+      {scriptInfos.map(scriptInfo => (
+        <Card style={{ marginTop: 24 }} key={scriptInfo.scriptOutPoint}>
+          <CardCellsLayout type="left-right" cells={getScriptInfo(scriptInfo, t)} />
+        </Card>
+      ))}
     </>
   )
 }
@@ -173,13 +172,19 @@ export const ScriptPage = () => {
             verified: false,
             scriptOutPoint: '',
             description: '',
+            isZeroLock: false,
+            isDeployedCellDead: false,
           },
         ]
 
-  const countOfDeployedCells = scriptInfos.length
+  const countOfDeployedCells =
+    scriptInfos[0]?.dataHash === '0x0000000000000000000000000000000000000000000000000000000000000000'
+      ? 0
+      : scriptInfos.length
   const countOfReferringCells = scriptInfos.reduce((sum, item) => sum + item.countOfReferringCells, 0)
   const countOfTransactions = scriptInfos.reduce((sum, item) => sum + item.countOfTransactions, 0)
-  const { name, sourceUrl, rfc, website, deprecated, verified, description } = scriptInfos[0]
+  const liveScriptInfos = scriptInfos.filter(scriptInfo => !scriptInfo.isDeployedCellDead)
+  const { name, sourceUrl, rfc, website, isZeroLock, verified, description, deprecated } = liveScriptInfos[0]
 
   return (
     <Content>
@@ -198,6 +203,11 @@ export const ScriptPage = () => {
               {deprecated === true ? (
                 <Tooltip trigger={<DeprecatedIcon />} placement="top">
                   {t('scripts.deprecated')}
+                </Tooltip>
+              ) : null}
+              {isZeroLock === true ? (
+                <Tooltip trigger={<OwnerLessIcon />} placement="top">
+                  {t('scripts.link.ownerless_cell')}
                 </Tooltip>
               ) : null}
               {rfc ? (
@@ -235,7 +245,7 @@ export const ScriptPage = () => {
           <div className={styles.headerDescription}>{description}</div>
         </Card>
 
-        <ScriptInfosCard scriptInfos={scriptInfos} />
+        <ScriptInfosCard scriptInfos={liveScriptInfos} />
         <Tabs
           key={currentLanguage + countOfTransactions + countOfDeployedCells + countOfReferringCells}
           className={styles.scriptTabs}

@@ -1003,6 +1003,7 @@
       "unnamed_script": "Untitled Script",
       "script_name": "Script Name",
       "script_type": "Script Type",
+      "script_note": "Script Note",
       "hash_type": "Hash Type",
       "code_hash": "Code Hash",
       "type_id": "Type Id",
@@ -1029,8 +1030,10 @@
       "link": {
         "rfc": "RFC",
         "code": "Source Code",
-        "website": "Website"
-      }
+        "website": "Website",
+        "ownerless_cell": "Ownerless Cell"
+      },
+      "detail": "Detail"
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",
