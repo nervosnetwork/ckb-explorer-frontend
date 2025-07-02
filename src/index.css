@@ -1,6 +1,11 @@
 @import url("tailwindcss");
 /* stylelint-disable */
 
+@theme inline {
+  --color-primary: var(--primary-color);
+}
+
+
 body,html {
   height: 100%;
   width: 100%
@@ -187,22 +192,6 @@ caption {
   padding-bottom: .3em;
   padding-top: .75em;
   text-align: left
-}
-
-button,input,optgroup,select,textarea {
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  margin: 0
-}
-
-button,input {
-  overflow: visible
-}
-
-button,select {
-  text-transform: none
 }
 
 [type=reset],[type=submit],button,html [type=button] {

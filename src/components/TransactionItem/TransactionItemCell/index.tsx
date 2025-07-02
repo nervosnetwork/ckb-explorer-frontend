@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from 'react'
+import { FC, ReactNode } from 'react'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../Link'
@@ -22,7 +22,6 @@ import { useBoolean, useIsMobile } from '../../../hooks'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import EllipsisMiddle from '../../EllipsisMiddle'
 import { Cell, Cell$UDT, UDTInfo } from '../../../models/Cell'
-import SimpleModal from '../../Modal'
 import CellModal from '../../Cell/CellModal'
 import Tooltip from '../../Tooltip'
 import Popover from '../../Popover'
@@ -251,7 +250,6 @@ const TransactionCellCapacity = ({ cell, ioType }: { cell: Cell; ioType: IOType 
 }
 
 const TransactionCell = ({ cell, address, ioType }: { cell: Cell; address?: string; ioType: IOType }) => {
-  const [showModal, setShowModal] = useState(false)
   const isMobile = useIsMobile()
   const { t } = useTranslation()
   if (cell.fromCellbase) {
@@ -295,15 +293,17 @@ const TransactionCell = ({ cell, address, ioType }: { cell: Cell; address?: stri
           </Tooltip>
         )}
         <TransactionCellCapacity cell={cell} ioType={ioType} />
+
         <Tooltip
-          trigger={<CellInfoIcon className={styles.hoverIconButton} onClick={() => setShowModal(true)} />}
+          trigger={
+            <CellModal cell={cell}>
+              <CellInfoIcon className={styles.hoverIconButton} />
+            </CellModal>
+          }
           placement="top"
         >
           {`${t('transaction.ckb-cell-info')} `}
         </Tooltip>
-        <SimpleModal isShow={showModal} setIsShow={setShowModal}>
-          <CellModal cell={cell} onClose={() => setShowModal(false)} />
-        </SimpleModal>
       </div>
     </div>
   )
