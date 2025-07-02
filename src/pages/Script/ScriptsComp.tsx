@@ -8,9 +8,7 @@ import { RefreshCw } from 'lucide-react'
 import Pagination from '../../components/Pagination'
 import TransactionItem from '../../components/TransactionItem/index'
 import { explorerService } from '../../services/ExplorerService'
-import { TransactionCellInfoPanel } from '../Transaction/TransactionCell/TransactionCellComp'
 import SimpleButton from '../../components/SimpleButton'
-import SimpleModal from '../../components/Modal'
 import { localeNumberString } from '../../utils/number'
 import { shannonToCkb } from '../../utils/util'
 import Capacity from '../../components/Capacity'
@@ -21,7 +19,7 @@ import { ReactComponent as InfoMoreIcon } from './info_more_icon.svg'
 import { ReactComponent as LiveCellIcon } from './radio-wave-on.svg'
 import { ReactComponent as DeadCellIcon } from './radio-wave-off.svg'
 import { useSetToast } from '../../components/Toast'
-import { CellBasicInfo, transformToCellBasicInfo, transformToTransaction } from '../../utils/transformer'
+import { transformToCellBasicInfo, transformToTransaction } from '../../utils/transformer'
 import { usePrevious, useSearchParams } from '../../hooks'
 import CellModal from '../../components/Cell/CellModal'
 import { Switch } from '../../components/ui/Switch'
@@ -185,25 +183,6 @@ const CellIcon = ({ status }: { status: 'live' | 'dead' | null }) => {
   return <InfoMoreIcon />
 }
 
-export const CellInfo = ({ cell }: { cell: CellBasicInfo }) => {
-  const [showModal, setShowModal] = useState(false)
-  return (
-    <TransactionCellInfoPanel>
-      <SimpleButton
-        className="transactionCellInfoContent"
-        onClick={() => {
-          setShowModal(true)
-        }}
-      >
-        <CellIcon status={cell.status} />
-      </SimpleButton>
-      <SimpleModal isShow={showModal} setIsShow={setShowModal}>
-        <CellModal cell={cell} onClose={() => setShowModal(false)} />
-      </SimpleModal>
-    </TransactionCellInfoPanel>
-  )
-}
-
 export const ScriptCells = ({
   page,
   size,
@@ -298,7 +277,11 @@ export const ScriptCells = ({
                     </td>
                     <td>
                       <div className={styles.cellInfoMore}>
-                        <CellInfo cell={transformToCellBasicInfo(record)} />
+                        <CellModal cell={transformToCellBasicInfo(record)}>
+                          <SimpleButton className="transactionCellInfoContent">
+                            <CellIcon status={transformToCellBasicInfo(record).status} />
+                          </SimpleButton>
+                        </CellModal>
                       </div>
                     </td>
                   </tr>

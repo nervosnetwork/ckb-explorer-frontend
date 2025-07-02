@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { EChartOption } from 'echarts'
+import type { EChartsOption, TooltipComponentOption } from 'echarts'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { getPeers, RawPeer } from '../../../services/NodeProbService'
 import { useCurrentLanguage } from '../../../utils/i18n'
@@ -17,7 +17,7 @@ const useOption = (
   chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
@@ -36,14 +36,16 @@ const useOption = (
     containLabel: true,
   }
 
-  const tooltip: EChartOption.Tooltip | undefined = !isThumbnail
+  const tooltip: TooltipComponentOption | undefined = !isThumbnail
     ? {
         formatter: data => {
           const item = Array.isArray(data) ? data[0] : data
           const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 100 : 120)
-          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.country'))} ${item.data.title}</div>`
+          let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.country'))} ${
+            (item.data as Record<string, string>).title
+          }</div>`
           result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.percent'))} ${
-            item.data.value
+            (item.data as Record<string, string>).value
           }%</div>`
           return result
         },
@@ -75,11 +77,11 @@ const useOption = (
         type: 'pie',
         radius: isMobile || isThumbnail ? '50%' : '75%',
         center: ['50%', '50%'],
-        itemStyle: {
-          emphasis: {
+        emphasis: {
+          itemStyle: {
             shadowBlur: 10,
             shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowColor: 'rgba(0, 0, 0, 0)',
           },
         },
         data: list.slice(0, isThumbnail ? 10 : undefined).map(data => {

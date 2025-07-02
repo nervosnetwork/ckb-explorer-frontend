@@ -1,14 +1,5 @@
 @import '../../../styles//variables.module.scss';
 
-.hoverIconButton {
-  color: #999;
-
-  &:hover {
-    color: var(--primary-color);
-    cursor: pointer;
-  }
-}
-
 .svgContainer {
   display: flex;
   margin: auto;
@@ -47,108 +38,66 @@
   }
 }
 
-.transactionDetailContainer {
-  .transactionDetailModalHeader {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
+.transactionDetailModalHeaderLeft {
+  max-width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+
+  span {
+    white-space: nowrap;
+  }
+
+  @media screen and (width <= $mobileBreakPoint) {
+    gap: 12px;
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .mobileVision {
     max-width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 
-    .transactionDetailModalHeaderLeft {
-      max-width: 90%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 8px;
-
-      span {
-        white-space: nowrap;
-      }
-
-      @media screen and (width <= $mobileBreakPoint) {
-        gap: 12px;
-        align-items: start;
-        flex-direction: column;
-      }
-
-      .mobileVision {
-        max-width: 100%;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .cellStatusIcon {
-        svg:hover {
-          cursor: auto;
-        }
-
-        &[data-cell-status='live'] {
-          color: var(--primary-color);
-        }
-
-        &[data-cell-status='dead'] {
-          color: #999;
-        }
-      }
-
-      .outpoint {
-        overflow: hidden;
-
-        .copy {
-          appearance: none;
-          border: none;
-          background: none;
-          cursor: pointer;
-
-          svg {
-            vertical-align: middle;
-            pointer-events: none;
-          }
-        }
-
-        max-width: 100%;
-        display: flex;
-        padding: 5px 8px;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-        border-radius: 16px;
-        border: 1px solid var(--primary-color, #e5e5e5);
-        background: #fafafa;
-      }
-
-      h2 {
-        white-space: nowrap;
-        margin: 0;
-        color: #333;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 1000;
-        line-height: normal;
-        text-transform: capitalize;
-      }
+  .cellStatusIcon {
+    svg:hover {
+      cursor: auto;
     }
 
-    > img {
-      align-self: center;
-      cursor: pointer;
-      width: 16px;
-      height: 16px;
+    &[data-cell-status='live'] {
+      color: var(--primary-color);
     }
 
-    @media (max-width: $mobileBreakPoint) {
-      padding: 15px;
-      display: flex;
-      margin: 0;
-
-      > img {
-        margin-top: 5px;
-        align-self: self-start;
-        width: 12px;
-        height: 12px;
-      }
+    &[data-cell-status='dead'] {
+      color: #999;
     }
+  }
+
+  .outpoint {
+    overflow: hidden;
+    max-width: 100%;
+    display: flex;
+    padding: 5px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 16px;
+    border: 1px solid var(--primary-color, #e5e5e5);
+    background: #fafafa;
+  }
+
+  h2 {
+    white-space: nowrap;
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 1000;
+    line-height: normal;
+    text-transform: capitalize;
   }
 }
 
@@ -313,14 +262,6 @@
         font-weight: bold;
       }
 
-      &[data-role='copy-script'] {
-        svg {
-          path {
-            fill: currentcolor;
-          }
-        }
-      }
-
       &[data-role='script-info'] {
         background: var(--primary-color);
         color: #fff;
@@ -358,19 +299,6 @@
 
     @media (max-width: $mobileBreakPoint) {
       padding: 10px 0;
-    }
-  }
-}
-
-.visitTx {
-  display: flex;
-  align-items: center;
-  margin-left: 4px;
-  color: #999;
-
-  svg {
-    path {
-      fill: currentcolor;
     }
   }
 }

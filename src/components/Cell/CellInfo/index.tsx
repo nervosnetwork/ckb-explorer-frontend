@@ -4,23 +4,18 @@ import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
-import classNames from 'classnames'
+import { CopyIcon, ExternalLinkIcon, FileChartColumnIcon } from 'lucide-react'
 import type { ContractHashTag } from '../../../constants/scripts'
 import { explorerService } from '../../../services/ExplorerService'
 import { hexToUtf8 } from '../../../utils/string'
 import SmallLoading from '../../Loading/SmallLoading'
-import CloseIcon from './modal_close.png'
 import { getBtcTimeLockInfo, getBtcUtxo } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import HashTag from '../../HashTag'
-import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
 import { ReactComponent as ViewIcon } from '../../../assets/view-icon.svg'
 import { ReactComponent as PendingBindIcon } from '../../../assets/pending-bind-icon.svg'
 import { ReactComponent as BindIcon } from '../../../assets/bind-icon.svg'
 import { ReactComponent as UnboundIcon } from '../../../assets/unbind-icon.svg'
-import { ReactComponent as PointIcon } from '../../../assets/point.svg'
-import { ReactComponent as OuterLinkIcon } from './outer_link_icon.svg'
-import { ReactComponent as ScriptHashIcon } from './script_hash_icon.svg'
 import { HelpTip } from '../../HelpTip'
 import { useSetToast } from '../../Toast'
 import { isTypeIdScript, TYPE_ID_TAG } from '../../../utils/typeid'
@@ -36,6 +31,7 @@ import { CellInfoProps } from './types'
 import UTXOGraph from '../../UTXOGraph'
 import Tooltip from '../../Tooltip'
 import { Tabs, TabsList, TabsTrigger } from '../../ui/Tabs'
+import { cn } from '../../../lib/utils'
 
 enum CellInfo {
   LOCK = 'lock',
@@ -176,7 +172,7 @@ const fetchCellInfo = async (cell: CellBasicInfo, state: CellInfo): Promise<Cell
 const JSONKeyValueView = ({ title = '', value = '' }: { title?: string; value?: ReactNode | string }) => (
   <div className={styles.jsonValue}>
     <div className={styles.title}>{title}</div>
-    <div className={classNames(styles.value, 'monospace')}>{value}</div>
+    <div className={cn(styles.value, 'monospace')}>{value}</div>
   </div>
 )
 
@@ -338,7 +334,7 @@ const CellInfoValueJSONView = ({ content, state }: { content: CellInfoValue; sta
   </div>
 )
 
-export default ({ cell: entryCell, onClose }: CellInfoProps) => {
+export default ({ cell: entryCell, suffix }: CellInfoProps) => {
   const setToast = useSetToast()
   const { t } = useTranslation()
   const [selectedInfo, setSelectedInfo] = useState<CellInfo>(CellInfo.LOCK)
@@ -445,80 +441,92 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
         return null
     }
   }
+  const status = cell.status ?? 'dead'
 
   return (
-    <div className={styles.transactionDetailContainer} ref={ref}>
-      <div className={styles.transactionDetailModalHeader}>
+    <div className="w-full overflow-hidden flex flex-col gap-2" ref={ref}>
+      <div className="w-full flex items-center overflow-hidden">
         {isMobile ? (
           <div className={styles.transactionDetailModalHeaderLeft}>
-            <div className={styles.mobileVision}>
-              <h2>{t('cell.cell_info')}</h2>
-              <div className={styles.cellStatusIcon} data-cell-status={cell.status ?? 'dead'}>
-                <PointIcon />
+            <div className="w-full flex items-center gap-2">
+              <span className="text-nowrap text-base font-black">{t('cell.cell_info')}</span>
+              <div className="flex items-center gap-2">
+                <span
+                  className={cn(
+                    {
+                      'bg-primary': status === 'live',
+                      'bg-[#999]': status === 'dead',
+                    },
+                    'w-2 h-2 rounded-full',
+                  )}
+                />
+                <span className="text-[#666]">{t(`cell.${status}_cell`)}</span>
               </div>
-              <span style={{ color: '#666', flexShrink: 1 }}>{t(`cell.${cell.status ?? 'dead'}_cell`)}</span>
+              {suffix}
             </div>
-            <div className={styles.mobileVision}>
+            <div className="w-full flex items-center gap-2">
               <div className={styles.outpoint}>
                 <EllipsisMiddle
                   useTextWidthForPlaceholderWidth
                 >{`Outpoint: ${cell.generatedTxHash}:${cell.cellIndex}`}</EllipsisMiddle>
-                <button
-                  data-role="copy-outpoint"
-                  type="button"
-                  onClick={onCopy}
-                  className={classNames(styles.copy, styles.hoverIconButton)}
-                >
-                  <CopyIcon />
+                <button data-role="copy-outpoint" type="button" onClick={onCopy}>
+                  <CopyIcon size={16} className="text-[#999] hover:text-primary transition-colors cursor-pointer" />
                 </button>
 
                 <a
                   href={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}
                   title={t('transaction.out_point')}
-                  className={styles.visitTx}
                   target="_blank"
                   rel="opener noreferrer"
                 >
-                  <OuterLinkIcon />
+                  <ExternalLinkIcon size={16} className="text-[#999] hover:text-primary transition-colors" />
                 </a>
               </div>
-              <div className={styles.svgContainer}>{renderBindIcon()}</div>
+              {cell.status !== 'dead' && cell.rgbInfo?.status && (
+                <div className={styles.svgContainer}>{renderBindIcon()}</div>
+              )}
             </div>
           </div>
         ) : (
-          <div className={styles.transactionDetailModalHeaderLeft}>
-            <h2>{t('cell.cell_info')}</h2>
-            <div className={styles.outpoint}>
+          <div className="w-full flex items-center gap-2">
+            <span className="text-nowrap text-base font-black">{t('cell.cell_info')}</span>
+            <div className="flex items-center px-2 py-1 gap-2 max-w-3/5 border border-primary rounded-full">
               <EllipsisMiddle useTextWidthForPlaceholderWidth>
                 {`Outpoint: ${cell.generatedTxHash}:${cell.cellIndex}`}
               </EllipsisMiddle>
-              <button
-                data-role="copy-outpoint"
-                type="button"
-                onClick={onCopy}
-                className={classNames(styles.copy, styles.hoverIconButton)}
-              >
-                <CopyIcon />
+              <button type="button" onClick={onCopy}>
+                <CopyIcon size={16} className="text-[#999] hover:text-primary transition-colors cursor-pointer" />
               </button>
               <a
                 href={`/transaction/${cell.generatedTxHash}#${cell.cellIndex}`}
                 title={t('transaction.out_point')}
-                className={styles.visitTx}
                 target="_blank"
                 rel="opener noreferrer"
               >
-                <OuterLinkIcon />
+                <ExternalLinkIcon size={16} className="text-[#999] hover:text-primary transition-colors" />
               </a>
             </div>
-            <div className={styles.svgContainer}>{renderBindIcon()}</div>
-            <div className={styles.cellStatusIcon} data-cell-status={cell.status ?? 'dead'}>
-              <PointIcon />
+            {cell.status !== 'dead' && cell.rgbInfo?.status && (
+              <div className={styles.svgContainer}>{renderBindIcon()}</div>
+            )}
+            <div className="flex items-center gap-2">
+              <span
+                className={cn(
+                  {
+                    'bg-primary': status === 'live',
+                    'bg-[#999]': status === 'dead',
+                  },
+                  'w-2 h-2 rounded-full',
+                )}
+              />
+              <span className="text-[#666]">{t(`cell.${status}_cell`)}</span>
             </div>
-            <span style={{ color: '#666', flexShrink: 1 }}>{t(`cell.${cell.status ?? 'dead'}_cell`)}</span>
+
+            {suffix}
           </div>
         )}
-        <img src={CloseIcon} alt="close icon" tabIndex={-1} onKeyDown={() => {}} onClick={() => onClose()} />
       </div>
+
       <div className={styles.transactionDetailPanel}>
         <Tabs className={styles.tabs} value={selectedInfo} onValueChange={v => changeType(v as CellInfo)}>
           <TabsList className={styles.tabsList}>
@@ -549,12 +557,7 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
 
       <div className={styles.transactionDetailPanel}>
         {isFetched ? (
-          <div
-            className={classNames(
-              styles.transactionDetailContent,
-              isUTXOData(content) ? styles.utxoContent : undefined,
-            )}
-          >
+          <div className={cn(styles.transactionDetailContent, isUTXOData(content) ? styles.utxoContent : undefined)}>
             <CellInfoValueView content={content} state={selectedInfo} modalRef={ref.current} onViewCell={onViewCell} />
           </div>
         ) : (
@@ -566,14 +569,14 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
             {!isRGBPP(content) && !isUTXOData(content) && (
               <button data-role="copy-script" className={styles.button} type="button" onClick={onCopy}>
                 <div>{t('common.copy')}</div>
-                <CopyIcon />
+                <CopyIcon size={16} />
               </button>
             )}
 
             {isContentAScript ? (
               <button data-role="copy-script-hash" className={styles.button} type="button" onClick={onCopy}>
                 <div>Script Hash</div>
-                <ScriptHashIcon />
+                <FileChartColumnIcon size={16} />
               </button>
             ) : null}
 
@@ -590,7 +593,7 @@ export default ({ cell: entryCell, onClose }: CellInfoProps) => {
                 rel="noopener noreferrer"
               >
                 <div>{isContentATypeIdScript ? t('scripts.deployed_script') : `${t('scripts.script')} Info`}</div>
-                <OuterLinkIcon />
+                <ExternalLinkIcon />
               </a>
             ) : null}
           </div>

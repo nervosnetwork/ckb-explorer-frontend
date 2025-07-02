@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
 import type { ChartColorConfig } from '../../../constants/common'
 import { SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, handleAxis, variantColors } from '../../../utils/chart'
@@ -21,7 +22,7 @@ const useOption = (
   _: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const gridThumbnail = {
     left: '4%',
@@ -63,7 +64,7 @@ const useOption = (
     if (b === 'others') return -1
     return a.localeCompare(b)
   })
-  const series = allKeys.map(key => ({
+  const series: EChartsOption['series'] = allKeys.map(key => ({
     name: t(`statistic.address_label.${key}`),
     type: 'line',
     stack: 'total',
@@ -93,7 +94,7 @@ const useOption = (
             // Construct the tooltip content
             if (filteredParams.length === 0) return '' // No fields to display
 
-            const header = `${filteredParams[0].axisValue}<br/>` // Show week
+            const header = `${(filteredParams[0] as any).axisValue}<br/>` // Show week
             const sum = `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:white;"></span>
 ${t('statistic.active_address_count')}: ${filteredParams.reduce(
               (acc, item) => acc + Number(item.value),
@@ -127,7 +128,7 @@ ${t('statistic.active_address_count')}: ${filteredParams.reduce(
       type: 'value',
       name: isMobile || isThumbnail ? '' : `${t('statistic.active_address_count')}`,
       axisLabel: {
-        formatter: (value: string) => handleAxis(+value),
+        formatter: (value: number) => handleAxis(value),
       },
     },
     series,

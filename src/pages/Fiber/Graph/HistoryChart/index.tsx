@@ -1,11 +1,18 @@
-import echarts from 'echarts'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
+import * as echarts from 'echarts/core'
+import { GridComponent } from 'echarts/components'
+import { LineChart } from 'echarts/charts'
+import { UniversalTransition } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
 import { SmartChartPage } from '../../../StatisticsChart/common'
 import type { ChartProps, Dataset } from '../types'
 
+echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition])
+
 const getOption =
   (seriaName: string, color: string) =>
-  (dataset: Dataset[]): echarts.EChartOption => {
+  (dataset: Dataset[]): EChartsOption => {
     return {
       color: [color],
       tooltip: {
@@ -50,7 +57,7 @@ const getOption =
               { offset: 0, color },
               { offset: 0.7, color: '#fff' },
               { offset: 1, color: '#fff' },
-            ]) as any,
+            ]),
           },
           lineStyle: {
             width: 1,

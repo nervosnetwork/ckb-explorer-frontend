@@ -1,12 +1,30 @@
 import { useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import 'echarts/lib/component/tooltip'
 import 'echarts-gl'
-import echarts from 'echarts/lib/echarts'
+import * as echarts from 'echarts/core'
+import {
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  GeoComponent,
+} from 'echarts/components'
+import { MapChart } from 'echarts/charts'
+import { CanvasRenderer } from 'echarts/renderers'
 import Loading from '../../../components/Loading/SmallLoading'
 import { getPeers, RawPeer } from '../../../services/NodeProbService'
 import { getPrimaryColor, IS_MAINNET } from '../../../constants/common'
 import styles from './nodeGeoDistribution.module.scss'
+
+echarts.use([
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  GeoComponent,
+  MapChart,
+  CanvasRenderer,
+])
 
 const LAUNCH_TIME_OF_MAINNET = 0x16e70e6985c
 

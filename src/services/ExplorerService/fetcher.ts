@@ -861,7 +861,7 @@ export const apiFetcher = {
           distribution: Record<string, number>
         }>(({ createdAtUnixtimestamp, ...list }) => ({
           createdAtUnixtimestamp,
-          distribution: Object.assign({}, ...list.activityAddressContractDistribution),
+          distribution: Object.assign({}, ...(list.activityAddressContractDistribution ?? [])),
         })),
     ),
 

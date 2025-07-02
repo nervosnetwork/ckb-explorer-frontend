@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
 import { parseHourFromMinute } from '../../../utils/date'
@@ -13,7 +14,7 @@ const useOption = (
   isMobile: boolean,
 
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
@@ -45,7 +46,7 @@ const useOption = (
             result += `\
             <div>${tooltipColor(chartColor.colors[0])}\
             ${widthSpan(t('statistic.epochs'))} \
-            ${localeNumberString(dataList[0].data)}</div>`
+            ${localeNumberString((dataList[0].data as string[])[0])}</div>`
             return result
           },
         }
@@ -61,7 +62,7 @@ const useOption = (
         boundaryGap: true,
         data: statisticEpochTimeDistributions.map(data => data.time),
         axisLabel: {
-          formatter: (value: string) => parseHourFromMinute(value),
+          formatter: (value: string) => parseHourFromMinute(value).toString(),
         },
       },
     ],
@@ -77,7 +78,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => localeNumberString(value),
+          formatter: (value: number) => localeNumberString(value),
         },
       },
     ],
@@ -86,9 +87,6 @@ const useOption = (
         name: t('statistic.epochs'),
         type: 'bar',
         yAxisIndex: 0,
-        areaStyle: {
-          color: chartColor.areaColor,
-        },
         barWidth: isMobile || isThumbnail ? 2 : 5,
         data: statisticEpochTimeDistributions.map(data => data.epoch),
       },
