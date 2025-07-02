@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { EChartOption } from 'echarts'
 import { ChartColor } from '../constants/common'
 import { SeriesItem } from '../pages/StatisticsChart/common'
 import type { FeeRateTracker } from '../services/ExplorerService'
@@ -169,45 +168,64 @@ export function assertNotArray<T>(value: T | T[]): asserts value is T {
   }
 }
 
-type AssertSerialsItem = (value: EChartOption.Tooltip.Format) => asserts value is SeriesItem
-export const assertSerialsItem: AssertSerialsItem = (value: EChartOption.Tooltip.Format) => {
+type AssertSerialsItem = (value: unknown) => asserts value is SeriesItem
+export const assertSerialsItem: AssertSerialsItem = (value: unknown) => {
   if (
-    typeof value.seriesName !== 'string' ||
-    typeof value.name !== 'string' ||
-    typeof value.color !== 'string' ||
-    typeof value.dataIndex !== 'number'
+    typeof value !== 'object' ||
+    value === null ||
+    typeof value !== 'object' ||
+    typeof (value as any).seriesName !== 'string' ||
+    typeof (value as any).name !== 'string' ||
+    typeof (value as any).color !== 'string' ||
+    typeof (value as any).dataIndex !== 'number'
   ) {
     throw new Error('invalid SeriesItem')
   }
 }
 
-export const assertSerialsDataIsString: (value: EChartOption.Tooltip.Format) => asserts value is { data: string } = (
-  value: EChartOption.Tooltip.Format,
-) => {
-  if (typeof value.data !== 'string') {
-    throw new Error(`Value is expected to be an string, but got a ${typeof value.data}`)
+export const assertSerialsDataIsString: (value: unknown) => asserts value is { data: string } = (value: unknown) => {
+  if (typeof value !== 'object' || value === null || typeof (value as any).data !== 'string') {
+    throw new Error(`Value is expected to be an string, but got a ${typeof (value as any).data}`)
   }
 }
 
 export const assertSerialsDataIsStringArrayOf3: (
-  value: EChartOption.Tooltip.Format,
-) => asserts value is { data: [string, string, string] } = (value: EChartOption.Tooltip.Format) => {
-  if (!Array.isArray(value.data) || value.data.length !== 3 || !value.data.every(item => typeof item === 'string')) {
+  value: unknown,
+) => asserts value is { data: [string, string, string] } = (value: unknown) => {
+  if (
+    typeof value !== 'object' ||
+    value === null ||
+    !Array.isArray((value as any).data) ||
+    (value as any).data.length !== 3 ||
+    !(value as any).data.every((item: unknown) => typeof item === 'string')
+  ) {
     throw new Error('invalid SeriesItem length of 3')
   }
 }
 export const assertSerialsDataIsStringArrayOf4: (
-  value: EChartOption.Tooltip.Format,
-) => asserts value is { data: [string, string, string, string] } = (value: EChartOption.Tooltip.Format) => {
-  if (!Array.isArray(value.data) || value.data.length !== 4 || !value.data.every(item => typeof item === 'string')) {
+  value: unknown,
+) => asserts value is { data: [string, string, string, string] } = (value: unknown) => {
+  if (
+    typeof value !== 'object' ||
+    value === null ||
+    !Array.isArray((value as any).data) ||
+    (value as any).data.length !== 4 ||
+    !(value as any).data.every((item: unknown) => typeof item === 'string')
+  ) {
     throw new Error('invalid SeriesItem length of 4')
   }
 }
 
-export const assertSerialsDataIsStringArrayOf10: (value: EChartOption.Tooltip.Format) => asserts value is {
+export const assertSerialsDataIsStringArrayOf10: (value: unknown) => asserts value is {
   data: [string, string, string, string, string, string, string, string, string, string]
-} = (value: EChartOption.Tooltip.Format) => {
-  if (!Array.isArray(value.data) || value.data.length !== 10 || !value.data.every(item => typeof item === 'string')) {
+} = (value: unknown) => {
+  if (
+    typeof value !== 'object' ||
+    value === null ||
+    !Array.isArray((value as any).data) ||
+    (value as any).data.length !== 10 ||
+    !(value as any).data.every((item: unknown) => typeof item === 'string')
+  ) {
     throw new Error('invalid SeriesItem length of 10')
   }
 }

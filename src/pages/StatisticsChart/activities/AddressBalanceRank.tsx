@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react'
 import { useHistory } from 'react-router'
+import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { DATA_ZOOM_CONFIG, assertIsArray, parseNumericAbbr } from '../../../utils/chart'
 import { shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
@@ -29,7 +31,7 @@ const useOption = () => {
     isMobile: boolean,
     isThumbnail = false,
     getAdaptAddressText: (address: string) => string,
-  ): echarts.EChartOption => {
+  ): EChartsOption => {
     const gridThumbnail = {
       left: '4%',
       right: '10%',
@@ -56,7 +58,7 @@ const useOption = () => {
                 getAddressWithRanking(statisticAddressBalanceRanks, dataList[0].name),
               )}</div>`
               result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.balance'))} \
-            ${localeNumberString(dataList[0].data)} ${t('common.ckb_unit')}</div>`
+            ${localeNumberString(dataList[0].data as number)} ${t('common.ckb_unit')}</div>`
               result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.rank'))} ${
                 dataList[0].name
               }</div>`
@@ -89,7 +91,7 @@ const useOption = () => {
             },
           },
           axisLabel: {
-            formatter: (value: string) => `${parseNumericAbbr(value)}`,
+            formatter: (value: number) => `${parseNumericAbbr(value)}`,
           },
         },
       ],
@@ -99,8 +101,6 @@ const useOption = () => {
           type: 'bar',
           yAxisIndex: 0,
           barWidth: 8,
-          symbol: isThumbnail ? 'none' : 'circle',
-          symbolSize: 3,
           data: statisticAddressBalanceRanks.map(data => shannonToCkb(data.balance)),
         },
       ],
@@ -119,7 +119,7 @@ export const AddressBalanceRankChart = ({ isThumbnail = false }: { isThumbnail?:
 
   const [statisticAddressBalanceRanks, setStatisticAddressBalanceRanks] = useState<ChartItem.AddressBalanceRank[]>([])
   const handleClick = useCallback(
-    (param: echarts.CallbackDataParams) => {
+    (param: CallbackDataParams) => {
       if (param && param.name && statisticAddressBalanceRanks.length > 0) {
         const address = getAddressWithRanking(statisticAddressBalanceRanks, param.name)
         if (address) {

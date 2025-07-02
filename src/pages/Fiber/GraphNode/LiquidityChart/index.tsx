@@ -1,12 +1,12 @@
 import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { EChartOption } from 'echarts'
+import type { EChartsOption } from 'echarts'
 import { SmartChartPage } from '../../../StatisticsChart/common'
 import { parseNumericAbbr } from '../../../../utils/chart'
 import type { AssetRecord } from '../types'
 import { uniqueColor } from '../../../../utils/color'
 
-const useChartOption = (list: AssetRecord[]): EChartOption => {
+const useChartOption = (list: AssetRecord[]): EChartsOption => {
   const { t } = useTranslation()
   const colors = list.map(i => uniqueColor(i.key))
 
@@ -15,7 +15,7 @@ const useChartOption = (list: AssetRecord[]): EChartOption => {
     tooltip: {
       formatter: data => {
         const item = Array.isArray(data) ? data[0] : data
-        return typeof item.value === 'string'
+        return typeof item.value === 'number'
           ? `${item.name}: ${parseNumericAbbr(item.value, 2)} USD (${item.percent}%)`
           : ''
       },
@@ -35,8 +35,8 @@ const useChartOption = (list: AssetRecord[]): EChartOption => {
         name: t('fiber.graph.node.liquidity_allocation'),
         type: 'pie',
         center: ['50%', '50%'],
-        itemStyle: {
-          emphasis: {
+        emphasis: {
+          itemStyle: {
             shadowBlur: 10,
             shadowOffsetX: 0,
             shadowColor: 'rgba(0, 0, 0, 0.5)',
@@ -44,7 +44,7 @@ const useChartOption = (list: AssetRecord[]): EChartOption => {
         },
         data: list.map(data => ({
           name: data.symbol,
-          value: data.usd,
+          value: Number(data.usd),
         })),
       },
     ],

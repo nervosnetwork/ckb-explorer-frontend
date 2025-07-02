@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertSerialsDataIsString, assertIsArray, assertSerialsItem } from '../../../utils/chart'
@@ -10,7 +11,7 @@ const useOption = (
   chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
@@ -105,7 +106,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${value}%`,
+          formatter: (value: number) => `${value}%`,
         },
       },
     ],

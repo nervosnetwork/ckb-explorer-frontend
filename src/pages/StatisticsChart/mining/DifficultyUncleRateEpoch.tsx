@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
 import { assertIsArray, assertSerialsItem, handleAxis } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { parseHourFromMillisecond } from '../../../utils/date'
@@ -33,7 +34,7 @@ const useOption = (
   isMobile: boolean,
 
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
@@ -139,7 +140,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: number) => handleAxis(new BigNumber(value)),
         },
       },
       {
@@ -185,19 +186,13 @@ const useOption = (
       {
         name: t('block.epoch_time'),
         type: 'bar',
-        step: 'start',
         yAxisIndex: 0,
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 5,
         data: isThumbnail ? epochTimeSeries.slice(-1 * COUNT_IN_THUMBNAIL) : epochTimeSeries,
       },
       {
         name: t('block.epoch_length'),
         type: 'bar',
-        step: 'start',
         yAxisIndex: 1,
-        symbol: isThumbnail ? 'none' : 'circle',
-        symbolSize: 5,
         data: isThumbnail ? epochLengthSeries.slice(-1 * COUNT_IN_THUMBNAIL) : epochLengthSeries,
       },
     ],

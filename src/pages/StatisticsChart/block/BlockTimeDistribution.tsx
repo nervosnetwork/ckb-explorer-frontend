@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
@@ -11,7 +12,7 @@ const useOption = (
   isMobile: boolean,
 
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
@@ -70,7 +71,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${value}%`,
+          formatter: (value: number) => `${value}%`,
         },
       },
     ],
@@ -82,7 +83,6 @@ const useOption = (
         areaStyle: {
           color: chartColor.areaColor,
         },
-        barWidth: isMobile || isThumbnail ? 10 : 20,
         data: statisticBlockTimeDistributions.map(data => (Number(data.ratio) * 100).toFixed(3)),
       },
     ],

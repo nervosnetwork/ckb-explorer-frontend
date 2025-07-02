@@ -1,10 +1,31 @@
 import { useEffect, useRef } from 'react'
-import 'echarts/lib/component/tooltip'
 import 'echarts-gl'
-import 'echarts/map/js/world' // Load the world map
-import echarts from 'echarts/lib/echarts'
+import * as echarts from 'echarts/core'
+import {
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  GeoComponent,
+} from 'echarts/components'
+import { MapChart, EffectScatterChart, LinesChart } from 'echarts/charts'
+import { CanvasRenderer } from 'echarts/renderers'
+import worldMap from './worldMap.json'
 import styles from './index.module.scss'
 import { getPrimaryColor } from '../../constants/common'
+
+echarts.registerMap('world', { geoJSON: worldMap as any, specialAreas: {} })
+echarts.use([
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  GeoComponent,
+  MapChart,
+  CanvasRenderer,
+  LinesChart,
+  EffectScatterChart,
+])
 
 const primaryColor = getPrimaryColor()
 
