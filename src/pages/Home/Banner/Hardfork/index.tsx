@@ -19,11 +19,11 @@ const HardforkBanner = () => {
       <div className={styles.content}>
         <div className={styles.title}>
           <h1>
-            <Link to="/hardfork">Next Hardfork of CKB</Link>
+            <Link to="/hardfork">Hardfork is activated!</Link>
           </h1>
           <div className={styles.epoch}>
             <span>{HARDFORK_ESTIMATED_ACTIVATION_TIME.epoch.toLocaleString('en')}</span>
-            <span>Target Epoch Number</span>
+            <span>Epoch Number</span>
           </div>
         </div>
         <div className={styles.illustration}>
