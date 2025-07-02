@@ -1,6 +1,8 @@
 import { useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
+import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import { DATA_ZOOM_CONFIG, handleAxis } from '../../../utils/chart'
 import { SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
@@ -11,7 +13,7 @@ const useOption = (
   chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const gridThumbnail = {
     left: '4%',
@@ -43,7 +45,15 @@ const useOption = (
           },
           formatter: params => {
             if (params && 'data' in params) {
-              const [addrCount, ckbAmount, txCount, codeHash, tag, hashType, h24TxCount] = params.data
+              const [addrCount, ckbAmount, txCount, codeHash, tag, hashType, h24TxCount] = params.data as [
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+              ]
               const script = tag || `<div style="white-space: pre">Code Hash: ${codeHash}\nHash Type: ${hashType}</div>`
               return `<table>
                       <tr>
@@ -87,7 +97,7 @@ const useOption = (
         splitLine: { show: false },
         name: isMobile || isThumbnail ? '' : t('statistic.ckb_amount'),
         axisLabel: {
-          formatter: (value: string) => handleAxis(value),
+          formatter: (value: number) => handleAxis(value),
         },
       },
     ],
@@ -158,9 +168,9 @@ export const ContractResourceDistributedChart = ({ isThumbnail = false }: { isTh
   const history = useHistory()
 
   const handleClick = useCallback(
-    (params: echarts.CallbackDataParams) => {
-      const codeHash = params.value[3]
-      const hashType = params.value[5]
+    (params: CallbackDataParams) => {
+      const codeHash = (params.value as string[])[3]
+      const hashType = (params.value as string[])[5]
       const url = `/${language}/script/${codeHash}/${hashType}`
       history.push(url)
     },

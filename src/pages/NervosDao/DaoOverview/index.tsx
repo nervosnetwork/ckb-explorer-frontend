@@ -1,12 +1,18 @@
 import { ReactNode, useCallback, FC } from 'react'
 import BigNumber from 'bignumber.js'
 import classNames from 'classnames'
-import echarts from 'echarts/lib/echarts'
-import 'echarts/lib/chart/pie'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/legendScroll'
+import type { EChartsOption } from 'echarts'
+import * as echarts from 'echarts/core'
+import {
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  LegendScrollComponent,
+} from 'echarts/components'
+import { PieChart } from 'echarts/charts'
+import { UniversalTransition } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
 import { useTranslation } from 'react-i18next'
 import DaoUpIcon from './dao_up.png'
 import DaoDownIcon from './dao_down.png'
@@ -22,6 +28,17 @@ import { assertNotArray } from '../../../utils/chart'
 import { APIReturn } from '../../../services/ExplorerService'
 import styles from './DaoOverview.module.scss'
 import Tooltip from '../../../components/Tooltip'
+
+echarts.use([
+  GridComponent,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  LegendScrollComponent,
+  PieChart,
+  CanvasRenderer,
+  UniversalTransition,
+])
 
 type NervosDaoInfo = APIReturn<'fetchNervosDao'>
 
@@ -216,7 +233,7 @@ const NervosDaoOverviewLeftComp: FC<{ nervosDao: NervosDaoInfo }> = ({ nervosDao
   )
 }
 
-const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean): echarts.EChartOption => {
+const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean): EChartsOption => {
   const { t } = useTranslation()
   const { miningReward, depositCompensation, treasuryAmount } = nervosDao
   const sum =
@@ -248,11 +265,16 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
     color: colors,
     tooltip: {
       trigger: 'item',
-      formatter: value => {
+      formatter: (value: any) => {
         assertNotArray(value)
-        return `${value.data.title}: ${localeNumberString(value.data.value)} ${t('common.ckb_unit')} (${
+        return `${value.data?.title}: ${localeNumberString(value.data.value)} ${t('common.ckb_unit')} (${
           value.data.name
         })`
+      },
+      backgroundColor: 'rgba(50, 50, 50, 0.7)',
+      borderWidth: 0,
+      textStyle: {
+        color: '#fff',
       },
       position: ['10%', '50%'],
     },
@@ -264,17 +286,15 @@ const useOption = (nervosDao: NervosDaoInfo, colors: string[], isMobile: boolean
         center: ['50%', '50%'],
         data: seriesData,
         label: {
-          normal: {
-            position: 'outside',
-            align: 'center',
-          },
+          position: 'outside',
+          align: 'center',
         },
         labelLine: {
           length: 4,
           length2: isMobile ? 4 : 12,
         },
-        itemStyle: {
-          emphasis: {
+        emphasis: {
+          itemStyle: {
             shadowBlur: 10,
             shadowOffsetX: 0,
             shadowColor: 'rgba(0, 0, 0, 0.5)',

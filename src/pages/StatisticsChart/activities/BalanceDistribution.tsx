@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
 import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import {
   DATA_ZOOM_CONFIG,
@@ -22,6 +23,9 @@ const parseTooltip = ({
   color,
   currentLanguage,
 }: SeriesItem & { data: string; currentLanguage: SupportedLng }): string => {
+  if (!seriesName) {
+    throw new Error('seriesName is required')
+  }
   return `<div>${tooltipColor(color)}${widthSpan(seriesName, currentLanguage)} ${localeNumberString(data)}</div>`
 }
 
@@ -30,7 +34,7 @@ const useOption = (
   chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
@@ -119,7 +123,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: number) => handleAxis(new BigNumber(value)),
         },
       },
       {
@@ -139,7 +143,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: number) => handleAxis(new BigNumber(value)),
         },
       },
     ],
@@ -147,9 +151,6 @@ const useOption = (
       {
         name: t('statistic.addresses_balance_group'),
         type: 'bar',
-        areaStyle: {
-          color: chartColor.areaColor,
-        },
         yAxisIndex: 0,
         barWidth: isMobile || isThumbnail ? 20 : 50,
         data: statisticBalanceDistributions.map(data => new BigNumber(data.addresses).toString()),

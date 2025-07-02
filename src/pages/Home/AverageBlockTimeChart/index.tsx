@@ -1,7 +1,10 @@
 import { memo, useMemo } from 'react'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/title'
-import echarts from 'echarts/lib/echarts'
+import type { EChartsOption } from 'echarts'
+import * as echarts from 'echarts/core'
+import { GridComponent, TitleComponent } from 'echarts/components'
+import { LineChart } from 'echarts/charts'
+import { UniversalTransition } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
@@ -14,9 +17,11 @@ import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { ReactChartCore } from '../../StatisticsChart/common'
 import { Link } from '../../../components/Link'
 
+echarts.use([GridComponent, TitleComponent, LineChart, CanvasRenderer, UniversalTransition])
+
 const useOption = () => {
   const { t } = useTranslation()
-  return (statisticAverageBlockTimes: ChartItem.AverageBlockTime[], useMiniStyle: boolean): echarts.EChartOption => {
+  return (statisticAverageBlockTimes: ChartItem.AverageBlockTime[], useMiniStyle: boolean): EChartsOption => {
     return {
       color: ['#ffffff'],
       title: {
@@ -74,9 +79,8 @@ const useOption = () => {
             },
           },
           axisLabel: {
-            formatter: (value: string) => localeNumberString(value),
+            formatter: (value: number) => localeNumberString(value),
           },
-          boundaryGap: false,
         },
         {
           position: 'right',

@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useMemo, useState } from 'react'
+import { EChartsOption } from 'echarts'
+import type { TopLevelFormatterParams, YAXisOption } from 'echarts/types/dist/shared'
 import dayjs from 'dayjs'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
@@ -13,18 +15,16 @@ import type { FeeRateTracker } from '../../services/ExplorerService'
 import { handleAxis } from '../../utils/chart'
 import styles from './styles.module.scss'
 
-const textStyleInChart: echarts.EChartOption.TextStyle = {
+const textStyleInChart: EChartsOption['textStyle'] = {
   color: '#999999',
   fontWeight: 400,
   fontSize: 14,
-  lineHeight: 16,
 }
 
-const textStyleOfTooltip: echarts.EChartOption.TextStyle = {
+const textStyleOfTooltip: EChartsOption['textStyle'] = {
   color: '#ffffff',
   fontWeight: 400,
   fontSize: 16,
-  lineHeight: 18,
 }
 
 const getWeightedMedian = (tfrs: FeeRateTracker.TransactionFeeRate[]): number => {
@@ -150,9 +150,9 @@ export const ConfirmationTimeFeeRateChart = ({
           position: 'top',
           textStyle: textStyleOfTooltip,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          formatter(params) {
-            const feeRate: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
-            const count: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[1] : params
+          formatter(params: TopLevelFormatterParams) {
+            const feeRate = Array.isArray(params) ? params[0] : params
+            const count = Array.isArray(params) ? params[1] : params
             if (!feeRate.value) return ''
             return `${t('fee_rate_tracker.fee_rate')}: ${feeRate.value?.toLocaleString('en')} shannons/kB<br />${t(
               'fee_rate_tracker.confirmation_time',
@@ -274,8 +274,8 @@ export const FeeRateTransactionCountChartCore = ({
           position: 'top',
           textStyle: textStyleOfTooltip,
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          formatter(params) {
-            const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
+          formatter(params: TopLevelFormatterParams) {
+            const param = Array.isArray(params) ? params[0] : params
             return `${param.name} shannons/kB<br />${t('fee_rate_tracker.transaction_count')}: ${param.value}`
           },
         },
@@ -368,8 +368,8 @@ export const LastNDaysTransactionFeeRateChart = ({
             position: 'top',
             textStyle: textStyleOfTooltip,
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            formatter(params) {
-              const param: echarts.EChartOption.Tooltip.Format = Array.isArray(params) ? params[0] : params
+            formatter(params: TopLevelFormatterParams) {
+              const param = Array.isArray(params) ? params[0] : params
               const feeRate = sortedLastNDaysTransactionFeeRates.find(r => dayjs(r.date).format('MM/DD') === param.name)
               return `${t('fee_rate_tracker.date')}: ${
                 feeRate ? dayjs(feeRate.date).format('YYYY/MM/DD') : ''
@@ -397,7 +397,7 @@ export const LastNDaysTransactionFeeRateChart = ({
               color: colors[0],
               margin: 2,
               formatter: (value: string) => handleAxis(new BigNumber(value)),
-            },
+            } as YAXisOption['axisLabel'],
             axisLine: {
               lineStyle: {
                 color: colors[0],

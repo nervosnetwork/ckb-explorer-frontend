@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
 import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import {
   DATA_ZOOM_CONFIG,
@@ -43,7 +44,7 @@ const useOption = (
   isMobile: boolean,
 
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const gridThumbnail = {
     left: '4%',
     right: '10%',
@@ -70,7 +71,7 @@ const useOption = (
           formatter: dataList => {
             assertIsArray(dataList)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)} ${
-              dataList[0].data[0]
+              (dataList[0].data as string[])[0]
             }</div>`
             dataList.forEach(data => {
               assertSerialsItem(data)
@@ -120,7 +121,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${parseNumericAbbr(value)}`,
+          formatter: (value: number) => `${parseNumericAbbr(value)}`,
         },
       },
       {
@@ -138,7 +139,7 @@ const useOption = (
         },
         splitLine: { show: false },
         axisLabel: {
-          formatter: (value: string) => `${parseNumericAbbr(new BigNumber(value))}`,
+          formatter: (value: number) => `${parseNumericAbbr(new BigNumber(value))}`,
         },
       },
     ],

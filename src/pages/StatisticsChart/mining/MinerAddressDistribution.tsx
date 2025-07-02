@@ -1,6 +1,8 @@
 import { useCallback } from 'react'
 import { useHistory } from 'react-router'
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
+import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import { tooltipColor, tooltipWidth, SmartChartPage, SmartChartPageProps } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
 import { useAdaptMobileEllipsis, useAdaptPCEllipsis, useIsMobile } from '../../../hooks'
@@ -30,7 +32,7 @@ const useOption = () => {
     isMobile: boolean,
     isThumbnail = false,
     getAdaptAddressText: (address: string) => string,
-  ): echarts.EChartOption => {
+  ): EChartsOption => {
     const gridThumbnail = {
       left: '4%',
       right: '10%',
@@ -54,10 +56,10 @@ const useOption = () => {
               assertNotArray(data)
               const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 60 : 65)
               let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.address'))} ${getAdaptAddressText(
-                data.data.title,
+                (data.data as Record<string, string>).title,
               )}</div>`
               result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.miner_ratio'))} ${(
-                Number(data.data.value) * 100
+                Number((data.data as Record<string, string>).value) * 100
               ).toFixed(1)}%</div>`
               return result
             },
@@ -70,8 +72,8 @@ const useOption = () => {
           type: 'pie',
           radius: isMobile || isThumbnail ? '50%' : '75%',
           center: ['50%', '50%'],
-          itemStyle: {
-            emphasis: {
+          emphasis: {
+            itemStyle: {
               shadowBlur: 10,
               shadowOffsetX: 0,
               shadowColor: 'rgba(0, 0, 0, 0.5)',
@@ -80,7 +82,7 @@ const useOption = () => {
           data: statisticMinerAddresses.map(data => ({
             name: `${getAdaptAddressText(data.address.toLowerCase())} (${(Number(data.radio) * 100).toFixed(1)}%)`,
             title: data.address.toLowerCase(),
-            value: data.radio,
+            value: Number(data.radio),
           })),
         },
       ],
@@ -96,12 +98,12 @@ export const MinerAddressDistributionChart = ({ isThumbnail = false }: { isThumb
 
   const history = useHistory()
   const onClick = useCallback(
-    (param: echarts.CallbackDataParams) => {
-      if (param && param.data.title === 'other') {
+    (param: CallbackDataParams) => {
+      if (param && (param.data as Record<string, string>).title === 'other') {
         return
       }
-      if (param && param.data.title) {
-        history.push(`/${language}/address/${param.data.title}`)
+      if (param && (param.data as Record<string, string>).title) {
+        history.push(`/${language}/address/${(param.data as Record<string, string>).title}`)
       }
     },
     [history, language],

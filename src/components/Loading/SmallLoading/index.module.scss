@@ -3,6 +3,8 @@
 .smallLoadingPanel {
   margin: 15px 0;
   text-align: center;
+  display: flex;
+  justify-content: center;
 
   :global(.loadingWhite) {
     opacity: 0.8;

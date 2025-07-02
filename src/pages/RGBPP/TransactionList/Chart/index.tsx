@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
 import styles from './styles.module.scss'
 import { DATA_ZOOM_CONFIG, assertIsArray, parseNumericAbbr } from '../../../../utils/chart'
 import { tooltipColor, SmartChartPage } from '../../../StatisticsChart/common'
@@ -14,7 +15,7 @@ const useOption = (
   _: boolean,
 
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const isXXL = useIsXXLBreakPoint()
   const gridThumbnail = {
     left: '4%',
@@ -69,9 +70,11 @@ const useOption = (
             }</td></tr>${dataList
               .map(
                 data =>
-                  `<tr><td>${tooltipColor(data.color ?? '#333333')}${data.seriesName}: </td><td>${parseNumericAbbr(
+                  `<tr><td>${tooltipColor((data.color as string) ?? '#333333')}${
+                    data.seriesName
+                  }: </td><td>${parseNumericAbbr(
                     // Why to subtract one: https://www.cnblogs.com/goloving/p/14364333.html
-                    data.data - 1,
+                    (data.data as number) - 1,
                   )}</td></tr>`,
               )
               .join('')}</table>`
@@ -116,7 +119,7 @@ const useOption = (
         logBase: 10,
         scale: true,
         axisLine: { lineStyle: { color: chartColor.colors[0] } },
-        axisLabel: { formatter: (value: string) => parseNumericAbbr(value) },
+        axisLabel: { formatter: (value: number) => parseNumericAbbr(value) },
       },
       {
         position: 'right',
@@ -129,7 +132,7 @@ const useOption = (
         scale: true,
         axisLine: { lineStyle: { color: chartColor.colors[1] } },
         splitLine: { show: false },
-        axisLabel: { formatter: (value: string) => parseNumericAbbr(value) },
+        axisLabel: { formatter: (value: number) => parseNumericAbbr(value) },
       },
     ],
     series: [

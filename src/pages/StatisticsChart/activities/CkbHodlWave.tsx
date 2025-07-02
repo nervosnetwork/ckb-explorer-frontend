@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
 import type { ChartColorConfig } from '../../../constants/common'
 import { SupportedLng, useCurrentLanguage } from '../../../utils/i18n'
 import {
@@ -86,7 +87,7 @@ const useOption = (
   _: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
@@ -142,7 +143,7 @@ const useOption = (
           formatter: dataList => {
             assertIsArray(dataList)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'), currentLanguage)}
-          ${dataList[0].data[0]}</div>`
+          ${(dataList[0].data as string[])[0]}</div>`
             dataList.forEach(data => {
               assertSerialsItem(data)
               assertSerialsDataIsStringArrayOf10(data)
@@ -177,7 +178,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${value}%`,
+          formatter: (value: number) => `${value}%`,
         },
       },
       {

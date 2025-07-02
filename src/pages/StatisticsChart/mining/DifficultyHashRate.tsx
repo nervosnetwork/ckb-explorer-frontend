@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
+import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import {
   DATA_ZOOM_CONFIG,
   assertIsArray,
@@ -18,7 +20,7 @@ const useOption = (
   chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
@@ -46,7 +48,7 @@ const useOption = (
       if (seriesName === t('block.difficulty')) {
         return `<div>${tooltipColor(color)}${widthSpan(t('block.difficulty'))} ${handleDifficulty(data)}</div>`
       }
-      if (seriesName.startsWith(t('block.hash_rate'))) {
+      if (seriesName?.startsWith(t('block.hash_rate'))) {
         return `<div>${tooltipColor(color)}${widthSpan(t('block.hash_rate'))} ${handleHashRate(data)}</div>`
       }
       return ''
@@ -113,7 +115,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: number) => handleAxis(new BigNumber(value)),
         },
       },
       {
@@ -130,7 +132,7 @@ const useOption = (
         },
         scale: true,
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: number) => handleAxis(new BigNumber(value)),
         },
       },
       {
@@ -179,7 +181,7 @@ const useOption = (
                 },
               ],
               label: {
-                formatter: (params: { value: string }) => `${params.value}%`,
+                formatter: (params: CallbackDataParams) => `${params.value}%`,
               },
             },
         data: statisticDifficultyHashRates.map(data => (Number(data.uncleRate) * 100).toFixed(2)),
