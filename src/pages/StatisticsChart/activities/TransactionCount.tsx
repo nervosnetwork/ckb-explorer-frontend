@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
+import type { YAXisOption } from 'echarts/types/dist/shared'
 import { TFunction, useTranslation } from 'react-i18next'
 import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
@@ -16,7 +18,7 @@ const useOption =
     isMobile: boolean,
 
     isThumbnail = false,
-  ): echarts.EChartOption => {
+  ): EChartsOption => {
     const gridThumbnail = {
       left: '4%',
       right: '10%',
@@ -40,11 +42,11 @@ const useOption =
               assertIsArray(dataList)
               const widthSpan = (value: string) => tooltipWidth(value, language === 'en' ? 120 : 65)
               let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${
-                dataList[0].data[0]
+                (dataList[0].data as string[])[0]
               }</div>`
               result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(
                 t('statistic.transaction_count'),
-              )} ${handleAxis(dataList[0].data[1], 2)}</div>`
+              )} ${handleAxis((dataList[0].data as string[])[1], 2)}</div>`
               return result
             },
           }
@@ -62,22 +64,21 @@ const useOption =
       ],
       yAxis: [
         {
+          ...(type === 'log' ? { logBase: 10 } : { scale: true }),
           position: 'left',
           name:
             isMobile || isThumbnail
               ? ''
               : `${t('statistic.transaction_count')} ${t(type === 'log' ? 'statistic.log' : '')}`,
           type: type === 'log' ? 'log' : 'value',
-          logBase: 10,
-          scale: true,
           axisLine: {
             lineStyle: {
               color: chartColor.colors[0],
             },
           },
           axisLabel: {
-            formatter: (value: string) => handleAxis(new BigNumber(value)),
-          },
+            formatter: (value: number) => handleAxis(new BigNumber(value)),
+          } as YAXisOption['axisLabel'],
         },
       ],
       series: [

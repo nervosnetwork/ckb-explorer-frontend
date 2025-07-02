@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
 import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/chart'
 import { handleHashRate } from '../../../utils/number'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
@@ -14,7 +15,7 @@ const useOption = (
   isMobile: boolean,
 
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
@@ -40,9 +41,11 @@ const useOption = (
           formatter: dataList => {
             assertIsArray(dataList)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 75 : 50)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${dataList[0].data[0]}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${
+              (dataList[0].data as string[])[0]
+            }</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('block.hash_rate'))} ${handleHashRate(
-              dataList[0].data[1],
+              (dataList[0].data as string[])[1],
             )}</div>`
             return result
           },
@@ -71,7 +74,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: number) => handleAxis(new BigNumber(value)),
         },
       },
     ],

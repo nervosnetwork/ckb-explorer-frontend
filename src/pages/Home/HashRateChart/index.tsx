@@ -1,9 +1,12 @@
 import { memo, useMemo } from 'react'
 import BigNumber from 'bignumber.js'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/title'
 import dayjs from 'dayjs'
-import echarts from 'echarts/lib/echarts'
+import type { EChartsOption } from 'echarts'
+import * as echarts from 'echarts/core'
+import { GridComponent, TitleComponent } from 'echarts/components'
+import { LineChart } from 'echarts/charts'
+import { UniversalTransition } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { handleAxis } from '../../../utils/chart'
@@ -15,9 +18,11 @@ import { ReactChartCore } from '../../StatisticsChart/common'
 import styles from './index.module.scss'
 import { Link } from '../../../components/Link'
 
+echarts.use([GridComponent, TitleComponent, LineChart, CanvasRenderer, UniversalTransition])
+
 const useOption = () => {
   const { t } = useTranslation()
-  return (statisticHashRates: ChartItem.HashRate[], useMiniStyle: boolean): echarts.EChartOption => {
+  return (statisticHashRates: ChartItem.HashRate[], useMiniStyle: boolean): EChartsOption => {
     return {
       color: ['#ffffff'],
       title: {
@@ -71,7 +76,7 @@ const useOption = () => {
             },
           },
           axisLabel: {
-            formatter: (value: string) => handleAxis(new BigNumber(value), 0),
+            formatter: (value: number) => handleAxis(new BigNumber(value), 0),
           },
           boundaryGap: ['5%', '2%'],
         },

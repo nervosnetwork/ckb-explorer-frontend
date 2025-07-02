@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
 import { parseSimpleDate, parseSimpleDateNoSecond } from '../../../utils/date'
 import { tooltipColor, tooltipWidth, SeriesItem, SmartChartPage } from '../common'
 import { localeNumberString } from '../../../utils/number'
@@ -13,7 +14,7 @@ const useOption = (
   chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
@@ -55,13 +56,13 @@ const useOption = (
           formatter: dataList => {
             assertIsArray(dataList)
             let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${parseSimpleDateNoSecond(
-              new Date(dataList[0].data[0]),
+              new Date((dataList[0].data as string[])[0]),
               '/',
               false,
             )}</div>`
             dataList.forEach(data => {
               assertSerialsItem(data)
-              result += parseTooltip({ ...data })
+              result += parseTooltip({ ...(data as SeriesItem) })
             })
             return result
           },
@@ -113,7 +114,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => localeNumberString(value),
+          formatter: (value: number) => localeNumberString(value),
         },
       },
       {
@@ -131,7 +132,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => localeNumberString(value),
+          formatter: (value: number) => localeNumberString(value),
         },
       },
     ],

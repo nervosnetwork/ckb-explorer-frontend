@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
 import { DATA_ZOOM_CONFIG, assertIsArray, handleAxis } from '../../../utils/chart'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
@@ -12,7 +13,7 @@ const useOption = (
   chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
@@ -37,9 +38,11 @@ const useOption = (
           formatter: dataList => {
             assertIsArray(dataList)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 155 : 110)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${dataList[0].data[0]}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${
+              (dataList[0].data as string[])[0]
+            }</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}\
-          ${widthSpan(t('statistic.address_count'))} ${handleAxis(dataList[0].data[1], 2)}</div>`
+          ${widthSpan(t('statistic.address_count'))} ${handleAxis((dataList[0].data as string[])[1], 2)}</div>`
             return result
           },
         }
@@ -73,7 +76,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => handleAxis(new BigNumber(value)),
+          formatter: (value: number) => handleAxis(new BigNumber(value)),
         },
       },
     ],

@@ -35,7 +35,6 @@ import MultisigIcon from './multisig.svg'
 import DeploymentIcon from './deployment.svg'
 import { ReactComponent as LockTimeIcon } from './clock.svg'
 import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
-import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
 import TransactionReward from '../TransactionReward'
 import Cellbase from '../../../components/Transaction/Cellbase'
@@ -632,22 +631,14 @@ export const TransactionCellInfo = ({
   children: string | ReactNode
   isDefaultStyle?: boolean
 }) => {
-  const [showModal, setShowModal] = useState(false)
   return (
     <div className={styles.transactionCellInfoPanel}>
-      <SimpleButton
-        className={isDefaultStyle ? styles.transactionCellInfoContent : ''}
-        onClick={() => {
-          setShowModal(true)
-        }}
-      >
-        <div>{children}</div>
-        <div className={styles.transactionCellInfoSeparate} />
-      </SimpleButton>
-
-      <SimpleModal isShow={showModal} setIsShow={setShowModal}>
-        <CellModal cell={cell} onClose={() => setShowModal(false)} />
-      </SimpleModal>
+      <CellModal cell={cell}>
+        <SimpleButton className={isDefaultStyle ? styles.transactionCellInfoContent : ''}>
+          <div>{children}</div>
+          <div className={styles.transactionCellInfoSeparate} />
+        </SimpleButton>
+      </CellModal>
     </div>
   )
 }

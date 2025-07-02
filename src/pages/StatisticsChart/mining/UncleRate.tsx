@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
+import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
 import { ChartItem, explorerService } from '../../../services/ExplorerService'
@@ -12,7 +14,7 @@ const useOption = (
   isMobile: boolean,
 
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
@@ -38,9 +40,11 @@ const useOption = (
           formatter: dataList => {
             assertIsArray(dataList)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 75 : 50)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${dataList[0].data[0]}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${
+              (dataList[0].data as string[])[0]
+            }</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('block.uncle_rate'))} ${
-              dataList[0].data[1]
+              (dataList[0].data as string[])[1]
             }%</div>`
             return result
           },
@@ -70,7 +74,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${value}%`,
+          formatter: (value: number) => `${value}%`,
         },
       },
     ],
@@ -90,7 +94,7 @@ const useOption = (
             },
           ],
           label: {
-            formatter: (label: { data: { value: string } }) => `${label.data.value}%`,
+            formatter: (params: CallbackDataParams) => `${params.value}%`,
           },
         },
       },

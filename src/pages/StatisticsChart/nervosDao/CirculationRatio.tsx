@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
+import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
@@ -11,7 +12,7 @@ const useOption = (
   chartColor: ChartColorConfig,
   isMobile: boolean,
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
   const gridThumbnail = {
@@ -36,10 +37,12 @@ const useOption = (
           formatter: dataList => {
             assertIsArray(dataList)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 185 : 165)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${dataList[0].data[0]}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.date'))} ${
+              (dataList[0].data as string[])[0]
+            }</div>`
             if (dataList[0].data) {
               result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.circulation_ratio'))} ${
-                dataList[0].data[1]
+                (dataList[0].data as string[])[1]
               }%</div>`
             }
             return result
@@ -72,7 +75,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${value}%`,
+          formatter: (value: number) => `${value}%`,
         },
       },
     ],

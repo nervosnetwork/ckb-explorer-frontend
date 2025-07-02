@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import type { EChartsOption } from 'echarts'
 import { useCurrentLanguage } from '../../../utils/i18n'
 import { tooltipColor, tooltipWidth, SmartChartPage } from '../common'
 import { DATA_ZOOM_CONFIG, assertIsArray } from '../../../utils/chart'
@@ -11,7 +12,7 @@ const useOption = (
   isMobile: boolean,
 
   isThumbnail = false,
-): echarts.EChartOption => {
+): EChartsOption => {
   const { t } = useTranslation()
   const currentLanguage = useCurrentLanguage()
 
@@ -37,9 +38,11 @@ const useOption = (
           formatter: dataList => {
             assertIsArray(dataList)
             const widthSpan = (value: string) => tooltipWidth(value, currentLanguage === 'en' ? 220 : 80)
-            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.year'))} ${dataList[0].data[0]}</div>`
+            let result = `<div>${tooltipColor('#333333')}${widthSpan(t('statistic.year'))} ${
+              (dataList[0].data as string[])[0]
+            }</div>`
             result += `<div>${tooltipColor(chartColor.colors[0])}${widthSpan(t('statistic.nominal_apc'))} ${
-              dataList[0].data[1]
+              (dataList[0].data as string[])[1]
             }%</div>`
             return result
           },
@@ -73,7 +76,7 @@ const useOption = (
           },
         },
         axisLabel: {
-          formatter: (value: string) => `${value}%`,
+          formatter: (value: number) => `${value}%`,
         },
       },
     ],

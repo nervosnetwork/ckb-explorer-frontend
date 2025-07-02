@@ -176,7 +176,7 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
                   yAxis: {
                     type: 'value',
                     axisLabel: {
-                      formatter: (value: string) => `${value} CKB`,
+                      formatter: (value: number) => `${value} CKB`,
                     },
                     boundaryGap: ['0%', '20%'],
                     min: v => v.min,
@@ -193,11 +193,9 @@ const RewardCalcutorModal = ({ onClose, estimatedApc }: { onClose: () => void; e
                       stack: 'withdrawal',
                       areaStyle: {},
                       label: {
-                        normal: {
-                          show: years <= 10,
-                          position: 'top',
-                          formatter: '{c} CKB',
-                        },
+                        show: years <= 10,
+                        position: 'top',
+                        formatter: '{c} CKB',
                       },
                     },
                   ],

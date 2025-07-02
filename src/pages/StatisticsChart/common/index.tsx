@@ -1,19 +1,22 @@
 import { ComponentProps, CSSProperties, ReactElement, ReactNode, useEffect, useMemo, useRef } from 'react'
 import classNames from 'classnames'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/chart/pie'
-import 'echarts/lib/chart/map'
-import 'echarts/lib/chart/scatter'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/markLine'
-import 'echarts/lib/component/dataZoom'
-import 'echarts/lib/component/brush'
-import 'echarts/lib/component/visualMap'
-import echarts from 'echarts/lib/echarts'
-import { EChartOption, ECharts } from 'echarts'
+import 'echarts-gl'
+import * as echarts from 'echarts/core'
+import {
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  GeoComponent,
+  LegendComponent,
+  MarkLineComponent,
+  DataZoomComponent,
+  BrushComponent,
+} from 'echarts/components'
+import { MapChart, LineChart, BarChart, PieChart, ScatterChart } from 'echarts/charts'
+import { CanvasRenderer } from 'echarts/renderers'
+import type { EChartsOption } from 'echarts'
+import type { CallbackDataParams } from 'echarts/types/dist/shared'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import Loading from '../../../components/Loading'
@@ -27,6 +30,24 @@ import { isDeepEqual } from '../../../utils/util'
 import { HelpTip } from '../../../components/HelpTip'
 import { ChartColor, ChartColorConfig } from '../../../constants/common'
 import styles from './index.module.scss'
+
+echarts.use([
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  GeoComponent,
+  MapChart,
+  CanvasRenderer,
+  LegendComponent,
+  MarkLineComponent,
+  DataZoomComponent,
+  BrushComponent,
+  LineChart,
+  BarChart,
+  PieChart,
+  ScatterChart,
+])
 
 const LoadingComp = ({ isThumbnail }: { isThumbnail?: boolean }) => (isThumbnail ? <SmallLoading /> : <Loading show />)
 
@@ -59,21 +80,21 @@ const ReactChartCore = ({
   style,
   className = '',
 }: {
-  option: EChartOption
+  option: EChartsOption
   isThumbnail?: boolean
-  onClick?: (param: echarts.CallbackDataParams) => void
+  onClick?: (param: CallbackDataParams) => void
   notMerge?: boolean
   lazyUpdate?: boolean
   style?: CSSProperties
   className?: string
 }) => {
   const chartRef = useRef<HTMLDivElement>(null)
-  const chartInstanceRef = useRef<ECharts | null>(null)
+  const chartInstanceRef = useRef<echarts.ECharts | null>(null)
   const prevOption = usePrevious(option)
   const prevClickEvent = usePrevious(onClick)
 
   useEffect(() => {
-    let chartInstance: ECharts | null = null
+    let chartInstance: echarts.ECharts | null = null
     if (chartRef.current) {
       if (!chartInstanceRef.current) {
         const renderedInstance = echarts.getInstanceByDom(chartRef.current)
@@ -190,7 +211,7 @@ export interface SmartChartPageProps<T> {
     chartColor: ChartColorConfig,
     isMobile: boolean,
     isThumbnail?: boolean,
-  ) => echarts.EChartOption
+  ) => EChartsOption
   toCSV?: (dataList: T[]) => (string | number)[][]
   queryKey?: string
   style?: CSSProperties
@@ -220,11 +241,24 @@ export function SmartChartPage<T>({
   }, [onFetched, query.data])
 
   const option = getEChartOption(dataList, ChartColor, isMobile, isThumbnail)
+  const finalOption = {
+    ...option,
+    tooltip: isThumbnail
+      ? option.tooltip
+      : {
+          backgroundColor: 'rgba(50, 50, 50, 0.7)',
+          borderWidth: 0,
+          textStyle: {
+            color: '#fff',
+          },
+          ...option.tooltip,
+        },
+  }
 
   const content = query.isLoading ? (
     <ChartLoading show isThumbnail={isThumbnail} />
   ) : (
-    <ReactChartCore option={option} isThumbnail={isThumbnail} {...chartProps} style={style} />
+    <ReactChartCore option={finalOption} isThumbnail={isThumbnail} {...chartProps} style={style} />
   )
 
   return isThumbnail ? (
@@ -243,6 +277,6 @@ const tooltipColor = (color: string) =>
 const tooltipWidth = (value: string, width: number) =>
   `<span style="width:${width}px;display:inline-block;">${value}:</span>`
 
-export type SeriesItem = { seriesName: string; name: string; color: string; dataIndex: number }
+export type SeriesItem = { seriesName?: string; name: string; color: string; dataIndex: number }
 
 export { ChartLoading, ReactChartCore, ChartPage, tooltipColor, tooltipWidth }
