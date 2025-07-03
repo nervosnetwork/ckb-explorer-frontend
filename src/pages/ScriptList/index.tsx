@@ -514,7 +514,7 @@ const ScriptInfo: FC<{ script: ScriptDetail }> = ({ script }) => {
         {script.isLockScript && <dd className={styles.value}>{t('scripts.lock_script')}</dd>}
       </dl>
       {fields.map(field => (
-        <dl className={styles.tokenInfo}>
+        <dl key={field.name} className={styles.tokenInfo}>
           <dt className={styles.title}>{field.name}</dt>
           <dd className={styles.value}>{field.value}</dd>
         </dl>
@@ -578,7 +578,7 @@ function ScriptCard({
         {data => (
           <div>
             {data?.data.map(script => (
-              <ScriptInfo key={script.typeHash} script={script} />
+              <ScriptInfo key={script.typeHash ?? script.dataHash} script={script} />
             ))}
           </div>
         )}
@@ -588,15 +588,9 @@ function ScriptCard({
 }
 
 const ScriptTable: FC<{
-  query: UseQueryResult<{
-    data: ScriptDetail[]
-    meta: {
-      total: number
-      pageSize: number
-    }
-  }>
+  scripts: ScriptDetail[]
   sortParam?: ReturnType<typeof useSortParam<SortField>>
-}> = ({ query, sortParam }) => {
+}> = ({ scripts, sortParam }) => {
   const { t } = useTranslation()
 
   const columns = [
@@ -750,8 +744,8 @@ const ScriptTable: FC<{
         </tr>
       </thead>
       <tbody>
-        {query.data?.data.map(script => (
-          <tr key={script.typeHash}>
+        {scripts.map(script => (
+          <tr key={script.typeHash ?? script.dataHash}>
             {columns.map(column => (
               <td key={column.key} className={column.className}>
                 {column.render?.(script)}
@@ -792,7 +786,7 @@ const ScriptList: FC = () => {
           <ScriptCard query={query} />
         </div>
         <div className={styles.table}>
-          <ScriptTable query={query} sortParam={sortParam} />
+          <ScriptTable scripts={query.data?.data ?? []} sortParam={sortParam} />
         </div>
 
         <Pagination

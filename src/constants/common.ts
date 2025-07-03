@@ -149,7 +149,7 @@ export const ChartColor = {
 export type ChartColorConfig = typeof ChartColor
 
 export enum ChainName {
-  Mainnet = 'mirana',
+  Mainnet = 'meepo',
   Testnet = 'meepo',
 }
 
