@@ -4,8 +4,8 @@ import { predefined } from '@ckb-lumos/config-manager'
 import { Script } from '../models/Script'
 
 export const SCRIPT_TAGS = {
-  SECP_MULTISIG: 'SECP256K1 / Multisig',
-  SECP_MULTISIG_LOCKTIME: 'SECP256K1 / Multisig / locktime',
+  SECP_MULTISIG: 'secp256k1_multisig',
+  SECP_MULTISIG_LOCKTIME: 'secp256k1_multisig_locktime',
 } as const
 
 export interface ContractHashTag {
@@ -16,6 +16,7 @@ export interface ContractHashTag {
   depType: 'dep_group' | 'code'
   lumosConfigName?: string // for lumos config
   hashType: HashType
+  multiple?: boolean // multiple instance so the tag should be displayed with a version
 }
 
 export const ScriptTagExtraRules = new Map<string, (s: Script) => string>([
@@ -46,6 +47,20 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
     tag: SCRIPT_TAGS.SECP_MULTISIG,
     category: 'lock',
+    multiple: true,
+  },
+  {
+    codeHashes: [
+      '0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8',
+      '0x36c971b8d41fbd94aabca77dc75e826729ac98447b46f91e00796155dddb0d29',
+    ],
+    txHashes: ['0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-1'],
+    depType: 'dep_group',
+    hashType: 'type',
+    lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
+    tag: SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME,
+    category: 'lock',
+    multiple: true,
   },
   {
     codeHashes: ['0x0fb343953ee78c9986b091defb6252154e0bb51044fd2879fde5b27314506111'],
@@ -432,6 +447,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
     tag: SCRIPT_TAGS.SECP_MULTISIG,
     category: 'lock',
+    multiple: true,
   },
   {
     codeHashes: ['0x86a1c6987a4acbe1a887cca4c9dd2ac9fcb07405bbeda51b861b18bbf7492c4b'],

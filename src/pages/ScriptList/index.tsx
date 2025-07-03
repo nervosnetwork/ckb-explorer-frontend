@@ -38,7 +38,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'secp256k1_blake160',
     {
-      name: 'SECP256K1/blake160',
+      name: 'SECP256k1 / Blake160',
       description: 'SECP256K1/blake160 is the default lock script to verify CKB transaction signature.',
       rfc: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0024-ckb-genesis-script-list/0024-ckb-genesis-script-list.md#secp256k1blake160',
       code: 'https://github.com/nervosnetwork/ckb-system-scripts/blob/master/c/secp256k1_blake160_sighash_all.c',
@@ -47,8 +47,18 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     SCRIPT_TAGS.SECP_MULTISIG,
     {
-      name: 'SECP256K1/multisig',
-      description: 'SECP256K1/multisig is a script which allows a group of users to sign a single transaction.',
+      name: 'SECP256K1 / Multisig',
+      description: 'SECP256k1 / Multisig is a script which allows a group of users to sign a single transaction.',
+      rfc: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0024-ckb-genesis-script-list/0024-ckb-genesis-script-list.md#secp256k1multisig',
+      code: 'https://github.com/nervosnetwork/ckb-system-scripts/blob/master/c/secp256k1_blake160_multisig_all.c',
+    },
+  ],
+  [
+    SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME,
+    {
+      name: 'SECP256k1 / Multisig / Locktime',
+      description:
+        'SECP256k1 / Multisig / Locktime is a script which allows a group of users to sign a single transaction.',
       rfc: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0024-ckb-genesis-script-list/0024-ckb-genesis-script-list.md#secp256k1multisig',
       code: 'https://github.com/nervosnetwork/ckb-system-scripts/blob/master/c/secp256k1_blake160_multisig_all.c',
     },
@@ -56,7 +66,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'secp256k1 / anyone-can-pay (deprecated)',
     {
-      name: 'Anyone-Can-Pay Lock',
+      name: 'Anyone Can Pay Lock',
       description: 'anyone_can_pay allows a recipient to provide cell capacity in asset transfer.',
       rfc: 'https://github.com/nervosnetwork/rfcs/blob/30980b378fdaccc6e9d21a1c6b53363364fb4abc/rfcs/0026-anyone-can-pay/0026-anyone-can-pay.md',
       code: 'https://github.com/nervosnetwork/ckb-production-scripts/tree/deac6801a95596d74e2da8f2f1a6727309d36100',
@@ -66,8 +76,8 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'secp256k1 / anyone-can-pay',
     {
-      name: 'Anyone-Can-Pay Lock',
-      description: 'anyone_can_pay allows a recipient to provide cell capacity in asset transfer.',
+      name: 'Anyone Can Pay Lock',
+      description: 'Anyone Can Pay allows a recipient to provide cell capacity in asset transfer.',
       rfc: 'https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0026-anyone-can-pay/0026-anyone-can-pay.md',
       code: 'https://github.com/nervosnetwork/ckb-production-scripts/blob/e570c11aff3eca12a47237c21598429088c610d5/c/anyone_can_pay.c',
     },
@@ -127,7 +137,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'godwoken_custodian_lock',
     {
-      name: 'godwoken_custodian_lock',
+      name: 'Godwoken Custodian Lock',
       description: 'Rollup uses the custodian lock to hold the deposited assets.',
       code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/custodian-lock',
       website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#custodian-lock',
@@ -136,7 +146,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'godwoken_deposit_lock',
     {
-      name: 'godwoken_deposit_lock',
+      name: 'Godwoken Deposit Lock',
       description: 'A layer1 user can join the Rollup by creating a deposit cell.',
       code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/deposit-lock',
       website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#deposit-lock',
@@ -145,7 +155,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'godwoken_withdrawal_lock',
     {
-      name: 'godwoken_withdrawal_lock',
+      name: 'Godwoken Withdrawal Lock',
       description:
         'Withdrawal cells are generated in the RollupSubmitBlock action according to the block.withdrawals field.',
       code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/withdrawal-lock',
@@ -155,7 +165,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'godwoken_challenge_lock',
     {
-      name: 'godwoken_challenge_lock',
+      name: 'Godwoken Challenge Lock',
       description:
         'When a Godwoken node found that an invalid state exists in the Rollup, the node can send the RollupEnterChallenge action to the Rollup cell and generate a challenging cell.',
       code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/challenge-lock',
@@ -165,7 +175,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'godwoken_stake_lock',
     {
-      name: 'godwoken_stake_lock',
+      name: 'Godwoken Stake Lock',
       description: 'A block producer is required to provide a stake cell to perform the RollupSubmitBlock action.',
       code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/stake-lock',
       website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#stake-lock',
@@ -174,7 +184,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'omni_lock v1',
     {
-      name: 'omni_lock v1',
+      name: 'Omnilock v1',
       description:
         'Omnilock is a lock script designed for interoperability. It comes with built-in support for verification of transaction signing methods used in Bitcoin, Ethereum, EOS, and Dogecoin. Omnilock is also extensible, so more verification algorithms can be added in future.',
       rfc: 'https://github.com/nervosnetwork/rfcs/tree/master/rfcs/0042-omnilock',
@@ -183,7 +193,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'omni_lock v2',
     {
-      name: 'omni_lock v2',
+      name: 'Omnilock v2',
       description:
         'Omnilock is a lock script designed for interoperability. It comes with built-in support for verification of transaction signing methods used in Bitcoin, Ethereum, EOS, and Dogecoin. Omnilock is also extensible, so more verification algorithms can be added in future.',
       rfc: 'https://github.com/nervosnetwork/rfcs/tree/master/rfcs/0042-omnilock',
@@ -193,7 +203,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'godwoken_state_validator',
     {
-      name: 'godwoken_state_validator',
+      name: 'Godwoken State Validator',
       description:
         'State validator is the major script to verify the on-chain Rollup cell. Rollup cell is an identity cell on CKB, it stores the structure GlobalState which represents the layer-2 state.',
       code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/state-validator',
@@ -203,7 +213,7 @@ export const scripts = new Map<string, ScriptAttributes>([
   [
     'godwoken_eth_account_lock',
     {
-      name: 'godwoken_eth_account_lock',
+      name: 'Godwoken ETH Account Lock',
       description: 'A layer-2 lock script, ETH account lock is a script that verifies the layer-2 account signature.',
       code: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos/contracts/eth-account-lock',
       website: 'https://github.com/godwokenrises/godwoken/tree/develop/gwos#eth-account-lock',

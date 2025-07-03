@@ -6,6 +6,7 @@
   height: 15px;
   margin-left: 2px;
   cursor: pointer;
+  flex-shrink: 0;
 
   &:hover {
     path {
