@@ -149,7 +149,7 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
   const rootInfoItem: CardCellInfo = {
     title: t('block.transactions_root'),
     tooltip: t('glossary.transactions_root'),
-    content: <AddressText>{block.transactionsRoot}</AddressText>,
+    content: <div className="monospace truncate">{block.transactionsRoot}</div>,
   }
   const epochStartNumber = Number(block.number) - block.epochIndex
   const rewardPending = tipBlockNumber - Number(block.number) < DELAY_BLOCK_NUMBER
