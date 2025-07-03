@@ -30,7 +30,7 @@ const Field = ({
       )}
     </div>
     <div className={styles.value}>
-      <div className="">
+      <div className="flex items-center">
         {linkUrl ? (
           <Link to={linkUrl} className="monospace">
             {value}
@@ -86,10 +86,6 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
             depType,
             script: { codeHash, hashType, name, isLockScript },
           } = cellDep
-          const hashTag: { tag: string | null; category: 'lock' | 'type' } = {
-            tag: name,
-            category: isLockScript ? 'lock' : 'type',
-          }
           return (
             <div className={styles.fieldSet} key={`${txHash}-${index}`}>
               <Field
@@ -98,13 +94,16 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
                 value={txHash}
                 linkUrl={`/transaction/${txHash}`}
                 tag={
-                  hashTag.tag &&
                   codeHash &&
                   hashType && (
                     <HashTag
-                      content={hashTag.tag}
-                      category={hashTag.category}
-                      script={{ codeHash, hashType, args: '' }}
+                      script={{
+                        codeHash,
+                        hashType,
+                        args: '',
+                        tag: name,
+                        category: isLockScript ? 'lock' : 'type',
+                      }}
                     />
                   )
                 }

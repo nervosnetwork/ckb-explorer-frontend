@@ -4,16 +4,21 @@ import { useQuery } from '@tanstack/react-query'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Link } from '../../../components/Link'
 import { IOType, IS_MAINNET } from '../../../constants/common'
-import { MainnetContractHashTags, TestnetContractHashTags, ZERO_LOCK_CODE_HASH } from '../../../constants/scripts'
+import {
+  MainnetContractHashTags,
+  TestnetContractHashTags,
+  SCRIPT_TAGS,
+  ZERO_LOCK_CODE_HASH,
+} from '../../../constants/scripts'
 import { parseUDTAmount } from '../../../utils/number'
-import { dayjs, parseSimpleDate } from '../../../utils/date'
+import { dayjs } from '../../../utils/date'
 import { sliceNftName } from '../../../utils/string'
 import {
   shannonToCkb,
   shannonToCkbDecimal,
-  parseSince,
   formatNftDisplayId,
   handleNftImgError,
+  getContractHashTag,
 } from '../../../utils/util'
 import { UDT_CELL_TYPES } from '../../../utils/cell'
 import TransactionCellArrow from '../../../components/Transaction/TransactionCellArrow'
@@ -33,6 +38,7 @@ import CoTARegCellIcon from './cota_reg_cell.svg'
 import SporeCellIcon from './spore.svg'
 import MultisigIcon from './multisig.svg'
 import DeploymentIcon from './deployment.svg'
+import TimelockIcon from '../../../components/LockIcons/Timelock.svg'
 import { ReactComponent as LockTimeIcon } from './clock.svg'
 import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
 import SimpleButton from '../../../components/SimpleButton'
@@ -51,6 +57,8 @@ import { explorerService } from '../../../services/ExplorerService'
 import Skeleton from '../../../components/ui/Skeleton'
 import Tooltip from '../../../components/Tooltip'
 import { Popover, PopoverContent, PopoverTrigger } from '../../../components/ui/Popover'
+import { scripts } from '../../ScriptList'
+import { getTimelock } from '../../../utils/timelock'
 
 const scriptDataList = IS_MAINNET ? MainnetContractHashTags : TestnetContractHashTags
 const scriptDataMap = scriptDataList.reduce((acc, item) => {
@@ -113,21 +121,7 @@ const TransactionCellIndexAddress = ({
   const newAddr = useNewAddr(cell.addressHash)
   const address = isAddrNew ? newAddr : deprecatedAddr
 
-  let since
-  try {
-    if (cell.since) {
-      since = parseSince(cell.since.raw)
-      if (since && since.type === 'timestamp') {
-        if (since.base === 'relative') {
-          since.value = `${+since.value / 3600} Hrs`
-        } else {
-          since.value = parseSimpleDate(+since.value * 1000)
-        }
-      }
-    }
-  } catch {
-    // ignore
-  }
+  const since = getTimelock(cell.since)
   return (
     <div className={styles.transactionCellAddressPanel}>
       <div className={styles.transactionCellIndex}>
@@ -383,16 +377,21 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   const { data: dobInfo } = useDOBInfo(cell)
 
   const lockScript = addressToScript(cell.addressHash)
+
   const isMultisig = (cell.tags ?? []).find(tag => tag === 'multisig') !== undefined
   const isFiber = (cell.tags ?? []).find(tag => tag === 'fiber') !== undefined
   const isDeployment = (cell.tags ?? []).find(tag => tag === 'deployment') !== undefined
   const isDob = cell.cellType === 'spore_cell' || cell.cellType === 'did_cell'
   const isZeroLock = lockScript.codeHash === ZERO_LOCK_CODE_HASH
+  const hashTag = getContractHashTag(lockScript)
+  const isTimelock = hashTag?.tag === SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME
 
   const tokenIdStr = `${dobInfo.nftInfo?.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
     dobInfo.nftInfo?.token_id ?? '',
     dobInfo.nftInfo?.standard ?? null,
   )}`
+
+  const multisig = scripts.get(SCRIPT_TAGS.SECP_MULTISIG)!
 
   const taglists = [
     {
@@ -418,14 +417,23 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     {
       key: 'Multisig',
       tag: (
-        <>
-          Multisig <span className="text-primary">(@{lockScript.codeHash.slice(2, 10)})</span>
-        </>
+        <div>
+          Multisig <span className="text-primary pl-1">(@{lockScript.codeHash.slice(2, 10)})</span>
+        </div>
       ),
-      description: 'This cell is related to Multisig. It can be used to create a multisig address.',
+      description: multisig.description,
       display: isMultisig,
       link: `/script/${lockScript.codeHash}/${lockScript.hashType}`,
       icon: MultisigIcon,
+      type: 'shield',
+    },
+    {
+      key: 'Timelock',
+      tag: 'Timelock',
+      description: `This cell is locked by a timelock`,
+      display: isTimelock,
+      link: `/script/${lockScript.codeHash}/${lockScript.hashType}`,
+      icon: TimelockIcon,
       type: 'shield',
     },
     {
