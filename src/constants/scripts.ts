@@ -450,6 +450,19 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     multiple: true,
   },
   {
+    codeHashes: [
+      '0x5c5069eb0857efc65e1bca0c07df34c31663b3622fd3876c876320fc9634e2a8',
+      '0x36c971b8d41fbd94aabca77dc75e826729ac98447b46f91e00796155dddb0d29',
+    ],
+    txHashes: ['0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37-1'],
+    depType: 'dep_group',
+    hashType: 'type',
+    lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
+    tag: SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME,
+    category: 'lock',
+    multiple: true,
+  },
+  {
     codeHashes: ['0x86a1c6987a4acbe1a887cca4c9dd2ac9fcb07405bbeda51b861b18bbf7492c4b'],
     txHashes: ['0x4f32b3e39bd1b6350d326fdfafdfe05e5221865c3098ae323096f0bfc69e0a8c-0'],
     depType: 'dep_group',
