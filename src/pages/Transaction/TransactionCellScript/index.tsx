@@ -5,12 +5,11 @@ import { useState, ReactNode, useRef, FC } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'react-i18next'
 import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
-import type { ContractHashTag } from '../../../constants/scripts'
 import CloseIcon from './modal_close.png'
-import { getBtcTimeLockInfo, getBtcUtxo, getContractHashTag } from '../../../utils/util'
+import { getBtcTimeLockInfo, getBtcUtxo } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
 import { cellOccupied } from '../../../utils/cell'
-import { isTypeIdScript, TYPE_ID_TAG } from '../../../utils/typeid'
+import { isTypeIdScript } from '../../../utils/typeid'
 import HashTag from '../../../components/HashTag'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
 import { ReactComponent as OuterLinkIcon } from './outer_link_icon.svg'
@@ -121,27 +120,18 @@ const CellInfoValueRender = ({ content }: { content: CellInfoValue }) => {
   const { t } = useTranslation()
 
   if (isScript(content)) {
-    let hashTag: Pick<ContractHashTag, 'tag' | 'category'> | undefined
-    if (isTypeIdScript(content)) {
-      hashTag = { tag: TYPE_ID_TAG }
-    } else {
-      hashTag = getContractHashTag(content)
-    }
-
     const btcUtxo = getBtcUtxo(content)
     const btcTimeLockInfo = !btcUtxo ? getBtcTimeLockInfo(content) : null
     return (
       <>
         <JSONKeyValueView title={`"${t('transaction.script_code_hash')}": `} value={content.codeHash} />
-        {hashTag && (
-          <JSONKeyValueView
-            value={
-              <div>
-                <HashTag content={hashTag.tag} category={hashTag.category} script={content} />
-              </div>
-            }
-          />
-        )}
+        <JSONKeyValueView
+          value={
+            <div>
+              <HashTag script={content} />
+            </div>
+          }
+        />
         <JSONKeyValueView title={`"${t('transaction.script_hash_type')}": `} value={content.hashType} />
         <JSONKeyValueView title={`"${t('transaction.script_args')}": `} value={content.args} />
         {btcUtxo ? <RGBPP btcUtxo={btcUtxo} /> : null}

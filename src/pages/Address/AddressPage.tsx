@@ -2,8 +2,9 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
-import { FC, useMemo, useEffect } from 'react'
+import { FC, useMemo, useEffect, ReactNode } from 'react'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
+import type { Script } from '../../models/Script'
 import { Address as AddressInfo } from '../../models/Address'
 import { LayoutLiteProfessional } from '../../constants/common'
 import Content from '../../components/Content'
@@ -13,7 +14,7 @@ import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import type { Transaction } from '../../models/Transaction'
-import { MainnetContractHashTags, TestnetContractHashTags, SCRIPT_TAGS } from '../../constants/scripts'
+import { SCRIPT_TAGS, ContractHashTag } from '../../constants/scripts'
 import {
   useDeprecatedAddr,
   useNewAddr,
@@ -39,19 +40,51 @@ import { defaultAddressInfo } from './state'
 import { BTCAddressOverviewCard } from './BTCAddressComp'
 import Qrcode from '../../components/Qrcode'
 import { FaucetMenu } from '../../components/FaucetMenu'
-import { isMainnet } from '../../utils/chain'
-import MultisigIcon from './multisig.svg'
+import { ReactComponent as MultisigIcon } from '../../components/LockIcons/Multisig.svg'
+import { ReactComponent as TimelockIcon } from '../../components/LockIcons/Timelock.svg'
 import Tooltip from '../../components/Tooltip'
 import { useSetToast } from '../../components/Toast'
 import { Tabs, TabsList, TabsTrigger } from '../../components/ui/Tabs'
+import { getContractHashTag } from '../../utils/util'
+import { scripts } from '../ScriptList'
 
-const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
+const AddressBadge: FC<{
+  badge: ReactNode
+  script: Script
+  hashTag: Pick<ContractHashTag, 'tag' | 'multiple'>
+}> = ({ badge, script, hashTag }) => {
+  const { t } = useTranslation()
+  const setToast = useSetToast()
+  const info = scripts.get(hashTag.tag)
+  return (
+    <Tooltip trigger={badge} placement="top">
+      <div>
+        <div className={styles.scriptIcon}>
+          {info?.name ?? hashTag.tag}
+          {hashTag.multiple ? <span className="text-primary">(@{script.codeHash.slice(2, 10)})</span> : null}
+        </div>
+        <div>
+          <div className={styles.copyCodeHash}>
+            Code Hash:
+            <CopyIcon
+              className={styles.copyIcon}
+              onClick={() => {
+                navigator.clipboard.writeText(script.codeHash ?? '')
+                setToast({ message: t('common.copied') })
+              }}
+            />
+          </div>
+          {script.codeHash}
+        </div>
+      </div>
+    </Tooltip>
+  )
+}
 
 export const Address = () => {
   const { address } = useParams<{ address: string }>()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const setToast = useSetToast()
   const { currentPage, pageSize } = usePaginationParamsInListPage()
   const searchParams = useSearchParams('layout', 'tx_status')
   const { layout: _layout, tx_status: txStatus } = searchParams
@@ -241,9 +274,12 @@ export const Address = () => {
   const deprecatedAddr = useDeprecatedAddr(address)
   const counterpartAddr = newAddr === address ? deprecatedAddr : newAddr
   const isBtcAddress = isRGBPP ? isValidBTCAddress(address) : false
-  const isMultisig =
-    scriptDataList.find(script => script.codeHashes.find(codeHash => codeHash === addressInfo?.lockScript.codeHash))
-      ?.tag === SCRIPT_TAGS.SECP_MULTISIG
+
+  const script = addressInfo?.lockScript
+  let hashTag: Pick<ContractHashTag, 'tag' | 'category' | 'multiple'> | undefined
+  if (script) {
+    hashTag = getContractHashTag(script)
+  }
 
   return (
     <Content>
@@ -255,27 +291,15 @@ export const Address = () => {
             hash={address}
             customActions={[
               <Qrcode text={address} />,
-              isMultisig ? (
-                <Tooltip trigger={<img src={MultisigIcon} alt="multisig" />} placement="top">
-                  <div>
-                    <div>
-                      Multisig <span className="text-primary">(@{addressInfo?.lockScript.codeHash.slice(2, 10)})</span>
-                    </div>
-                    <div>
-                      <div className={styles.copyCodeHash}>
-                        Code Hash:
-                        <CopyIcon
-                          className={styles.copyIcon}
-                          onClick={() => {
-                            navigator.clipboard.writeText(addressInfo?.lockScript.codeHash ?? '')
-                            setToast({ message: t('common.copied') })
-                          }}
-                        />
-                      </div>
-                      {addressInfo?.lockScript.codeHash}
-                    </div>
-                  </div>
-                </Tooltip>
+              script &&
+              hashTag?.tag &&
+              [SCRIPT_TAGS.SECP_MULTISIG, SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME].includes(
+                hashTag.tag as typeof SCRIPT_TAGS.SECP_MULTISIG | typeof SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME,
+              ) ? (
+                <AddressBadge badge={<MultisigIcon />} script={script} hashTag={hashTag} />
+              ) : null,
+              script && hashTag?.tag === SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME ? (
+                <AddressBadge badge={<TimelockIcon />} script={script} hashTag={hashTag} />
               ) : null,
               isBtcAddress ? <LinkToBtcAddress address={address} /> : null,
               <FaucetMenu address={address} />,
