@@ -118,6 +118,19 @@ module.exports = {
 
     return config
   },
+  devServer: function (configFunction) {
+    return function (proxy, allowedHost) {
+      // Create the default config by calling configFunction with the proxy/allowedHost parameters
+      const config = configFunction(proxy, allowedHost);
+
+      config.client = {
+        ...config.client,
+        overlay: process.env.REACT_APP_SHOW_ERROR_OVERLAY !== 'false',
+      };
+
+      return config;
+    };
+  },
   jest: config => {
     config.transformIgnorePatterns = ['node_modules/(?!(camelcase-keys|map-obj|camelcase|quick-lru)/)']
     return config
