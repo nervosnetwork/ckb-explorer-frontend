@@ -129,3 +129,16 @@
   color: var(--primary-color);
   cursor: pointer;
 }
+
+.txNodesContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 1 !important;
+  transform: translate3d(0, 0, 0);
+}
+
+.cytoscapeContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 0 !important;
+}
