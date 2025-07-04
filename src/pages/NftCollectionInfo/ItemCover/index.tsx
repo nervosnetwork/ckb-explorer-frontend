@@ -17,22 +17,14 @@ const Cover: FC<{ item: NFTItem; info?: NFTCollection; size?: 'lg' | 'md' | 'sm'
         }
       : null
 
-  const { data: dobImg, isLoading } = useQuery({
+  const { data: dobImg = DEFAULT_SPORE_IMAGE } = useQuery({
     queryKey: ['dob_render_img', dobRenderParams],
     queryFn: () => (dobRenderParams ? getSporeImg(dobRenderParams) : DEFAULT_SPORE_IMAGE),
     enabled: !!dobRenderParams,
   })
 
   if (item?.standard === 'spore') {
-    return (
-      <img
-        src={isLoading ? DEFAULT_SPORE_IMAGE : dobImg}
-        alt="cover"
-        loading="lazy"
-        className={styles.cover}
-        data-size={size}
-      />
-    )
+    return <img src={dobImg} alt="cover" loading="lazy" className={styles.cover} data-size={size} />
   }
 
   const coverUrl = item.icon_url ?? info?.icon_url
