@@ -1,9 +1,9 @@
-import { useState, ReactNode, FC, useEffect, useRef } from 'react'
+import { useState, ReactNode, FC, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { Link } from '../../../components/Link'
-import { IOType, IS_MAINNET } from '../../../constants/common'
+import { IOType, IS_MAINNET, DEFAULT_SPORE_IMAGE } from '../../../constants/common'
 import {
   MainnetContractHashTags,
   TestnetContractHashTags,
@@ -276,8 +276,6 @@ const useParseNftInfo = (cell: Cell) => {
 }
 
 const useDOBInfo = (cell: Cell) => {
-  const [cover, setCover] = useState('/images/spore_placeholder.svg')
-
   const { typeHash, tokenId } = (() => {
     if (cell.cellType !== 'spore_cell' && cell.cellType !== 'did_cell') {
       return { typeHash: undefined, tokenId: undefined }
@@ -293,7 +291,7 @@ const useDOBInfo = (cell: Cell) => {
     }
   })()
 
-  const { data, isLoading } = useQuery(
+  const { data: nftInfo } = useQuery(
     ['nft-item-info', typeHash, tokenId],
     () => explorerService.api.fetchNFTCollectionItem(typeHash!, tokenId!),
     {
@@ -301,24 +299,26 @@ const useDOBInfo = (cell: Cell) => {
     },
   )
 
-  useEffect(() => {
-    if (cell.cellType !== 'spore_cell' && cell.cellType !== 'did_cell') {
-      return
-    }
+  const dobRenderParams =
+    nftInfo?.cell?.data && nftInfo?.type_script?.args
+      ? {
+          data: nftInfo?.cell?.data,
+          id: nftInfo?.type_script.args,
+        }
+      : null
 
-    if (!cell.extraInfo) {
-      return
-    }
-
-    getSporeImg({ data: cell.extraInfo.data, id: cell.extraInfo.tokenId }).then(res => {
-      setCover(res)
-    })
-  }, [cell])
+  const { data: cover = DEFAULT_SPORE_IMAGE, isLoading } = useQuery(
+    ['dob-cover', dobRenderParams],
+    () => (dobRenderParams ? getSporeImg(dobRenderParams) : DEFAULT_SPORE_IMAGE),
+    {
+      enabled: !!dobRenderParams,
+    },
+  )
 
   return {
     data: {
       cover,
-      nftInfo: data,
+      nftInfo,
     },
     isLoading,
   }
