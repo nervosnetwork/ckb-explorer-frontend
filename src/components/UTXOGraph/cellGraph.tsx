@@ -75,6 +75,7 @@ function generateCellGraph(
         style: {
           width: 16,
           height: 16,
+          opacity: 1,
           'background-color': '#00cc9b',
         },
       },
@@ -149,24 +150,27 @@ export const CellGraph = ({
 
   return (
     <div className={classNames(styles.graphContainer, styles.cellGraph)}>
-      <div ref={ref} />
-      {[generatedTxHash, consumedTxHash].map(v =>
-        v ? (
-          <button
-            style={{
-              left: nodesPosition[v]?.x1,
-              top: nodesPosition[v]?.y1,
-              height: nodesPosition[v]?.h,
-              width: nodesPosition[v]?.w,
-            }}
-            onClick={() => onViewTxGraph(v)}
-            type="button"
-            key={v}
-          >
-            <TxNode txHash={v} />
-          </button>
-        ) : null,
-      )}
+      <div className={styles.txNodesContainer}>
+        {[generatedTxHash, consumedTxHash].map(v =>
+          v ? (
+            <button
+              style={{
+                position: 'absolute',
+                left: nodesPosition[v]?.x1,
+                top: nodesPosition[v]?.y1,
+                height: nodesPosition[v]?.h,
+                width: nodesPosition[v]?.w,
+              }}
+              onClick={() => onViewTxGraph(v)}
+              type="button"
+              key={v}
+            >
+              <TxNode txHash={v} />
+            </button>
+          ) : null,
+        )}
+      </div>
+      <div ref={ref} className={styles.cytoscapeContainer} />
       <div
         style={{
           left: nodesPosition.cell?.x1 + 10,
@@ -181,7 +185,6 @@ export const CellGraph = ({
               <MoreIcon />
             </button>
           }
-          portalContainer={ref.current}
         >
           <div onClick={e => e.stopPropagation()}>
             {useGenerateMenuItem({

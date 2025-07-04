@@ -24,6 +24,7 @@ export const cytoscapeStyles: Stylesheet[] = [
       'background-color': '#f9f9f9',
       'overlay-opacity': 0,
       content: '',
+      opacity: 0,
     },
   },
   {
