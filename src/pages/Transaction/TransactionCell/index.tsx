@@ -9,6 +9,7 @@ import {
   TestnetContractHashTags,
   SCRIPT_TAGS,
   ZERO_LOCK_CODE_HASH,
+  TIMELOCK_KEYWORDS,
 } from '../../../constants/scripts'
 import { parseUDTAmount } from '../../../utils/number'
 import { dayjs } from '../../../utils/date'
@@ -39,7 +40,6 @@ import SporeCellIcon from './spore.svg'
 import MultisigIcon from './multisig.svg'
 import DeploymentIcon from './deployment.svg'
 import TimelockIcon from '../../../components/LockIcons/Timelock.svg'
-import { ReactComponent as LockTimeIcon } from './clock.svg'
 import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.svg'
 import SimpleButton from '../../../components/SimpleButton'
 import TransactionReward from '../TransactionReward'
@@ -116,12 +116,10 @@ const TransactionCellIndexAddress = ({
   index: number
   isAddrNew: boolean
 }) => {
-  const { t } = useTranslation()
   const deprecatedAddr = useDeprecatedAddr(cell.addressHash)!
   const newAddr = useNewAddr(cell.addressHash)
   const address = isAddrNew ? newAddr : deprecatedAddr
 
-  const since = getTimelock(cell.since)
   return (
     <div className={styles.transactionCellAddressPanel}>
       <div className={styles.transactionCellIndex}>
@@ -135,16 +133,6 @@ const TransactionCellIndexAddress = ({
         )}
         <Addr address={cell.rgbInfo?.address ?? address} isCellBase={cell.fromCellbase} />
         {ioType === IOType.Output && <TransactionCellArrow cell={cell} ioType={ioType} />}
-        {since ? (
-          <Tooltip
-            placement="top"
-            trigger={t(`transaction.since.${since.base}.${since.type}`, {
-              since: since.value,
-            })}
-          >
-            <LockTimeIcon className={styles.locktime} />
-          </Tooltip>
-        ) : null}
       </div>
     </div>
   )
@@ -384,7 +372,14 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
   const isDob = cell.cellType === 'spore_cell' || cell.cellType === 'did_cell'
   const isZeroLock = lockScript.codeHash === ZERO_LOCK_CODE_HASH
   const hashTag = getContractHashTag(lockScript)
-  const isTimelock = hashTag?.tag === SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME
+  const isTimelock = TIMELOCK_KEYWORDS.some(kw => hashTag?.tag?.toLowerCase()?.includes(kw))
+  const since = getTimelock(cell.since)
+
+  let etaOfTimelock
+  if (hashTag?.tag === SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME) {
+    const sinceInLock = `0x${lockScript.args.slice(42).match(/\w{2}/g)?.reverse().join('')}` // 42 is the normal size of secp256k1 args
+    etaOfTimelock = getTimelock({ raw: sinceInLock })
+  }
 
   const tokenIdStr = `${dobInfo.nftInfo?.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
     dobInfo.nftInfo?.token_id ?? '',
@@ -397,7 +392,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     {
       key: 'Dob',
       tag: 'Dob Protocol',
-      description: 'This cell is related to Dob Protocol.',
+      description: t('transaction.tags.dob.description'),
       display: isDob,
       link: `/script/${scriptDataMap.Spore.codeHashes[0]}/${scriptDataMap.Spore.hashType}`,
       icon: DobIcon,
@@ -407,7 +402,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     {
       key: 'Deployment',
       tag: 'Deployment',
-      description: 'This cell is related to Deployment.',
+      description: t('transaction.tags.deployment.description'),
       display: isDeployment,
       link: '/scripts',
       icon: DeploymentIcon,
@@ -430,16 +425,33 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     {
       key: 'Timelock',
       tag: 'Timelock',
-      description: `This cell is locked by a timelock`,
+      description: etaOfTimelock
+        ? t(`transaction.tags.timelock.eta`, {
+            time: t(`transaction.since.${etaOfTimelock.base}.${etaOfTimelock.type}`, { since: etaOfTimelock.value }),
+          })
+        : t('transaction.tags.timelock.description'),
       display: isTimelock,
       link: `/script/${lockScript.codeHash}/${lockScript.hashType}`,
       icon: TimelockIcon,
       type: 'shield',
     },
     {
+      key: 'SinceLocked',
+      tag: 'Restricted by Since',
+      description: since
+        ? t('transaction.tags.since_locked.description', {
+            time: t(`transaction.since.${since.base}.${since.type}`, { since: since.value }),
+          })
+        : '',
+      display: !!since,
+      link: `https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0017-tx-valid-since/0017-tx-valid-since.md`,
+      icon: TimelockIcon,
+      type: 'shield',
+    },
+    {
       key: 'Fiber',
       tag: 'Fiber Network',
-      description: 'This cell is related to Fiber Network.',
+      description: t('transaction.tags.fiber.description'),
       display: isFiber,
       link: cell.fiberGraphChannelInfo ? `/fiber/graph/node/${cell.fiberGraphChannelInfo.node1}` : '/fiber/graph/nodes',
       icon: FiberIcon,
@@ -449,7 +461,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     {
       key: 'Ownerless',
       tag: 'Ownerless Cell',
-      description: `This cell ownerless because it's bound to a zero lock script.`,
+      description: t('transaction.tags.ownerless.description'),
       display: isZeroLock,
       link: '/script/0x0000000000000000000000000000000000000000000000000000000000000000/data',
       icon: OwnerlessIcon,
