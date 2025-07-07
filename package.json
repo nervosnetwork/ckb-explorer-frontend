@@ -15,7 +15,7 @@
     "@ckb-lumos/lumos": "0.24.0-next.1",
     "@ckb-lumos/molecule": "0.23.0",
     "@ckb-lumos/rpc": "0.23.0",
-    "@microlink/react-json-view": "1.23.0",
+    "@microlink/react-json-view": "1.26.2",
     "@nervina-labs/dob-render": "^0.2.3",
     "@nervosnetwork/ckb-sdk-rpc": "0.109.1",
     "@nervosnetwork/ckb-sdk-utils": "0.109.5",
