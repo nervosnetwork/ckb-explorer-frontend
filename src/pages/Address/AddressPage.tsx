@@ -14,7 +14,7 @@ import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import type { Transaction } from '../../models/Transaction'
-import { SCRIPT_TAGS, ContractHashTag } from '../../constants/scripts'
+import { SCRIPT_TAGS, ContractHashTag, TIMELOCK_KEYWORDS } from '../../constants/scripts'
 import {
   useDeprecatedAddr,
   useNewAddr,
@@ -298,7 +298,7 @@ export const Address = () => {
               ) ? (
                 <AddressBadge badge={<MultisigIcon />} script={script} hashTag={hashTag} />
               ) : null,
-              script && hashTag?.tag === SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME ? (
+              script && hashTag && TIMELOCK_KEYWORDS.some(kw => hashTag?.tag.toLowerCase().includes(kw)) ? (
                 <AddressBadge badge={<TimelockIcon />} script={script} hashTag={hashTag} />
               ) : null,
               isBtcAddress ? <LinkToBtcAddress address={address} /> : null,

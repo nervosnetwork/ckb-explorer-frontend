@@ -669,14 +669,14 @@
       "compared_to_the_max_cycles_in_chain": "Compared to the max cycles on chain",
       "since": {
         "relative": {
-          "epoch": "After {{since}} epochs since committed",
-          "block": "After {{since}} blocks since committed",
-          "timestamp": "After {{since}} since committed"
+          "epoch": "{{since}} epochs since committed",
+          "block": "{{since}} blocks since committed",
+          "timestamp": "{{since}} since committed"
         },
         "absolute": {
-          "epoch": "After epoch {{since}}",
-          "block": "After block {{since}}",
-          "timestamp": "After {{since}}"
+          "epoch": "epoch {{since}}",
+          "block": "block {{since}}",
+          "timestamp": "{{since}}"
         }
       },
       "professional": "Professional",
@@ -710,6 +710,27 @@
         "untracked": {
           "label": "Untracked",
           "tooltip": "The transaction is untracked and please confirm with the sender"
+        }
+      },
+      "tags": {
+        "dob": {
+          "description": "This cell is related to Dob Protocol."
+        },
+        "deployment": {
+          "description": "This cell is related to Deployment."
+        },
+        "timelock": {
+          "description": "This cell is locked by a timelock",
+          "eta": "This cell is locked by a timelock, which means it cannot be used until {{time}}"
+        },
+        "since_locked": {
+          "description": "This cell is restricted by a since condition, which means it cannot be used until {{time}}"
+        },
+        "fiber": {
+          "description": "This cell is related to Fiber Network."
+        },
+        "ownerless": {
+          "description": "This cell is ownerless, which means it cannot be updated by any address."
         }
       }
     },
