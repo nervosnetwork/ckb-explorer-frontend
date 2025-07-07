@@ -2671,14 +2671,14 @@
     svgson "^5.3.1"
     typescript "^5.2.2"
 
-"@nervosnetwork/ckb-sdk-core@0.109.1":
-  version "0.109.1"
-  resolved "https://registry.yarnpkg.com/@nervosnetwork/ckb-sdk-core/-/ckb-sdk-core-0.109.1.tgz#9da22c2f936fcae7cc72771c70b2115e9d048dcc"
-  integrity sha512-YU3yJZvz69WU6Bw//vRxzxLGcIj74CwGffdp6GYZbQpZwFaACT6FCojvOMjHIyJ8Rw32r114LhMKHvyBwagWjw==
+"@nervosnetwork/ckb-sdk-core@0.109.5":
+  version "0.109.5"
+  resolved "https://registry.yarnpkg.com/@nervosnetwork/ckb-sdk-core/-/ckb-sdk-core-0.109.5.tgz#b8b8f3f2f31af57d9fdf778940330f7fbc0545ba"
+  integrity sha512-eh3RjJlf8LqIAf03m81YLnuDaTOzs8C2cqXGJT9pdJIwEAaRcmgG6xZr5m9fdOMaeFMvaF4BQyjCeGjTQCFRGA==
   dependencies:
-    "@nervosnetwork/ckb-sdk-rpc" "0.109.1"
-    "@nervosnetwork/ckb-sdk-utils" "0.109.1"
-    "@nervosnetwork/ckb-types" "0.109.1"
+    "@nervosnetwork/ckb-sdk-rpc" "0.109.5"
+    "@nervosnetwork/ckb-sdk-utils" "0.109.5"
+    "@nervosnetwork/ckb-types" "0.109.5"
     tslib "2.3.1"
 
 "@nervosnetwork/ckb-sdk-rpc@0.109.1":
@@ -2688,6 +2688,15 @@
   dependencies:
     "@nervosnetwork/ckb-sdk-utils" "0.109.1"
     axios "1.6.7"
+    tslib "2.3.1"
+
+"@nervosnetwork/ckb-sdk-rpc@0.109.5":
+  version "0.109.5"
+  resolved "https://registry.yarnpkg.com/@nervosnetwork/ckb-sdk-rpc/-/ckb-sdk-rpc-0.109.5.tgz#c7c28fb6bbc06cb1dedb3e660eabff1ebeacd11a"
+  integrity sha512-rT7iVRtagP3TxWel4zwXo6BAKfne4TBrGTnjmVTfqa/mrMNonVwOyJcFhWNSvq/r8HufL3QlYhngLHVDNomURQ==
+  dependencies:
+    "@nervosnetwork/ckb-sdk-utils" "0.109.5"
+    axios "1.7.4"
     tslib "2.3.1"
 
 "@nervosnetwork/ckb-sdk-utils@0.109.1":
@@ -3165,31 +3174,31 @@
   resolved "https://registry.yarnpkg.com/@radix-ui/rect/-/rect-1.1.1.tgz#78244efe12930c56fd255d7923865857c41ac8cb"
   integrity sha512-HPwpGIzkl28mWyZqG52jiqDJ12waP11Pa1lGoiyUkIEuMLBP0oeK/C89esbXrxsky5we7dfd8U58nm0SgAWpVw==
 
-"@rgbpp-sdk/ckb@0.0.0-snap-20240723160302":
-  version "0.0.0-snap-20240723160302"
-  resolved "https://registry.yarnpkg.com/@rgbpp-sdk/ckb/-/ckb-0.0.0-snap-20240723160302.tgz#a8a20d9a2d9525e76e9b13f40c6badbd9eeb7625"
-  integrity sha512-cWEFxu7pmL3XcZ7yV3V029zj9Wk2MWTvQo3hnSvqpnU6ldXD6caVu40/CaQUSEDdZq2peFLEqxGHLFu8cURVpw==
+"@rgbpp-sdk/ckb@0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@rgbpp-sdk/ckb/-/ckb-0.7.0.tgz#81cb4f48c88e662d14d6a80bc79fc9aa2aa61316"
+  integrity sha512-OBUuapLVtKR+72XwY40+UlBhalWZx99Oo1fWM3KihGwObruvvrA092daaaEi9oSbfVvzzl4B9XhSnLM6W5GPHA==
   dependencies:
     "@ckb-lumos/base" "^0.22.2"
     "@ckb-lumos/codec" "^0.22.2"
     "@exact-realty/multipart-parser" "^1.0.13"
-    "@nervosnetwork/ckb-sdk-core" "0.109.1"
-    "@nervosnetwork/ckb-sdk-utils" "0.109.1"
-    "@nervosnetwork/ckb-types" "0.109.1"
-    "@rgbpp-sdk/service" "^0.0.0-snap-20240723160302"
+    "@nervosnetwork/ckb-sdk-core" "0.109.5"
+    "@nervosnetwork/ckb-sdk-utils" "0.109.5"
+    "@nervosnetwork/ckb-types" "0.109.5"
+    "@rgbpp-sdk/service" "^0.7.0"
     "@spore-sdk/core" "^0.2.0-beta.6"
-    axios "^1.6.8"
+    axios "^1.7.4"
     camelcase-keys "^7.0.2"
     js-sha256 "^0.11.0"
 
-"@rgbpp-sdk/service@^0.0.0-snap-20240723160302":
-  version "0.0.0-snap-20240723160302"
-  resolved "https://registry.yarnpkg.com/@rgbpp-sdk/service/-/service-0.0.0-snap-20240723160302.tgz#3da842c5b0a2950a03004bd9a6c9476c515ca2b1"
-  integrity sha512-LwJxb9l6ij0hnMjbdzjoor0F+nD+170/zSP1VQi1+DuiwAfN012HJ7qfZaWBen14Gg5wzHOdv9K5CNTMvO+Xfg==
+"@rgbpp-sdk/service@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@rgbpp-sdk/service/-/service-0.7.0.tgz#23ba68c7c8c4219d5ab837d22b4c8be6cb22f90a"
+  integrity sha512-iz21HjUhA0jbfIefFa1Jfoigrofuu/ulVbfpBw63TJT7pQUVxtw9HgnW9mGb4nIQHgx+1wJeqnjFYojFuJ17fw==
   dependencies:
     "@ckb-lumos/base" "0.22.2"
     "@ckb-lumos/codec" "0.22.2"
-    "@nervosnetwork/ckb-types" "0.109.1"
+    "@nervosnetwork/ckb-types" "0.109.5"
     lodash "^4.17.21"
 
 "@rollup/plugin-babel@^5.2.0":
@@ -5423,16 +5432,16 @@ axios@1.6.7:
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
-axios@^1.6.8:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.8.2.tgz#fabe06e241dfe83071d4edfbcaa7b1c3a40f7979"
-  integrity sha512-ls4GYBm5aig9vWx8AWDSGLpnpDQRtWAfrjU+EuytuODrFBkqesN2RkOQCBzrA1RQNHw1SmRMSDDDSwzNAYQ6Rg==
+axios@1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.4.tgz#4c8ded1b43683c8dd362973c393f3ede24052aa2"
+  integrity sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
-axios@^1.7.7:
+axios@^1.7.4, axios@^1.7.7:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.10.0.tgz#af320aee8632eaf2a400b6a1979fa75856f38d54"
   integrity sha512-/1xYAC4MP/HEG+3duIhFr4ZQXR4sQXOIe+o6sdqzeykGLx6Upp/1p8MHqhINOvGeP7xyNHe7tsiJByc4SSVUxw==

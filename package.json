@@ -30,7 +30,7 @@
     "@radix-ui/react-switch": "^1.2.5",
     "@radix-ui/react-tabs": "^1.1.12",
     "@radix-ui/react-tooltip": "^1.2.7",
-    "@rgbpp-sdk/ckb": "0.0.0-snap-20240723160302",
+    "@rgbpp-sdk/ckb": "0.7.0",
     "@sentry/react": "7.117.0",
     "@sentry/tracing": "7.114.0",
     "@spore-sdk/core": "0.2.1",
