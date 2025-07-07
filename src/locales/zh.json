@@ -636,14 +636,14 @@
       "compared_to_the_max_cycles_in_chain": "相较链上最大Cycles的占比",
       "since": {
         "relative": {
-          "epoch": "自 committed 之后 {{since}} Epochs",
-          "block": "自 committed 之后 {{since}} 个区块",
-          "timestamp": "自 committed 之后 {{since}}"
+          "epoch": "committed 之后 {{since}} Epochs",
+          "block": "committed 之后 {{since}} 个区块",
+          "timestamp": "committed 之后 {{since}}"
         },
         "absolute": {
-          "epoch": "Epoch {{since}} 之后",
-          "block": "区块 {{since}} 之后",
-          "timestamp": "{{since}} 之后"
+          "epoch": "Epoch {{since}}",
+          "block": "区块 {{since}}",
+          "timestamp": "{{since}}"
         }
       },
       "professional": "专业版",
@@ -677,6 +677,27 @@
         "untracked": {
           "label": "未追踪",
           "tooltip": "交易未被浏览器追踪，请与发送方确认"
+        }
+      },
+      "tags": {
+        "dob": {
+          "description": "此 Cell 与 Dob 协议相关。"
+        },
+        "deployment": {
+          "description": "此 Cell 是一个部署脚本，包含了一个新的智能合约或协议。"
+        },
+        "timelock": {
+          "description": "此 Cell 受时间锁限制。",
+          "description": "此 Cell 受时间锁限制，这意味着在 {{time}} 之前无法使用"
+        },
+        "since_locked": {
+          "description": "此 Cell 受到 since 条件限制，这意味着在 {{time}} 之前无法使用"
+        },
+        "fiber": {
+          "description": "此 Cell 是 Fiber 网络交易的输入或输出。Fiber 网络是一个基于 CKB 的闪电网络，旨在提供快速、低成本的交易。"
+        },
+        "ownerless": {
+          "description": "此 Cell 是无主的，这意味着任何地址都无法更新它。"
         }
       }
     },

@@ -900,3 +900,5 @@ export const LUMOS_TESTNET_CONFIG: Config = {
 }
 
 export const ZERO_LOCK_CODE_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
+
+export const TIMELOCK_KEYWORDS = ['timelock', 'locktime', 'time lock', 'lock time']
