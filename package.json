@@ -109,7 +109,7 @@
     "mockdate": "^3.0.0",
     "postcss-loader": "6.2.1",
     "postcss-scss": "4.0.9",
-    "postcss-styled-syntax": "^0.6.0",
+    "postcss-styled-syntax": "^0.7.0",
     "prettier": "^2.8.8",
     "prop-types": "15.8.1",
     "react-app-rewired": "2.2.1",
