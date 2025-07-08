@@ -40,6 +40,9 @@ export const getURLByAggregateSearchResult = (result: AggregateSearchResult) => 
       break
 
     case SearchResultType.TokenCollection:
+      if (attributes.standard === 'spore') {
+        return `/dob-collections/${attributes.sn}`
+      }
       return `/nft-collections/${attributes.sn}`
 
     case SearchResultType.TokenItem:

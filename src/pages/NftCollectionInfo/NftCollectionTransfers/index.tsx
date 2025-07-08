@@ -34,7 +34,7 @@ const NftCollectionTransfers: FC<TransferCollectionProps> = props => {
   return (
     <div className={styles.list}>
       <TransferTable {...props} standard={info?.standard} iconURL={info?.icon_url} />
-      <TransferCardGroup {...props} iconURL={info?.icon_url} />
+      <TransferCardGroup {...props} standard={info?.standard} iconURL={info?.icon_url} />
     </div>
   )
 }
@@ -73,7 +73,13 @@ const TransferTable: FC<TransferCollectionProps> = ({ standard, collection, list
       <tbody>
         {list.length ? (
           list.map(item => (
-            <TransferTableRow key={item.id} collection={collection} item={item} isShowInAge={isShowInAge} />
+            <TransferTableRow
+              tokenType={standard === 'spore' ? 'dob' : 'nft'}
+              key={item.id}
+              collection={collection}
+              item={item}
+              isShowInAge={isShowInAge}
+            />
           ))
         ) : (
           <tr>
@@ -90,8 +96,9 @@ const TransferTable: FC<TransferCollectionProps> = ({ standard, collection, list
 const TransferTableRow: FC<{
   collection: string
   item: TransferRes
+  tokenType?: 'dob' | 'nft'
   isShowInAge?: boolean
-}> = ({ collection, item, isShowInAge }) => {
+}> = ({ collection, item, isShowInAge, tokenType = 'nft' }) => {
   const { t } = useTranslation()
   const parsedBlockCreateAt = useParsedDate(item.transaction.block_timestamp)
   const now = useTimestamp()
@@ -106,7 +113,7 @@ const TransferTableRow: FC<{
         <div className={styles.item}>
           <Cover item={item.item} size="sm" />
           <Link
-            to={`/nft-info/${collection}/${itemId}`}
+            to={`/${tokenType}-info/${collection}/${itemId}`}
             style={{
               color: primaryColor,
             }}
@@ -176,12 +183,19 @@ const TransferTableRow: FC<{
   )
 }
 
-const TransferCardGroup: FC<TransferCollectionProps> = ({ collection, list, isLoading }) => {
+const TransferCardGroup: FC<TransferCollectionProps> = ({ collection, list, isLoading, standard }) => {
   const { t } = useTranslation()
   return (
     <ul>
       {list.length ? (
-        list.map(item => <TransferCard key={item.id} collection={collection} item={item} />)
+        list.map(item => (
+          <TransferCard
+            tokenType={standard === 'spore' ? 'dob' : 'nft'}
+            key={item.id}
+            collection={collection}
+            item={item}
+          />
+        ))
       ) : (
         <li className={styles.noRecord}>{isLoading ? t('nft.loading') : t(`nft.no_record`)}</li>
       )}
@@ -192,7 +206,8 @@ const TransferCardGroup: FC<TransferCollectionProps> = ({ collection, list, isLo
 const TransferCard: FC<{
   collection: string
   item: TransferRes
-}> = ({ collection, item }) => {
+  tokenType?: 'dob' | 'nft'
+}> = ({ collection, item, tokenType = 'nft' }) => {
   const { t } = useTranslation()
   const parsedBlockCreateAt = useParsedDate(item.transaction.block_timestamp)
 
@@ -203,7 +218,7 @@ const TransferCard: FC<{
       <div className={styles.item}>
         <Cover item={item.item} size="sm" />
         <Link
-          to={`/nft-info/${collection}/${itemId}`}
+          to={`/${tokenType}-info/${collection}/${itemId}`}
           style={{
             color: primaryColor,
             maxWidth: '100%',

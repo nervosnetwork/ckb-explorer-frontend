@@ -179,9 +179,9 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       }
       detailInfo = cell.data
       if (cell.extraInfo.collection?.typeHash) {
-        assetLink = `/nft-collections/${cell.extraInfo.collection?.typeHash}`
+        assetLink = `/dob-collections/${cell.extraInfo.collection?.typeHash}`
       } else if (cell.extraInfo.typeHash) {
-        assetLink = `/nft-collections/${cell.extraInfo.typeHash}`
+        assetLink = `/dob-collections/${cell.extraInfo.typeHash}`
       }
       break
     }
@@ -196,9 +196,9 @@ const getCellDetails = (cell: LiveCell, t: TFunction) => {
       }
       detailInfo = cell.data
       if (cell.extraInfo.collection?.typeHash) {
-        assetLink = `/nft-collections/${cell.extraInfo.collection?.typeHash}`
+        assetLink = `/dob-collections/${cell.extraInfo.collection?.typeHash}`
       } else if (cell.extraInfo.typeHash) {
-        assetLink = `/nft-collections/${cell.extraInfo.typeHash}`
+        assetLink = `/dob-collections/${cell.extraInfo.typeHash}`
       }
       break
     }

@@ -179,7 +179,7 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
               {isLoading ? (
                 textSkeleton
               ) : (
-                <Link to={`/nft-collections/${typeHash}`} className={styles.collection}>
+                <Link to={`/dob-collections/${typeHash}`} className={styles.collection}>
                   {dobInfo.nftInfo?.collection.name ?? 'Unique Item'}
                 </Link>
               )}
@@ -191,7 +191,7 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
               {isLoading ? (
                 textSkeleton
               ) : (
-                <Link to={`/nft-info/${typeHash}/${dobInfo.nftInfo?.token_id}`} className="monospace">
+                <Link to={`/dob-info/${typeHash}/${dobInfo.nftInfo?.token_id}`} className="monospace">
                   {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
                 </Link>
               )}
