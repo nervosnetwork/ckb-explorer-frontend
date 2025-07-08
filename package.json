@@ -70,7 +70,7 @@
     "react-router": "5.3.4",
     "react-router-dom": "5.3.4",
     "react-scripts": "^5.0.1",
-    "sass": "1.77.5",
+    "sass": "1.89.2",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
     "uvcanvas": "^0.2.1",
