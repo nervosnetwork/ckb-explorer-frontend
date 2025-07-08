@@ -90,7 +90,11 @@ export const UDTOverviewCard = ({
     ? [
         {
           title: t('udt.name'),
-          content: <div className={styles.symbolWithEllipsis}>fullName</div>,
+          content: fullName ? (
+            <div className={styles.symbolWithEllipsis}>{fullName}</div>
+          ) : (
+            <span className={styles.noneName}>(None)</span>
+          ),
         },
         {
           title: t('udt.owner'),
