@@ -11,6 +11,10 @@ export interface UDTInfo {
 export interface Nrc721TokenInfo {
   amount: string
   symbol: string
+  typeHash: string
+  collection: {
+    typeHash: string
+  }
 }
 
 export interface NftIssuer {
@@ -20,18 +24,27 @@ export interface NftIssuer {
 export interface NftClass {
   className: string
   total: string
+  typeHash: string
 }
 
 export interface NftToken {
   className: string
   tokenId: string
   total: string
+  collection: {
+    typeHash: string
+  }
 }
 
 export interface CellInfo {
   lock: Script
   type: Script
   data: string
+}
+
+export interface SporeClusterInfo {
+  clusterName: string
+  typeHash: string
 }
 
 export interface SporeCellInfo {
@@ -141,12 +154,17 @@ export interface Omiga$XUDT extends Cell$Base {
 
 export interface XUDT extends Cell$Base {
   cellType: 'xudt' | 'xudt_compatible'
-  extraInfo: Record<'amount' | 'decimal' | 'name' | 'symbol', string>
+  extraInfo: Record<'amount' | 'decimal' | 'name' | 'symbol' | 'typeHash', string>
 }
 
 export interface Cell$Spore extends Cell$Base {
   cellType: 'spore_cell' | 'did_cell'
   extraInfo: SporeCellInfo
+}
+
+export interface Cell$SporeCluster extends Cell$Base {
+  cellType: 'spore_cluster'
+  extraInfo: SporeClusterInfo
 }
 
 export type Cell =
@@ -158,4 +176,5 @@ export type Cell =
   | Cell$Nrc721Token
   | Omiga$XUDT
   | Cell$Spore
+  | Cell$SporeCluster
   | XUDT
