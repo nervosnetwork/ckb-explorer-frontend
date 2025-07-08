@@ -26,7 +26,8 @@
 
   .content {
     height: 90px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
     padding: 8px;
     background-color: #000;
     width: 100%;

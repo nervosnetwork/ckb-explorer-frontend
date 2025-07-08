@@ -21,7 +21,8 @@
 .options {
   z-index: 1;
   max-height: 200px;
-  overflow-y: scroll;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
   position: absolute;
   left: 0;
   top: 45px;

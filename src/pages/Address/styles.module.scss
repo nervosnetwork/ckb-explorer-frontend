@@ -1,8 +1,9 @@
 @import '../../styles/variables.module';
 
 .inscriptions {
-  overflow-x: scroll;
+  overflow-x: auto;
   width: 100%;
+  scrollbar-gutter: stable;
 
   @media (width >= $extraLargeBreakPoint) {
     max-height: 220px;
@@ -97,7 +98,8 @@
 
   .cardHeader {
     padding: 0;
-    overflow: scroll;
+    overflow: auto;
+    scrollbar-gutter: stable;
 
     &::-webkit-scrollbar {
       display: none;
