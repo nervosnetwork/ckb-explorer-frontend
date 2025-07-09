@@ -157,7 +157,15 @@ const routes: RouteProps[] = [
     component: NftCollectionInfo,
   },
   {
+    path: '/dob-collections/:id',
+    component: NftCollectionInfo,
+  },
+  {
     path: '/nft-info/:collection/:id',
+    component: NftInfo,
+  },
+  {
+    path: '/dob-info/:collection/:id',
     component: NftInfo,
   },
   {

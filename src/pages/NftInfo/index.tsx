@@ -14,7 +14,10 @@ import Annotation from '../../components/Annotation'
 import Cover from './Cover'
 import { ReactComponent as NameMissing } from './NameMissing.svg'
 import { formatNftDisplayId } from '../../utils/util'
+import { cn } from '../../lib/utils'
 import Tooltip from '../../components/Tooltip'
+import { ReactComponent as DobCoverIcon } from '../../assets/dob-cover.svg'
+import { ReactComponent as NftCoverIcon } from '../../assets/nft_cover.svg'
 
 const primaryColor = getPrimaryColor()
 const UNIQUE_ITEM_LABEL = 'Unique Item'
@@ -29,6 +32,8 @@ const NftInfo = () => {
 
   const { page = '1' } = useSearchParams('page')
 
+  const tokenType = history.location.pathname.includes('/dob-info/') ? 'dob' : 'nft'
+
   const { data } = useQuery(['nft-item-info', collection, id], () =>
     explorerService.api.fetchNFTCollectionItem(collection, id),
   )
@@ -42,15 +47,23 @@ const NftInfo = () => {
     if (pageNo === +page) {
       return
     }
-    history.push(`/${language}/nft-info/${collection}/${id}?page=${pageNo}`)
+    history.push(`/${language}/${tokenType}-info/${collection}/${id}?page=${pageNo}`)
   }
 
   const annotation = DEPRECATED_DOB_COLLECTION.find(item => item.id === collection)
 
+  const defaultCover = (() => {
+    if (tokenType === 'dob') {
+      return <DobCoverIcon className={cn(styles.cover, 'text-primary')} />
+    }
+
+    return <NftCoverIcon className={styles.cover} />
+  })()
+
   return (
     <div className={styles.container}>
       <div className={styles.overview}>
-        <Cover item={data ?? null} />
+        <Cover item={data ?? null} defaultCover={defaultCover} />
         <div className={styles.info}>
           <div className={styles.name}>
             {data
@@ -114,7 +127,7 @@ const NftInfo = () => {
             <div className={styles.item}>
               <div>Collection</div>
               <div>
-                <Link to={`/nft-collections/${collection}`} className={styles.collection}>
+                <Link to={`/${tokenType}-collections/${collection}`} className={styles.collection}>
                   {data?.collection.name ?? <NameMissing />}
                 </Link>
               </div>
