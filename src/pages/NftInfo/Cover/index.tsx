@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import React, { type FC } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { DEFAULT_SPORE_IMAGE } from '../../../constants/common'
 import { NFTItem } from '../../../services/ExplorerService'
@@ -9,7 +9,8 @@ import styles from './styles.module.scss'
 
 const Cover: FC<{
   item: NFTItem | null
-}> = ({ item }) => {
+  defaultCover?: React.ReactNode
+}> = ({ item, defaultCover = <CoverIcon className={styles.cover} /> }) => {
   const dobRenderParams =
     item?.standard === 'spore' && item.cell?.data
       ? {
@@ -43,7 +44,7 @@ const Cover: FC<{
     )
   }
 
-  return <CoverIcon className={styles.cover} />
+  return <>{defaultCover}</>
 }
 
 export default Cover

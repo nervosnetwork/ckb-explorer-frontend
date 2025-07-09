@@ -2,6 +2,7 @@ import { useState, ReactNode, FC, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
+import BigNumber from 'bignumber.js'
 import { Link } from '../../../components/Link'
 import { IOType, IS_MAINNET, DEFAULT_SPORE_IMAGE } from '../../../constants/common'
 import {
@@ -179,7 +180,7 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
               {isLoading ? (
                 textSkeleton
               ) : (
-                <Link to={`/nft-collections/${typeHash}`} className={styles.collection}>
+                <Link to={`/dob-collections/${typeHash}`} className={styles.collection}>
                   {dobInfo.nftInfo?.collection.name ?? 'Unique Item'}
                 </Link>
               )}
@@ -191,7 +192,7 @@ const DOBInfo: FC<{ cell: Cell$Spore }> = ({ cell }) => {
               {isLoading ? (
                 textSkeleton
               ) : (
-                <Link to={`/nft-info/${typeHash}/${dobInfo.nftInfo?.token_id}`} className="monospace">
+                <Link to={`/dob-info/${typeHash}/${dobInfo.nftInfo?.token_id}`} className="monospace">
                   {tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
                 </Link>
               )}
@@ -230,7 +231,12 @@ const useParseNftInfo = (cell: Cell) => {
   const { t } = useTranslation()
   if (cell.cellType === 'nrc_721_token') {
     const nftInfo = cell.extraInfo
-    return <div className={styles.transactionCellNftInfo}>{`${nftInfo.symbol} #${nftInfo.amount}`}</div>
+    return (
+      <div className={styles.transactionCellNftInfo}>{`${nftInfo.symbol} #${BigNumber(
+        `0x${cell.extraInfo?.amount}`,
+        16,
+      ).toFixed(0)}`}</div>
+    )
   }
 
   if (cell.cellType === 'm_nft_issuer') {
@@ -279,7 +285,7 @@ const useDOBInfo = (cell: Cell) => {
     }
   })()
 
-  const { data: nftInfo } = useQuery(
+  const { data: nftInfo, isLoading } = useQuery(
     ['nft-item-info', typeHash, tokenId],
     () => explorerService.api.fetchNFTCollectionItem(typeHash!, tokenId!),
     {
@@ -295,7 +301,7 @@ const useDOBInfo = (cell: Cell) => {
         }
       : null
 
-  const { data: cover = DEFAULT_SPORE_IMAGE, isLoading } = useQuery(
+  const { data: cover = DEFAULT_SPORE_IMAGE } = useQuery(
     ['dob-cover', dobRenderParams],
     () => (dobRenderParams ? getSporeImg(dobRenderParams) : DEFAULT_SPORE_IMAGE),
     {
@@ -380,11 +386,6 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     const sinceInLock = `0x${lockScript.args.slice(42).match(/\w{2}/g)?.reverse().join('')}` // 42 is the normal size of secp256k1 args
     etaOfTimelock = getTimelock({ raw: sinceInLock })
   }
-
-  const tokenIdStr = `${dobInfo.nftInfo?.standard === 'spore' ? '' : '#'}${formatNftDisplayId(
-    dobInfo.nftInfo?.token_id ?? '',
-    dobInfo.nftInfo?.standard ?? null,
-  )}`
 
   const multisig = scripts.get(SCRIPT_TAGS.SECP_MULTISIG)!
 
@@ -515,7 +516,9 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       detailIcon = NervosDAOWithdrawingIcon
       break
     case 'udt':
-      detailTitle = t('transaction.udt_cell')
+      detailTitle = (
+        <Link to={`/udt/${cell.extraInfo.typeHash}`}>{cell.extraInfo?.symbol || t('transaction.udt_cell')}</Link>
+      )
       detailIcon = UDTTokenIcon
       tooltip = `Capacity: ${shannonToCkbDecimal(cell.capacity, 8)} CKB`
       break
@@ -525,17 +528,19 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       tooltip = nftInfo
       break
     case 'm_nft_class':
-      detailTitle = t('transaction.m_nft_class')
+      detailTitle = <Link to={`/nft-collections/${cell.extraInfo.typeHash}`}>{cell.extraInfo.className}</Link>
       detailIcon = NFTClassIcon
       tooltip = nftInfo
       break
     case 'm_nft_token':
-      detailTitle = t('transaction.m_nft_token')
+      detailTitle = (
+        <Link to={`/nft-collections/${cell.extraInfo.collection.typeHash}`}>{cell.extraInfo.className}</Link>
+      )
       detailIcon = NFTTokenIcon
       tooltip = nftInfo
       break
     case 'nrc_721_token':
-      detailTitle = t('transaction.nrc_721_token')
+      detailTitle = <Link to={`/nft-collections/${cell.extraInfo.collection.typeHash}`}>{cell.extraInfo.symbol}</Link>
       detailIcon = NFTTokenIcon
       tooltip = nftInfo
       break
@@ -552,16 +557,20 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       break
     }
     case 'spore_cluster': {
-      detailTitle = t('nft.dob')
+      detailTitle = (
+        <Link to={`/dob-collections/${cell.extraInfo?.typeHash}`}>{cell.extraInfo?.clusterName || 'Unique Item'}</Link>
+      )
       detailIcon = SporeCellIcon
       tooltip = t('transaction.spore_cluster')
       break
     }
     case 'did_cell':
     case 'spore_cell': {
-      detailTitle = `${dobInfo.nftInfo?.collection.name ?? 'Unique Item'} ${
-        tokenIdStr.length > 10 ? `${tokenIdStr.slice(0, 3)}...${tokenIdStr.slice(-3)}` : tokenIdStr
-      }`
+      detailTitle = (
+        <Link to={`/dob-collections/${cell.extraInfo?.collection.typeHash}`}>
+          {cell.extraInfo?.clusterName || 'Unique Item'}
+        </Link>
+      )
       detailIcon = dobInfo.cover
       tooltip = nftInfo
       break
@@ -573,13 +582,13 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       break
     }
     case 'xudt_compatible': {
-      detailTitle = 'xUDT-compatible'
+      detailTitle = <Link to={`/xudt/${cell.extraInfo?.typeHash}`}>{cell.extraInfo?.symbol || 'xUDT-compatible'}</Link>
       detailIcon = UDTTokenIcon
       tooltip = detailTitle
       break
     }
     case 'xudt': {
-      detailTitle = 'xUDT'
+      detailTitle = <Link to={`/xudt/${cell.extraInfo?.typeHash}`}>{cell.extraInfo?.symbol || 'xUDT'}</Link>
       detailIcon = UDTTokenIcon
       tooltip = detailTitle
       break
@@ -676,6 +685,37 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
 
     return (
       <span>{`${t('udt.unknown_token')} #${udtInfo.typeHash?.substring(udtInfo.typeHash.length - 4) ?? '?'}`}</span>
+    )
+  }
+
+  if (cell.cellType === 'm_nft_token') {
+    return (
+      <Link to={`/nft-info/${cell.extraInfo?.collection.typeHash}/${cell.extraInfo?.tokenId}`}>
+        ID: #{BigNumber(cell.extraInfo?.tokenId, 16).toFixed(0)}
+      </Link>
+    )
+  }
+
+  if (cell.cellType === 'nrc_721_token') {
+    const tokenId = BigNumber(`0x${cell.extraInfo?.amount}`, 16).toFixed(0)
+
+    return (
+      <Link to={`/nft-info/${cell.extraInfo?.collection.typeHash}/${tokenId}`}>
+        ID: #{tokenId.length > 16 ? `${tokenId.slice(0, 6)}...${tokenId.slice(-6)}` : tokenId}
+      </Link>
+    )
+  }
+
+  if (cell.cellType === 'spore_cell' || cell.cellType === 'did_cell') {
+    const tokenIdStr = `${cell.cellType === 'spore_cell' ? '' : '#'}${formatNftDisplayId(
+      cell.extraInfo?.tokenId ?? '',
+      cell.cellType === 'spore_cell' ? 'spore' : 'nft',
+    )}`
+
+    return (
+      <Link to={`/dob-info/${cell.extraInfo?.collection.typeHash}/${cell.extraInfo?.tokenId}`}>
+        ID: {tokenIdStr.length > 16 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
+      </Link>
     )
   }
 

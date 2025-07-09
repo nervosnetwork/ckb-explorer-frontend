@@ -59,7 +59,7 @@ const TokenTable: FC<{ udts: UDTAccount[]; cotaList: NFTItem[] }> = ({ udts, cot
               case 'spore_cell':
                 type = 'DOB'
                 key += udt.amount
-                href = `/nft-collections/${udt.collection?.typeHash}`
+                href = `/dob-collections/${udt.collection?.typeHash}`
                 asset = sliceNftName(udt.symbol) || ''
                 // eslint-disable-next-line no-case-declarations
                 const id = formatNftDisplayId(udt.amount, 'spore')

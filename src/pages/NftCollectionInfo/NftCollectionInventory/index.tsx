@@ -39,7 +39,7 @@ const NftCollectionInventory: React.FC<{
     <div className={styles.list}>
       {list.map(item => {
         const itemId = formatNftDisplayId(item.token_id, item.standard)
-        const itemLink = `/nft-info/${collection}/${itemId}`
+        const itemLink = `/${item.standard === 'spore' ? 'dob' : 'nft'}-info/${collection}/${itemId}`
         return (
           <div key={item.id} className={styles.item}>
             <Link to={itemLink}>

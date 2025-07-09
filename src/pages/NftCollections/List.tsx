@@ -295,7 +295,7 @@ export const ListOnDesktop: React.FC<{ isLoading: boolean; list: NFTCollection[]
                       />
                     )}
                     <Link
-                      to={`/nft-collections/${typeHash || item.id}`}
+                      to={`/${item.standard === 'spore' ? 'dob' : 'nft'}-collections/${typeHash || item.id}`}
                       title={itemName}
                       style={{
                         color: primaryColor,
@@ -440,7 +440,11 @@ export const ListOnMobile: React.FC<{ isLoading: boolean; list: NFTCollection[] 
                           className={styles.icon}
                         />
                       )}
-                      <Link to={`/nft-collections/${typeHash || item.id}`} title={itemName} className={styles.link}>
+                      <Link
+                        to={`/${item.standard === 'spore' ? 'dob' : 'nft'}-collections/${typeHash || item.id}`}
+                        title={itemName}
+                        className={styles.link}
+                      >
                         {itemName}
                       </Link>
                     </dd>

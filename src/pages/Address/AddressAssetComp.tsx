@@ -143,7 +143,7 @@ export const AddressSporeComp = ({
   return (
     <AddressAssetComp
       isRGBPP={isRGBPP ?? false}
-      href={`/nft-info/${collection?.typeHash}/${udtTypeScript.args}`}
+      href={`/dob-info/${collection?.typeHash}/${udtTypeScript.args}`}
       property={
         isMerged ? `${t('rgbpp.amount')}: ${(+amount).toLocaleString('en')}` : `id: ${id.slice(0, 8)}...${id.slice(-8)}`
       }
