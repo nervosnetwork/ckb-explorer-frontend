@@ -517,7 +517,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       break
     case 'udt':
       detailTitle = (
-        <Link to={`/udt/${cell.extraInfo.typeHash}`}>{cell.extraInfo?.symbol ?? t('transaction.udt_cell')}</Link>
+        <Link to={`/udt/${cell.extraInfo.typeHash}`}>{cell.extraInfo?.symbol || t('transaction.udt_cell')}</Link>
       )
       detailIcon = UDTTokenIcon
       tooltip = `Capacity: ${shannonToCkbDecimal(cell.capacity, 8)} CKB`
@@ -557,7 +557,9 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       break
     }
     case 'spore_cluster': {
-      detailTitle = <Link to={`/nft-collections/${cell.extraInfo?.typeHash}`}>{cell.extraInfo?.clusterName}</Link>
+      detailTitle = (
+        <Link to={`/dob-collections/${cell.extraInfo?.typeHash}`}>{cell.extraInfo?.clusterName || 'Unique Item'}</Link>
+      )
       detailIcon = SporeCellIcon
       tooltip = t('transaction.spore_cluster')
       break
@@ -565,7 +567,9 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     case 'did_cell':
     case 'spore_cell': {
       detailTitle = (
-        <Link to={`/nft-collections/${cell.extraInfo?.collection.typeHash}`}>{cell.extraInfo?.clusterName}</Link>
+        <Link to={`/dob-collections/${cell.extraInfo?.collection.typeHash}`}>
+          {cell.extraInfo?.clusterName || 'Unique Item'}
+        </Link>
       )
       detailIcon = dobInfo.cover
       tooltip = nftInfo
@@ -578,13 +582,13 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
       break
     }
     case 'xudt_compatible': {
-      detailTitle = <Link to={`/xudt/${cell.extraInfo?.typeHash}`}>{cell.extraInfo?.symbol ?? 'xUDT-compatible'}</Link>
+      detailTitle = <Link to={`/xudt/${cell.extraInfo?.typeHash}`}>{cell.extraInfo?.symbol || 'xUDT-compatible'}</Link>
       detailIcon = UDTTokenIcon
       tooltip = detailTitle
       break
     }
     case 'xudt': {
-      detailTitle = <Link to={`/xudt/${cell.extraInfo?.typeHash}`}>{cell.extraInfo?.symbol ?? 'xUDT'}</Link>
+      detailTitle = <Link to={`/xudt/${cell.extraInfo?.typeHash}`}>{cell.extraInfo?.symbol || 'xUDT'}</Link>
       detailIcon = UDTTokenIcon
       tooltip = detailTitle
       break
@@ -687,7 +691,7 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
   if (cell.cellType === 'm_nft_token') {
     return (
       <Link to={`/nft-info/${cell.extraInfo?.collection.typeHash}/${cell.extraInfo?.tokenId}`}>
-        ID: #{parseInt(cell.extraInfo?.tokenId, 16)}
+        ID: #{BigNumber(cell.extraInfo?.tokenId, 16).toFixed(0)}
       </Link>
     )
   }
@@ -705,11 +709,11 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
   if (cell.cellType === 'spore_cell' || cell.cellType === 'did_cell') {
     const tokenIdStr = `${cell.cellType === 'spore_cell' ? '' : '#'}${formatNftDisplayId(
       cell.extraInfo?.tokenId ?? '',
-      cell.cellType === 'spore_cell' ? 'spore' : 'did',
+      cell.cellType === 'spore_cell' ? 'spore' : 'nft',
     )}`
 
     return (
-      <Link to={`/nft-info/${cell.extraInfo?.collection.typeHash}/${cell.extraInfo?.tokenId}`}>
+      <Link to={`/dob-info/${cell.extraInfo?.collection.typeHash}/${cell.extraInfo?.tokenId}`}>
         ID: {tokenIdStr.length > 16 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
       </Link>
     )
