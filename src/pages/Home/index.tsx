@@ -46,7 +46,7 @@ const TableMorePanel: FC<HTMLAttributes<HTMLDivElement>> = props => {
 const StatisticItem = ({ blockchain, isFirst }: { blockchain: BlockchainData; isFirst?: boolean }) => (
   <div className={`${styles.homeStatisticItemPanel} ${isFirst ? styles.isFirst : ''}`}>
     <div className="homeStatisticItemName">{blockchain.name}</div>
-    <div className="homeStatisticItemValue" style={{ fontSize: isFirst ? '26px' : '20px' }}>
+    <div className="homeStatisticItemValue" data-is-primary={isFirst}>
       {blockchain.value}
     </div>
   </div>
