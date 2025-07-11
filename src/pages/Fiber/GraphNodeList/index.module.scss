@@ -1,5 +1,5 @@
-@import '../../../styles/variables.module';
-@import '../../../styles/table.module';
+@use '../../../styles/variables.module';
+@use '../../../styles/table.module';
 
 .container {
   text-wrap: nowrap;
@@ -43,7 +43,7 @@
           height: 1px;
           background-color: #f5f5f5;
 
-          @media screen and (width < $extraLargeBreakPoint) {
+          @media screen and (width < variables.$extraLargeBreakPoint) {
             left: 16px;
           }
         }
@@ -156,7 +156,7 @@
     flex-direction: column;
   }
 
-  @media screen and (width < $extraLargeBreakPoint) {
+  @media screen and (width < variables.$extraLargeBreakPoint) {
     margin: 24px 20px;
   }
 
@@ -174,7 +174,7 @@
     }
   }
 
-  @media screen and (width < $extraLargeBreakPoint) {
+  @media screen and (width < variables.$extraLargeBreakPoint) {
     table {
       thead tr:not([data-role='header']),
       tbody tr:not([data-role='pagination']) {
@@ -281,7 +281,7 @@
     font-size: 20px;
   }
 
-  @media screen and (width < $extraLargeBreakPoint) {
+  @media screen and (width < variables.$extraLargeBreakPoint) {
     padding: 8px;
   }
 }

@@ -1,9 +1,9 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .tabs {
   margin: 24px 0 40px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin: 20px 0;
   }
 

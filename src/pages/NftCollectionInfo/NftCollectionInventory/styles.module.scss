@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .list {
   display: grid;
@@ -44,7 +44,7 @@
   }
 
   @for $i from 0 through 12 {
-    @media (min-width: $extraLargeBreakPoint + $i * 220px) {
+    @media (min-width: variables.$extraLargeBreakPoint + $i * 220px) {
       grid-template-columns: repeat(3 + $i, 1fr);
     }
   }

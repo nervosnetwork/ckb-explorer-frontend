@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .container {
   width: 100%;
@@ -8,7 +8,7 @@
   background: #fff;
   padding: 24px 40px;
 
-  @media screen and (width <= $mobileBreakPoint) {
+  @media screen and (width <= variables.$mobileBreakPoint) {
     padding: 20px;
   }
 }

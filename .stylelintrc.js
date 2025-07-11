@@ -12,7 +12,8 @@ module.exports = {
     // This rule provides little benefit relative to the cost of implementing it, so it has been disabled.
     'no-descending-specificity': null,
     'declaration-property-value-no-unknown': null,
-    'media-feature-range-notation': null
+    'media-feature-range-notation': null,
+    'media-feature-name-no-unknown': null,
   },
 
   overrides: [

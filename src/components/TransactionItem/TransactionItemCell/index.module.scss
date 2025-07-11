@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .hoverIconButton {
   color: #999;
@@ -33,15 +33,15 @@
   min-width: 0;
   width: 260px;
 
-  @media (width <= $xxlBreakPoint) {
+  @media (width <= variables.$xxlBreakPoint) {
     width: 148px;
   }
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     width: 260px;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     width: 460px;
   }
 }
@@ -50,7 +50,7 @@
   margin-left: 6px;
   width: 14px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin-bottom: 2px;
   }
 }
@@ -67,7 +67,7 @@
     margin-right: 21px;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin-left: 0;
     margin-top: 5px;
     height: 16px;
@@ -99,11 +99,11 @@
     }
   }
 
-  @media (min-width: $mobileBreakPoint) {
+  @media (min-width: variables.$mobileBreakPoint) {
     height: 20px;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     justify-content: normal;
     align-items: flex-start;
     flex-direction: column;
@@ -118,7 +118,7 @@
     display: flex;
     align-items: center;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       height: 16px;
       font-size: 14px;
     }
@@ -144,7 +144,7 @@
     height: auto;
     cursor: pointer;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       width: 12px;
       height: auto;
     }
@@ -165,7 +165,7 @@
     height: auto;
     cursor: pointer;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       width: 12px;
       height: auto;
       margin-bottom: 3px;
@@ -181,7 +181,7 @@
     text-align: center;
     margin-bottom: 16px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       font-size: 11px;
       margin-bottom: 8px;
     }
@@ -192,7 +192,7 @@
   margin: 10px;
   display: flex;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin: 5px;
   }
 
@@ -209,7 +209,7 @@
       width: 150px;
     }
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       font-size: 10px;
       width: 60px;
 
@@ -239,7 +239,7 @@
   :global(.withdrawInfoContent) {
     font-size: 14px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       font-size: 10px;
 
       * {

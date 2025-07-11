@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   margin: 40px 120px 60px;
@@ -299,13 +299,13 @@
   }
 }
 
-@media (width <= $extraLargeBreakPoint) {
+@media (width <= variables.$extraLargeBreakPoint) {
   .container {
     margin: 40px 45px 60px;
   }
 }
 
-@media (width <= $largeBreakPoint) {
+@media (width <= variables.$largeBreakPoint) {
   .container {
     margin: 20px 16px 60px;
 

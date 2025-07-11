@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .tooltip {
   a {
@@ -18,7 +18,7 @@
     margin-top: 0;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin-top: 10px;
     height: 16px;
   }

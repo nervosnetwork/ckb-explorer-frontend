@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .rewardItemPenal {
   display: flex;
@@ -8,7 +8,7 @@
   margin-bottom: 15px;
   color: #000;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin: 5px 10px;
     justify-content: space-between;
   }
@@ -27,7 +27,7 @@
 }
 
 .rewardPenal {
-  @media (min-width: $mobileBreakPoint) {
+  @media (min-width: variables.$mobileBreakPoint) {
     margin-bottom: -20px;
   }
 
@@ -36,7 +36,7 @@
     margin-top: 12px;
     color: #666;
 
-    @media (min-width: $mobileBreakPoint) {
+    @media (min-width: variables.$mobileBreakPoint) {
       display: none;
     }
   }

@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .cardCell {
   display: flex;
@@ -37,7 +37,7 @@
     min-width: 0;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     flex-direction: column;
     justify-content: initial;
     align-items: initial;

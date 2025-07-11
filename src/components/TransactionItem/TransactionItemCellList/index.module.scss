@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .transactionCellListPanel {
   display: flex;
@@ -12,7 +12,7 @@
     margin-top: 20px;
     height: 20px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       font-size: 14px;
       margin-top: 15px;
       height: 16px;

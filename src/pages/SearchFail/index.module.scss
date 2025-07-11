@@ -1,10 +1,10 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .searchPanel {
   margin-top: 200px;
   margin-bottom: 240px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin-top: 120px;
     margin-bottom: 150px;
   }
@@ -13,7 +13,7 @@
     width: 600px;
     margin: 0 auto;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       width: 340px;
     }
   }
@@ -28,7 +28,7 @@
   white-space: pre-wrap;
   width: 600px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 340px;
   }
 
@@ -41,7 +41,7 @@
     color: var(--primary-color);
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     font-size: 12px;
   }
 
@@ -53,7 +53,7 @@
     font-weight: bold;
     font-size: 16px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       font-size: 12px;
     }
 

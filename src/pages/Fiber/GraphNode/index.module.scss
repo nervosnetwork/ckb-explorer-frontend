@@ -1,6 +1,6 @@
-@import '../../../styles/variables.module';
-@import '../../../styles/card.module';
-@import '../../../styles/text.module';
+@use '../../../styles/variables.module';
+@use '../../../styles/card.module';
+@use '../../../styles/text.module';
 
 .container {
   text-wrap: nowrap;
@@ -103,7 +103,7 @@
           padding-right: 40px;
           border-right: 1px solid #e5e5e5;
 
-          @media screen and (width < $mobileBreakPoint) {
+          @media screen and (width < variables.$mobileBreakPoint) {
             border-right: none;
           }
         }
@@ -111,7 +111,7 @@
         &[data-side='right'] {
           padding-left: 40px;
 
-          @media screen and (width < $mobileBreakPoint) {
+          @media screen and (width < variables.$mobileBreakPoint) {
             padding-left: 0;
           }
         }
@@ -266,7 +266,7 @@
   }
 
   // Responsive styles
-  @media screen and (width < $mobileBreakPoint) {
+  @media screen and (width < variables.$mobileBreakPoint) {
     .info {
       flex-direction: column;
 
@@ -326,7 +326,7 @@
     }
   }
 
-  @media screen and (width < $extraLargeBreakPoint) {
+  @media screen and (width < variables.$extraLargeBreakPoint) {
     margin: 24px 20px;
   }
 
@@ -345,7 +345,7 @@
     border-radius: 4px;
     padding-left: 8px;
 
-    @media screen and (width < $extraLargeBreakPoint) {
+    @media screen and (width < variables.$extraLargeBreakPoint) {
       max-width: 20vw;
     }
   }
@@ -375,7 +375,7 @@
   display: flex;
   flex-direction: column;
 
-  @media screen and (width < $extraLargeBreakPoint) {
+  @media screen and (width < variables.$extraLargeBreakPoint) {
     padding: 8px;
   }
 
@@ -429,7 +429,7 @@
     display: none;
   }
 
-  @media screen and (width < $largeBreakPoint) {
+  @media screen and (width < variables.$largeBreakPoint) {
     margin: 20px 0 0;
   }
 }

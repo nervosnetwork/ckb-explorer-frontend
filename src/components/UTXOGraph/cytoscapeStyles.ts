@@ -1,6 +1,6 @@
-import { Stylesheet } from 'cytoscape'
+import { StylesheetStyle } from 'cytoscape'
 
-export const cytoscapeStyles: Stylesheet[] = [
+export const cytoscapeStyles: StylesheetStyle[] = [
   {
     selector: 'core',
     style: {
