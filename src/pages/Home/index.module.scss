@@ -368,9 +368,15 @@
     font-size: 20px;
     color: #fff;
     font-weight: bold;
+    &[data-is-primary='true'] {
+      font-size: 26px;
+    }
 
     @media (max-width: $extraLargeBreakPoint) {
       font-size: 18px;
+      &[data-is-primary='true'] {
+        font-size: 18px;
+      }
     }
   }
 }
