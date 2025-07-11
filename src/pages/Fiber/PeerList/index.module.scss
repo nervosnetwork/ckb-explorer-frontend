@@ -1,5 +1,5 @@
-@import '../../../styles/variables.module';
-@import '../../../styles/table.module';
+@use '../../../styles/variables.module';
+@use '../../../styles/table.module';
 
 .container {
   text-wrap: nowrap;
@@ -90,7 +90,7 @@
     flex-direction: column;
   }
 
-  @media screen and (width < $extraLargeBreakPoint) {
+  @media screen and (width < variables.$extraLargeBreakPoint) {
     margin: 24px 20px;
   }
 

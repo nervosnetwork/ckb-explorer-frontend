@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .input {
   width: 100%;
@@ -35,7 +35,7 @@
     flex-shrink: 0;
   }
 
-  @media screen and (width <= $mobileBreakPoint) {
+  @media screen and (width <= variables.$mobileBreakPoint) {
     flex-direction: column;
 
     label {

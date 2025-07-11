@@ -1,10 +1,10 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .pagination {
   margin-top: 3px;
   margin-bottom: 40px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     padding: 16px;
   }
 }
@@ -15,7 +15,7 @@
   line-height: 28px;
   color: #333;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin-top: 20px;
     font-size: 20px;
     line-height: 23px;

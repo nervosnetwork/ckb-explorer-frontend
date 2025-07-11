@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .scriptPanel {
   width: 100%;
@@ -7,7 +7,7 @@
   padding: 12px 24px;
   overflow: auto;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin-top: 5px;
     padding: 6px 12px;
   }
@@ -21,16 +21,16 @@
   margin-bottom: 10px;
   font-size: 16px;
 
-  @media (min-width: $mobileBreakPoint) {
+  @media (min-width: variables.$mobileBreakPoint) {
     min-height: 20px;
     max-height: 120px;
   }
 
-  @media (max-width: $extraLargeBreakPoint) {
+  @media (max-width: variables.$extraLargeBreakPoint) {
     font-size: 14px;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     flex-direction: column;
     font-size: 14px;
   }
@@ -48,7 +48,7 @@
       &:first-child {
         margin-left: 10px;
 
-        @media (max-width: $mobileBreakPoint) {
+        @media (max-width: variables.$mobileBreakPoint) {
           margin-left: 5px;
         }
       }
@@ -65,7 +65,7 @@
     word-break: break-all;
     color: #000;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       margin-left: 5px;
       transform: translateY(0);
     }
@@ -81,7 +81,7 @@
       margin-bottom: 0;
     }
 
-    @media (max-width: $xxlBreakPoint) {
+    @media (max-width: variables.$xxlBreakPoint) {
       flex-direction: column;
       align-items: flex-start;
 

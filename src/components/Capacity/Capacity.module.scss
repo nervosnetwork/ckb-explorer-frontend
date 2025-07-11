@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   display: inline-flex;
@@ -37,7 +37,7 @@
   }
 
   &[data-layout='responsive'] {
-    @media screen and (width <= $largeBreakPoint) {
+    @media screen and (width <= variables.$largeBreakPoint) {
       font-size: 0.75rem;
 
       span[data-role='dec'] {

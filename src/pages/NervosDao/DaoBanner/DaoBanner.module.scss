@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .bannerContainer {
   height: 280px;
@@ -71,7 +71,7 @@
   }
 }
 
-@media (width <= $mobileBreakPoint) {
+@media (width <= variables.$mobileBreakPoint) {
   .bannerContainer {
     height: auto;
     background-image: url('./banner_bg_mobile.svg');

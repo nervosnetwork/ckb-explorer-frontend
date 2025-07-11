@@ -1,11 +1,11 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .homeHeaderTopPanel {
   margin: 20px 0;
   display: flex;
   align-items: center;
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     display: block;
   }
 
@@ -19,7 +19,7 @@
       margin-right: 8px;
     }
 
-    @media (width <= $extraLargeBreakPoint) {
+    @media (width <= variables.$extraLargeBreakPoint) {
       margin-bottom: 20px;
     }
 
@@ -33,7 +33,7 @@
     flex: 1;
     margin-left: 16px;
 
-    @media (width <= $extraLargeBreakPoint) {
+    @media (width <= variables.$extraLargeBreakPoint) {
       width: 100%;
       margin-left: 0;
     }
@@ -48,7 +48,7 @@
   border-radius: 0 0 6px 6px;
   background: #fff;
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     flex-direction: column;
     padding: 10px 5px 0;
     box-shadow: 0 2px 6px 0 rgb(77 77 77 / 20%);
@@ -67,7 +67,7 @@
     width: auto;
     margin: 0 30px;
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       margin: 0 20px;
     }
   }
@@ -92,11 +92,11 @@
   width: 100%;
   display: flex;
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     height: 213px;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     flex-direction: column;
     height: 150px;
   }
@@ -108,11 +108,11 @@
     border-radius: 6px 0 0;
     border: 2px solid #6b88cf;
 
-    @media (width <= $extraLargeBreakPoint) {
+    @media (width <= variables.$extraLargeBreakPoint) {
       flex-direction: column;
     }
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       border-radius: 6px 6px 0 0;
       border: 0 solid;
     }
@@ -127,18 +127,18 @@
       border-radius: 6px 0 0;
       background: linear-gradient(314deg, #6093e4, #6b88cf 49%, #7074de 80%);
 
-      @media (width >= $xxlBreakPoint) {
+      @media (width >= variables.$xxlBreakPoint) {
         flex: 0;
         width: 246px;
         min-width: 246px;
       }
 
-      @media (width <= $extraLargeBreakPoint) {
+      @media (width <= variables.$extraLargeBreakPoint) {
         padding: 15px 30px 10px;
         flex-direction: row;
       }
 
-      @media (width <= $mobileBreakPoint) {
+      @media (width <= variables.$mobileBreakPoint) {
         border-radius: 6px 6px 0 0;
         padding: 15px 23px 10px 20px;
         margin: 0;
@@ -152,11 +152,11 @@
       border-radius: 0;
       background: linear-gradient(304deg, #6e85e0 2%, #577cdb 48%, #486ecc 99%);
 
-      @media (width <= $extraLargeBreakPoint) {
+      @media (width <= variables.$extraLargeBreakPoint) {
         padding: 6px 20px;
       }
 
-      @media (width <= $mobileBreakPoint) {
+      @media (width <= variables.$mobileBreakPoint) {
         flex: 0;
         display: none;
         margin: 0;
@@ -171,13 +171,13 @@
     border-radius: 0 6px 0 0;
     border: 2px solid #334350;
 
-    @media (width <= $extraLargeBreakPoint) {
+    @media (width <= variables.$extraLargeBreakPoint) {
       flex-direction: column;
       border-radius: 0 6px 0 0;
       border: 2px solid #444c5a;
     }
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       flex-direction: column;
       border-radius: 0;
     }
@@ -191,20 +191,20 @@
       justify-content: space-between;
       background: linear-gradient(134deg, #444b57, #39424a 48%, #444c5a 96%);
 
-      @media (width >= $xxlBreakPoint) {
+      @media (width >= variables.$xxlBreakPoint) {
         flex: 0;
         width: 246px;
         min-width: 246px;
       }
 
-      @media (width <= $extraLargeBreakPoint) {
+      @media (width <= variables.$extraLargeBreakPoint) {
         padding: 15px 30px 10px;
         margin: -2px;
         border-radius: 0 6px 0 0;
         flex-direction: row;
       }
 
-      @media (width <= $mobileBreakPoint) {
+      @media (width <= variables.$mobileBreakPoint) {
         padding: 15px 20px 10px;
       }
     }
@@ -216,12 +216,12 @@
       border-radius: 0 6px 0 0;
       background: linear-gradient(118deg, #31383e, #35414d 48%, #334350);
 
-      @media (width <= $extraLargeBreakPoint) {
+      @media (width <= variables.$extraLargeBreakPoint) {
         border-radius: 0;
         padding: 6px 20px;
       }
 
-      @media (width <= $mobileBreakPoint) {
+      @media (width <= variables.$mobileBreakPoint) {
         flex: 0;
         display: none;
         margin: 0;
@@ -296,7 +296,7 @@
     width: 100%;
     margin: 0 30px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       margin: 0 20px;
     }
 
@@ -304,7 +304,7 @@
       color: #555;
       font-size: 14px;
 
-      @media (max-width: $mobileBreakPoint) {
+      @media (max-width: variables.$mobileBreakPoint) {
         font-size: 12px;
       }
     }
@@ -319,7 +319,7 @@
       :global(.blockchainItemLeftValue) {
         font-size: 20px;
 
-        @media (max-width: $mobileBreakPoint) {
+        @media (max-width: variables.$mobileBreakPoint) {
           font-size: 16px;
         }
       }
@@ -327,7 +327,7 @@
       :global(.blockchainItemRightValue) {
         font-size: 14px;
 
-        @media (max-width: $mobileBreakPoint) {
+        @media (max-width: variables.$mobileBreakPoint) {
           font-size: 12px;
         }
       }
@@ -339,14 +339,14 @@
     background: #eaeaea;
     width: 1px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       display: none;
     }
   }
 }
 
 .homeStatisticItemPanel {
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     flex: 1;
     margin-left: 40px;
 
@@ -359,7 +359,7 @@
     font-size: 14px;
     color: #fff;
 
-    @media (max-width: $extraLargeBreakPoint) {
+    @media (max-width: variables.$extraLargeBreakPoint) {
       font-size: 12px;
     }
   }
@@ -368,12 +368,14 @@
     font-size: 20px;
     color: #fff;
     font-weight: bold;
+
     &[data-is-primary='true'] {
       font-size: 26px;
     }
 
-    @media (max-width: $extraLargeBreakPoint) {
+    @media (max-width: variables.$extraLargeBreakPoint) {
       font-size: 18px;
+
       &[data-is-primary='true'] {
         font-size: 18px;
       }
@@ -385,7 +387,7 @@
   display: flex;
   flex-direction: row;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     flex-direction: column;
   }
 }

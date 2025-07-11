@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .container {
   background-color: #fff;
@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
 
-  @media screen and (max-width: $mobileBreakPoint) {
+  @media screen and (max-width: variables.$mobileBreakPoint) {
     width: 90%;
     padding: 16px;
   }
@@ -70,7 +70,7 @@
   overflow: hidden;
   margin-bottom: 1rem;
 
-  @media screen and (max-width: $mobileBreakPoint) {
+  @media screen and (max-width: variables.$mobileBreakPoint) {
     text-wrap: wrap;
   }
 
@@ -123,7 +123,7 @@
     }
   }
 
-  @media screen and (width <= $extraLargeBreakPoint) {
+  @media screen and (width <= variables.$extraLargeBreakPoint) {
     flex-direction: column;
     align-items: flex-start;
     justify-content: stretch;
@@ -146,7 +146,7 @@
 .blockConfirm {
   color: #666;
 
-  @media screen and (max-width: $mobileBreakPoint) {
+  @media screen and (max-width: variables.$mobileBreakPoint) {
     font-size: 14px;
   }
 }
@@ -164,7 +164,7 @@
   max-width: 100%;
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 
-  @media screen and (max-width: $mobileBreakPoint) {
+  @media screen and (max-width: variables.$mobileBreakPoint) {
     overflow-wrap: break-word;
   }
 
@@ -193,7 +193,7 @@
   font-size: 16px;
   line-height: 19px;
 
-  @media screen and (max-width: $mobileBreakPoint) {
+  @media screen and (max-width: variables.$mobileBreakPoint) {
     flex-direction: column;
   }
 }

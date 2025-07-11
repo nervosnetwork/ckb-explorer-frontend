@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .container {
   position: relative;
@@ -36,7 +36,7 @@
       white-space: nowrap;
     }
 
-    @media screen and (width <= $mobileBreakPoint) {
+    @media screen and (width <= variables.$mobileBreakPoint) {
       flex-direction: column;
       gap: 0;
     }
@@ -79,7 +79,7 @@
       overflow: hidden;
     }
 
-    @media (width <= $extraLargeBreakPoint) {
+    @media (width <= variables.$extraLargeBreakPoint) {
       flex-direction: column;
       gap: 0;
 

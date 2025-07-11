@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .blockCardGroup {
   margin-top: 10px;
@@ -32,7 +32,7 @@
 }
 
 .blockListPanel {
-  @media (min-width: $mobileBreakPoint) {
+  @media (min-width: variables.$mobileBreakPoint) {
     margin-top: 25px;
     margin-bottom: 40px;
     border-radius: 6px;
@@ -40,7 +40,7 @@
     box-shadow: 0 2px 6px 0 rgb(77 77 77 / 21%);
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin-top: 0;
     padding: 0 20px;
 
@@ -54,7 +54,7 @@
 }
 
 .contentTable {
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin-top: -41px;
     z-index: 2;
   }
@@ -72,7 +72,7 @@
   align-items: flex-end;
   justify-content: center;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     align-items: flex-end;
     justify-content: flex-start;
   }

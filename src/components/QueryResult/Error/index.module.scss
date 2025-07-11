@@ -1,11 +1,11 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .errorPanel {
   width: 100%;
   margin: 112px 0 203px;
   text-align: center;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin: 120px 0 130px;
   }
 
@@ -14,7 +14,7 @@
     max-width: 100%;
     margin: 0 auto;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       width: 282px;
       height: 130px;
     }

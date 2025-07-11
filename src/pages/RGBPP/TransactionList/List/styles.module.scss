@@ -1,4 +1,4 @@
-@import '../../../../styles/variables.module';
+@use '../../../../styles/variables.module';
 
 .container {
   max-width: 100%;
@@ -37,7 +37,7 @@
     width: 100%;
     max-width: 100%;
     table-layout: fixed;
-    word-break: break-word;
+    overflow-wrap: anywhere;
     text-overflow: ellipsis;
 
     th,
@@ -111,7 +111,7 @@
     white-space: pre;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     table {
       thead {
         display: none;

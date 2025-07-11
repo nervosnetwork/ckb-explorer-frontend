@@ -1,4 +1,3 @@
-import type { BigNumber } from 'bignumber.js'
 import type { Fiber } from '../../../services/ExplorerService'
 
 export interface AssetRecord {

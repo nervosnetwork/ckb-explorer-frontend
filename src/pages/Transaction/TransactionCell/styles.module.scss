@@ -1,5 +1,5 @@
 @use 'sass:math';
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .locktime {
   width: 15px;
@@ -132,7 +132,7 @@
   align-items: center;
   font-size: 16px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     text-align: left;
 
     > a {
@@ -140,7 +140,7 @@
     }
   }
 
-  @media (min-width: $mobileBreakPoint) {
+  @media (min-width: variables.$mobileBreakPoint) {
     font-weight: 500;
   }
 
@@ -152,7 +152,7 @@
 .transactionCellAddressLink {
   max-width: 70%;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     max-width: unset;
   }
 }
@@ -184,7 +184,7 @@
     align-items: center;
     font-size: 16px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       text-align: left;
 
       > a {
@@ -192,7 +192,7 @@
       }
     }
 
-    @media (min-width: $mobileBreakPoint) {
+    @media (min-width: variables.$mobileBreakPoint) {
       font-weight: 500;
     }
 
@@ -203,7 +203,7 @@
     .transactionCellAddressLink {
       max-width: 70%;
 
-      @media (max-width: $mobileBreakPoint) {
+      @media (max-width: variables.$mobileBreakPoint) {
         max-width: unset;
       }
     }
@@ -221,7 +221,7 @@
       width: 70px;
       text-align: start;
 
-      @media (max-width: $xxlBreakPoint) {
+      @media (max-width: variables.$xxlBreakPoint) {
         width: 50px;
       }
     }
@@ -251,7 +251,7 @@
     cursor: pointer;
     width: 45px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       width: auto;
     }
 
@@ -260,7 +260,7 @@
       width: 45px;
       height: 1px;
 
-      @media (max-width: $mobileBreakPoint) {
+      @media (max-width: variables.$mobileBreakPoint) {
         width: auto;
       }
     }

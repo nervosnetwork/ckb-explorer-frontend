@@ -1,10 +1,10 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .highLightPanel {
   color: var(--primary-color);
   font-size: 14px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     font-size: 13px;
   }
 
@@ -12,7 +12,7 @@
     color: var(--primary-color);
     margin-top: 3px;
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       margin-top: 1px;
     }
   }

@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .sheetPanel {
   width: 100%;
@@ -9,7 +9,7 @@
   justify-content: center;
   padding: 15px 0 20px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     padding: 6px 0 10px;
   }
 }
@@ -22,7 +22,7 @@
   justify-content: left;
   margin-top: 5px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     font-size: 14px;
   }
 }
@@ -43,7 +43,7 @@
     color: white;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 86%;
 
     > span {

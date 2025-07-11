@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   background: #000;
@@ -48,7 +48,7 @@
       gap: 80px;
     }
 
-    @media screen and (width <$largeBreakPoint) {
+    @media screen and (width <variables.$largeBreakPoint) {
       gap: 20px;
       flex-flow: column wrap;
       max-height: 500px;
@@ -124,15 +124,15 @@
     }
   }
 
-  @media screen and (width < $xxlBreakPoint) {
+  @media screen and (width < variables.$xxlBreakPoint) {
     padding: 0 100px;
   }
 
-  @media screen and (width < $extraLargeBreakPoint) {
+  @media screen and (width < variables.$extraLargeBreakPoint) {
     padding: 0 45px;
   }
 
-  @media screen and (width < $mobileBreakPoint) {
+  @media screen and (width < variables.$mobileBreakPoint) {
     padding: 0 18px;
   }
 }

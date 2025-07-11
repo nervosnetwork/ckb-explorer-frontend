@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   width: 100%;
@@ -56,11 +56,11 @@
     overflow-x: auto;
     scrollbar-gutter: stable;
 
-    @media (width >= $extraLargeBreakPoint) {
+    @media (width >= variables.$extraLargeBreakPoint) {
       max-height: 220px;
     }
 
-    @media (width <= $extraLargeBreakPoint) {
+    @media (width <= variables.$extraLargeBreakPoint) {
       max-height: 310px;
     }
   }

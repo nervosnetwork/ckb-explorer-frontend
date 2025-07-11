@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .toolsContainer {
   display: flex;
@@ -10,7 +10,7 @@
   display: none;
   padding-top: 8px;
 
-  @media (width > $mobileBreakPoint) {
+  @media (width > variables.$mobileBreakPoint) {
     display: block;
     flex: 0 0 25%;
     max-width: 25%;
@@ -21,7 +21,7 @@
   display: block;
   width: 100%;
 
-  @media (width > $mobileBreakPoint) {
+  @media (width > variables.$mobileBreakPoint) {
     flex: 0 0 75%;
     max-width: 75%;
   }
@@ -30,7 +30,7 @@
 .toolMenuBar {
   display: block;
 
-  @media (width > $mobileBreakPoint) {
+  @media (width > variables.$mobileBreakPoint) {
     display: none;
   }
 }

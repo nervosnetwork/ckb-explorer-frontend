@@ -1,4 +1,4 @@
-@import '../../../../styles/variables.module';
+@use '../../../../styles/variables.module';
 
 .container {
   width: 100%;
@@ -30,7 +30,7 @@
       padding: 0.25rem 0;
     }
 
-    @media screen and (width < $mobileBreakPoint) {
+    @media screen and (width < variables.$mobileBreakPoint) {
       tr {
         display: flex;
         flex-direction: column;
@@ -75,7 +75,7 @@
     .value {
       display: flex;
 
-      @media screen and (width < $mobileBreakPoint) {
+      @media screen and (width < variables.$mobileBreakPoint) {
         font-size: 0.875rem;
 
         * {

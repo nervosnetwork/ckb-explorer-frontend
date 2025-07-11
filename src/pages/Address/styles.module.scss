@@ -1,15 +1,15 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .inscriptions {
   overflow-x: auto;
   width: 100%;
   scrollbar-gutter: stable;
 
-  @media (width >= $extraLargeBreakPoint) {
+  @media (width >= variables.$extraLargeBreakPoint) {
     max-height: 220px;
   }
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     max-height: 310px;
   }
 
@@ -37,7 +37,7 @@
     font-weight: 600;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin-top: 20px;
     padding-bottom: 16px;
   }
@@ -50,11 +50,11 @@
 .addressWidthModify {
   max-width: 80%;
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     max-width: 40%;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     max-width: 100%;
   }
 }
@@ -64,7 +64,7 @@
   display: flex;
   align-items: stretch;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     height: 50px;
   }
 
@@ -92,7 +92,7 @@
   ) {
   margin-top: 24px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     padding-bottom: 16px;
   }
 
@@ -111,11 +111,11 @@
   display: flex;
   gap: 40px;
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     gap: 1rem;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     flex-direction: column-reverse;
     align-items: flex-end;
   }
@@ -141,7 +141,7 @@
 .layoutButtons {
   width: 240px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     width: 100%;
   }
 }
@@ -208,7 +208,7 @@
   font-size: 16px;
   font-weight: 500;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     max-width: 90px;
     font-size: 13px;
   }
@@ -301,7 +301,7 @@
 .professionalLiteBox {
   margin-left: 10px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     width: 100%;
   }
 
@@ -326,7 +326,7 @@
       border-radius: 0 4px 4px 0;
     }
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       height: 40px;
       width: 50%;
     }
@@ -342,7 +342,7 @@
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     border-top: 1px solid #e5e5e5;
     padding-top: 16px;
     margin: 0;
@@ -382,7 +382,7 @@
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin: 0;
     padding: 20px;
   }
@@ -402,7 +402,7 @@
     margin: 2px 0 0 5px;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     font-size: 14px;
     margin-top: 0;
 
@@ -416,7 +416,7 @@
   width: 100%;
   margin-top: 4px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     :global(.transactionPanel):first-child {
       margin-top: 0;
       box-shadow: none;
@@ -439,7 +439,7 @@
   flex-direction: column;
   align-items: flex-start;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     padding-top: 16px;
     border-top: 1px solid #f5f5f5;
   }
