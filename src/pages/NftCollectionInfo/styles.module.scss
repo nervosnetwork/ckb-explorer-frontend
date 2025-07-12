@@ -115,7 +115,7 @@
 
       &:hover {
         background: var(--primary-hover-bg-color);
-        color: var(--primary-color);
+        color: var(--primary-color-hover);
         cursor: pointer;
       }
 
@@ -271,7 +271,7 @@
 
     &:hover {
       background: var(--primary-hover-bg-color);
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
       cursor: pointer;
     }
 

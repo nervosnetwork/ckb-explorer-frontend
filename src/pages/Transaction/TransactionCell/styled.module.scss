@@ -60,7 +60,7 @@
   }
 
   a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }
 
@@ -86,7 +86,7 @@
     }
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
 
       :global(.transactionCellInfoSeparate) {
         background: var(--primary-color);
@@ -251,6 +251,6 @@
   }
 
   a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }

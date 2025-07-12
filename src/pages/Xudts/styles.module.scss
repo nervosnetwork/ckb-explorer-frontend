@@ -81,7 +81,7 @@ dt {
   font-weight: 500;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }
 
@@ -434,7 +434,7 @@ dt {
     border-radius: 14px;
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
       border-color: var(--primary-color);
     }
   }

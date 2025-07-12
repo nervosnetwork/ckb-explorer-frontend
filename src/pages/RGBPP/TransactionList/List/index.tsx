@@ -53,9 +53,13 @@ const RGBTransactionList: React.FC<{ list: Transaction[] }> = ({ list }) => {
           <tr>
             {headers.map(header => (
               <th key={header.key}>
-                {header.title}
-                {header.order ? <SortButton key={header.key} field={header.order} /> : null}
-                {header.filter ? <FilterButton filterName="type" key={header.key} filteredList={filterFields} /> : null}
+                <div className="flex items-center">
+                  {header.title}
+                  {header.order ? <SortButton key={header.key} field={header.order} /> : null}
+                  {header.filter ? (
+                    <FilterButton filterName="type" key={header.key} filteredList={filterFields} />
+                  ) : null}
+                </div>
               </th>
             ))}
           </tr>
