@@ -10,9 +10,6 @@ import { ImgUpload } from './ImgUpload'
 import CommonButton from '../CommonButton'
 import CommonModal from '../CommonModal'
 import CommonSelect from '../CommonSelect'
-import { isMainnet } from '../../utils/chain'
-import { scripts } from '../../pages/ScriptList'
-import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
 import { isValidNoNegativeInteger } from '../../utils/number'
 import { useSetToast } from '../Toast'
 import { explorerService } from '../../services/ExplorerService'
@@ -116,14 +113,10 @@ export const SubmitTokenInfo = ({
 
   const isModification = !!initialInfo
 
-  const scriptDataList = isMainnet() ? MainnetContractHashTags : TestnetContractHashTags
-  const tokenTypeOptions = scriptDataList
-    .filter(scriptData => tagFilters.includes(scriptData.tag.toLowerCase() as 'sudt' | 'xudt'))
-    .sort((a, b) => a.tag.localeCompare(b.tag))
-    .map(scriptData => ({
-      label: scripts.get(scriptData.tag)?.name ?? scriptData.tag,
-      value: scriptData.tag.toLowerCase(),
-    }))
+  const tokenTypeOptions = [
+    { label: 'Simple UDT', value: 'sudt' },
+    { label: 'xUDT', value: 'xudt' },
+  ].filter(option => tagFilters.includes(option.value as 'sudt' | 'xudt'))
 
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>(
     initialInfo ?? { ...emptyTokenInfo, tokenType: tokenTypeOptions[0].value },

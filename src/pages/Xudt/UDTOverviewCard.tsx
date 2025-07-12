@@ -22,14 +22,8 @@ import HolderAllocation from './HolderAllocation'
 import { ReactComponent as EditIcon } from '../../assets/edit.svg'
 import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
-import { scripts } from '../ScriptList'
-import { IS_MAINNET } from '../../constants/common'
-import { MainnetContractHashTags, TestnetContractHashTags } from '../../constants/scripts'
+import { XUDT_CODE_URL } from '../../constants/common'
 import IssuerContent from './IssuerContent'
-
-const scriptDataList = IS_MAINNET ? MainnetContractHashTags : TestnetContractHashTags
-
-const xudtCodeUrl = scripts.get('xUDT')?.code
 
 export const UDTOverviewCard: FC<{
   typeHash: string
@@ -150,9 +144,7 @@ export const UDTOverviewCard: FC<{
   )
 
   const tags = xudt?.xudtTags ?? []
-  const isOpenSourceXudt = xudt
-    ? scriptDataList.some(s => s.tag.startsWith('xUDT') && s.codeHashes.includes(xudt?.typeScript.codeHash))
-    : false
+  const isOpenSourceXudt = xudt ? xudt.udtType === 'xudt' || xudt.udtType === 'omiga_inscription' : false
 
   return (
     <>
@@ -172,8 +164,8 @@ export const UDTOverviewCard: FC<{
           {tags.map(tag => (
             <XUDTTag tagName={tag} to="/xudts" tooltip />
           ))}
-          {isOpenSourceXudt && xudtCodeUrl ? (
-            <Link className={styles.openSource} to={xudtCodeUrl}>
+          {isOpenSourceXudt ? (
+            <Link className={styles.openSource} to={XUDT_CODE_URL}>
               {t('scripts.open_source_script')}
               <OpenSourceIcon />
             </Link>

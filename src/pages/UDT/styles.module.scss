@@ -84,7 +84,7 @@
   height: 100%;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }
 
@@ -127,7 +127,7 @@
   cursor: pointer;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
 
     path {
       stroke: var(--primary-color);

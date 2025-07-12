@@ -19,7 +19,7 @@ import { ReactComponent as AssetItemsIcon } from './asset_items.svg'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { TransactionCellInfo } from '../Transaction/TransactionCell'
 import { parseUDTAmount } from '../../utils/number'
-import { getContractHashTag, shannonToCkb } from '../../utils/util'
+import { shannonToCkb } from '../../utils/util'
 import { useSetToast } from '../../components/Toast'
 import { PAGE_SIZE } from '../../constants/common'
 import styles from './rgbppAssets.module.scss'
@@ -467,13 +467,10 @@ const RGBAssetsTableView: FC<{ address: string; count: number }> = ({ address, c
     data?.pages
       .map(page => page.data)
       .flat()
-      .filter(cell => {
-        const info = getContractHashTag(cell.lockScript)
-        return info?.tag === 'RGB++'
-      })
+      .filter(cell => cell.lockScript.tags?.includes('rgb++'))
       .reduce((acc, cur) => {
         // remove repeated cells
-        if (acc.find(c => c.txHash === cur.txHash && c.cellIndex === cur.cellIndex)) {
+        if (acc.find((c: LiveCell) => c.txHash === cur.txHash && c.cellIndex === cur.cellIndex)) {
           return acc
         }
         return [...acc, cur]

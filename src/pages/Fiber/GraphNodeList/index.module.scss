@@ -69,7 +69,7 @@
     cursor: pointer;
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
     }
 
     svg {
@@ -293,7 +293,7 @@
   font-weight: 400;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }
 

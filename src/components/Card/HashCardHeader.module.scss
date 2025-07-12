@@ -71,7 +71,7 @@
         height: 24px;
 
         &:hover {
-          color: var(--primary-color);
+          color: var(--primary-color-hover);
         }
 
         @media (width <= variables.$mobileBreakPoint) {

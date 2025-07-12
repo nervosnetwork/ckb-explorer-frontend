@@ -83,6 +83,7 @@ export interface Cell$Base {
   daoTypeHash: string
   cellInfo: CellInfo
   tags?: string[]
+  typeScript: Script | null
   since?: {
     raw: string
     median_timestamp?: string
