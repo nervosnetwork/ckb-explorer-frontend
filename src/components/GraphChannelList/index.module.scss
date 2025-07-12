@@ -1,5 +1,5 @@
-@import '../../styles/variables.module';
-@import '../../styles/text.module';
+@use '../../styles/variables.module';
+@use '../../styles/text.module';
 
 .container {
   font-size: 14px !important;
@@ -46,12 +46,12 @@
       display: grid;
       grid-template-columns: 16% 83%;
 
-      @media screen and (width <= $mobileBreakPoint) {
+      @media screen and (width <= variables.$mobileBreakPoint) {
         display: block;
       }
     }
 
-    @media screen and (width <= $largeBreakPoint) {
+    @media screen and (width <= variables.$largeBreakPoint) {
       padding: 8px 0;
     }
 
@@ -134,7 +134,7 @@
       }
     }
 
-    @media screen and (width <= $mobileBreakPoint) {
+    @media screen and (width <= variables.$mobileBreakPoint) {
       flex-direction: column;
     }
   }

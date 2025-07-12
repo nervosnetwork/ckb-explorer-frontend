@@ -3,6 +3,7 @@ import { Cell } from '../../models/Cell'
 import { HashType } from '../../constants/common'
 import { Dob } from '../DobsService'
 import { UDT } from '../../models/UDT'
+import { Script } from '../../models/Script'
 
 export namespace Response {
   export interface Response<T> {
@@ -378,12 +379,6 @@ export namespace RawBtcRPC {
     blocktime?: number
     confirmations?: number
   }
-}
-
-export interface Script {
-  codeHash: string
-  args: string
-  hashType: string
 }
 
 export interface LiveCell {

@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .transactionOverviewCard:not(
     [_='This `:not` selector is used to increase the specificity of the selector and serves no other purpose.']
@@ -12,7 +12,7 @@
     height: 100%;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     padding-bottom: 16px;
   }
 }

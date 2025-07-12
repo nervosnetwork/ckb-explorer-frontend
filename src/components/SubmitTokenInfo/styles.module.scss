@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .contentWrapper {
   background-color: white;
@@ -151,7 +151,7 @@
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     width: 100%;
   }
 }

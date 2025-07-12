@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .paginationWithRear {
   display: flex;
@@ -17,7 +17,7 @@
     flex: 1 0.8 auto;
     min-width: 650px;
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       min-width: auto;
       border-radius: 0;
     }
@@ -37,7 +37,7 @@
     display: flex;
     justify-content: flex-end;
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       height: 50px;
       border-radius: 0 0 6px 6px;
       border-top: 1px solid #f0f0f0;
@@ -45,7 +45,7 @@
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     justify-content: flex-end;
     margin-top: 5px;
     padding: 0 20px;

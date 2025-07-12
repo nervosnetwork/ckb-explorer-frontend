@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .container {
   display: flex;
@@ -52,7 +52,7 @@
     color: #969696;
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
     }
 
     &[aria-disabled='true'] {
@@ -76,7 +76,7 @@
     }
   }
 
-  @media screen and (width < $mobileBreakPoint) {
+  @media screen and (width < variables.$mobileBreakPoint) {
     font-size: 12px;
 
     .pager {

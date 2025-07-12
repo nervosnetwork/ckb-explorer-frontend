@@ -1,4 +1,4 @@
-@import '../../styles//variables.module.scss';
+@use '../../styles/variables.module.scss';
 
 // Variables
 $background-color: #000;
@@ -223,7 +223,7 @@ $glowing-line-width: 76px;
       }
     }
 
-    @media screen and (width < $extraLargeBreakPoint) {
+    @media screen and (width < variables.$extraLargeBreakPoint) {
       flex-basis: unset;
       flex-grow: 1;
       flex-shrink: 1;
@@ -234,7 +234,7 @@ $glowing-line-width: 76px;
     }
   }
 
-  @media screen and (width < $mobileBreakPoint) {
+  @media screen and (width < variables.$mobileBreakPoint) {
     flex-direction: column;
   }
 }

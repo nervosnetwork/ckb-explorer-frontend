@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .filterPanel {
   width: 600px;
@@ -8,15 +8,15 @@
   align-items: center;
   justify-content: space-between;
 
-  @media (max-width: $extraLargeBreakPoint) {
+  @media (max-width: variables.$extraLargeBreakPoint) {
     width: 450px;
   }
 
-  @media (max-width: $largeBreakPoint) {
+  @media (max-width: variables.$largeBreakPoint) {
     width: 320px;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 100%;
   }
 }
@@ -34,7 +34,7 @@
     cursor: pointer;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin-left: 0;
     margin-right: -14%;
 
@@ -49,7 +49,7 @@
     width: 18px;
     height: 18px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       margin-top: 0;
 
       &.isClear {
@@ -87,7 +87,7 @@
     color: #bababa;
   }
 
-  @media (max-width: $extraLargeBreakPoint) {
+  @media (max-width: variables.$extraLargeBreakPoint) {
     width: 100%;
 
     &.showReset {
@@ -95,7 +95,7 @@
     }
   }
 
-  @media (max-width: $largeBreakPoint) {
+  @media (max-width: variables.$largeBreakPoint) {
     width: 100%;
 
     &.showReset {
@@ -103,7 +103,7 @@
     }
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 100%;
     font-size: 12px;
 
@@ -127,7 +127,7 @@
     background: #ddd;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 50px;
   }
 }

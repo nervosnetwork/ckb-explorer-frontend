@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .holderAllocationContainer {
   background-color: #fff;
@@ -9,7 +9,7 @@
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 90%;
     margin-top: 20vh;
     padding: 24px 16px;
@@ -31,7 +31,7 @@
     gap: 24px;
     min-width: 397px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       min-width: 0;
       align-items: flex-start;
 

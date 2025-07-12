@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .cellListTitle {
   display: flex;
@@ -34,7 +34,7 @@
   display: flex;
   flex-direction: column;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     color: #000;
     font-weight: 600;
     font-size: 20px;
@@ -49,7 +49,7 @@
     font-weight: 600;
     color: #000;
 
-    @media (min-width: $mobileBreakPoint) {
+    @media (min-width: variables.$mobileBreakPoint) {
       > div:nth-child(1) {
         flex: 0.4;
       }
@@ -80,7 +80,7 @@
     margin-top: 12px;
     transform: scaleY(0.5);
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       display: none;
     }
   }
@@ -93,7 +93,7 @@
   background-color: #fff;
   padding: 12px 20px 12px 40px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     padding: 12px 10px 3px;
   }
 }

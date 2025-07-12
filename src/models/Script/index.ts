@@ -3,6 +3,7 @@ export interface Script {
   args: string
   hashType: string
   verifiedScriptName?: string | null
+  tags?: string[]
 }
 
 export interface ScriptDetail {

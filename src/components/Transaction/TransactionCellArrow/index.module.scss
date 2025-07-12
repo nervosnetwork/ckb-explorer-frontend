@@ -1,11 +1,11 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .leftArrowImage {
   width: 16px;
   height: auto;
   margin: 0 5px 3px 0;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 12px;
     margin: 0 10px 0 0;
   }
@@ -17,7 +17,7 @@
   height: auto;
   margin: 1px 0 0 7px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 12px;
     height: 12px;
     margin: 0 5px 0 7px;

@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   width: 100%;
@@ -26,7 +26,7 @@
         color: #999;
 
         &:hover {
-          color: var(--primary-color);
+          color: var(--primary-color-hover);
         }
 
         svg {
@@ -56,17 +56,17 @@
     overflow-x: auto;
     scrollbar-gutter: stable;
 
-    @media (width >= $extraLargeBreakPoint) {
+    @media (width >= variables.$extraLargeBreakPoint) {
       max-height: 220px;
     }
 
-    @media (width <= $extraLargeBreakPoint) {
+    @media (width <= variables.$extraLargeBreakPoint) {
       max-height: 310px;
     }
   }
 
   .cardsContainer {
-    @media screen and (max-width: $mobileBreakPoint) {
+    @media screen and (max-width: variables.$mobileBreakPoint) {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
       gap: 1rem;
@@ -108,7 +108,7 @@
       a {
         &:hover {
           font-weight: bold;
-          color: var(--primary-color);
+          color: var(--primary-color-hover);
           text-decoration: underline;
         }
 
@@ -238,7 +238,7 @@
     cursor: pointer;
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
     }
   }
 }

@@ -72,6 +72,14 @@ module.exports = {
             },
           }
         }
+
+        const sassLoader = moduleSassRule.use.find(({ loader }) => loader?.includes('sass-loader'))
+        if (sassLoader) {
+          sassLoader.options = {
+            ...sassLoader.options,
+            api: "modern",
+          }
+        }
       }
 
       if (cssRule) {

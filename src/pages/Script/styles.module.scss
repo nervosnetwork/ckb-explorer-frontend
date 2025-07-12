@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .scriptContentPanel {
   display: flex;
@@ -7,7 +7,7 @@
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin: 0;
     padding: 20px;
   }
@@ -38,7 +38,7 @@
     height: 56px;
     padding: 0 30px;
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       padding: 0;
     }
   }
@@ -106,7 +106,7 @@
   margin-top: 4px;
   background: #fff;
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     padding: 0 10px;
   }
 }
@@ -152,7 +152,7 @@
     flex-shrink: 0;
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
     }
   }
 
@@ -162,7 +162,7 @@
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     .codeHash {
       width: 270px;
     }

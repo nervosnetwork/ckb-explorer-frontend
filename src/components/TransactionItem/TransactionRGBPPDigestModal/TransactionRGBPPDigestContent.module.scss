@@ -1,9 +1,9 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .digestLoading {
   padding: 20px 0;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     padding: 10px 0;
   }
 }
@@ -35,7 +35,7 @@
   white-space: nowrap;
   margin-bottom: 1rem;
 
-  @media screen and (max-width: $mobileBreakPoint) {
+  @media screen and (max-width: variables.$mobileBreakPoint) {
     text-wrap: wrap;
   }
 
@@ -61,7 +61,7 @@
       gap: 8px;
     }
 
-    @media screen and (max-width: $mobileBreakPoint) {
+    @media screen and (max-width: variables.$mobileBreakPoint) {
       flex-direction: column;
       gap: 4px;
     }
@@ -91,7 +91,7 @@
     }
   }
 
-  @media screen and (width <= $extraLargeBreakPoint) {
+  @media screen and (width <= variables.$extraLargeBreakPoint) {
     flex-direction: column;
     align-items: flex-start;
     justify-content: stretch;
@@ -109,7 +109,7 @@
   max-width: 100%;
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 
-  @media screen and (max-width: $mobileBreakPoint) {
+  @media screen and (max-width: variables.$mobileBreakPoint) {
     overflow-wrap: break-word;
   }
 }
@@ -117,7 +117,7 @@
 .blockConfirm {
   color: #666;
 
-  @media screen and (max-width: $mobileBreakPoint) {
+  @media screen and (max-width: variables.$mobileBreakPoint) {
     font-size: 14px;
   }
 }
@@ -146,7 +146,7 @@
   flex-shrink: 0;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }
 

@@ -2,6 +2,7 @@
 
 body {
   --primary-color: #00cc9b;
+  --primary-color-hover: #02ac84;
   --primary-dimmed-color: #99e6ca;
   --secondary-color: #d7fdf2;
   --accent-color: #fa504f;
@@ -28,6 +29,7 @@ body {
 
 body[data-chain-type='testnet'] {
   --primary-color: #9a2cec;
+  --primary-color-hover: #6602b8;
   --primary-dimmed-color: #e8b0fc;
   --secondary-color: #f1d7fd;
   --primary-hover-bg-color: #eeeafc;
@@ -80,6 +82,10 @@ a {
   color: inherit;
 }
 
+a:hover {
+  color: var(--primary-color-hover);
+}
+
 /* stylelint-disable selector-class-pattern */
 @media (width <= 750px) {
   .rc-pagination-options-quick-jumper {
@@ -88,9 +94,5 @@ a {
 }
 
 .text-primary {
-  color: var(--primary-color);
-}
-
-a:hover {
   color: var(--primary-color);
 }

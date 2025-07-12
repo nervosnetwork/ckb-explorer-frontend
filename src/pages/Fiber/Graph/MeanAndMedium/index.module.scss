@@ -1,4 +1,4 @@
-@import '../../../../styles//variables.module.scss';
+@use '../../../../styles/variables.module.scss';
 
 .container {
   --font-size-base: 14px;
@@ -65,7 +65,7 @@
       }
     }
 
-    @media screen and (width < $extraLargeBreakPoint) {
+    @media screen and (width < variables.$extraLargeBreakPoint) {
       display: flex;
       gap: var(--spacing-md);
     }

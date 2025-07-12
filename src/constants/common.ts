@@ -166,6 +166,9 @@ export enum HashType {
 
 export const MAINNET_URL = `https://${config.BASE_URL}`
 export const TESTNET_URL = `https://testnet.${config.BASE_URL}`
+export const XUDT_CODE_URL = 'https://github.com/nervosnetwork/ckb-production-scripts/blob/master/c/xudt_rce.c'
+export const SUDT_CODE_URL =
+  'https://github.com/nervosnetwork/ckb-production-scripts/blob/e570c11aff3eca12a47237c21598429088c610d5/c/simple_udt.c'
 
 export const TYPE_ID_CODE_HASH = '0x00000000000000000000000000000000000000000000000000545950455f4944'
 

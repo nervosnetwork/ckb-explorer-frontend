@@ -1,5 +1,5 @@
-@import '../../../styles/variables.module';
-@import '../../../styles/table.module';
+@use '../../../styles/variables.module';
+@use '../../../styles/table.module';
 
 .container {
   margin: 24px 120px;
@@ -21,7 +21,7 @@
     cursor: pointer;
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
     }
   }
 
@@ -36,7 +36,7 @@
     margin-top: 4px;
   }
 
-  @media screen and (width < $extraLargeBreakPoint) {
+  @media screen and (width < variables.$extraLargeBreakPoint) {
     margin: 24px 20px;
   }
 

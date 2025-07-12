@@ -12,7 +12,7 @@ import { ReactComponent as SporeClusterIcon } from './spore_cluster.svg'
 import { ReactComponent as SporeCellIcon } from './spore_cell.svg'
 import SmallLoading from '../../components/Loading/SmallLoading'
 import { parseUDTAmount } from '../../utils/number'
-import { getContractHashTag, shannonToCkb } from '../../utils/util'
+import { shannonToCkb } from '../../utils/util'
 import { useSetToast } from '../../components/Toast'
 import { PAGE_SIZE } from '../../constants/common'
 import styles from './InvalidRGBPPAssetList.module.scss'
@@ -285,13 +285,10 @@ const InvalidRGBPPAssetList: FC<{
     data?.pages
       .map(page => page.data)
       .flat()
-      .filter(cell => {
-        const info = getContractHashTag(cell.lockScript)
-        return info?.tag === 'RGB++'
-      })
+      .filter(cell => cell.lockScript.tags?.includes('rgb++'))
       .reduce((acc, cur) => {
         // remove repeated cells
-        if (acc.find(c => c.txHash === cur.txHash && c.cellIndex === cur.cellIndex)) {
+        if (acc.find((c: LiveCell) => c.txHash === cur.txHash && c.cellIndex === cur.cellIndex)) {
           return acc
         }
         return [...acc, cur]
@@ -300,7 +297,7 @@ const InvalidRGBPPAssetList: FC<{
   return (
     <div className={styles.container}>
       <ul>
-        {cells.map(cell => (
+        {cells.map((cell: LiveCell) => (
           <AssetItem cell={cell} key={`${cell.txHash}-${cell.cellIndex}`} />
         ))}
       </ul>

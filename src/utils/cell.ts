@@ -4,8 +4,7 @@ import { minimalCellCapacityCompatible } from '@ckb-lumos/helpers'
 import { blockchain } from '@ckb-lumos/base'
 import { BI } from '@ckb-lumos/bi'
 import { IS_MAINNET } from '../constants/common'
-import { MainnetContractHashTags, TestnetContractHashTags } from '../constants/scripts'
-import { scripts } from '../pages/ScriptList'
+import { MainnetContractHashTags, TestnetContractHashTags, scripts } from '../constants/scripts'
 
 const DEPOSIT_DAO_DATA = '0x0000000000000000'
 

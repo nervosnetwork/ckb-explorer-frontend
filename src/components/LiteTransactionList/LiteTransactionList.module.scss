@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   padding: 0 2rem;
@@ -62,7 +62,7 @@
     white-space: pre;
   }
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     padding: 0;
 
     table {

@@ -24,11 +24,11 @@ import { SubmitTokenInfo } from '../../components/SubmitTokenInfo'
 import { BooleanT } from '../../utils/array'
 import FtFallbackIcon from '../../assets/ft_fallback_icon.png'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
-import { scripts } from '../ScriptList'
 import Tooltip from '../../components/Tooltip'
 import Loading from '../../components/Loading'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/Select'
 import { Button } from '../../components/ui/Button'
+import { XUDT_CODE_URL } from '../../constants/common'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -381,8 +381,6 @@ const TokenTable: FC<{
   )
 }
 
-const xudtCodeUrl = scripts.get('xUDT')?.code
-
 const Xudts = () => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
@@ -429,12 +427,10 @@ const Xudts = () => {
             <div className={styles.title}>
               <span className={styles.titleText}>
                 {t('xudt.xudts')}
-                {xudtCodeUrl ? (
-                  <Link to={xudtCodeUrl}>
-                    {t('scripts.open_source_script')}
-                    <OpenSourceIcon />
-                  </Link>
-                ) : null}
+                <Link to={XUDT_CODE_URL}>
+                  {t('scripts.open_source_script')}
+                  <OpenSourceIcon />
+                </Link>
               </span>
               <span className={styles.currentPath}>
                 {t('udt.udts')} &gt; <span className={styles.currentPage}>{t('xudt.xudts')}</span>

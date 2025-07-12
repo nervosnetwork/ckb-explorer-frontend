@@ -90,7 +90,6 @@ const _TransactionCardItem: FC<{
     <div className={styles.transactionCardPanel}>
       <div className="transactionCardHash">
         <AddressText
-          disableTooltip
           linkProps={{
             className: styles.transactionAddress,
             to: `/transaction/${transaction.transactionHash}`,

@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   background: #1d1f31;
@@ -92,7 +92,7 @@
           animation: fade 24s infinite linear;
           animation-delay: #{21.6s - ($i - 1) * 4s};
 
-          @media (width <= $mobileBreakPoint) {
+          @media (width <= variables.$mobileBreakPoint) {
             transform: rotateX(#{$i * 60}deg) translateZ(20px);
           }
         }
@@ -189,7 +189,7 @@
     padding-right: 150px;
   }
 
-  @media (width <= $xxlBreakPoint) {
+  @media (width <= variables.$xxlBreakPoint) {
     margin: 24px 100px -12px;
     padding: 20px 100px 20px 40px;
 
@@ -208,12 +208,12 @@
     }
   }
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     margin: 24px 45px -12px;
     padding: 20px 40px;
   }
 
-  @media (width <= $largeBreakPoint) {
+  @media (width <= variables.$largeBreakPoint) {
     margin: 24px 45px -12px;
     height: auto;
     flex-direction: column;
@@ -238,7 +238,7 @@
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin: 24px 20px -12px;
 
     .slogan {

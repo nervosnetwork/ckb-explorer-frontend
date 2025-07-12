@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 $backgroundColor: #232323;
 
@@ -15,7 +15,7 @@ $backgroundColor: #232323;
   align-items: center;
   justify-content: center;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     height: 200px;
   }
 }
@@ -24,7 +24,7 @@ $backgroundColor: #232323;
   background-color: $backgroundColor;
   background-image: url('./ckb_explorer_banner.svg');
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     background-image: url('./ckb_explorer_banner_phone.svg');
   }
 }
@@ -205,7 +205,7 @@ $backgroundColor: #232323;
   background-position: bottom;
   background-size: cover;
 
-  @media (width >= $mobileBreakPoint) {
+  @media (width >= variables.$mobileBreakPoint) {
     height: 300px;
   }
 }
@@ -229,7 +229,7 @@ $backgroundColor: #232323;
   flex-direction: column;
   gap: 8px;
 
-  @media (width >= $mobileBreakPoint) {
+  @media (width >= variables.$mobileBreakPoint) {
     gap: 16px;
   }
 }
@@ -238,7 +238,7 @@ $backgroundColor: #232323;
   margin-top: -16px;
   height: 64px;
 
-  @media (width >= $mobileBreakPoint) {
+  @media (width >= variables.$mobileBreakPoint) {
     height: 100px;
   }
 }
@@ -265,12 +265,12 @@ $backgroundColor: #232323;
     margin-top: -4px;
     margin-bottom: 4px;
 
-    @media (width >= $mobileBreakPoint) {
+    @media (width >= variables.$mobileBreakPoint) {
       text-shadow: 1.5px 1.5px 1px #57f3a9, -1px -1px 1px #eef8f2;
     }
   }
 
-  @media (width >= $mobileBreakPoint) {
+  @media (width >= variables.$mobileBreakPoint) {
     font-size: 40px;
   }
 }
@@ -291,7 +291,7 @@ $backgroundColor: #232323;
   display: flex;
   align-items: center;
 
-  @media (width >= $mobileBreakPoint) {
+  @media (width >= variables.$mobileBreakPoint) {
     padding: 16px 24px;
   }
 }
@@ -329,7 +329,7 @@ $backgroundColor: #232323;
   overflow: hidden;
   z-index: 1;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     min-height: 200px;
   }
 }

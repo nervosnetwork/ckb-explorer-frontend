@@ -101,7 +101,7 @@ const TransactionParameters: FC<{ hash: string }> = ({ hash }) => {
                         codeHash,
                         hashType,
                         args: '',
-                        tag: name,
+                        verifiedScriptName: name,
                         category: isLockScript ? 'lock' : 'type',
                       }}
                     />

@@ -1,18 +1,18 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   flex: 1;
   margin: 32px 120px 40px;
 
-  @media (width <= $xxlBreakPoint) {
+  @media (width <= variables.$xxlBreakPoint) {
     margin: 32px 100px 40px;
   }
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     margin: 32px 45px 40px;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin: 20px 16px;
   }
 }
@@ -61,14 +61,14 @@
     }
   }
 
-  @media (width <= $largeBreakPoint) {
+  @media (width <= variables.$largeBreakPoint) {
     .cover {
       width: 360px;
       height: 360px;
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     flex-direction: column;
     gap: 16px;
     padding: 16px;
@@ -127,12 +127,12 @@
   object-fit: scale-down;
   background: #fafafa;
 
-  @media (width <= $largeBreakPoint) {
+  @media (width <= variables.$largeBreakPoint) {
     width: 360px;
     height: 360px;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     width: 100%;
     height: auto;
   }

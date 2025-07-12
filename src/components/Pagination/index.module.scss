@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .pageSizeSelector {
   white-space: nowrap;
@@ -96,7 +96,7 @@
   color: #000;
   padding-left: 20px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     padding-left: 0;
     justify-content: flex-start;
   }
@@ -118,7 +118,7 @@
       background: #ddd;
     }
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       display: none;
     }
   }
@@ -144,7 +144,7 @@
       background: #ddd;
     }
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       margin-left: 10px;
     }
 
@@ -170,7 +170,7 @@
     margin-left: 20px;
     white-space: nowrap;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       background: white;
       border-radius: 0;
       margin-left: 10px;
@@ -196,7 +196,7 @@
     border-radius: 6px;
     pointer-events: auto;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       margin-left: 10px;
     }
 
@@ -232,7 +232,7 @@
       background: #ddd;
     }
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       display: none;
     }
   }
@@ -251,7 +251,7 @@
   color: #000;
   padding-right: 20px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     padding-right: 0;
     justify-content: flex-end;
   }
@@ -267,7 +267,7 @@
     margin-right: 20px;
     padding-left: 10px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       width: 60px;
       margin-right: 0;
       padding-left: 8px;
@@ -278,7 +278,7 @@
   :global(.paginationPageLabel) {
     margin-right: 20px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       display: none;
     }
   }
@@ -299,7 +299,7 @@
       background: #ddd;
     }
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       margin-left: 10px;
       margin-right: 10px;
       font-size: 12px;

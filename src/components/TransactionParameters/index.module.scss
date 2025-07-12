@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   background: rgb(245 245 245);
@@ -28,7 +28,7 @@
     }
   }
 
-  @media screen and (width <= $mobileBreakPoint) {
+  @media screen and (width <= variables.$mobileBreakPoint) {
     padding: 4px;
   }
 }
@@ -57,13 +57,13 @@
     background: #eee;
     border-radius: 4px;
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       margin-top: 8px;
       padding: 12px 8px;
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin-top: 12px;
   }
 }
@@ -86,7 +86,7 @@
     align-items: center;
     white-space: nowrap;
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       width: 130px;
     }
   }
@@ -98,7 +98,7 @@
     gap: 12px 16px;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     font-size: 12px;
     flex-flow: column wrap;
 

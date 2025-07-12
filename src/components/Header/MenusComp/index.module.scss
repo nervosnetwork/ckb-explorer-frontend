@@ -68,7 +68,7 @@
 
   &:hover {
     .moreIcon {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
     }
   }
 }
@@ -109,7 +109,7 @@
 
   &:hover {
     font-weight: 400;
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 
   &[data-popup] {
@@ -163,7 +163,7 @@
   transition: all 0.2s;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }
 
@@ -195,7 +195,7 @@
 
   &:hover {
     font-weight: medium;
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
 
     svg {
       filter: drop-shadow(0 0 4px var(--primary-color));
@@ -216,7 +216,7 @@
 
   &:hover {
     font-weight: medium;
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
 
     svg {
       filter: drop-shadow(0 0 4px var(--primary-color));
