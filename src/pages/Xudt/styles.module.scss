@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .container {
   display: flex;
@@ -7,7 +7,7 @@
   margin-top: 25px;
   margin-bottom: 40px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin: 0;
     padding: 20px;
   }
@@ -25,7 +25,7 @@
   box-shadow: 2px 2px 6px 0 #dfdfdf;
   overflow: hidden;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     flex-direction: column;
     padding: 16px;
   }
@@ -39,7 +39,7 @@
     font-size: 18px;
     overflow-x: auto;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       gap: 32px;
     }
   }
@@ -65,7 +65,7 @@
   ) {
   padding-bottom: 20px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     padding-bottom: 16px;
   }
 }
@@ -77,7 +77,7 @@
   display: flex;
   gap: 8px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin-bottom: 16px;
   }
 }
@@ -93,7 +93,7 @@
     flex-shrink: 0;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     gap: 4px;
     padding-top: 16px;
     color: #333;
@@ -108,7 +108,7 @@
 }
 
 .cardHeader {
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin-top: 8px;
     margin-bottom: 12px;
     height: 17px !important;
@@ -131,7 +131,7 @@
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin-left: 2px;
   }
 }
@@ -143,18 +143,18 @@
   height: 100%;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }
 
 .addressWidthModify {
   max-width: 80%;
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     max-width: 40%;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     max-width: 100%;
   }
 }
@@ -163,7 +163,7 @@
   display: flex;
   align-items: center;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     width: 100%;
     margin-top: 8px;
   }
@@ -183,14 +183,14 @@
   cursor: pointer;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
 
     path {
       stroke: var(--primary-color);
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     width: 9.5rem;
     height: 2rem;
     font-size: 0.875rem;
@@ -256,7 +256,7 @@
     margin: 2px 0 0 5px;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     font-size: 14px;
 
     > img {
@@ -281,7 +281,7 @@
   border-radius: 4px;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
     border-color: var(--primary-color);
   }
 }

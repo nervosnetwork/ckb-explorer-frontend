@@ -1,4 +1,4 @@
-@import '../../../styles//variables.module.scss';
+@use '../../../styles/variables.module.scss';
 
 .svgContainer {
   display: flex;
@@ -33,7 +33,7 @@
     height: 0.75rem;
   }
 
-  @media screen and (width <= $mobileBreakPoint) {
+  @media screen and (width <= variables.$mobileBreakPoint) {
     height: 1rem;
   }
 }
@@ -49,7 +49,7 @@
     white-space: nowrap;
   }
 
-  @media screen and (width <= $mobileBreakPoint) {
+  @media screen and (width <= variables.$mobileBreakPoint) {
     gap: 12px;
     align-items: start;
     flex-direction: column;
@@ -110,7 +110,7 @@
     padding-bottom: 16px;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin-top: 10px;
   }
 
@@ -133,7 +133,7 @@
       max-height: 440px;
     }
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       font-size: 10px;
       padding: 10px;
     }
@@ -151,7 +151,7 @@
           .title {
             min-width: 120px;
 
-            @media (max-width: $mobileBreakPoint) {
+            @media (max-width: variables.$mobileBreakPoint) {
               min-width: 70px;
             }
           }
@@ -163,7 +163,7 @@
           .title {
             min-width: 80px;
 
-            @media (max-width: $mobileBreakPoint) {
+            @media (max-width: variables.$mobileBreakPoint) {
               min-width: 40px;
             }
           }
@@ -201,10 +201,6 @@
 
             a {
               color: #999;
-
-              &:hover {
-                color: var(--primary-color);
-              }
             }
           }
         }
@@ -214,7 +210,7 @@
         display: flex;
         margin: 2px 0 2px 30px;
 
-        @media (max-width: $mobileBreakPoint) {
+        @media (max-width: variables.$mobileBreakPoint) {
           margin: 2px 0 2px 12px;
         }
 
@@ -271,7 +267,7 @@
         }
       }
 
-      @media screen and (width < $largeBreakPoint) {
+      @media screen and (width < variables.$largeBreakPoint) {
         height: 30px;
         font-size: 0.8rem;
       }
@@ -297,7 +293,7 @@
   .transactionDetailLoading {
     padding: 20px 0;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       padding: 10px 0;
     }
   }
@@ -311,7 +307,7 @@
   overflow-x: auto;
 
   .tabsList {
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       justify-content: flex-start;
     }
   }

@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .capacity {
   display: inline-flex;
@@ -10,7 +10,7 @@
     color: var(--decimal-color);
   }
 
-  @media screen and (width <= $largeBreakPoint) {
+  @media screen and (width <= variables.$largeBreakPoint) {
     font-size: 0.75rem;
 
     span[data-role='dec'] {
@@ -33,11 +33,11 @@
   display: flex;
   color: #000;
 
-  @media (max-width: $extraLargeBreakPoint) {
+  @media (max-width: variables.$extraLargeBreakPoint) {
     flex-direction: column;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     box-shadow: 1px 1px 3px 0 #dfdfdf;
     padding: 5px 0 15px;
     font-size: 13px;
@@ -50,14 +50,14 @@
     background: #eaeaea;
     margin-left: 2%;
 
-    @media (max-width: $extraLargeBreakPoint) {
+    @media (max-width: variables.$extraLargeBreakPoint) {
       width: 100%;
       height: 1px;
       background: #eaeaea;
       margin-left: 0;
     }
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       width: 100%;
       height: 1px;
       background: #eaeaea;
@@ -71,7 +71,7 @@
   flex-direction: row;
   flex: 54;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin: 0 16px;
     flex-direction: column;
   }
@@ -81,7 +81,7 @@
     flex-direction: column;
     flex: 1;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       flex-direction: row;
     }
   }
@@ -92,7 +92,7 @@
     background: #eaeaea;
     margin: 10px 16px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       width: 100%;
       height: 1px;
       background: #eaeaea;
@@ -106,7 +106,7 @@
     margin: 3% 0;
     background: #eaeaea;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       display: none;
     }
   }
@@ -117,11 +117,11 @@
   flex-direction: row;
   flex: 44;
 
-  @media (max-width: $extraLargeBreakPoint) {
+  @media (max-width: variables.$extraLargeBreakPoint) {
     margin-top: 12px;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin: 5px 0;
   }
 }
@@ -132,7 +132,7 @@
   font-size: 14px;
   color: #555;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     font-size: 12px;
     margin: 8px 16px;
   }
@@ -144,7 +144,7 @@
   flex-direction: column;
   align-items: center;
 
-  @media (max-width: $extraLargeBreakPoint) {
+  @media (max-width: variables.$extraLargeBreakPoint) {
     align-items: flex-start;
     padding-right: 10px;
   }
@@ -160,7 +160,7 @@
     width: auto;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     justify-content: flex-start;
   }
 }
@@ -194,7 +194,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
 
-      @media (max-width: $xxlBreakPoint) {
+      @media (max-width: variables.$xxlBreakPoint) {
         max-width: 200px;
 
         &:global(.hasChange) {
@@ -202,11 +202,11 @@
         }
       }
 
-      @media (max-width: $extraLargeBreakPoint) {
+      @media (max-width: variables.$extraLargeBreakPoint) {
         max-width: 200px;
       }
 
-      @media (max-width: $mobileBreakPoint) {
+      @media (max-width: variables.$mobileBreakPoint) {
         font-size: 12px;
         max-width: 200px;
 
@@ -226,7 +226,7 @@
       font-weight: bold;
       cursor: default;
 
-      @media (max-width: $mobileBreakPoint) {
+      @media (max-width: variables.$mobileBreakPoint) {
         font-size: 10px;
       }
     }
@@ -238,7 +238,7 @@
     font-weight: bold;
     margin: 10px 0;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       font-size: 14px;
     }
   }
@@ -262,11 +262,11 @@
   display: flex;
   flex: 1;
 
-  @media (max-width: $extraLargeBreakPoint) {
+  @media (max-width: variables.$extraLargeBreakPoint) {
     margin: 10px 0;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin: 5px 0;
   }
 
@@ -282,7 +282,7 @@
       font-size: 16px;
       color: #000;
 
-      @media (max-width: $mobileBreakPoint) {
+      @media (max-width: variables.$mobileBreakPoint) {
         font-size: 12px;
       }
     }
@@ -292,7 +292,7 @@
 .nervosDaoPieCapacityPanel {
   width: 180px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 130px;
   }
 }

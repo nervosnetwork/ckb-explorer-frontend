@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .left {
   display: flex;
@@ -22,7 +22,7 @@
   transition: transform 0.5s;
   margin: 16px;
 
-  @media screen and (width <=$extraLargeBreakPoint) {
+  @media screen and (width <=variables.$extraLargeBreakPoint) {
     transform: rotate(0deg);
   }
 }
@@ -45,7 +45,7 @@
     margin-top: 0;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     padding: 15px 20px;
     font-size: 13px;
   }
@@ -64,7 +64,7 @@
     justify-content: space-between;
     margin-bottom: 10px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       flex-direction: column;
       justify-content: normal;
       margin-bottom: 10px;
@@ -79,7 +79,7 @@
     :global(.transactionItemBlock) {
       color: #000;
 
-      @media (max-width: $mobileBreakPoint) {
+      @media (max-width: variables.$mobileBreakPoint) {
         font-weight: normal;
       }
     }
@@ -100,7 +100,7 @@
   flex-direction: row;
   align-items: flex-start;
 
-  @media (max-width: $extraLargeBreakPoint) {
+  @media (max-width: variables.$extraLargeBreakPoint) {
     flex-direction: column;
     align-items: center;
   }
@@ -116,7 +116,7 @@
     flex: 1;
     min-width: 0;
 
-    @media (max-width: $extraLargeBreakPoint) {
+    @media (max-width: variables.$extraLargeBreakPoint) {
       margin: 0;
       flex: none;
       width: 100%;
@@ -131,7 +131,7 @@
     align-items: flex-start;
     margin-left: 40px;
 
-    @media (max-width: $extraLargeBreakPoint) {
+    @media (max-width: variables.$extraLargeBreakPoint) {
       margin: 0;
       flex: none;
       width: 100%;
@@ -143,7 +143,7 @@
     color: #666;
     margin-top: 18px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       font-size: 13px;
     }
   }
@@ -165,7 +165,7 @@
     margin-top: 20px;
     height: 20px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       font-size: 14px;
       margin-top: 15px;
       height: 16px;
@@ -177,6 +177,6 @@
   }
 
   a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }

@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .feeRateTrackerPanel {
   display: flex;
@@ -176,7 +176,7 @@
     }
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     .title {
       margin: 20px 0 12px;
       font-size: 20px;

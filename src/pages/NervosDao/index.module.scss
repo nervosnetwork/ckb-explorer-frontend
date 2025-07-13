@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .daoContentPanel {
   display: flex;
@@ -7,7 +7,7 @@
   margin-top: 30px;
   margin-bottom: 40px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin: 0;
     padding: 20px;
   }
@@ -25,11 +25,11 @@
   font-size: 18px;
   border-radius: 6px 6px 0 0;
 
-  @media (max-width: $extraLargeBreakPoint) {
+  @media (max-width: variables.$extraLargeBreakPoint) {
     font-size: 16px;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     padding: 10px 0;
     flex-direction: column;
     justify-content: center;
@@ -49,7 +49,7 @@
     cursor: pointer;
     margin-right: 15px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       display: flex;
       justify-content: space-between;
       margin-bottom: 25px;
@@ -59,7 +59,7 @@
     :global(.div) {
       font-size: 20px;
 
-      @media (max-width: $mobileBreakPoint) {
+      @media (max-width: variables.$mobileBreakPoint) {
         font-size: 13px;
       }
     }
@@ -67,7 +67,7 @@
     div:nth-child(2) {
       margin-left: 50px;
 
-      @media (max-width: $extraLargeBreakPoint) {
+      @media (max-width: variables.$extraLargeBreakPoint) {
         margin-left: 30px;
       }
     }
@@ -79,7 +79,7 @@
       font-weight: normal;
       font-size: 18px;
 
-      @media (max-width: $extraLargeBreakPoint) {
+      @media (max-width: variables.$extraLargeBreakPoint) {
         width: 110px;
       }
     }
@@ -92,7 +92,7 @@
       font-weight: bold;
       border-bottom: 3px solid var(--primary-color);
 
-      @media (max-width: $extraLargeBreakPoint) {
+      @media (max-width: variables.$extraLargeBreakPoint) {
         width: 110px;
       }
     }

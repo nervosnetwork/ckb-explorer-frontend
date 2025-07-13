@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .toastPanel {
   position: absolute;
@@ -29,7 +29,7 @@
     text-align: center;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     top: 42px;
     height: 36px;
 

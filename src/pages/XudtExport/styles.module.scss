@@ -1,11 +1,11 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 .containerPanel {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin: 0;
   }
 }
@@ -15,7 +15,7 @@
   justify-content: center;
   margin-top: 40px;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin-top: 20px;
     width: calc(100% - 32px);
     justify-content: start;
@@ -26,7 +26,7 @@
     font-size: 24px;
     line-height: 28px;
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       font-size: 20px;
       line-height: normal;
     }
@@ -55,7 +55,7 @@
     color: #333;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     > div {
       text-align: left;
       width: calc(100% - 32px);
@@ -74,7 +74,7 @@
   border-radius: 4px;
   background: white;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     margin-top: 16px;
     margin-bottom: 24px;
     width: calc(100% - 32px);
@@ -93,7 +93,7 @@
       padding-top: 24px;
       padding-bottom: 4px;
 
-      @media (width <= $mobileBreakPoint) {
+      @media (width <= variables.$mobileBreakPoint) {
         padding: 16px 0;
       }
 
@@ -108,7 +108,7 @@
       text-align: center;
     }
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       margin-top: 12px;
     }
   }
@@ -122,7 +122,7 @@
     margin-top: 16px;
     color: #666;
 
-    @media (width <= $mobileBreakPoint) {
+    @media (width <= variables.$mobileBreakPoint) {
       flex-direction: column;
       border-top: 1px solid #e5e5e5;
       margin-top: 24px;
@@ -137,7 +137,7 @@
       flex-direction: column;
       width: 40%;
 
-      @media (width <= $mobileBreakPoint) {
+      @media (width <= variables.$mobileBreakPoint) {
         width: 100%;
         padding-left: 16px;
         padding-right: 16px;
@@ -146,7 +146,7 @@
       > div:first-child {
         margin-bottom: 12px;
 
-        @media (width <= $mobileBreakPoint) {
+        @media (width <= variables.$mobileBreakPoint) {
           margin-bottom: 8px;
         }
       }
@@ -173,7 +173,7 @@
       padding-top: 56px;
       padding-bottom: 40px;
 
-      @media (width <= $mobileBreakPoint) {
+      @media (width <= variables.$mobileBreakPoint) {
         padding: 24px 8px 16px;
         max-width: 312px;
       }
@@ -249,7 +249,7 @@
         cursor: not-allowed;
       }
 
-      @media (width <= $mobileBreakPoint) {
+      @media (width <= variables.$mobileBreakPoint) {
         margin-top: 20px;
         margin-bottom: 24px;
       }
@@ -270,7 +270,7 @@
 .blockHeightText {
   text-align: center;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     text-align: left;
   }
 }
@@ -281,13 +281,13 @@
   width: 100%;
   align-items: center;
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     gap: 8px;
     flex-direction: column;
     align-items: flex-start;
   }
 
-  @media (width > $mobileBreakPoint) {
+  @media (width > variables.$mobileBreakPoint) {
     .inputLabel {
       width: 40%;
       text-align: end;

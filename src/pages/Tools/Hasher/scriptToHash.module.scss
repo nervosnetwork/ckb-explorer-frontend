@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .link {
   color: var(--primary-color);
@@ -35,7 +35,7 @@
       flex-shrink: 0;
     }
 
-    @media screen and (max-width: $mobileBreakPoint) {
+    @media screen and (max-width: variables.$mobileBreakPoint) {
       strong {
         flex-basis: auto;
       }
@@ -54,7 +54,7 @@
       color: var(--primary-color);
     }
 
-    @media screen and (max-width: $mobileBreakPoint) {
+    @media screen and (max-width: variables.$mobileBreakPoint) {
       flex-direction: row;
       margin-left: 0;
     }
@@ -91,7 +91,7 @@
     flex-shrink: 0;
   }
 
-  @media screen and (width <= $mobileBreakPoint) {
+  @media screen and (width <= variables.$mobileBreakPoint) {
     flex-direction: column;
 
     label {

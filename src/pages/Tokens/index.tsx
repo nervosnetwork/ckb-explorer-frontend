@@ -19,13 +19,13 @@ import { QueryResult } from '../../components/QueryResult'
 import { SubmitTokenInfo } from '../../components/SubmitTokenInfo'
 import { OmigaInscriptionCollection, UDT, isOmigaInscriptionCollection } from '../../models/UDT'
 import { Card } from '../../components/Card'
-import { scripts } from '../ScriptList'
 import { ReactComponent as OpenSourceIcon } from '../../assets/open-source.svg'
 import { BooleanT } from '../../utils/array'
 import Tooltip from '../../components/Tooltip'
 import Loading from '../../components/Loading'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../../components/ui/Select'
 import { Button } from '../../components/ui/Button'
+import { SUDT_CODE_URL } from '../../constants/common'
 
 type SortField = 'transactions' | 'addresses_count' | 'created_time' | 'mint_status'
 
@@ -380,8 +380,6 @@ const TokenTable: FC<{
   )
 }
 
-const sudtCodeUrl = scripts.get('sudt')?.code
-
 const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
   const isMobile = useIsMobile()
   const { t } = useTranslation()
@@ -420,12 +418,10 @@ const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
           <div className={styles.title}>
             <span className={styles.titleText}>
               {isInscription ? t('udt.inscriptions') : t('udt.tokens')}
-              {sudtCodeUrl ? (
-                <Link to={sudtCodeUrl}>
-                  {t('scripts.open_source_script')}
-                  <OpenSourceIcon />
-                </Link>
-              ) : null}
+              <Link to={SUDT_CODE_URL}>
+                {t('scripts.open_source_script')}
+                <OpenSourceIcon />
+              </Link>
             </span>
             <span className={styles.currentPath}>
               {t('udt.udts')} &gt;{' '}

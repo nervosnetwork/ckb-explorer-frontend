@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .transactionCellPanel {
   width: 100%;
@@ -60,7 +60,7 @@
   }
 
   a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }
 
@@ -70,7 +70,7 @@
     cursor: pointer;
     width: 45px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       width: auto;
     }
 
@@ -80,13 +80,13 @@
       height: 1px;
       transform: scaleY(0.5);
 
-      @media (max-width: $mobileBreakPoint) {
+      @media (max-width: variables.$mobileBreakPoint) {
         width: auto;
       }
     }
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
 
       :global(.transactionCellInfoSeparate) {
         background: var(--primary-color);
@@ -108,7 +108,7 @@
       width: 70px;
       text-align: start;
 
-      @media (max-width: $xxlBreakPoint) {
+      @media (max-width: variables.$xxlBreakPoint) {
         width: 50px;
       }
     }
@@ -130,7 +130,7 @@
     text-align: left;
   }
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     text-align: left;
 
     > a {
@@ -138,7 +138,7 @@
     }
   }
 
-  @media (min-width: $mobileBreakPoint) {
+  @media (min-width: variables.$mobileBreakPoint) {
     font-weight: 500;
   }
 
@@ -149,7 +149,7 @@
   :global(.transactionCellAddressLink) {
     max-width: 70%;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       max-width: unset;
     }
   }
@@ -209,7 +209,7 @@
   border: 1px solid #888;
   width: 75%;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     width: 90%;
     margin-top: 40%;
     padding: 10px;
@@ -251,6 +251,6 @@
   }
 
   a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }

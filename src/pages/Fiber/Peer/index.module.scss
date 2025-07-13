@@ -1,5 +1,5 @@
-@import '../../../styles/variables.module';
-@import '../../../styles/card.module';
+@use '../../../styles/variables.module';
+@use '../../../styles/card.module';
 
 .container {
   text-wrap: nowrap;
@@ -67,7 +67,7 @@
     cursor: pointer;
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-color-hover);
     }
   }
 
@@ -141,7 +141,7 @@
     }
   }
 
-  @media screen and (width < $extraLargeBreakPoint) {
+  @media screen and (width < variables.$extraLargeBreakPoint) {
     margin: 24px 20px;
   }
 

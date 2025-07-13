@@ -30,7 +30,6 @@ const Item = ({ item }: { item: Transaction }) => {
       <td className={styles.hash} title={t('rgbpp.transaction.ckb_tx')}>
         <div className={styles.transactionHash}>
           <AddressText
-            disableTooltip
             linkProps={{
               to: `/transaction/${item.ckbTxId}`,
             }}
@@ -83,9 +82,7 @@ const Item = ({ item }: { item: Transaction }) => {
           >
             <div className={styles.btcTx}>
               <BTCExplorerLink className={styles.action} id={item.btcTxId} path="/tx">
-                <AddressText style={{ marginLeft: 'auto' }} disableTooltip>
-                  {item.btcTxId}
-                </AddressText>
+                <AddressText style={{ marginLeft: 'auto' }}>{item.btcTxId}</AddressText>
               </BTCExplorerLink>
             </div>
             <BTCExplorerLink className={styles.action} id={item.btcTxId} path="/tx">

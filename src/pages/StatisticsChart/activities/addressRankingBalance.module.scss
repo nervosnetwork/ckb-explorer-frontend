@@ -1,4 +1,4 @@
-@import '../../../styles/variables.module';
+@use '../../../styles/variables.module';
 
 .list {
   padding: 0 120px;
@@ -8,12 +8,12 @@
   table {
     background: #fff;
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    margin-bottom: 30px;
+    width: 100%;
 
     th {
       line-height: 2;
     }
-
-    width: 100%;
 
     th,
     td {
@@ -36,19 +36,17 @@
     td:last-child {
       text-align: right;
     }
-
-    margin-bottom: 30px;
   }
 
-  @media (width <= $xxlBreakPoint) {
+  @media (width <= variables.$xxlBreakPoint) {
     padding: 0 100px;
   }
 
-  @media (width <= $extraLargeBreakPoint) {
+  @media (width <= variables.$extraLargeBreakPoint) {
     padding: 0 45px;
   }
 
-  @media (width <= $mobileBreakPoint) {
+  @media (width <= variables.$mobileBreakPoint) {
     padding: 0 18px;
   }
 }

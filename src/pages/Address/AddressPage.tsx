@@ -14,7 +14,6 @@ import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import type { Transaction } from '../../models/Transaction'
-import { SCRIPT_TAGS, ContractHashTag, TIMELOCK_KEYWORDS } from '../../constants/scripts'
 import {
   useDeprecatedAddr,
   useNewAddr,
@@ -45,24 +44,18 @@ import { ReactComponent as TimelockIcon } from '../../components/LockIcons/Timel
 import Tooltip from '../../components/Tooltip'
 import { useSetToast } from '../../components/Toast'
 import { Tabs, TabsList, TabsTrigger } from '../../components/ui/Tabs'
-import { getContractHashTag } from '../../utils/util'
-import { scripts } from '../ScriptList'
 
 const AddressBadge: FC<{
   badge: ReactNode
   script: Script
-  hashTag: Pick<ContractHashTag, 'tag' | 'multiple'>
-}> = ({ badge, script, hashTag }) => {
+  scriptName: string | undefined | null
+}> = ({ badge, script, scriptName }) => {
   const { t } = useTranslation()
   const setToast = useSetToast()
-  const info = scripts.get(hashTag.tag)
   return (
     <Tooltip trigger={badge} placement="top">
       <div>
-        <div className={styles.scriptIcon}>
-          {info?.name ?? hashTag.tag}
-          {hashTag.multiple ? <span className="text-primary">(@{script.codeHash.slice(2, 10)})</span> : null}
-        </div>
+        <div className={styles.scriptIcon}>{scriptName}</div>
         <div>
           <div className={styles.copyCodeHash}>
             Code Hash:
@@ -276,10 +269,6 @@ export const Address = () => {
   const isBtcAddress = isRGBPP ? isValidBTCAddress(address) : false
 
   const script = addressInfo?.lockScript
-  let hashTag: Pick<ContractHashTag, 'tag' | 'category' | 'multiple'> | undefined
-  if (script) {
-    hashTag = getContractHashTag(script)
-  }
 
   return (
     <Content>
@@ -291,15 +280,21 @@ export const Address = () => {
             hash={address}
             customActions={[
               <Qrcode text={address} />,
-              script &&
-              hashTag?.tag &&
-              [SCRIPT_TAGS.SECP_MULTISIG, SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME].includes(
-                hashTag.tag as typeof SCRIPT_TAGS.SECP_MULTISIG | typeof SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME,
-              ) ? (
-                <AddressBadge badge={<MultisigIcon />} script={script} hashTag={hashTag} />
+              script && addressInfo?.lockScript.tags?.includes('multisig') ? (
+                <AddressBadge
+                  badge={<MultisigIcon />}
+                  script={script}
+                  scriptName={addressInfo.lockScript.verifiedScriptName}
+                />
               ) : null,
-              script && hashTag && TIMELOCK_KEYWORDS.some(kw => hashTag?.tag.toLowerCase().includes(kw)) ? (
-                <AddressBadge badge={<TimelockIcon />} script={script} hashTag={hashTag} />
+              script &&
+              addressInfo &&
+              ['btc_time_lock', 'multisig_time_lock'].some(tag => addressInfo?.lockScript.tags?.includes(tag)) ? (
+                <AddressBadge
+                  badge={<TimelockIcon />}
+                  script={script}
+                  scriptName={addressInfo.lockScript.verifiedScriptName}
+                />
               ) : null,
               isBtcAddress ? <LinkToBtcAddress address={address} /> : null,
               <FaucetMenu address={address} />,

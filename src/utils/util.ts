@@ -5,19 +5,8 @@ import BigNumber from 'bignumber.js'
 import { scriptToAddress, addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
 import { HashType } from '@ckb-lumos/base'
-import {
-  MAX_CONFIRMATION,
-  TOKEN_EMAIL_SUBJECT,
-  TOKEN_EMAIL_BODY,
-  TOKEN_EMAIL_ADDRESS,
-  IS_MAINNET,
-} from '../constants/common'
-import {
-  ContractHashTag,
-  MainnetContractHashTags,
-  ScriptTagExtraRules,
-  TestnetContractHashTags,
-} from '../constants/scripts'
+import { MAX_CONFIRMATION, TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY, TOKEN_EMAIL_ADDRESS } from '../constants/common'
+import { ContractHashTag, MainnetContractHashTags, TestnetContractHashTags } from '../constants/scripts'
 import { isMainnet } from './chain'
 import { Script } from '../models/Script'
 import { Cell } from '../models/Cell'
@@ -125,19 +114,6 @@ export const isValidReactNode = (node: ReactNode) => {
   }
   return !!node
 }
-
-export const getContractHashTag = (script: Script, ignoreHashType = false): ContractHashTag | undefined => {
-  if (!script.codeHash || !script.hashType) return undefined
-  const contractHashTag = matchScript(script.codeHash, ignoreHashType ? undefined : script.hashType)
-  if (!!contractHashTag && ScriptTagExtraRules.has(contractHashTag.tag)) {
-    return {
-      ...contractHashTag,
-      tag: ScriptTagExtraRules.get(contractHashTag.tag)?.(script as Script) || contractHashTag.tag,
-    }
-  }
-  return contractHashTag
-}
-
 export const matchScript = (contractHash: string, hashType?: string): ContractHashTag | undefined => {
   if (isMainnet()) {
     return MainnetContractHashTags.find(
@@ -153,22 +129,10 @@ export const matchScript = (contractHash: string, hashType?: string): ContractHa
   )
 }
 
-export const matchTxHash = (txHash: string, index: number | string): ContractHashTag | undefined => {
-  if (isMainnet()) {
-    return MainnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
-  }
-  return TestnetContractHashTags.find(codeHashTag => codeHashTag.txHashes.find(hash => hash === `${txHash}-${index}`))
-}
-
 // return txid and index of btc utxo, in hex string without 0x
 export const getBtcUtxo = (script: Script) => {
-  const scriptSet = IS_MAINNET ? MainnetContractHashTags : TestnetContractHashTags
+  if (!script.tags?.includes('rgb++')) return
 
-  // FIXME: should not use tag as index
-  const INDEX_TAG = 'RGB++'
-  const rgbppScript = scriptSet.find(s => s.tag === INDEX_TAG)
-  if (!rgbppScript) return
-  if (rgbppScript.hashType !== script.hashType || !rgbppScript.codeHashes.includes(script.codeHash)) return
   const INDEX_BYTE_SIZE = 4
   const TXID_BYTE_SIZE = 32
   const d = 2 * INDEX_BYTE_SIZE + 2
@@ -179,13 +143,7 @@ export const getBtcUtxo = (script: Script) => {
 }
 
 export const getBtcTimeLockInfo = (script: Script) => {
-  const scriptSet = IS_MAINNET ? MainnetContractHashTags : TestnetContractHashTags
-
-  // FIXME: should not use tag as index
-  const INDEX_TAG = 'BTC Time Lock'
-  const btcTimeLockScript = scriptSet.find(s => s.tag === INDEX_TAG)
-  if (!btcTimeLockScript) return
-  if (btcTimeLockScript.hashType !== script.hashType || !btcTimeLockScript.codeHashes.includes(script.codeHash)) return
+  if (!script.tags?.includes('btc_time_lock')) return
   try {
     return parseBtcTimeLockArgs(script.args)
   } catch (e) {

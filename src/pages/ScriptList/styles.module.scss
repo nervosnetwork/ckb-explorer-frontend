@@ -1,4 +1,4 @@
-@import '../../styles/variables.module';
+@use '../../styles/variables.module';
 
 dl,
 dd,
@@ -11,7 +11,7 @@ dt {
   width: 100%;
   text-align: center;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     height: 100px;
     line-height: 100px;
     margin-bottom: 160px;
@@ -28,7 +28,7 @@ dt {
   margin-top: 40px;
   margin-bottom: 60px;
 
-  @media (max-width: $mobileBreakPoint) {
+  @media (max-width: variables.$mobileBreakPoint) {
     margin-top: 20px;
     margin-bottom: 30px;
   }
@@ -39,7 +39,7 @@ dt {
     align-items: center;
     margin-bottom: 20px;
 
-    @media (max-width: $mobileBreakPoint) {
+    @media (max-width: variables.$mobileBreakPoint) {
       margin-bottom: 10px;
       flex-direction: column;
       align-items: flex-start;
@@ -65,7 +65,7 @@ dt {
   font-weight: 500;
 
   &:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
   }
 }
 
@@ -87,7 +87,7 @@ dt {
   overflow-x: auto;
   border-radius: 8px 8px 0 0;
 
-  @media screen and (width <=$mobileBreakPoint) {
+  @media screen and (width <=variables.$mobileBreakPoint) {
     display: none;
   }
 }
@@ -95,7 +95,7 @@ dt {
 .cards {
   display: none;
 
-  @media screen and (width <=$mobileBreakPoint) {
+  @media screen and (width <=variables.$mobileBreakPoint) {
     display: block;
   }
 }
@@ -114,13 +114,13 @@ dt {
   gap: 8px;
 
   &:first-child {
-    @media (width <=$mobileBreakPoint) {
+    @media (width <=variables.$mobileBreakPoint) {
       margin-top: 16px;
     }
   }
 
   &:last-child {
-    @media (width <=$mobileBreakPoint) {
+    @media (width <=variables.$mobileBreakPoint) {
       margin-bottom: 16px;
     }
   }
@@ -351,7 +351,7 @@ dt {
 .pagination {
   border-top: 4px solid #e5e5e5;
 
-  @media (width <=$mobileBreakPoint) {
+  @media (width <=variables.$mobileBreakPoint) {
     border-top: 0;
     margin-top: 20px;
     border-radius: 4px;
