@@ -8,7 +8,7 @@ import { MainnetContractHashTags, TestnetContractHashTags, scripts } from '../co
 
 const DEPOSIT_DAO_DATA = '0x0000000000000000'
 
-export const UDT_CELL_TYPES = ['sudt', 'xudt', 'omiga_inscription', 'xudt_compatible']
+export const UDT_CELL_TYPES = ['udt', 'sudt', 'xudt', 'omiga_inscription', 'xudt_compatible']
 export const LOCK_CELL_TYPES = ['Fiber Channel']
 
 export function getCellType(cell: Cell): { type: string; info?: Record<string, string> } {
