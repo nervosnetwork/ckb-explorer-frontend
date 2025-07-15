@@ -150,7 +150,7 @@ export interface Cell$Nrc721Token extends Cell$Base {
 
 export interface Omiga$XUDT extends Cell$Base {
   cellType: 'omiga_inscription'
-  extraInfo: Record<'amount' | 'decimal' | 'name' | 'symbol', string>
+  extraInfo: Record<'amount' | 'decimal' | 'name' | 'symbol' | 'typeHash', string>
 }
 
 export interface XUDT extends Cell$Base {
