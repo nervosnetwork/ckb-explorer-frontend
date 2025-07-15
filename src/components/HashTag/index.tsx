@@ -10,7 +10,7 @@ export default ({ script }: { script: Script & { category?: 'lock' | 'type' } })
 
   if (isTypeIdScript(script)) {
     hashTag = { tag: TYPE_ID_TAG, category: 'type' }
-  } else {
+  } else if (script.tags?.length) {
     hashTag = {
       tag: script.tags?.[0] ?? '',
       category: scriptType ?? script.category,
