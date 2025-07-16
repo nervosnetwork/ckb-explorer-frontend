@@ -8,13 +8,13 @@ export default ({ script }: { script: Script & { category?: 'lock' | 'type' } })
 
   const scriptType = 'tags' in script ? 'lock' : 'type'
 
-  if (isTypeIdScript(script)) {
-    hashTag = { tag: TYPE_ID_TAG, category: 'type' }
-  } else if (script.verifiedScriptName) {
+  if (script.verifiedScriptName) {
     hashTag = {
       tag: script.verifiedScriptName,
       category: scriptType ?? script.category,
     }
+  } else if (isTypeIdScript(script)) {
+    hashTag = { tag: TYPE_ID_TAG, category: 'type' }
   } else if (script.tags?.length) {
     hashTag = {
       tag: script.tags?.[0] ?? '',
