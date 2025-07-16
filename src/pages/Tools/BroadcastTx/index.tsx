@@ -31,11 +31,8 @@ const BroadcastTx: FC = () => {
         // should be converted to snake_case
         tx = formatter.toRawTransaction(tx)
       }
-      const r = await nodeService.sendTransaction(tx)
-      if (r.error) {
-        throw new Error(r.error.message)
-      }
-      setResult({ hash: r.result })
+      const hash = await nodeService.sendTransaction(tx)
+      setResult({ hash })
     } catch (e) {
       if (e instanceof Error) {
         setResult({ error: e.message })

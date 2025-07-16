@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Transaction } from '@ckb-lumos/base'
+import { Transaction } from '@ckb-ccc/core'
 import { useTranslation } from 'react-i18next'
 import Pagination from '../../components/Pagination'
 import NodeTransactionItem from '../../components/TransactionItem/NodeTransactionItem'
@@ -35,7 +35,7 @@ export const NodeBlockTransactionList = ({
       {transactions.slice((page - 1) * pageSize, page * pageSize).map(transaction => (
         <NodeTransactionItem
           showBlock={false}
-          key={transaction.hash}
+          key={transaction.hash()}
           transaction={transaction}
           blockHashOrNumber={blockNumber?.toString()}
           highlightAddress={highlightAddress}

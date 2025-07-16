@@ -1,37 +1,8 @@
-import type { Cell, OutPoint, Output, Transaction } from '@ckb-lumos/base'
-import { common } from '@ckb-lumos/common-scripts'
+import { Cell, OutPoint, Transaction } from '@ckb-ccc/core'
 import { BI } from '@ckb-lumos/bi'
 
+const TRANSACTION_SIZE_PADDING = 4
 const CELLBASE_TX_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
-
-export function outputToCell(
-  output: Output,
-  data: string,
-  {
-    outPoint,
-    blockHash,
-    blockNumber,
-    txIndex,
-  }: {
-    outPoint?: OutPoint
-    blockHash?: string
-    blockNumber?: string
-    txIndex?: string
-  },
-): Cell {
-  return {
-    cellOutput: {
-      capacity: output.capacity,
-      lock: output.lock,
-      type: output.type,
-    },
-    data,
-    outPoint,
-    blockHash,
-    blockNumber,
-    txIndex,
-  }
-}
 
 function calculateFeeRate(size: number, fee: BI): BI {
   const ratio = BI.from(1000)
@@ -59,20 +30,23 @@ export function calculateFeeByTxIO(
 
 export function getTransactionOutputCells(tx: Transaction): Cell[] {
   return tx.outputs.map((output, index) =>
-    outputToCell(output, tx.outputsData[index], {
-      outPoint: tx.hash
-        ? {
-            txHash: tx.hash,
-            index: `0x${index.toString(16)}`,
-          }
-        : undefined,
+    Cell.from({
+      cellOutput: {
+        capacity: output.capacity,
+        lock: output.lock,
+        type: output.type,
+      },
+      outputData: tx.outputsData[index],
+      outPoint: OutPoint.from({
+        txHash: tx.hash(),
+        index,
+      }),
     }),
   )
 }
 
 export function calculateTransactionSize(tx: Transaction): number {
-  // eslint-disable-next-line no-underscore-dangle
-  return common.__tests__.getTransactionSizeByTx(tx)
+  return tx.toBytes().length + TRANSACTION_SIZE_PADDING
 }
 
 export function checkIsCellBase(tx: Transaction): boolean {

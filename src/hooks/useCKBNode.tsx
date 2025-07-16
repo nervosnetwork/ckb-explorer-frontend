@@ -104,7 +104,7 @@ export const CKBNodeProvider = ({ children, defaultEndpoint }: PropsWithChildren
 
   const switchNode = async (url: string) => {
     const service = new NodeService(url)
-    const res = await service.rpc.getBlockchainInfo().catch(() => {
+    const res = await service.lumosRPC.getBlockchainInfo().catch(() => {
       throw new Error(t('node.connect_failed'))
     })
 

@@ -1456,7 +1456,7 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@ckb-ccc/ccc@1.1.10":
+"@ckb-ccc/ccc@1.1.10", "@ckb-ccc/ccc@^1.1.10":
   version "1.1.10"
   resolved "https://registry.yarnpkg.com/@ckb-ccc/ccc/-/ccc-1.1.10.tgz#3de6a4e5a574165fabbba48c342b86dce1dcffb3"
   integrity sha512-p/9dqlFCQ6sDanXv5F6N/D1sl+OEY5+MIZdoCet0B3rxRx+MHhpyiTiNq5dXwsRru7pBJnNhSjWcO41qROS7VA==
