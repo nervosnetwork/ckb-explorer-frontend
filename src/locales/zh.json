@@ -1016,7 +1016,8 @@
         "website": "官网",
         "ownerless_cell": "无主 Cell"
       },
-      "detail": "详情"
+      "detail": "详情",
+      "no_live_cells": "这个合约的部署cell已被消费，无法查到相关信息"
     },
     "fee_rate_tracker": {
       "title": "费率追踪",
