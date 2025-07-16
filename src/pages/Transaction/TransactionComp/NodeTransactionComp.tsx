@@ -1,4 +1,4 @@
-import { Transaction } from '@ckb-lumos/base'
+import { Transaction } from '@ckb-ccc/core'
 import { useQuery } from '@tanstack/react-query'
 import NodeTransactionCellList from '../TransactionCellList/NodeTransactionCellList'
 import NodeTransactionCellBase from '../TransactionCellList/NodeTransactionCellBase'
@@ -12,20 +12,20 @@ export const NodeTransactionComp = ({
   blockNumber,
 }: {
   transaction: Transaction
-  blockNumber?: string
+  blockNumber?: number
 }) => {
   const isCellBase = checkIsCellBase(transaction)
   const { nodeService } = useCKBNode()
   const { data: cellBaseBlockHeader } = useQuery(
-    ['node', 'header', blockNumber ? parseInt(blockNumber, 16) - 11 : null],
-    () => nodeService.rpc.getHeaderByNumber(`0x${(parseInt(blockNumber!, 16) - 11).toString(16)}`),
+    ['node', 'header', blockNumber ? blockNumber - 11 : null],
+    () => (blockNumber ? nodeService.rpc.getHeaderByNumber(blockNumber - 11) : undefined),
     {
       enabled: isCellBase && Boolean(blockNumber),
     },
   )
 
   const { data: inputCells, isFetching: isInputsLoading } = useQuery(['node', 'inputCells', transaction?.hash], () =>
-    nodeService.getInputCells(transaction.inputs),
+    nodeService.getInputCells(transaction.inputs.map(i => i.previousOutput)),
   )
   const outputCells = getTransactionOutputCells(transaction)
 

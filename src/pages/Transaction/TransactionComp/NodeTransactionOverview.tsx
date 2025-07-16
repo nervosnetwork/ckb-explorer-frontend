@@ -1,7 +1,7 @@
 import { useState, FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ccc } from '@ckb-ccc/core'
 import { useQuery } from '@tanstack/react-query'
-import { ResultFormatter } from '@ckb-lumos/rpc'
 import { Link } from '../../../components/Link'
 import Capacity from '../../../components/Capacity'
 import SimpleButton from '../../../components/SimpleButton'
@@ -27,59 +27,72 @@ import Tooltip from '../../../components/Tooltip'
 import baseStyles from './styles.module.scss'
 
 const showTxStatus = (txStatus: string) => txStatus?.replace(/^\S/, s => s.toUpperCase()) ?? '-'
-const TransactionBlockHeight = ({ txStatus }: { txStatus: NodeRpc.TransactionWithStatus['tx_status'] }) => (
-  <div className={baseStyles.transactionBlockHeightPanel}>
-    {txStatus.status === 'committed' ? (
-      <Link to={`/block/${parseInt(txStatus.block_number, 16)}`}>{localeNumberString(txStatus.block_number)}</Link>
-    ) : (
-      <span>{showTxStatus(txStatus.status)}</span>
-    )}
-  </div>
-)
+const TransactionBlockHeight = ({
+  status,
+  blockNumber,
+}: {
+  status: NodeRpc.TransactionWithStatus['status']
+  blockNumber?: string
+}) => {
+  if (!blockNumber || status !== 'committed') {
+    return (
+      <div className={baseStyles.transactionBlockHeightPanel}>
+        <span>{showTxStatus(status)}</span>
+      </div>
+    )
+  }
+
+  return (
+    <div className={baseStyles.transactionBlockHeightPanel}>
+      <Link to={`/block/${parseInt(blockNumber, 10)}`}>{localeNumberString(blockNumber)}</Link>
+    </div>
+  )
+}
 
 export const NodeTransactionOverviewCard: FC<{
   transactionWithStatus: NodeRpc.TransactionWithStatus
 }> = ({ transactionWithStatus }) => {
-  const { transaction: rawTransaction, tx_status: txStatus, cycles } = transactionWithStatus
+  const { transaction, status: txStatus, cycles, blockNumber, reason } = transactionWithStatus
   const { nodeService } = useCKBNode()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const tipBlockNumber = useLatestBlockNumber()
   const [detailTab, setDetailTab] = useState<'params' | 'raw' | null>(null)
+  const txHash = transaction.hash()
 
   const header = useQuery(
-    ['node', 'header', txStatus.status === 'committed' ? txStatus.block_number : null],
-    () => (txStatus.status === 'committed' ? nodeService.rpc.getHeaderByNumber(txStatus.block_number) : null),
+    ['node', 'header', blockNumber?.toString()],
+    () => (blockNumber ? nodeService.rpc.getHeaderByNumber(blockNumber?.toString()) : null),
     {
       staleTime: Infinity,
-      enabled: txStatus.status === 'committed',
+      enabled: blockNumber !== undefined,
     },
   )
 
   const inputCells = useQuery(
-    ['node', 'inputCells', rawTransaction?.hash],
-    () => (rawTransaction ? nodeService.getInputCells(ResultFormatter.toTransaction(rawTransaction).inputs) : []),
+    ['node', 'inputCells', transaction.hash()],
+    () => (transaction ? nodeService.getInputCells(transaction.inputs?.map(i => i.previousOutput)) : []),
     {
-      enabled: Boolean(rawTransaction),
+      enabled: !!transaction,
     },
   )
+
   const confirmation = (() => {
-    if (tipBlockNumber && txStatus.status === 'committed' && txStatus.block_number) {
-      return Number(tipBlockNumber) - Number(txStatus.block_number)
+    if (tipBlockNumber && txStatus === 'committed' && blockNumber) {
+      return Number(tipBlockNumber) - Number(blockNumber.toString())
     }
 
     return 0
   })()
   const formatConfirmation = useFormatConfirmation()
 
-  if (!rawTransaction) {
+  if (!transaction) {
     return null
   }
 
-  const tx = ResultFormatter.toTransaction(rawTransaction)
-  const isCellBase = checkIsCellBase(tx)
-  const txSize = calculateTransactionSize(tx)
-  const outputCells = getTransactionOutputCells(tx)
+  const isCellBase = checkIsCellBase(transaction)
+  const txSize = calculateTransactionSize(transaction)
+  const outputCells = getTransactionOutputCells(transaction)
   const { fee, feeRate } =
     inputCells.data && !isCellBase
       ? calculateFeeByTxIO(inputCells.data, outputCells, txSize)
@@ -91,14 +104,14 @@ export const NodeTransactionOverviewCard: FC<{
   const blockHeightData: CardCellInfo = {
     title: t('block.block_height'),
     tooltip: t('glossary.block_height'),
-    content: <TransactionBlockHeight txStatus={txStatus} />,
+    content: <TransactionBlockHeight status={txStatus} blockNumber={blockNumber?.toString()} />,
     className: styles.firstCardCell,
   }
 
   const timestampData: CardCellInfo = {
     title: t('block.timestamp'),
     tooltip: t('glossary.timestamp'),
-    content: header.isLoading || !header.data ? '...' : parseSimpleDate(header.data.timestamp),
+    content: header.isLoading || !header.data ? '...' : parseSimpleDate(header.data.timestamp.toString()),
   }
 
   const feeWithFeeRateData: CardCellInfo = {
@@ -150,7 +163,7 @@ export const NodeTransactionOverviewCard: FC<{
   }
 
   const overviewItems: CardCellInfo<'left' | 'right'>[] = (() => {
-    if (txStatus.status === 'committed') {
+    if (txStatus === 'committed') {
       return [
         blockHeightData,
         timestampData,
@@ -160,7 +173,7 @@ export const NodeTransactionOverviewCard: FC<{
       ]
     }
 
-    if (txStatus.status === 'rejected') {
+    if (txStatus === 'rejected') {
       return [
         blockHeightData,
         {
@@ -170,7 +183,7 @@ export const NodeTransactionOverviewCard: FC<{
         {
           ...txStatusData,
           content: 'Rejected',
-          contentTooltip: txStatus.reason,
+          contentTooltip: reason,
         },
         txSizeData,
         txCyclesData,
@@ -196,10 +209,10 @@ export const NodeTransactionOverviewCard: FC<{
   })()
 
   const handleExportTxClick = () => {
-    const blob = new Blob([JSON.stringify(rawTransaction, null, 2)])
+    const blob = new Blob([ccc.stringify(transaction)])
 
     const link = document.createElement('a')
-    link.download = `tx-${rawTransaction.hash}.json`
+    link.download = `tx-${txHash}.json`
     link.href = URL.createObjectURL(blob)
     document.body.append(link)
     link.click()
@@ -210,7 +223,7 @@ export const NodeTransactionOverviewCard: FC<{
     <Card className={styles.transactionOverviewCard}>
       <HashCardHeader
         title={t('transaction.transaction')}
-        hash={rawTransaction.hash}
+        hash={txHash}
         customActions={[
           <Tooltip
             trigger={
@@ -244,8 +257,8 @@ export const NodeTransactionOverviewCard: FC<{
               <div className={styles.expandArrow} data-expanded={detailTab === 'raw'} />
             </SimpleButton>
           </div>
-          {detailTab === 'params' ? <TransactionParameters hash={rawTransaction.hash} /> : null}
-          {detailTab === 'raw' ? <RawTransactionView hash={rawTransaction.hash} /> : null}
+          {detailTab === 'params' ? <TransactionParameters hash={txHash} /> : null}
+          {detailTab === 'raw' ? <RawTransactionView hash={txHash} /> : null}
         </div>
       </div>
     </Card>

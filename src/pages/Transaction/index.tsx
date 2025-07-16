@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { ResultFormatter } from '@ckb-lumos/rpc'
 import Content from '../../components/Content'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
@@ -37,7 +36,7 @@ export default () => {
     },
   )
 
-  const nodeTxQuery = useQuery(['node', 'transaction', txHash], () => nodeService.getTx(txHash), {
+  const nodeTxQuery = useQuery(['node', 'transaction', txHash], () => nodeService.rpc.getTransaction(txHash), {
     enabled: nodeActivated,
   })
 
@@ -53,7 +52,7 @@ export default () => {
           <QueryResult query={nodeTxQuery} delayLoading>
             {nodeTx =>
               nodeTx ? (
-                <NodeTransactionOverviewCard transactionWithStatus={nodeTx.result} />
+                <NodeTransactionOverviewCard transactionWithStatus={nodeTx} />
               ) : (
                 <div>{`Transaction ${txHash} not loaded`}</div>
               )
@@ -75,11 +74,8 @@ export default () => {
         {nodeActivated ? (
           <QueryResult query={nodeTxQuery}>
             {nodeTx =>
-              nodeTx && nodeTx.result.transaction ? (
-                <NodeTransactionComp
-                  transaction={ResultFormatter.toTransaction(nodeTx.result.transaction)}
-                  blockNumber={nodeTx.result.tx_status.block_number ?? undefined}
-                />
+              nodeTx && nodeTx.transaction ? (
+                <NodeTransactionComp transaction={nodeTx.transaction} blockNumber={Number(nodeTx.blockNumber)} />
               ) : (
                 <div>{`Transaction ${txHash} not loaded`}</div>
               )

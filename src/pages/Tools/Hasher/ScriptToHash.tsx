@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type Script, utils } from '@ckb-lumos/base'
+import { Script, ScriptLike } from '@ckb-ccc/core'
 import { RadioGroup, RadioGroupItem } from '../../../components/ui/RadioGroup'
 import { HashType } from '../../../constants/common'
 import styles from './scriptToHash.module.scss'
@@ -17,7 +17,7 @@ const debounceInput = (fn: Function, delay = 300) => {
 }
 
 export const ScriptToHash: React.FC = () => {
-  const [script, setScript] = useState<Script>({
+  const [script, setScript] = useState<ScriptLike>({
     codeHash: '',
     hashType: 'type',
     args: '',
@@ -27,7 +27,7 @@ export const ScriptToHash: React.FC = () => {
   const [hash, error] = useMemo(() => {
     if (!script.codeHash || !script.hashType || !script.args) return [null, null]
     try {
-      return [utils.computeScriptHash(script), null]
+      return [Script.from(script).hash(), null]
     } catch (e) {
       if (e instanceof Error) {
         const msg = e.message.split('\n')[0]
@@ -61,7 +61,7 @@ export const ScriptToHash: React.FC = () => {
           <RadioGroup
             className={styles.radioGroup}
             onValueChange={value => saveScript((s: Script) => ({ ...s, hashType: value }))}
-            value={script.hashType}
+            value={script.hashType.toString()}
           >
             {Object.values(HashType).map(hashType => (
               <div className={styles.radioItem} key={hashType}>
