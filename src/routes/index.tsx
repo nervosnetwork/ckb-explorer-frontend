@@ -8,6 +8,7 @@ import {
   useRouteMatch,
   useParams,
 } from 'react-router-dom'
+import { KBarProvider } from 'kbar'
 import { useTranslation } from 'react-i18next'
 import Page from '../components/Page'
 import Header from '../components/Header'
@@ -17,6 +18,7 @@ import { SupportedLngs } from '../utils/i18n'
 import { useSyncEffect } from '../hooks'
 import RGBPPTransactionList from '../pages/RGBPP/TransactionList'
 import { IS_MAINNET } from '../constants/common'
+import KBar from '../components/KBar'
 
 const Home = lazy(() => import('../pages/Home'))
 const Block = lazy(() => import('../pages/BlockDetail'))
@@ -494,6 +496,9 @@ export default () => {
           <ComponentInContextProvided />
         </Route>
       </Switch>
+      <KBarProvider options={{ enableHistory: false }}>
+        <KBar />
+      </KBarProvider>
     </Router>
   )
 }
