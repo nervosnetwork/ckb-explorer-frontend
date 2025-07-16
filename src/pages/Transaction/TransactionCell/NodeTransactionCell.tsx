@@ -1,5 +1,5 @@
 import { useState, ReactNode } from 'react'
-import type { Cell } from '@ckb-lumos/base'
+import type { Cell } from '@ckb-ccc/core'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from '../../../components/Link'
@@ -57,11 +57,11 @@ const TransactionCellIndexAddress = ({
   const address = isAddrNew ? newAddr : deprecatedAddr
 
   const cellStatus = useQuery(
-    ['cellStatus', cell.outPoint],
+    ['cellStatus', cell.outPoint.hash()],
     async () => {
       if (!cell.outPoint) return 'dead'
-      const liveCell = await nodeService.rpc.getLiveCell(cell.outPoint, false)
-      if (liveCell.status === 'live') return 'live'
+      const liveCell = await nodeService.rpc.getCellLive(cell.outPoint, false)
+      if (liveCell) return 'live'
       return 'dead'
     },
     { enabled: isActivated && cell.outPoint && ioType && ioType === IOType.Output },
@@ -121,7 +121,7 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     case 'udt':
       detailTitle = t('transaction.udt_cell')
       detailIcon = UDTTokenIcon
-      tooltip = `Capacity: ${shannonToCkbDecimal(cell.cellOutput.capacity, 8)} CKB`
+      tooltip = `Capacity: ${shannonToCkbDecimal(cell.cellOutput.capacity.toString(), 8)} CKB`
       break
     case 'm_nft_issuer':
       detailTitle = t('transaction.m_nft_issuer')

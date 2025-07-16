@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import classNames from 'classnames'
-import { Transaction } from '@ckb-lumos/base'
+import { Transaction } from '@ckb-ccc/core'
 import styles from './styles.module.scss'
 import { useParsedDate } from '../../hooks'
 import { ReactComponent as DirectionIcon } from '../../assets/direction.svg'
@@ -32,7 +32,7 @@ const NodeTransactionItem = ({
 
   const { data: inputCells = [], isFetching: isInputsLoading } = useQuery(
     ['node', 'inputCells', transaction!.hash],
-    () => nodeService.getInputCells(transaction.inputs),
+    () => nodeService.getInputCells(transaction.inputs.map(i => i.previousOutput)),
   )
 
   const { data: blockHeader } = useQuery(
@@ -41,15 +41,15 @@ const NodeTransactionItem = ({
       if (!blockHashOrNumber) return null
 
       return isBlockNumber(blockHashOrNumber)
-        ? nodeService.rpc.getHeaderByNumber(`0x${parseInt(blockHashOrNumber, 10).toString(16)}`)
-        : nodeService.rpc.getHeader(blockHashOrNumber)
+        ? nodeService.rpc.getHeaderByNumber(blockHashOrNumber)
+        : nodeService.rpc.getHeaderByHash(blockHashOrNumber)
     },
     {
       enabled: !!blockHashOrNumber,
     },
   )
 
-  const localTime = useParsedDate(blockHeader?.timestamp ?? 0)
+  const localTime = useParsedDate(blockHeader?.timestamp.toString() ?? 0)
 
   const outputCells = getTransactionOutputCells(transaction)
 
@@ -63,16 +63,16 @@ const NodeTransactionItem = ({
                 disableTooltip
                 className="transactionItemHash"
                 linkProps={{
-                  to: `/transaction/${transaction.hash!}`,
+                  to: `/transaction/${transaction.hash()}`,
                 }}
               >
-                {transaction.hash!}
+                {transaction.hash()}
               </AddressText>
             </div>
             {blockHashOrNumber && blockHeader && showBlock && (
               <div className={styles.right}>
                 <time dateTime={localTime} className="transactionItemBlock">
-                  {`(${t('block.block')} ${localeNumberString(parseInt(blockHeader.number, 16))}) ${localTime}`}
+                  {`(${t('block.block')} ${localeNumberString(blockHeader.number.toString())}) ${localTime}`}
                 </time>
               </div>
             )}
@@ -82,7 +82,9 @@ const NodeTransactionItem = ({
           <div className="transactionItemInput">
             <div className={styles.transactionCellListPanel}>
               {checkIsCellBase(transaction) ? (
-                <Cellbase cell={blockHeader ? { targetBlockNumber: parseInt(blockHeader.number, 16) - 11 } : {}} />
+                <Cellbase
+                  cell={blockHeader ? { targetBlockNumber: parseInt(blockHeader.number.toString(), 10) - 11 } : {}}
+                />
               ) : null}
               <Loading show={isInputsLoading} />
               {inputCells.map(cell => (

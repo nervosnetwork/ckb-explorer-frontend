@@ -1,4 +1,3 @@
-import { ckbDecimals } from '@ckb-lumos/bi'
 import BigNumber from 'bignumber.js'
 
 /**
@@ -6,7 +5,7 @@ import BigNumber from 'bignumber.js'
  * ref: https://talk.nervos.org/t/how-to-get-the-average-occupied-bytes-per-live-cell-in-ckb/7138/2?u=keith
  * */
 const EXCLUDE = BigNumber('504000000000000000')
-const CKB_DECIMAL = BigNumber(10).pow(ckbDecimals)
+const CKB_DECIMAL = BigNumber(10).pow(8)
 
 export const getKnowledgeSize = async (nodeUrl: string) => {
   const header = await fetch(nodeUrl, {

@@ -92,15 +92,14 @@
     > div:first-child {
       padding-top: 24px;
       padding-bottom: 4px;
-
-      @media (width <= variables.$mobileBreakPoint) {
-        padding: 16px 0;
-      }
-
       text-align: center;
       font-weight: bold;
       font-size: 1.5rem;
       color: #333;
+
+      @media (width <= variables.$mobileBreakPoint) {
+        padding: 16px 0;
+      }
     }
 
     .exportDescription {
@@ -243,6 +242,15 @@
       margin-bottom: 56px;
       width: 152px;
       height: 48px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 14px 40px;
+      cursor: pointer;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
 
       &[disabled] {
         opacity: 0.5;
@@ -253,16 +261,6 @@
         margin-top: 20px;
         margin-bottom: 24px;
       }
-
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 14px 40px;
-      cursor: pointer;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 19px;
     }
   }
 }

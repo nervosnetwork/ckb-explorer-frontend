@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { FC, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { utils } from '@ckb-lumos/base'
+import { Script as CCCScript } from '@ckb-ccc/core'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { Link } from '../../components/Link'
@@ -40,13 +40,7 @@ export const UDTOverviewCard: FC<{
   const issuer = xudt?.issuerAddress
   const script = xudt?.typeScript ?? null
 
-  const hash = script
-    ? utils.computeScriptHash({
-        codeHash: script.codeHash,
-        hashType: script.hashType as any,
-        args: script.args,
-      })
-    : null
+  const hash = script ? CCCScript.from(script).hash() : null
 
   const toggleScriptDisplay = () => {
     if (!script) {

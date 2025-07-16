@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Cell } from '@ckb-lumos/base'
+import { Cell } from '@ckb-ccc/core'
 import classNames from 'classnames'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -55,11 +55,11 @@ const NodeTransactionItemCell = ({
   const { nodeService } = useCKBNode()
 
   const cellStatus = useQuery(
-    ['cellStatus', cell.outPoint],
+    ['cellStatus', cell.outPoint.hash()],
     async () => {
       if (!cell.outPoint) return 'dead'
-      const liveCell = await nodeService.rpc.getLiveCell(cell.outPoint, false)
-      if (liveCell.status === 'live') return 'live'
+      const liveCell = await nodeService.rpc.getCellLive(cell.outPoint, false)
+      if (liveCell) return 'live'
       return 'dead'
     },
     { enabled: cell.outPoint && ioType && ioType === IOType.Output },
@@ -70,7 +70,7 @@ const NodeTransactionItemCell = ({
   return (
     <div className={classNames(styles.transactionCellPanel, highLight && styles.highLight)}>
       {ioType && ioType === IOType.Input && (
-        <CellInputIcon cell={{ generatedTxHash: cell.outPoint?.txHash, cellIndex: cell.outPoint?.index }} />
+        <CellInputIcon cell={{ generatedTxHash: cell.outPoint?.txHash, cellIndex: cell.outPoint?.index.toString() }} />
       )}
       <div className="transactionCellAddress">
         <Address address={address} to={`/address/${address}`} />

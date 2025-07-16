@@ -1053,7 +1053,8 @@
         "website": "Website",
         "ownerless_cell": "Ownerless Cell"
       },
-      "detail": "Detail"
+      "detail": "Detail",
+      "no_live_cells": "Deployed cell has been spent. No information available."
     },
     "fee_rate_tracker": {
       "title": "Fee Rate Tracker",

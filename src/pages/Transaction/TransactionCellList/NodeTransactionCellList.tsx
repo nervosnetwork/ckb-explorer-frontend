@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import type { Cell } from '@ckb-lumos/base'
+import type { Cell } from '@ckb-ccc/core'
 import { IOType } from '../../../constants/common'
 import NodeTransactionCell from '../TransactionCell/NodeTransactionCell'
 import { ReactComponent as DeprecatedAddrOn } from './deprecated_addr_on.svg'

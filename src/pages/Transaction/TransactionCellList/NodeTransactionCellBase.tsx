@@ -20,13 +20,13 @@ import TransactionReward from '../TransactionReward'
 import Loading from '../../../components/Loading'
 import Tooltip from '../../../components/Tooltip'
 
-export default ({ blockHash, blockNumber }: { blockHash?: string; blockNumber?: string }) => {
+export default ({ blockHash, blockNumber }: { blockHash?: string; blockNumber?: number }) => {
   const { t } = useTranslation()
   const { nodeService } = useCKBNode()
   const isMobile = useIsMobile()
   const { data: blockEconomic, isLoading } = useQuery(
     ['block', 'economic', blockHash],
-    () => (blockHash ? nodeService.rpc.getBlockEconomicState(blockHash) : null),
+    () => (blockHash ? nodeService.lumosRPC.getBlockEconomicState(blockHash) : null),
     {
       enabled: Boolean(blockHash),
     },
@@ -62,7 +62,7 @@ export default ({ blockHash, blockNumber }: { blockHash?: string; blockNumber?: 
       return <Loading show />
     }
 
-    if (!blockEconomic || !blockNumber || !blockHash || parseInt(blockNumber, 16) < 12) {
+    if (!blockEconomic || !blockNumber || !blockHash || blockNumber < 12) {
       return (
         <TransactionCellCardPanel>
           <TransactionCellMobileItem title={<Cellbase cell={{}} isDetail={false} />} />
@@ -80,9 +80,7 @@ export default ({ blockHash, blockNumber }: { blockHash?: string; blockNumber?: 
     if (isMobile) {
       return (
         <TransactionCellCardPanel>
-          <TransactionCellMobileItem
-            title={<Cellbase cell={{ targetBlockNumber: parseInt(blockNumber, 16) - 11 }} isDetail />}
-          />
+          <TransactionCellMobileItem title={<Cellbase cell={{ targetBlockNumber: blockNumber - 11 }} isDetail />} />
           <TransactionReward reward={reward} />
         </TransactionCellCardPanel>
       )
@@ -92,7 +90,7 @@ export default ({ blockHash, blockNumber }: { blockHash?: string; blockNumber?: 
       <TransactionCellPanel>
         <TransactionCellContentPanel isCellbase>
           <div className="transactionCellAddress">
-            <Cellbase cell={{ targetBlockNumber: parseInt(blockNumber, 16) - 11 }} isDetail />
+            <Cellbase cell={{ targetBlockNumber: blockNumber - 11 }} isDetail />
           </div>
 
           <div className="transactionCellDetail">

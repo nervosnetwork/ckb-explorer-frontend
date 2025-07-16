@@ -185,12 +185,11 @@
 
   .halvingBannerContent {
     max-width: 100%;
+    flex: 1;
 
     @media (width >= 960px) {
       max-width: 960px;
     }
-
-    flex: 1;
   }
 
   .halvingBannerShadow {

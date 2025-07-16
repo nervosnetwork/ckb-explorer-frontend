@@ -1,13 +1,14 @@
 import type { FC } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import JsonView from '@microlink/react-json-view'
+import { ccc } from '@ckb-ccc/core'
 import Loading from '../AwesomeLoadings/Spinner'
 import { useCKBNode } from '../../hooks/useCKBNode'
 import styles from './styles.module.scss'
 
 const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
   const { nodeService } = useCKBNode()
-  const { data, isLoading } = useQuery(['tx', hash], () => nodeService.getTx(hash))
+  const { data, isLoading } = useQuery(['tx', hash], () => nodeService.rpc.getTransaction(hash))
   if (isLoading) {
     return (
       <div className={styles.loading}>
@@ -15,11 +16,11 @@ const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
       </div>
     )
   }
-  if (!data?.result?.transaction) return <div>{`Transaction ${hash} not loaded`}</div>
+  if (!data?.transaction) return <div>{`Transaction ${hash} not loaded`}</div>
 
   return (
     <JsonView
-      src={data.result.transaction}
+      src={JSON.parse(ccc.stringify(data.transaction))}
       name="Transaction"
       indentWidth={4}
       collapseStringsAfterLength={100}
@@ -42,9 +43,9 @@ const RawTransactionView: FC<{ hash: string }> = ({ hash }) => {
           case 'code_hash': {
             const [, index, lockType] = select.namespace
             if (!index || !lockType) return
-            const script = data.result.transaction?.outputs[index as any][lockType as 'lock' | 'type']
+            const script = data.transaction?.outputs[index as any][lockType as 'lock' | 'type']
             if (script) {
-              window.open(`/script/${script.code_hash}/${script.hash_type}`, '_blank')
+              window.open(`/script/${script.codeHash}/${script.hashType}`, '_blank')
             }
             break
           }
