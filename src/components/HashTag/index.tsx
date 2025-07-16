@@ -10,6 +10,11 @@ export default ({ script }: { script: Script & { category?: 'lock' | 'type' } })
 
   if (isTypeIdScript(script)) {
     hashTag = { tag: TYPE_ID_TAG, category: 'type' }
+  } else if (script.verifiedScriptName) {
+    hashTag = {
+      tag: script.verifiedScriptName,
+      category: scriptType ?? script.category,
+    }
   } else if (script.tags?.length) {
     hashTag = {
       tag: script.tags?.[0] ?? '',
@@ -27,7 +32,7 @@ export default ({ script }: { script: Script & { category?: 'lock' | 'type' } })
         target="_blank"
         className="text-[#000]! flex items-center gap-1"
       >
-        {script.verifiedScriptName ?? hashTag.tag}
+        {hashTag.tag}
       </Link>
     </div>
   )
