@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import type { Cell } from '@ckb-lumos/base'
+import type { Cell } from '@ckb-ccc/core'
 import classNames from 'classnames'
 import { useState, ReactNode, useRef, FC } from 'react'
 import BigNumber from 'bignumber.js'
@@ -8,7 +7,6 @@ import { scriptToHash } from '@nervosnetwork/ckb-sdk-utils'
 import CloseIcon from './modal_close.png'
 import { getBtcTimeLockInfo, getBtcUtxo } from '../../../utils/util'
 import { localeNumberString } from '../../../utils/number'
-import { cellOccupied } from '../../../utils/cell'
 import { isTypeIdScript } from '../../../utils/typeid'
 import HashTag from '../../../components/HashTag'
 import { ReactComponent as CopyIcon } from '../../../assets/copy_icon.svg'
@@ -190,13 +188,13 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
 
     if (selectedInfo === CellInfo.DATA) {
       return {
-        data: cell.data,
+        data: cell.outputData,
       }
     }
 
     if (selectedInfo === CellInfo.CAPACITY) {
       const declared = new BigNumber(cell.cellOutput.capacity)
-      const occupied = new BigNumber(cellOccupied(cell))
+      const occupied = new BigNumber(cell.occupiedSize)
 
       return {
         declared: `${localeNumberString(declared.dividedBy(10 ** 8))} CKBytes`,

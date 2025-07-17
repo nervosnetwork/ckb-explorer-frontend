@@ -1,5 +1,4 @@
-import { RPC } from '@ckb-lumos/rpc'
-import { Hash, Transaction } from '@ckb-lumos/base'
+import { ClientIndexerSearchKeyTransactionLike, ClientTransactionResponse } from '@ckb-ccc/core'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useCKBNode } from './useCKBNode'
 
@@ -8,7 +7,7 @@ export const useTransactions = ({
   pageSize = 100,
   order = 'desc',
 }: {
-  searchKey: Parameters<RPC['getTransactions']>['0']
+  searchKey: Omit<ClientIndexerSearchKeyTransactionLike, 'groupByTransaction'>
   pageSize?: number
   order?: 'desc' | 'asc'
 }) => {
@@ -17,34 +16,26 @@ export const useTransactions = ({
   return useInfiniteQuery({
     queryKey: ['node', 'transactions', searchKey, pageSize, order],
     queryFn: async ({ pageParam = undefined }) => {
-      const { lastCursor, objects } = await nodeService.rpc.getTransactions(
+      const { lastCursor, transactions } = await nodeService.rpc.findTransactionsPaged(
         { ...searchKey, groupByTransaction: true },
         order,
-        `0x${pageSize.toString(16)}`,
+        pageSize,
         pageParam,
       )
 
-      if (objects.length === 0) {
+      if (transactions.length === 0) {
         return {
           lastCursor: undefined,
           txs: [],
         }
       }
 
-      const txHashes = objects.map(tx => tx.txHash)
-
-      const txs = await nodeService.rpc
-        .createBatchRequest<'getTransaction', [Hash], CKBComponents.TransactionWithStatus[]>(
-          txHashes.map(txHash => ['getTransaction', txHash]),
-        )
-        .exec()
+      const txHashes = transactions.map(tx => tx.txHash)
+      const txs = await Promise.all(txHashes.map(txHash => nodeService.rpc.getTransaction(txHash)))
 
       return {
         lastCursor,
-        txs: txs.map(tx => ({
-          transaction: tx.transaction as Transaction,
-          txStatus: tx.txStatus,
-        })),
+        txs: txs.filter(tx => !!tx) as ClientTransactionResponse[],
       }
     },
     getNextPageParam: options => {

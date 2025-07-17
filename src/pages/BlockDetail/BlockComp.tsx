@@ -135,7 +135,7 @@ export const BlockOverviewCard: FC<BlockOverviewCardProps> = ({ block }) => {
   const backendTipBlockNumber = useLatestBlockNumber()
   const { data: nodeTipBlockNumber = 0 } = useQuery(
     ['node', 'tipBlockNumber'],
-    () => nodeService.rpc.getTipBlockNumber().then(res => parseInt(res, 16)),
+    () => nodeService.rpc.getTip().then(tip => parseInt(tip.toString(), 10)),
     {
       refetchOnMount: true,
       refetchOnReconnect: true,

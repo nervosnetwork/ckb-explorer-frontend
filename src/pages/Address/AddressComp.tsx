@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
 import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons'
-import { utils } from '@ckb-lumos/base'
+import { Script as CCCScript } from '@ckb-ccc/core'
 import TransactionItem from '../../components/TransactionItem/index'
 import NodeTransactionItem from '../../components/TransactionItem/NodeTransactionItem'
 import { explorerService, RawBtcRPC } from '../../services/ExplorerService'
@@ -90,13 +90,7 @@ const AddressLockScript: FC<{ address: Address }> = ({ address }) => {
     })
   }
 
-  const hash = address.lockScript
-    ? utils.computeScriptHash({
-        codeHash: address.lockScript.codeHash,
-        hashType: address.lockScript.hashType as any,
-        args: address.lockScript.args,
-      })
-    : null
+  const hash = address.lockScript ? CCCScript.from(address.lockScript).hash() : null
 
   return (
     <div className={styles.addressLockScriptPanel}>
@@ -446,21 +440,22 @@ export const NodeAddressOverviewCard: FC<{ address: string }> = ({ address }) =>
   const { nodeService } = useCKBNode()
 
   const lockScript = addressToScript(address)
-  const lockScriptHash = utils.computeScriptHash(lockScript)
+  const lockScriptHash = CCCScript.from(lockScript).hash()
 
-  const capacityQuery = useQuery(
+  const { data: cellsCapacity } = useQuery(
     ['node', 'address', 'capacity', address],
-    () => nodeService.rpc.getCellsCapacity({ script: lockScript, scriptType: 'lock' }),
+    () => nodeService.rpc.getCellsCapacity({ script: lockScript, scriptType: 'lock', scriptSearchMode: 'prefix' }),
     { staleTime: 1000 * 60 },
   )
 
-  const occupiedCapacityQuery = useQuery(
+  const { data: occupiedCapacity } = useQuery(
     ['node', 'address', 'occupied', 'capacity', address],
     () =>
       nodeService.rpc.getCellsCapacity({
         script: lockScript,
         scriptType: 'lock',
         filter: { scriptLenRange: ['0x1', '0x1000'] },
+        scriptSearchMode: 'prefix',
       }),
     { staleTime: 1000 * 60 },
   )
@@ -471,17 +466,13 @@ export const NodeAddressOverviewCard: FC<{ address: string }> = ({ address }) =>
       cell: {
         icon: <img src={CKBTokenIcon} alt="item icon" width="100%" />,
         title: t('common.ckb_unit'),
-        content: capacityQuery.data ? <Capacity capacity={shannonToCkb(capacityQuery.data.capacity)} /> : 'loading...',
+        content: cellsCapacity ? <Capacity capacity={shannonToCkb(cellsCapacity.toString())} /> : 'loading...',
       },
     },
     {
       title: t('address.occupied'),
       tooltip: t('glossary.occupied'),
-      content: occupiedCapacityQuery.data ? (
-        <Capacity capacity={shannonToCkb(occupiedCapacityQuery.data.capacity)} />
-      ) : (
-        'loading...'
-      ),
+      content: occupiedCapacity ? <Capacity capacity={shannonToCkb(occupiedCapacity.toString())} /> : 'loading...',
     },
   ]
 
@@ -522,7 +513,7 @@ export const NodeAddressTransactions = ({ address }: { address: string }) => {
   const { t } = useTranslation()
   const lockScript = addressToScript(address)
   const { data, isLoading, hasNextPage, fetchNextPage } = useTransactions({
-    searchKey: { script: lockScript, scriptType: 'lock' },
+    searchKey: { script: lockScript, scriptType: 'lock', scriptSearchMode: 'prefix' },
     pageSize: 10,
   })
 
@@ -540,9 +531,9 @@ export const NodeAddressTransactions = ({ address }: { address: string }) => {
           page.txs.map(tx => (
             <NodeTransactionItem
               transaction={tx.transaction}
-              key={tx.transaction.hash!}
+              key={tx.transaction.hash()}
               highlightAddress={address}
-              blockHashOrNumber={tx.txStatus.blockHash ?? undefined}
+              blockHashOrNumber={tx.blockHash ?? undefined}
             />
           )),
         )}

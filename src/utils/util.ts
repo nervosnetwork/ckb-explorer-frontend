@@ -4,7 +4,6 @@ import JSBI from 'jsbi'
 import BigNumber from 'bignumber.js'
 import { scriptToAddress, addressToScript } from '@nervosnetwork/ckb-sdk-utils'
 import { useTranslation } from 'react-i18next'
-import { HashType } from '@ckb-lumos/base'
 import { MAX_CONFIRMATION, TOKEN_EMAIL_SUBJECT, TOKEN_EMAIL_BODY, TOKEN_EMAIL_ADDRESS } from '../constants/common'
 import { ContractHashTag, MainnetContractHashTags, TestnetContractHashTags } from '../constants/scripts'
 import { isMainnet } from './chain'
@@ -384,12 +383,6 @@ export const isNumber = (value: string) => {
   return /^\d+$/.test(value)
 }
 
-export function assertIsHashType(value: string): asserts value is HashType {
-  if (value !== 'type' && value !== 'data' && value !== 'data1' && value !== 'data2') {
-    throw new Error(`Value is expected to be type/data/data1/data2, but got  ${value}`)
-  }
-}
-
 export const formatNftDisplayId = (id: string, type: string | null) => {
   switch (type) {
     case 'spore': {
@@ -423,6 +416,10 @@ export const ckbToShannon = (amount: string = '0') => {
   return (BigInt(num) * BigInt(1e8 / decimalLength)).toString()
 }
 
+export const isMac = () => {
+  return navigator.userAgent.includes('Mac')
+}
+
 export default {
   shannonToCkb,
   toCamelcase,
@@ -430,7 +427,7 @@ export default {
   isValidReactNode,
   deprecatedAddrToNewAddr,
   handleRedirectFromAggron,
-  assertIsHashType,
   formatNftDisplayId,
   hexToBase64,
+  isMac,
 }

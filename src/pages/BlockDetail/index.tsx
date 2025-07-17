@@ -1,8 +1,7 @@
 /* eslint-disable unused-imports/no-unused-imports */
 import { useParams, useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { Block as NodeBlock } from '@ckb-lumos/base'
-import { parseEpoch } from '@ckb-lumos/base/lib/since'
+import { ClientBlock } from '@ckb-ccc/core'
 import Content from '../../components/Content'
 import { NodeBlockTransactionList } from './NodeBlockTransactionList'
 import { BlockOverviewCard, BlockOverviewCardProps, BlockComp } from './BlockComp'
@@ -17,23 +16,23 @@ import { isBlockNumber, compactToDifficulty } from '../../utils/number'
 import { encodeNewAddress } from '../../utils/address'
 import styles from './styles.module.scss'
 
-function transformNodeBlock(block: NodeBlock): BlockOverviewCardProps['block'] {
-  const epoch = parseEpoch(block.header.epoch)
+function transformNodeBlock(block: ClientBlock): BlockOverviewCardProps['block'] {
+  const [epochLength, epochIndex, epochNumber] = block.header.epoch
 
   return {
     blockHash: block.header.hash,
-    number: parseInt(block.header.number, 16),
+    number: parseInt(block.header.number.toString(), 10),
     minerHash: encodeNewAddress(block.transactions[0].outputs[0].lock),
     transactionsRoot: block.header.transactionsRoot,
     transactionsCount: block.transactions.length,
     proposalsCount: block.proposals.length,
     unclesCount: block.uncles.length,
-    difficulty: compactToDifficulty(parseInt(block.header.compactTarget, 16)),
-    timestamp: block.header.timestamp,
-    nonce: block.header.nonce,
-    epochLength: epoch.length,
-    epochIndex: epoch.index,
-    epochNumber: epoch.number,
+    difficulty: compactToDifficulty(parseInt(block.header.compactTarget.toString(), 10)),
+    timestamp: block.header.timestamp.toString(),
+    nonce: block.header.nonce.toString(),
+    epochLength: Number(epochLength),
+    epochIndex: Number(epochIndex),
+    epochNumber: Number(epochNumber),
   }
 }
 
@@ -62,8 +61,8 @@ export default () => {
     ['node', 'block', 'info', blockHeightOrHash],
     () =>
       isBlockNumber(blockHeightOrHash)
-        ? nodeService.rpc.getBlockByNumber(`0x${Number(blockHeightOrHash).toString(16)}`)
-        : nodeService.rpc.getBlock(blockHeightOrHash),
+        ? nodeService.rpc.getBlockByNumber(blockHeightOrHash)
+        : nodeService.rpc.getBlockByHash(blockHeightOrHash),
     {
       enabled: nodeModeActivated,
     },

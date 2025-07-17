@@ -1,8 +1,5 @@
-import type { Cell, Script } from '@ckb-lumos/base'
-import { ckbHash } from '@ckb-lumos/base/lib/utils'
-import { minimalCellCapacityCompatible } from '@ckb-lumos/helpers'
-import { blockchain } from '@ckb-lumos/base'
-import { BI } from '@ckb-lumos/bi'
+import BigNumber from 'bignumber.js'
+import type { Cell } from '@ckb-ccc/core'
 import { IS_MAINNET } from '../constants/common'
 import { MainnetContractHashTags, TestnetContractHashTags, scripts } from '../constants/scripts'
 
@@ -26,7 +23,7 @@ export function getCellType(cell: Cell): { type: string; info?: Record<string, s
     return { type: scriptInfo?.name ?? matchedLockScript.tag }
   }
 
-  const outPoint = cell.outPoint ? `${cell.outPoint.txHash}-${+cell.outPoint.index}` : null
+  const outPoint = cell.outPoint ? `${cell.outPoint.txHash}-${+cell.outPoint.index.toString()}` : null
 
   if (outPoint) {
     const matchedDeployment = scriptSet.find(s => s.txHashes.includes(outPoint))
@@ -57,12 +54,13 @@ export function getCellType(cell: Cell): { type: string; info?: Record<string, s
 
   switch (matchedScript.tag) {
     case 'nervos dao':
-      if (cell.data === DEPOSIT_DAO_DATA) {
+      if (cell.outputData === DEPOSIT_DAO_DATA) {
         return { type: 'nervos_dao_deposit' }
       }
 
       return { type: 'nervos_dao_withdrawing' }
     case 'sudt':
+    case 'sudt (deprecated)':
       return { type: 'udt' }
     case 'm-nft_issuer':
       return { type: 'm_nft_issuer' }
@@ -89,21 +87,18 @@ export function getCellType(cell: Cell): { type: string; info?: Record<string, s
   return { type: 'normal' }
 }
 
-export function calculateScriptHash(script: Script): string {
-  return ckbHash(blockchain.Script.pack(script))
-}
-
-export const getUDTAmountByData = (data: string) => {
+const leToBe = (v: string) => {
   // to big endian
-  const bytes = data.slice(2).match(/\w{2}/g)
-  if (!bytes) return '0x00'
+  const bytes = v.slice(2).match(/\w{2}/g)
+  if (!bytes) return ''
   const be = `0x${bytes.reverse().join('')}`
   if (Number.isNaN(+be)) {
     throw new Error('Invalid little-endian')
   }
-  return BI.from(be).toHexString()
+  return be
 }
 
-export const cellOccupied = (cell: Cell) => {
-  return minimalCellCapacityCompatible(cell).toNumber()
+export const getUDTAmountByData = (data: string) => {
+  const amount = data.slice(0, 34)
+  return new BigNumber(leToBe(amount)).toFormat({ groupSeparator: '' })
 }

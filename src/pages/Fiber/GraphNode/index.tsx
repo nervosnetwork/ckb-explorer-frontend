@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { ArrowDownWideNarrow, ArrowUpNarrowWide, FilterIcon } from 'lucide-react'
-import { utils } from '@ckb-lumos/base'
+import { Script } from '@ckb-ccc/core'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { Link1Icon, LinkBreak1Icon, OpenInNewWindowIcon, UpdateIcon } from '@radix-ui/react-icons'
 import dayjs from 'dayjs'
@@ -327,11 +327,7 @@ const GraphNode = () => {
   const node = data?.data
 
   const relatedTokens = (node?.udtCfgInfos ?? []).map(i => ({
-    typeHash: utils.computeScriptHash({
-      codeHash: i.codeHash,
-      hashType: i.hashType,
-      args: i.args,
-    }),
+    typeHash: Script.from(i).hash(),
     symbol: i.symbol,
   }))
 

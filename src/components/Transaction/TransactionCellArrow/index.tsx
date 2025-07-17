@@ -54,7 +54,14 @@ export const CellOutputIcon = ({ cell }: { cell: Partial<Pick<Cell, 'status' | '
   }
 
   return (
-    <Tooltip trigger={<RightArrow status="live" />} placement="top">
+    <Tooltip
+      trigger={
+        <span>
+          <RightArrow status="live" />
+        </span>
+      }
+      placement="top"
+    >
       {t('transaction.unspent_output')}
     </Tooltip>
   )

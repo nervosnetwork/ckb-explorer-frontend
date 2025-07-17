@@ -184,7 +184,16 @@ export const ScriptPage = () => {
   const countOfReferringCells = scriptInfos.reduce((sum, item) => sum + item.countOfReferringCells, 0)
   const countOfTransactions = scriptInfos.reduce((sum, item) => sum + item.countOfTransactions, 0)
   const liveScriptInfos = scriptInfos.filter(scriptInfo => !scriptInfo.isDeployedCellDead)
-  const { name, sourceUrl, rfc, website, isZeroLock, verified, description, deprecated } = liveScriptInfos[0]
+  const {
+    name = '',
+    sourceUrl = '',
+    rfc = '',
+    website = '',
+    isZeroLock = false,
+    verified = false,
+    description = '',
+    deprecated = false,
+  } = liveScriptInfos[0] || {}
 
   return (
     <Content>
@@ -192,7 +201,11 @@ export const ScriptPage = () => {
         <Card>
           <div className={styles.headerCard}>
             <span className={styles.headerTitle}>Script</span>
-            {name ? <span className={styles.headerSubTitle}>{name}</span> : null}
+            {name ? (
+              <span className={styles.headerSubTitle}>{name}</span>
+            ) : (
+              <span className={styles.headerSubTitle}>{codeHash}</span>
+            )}
 
             <span className={styles.headerLink}>
               {verified === true ? (
@@ -245,7 +258,13 @@ export const ScriptPage = () => {
           <div className={styles.headerDescription}>{description}</div>
         </Card>
 
-        <ScriptInfosCard scriptInfos={liveScriptInfos} />
+        {scriptInfos.length !== 0 && liveScriptInfos.length === 0 ? (
+          <Card className={styles.noInfoCard}>
+            <div>{t('scripts.no_live_cells')}</div>
+          </Card>
+        ) : (
+          <ScriptInfosCard scriptInfos={liveScriptInfos} />
+        )}
         <Tabs
           key={currentLanguage + countOfTransactions + countOfDeployedCells + countOfReferringCells}
           className={styles.scriptTabs}
