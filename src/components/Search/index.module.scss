@@ -45,34 +45,6 @@
   }
 }
 
-.searchInputPanel {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  font-size: 14px;
-  padding: 0 8px;
-  background: white;
-  color: #333;
-  border: 0 solid white;
-  border-radius: 4px;
-
-  &:focus {
-    color: #333;
-    outline: none;
-  }
-
-  &::placeholder {
-    color: #888;
-  }
-
-  @media (max-width: variables.$mobileBreakPoint) {
-    font-size: 12px;
-    width: 100%;
-    padding-left: 6px;
-    padding-right: 16px;
-  }
-}
-
 .preIcon {
   flex-shrink: 0;
   width: 20px;
