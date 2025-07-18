@@ -8,7 +8,12 @@ export default ({ script }: { script: Script & { category?: 'lock' | 'type' } })
 
   const scriptType = 'tags' in script ? 'lock' : 'type'
 
-  if (isTypeIdScript(script)) {
+  if (script.verifiedScriptName) {
+    hashTag = {
+      tag: script.verifiedScriptName,
+      category: scriptType ?? script.category,
+    }
+  } else if (isTypeIdScript(script)) {
     hashTag = { tag: TYPE_ID_TAG, category: 'type' }
   } else if (script.tags?.length) {
     hashTag = {
@@ -27,7 +32,7 @@ export default ({ script }: { script: Script & { category?: 'lock' | 'type' } })
         target="_blank"
         className="text-[#000]! flex items-center gap-1"
       >
-        {script.verifiedScriptName ?? hashTag.tag}
+        {hashTag.tag}
       </Link>
     </div>
   )
