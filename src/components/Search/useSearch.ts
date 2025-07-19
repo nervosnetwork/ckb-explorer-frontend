@@ -30,6 +30,7 @@ export function useSearch({
     refetch: refetchAggregateSearch,
     data: _aggregateSearchResults,
     isFetching,
+    ...restQueryState
   } = useQuery(['aggregateSearch', searchValue], () => fetchAggregateSearchResult(searchValue), {
     enabled: false,
   })
@@ -83,6 +84,7 @@ export function useSearch({
     },
     handleSearch,
     isFetching,
+    restQueryState,
     aggregateSearchResults,
   }
 }

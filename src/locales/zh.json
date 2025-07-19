@@ -1010,6 +1010,8 @@
       "timestamp": "部署上链时间",
       "deprecated": "已废弃",
       "verified": "已验证",
+      "unverified": "未验证",
+      "unverified_description": "由于此合约未被认证，无法了解其 Cell Dependency 引入方式。如果你是合约开发者，请点击提交合约信息。",
       "link": {
         "rfc": "RFC",
         "code": "源代码",
