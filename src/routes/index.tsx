@@ -8,7 +8,6 @@ import {
   useRouteMatch,
   useParams,
 } from 'react-router-dom'
-import { KBarProvider } from 'kbar'
 import { useTranslation } from 'react-i18next'
 import Page from '../components/Page'
 import Header from '../components/Header'
@@ -496,9 +495,7 @@ export default () => {
           <ComponentInContextProvided />
         </Route>
       </Switch>
-      <KBarProvider options={{ enableHistory: false }}>
-        <KBar />
-      </KBarProvider>
+      <KBar />
     </Router>
   )
 }

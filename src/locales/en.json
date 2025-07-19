@@ -1047,6 +1047,8 @@
       "outpoint_dep_type": "Outpoint Dep Type",
       "deprecated": "Deprecated",
       "verified": "Verified",
+      "unverified": "Unverified",
+      "unverified_description": "Since the contract is currently unverified, its Outpoint Tx Hash is unavailable. Please click to create an issue on GitHub regarding contract verification in order to complete the contract verification process.",
       "link": {
         "rfc": "RFC",
         "code": "Source Code",

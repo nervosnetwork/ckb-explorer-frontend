@@ -20,7 +20,7 @@ import { ReactComponent as DeprecatedIcon } from '../../assets/deprecated-icon.s
 import { ReactComponent as OwnerLessIcon } from '../../assets/ownerless-icon.svg'
 import { ReactComponent as RFCIcon } from '../../assets/rfc-icon.svg'
 import { ReactComponent as WebsiteIcon } from '../../assets/website-icon.svg'
-import { HashType } from '../../constants/common'
+import { HashType, GITHUB_ISSUE_URL } from '../../constants/common'
 import Tooltip from '../../components/Tooltip'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/Tabs'
 
@@ -35,6 +35,7 @@ const getScriptInfo = (scriptInfo: ScriptInfo, t: TFunction) => {
     capacityOfDeployedCells,
     capacityOfReferringCells,
     scriptOutPoint,
+    verified,
   } = scriptInfo
   const [outpointTxHash, outpointIndex] = scriptOutPoint.split('-')
   const parsedHashType = hashType === null ? 'Type' : hashType
@@ -77,7 +78,20 @@ const getScriptInfo = (scriptInfo: ScriptInfo, t: TFunction) => {
       slot: 'left',
       cell: {
         title: t('scripts.outpoint_tx_hash'),
-        content: <CodeHashMessage codeHash={outpointTxHash} />,
+        content: verified ? (
+          <CodeHashMessage codeHash={outpointTxHash} />
+        ) : (
+          <Tooltip
+            trigger={
+              <Link to={GITHUB_ISSUE_URL} className={styles.unverifiedTooltip}>
+                {t('scripts.unverified')}
+              </Link>
+            }
+            placement="top"
+          >
+            {t('scripts.unverified_description')}
+          </Tooltip>
+        ),
       },
     },
     {
