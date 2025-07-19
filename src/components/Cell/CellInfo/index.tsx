@@ -474,7 +474,7 @@ export default ({ cell: entryCell, suffix }: CellInfoProps) => {
               <EllipsisMiddle useTextWidthForPlaceholderWidth>
                 {`Outpoint: ${cell.generatedTxHash}:${cell.cellIndex}`}
               </EllipsisMiddle>
-              <button type="button" onClick={onCopy}>
+              <button data-role="copy-outpoint" type="button" onClick={onCopy}>
                 <CopyIcon size={16} className="text-[#999] hover:text-primary transition-colors cursor-pointer" />
               </button>
               <a
