@@ -59,6 +59,10 @@ const Footers: { name: string; items: FooterLinkItem[] }[] = [
         label: 'community_nodes',
         url: 'https://docs.nervos.org/docs/getting-started/blockchain-networks#public-networks',
       },
+      {
+        label: 'service_configuration',
+        url: '/service-configuration',
+      },
     ],
   },
   {

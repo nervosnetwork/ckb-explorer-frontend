@@ -424,7 +424,8 @@
       "community_nodes": "社区节点",
       "media_kit": "媒体包",
       "ckb_world": "CKB World",
-      "eco_fund": "Eco Fund"
+      "eco_fund": "Eco Fund",
+      "service_configuration": "服务配置"
     },
     "search": {
       "loading": "加载中...",
@@ -1245,6 +1246,45 @@
         },
         "channel": {
           "connected_node": "连接节点"
+        }
+      }
+    },
+    "system_info": {
+      "title": "CKB Explorer 运行配置",
+      "subTitle": "实时监控与资源推荐",
+      "chartTitle": "资源使用情况",
+      "CPU": "CPU",
+      "Memory": "内存",
+      "recommendations": {
+        "title": "推荐运行配置",
+        "cpu": {
+          "title": "CPU 配置",
+          "minimum": "最低配置",
+          "recommended": "推荐配置",
+          "highPerformance": "高负载场景",
+          "note": "初始同步期间CPU使用率会较高，同步完成后会显著降低"
+        },
+        "memory": {
+          "title": "内存配置",
+          "minimum": "最低配置",
+          "recommended": "推荐配置",
+          "highPerformance": "高负载场景",
+          "note": "内存需求随交易量增长而增加"
+        },
+        "storage": {
+          "title": "存储配置",
+          "current_block_size": "当前区块大小",
+          "annual_growth": "年增长量",
+          "recommended": "推荐存储",
+          "note": "使用 SSD 可显著提高同步和查询性能"
+        },
+        "network": {
+          "title": "网络需求",
+          "initial_sync": "初始同步",
+          "initial_sync_note": "推荐: 最低 50 Mbps",
+          "daily_operation": "日常操作",
+          "high_load_api": "高负载 API",
+          "note": "更高的带宽可缩短初始同步时间"
         }
       }
     }
