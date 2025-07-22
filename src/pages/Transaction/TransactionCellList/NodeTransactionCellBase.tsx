@@ -26,7 +26,7 @@ export default ({ blockHash, blockNumber }: { blockHash?: string; blockNumber?: 
   const isMobile = useIsMobile()
   const { data: blockEconomic, isLoading } = useQuery(
     ['block', 'economic', blockHash],
-    () => (blockHash ? nodeService.lumosRPC.getBlockEconomicState(blockHash) : null),
+    () => (blockHash ? nodeService.getBlockEconomicState(blockHash) : null),
     {
       enabled: Boolean(blockHash),
     },

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { utils } from '@ckb-lumos/base'
+import { HasherCkb } from '@ckb-ccc/core'
 import styles from './hash160.module.scss'
 import CopyableText from '../../../components/CopyableText'
 
@@ -22,7 +22,7 @@ export const Hash160: React.FC = () => {
     if (!value) return [null, null]
     try {
       // 42 for 0x + 40 for hash
-      return [utils.ckbHash(value).slice(0, 42), null]
+      return [new HasherCkb().update(value).digest().slice(0, 42), null]
     } catch (e) {
       if (e instanceof Error) {
         const msg = e.message.split('\n')[0]

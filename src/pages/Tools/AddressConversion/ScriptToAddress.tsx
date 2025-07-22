@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 import { RadioGroup, RadioGroupItem } from '../../../components/ui/RadioGroup'
-import { parseMultiVersionAddress, ParseResult } from './parseMultiVersionAddress'
-import { LUMOS_MAINNET_CONFIG, LUMOS_TESTNET_CONFIG } from '../../../constants/scripts'
+import { parseMultiVersionAddress } from './parseMultiVersionAddress'
 import { HashType } from '../../../constants/common'
 import { MultiVersionAddress } from './MultiVersionAddress'
 import { isMultiVersionAddress, isErr } from './types'
@@ -14,13 +14,22 @@ export const ScriptToAddress: React.FC = () => {
   const [hashType, setHashType] = useState(HashType.TYPE)
   const { t } = useTranslation()
 
-  const parsed = useMemo<{ mainnet: ParseResult; testnet: ParseResult }>(() => {
-    const mainnet = parseMultiVersionAddress({ codeHash, hashType, args }, LUMOS_MAINNET_CONFIG)
+  const {
+    data: parsed = {
+      mainnet: undefined,
+      testnet: undefined,
+    },
+  } = useQuery({
+    queryKey: ['script_to_address', codeHash, hashType, args],
+    queryFn: async () => {
+      const [mainnet, testnet] = await Promise.all([
+        parseMultiVersionAddress({ codeHash, hashType, args }, true),
+        parseMultiVersionAddress({ codeHash, hashType, args }, false),
+      ])
 
-    const testnet = parseMultiVersionAddress({ codeHash, hashType, args }, LUMOS_TESTNET_CONFIG)
-
-    return { mainnet, testnet }
-  }, [codeHash, hashType, args])
+      return { mainnet, testnet }
+    },
+  })
 
   return (
     <div>
