@@ -442,7 +442,8 @@
       "community_nodes": "Community Nodes",
       "media_kit": "Media Kit",
       "ckb_world": "CKB World",
-      "eco_fund": "Eco Fund"
+      "eco_fund": "Eco Fund",
+      "service_configuration": "Service Configuration"
     },
     "search": {
       "loading": "Loading...",
@@ -1284,6 +1285,45 @@
         },
         "channel": {
           "connected_node": "Connected Node"
+        }
+      }
+    },
+    "system_info": {
+      "title": "CKB Explorer Running Configuration",
+      "subTitle": "Real-time Monitoring and Resource Recommendations",
+      "chartTitle": "Resource Usage",
+      "CPU": "CPU",
+      "Memory": "Memory",
+      "recommendations": {
+        "title": "Recommended Server Configuration",
+        "cpu": {
+          "title": "CPU Configuration",
+          "minimum": "Minimum",
+          "recommended": "Recommended",
+          "highPerformance": "High Load",
+          "note": "CPU usage will be higher during initial sync but decreases significantly afterward"
+        },
+        "memory": {
+          "title": "Memory Configuration",
+          "minimum": "Minimum",
+          "recommended": "Recommended",
+          "highPerformance": "High Load",
+          "note": "Memory usage scales with transaction volume"
+        },
+        "storage": {
+          "title": "Storage Configuration",
+          "current_block_size": "Current Block Size",
+          "annual_growth": "Annual Growth Estimate",
+          "recommended": "Recommended",
+          "note": "SSD significantly improves syncing and query performance"
+        },
+        "network": {
+          "title": "Network Requirements",
+          "initial_sync": "Initial Sync",
+          "initial_sync_note": "Recommended: 50 Mbps minimum",
+          "daily_operation": "Daily Operation",
+          "high_load_api": "High-Load / API",
+          "note": "Higher bandwidth reduces initial sync time"
         }
       }
     }
