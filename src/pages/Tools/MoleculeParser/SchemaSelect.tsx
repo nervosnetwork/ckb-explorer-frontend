@@ -1,5 +1,5 @@
 import React from 'react'
-import { CodecMap } from '@ckb-lumos/molecule'
+import { CodecMap } from './constants'
 import CommonSelect from '../../../components/CommonSelect'
 import styles from './styles.module.scss'
 
@@ -9,7 +9,7 @@ type Props = {
   onSelectCodec: (name: string) => void
 }
 
-const creatCodecOptionsFromMap = (codecMap: CodecMap): string[] => {
+const createCodecOptionsFromMap = (codecMap: CodecMap): string[] => {
   return Object.keys(codecMap)
 }
 
@@ -17,7 +17,7 @@ export const SchemaSelect: React.FC<Props> = ({ onSelectCodec, selectedCodecName
   const handleChange = (newValue: string | null) => {
     onSelectCodec(newValue as string)
   }
-  const top100Films = creatCodecOptionsFromMap(codecMap).map(film => ({
+  const top100Films = createCodecOptionsFromMap(codecMap).map(film => ({
     label: film,
     value: film,
   }))

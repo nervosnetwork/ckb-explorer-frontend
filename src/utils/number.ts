@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { BI } from '@ckb-lumos/bi'
 
 export function isNumeric(str: string) {
   return !Number.isNaN(str) && !Number.isNaN(parseFloat(str))
@@ -42,33 +41,35 @@ export const localeNumberString = (value: BigNumber | string | number): string =
 
 // reference: https://github.com/nervosnetwork/ckb/wiki/Header-%C2%BB-compact_target
 function compactToTarget(compact: number) {
-  const exponent = BI.from(compact).shr(BI.from(24))
-  let mantissa = BI.from(compact).and(BI.from(0x00ff_ffff))
+  const exponent = new BigNumber(compact).dividedToIntegerBy(new BigNumber(2).pow(24))
+  let mantissa = new BigNumber(compact).modulo(new BigNumber(2).pow(24))
 
-  let target = BI.from(0)
-  if (exponent.lte(BI.from(3))) {
-    mantissa = mantissa.shr(BI.from(8).mul(BI.from(3).sub(exponent)))
+  let target = new BigNumber(0)
+  if (exponent.lte(new BigNumber(3))) {
+    mantissa = mantissa.dividedToIntegerBy(
+      new BigNumber(2).pow(new BigNumber(8).times(new BigNumber(3).minus(exponent))),
+    )
     target = mantissa
   } else {
     target = mantissa
-    target = target.shl(BI.from(8).mul(exponent.sub(BI.from(3))))
+    target = target.times(new BigNumber(2).pow(new BigNumber(8).times(exponent.minus(new BigNumber(3)))))
   }
 
-  const overflow = !mantissa.isZero() && exponent.gt(BI.from(32))
+  const overflow = !mantissa.isZero() && exponent.gt(new BigNumber(32))
   return { target, overflow }
 }
 
 export function compactToDifficulty(compact: number) {
   const { target } = compactToTarget(compact)
 
-  const u256MaxValue = BI.from(2).pow(256).sub(1)
-  const hspace = BI.from('0x10000000000000000000000000000000000000000000000000000000000000000')
+  const u256MaxValue = new BigNumber(2).pow(256).minus(1)
+  const hspace = new BigNumber('0x10000000000000000000000000000000000000000000000000000000000000000')
 
   if (target.isZero()) {
-    return u256MaxValue.toHexString()
+    return `0x${u256MaxValue.toString(16)}`
   }
 
-  return hspace.div(target).toHexString()
+  return `0x${hspace.dividedToIntegerBy(target).toString(16)}`
 }
 
 const MIN_VALUE = new BigNumber(1)

@@ -1,5 +1,3 @@
-import { Script } from '@ckb-lumos/base'
-
 export type Err = { error: string }
 
 export function isErr(x: unknown): x is Err {
@@ -8,7 +6,7 @@ export function isErr(x: unknown): x is Err {
 
 export type MultiVersionAddress = {
   name: string | undefined
-  script: Script
+  script: CKBComponents.Script
   ckb2021FullFormat: string
 }
 

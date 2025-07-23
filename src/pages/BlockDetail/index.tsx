@@ -21,7 +21,7 @@ function transformNodeBlock(block: ClientBlock): BlockOverviewCardProps['block']
 
   return {
     blockHash: block.header.hash,
-    number: parseInt(block.header.number.toString(), 10),
+    number: Number(block.header.number),
     minerHash: encodeNewAddress(block.transactions[0].outputs[0].lock),
     transactionsRoot: block.header.transactionsRoot,
     transactionsCount: block.transactions.length,
