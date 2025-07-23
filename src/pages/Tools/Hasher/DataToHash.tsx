@@ -1,14 +1,13 @@
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { utils } from '@ckb-lumos/base'
-import { bytes } from '@ckb-lumos/codec'
+import { HasherCkb } from '@ckb-ccc/core'
 import styles from './dataToHash.module.scss'
 import CopyableText from '../../../components/CopyableText'
 
 const blake2b = (data: string) => {
-  const hasher = new utils.CKBHasher()
-  hasher.update(bytes.bytify(data))
-  return hasher.digestHex()
+  const hasher = new HasherCkb()
+  hasher.update(data)
+  return hasher.digest()
 }
 
 export const DataToHash: React.FC = () => {

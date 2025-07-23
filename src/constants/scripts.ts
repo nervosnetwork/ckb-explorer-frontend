@@ -1,6 +1,3 @@
-import type { HashType } from '@ckb-lumos/base'
-import type { ScriptConfigs, Config } from '@ckb-lumos/config-manager'
-import { predefined } from '@ckb-lumos/config-manager'
 import { Script } from '../models/Script'
 
 export const SCRIPT_TAGS = {
@@ -14,8 +11,7 @@ export interface ContractHashTag {
   tag: string
   category?: 'lock' | 'type'
   depType: 'dep_group' | 'code'
-  lumosConfigName?: string // for lumos config
-  hashType: HashType
+  hashType: CKBComponents.ScriptHashType
   multiple?: boolean // multiple instance so the tag should be displayed with a version
 }
 
@@ -398,7 +394,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-0'],
     hashType: 'type',
     depType: 'dep_group',
-    lumosConfigName: 'SECP256K1_BLAKE160',
     tag: 'secp256k1_blake160',
     category: 'lock',
   },
@@ -410,7 +405,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-1'],
     depType: 'dep_group',
     hashType: 'type',
-    lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
     tag: SCRIPT_TAGS.SECP_MULTISIG,
     category: 'lock',
     multiple: true,
@@ -423,7 +417,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x71a7ba8fc96349fea0ed3a5c47992e3b4084b031a42264a018e0072e8172e46c-1'],
     depType: 'dep_group',
     hashType: 'type',
-    lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
     tag: SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME,
     category: 'lock',
     multiple: true,
@@ -441,7 +434,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x4153a2014952d7cac45f285ce9a7c5c0c0e1b21f2d378b82ac1433cb11c25c4d-0'],
     depType: 'dep_group',
     hashType: 'type',
-    lumosConfigName: 'ANYONE_CAN_PAY',
     tag: 'secp256k1 / anyone-can-pay',
     category: 'lock',
   },
@@ -450,7 +442,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xe2fb199810d49a4d8beec56718ba2593b665db9d52299a0f9e6e75416d73ff5c-2'],
     depType: 'code',
     hashType: 'type',
-    lumosConfigName: 'DAO',
     tag: 'nervos dao',
     category: 'type',
   },
@@ -459,7 +450,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xc7813f6a415144643970c2e88e0bb6ca6a8edc5dd7c1022746f628284a9936d5-0'],
     hashType: 'type',
     depType: 'code',
-    lumosConfigName: 'SUDT',
     tag: 'sudt',
     category: 'type',
   },
@@ -468,7 +458,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x1d60cb8f4666e039f418ea94730b1a8c5aa0bf2f7781474406387462924d15d4-0'],
     depType: 'code',
     hashType: 'type',
-    lumosConfigName: 'PW_LOCK',
     tag: 'pwlock-k1-acpl',
     category: 'lock',
   },
@@ -477,7 +466,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x04632cc459459cf5c9d384b43dee3e36f542a464bdd4127be7d6618ac6f8d268-0'],
     depType: 'dep_group',
     hashType: 'type',
-    lumosConfigName: 'CHEQUE',
     tag: 'cheque',
     category: 'lock',
   },
@@ -611,7 +599,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x625696834db4320214a8af09de74fd51fc8a83be69d920243f8ccd219071473b-0'],
     depType: 'code',
     hashType: 'type',
-    lumosConfigName: 'OMNI_LOCK(outdated)',
     tag: 'omni_lock v1',
     category: 'lock',
   },
@@ -623,7 +610,6 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     ],
     depType: 'code',
     hashType: 'type',
-    lumosConfigName: 'OMNILOCK',
     tag: 'omni_lock v2',
     category: 'lock',
   },
@@ -798,7 +784,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37-0'],
     depType: 'dep_group',
     hashType: 'type',
-    lumosConfigName: 'SECP256K1_BLAKE160',
     tag: 'secp256k1_blake160',
     category: 'lock',
   },
@@ -810,7 +795,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37-1'],
     depType: 'dep_group',
     hashType: 'type',
-    lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
     tag: SCRIPT_TAGS.SECP_MULTISIG,
     category: 'lock',
     multiple: true,
@@ -823,7 +807,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xf8de3bb47d055cdf460d93a2a6e1b05f7432f9777c8c474abf4eec1d4aee5d37-1'],
     depType: 'dep_group',
     hashType: 'type',
-    lumosConfigName: 'SECP256K1_BLAKE160_MULTISIG',
     tag: SCRIPT_TAGS.SECP_MULTISIG_LOCKTIME,
     category: 'lock',
     multiple: true,
@@ -841,7 +824,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xec26b0f85ed839ece5f11c4c4e837ec359f5adc4420410f6453b1f6b60fb96a6-0'],
     depType: 'dep_group',
     hashType: 'type',
-    lumosConfigName: 'ANYONE_CAN_PAY',
     tag: 'secp256k1 / anyone-can-pay',
     category: 'lock',
   },
@@ -850,7 +832,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x8f8c79eb6671709633fe6a46de93c0fedc9c1b8a6527a18d3983879542635c9f-2'],
     depType: 'code',
     hashType: 'type',
-    lumosConfigName: 'DAO',
     tag: 'nervos dao',
     category: 'type',
   },
@@ -867,7 +848,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xe12877ebd2c3c364dc46c5c992bcfaf4fee33fa13eebdf82c591fc9825aab769-0'],
     depType: 'code',
     hashType: 'type',
-    lumosConfigName: 'SUDT',
     tag: 'sudt',
     category: 'type',
   },
@@ -876,7 +856,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x4f254814b972421789fafef49d4fee94116863138f72ab1e6392daf3decfaec1-0'],
     depType: 'code',
     hashType: 'type',
-    lumosConfigName: 'PW_LOCK',
     tag: 'pwlock-k1-acpl',
     category: 'lock',
   },
@@ -893,7 +872,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x7f96858be0a9d584b4a9ea190e0420835156a6010a5fde15ffcdc9d9c721ccab-0'],
     depType: 'dep_group',
     hashType: 'type',
-    lumosConfigName: 'CHEQUE',
     tag: 'cheque',
     category: 'lock',
   },
@@ -1046,7 +1024,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0x9154df4f7336402114d04495175b37390ce86a4906d2d4001cf02c3e6d97f39c-0'],
     depType: 'code',
     hashType: 'type',
-    lumosConfigName: 'OMNI_LOCK(outdated)',
     tag: 'omni_lock v1',
     category: 'lock',
   },
@@ -1055,7 +1032,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     txHashes: ['0xec18bf0d857c981c3d1f4e17999b9b90c484b303378e94de1a57b0872f5d4602-0'],
     depType: 'code',
     hashType: 'type',
-    lumosConfigName: 'OMNILOCK',
     tag: 'omni_lock v2',
     category: 'lock',
   },
@@ -1235,35 +1211,6 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     category: 'lock',
   },
 ]
-
-const getLumosScripts = (scripts: ContractHashTag[]): ScriptConfigs =>
-  scripts.reduce(
-    (acc, script) =>
-      Object.assign(acc, {
-        [script.lumosConfigName ?? script.tag]: {
-          CODE_HASH: script.codeHashes[0],
-          HASH_TYPE: script.hashType,
-          TX_HASH: `${script.txHashes[script.txHashes.length - 1].split('-')[0]}`,
-          INDEX: `0x${(+script.txHashes[script.txHashes.length - 1].split('-')[1]).toString(16)}`,
-          DEP_TYPE: script.depType,
-        },
-      }),
-    {},
-  )
-
-const LUMOS_MAINNET_SCRIPTS: ScriptConfigs = getLumosScripts(MainnetContractHashTags)
-
-export const LUMOS_MAINNET_CONFIG: Config = {
-  PREFIX: predefined.LINA.PREFIX,
-  SCRIPTS: LUMOS_MAINNET_SCRIPTS,
-}
-
-const LUMOS_TESTNET_SCRIPTS: ScriptConfigs = getLumosScripts(TestnetContractHashTags)
-
-export const LUMOS_TESTNET_CONFIG: Config = {
-  PREFIX: predefined.AGGRON4.PREFIX,
-  SCRIPTS: LUMOS_TESTNET_SCRIPTS,
-}
 
 export const ZERO_LOCK_CODE_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
 

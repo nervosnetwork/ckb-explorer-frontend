@@ -3,8 +3,8 @@ import { ccc } from '@ckb-ccc/core'
 // eslint-disable-next-line import/no-unresolved
 import { cccA } from '@ckb-ccc/core/advanced'
 import { ssri } from '@ckb-ccc/ssri'
-import { parseAddress } from '@ckb-lumos/helpers'
 import { useCallback, useContext, useState } from 'react'
+import { IS_MAINNET } from '../../../constants/common'
 import { ReadContractContext } from './context'
 import { ReadContractParameterType } from './types'
 
@@ -179,7 +179,7 @@ export function useCallSSRIMethod() {
           // empty
         }
         try {
-          parseAddress(content)
+          ccc.Address.fromString(content, IS_MAINNET ? new ccc.ClientPublicMainnet() : new ccc.ClientPublicTestnet())
           setCkbAddress(content)
         } catch (e) {
           // empty

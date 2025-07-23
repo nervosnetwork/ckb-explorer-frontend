@@ -1,41 +1,44 @@
-import type { CodecMap } from '@ckb-lumos/molecule'
-import { BI, BIish } from '@ckb-lumos/bi'
-import { number, AnyCodec } from '@ckb-lumos/codec'
-import { blockchain } from '@ckb-lumos/base'
+import { mol, BytesLike } from '@ckb-ccc/core'
 
-function enhanceUnpackBIish(codec: AnyCodec, afterUnpack: (arg: BIish) => string) {
+export type CodecMap = Record<string, mol.CodecLike<any>>
+
+function enhanceCodecWithHumanize(codec: mol.CodecLike<any>) {
   return {
     ...codec,
-    unpack: (packed: Uint8Array) => afterUnpack(codec.unpack(packed)),
+    decode: (data: BytesLike) => {
+      const result = codec.decode(data)
+      // Convert bigints to strings for better display
+      if (typeof result === 'bigint') {
+        return result.toString()
+      }
+      return result
+    },
   }
 }
-
-const humanizeBigInteger = (x: BIish) => BI.from(x).toString()
 
 /**
  * built-in re-writable codecs
  */
 export const builtinCodecs: CodecMap = {
-  Uint8: enhanceUnpackBIish(number.Uint8, humanizeBigInteger),
-  Uint16: enhanceUnpackBIish(number.Uint16, humanizeBigInteger),
-  Uint32: enhanceUnpackBIish(number.Uint32, humanizeBigInteger),
-  Uint64: enhanceUnpackBIish(number.Uint64, humanizeBigInteger),
-  Uint128: enhanceUnpackBIish(number.Uint128, humanizeBigInteger),
-  Uint256: enhanceUnpackBIish(number.Uint256, humanizeBigInteger),
-  Uint512: enhanceUnpackBIish(number.Uint512, humanizeBigInteger),
-  Bytes: blockchain.Bytes,
-  Byte32: blockchain.Byte32,
-  BytesVec: blockchain.BytesVec,
-  Byte32Vec: blockchain.Byte32Vec,
-  BytesOpt: blockchain.BytesOpt,
-
-  HashType: blockchain.HashType,
-  DepType: blockchain.DepType,
+  Uint8: enhanceCodecWithHumanize(mol.Uint8),
+  Uint16: enhanceCodecWithHumanize(mol.Uint16),
+  Uint32: enhanceCodecWithHumanize(mol.Uint32),
+  Uint64: enhanceCodecWithHumanize(mol.Uint64),
+  Uint128: enhanceCodecWithHumanize(mol.Uint128),
+  Uint256: enhanceCodecWithHumanize(mol.Uint256),
+  Uint512: enhanceCodecWithHumanize(mol.Uint512),
+  Bytes: mol.Bytes,
+  Byte32: mol.Byte32,
+  BytesVec: mol.BytesVec,
+  Byte32Vec: mol.Byte32Vec,
+  BytesOpt: mol.BytesOpt,
+  Bool: mol.Bool,
+  String: mol.String,
 }
 
 /**
  * merge user tokens with primitive tokens
- * @param userTokens
+ * @param userCodecs
  */
 export const mergeBuiltinCodecs = (userCodecs: CodecMap): CodecMap => {
   return { ...userCodecs, ...builtinCodecs }

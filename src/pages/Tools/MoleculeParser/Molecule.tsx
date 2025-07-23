@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react'
-import { createParser } from '@ckb-lumos/molecule'
 import { HelpTip } from '../../../components/HelpTip'
-import { blockchainSchema, builtinCodecs, mergeBuiltinCodecs } from './constants'
+import { blockchainSchema, mergeBuiltinCodecs, CodecMap } from './constants'
+import { parseSchema } from './parser'
 import { Alert, AlertTitle, AlertDescription } from '../../../components/ui/Alert'
 import styles from './styles.module.scss'
 import { cacheService } from '../../../services/CacheService'
 
 type Props = {
-  updateCodecMap: (token: any) => void
+  updateCodecMap: (codecMap: CodecMap) => void
 }
 
 export const CACHE_KEY = 'inputMol'
@@ -19,10 +19,8 @@ export const Molecule: React.FC<Props> = ({ updateCodecMap }) => {
   const [parseSuccess, setParseSuccess] = useState(false)
 
   const handleConfirm = useCallback(() => {
-    const parser = createParser()
     try {
-      // get user input schema, and append with primitive schema
-      const userCodecMap = parser.parse(inputMol + blockchainSchema, { refs: builtinCodecs })
+      const userCodecMap = parseSchema(`${blockchainSchema}/n${inputMol}`)
       const codecMap = mergeBuiltinCodecs(userCodecMap)
 
       setParseSuccess(true)
@@ -30,12 +28,11 @@ export const Molecule: React.FC<Props> = ({ updateCodecMap }) => {
       setParseErrorMsg('')
       updateCodecMap(codecMap)
       cacheService.set(CACHE_KEY, inputMol, { expireTime: Number.POSITIVE_INFINITY })
-    } catch (error: any) {
+    } catch (error: unknown) {
       setParseSuccess(false)
       setShowAlert(true)
-      setParseErrorMsg(error.message)
+      setParseErrorMsg((error as Error).message)
       updateCodecMap({})
-      console.error('error is:', error)
     }
   }, [inputMol, setParseErrorMsg, setShowAlert, setParseSuccess, updateCodecMap])
 
@@ -46,7 +43,7 @@ export const Molecule: React.FC<Props> = ({ updateCodecMap }) => {
   return (
     <div style={{ marginBottom: 16 }}>
       <div className={styles.field} style={{ marginBottom: 16 }}>
-        <label htmlFor="input-schema">
+        <label className="flex items-center" htmlFor="input-schema">
           Input schema(mol)
           <HelpTip>
             Uint8/16/.../512, Byte32, BytesVec, Bytes, BytesVec, BytesOpt are used as primitive schemas, please do not
