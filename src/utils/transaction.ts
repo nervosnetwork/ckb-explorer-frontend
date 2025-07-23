@@ -1,12 +1,12 @@
 import { Cell, OutPoint, Transaction } from '@ckb-ccc/core'
-import { BI } from '@ckb-lumos/bi'
+import BigNumber from 'bignumber.js'
 
 const TRANSACTION_SIZE_PADDING = 4
 const CELLBASE_TX_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
-function calculateFeeRate(size: number, fee: BI): BI {
-  const ratio = BI.from(1000)
-  return fee.mul(ratio).div(BI.from(size))
+function calculateFeeRate(size: number, fee: BigNumber): BigNumber {
+  const ratio = new BigNumber(1000)
+  return fee.times(ratio).dividedBy(new BigNumber(size))
 }
 
 export function calculateFeeByTxIO(
@@ -17,9 +17,15 @@ export function calculateFeeByTxIO(
   fee: number
   feeRate: number
 } {
-  const inputCapacities = inputs.reduce((sum, cell) => sum.add(BI.from(cell.cellOutput.capacity)), BI.from(0))
-  const outputCapacities = outputs.reduce((sum, cell) => sum.add(BI.from(cell.cellOutput.capacity)), BI.from(0))
-  const fee = inputCapacities.sub(outputCapacities)
+  const inputCapacities = inputs.reduce(
+    (sum, cell) => sum.plus(new BigNumber(cell.cellOutput.capacity)),
+    new BigNumber(0),
+  )
+  const outputCapacities = outputs.reduce(
+    (sum, cell) => sum.plus(new BigNumber(cell.cellOutput.capacity)),
+    new BigNumber(0),
+  )
+  const fee = inputCapacities.minus(outputCapacities)
   const feeRate = calculateFeeRate(transactionSize, fee)
 
   return {

@@ -1,10 +1,9 @@
 import { useQueries, useQuery } from '@tanstack/react-query'
-import { Consensus } from '@ckb-lumos/base'
 import { ClientBlock } from '@ckb-ccc/core'
 import { useCKBNode } from './useCKBNode'
 import { encodeNewAddress } from '../utils/address'
 
-function calculateBaseReward(epochIndex: number, epochNumber: number, consensus: Consensus) {
+function calculateBaseReward(epochIndex: number, epochNumber: number, consensus: CKBComponents.Consensus) {
   const halvingTimes = Math.floor(epochNumber / parseInt(consensus.primaryEpochRewardHalvingInterval, 16))
   return parseInt(consensus.initialPrimaryEpochReward, 16) / halvingTimes ** 2 / epochIndex
 }
@@ -37,7 +36,7 @@ function useLatestBlocks(count = 15): ClientBlock[] {
 export function useNodeLatestBlocks(count = 15) {
   const { nodeService } = useCKBNode()
   const blocks = useLatestBlocks(count)
-  const { data: consensus } = useQuery(['node', 'consensus'], () => nodeService.lumosRPC.getConsensus())
+  const { data: consensus } = useQuery(['node', 'consensus'], () => nodeService.getConsensus())
 
   return blocks.map(block => ({
     number: parseInt(block.header.number.toString(), 10),

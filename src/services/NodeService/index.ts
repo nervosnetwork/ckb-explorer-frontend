@@ -1,17 +1,59 @@
 import { ccc } from '@ckb-ccc/core'
-import { RPC } from '@ckb-lumos/rpc'
+import { toCamelcase } from '../../utils/util'
 
 export class NodeService {
   nodeEndpoint: string
   public rpc: ccc.Client
-  public lumosRPC: RPC
 
   constructor(nodeEndpoint: string) {
     this.nodeEndpoint = nodeEndpoint
-    this.lumosRPC = new RPC(nodeEndpoint)
     this.rpc = new ccc.ClientPublicMainnet({
       url: nodeEndpoint,
     })
+  }
+
+  private async callRpc<T>(method: string, params: unknown[]): Promise<T> {
+    const body = {
+      id: 1,
+      jsonrpc: '2.0',
+      method,
+      params,
+    }
+
+    const res = await fetch(this.rpc.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+
+    if (!res.ok) {
+      throw new Error(`RPC request failed with status ${res.status}`)
+    }
+
+    const json = await res.json()
+
+    if (json.error) {
+      throw new Error(`RPC error: ${json.error.code} ${json.error.message}`)
+    }
+
+    return toCamelcase(json.result) as T
+  }
+
+  // TODO: Switch to ccc when ccc supports this rpc.
+  async getBlockEconomicState(blockHash: string) {
+    return this.callRpc<CKBComponents.BlockEconomicState>('get_block_economic_state', [blockHash])
+  }
+
+  // TODO: Switch to ccc when ccc supports this rpc.
+  async getBlockchainInfo() {
+    return this.callRpc<CKBComponents.BlockchainInfo>('get_blockchain_info', [])
+  }
+
+  // TODO: Switch to ccc when ccc supports this rpc.
+  async getConsensus() {
+    return this.callRpc<CKBComponents.Consensus>('get_consensus', [])
   }
 
   async getTx(hash: string) {

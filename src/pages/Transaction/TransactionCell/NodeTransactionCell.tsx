@@ -33,9 +33,9 @@ import FiberIcon from './fiber.svg'
 import { CellInfoModal } from '../TransactionCellScript'
 import SimpleModal from '../../../components/Modal'
 import SimpleButton from '../../../components/SimpleButton'
-import { useIsMobile } from '../../../hooks'
+import { useIsMobile, useDeprecatedAddr } from '../../../hooks'
 import { getCellType } from '../../../utils/cell'
-import { encodeNewAddress, encodeDeprecatedAddress } from '../../../utils/address'
+import { encodeNewAddress } from '../../../utils/address'
 import { Addr } from './index'
 import { useCKBNode } from '../../../hooks/useCKBNode'
 import Tooltip from '../../../components/Tooltip'
@@ -52,8 +52,8 @@ const TransactionCellIndexAddress = ({
   isAddrNew: boolean
 }) => {
   const { nodeService, isActivated } = useCKBNode()
-  const deprecatedAddr = encodeDeprecatedAddress(cell.cellOutput.lock)
   const newAddr = encodeNewAddress(cell.cellOutput.lock)
+  const deprecatedAddr = useDeprecatedAddr(newAddr)
   const address = isAddrNew ? newAddr : deprecatedAddr
 
   const cellStatus = useQuery(

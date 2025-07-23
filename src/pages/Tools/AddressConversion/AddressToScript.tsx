@@ -1,33 +1,33 @@
-import React, { useMemo, useState } from 'react'
-import type { Script } from '@ckb-lumos/base'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { parseAddress } from '@ckb-lumos/helpers'
-import { parseMultiVersionAddress, ParseResult } from './parseMultiVersionAddress'
+import { addressToScript } from '@nervosnetwork/ckb-sdk-utils'
+import { useQuery } from '@tanstack/react-query'
+import { parseMultiVersionAddress } from './parseMultiVersionAddress'
 import CopyableText from '../../../components/CopyableText'
 import { MultiVersionAddress } from './MultiVersionAddress'
-import { LUMOS_MAINNET_CONFIG, LUMOS_TESTNET_CONFIG } from '../../../constants/scripts'
 import { isMultiVersionAddress, isErr } from './types'
 import styles from './styles.module.scss'
 
 export const AddressToScript: React.FC = () => {
   const [address, setAddress] = useState('')
   const { t } = useTranslation()
+  const { data: parsed } = useQuery({
+    queryKey: ['address_to_script', address],
+    queryFn: () => {
+      if (!address) return null
+      const prefix = address.substring(0, 3)
+      const isMainnet = prefix === 'ckb'
 
-  const parsed = useMemo<ParseResult | null>(() => {
-    if (!address) return null
-    const prefix = address.substring(0, 3)
+      let script: CKBComponents.Script
+      try {
+        script = addressToScript(address)
+      } catch {
+        return { error: 'Invalid address' }
+      }
 
-    const config = prefix === 'ckb' ? LUMOS_MAINNET_CONFIG : LUMOS_TESTNET_CONFIG
-
-    let script: Script
-    try {
-      script = parseAddress(address, { config })
-    } catch {
-      return { error: 'Invalid address' }
-    }
-
-    return parseMultiVersionAddress(script, config)
-  }, [address])
+      return parseMultiVersionAddress(script, isMainnet)
+    },
+  })
 
   return (
     <div>
