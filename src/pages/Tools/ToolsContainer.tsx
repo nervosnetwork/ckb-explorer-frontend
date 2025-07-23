@@ -1,12 +1,17 @@
 import classNames from 'classnames'
 import { FC, PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
+import CKBRPC from '@nervosnetwork/ckb-sdk-rpc'
 import { ReactComponent as ArrowIcon } from './arrow.svg'
 import SimpleButton from '../../components/SimpleButton'
 import Content from '../../components/Content'
 import { Link } from '../../components/Link'
 import styles from './styles.module.scss'
 import Popover from '../../components/Popover'
+import config from '../../config'
+
+const { BACKUP_NODES: backupNodes } = config
+export const ckbRpc = new CKBRPC(backupNodes[0])
 
 const ToolsContainer: FC<PropsWithChildren<{}>> = ({ children }) => {
   const { t } = useTranslation()

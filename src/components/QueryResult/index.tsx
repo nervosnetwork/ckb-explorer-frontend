@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { DefinedUseQueryResult } from '@tanstack/react-query'
+import { UseQueryResult } from '@tanstack/react-query'
 import { LOADING_WAITING_TIME } from '../../constants/common'
 import Error from './Error'
 import Loading from '../Loading'
@@ -12,7 +12,7 @@ export function QueryResult<TData, TError>({
   errorRender,
   loadingRender,
 }: {
-  query: DefinedUseQueryResult<TData, TError>
+  query: UseQueryResult<TData, TError>
   children: (data: TData) => ReactElement
   delayLoading?: boolean
   errorRender?: (err: TError) => ReactElement
