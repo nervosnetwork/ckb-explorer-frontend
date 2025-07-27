@@ -35,7 +35,9 @@ const Tooltip: FC<TooltipProps> = ({
   return (
     <Provider delayDuration={0}>
       <Root open={open} onOpenChange={onOpenChange}>
-        <Trigger asChild>{trigger}</Trigger>
+        <Trigger asChild className={styles.trigger}>
+          {trigger}
+        </Trigger>
         <Portal container={portalContainer}>
           <Content
             side={placement}
