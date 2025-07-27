@@ -55,7 +55,9 @@ const Popover: FC<TooltipProps> = ({
   }
   return (
     <Root open={open} onOpenChange={onOpenChange}>
-      <Trigger asChild>{trigger}</Trigger>
+      <Trigger asChild className={styles.trigger}>
+        {trigger}
+      </Trigger>
       <Portal container={portalContainer}>
         <Content side={placement} style={contentStyle} className={classNames(styles.content, contentClassName)}>
           {showArrow && <Arrow className={styles.arrow} />}
