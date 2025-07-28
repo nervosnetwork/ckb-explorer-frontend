@@ -8,7 +8,7 @@ import NervosDAOWithdrawingIcon from '../../../assets/nervos_dao_withdrawing.png
 import CurrentAddressIcon from '../../../assets/current_address.svg'
 import UDTTokenIcon from '../../../assets/udt_token.png'
 import { useCurrentLanguage } from '../../../utils/i18n'
-import { localeNumberString, parseUDTAmount } from '../../../utils/number'
+import { localeNumberString, parseUDTAmountRaw } from '../../../utils/number'
 import { isDaoCell, isDaoDepositCell, isDaoWithdrawCell, shannonToCkb, shannonToCkbDecimal } from '../../../utils/util'
 import { IOType } from '../../../constants/common'
 import { CellInputIcon, CellOutputIcon } from '../../Transaction/TransactionCellArrow'
@@ -21,7 +21,7 @@ import { ReactComponent as BitAccountIcon } from '../../../assets/bit_account.sv
 import { useBoolean, useIsMobile } from '../../../hooks'
 import CopyTooltipText from '../../Text/CopyTooltipText'
 import EllipsisMiddle from '../../EllipsisMiddle'
-import { Cell, Cell$UDT, UDTInfo } from '../../../models/Cell'
+import { Cell, Cell$UDT } from '../../../models/Cell'
 import CellModal from '../../Cell/CellModal'
 import Tooltip from '../../Tooltip'
 import Popover from '../../Popover'
@@ -65,13 +65,6 @@ const AddressTextWithAlias: FC<{
       )}
     </div>
   )
-}
-
-const useUdtAmount = (udt: UDTInfo) => {
-  const { t } = useTranslation()
-  return udt.published
-    ? `${parseUDTAmount(udt.amount, udt.decimal)} ${udt.symbol}`
-    : `${t('udt.unknown_token')} #${udt.typeHash.substring(udt.typeHash.length - 4)}`
 }
 
 const WithdrawPopoverItem = ({
@@ -192,10 +185,19 @@ const TransactionCellNervosDao = ({ cell, ioType }: { cell: Cell; ioType: IOType
 
 const TransactionCellUDT = ({ cell }: { cell: Cell$UDT }) => {
   const { extraInfo } = cell
+  const { t } = useTranslation()
 
   return (
     <div className={styles.transactionCellUDTPanel}>
-      <span>{useUdtAmount(extraInfo)}</span>
+      {extraInfo.published ? (
+        <Capacity
+          capacity={parseUDTAmountRaw(extraInfo.amount, extraInfo.decimal)}
+          unit={extraInfo.symbol}
+          display="short"
+        />
+      ) : (
+        `${t('udt.unknown_token')} #${extraInfo.typeHash.substring(extraInfo.typeHash.length - 4)}`
+      )}
       <Tooltip trigger={<img src={UDTTokenIcon} className="transactionCellUdtIcon" alt="udt token" />}>
         {`Capacity: ${localeNumberString(shannonToCkbDecimal(cell.capacity, 8))} CKB`}
       </Tooltip>
@@ -217,11 +219,7 @@ const TransactionCellCapacity = ({ cell, ioType }: { cell: Cell; ioType: IOType 
     if (info?.amount !== undefined && info.decimal && info.symbol) {
       return (
         <div className="transactionCellWithoutIcon">
-          <Capacity
-            capacity={parseUDTAmount(info.amount, info.decimal).replace(/,/g, '')}
-            unit={info.symbol}
-            display="short"
-          />
+          <Capacity capacity={parseUDTAmountRaw(info.amount, info.decimal)} unit={info.symbol} display="short" />
         </div>
       )
     }
@@ -232,11 +230,7 @@ const TransactionCellCapacity = ({ cell, ioType }: { cell: Cell; ioType: IOType 
     if (info?.amount !== undefined && info.decimal && info.symbol) {
       return (
         <div className="transactionCellWithoutIcon">
-          <Capacity
-            capacity={parseUDTAmount(info.amount, info.decimal).replace(/,/g, '')}
-            unit={info.symbol}
-            display="short"
-          />
+          <Capacity capacity={parseUDTAmountRaw(info.amount, info.decimal)} unit={info.symbol} display="short" />
         </div>
       )
     }
