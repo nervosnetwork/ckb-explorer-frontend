@@ -1092,6 +1092,7 @@
       "by_owner": "By Owner",
       "by_ckb_address": "By CKB Address",
       "transactions": "Transactions",
+      "depositors": "Depositors",
       "description_str": "The information you requested can be downloaded from this page. Before continuing please verify that you are not a robot by completing the captcha below.",
       "select_download_options": "Select download options",
       "date": "Date",

@@ -18,6 +18,7 @@ import Popover from '../Popover'
 interface ExportPageProps {
   csvFileName?: string
   note?: string
+  title: string
   defaultParams?: {
     startDate?: number
     endDate?: number
@@ -47,6 +48,7 @@ export const ExportPage: React.FC<ExportPageProps> = ({
   fetchCSVData,
   csvFileName = 'exported-txs',
   note,
+  title,
 }) => {
   const [t] = useTranslation()
   const [startDate, setStartDate] = useState<number | undefined>(
@@ -181,7 +183,7 @@ export const ExportPage: React.FC<ExportPageProps> = ({
       <div className={classNames('container', styles.containerPanel)}>
         <div className={styles.title}>
           <span>{t('export_transactions.download_data')}</span>
-          <span>({t('export_transactions.transactions')})</span>
+          <span>{title}</span>
         </div>
         <div className={styles.description}>
           <div>{t('export_transactions.description_str')}</div>
@@ -189,7 +191,7 @@ export const ExportPage: React.FC<ExportPageProps> = ({
         <div className={styles.exportPanel}>
           <div className={styles.exportHeader}>
             <div>{t('export_transactions.select_download_options')}</div>
-            <div>
+            <div className={styles.tabsContainer}>
               <Tabs style={{ alignItems: 'center', width: '100%' }} value={tab} onValueChange={handleTabChange}>
                 <TabsList style={{ width: '50%' }}>
                   <TabsTrigger value="date">{t('export_transactions.date')}</TabsTrigger>

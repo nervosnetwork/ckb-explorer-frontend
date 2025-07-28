@@ -1,9 +1,11 @@
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams, useUpdateSearchParams } from '../../hooks'
 import { ExportPage } from '../../components/ExportPage'
 import { SupportedExportTransactionType, explorerService } from '../../services/ExplorerService'
 
 const ExportTransactions = () => {
+  const { t } = useTranslation()
   const {
     type: typeStr,
     id,
@@ -34,6 +36,7 @@ const ExportTransactions = () => {
 
   return (
     <ExportPage
+      title={`(${t('export_transactions.transactions')})`}
       fetchCSVData={params =>
         explorerService.api.exportTransactions({
           type,

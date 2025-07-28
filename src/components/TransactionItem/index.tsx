@@ -138,7 +138,14 @@ const TransactionItem = ({
             <TransactionCellList
               cells={transaction.displayInputs}
               transaction={transaction}
-              render={cell => <TransactionCell cell={cell} address={address} ioType={IOType.Input} key={cell.id} />}
+              render={cell => (
+                <TransactionCell
+                  cell={{ ...cell, consumedTxHash: transaction.transactionHash }}
+                  address={address}
+                  ioType={IOType.Input}
+                  key={cell.id}
+                />
+              )}
             />
           </div>
           <DirectionIcon className={styles.direction} />

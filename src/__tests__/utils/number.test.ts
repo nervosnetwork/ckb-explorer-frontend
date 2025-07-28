@@ -1,4 +1,10 @@
-import { localeNumberString, handleHashRate, handleDifficulty, parseUDTAmount } from '../../utils/number'
+import {
+  localeNumberString,
+  handleHashRate,
+  handleDifficulty,
+  parseUDTAmount,
+  parseUDTAmountRaw,
+} from '../../utils/number'
 
 describe('Number methods tests', () => {
   it('local number string', async () => {
@@ -67,5 +73,26 @@ describe('Number methods tests', () => {
     expect(parseUDTAmount('100000001', '11')).toBe('0.00100000001')
     expect(parseUDTAmount('112345678901', '14')).toBe('0.00112345678901')
     expect(parseUDTAmount('112345678901234567890123', '24')).toBe('0.11234567890123456789...')
+  })
+
+  it('parse udt amount raw', async () => {
+    expect(parseUDTAmountRaw('10000023598667', '5')).toBe('100000235.98667')
+    expect(parseUDTAmountRaw('10000000000000', '5')).toBe('100000000')
+    expect(parseUDTAmountRaw('10000000000001', '5')).toBe('100000000.00001')
+    expect(parseUDTAmountRaw('10000000000021', '5')).toBe('100000000.00021')
+    expect(parseUDTAmountRaw('10000', '6')).toBe('0.01')
+    expect(parseUDTAmountRaw('10000', '7')).toBe('0.001')
+    expect(parseUDTAmountRaw('2132435', '3')).toBe('2132.435')
+    expect(parseUDTAmountRaw('123456789', '4')).toBe('12345.6789')
+    expect(parseUDTAmountRaw('123456789828456789', '13')).toBe('12345.6789828456789')
+    expect(parseUDTAmountRaw('123456789828456789', '11')).toBe('1234567.89828456789')
+    expect(parseUDTAmountRaw('123456789828456789', '10')).toBe('12345678.9828456789')
+    expect(parseUDTAmountRaw('123456780000000000', '8')).toBe('1234567800')
+    expect(parseUDTAmountRaw('123456780000600000', '8')).toBe('1234567800.006')
+    expect(parseUDTAmountRaw('efd4567898234abc6789', '11')).toBe('0')
+    expect(parseUDTAmountRaw('1', '11')).toBe('0.00000000001')
+    expect(parseUDTAmountRaw('100000001', '11')).toBe('0.00100000001')
+    expect(parseUDTAmountRaw('112345678901', '14')).toBe('0.00112345678901')
+    expect(parseUDTAmountRaw('112345678901234567890123', '24')).toBe('0.11234567890123456789...')
   })
 })

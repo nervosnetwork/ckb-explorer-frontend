@@ -120,22 +120,38 @@ export const parseCKBAmount = (capacity: string) => {
   return parseUDTAmount(capacity, 8)
 }
 
-export const parseUDTAmount = (amount: string, decimal: string | number) => {
+export const parseUDTAmount = (amount: string, decimal: string | number, format: boolean = true) => {
   try {
     const decimalInt = typeof decimal === 'string' ? parseInt(decimal, 10) : decimal
     const amountBigInt = new BigNumber(amount)
+    if (amountBigInt.isNaN()) {
+      return '0'
+    }
     const result = amountBigInt.dividedBy(new BigNumber(10).pow(decimalInt))
+    if (result.isNaN()) {
+      return '0'
+    }
     if (decimalInt > 20) {
       return `${result.toFixed(20)}...`
     }
     if (result.toString().length >= 16 || result.abs().lt(new BigNumber(0.000001))) {
-      return localeNumberString(result.toFixed(decimalInt))
+      return format ? localeNumberString(result.toFixed(decimalInt)) : result.toFixed(decimalInt)
     }
-    return localeNumberString(result.toNumber())
+    return format ? localeNumberString(result.toNumber()) : result.toString()
   } catch (error) {
     console.error(error)
     return '0'
   }
+}
+
+/**
+ * Parse UDT amount without formatting (no commas)
+ * @param amount - The raw amount string
+ * @param decimal - The decimal places
+ * @returns Unformatted numeric string
+ */
+export const parseUDTAmountRaw = (amount: string, decimal: string | number) => {
+  return parseUDTAmount(amount, decimal, false)
 }
 
 export function isValidNoNegativeInteger(input: string | number | undefined) {
