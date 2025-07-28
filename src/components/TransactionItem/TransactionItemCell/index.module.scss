@@ -155,12 +155,9 @@
   display: flex;
   align-items: center;
 
-  span {
-    margin-left: 6px;
-  }
-
   :global(.transactionCellUdtIcon) {
     margin-left: 5px;
+    margin-right: 5px;
     width: 16px;
     height: auto;
     cursor: pointer;
@@ -168,7 +165,6 @@
     @media (max-width: variables.$mobileBreakPoint) {
       width: 12px;
       height: auto;
-      margin-bottom: 3px;
     }
   }
 }
