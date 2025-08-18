@@ -704,7 +704,7 @@ const TransactionCellCapacityAmount = ({ cell }: { cell: Cell }) => {
     return (
       <Tooltip
         trigger={
-          <Link to={`/dob-info/${cell.extraInfo?.collection.typeHash}/${cell.extraInfo?.tokenId}`}>
+          <Link to={`/dob-info/${cell.extraInfo?.collection?.typeHash}/${cell.extraInfo?.tokenId}`}>
             ID: {tokenIdStr.length > 16 ? `${tokenIdStr.slice(0, 6)}...${tokenIdStr.slice(-6)}` : tokenIdStr}
           </Link>
         }
