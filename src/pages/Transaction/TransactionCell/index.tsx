@@ -546,11 +546,14 @@ export const TransactionCellDetail = ({ cell }: { cell: Cell }) => {
     }
     case 'did_cell':
     case 'spore_cell': {
-      detailTitle = (
-        <Link to={`/dob-collections/${cell.extraInfo?.collection.typeHash}`}>
-          {cell.extraInfo?.clusterName || 'Unique Item'}
-        </Link>
-      )
+      const collectionId = cell.extraInfo?.collection?.typeHash
+      if (collectionId) {
+        detailTitle = (
+          <Link to={`/dob-collections/${collectionId}`}>{cell.extraInfo?.clusterName || 'Unique Item'}</Link>
+        )
+      } else {
+        detailTitle = cell.extraInfo?.clusterName || 'Unique Item'
+      }
       detailIcon = dobInfo.cover
       tooltip = nftInfo
       break
