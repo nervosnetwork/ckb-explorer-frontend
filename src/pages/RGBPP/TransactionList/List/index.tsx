@@ -129,7 +129,7 @@ const getTableHeaders = (t: TFunction): TableHeader[] => {
     { title: t('rgbpp.transaction.ckb_tx'), key: 'ckb-txid' },
     { title: t('rgbpp.transaction.block_number'), key: 'block-number' },
     { title: t('rgbpp.transaction.confirmation'), key: 'confirmation' },
-    { title: t('rgbpp.transaction.time'), key: 'time', order: 'time' },
+    { title: t('rgbpp.transaction.time'), key: 'time' },
     { title: t('rgbpp.transaction.type'), key: 'type', filter: 'leap_direction' },
     { title: t('rgbpp.transaction.rgbpp_cell_change'), key: 'cell-change' },
     { title: t('rgbpp.transaction.btc_tx'), key: 'btc-txid' },
