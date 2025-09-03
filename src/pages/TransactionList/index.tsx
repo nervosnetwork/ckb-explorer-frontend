@@ -18,7 +18,7 @@ import { QueryResult } from '../../components/QueryResult'
 import { Column, Table } from './Table'
 import { RouteState } from '../../routes/state'
 import { assert } from '../../utils/error'
-import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
+// import { ReactComponent as SortIcon } from '../../assets/sort_icon.svg'
 import { TableTitleRowItem } from '../../components/Table/TableComp'
 import { Transaction } from '../../models/Transaction'
 import { CardCellFactory, CardListWithCellsList } from '../../components/CardList'
@@ -235,7 +235,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
   const stateStaleTime = 3000
   const MAX_PAGE_NUMBER = 5000
 
-  const { sortBy, orderBy, sort, handleSortClick } = useSortParam<ConfirmedSortByType | PendingSortByType>(s =>
+  const { sortBy, orderBy, sort } = useSortParam<ConfirmedSortByType | PendingSortByType>(s =>
     type === 'confirmed' ? s === 'height' || s === 'capacity' : s === 'capacity' || s === 'time' || s === 'fee',
   )
 
@@ -271,16 +271,7 @@ const TransactionsPanel: FC<{ type: TxStatus }> = ({ type }) => {
     },
   )
 
-  const sortButton = (sortRule?: ConfirmedSortByType | PendingSortByType) => (
-    <button
-      type="button"
-      className={styles.sortIcon}
-      data-order={sortRule === sortBy ? orderBy : undefined}
-      onClick={() => handleSortClick(sortRule)}
-    >
-      <SortIcon />
-    </button>
-  )
+  const sortButton = () => null
 
   return (
     <QueryResult query={query}>
