@@ -198,7 +198,7 @@ export const CellInfoModal = ({ cell, onClose }: { cell: Cell; onClose: Function
 
       return {
         declared: `${localeNumberString(declared.dividedBy(10 ** 8))} CKBytes`,
-        occupied: `${localeNumberString(occupied.dividedBy(10 ** 8))} CKBytes`,
+        occupied: `${localeNumberString(occupied)} CKBytes`,
       }
     }
 
