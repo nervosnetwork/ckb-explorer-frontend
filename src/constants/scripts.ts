@@ -297,7 +297,7 @@ export const scripts = new Map<string, ScriptAttributes>([
     {
       name: 'Single Use Lock',
       description: 'A lock script that can only be used once.',
-      code: 'https://github.com/ckb-ecofund/ckb-proxy-locks',
+      code: 'https://github.com/ckb-devrel/ckb-proxy-locks',
     },
   ],
   [
