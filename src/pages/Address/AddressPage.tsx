@@ -78,7 +78,7 @@ export const Address = () => {
   const { address } = useParams<{ address: string }>()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const { currentPage, pageSize } = usePaginationParamsInListPage()
+  const { currentPage, pageSize } = usePaginationParamsInListPage({ defaultPageSize: 10 })
   const searchParams = useSearchParams('layout', 'tx_status')
   const { layout: _layout, tx_status: txStatus } = searchParams
 
