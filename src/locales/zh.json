@@ -665,7 +665,7 @@
       "fiber_channel": "Fiber Channel",
       "deployment": "部署",
       "deployed_script": "部署脚本",
-      "range_notice": "只显示最近的 5,000 条相关交易",
+      "range_notice": "只显示最近的 {{count}} 条相关交易",
       "status_label": {
         "pending": {
           "label": "待处理",
