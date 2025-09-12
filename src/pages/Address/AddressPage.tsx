@@ -363,7 +363,7 @@ export const Address = () => {
         {!isPendingTxListActive && (transactionCountQuery.data?.totalPages ?? 0) >= 200 && (
           <div className={styles.notice}>
             {t('transaction.range_notice', {
-              count: 5000,
+              count: 500,
             })}
           </div>
         )}
