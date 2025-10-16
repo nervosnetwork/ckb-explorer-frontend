@@ -17,11 +17,11 @@ import type { Transaction } from '../../models/Transaction'
 import {
   useDeprecatedAddr,
   useNewAddr,
-  usePaginationParamsInListPage,
   useSearchParams,
   useUpdateSearchParams,
   useIsMobile,
   useSortParam,
+  usePaginationParamsInPage,
 } from '../../hooks'
 // import { omit } from '../../utils/object'
 import { localeNumberString } from '../../utils/number'
@@ -78,7 +78,7 @@ export const Address = () => {
   const { address } = useParams<{ address: string }>()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const { currentPage, pageSize } = usePaginationParamsInListPage({ defaultPageSize: 10 })
+  const { currentPage, pageSize } = usePaginationParamsInPage()
   const searchParams = useSearchParams('layout', 'tx_status')
   const { layout: _layout, tx_status: txStatus } = searchParams
 

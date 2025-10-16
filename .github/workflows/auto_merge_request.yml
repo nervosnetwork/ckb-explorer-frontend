@@ -17,7 +17,7 @@ jobs:
           source_branch: 'develop'
           destination_branch: 'testnet'
           pr_title: 'Merge develop into testnet'
-          pr_reviewer: 'keith-cy'
+          pr_reviewer: 'walker27'
           pr_label: 'auto-pr'
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -32,7 +32,7 @@ jobs:
           source_branch: 'testnet'
           destination_branch: 'master'
           pr_title: 'Merge testnet into mainnet'
-          pr_reviewer: 'keith-cy'
+          pr_reviewer: 'walker27'
           pr_label: 'auto-pr'
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -47,6 +47,6 @@ jobs:
           source_branch: 'master'
           destination_branch: 'develop'
           pr_title: 'Merge mainnet into develop'
-          pr_reviewer: 'keith-cy'
+          pr_reviewer: 'walker27'
           pr_label: 'auto-pr'
           github_token: ${{ secrets.GITHUB_TOKEN }}

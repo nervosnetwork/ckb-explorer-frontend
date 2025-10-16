@@ -11,7 +11,7 @@ import { localeNumberString } from '../../utils/number'
 import { shannonToCkb, deprecatedAddrToNewAddr } from '../../utils/util'
 import Capacity from '../../components/Capacity'
 import CKBTokenIcon from './ckb_token_icon.png'
-import { useNewAddr, usePaginationParamsInListPage, useSearchParams } from '../../hooks'
+import { useNewAddr, usePaginationParamsInPage, useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
 import LiteTransactionList from '../../components/LiteTransactionList'
 import Script from '../../components/Script'
@@ -368,7 +368,7 @@ export const AddressTransactions = ({
 }) => {
   const { totalPages = 0 } = meta
   const { t } = useTranslation()
-  const { currentPage, setPage } = usePaginationParamsInListPage()
+  const { currentPage, setPage } = usePaginationParamsInPage()
   const { Professional, Lite } = LayoutLiteProfessional
   const defaultLayout = Professional
 
