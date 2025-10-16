@@ -10,13 +10,11 @@ import { explorerService } from '../../../services/ExplorerService'
 import { TransactionLeapDirection } from '../../../components/RGBPP/types'
 import Chart from './Chart'
 
-const PAGE_SIZE = 20
-
 const RGBPPTransactionList = () => {
   const { sort } = useSearchParams('sort')
   const { type } = useSearchParams('type')
 
-  const { currentPage, setPage } = usePaginationParamsInPage()
+  const { currentPage, setPage, pageSize: PAGE_SIZE } = usePaginationParamsInPage()
 
   const transactions = useQuery(['rgbpp_transactions', currentPage, sort, type], async () => {
     const {
