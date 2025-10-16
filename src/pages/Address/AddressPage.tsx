@@ -78,7 +78,7 @@ export const Address = () => {
   const { address } = useParams<{ address: string }>()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const { currentPage, pageSize } = usePaginationParamsInListPage()
+  const { currentPage, pageSize } = usePaginationParamsInListPage({ defaultPageSize: 10 })
   const searchParams = useSearchParams('layout', 'tx_status')
   const { layout: _layout, tx_status: txStatus } = searchParams
 
@@ -363,7 +363,7 @@ export const Address = () => {
         {!isPendingTxListActive && (transactionCountQuery.data?.totalPages ?? 0) >= 200 && (
           <div className={styles.notice}>
             {t('transaction.range_notice', {
-              count: 5000,
+              count: 500,
             })}
           </div>
         )}
