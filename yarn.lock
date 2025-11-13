@@ -2380,6 +2380,15 @@
     "@emnapi/runtime" "^1.4.3"
     "@tybys/wasm-util" "^0.9.0"
 
+"@nervape/dob-render@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.npmmirror.com/@nervape/dob-render/-/dob-render-0.2.7.tgz#cf5beec8c2b78a296dd69fdbcb31efa26a9c198c"
+  integrity sha512-QLVBjmf49P/gnR9dZSPjElA79H4dUeRA/KIhtUmFg77x9rtBuCm7OOFuY29L5pyHjSjadC8bwXUIpZqw45UFig==
+  dependencies:
+    satori "^0.10.13"
+    svgson "^5.3.1"
+    typescript "^5.2.2"
+
 "@nervina-labs/dob-render@^0.2.5":
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@nervina-labs/dob-render/-/dob-render-0.2.5.tgz#e2bc0cb7c86510d6d2614555786b11ce5e37a42e"
