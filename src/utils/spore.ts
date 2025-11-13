@@ -1,6 +1,6 @@
 import { toBigEndian } from '@nervosnetwork/ckb-sdk-utils'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { config, renderByTokenKey, svgToBase64 } from '@nervina-labs/dob-render'
+import { config, renderByTokenKey, svgToBase64 } from '@nervape/dob-render'
 import { hexToUtf8 } from './string'
 import { hexToBase64 } from './util'
 import { isMainnet } from './chain'

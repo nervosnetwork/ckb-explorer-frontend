@@ -8,6 +8,7 @@
     "@ckb-ccc/core": "^1.9.0",
     "@ckb-ccc/ssri": "^0.2.8",
     "@microlink/react-json-view": "1.26.2",
+    "@nervape/dob-render": "^0.2.7",
     "@nervina-labs/dob-render": "^0.2.5",
     "@nervosnetwork/ckb-sdk-rpc": "0.109.5",
     "@nervosnetwork/ckb-sdk-utils": "0.109.5",
