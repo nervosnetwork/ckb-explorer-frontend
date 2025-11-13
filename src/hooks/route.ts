@@ -172,9 +172,10 @@ export const usePaginationParamsInPage = () =>
     maxPageSize: PageParams.MaxPageSize,
   })
 
-export const usePaginationParamsInListPage = () =>
+export const usePaginationParamsInListPage = (opt?: Parameters<typeof usePaginationParamsFromSearch>[0]) =>
   usePaginationParamsFromSearch({
     defaultPage: ListPageParams.PageNo,
     defaultPageSize: ListPageParams.PageSize,
     maxPageSize: ListPageParams.MaxPageSize,
+    ...opt,
   })

@@ -9,21 +9,21 @@ import { Address as AddressInfo } from '../../models/Address'
 import { LayoutLiteProfessional } from '../../constants/common'
 import Content from '../../components/Content'
 import { AddressTransactions, AddressOverviewCard } from './AddressComp'
-import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
-import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
+// import { ReactComponent as TimeDownIcon } from '../../assets/time_down.svg'
+// import { ReactComponent as TimeUpIcon } from '../../assets/time_up.svg'
 import { explorerService } from '../../services/ExplorerService'
 import { QueryResult } from '../../components/QueryResult'
 import type { Transaction } from '../../models/Transaction'
 import {
   useDeprecatedAddr,
   useNewAddr,
-  usePaginationParamsInListPage,
   useSearchParams,
   useUpdateSearchParams,
   useIsMobile,
   useSortParam,
+  usePaginationParamsInPage,
 } from '../../hooks'
-import { omit } from '../../utils/object'
+// import { omit } from '../../utils/object'
 import { localeNumberString } from '../../utils/number'
 import { isRequestError } from '../../utils/error'
 import RgbppBanner from '../../components/RgbppBanner'
@@ -78,12 +78,12 @@ export const Address = () => {
   const { address } = useParams<{ address: string }>()
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const { currentPage, pageSize } = usePaginationParamsInListPage()
+  const { currentPage, pageSize } = usePaginationParamsInPage()
   const searchParams = useSearchParams('layout', 'tx_status')
   const { layout: _layout, tx_status: txStatus } = searchParams
 
   // REFACTOR: avoid using useSortParam
-  const { sortBy, orderBy, sort } = useSortParam<'time'>(s => s === 'time')
+  const { sort } = useSortParam<'time'>(s => s === 'time')
 
   const isPendingTxListActive = txStatus === 'pending'
 
@@ -93,7 +93,7 @@ export const Address = () => {
   const updateSearchParams = useUpdateSearchParams<'layout' | 'sort' | 'tx_type'>()
   const { Professional, Lite } = LayoutLiteProfessional
   const defaultLayout = Professional
-  const timeOrderBy = sortBy === 'time' ? orderBy : 'desc'
+  // const timeOrderBy = sortBy === 'time' ? orderBy : 'desc'
   const layout = _layout === Lite ? Lite : defaultLayout
 
   const onChangeLayout = (layoutType: LayoutLiteProfessional) => {
@@ -103,13 +103,13 @@ export const Address = () => {
         : { ...params, layout: layoutType },
     )
   }
-  const handleTimeSort = () => {
-    updateSearchParams(
-      params =>
-        timeOrderBy === 'asc' ? omit(params, ['sort', 'tx_type']) : omit({ ...params, sort: 'time' }, ['tx_type']),
-      true,
-    )
-  }
+  // const handleTimeSort = () => {
+  //   updateSearchParams(
+  //     params =>
+  //       timeOrderBy === 'asc' ? omit(params, ['sort', 'tx_type']) : omit({ ...params, sort: 'time' }, ['tx_type']),
+  //     true,
+  //   )
+  // }
 
   let addressInfo: AddressInfo | undefined
   if (!isRGBPP) {
@@ -241,9 +241,9 @@ export const Address = () => {
 
   const searchOptionsAndModeSwitch = (
     <div className={styles.searchOptionsAndModeSwitch}>
-      <div className={styles.sortAndFilter} data-is-active={timeOrderBy === 'asc'}>
+      {/* <div className={styles.sortAndFilter} data-is-active={timeOrderBy === 'asc'}>
         {timeOrderBy === 'asc' ? <TimeDownIcon onClick={handleTimeSort} /> : <TimeUpIcon onClick={handleTimeSort} />}
-      </div>
+      </div> */}
       <div className={styles.professionalLiteBox}>
         <button
           type="button"
@@ -363,7 +363,7 @@ export const Address = () => {
         {!isPendingTxListActive && (transactionCountQuery.data?.totalPages ?? 0) >= 200 && (
           <div className={styles.notice}>
             {t('transaction.range_notice', {
-              count: 5000,
+              count: 500,
             })}
           </div>
         )}

@@ -153,17 +153,17 @@ export default () => {
       {
         title: t('home.height'),
         width: isMaxW ? '16%' : '14%',
-        sortRule: 'height',
+        // sortRule: 'height',
       },
       {
         title: t('home.transactions'),
         width: isMaxW ? '18%' : '11%',
-        sortRule: 'transactions',
+        // sortRule: 'transactions',
       },
       {
         title: t('home.block_reward'),
         width: '20%',
-        sortRule: 'reward',
+        // sortRule: 'reward',
       },
       {
         title: t('block.miner'),
