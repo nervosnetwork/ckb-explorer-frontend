@@ -443,13 +443,13 @@ const Xudts = () => {
             </div>
           )}
 
-          <button
+          {/* <button
             type="button"
             className={styles.submitTokenInfoBtn}
             onClick={() => setIsSubmitTokenInfoModalOpen(true)}
           >
             {t('udt.submit_token_info')}
-          </button>
+          </button> */}
         </div>
 
         <div className={styles.cards}>
