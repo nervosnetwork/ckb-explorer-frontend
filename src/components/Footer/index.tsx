@@ -132,9 +132,9 @@ export default memo(() => {
   const [t] = useTranslation()
   const [isTokenFormDisplayed, setIsTokenFormDisplayed] = useState<boolean>(false)
 
-  const onSubmitToken = () => {
-    setIsTokenFormDisplayed(true)
-  }
+  // const onSubmitToken = () => {
+  //   setIsTokenFormDisplayed(true)
+  // }
 
   const lists = Footers
 
@@ -175,11 +175,11 @@ export default memo(() => {
                   )
                 })}
               </div>
-              {list.name === 'community' ? (
+              {/* {list.name === 'community' ? (
                 <button type="button" onClick={onSubmitToken} className={styles.tokenFormBtn}>
                   {t('udt.submit_token_info')}
                 </button>
-              ) : null}
+              ) : null} */}
             </div>
           )
         })}

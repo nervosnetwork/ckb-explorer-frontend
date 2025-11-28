@@ -4,16 +4,16 @@ import { useTranslation } from 'react-i18next'
 import Content from '../../components/Content'
 import { ListOnDesktop, ListOnMobile, isTxFilterType } from './List'
 import Pagination from '../../components/Pagination'
-import { getPrimaryColor } from '../../constants/common'
+// import { getPrimaryColor } from '../../constants/common'
 import { explorerService } from '../../services/ExplorerService'
-import { udtSubmitEmail } from '../../utils/util'
+// import { udtSubmitEmail } from '../../utils/util'
 import { useSearchParams } from '../../hooks'
 import styles from './styles.module.scss'
 import { useNFTCollectionsSortParam } from './util'
 
-const primaryColor = getPrimaryColor()
+// const primaryColor = getPrimaryColor()
 
-const submitTokenInfoUrl = udtSubmitEmail()
+// const submitTokenInfoUrl = udtSubmitEmail()
 
 const NftCollections = () => {
   const history = useHistory()
@@ -48,7 +48,7 @@ const NftCollections = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h5>{t('nft.nft_collection')}</h5>
-          <a
+          {/* <a
             rel="noopener noreferrer"
             target="_blank"
             href={submitTokenInfoUrl}
@@ -57,7 +57,7 @@ const NftCollections = () => {
             }}
           >
             {t('udt.submit_token_info')}
-          </a>
+          </a> */}
         </div>
         <div className={styles.list}>
           <div className={styles.cardList}>
