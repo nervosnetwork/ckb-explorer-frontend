@@ -428,13 +428,13 @@ const Tokens: FC<{ isInscription?: boolean }> = ({ isInscription }) => {
               <span className={styles.currentPage}>{isInscription ? t('udt.inscriptions') : t('udt.tokens')}</span>
             </span>
           </div>
-          <button
+          {/* <button
             type="button"
             className={styles.submitTokenInfoBtn}
             onClick={() => setIsSubmitTokenInfoModalOpen(true)}
           >
             {t('udt.submit_token_info')}
-          </button>
+          </button> */}
         </div>
 
         {isMobile ? (
