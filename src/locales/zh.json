@@ -163,7 +163,7 @@
       "type_id": "类型 ID 描述了一种使用特殊类型脚本的方法，该脚本可以创建单例类型 - 只有一个此类型的活跃 cell。使用类型 ID，没有人可以创建另一个具有相同类型脚本哈希的代码 cell，这使其成为类型哈希类型的有用补充。",
       "capacity_of_deployed_cells": "在 CKB 中，已部署 cell 的容量是指一个 cell 在 Nervos CKB 上可以占用的最大空间 (以字节为单位)。容量字段是 Cell 数据结构中的四个字段之一，限制了 cell 的大小。为了在 CKB 上存储数据，用户必须持有与 cell 占用空间的每个字节对应的 1 CKB。这意味着一个 cell 的容量直接影响用户必须持有的 CKB 数量，以便在网络上存储数据。",
       "live_cells": "在 CKB 中，活跃的 cell 是指区块链上未花费的 cell，其中包含用户拥有的资产。它们类似于比特币中的未花费交易输出 (UTXOs)。",
-      "occupied": "该地址在 Nervos DAO 中投资的总 CKB 金额",
+      "occupied": "该地址所有活跃的 cell 占用的CKB的总额",
       "nervos_dao_deposit": "该地址在 Nervos DAO 中存入的总 CKB 金额",
       "nervos_dao_compensation": "该地址从 Nervos DAO 中收到的总 CKB 金额",
       "block_mined": "该地址已铸造的区块数量",
