@@ -165,7 +165,7 @@
       "type_id": "Type ID describes a way of using a special type script which can create a singleton type - there's only one live cell of this type. With Type ID nobody could create another code cell with the same type script hash, which makes it a useful companion to Type hash type.",
       "capacity_of_deployed_cells": "Capacity of deployed cells in CKB refers to the maximum amount of space (in bytes) that a cell can occupy on the Nervos CKB. The capacity field is one of the four fields in the Cell data structure, and limits the size of the cell. In order to store data on the CKB, a user must hold 1 CKB for every 1 byte of space that the cell occupies. This means that the capacity of a cell directly affects the amount of CKB that a user must hold in order to store data on the network.",
       "live_cells": "Live Cells in CKB refer to unspent cells on the blockchain that contain assets owned by users. They are similar to Unspent Transaction Outputs (UTXOs) in Bitcoin.",
-      "occupied": "The total occupied CKB this address have invested in Nervos DAO",
+      "occupied": "The total CKB occupied by all Live Cells at this address",
       "nervos_dao_deposit": "The total CKB this address have deposited in Nervos DAO",
       "nervos_dao_compensation": "The total CKB this address have received from Nervos DAO",
       "block_mined": "The number of block this address has minted",
