@@ -6,7 +6,7 @@ const Notification = () => {
   const { t } = useTranslation()
 
   const url = 'https://discord.gg/TcFdtES68c'
-//   const translatedText = t('notes.title', { url })
+  //   const translatedText = t('notes.title', { url })
   return (
     <div className={styles.container}>
       <InfoICon />
