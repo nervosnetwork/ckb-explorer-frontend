@@ -1329,8 +1329,8 @@
       }
     },
     "notes": {
-      "titlepre": "Old browser will discontinue service by end of January. Partners on the original browser API: switch to the new API via ",
-      "titlenext": " promptly to avoid business disruptions."
+      "titlepre": "Old browser ends end of Jan. Original API users: adopt new API at ",
+      "titlenext": " soon to avoid disruptions."
     }
   }
 }
