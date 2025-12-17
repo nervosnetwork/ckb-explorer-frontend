@@ -1329,8 +1329,8 @@
       }
     },
     "notes": {
-      "titlepre": "The current browser API service will cease operation at the end of January 2026. Teams using API are advised to contact us as soon as possible via ",
-      "titlenext": " to avoid business disruptions."
+      "titlepre": "Legacy browser ends Jan 31. If you use the legacy API, migrate via ",
+      "titlenext": " to avoid disruption"
     }
   }
 }

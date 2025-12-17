@@ -16,6 +16,7 @@ import MobileMenu from './MobileMenu'
 import { useCKBNode } from '../../hooks/useCKBNode'
 import { Link } from '../Link'
 import SimpleButton from '../SimpleButton'
+import Notification from '../Notification'
 
 const LogoComp = () => (
   <Link className={styles.headerLogoPanel} to="/">
@@ -81,6 +82,7 @@ export default () => {
         [styles.expanded]: isMobile && mobileMenuVisible,
       })}
     >
+      <Notification />
       <div className={styles.headerPanel}>
         <LogoComp />
         {!isMobile && (
