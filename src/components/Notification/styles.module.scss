@@ -2,29 +2,56 @@
 
 .container {
   width: 100%;
-  height: 54px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
+  height: auto;
+  min-height: 58px;
   background: #e92525;
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 0 4px;
+  gap: 8px;
+  padding: 8px 4px;
+  box-sizing: border-box;
 
-  a {
+  .icon {
+    width: 16px !important;
+    height: 16px !important;
+    flex-shrink: 0;
+  }
+
+  .arrowicon {
+    display: inline !important;
+    margin: 0 4px;
+  }
+
+  .link {
     color: #fff;
     cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
-  @media (width <= variables.$mobileBreakPoint) {
-    font-size: 12px;
-    // align-items: flex-start;
-    gap:4px;
+  .content {
+    word-break: break-all;
+    line-height: 20px;
+    margin: 0;
   }
 
+  @media (width <= calc(variables.$mobileBreakPoint + 100px)) {
+    align-items: flex-start;
+    padding: 8px 4px;
+    gap: 4px;
+
+    .icon {
+      align-self: flex-start;
+      margin-top: 3px;
+    }
+
+    .content {
+      align-self: flex-start;
+    }
+  }
 }
