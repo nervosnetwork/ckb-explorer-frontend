@@ -134,13 +134,14 @@
     "displayName": "Unit Test",
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs",
+      "@nervape/dob-render": "<rootDir>/node_modules/@nervape/dob-render/dist/index.js",
       "@nervina-labs/dob-render": "<rootDir>/node_modules/@nervina-labs/dob-render/dist/index.js"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(@nervina-labs/dob-render)/)"
+      "node_modules/(?!(@nervape/dob-render|@nervina-labs/dob-render)/)"
     ]
   },
   "browserslist": [

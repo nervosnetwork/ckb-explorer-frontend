@@ -140,7 +140,9 @@ module.exports = {
     };
   },
   jest: config => {
-    config.transformIgnorePatterns = ['node_modules/(?!(camelcase-keys|map-obj|camelcase|quick-lru|@joyid/common)/)']
+    config.transformIgnorePatterns = [
+      'node_modules/(?!(camelcase-keys|map-obj|camelcase|quick-lru|@joyid/common|@nervape/dob-render|@nervina-labs/dob-render)/)',
+    ]
     return config
   },
 }
