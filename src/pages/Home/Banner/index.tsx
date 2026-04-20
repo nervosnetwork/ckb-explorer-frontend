@@ -43,7 +43,7 @@ export default () => {
     {
       key: 'hardfork',
       component: <HardforkBanner />,
-      isHidden: !IS_MAINNET,
+      isHidden: true,
     },
     {
       key: 'knowledge',
