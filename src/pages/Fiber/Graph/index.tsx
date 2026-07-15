@@ -82,7 +82,7 @@ const FiberBanner = ({ t }: { t: (key: string) => string }) => (
       <h3>{t('banner.fiber_subtitle')}</h3>
     </div>
     <div className={styles.links}>
-      <Link to="https://www.ckbfiber.net/" target="_blank" rel="noopener noreferrer">
+      <Link to="https://www.fiber.world/" target="_blank" rel="noopener noreferrer">
         <span>{t('banner.learn_more')}</span>
       </Link>
     </div>
