@@ -383,7 +383,7 @@ export const scripts = new Map<string, ScriptAttributes>([
     {
       name: 'Fiber Channel',
       description: 'Fiber Channel',
-      website: 'https://www.ckbfiber.net',
+      website: 'https://www.fiber.world',
     },
   ],
 ])
