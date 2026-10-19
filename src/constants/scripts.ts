@@ -818,7 +818,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0xd96cee56727a2bb9a21408c154d278df5095fb4b4dcfd50516156424479bfe54'],
-    txHashes: ['0xe9122f59d58625f8040926606cfb6e244ca557e5f83fed7cc1e6dea6b81804fc-0'],
+    txHashes: ['0x3072417e797a39a6ead341947dae3350b47a1b7d6571b326d3d7f8fe7677bf0b-0'],
     depType: 'code',
     hashType: 'type',
     tag: 'Cells Account',
@@ -834,7 +834,7 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x086c8f4e9d4272e3dfbaca399792f730e6604591e87931ee6d67047a3c900879'],
-    txHashes: ['0x192db7b607f331ba09883f74e646fa7f983a7b0682d3e8dcc472599114d4bbaf-0'],
+    txHashes: ['0x020f7f9e5607a8e7d1e94d4c1f3d5c52c204d2f53fb097f43ce7f524d2edcabb-0'],
     depType: 'code',
     hashType: 'type',
     tag: 'Cells Sale Lock',
@@ -1284,7 +1284,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0xe0706b176678181d982290d93dfcd82098e60cceaa4a87f10f32dcbcc91df1d9'],
-    txHashes: ['0x57ed78e4b2d7c07372719ef6177b6fd3b33ea63272e7d63f25ab277d3c764ae6-0'],
+    txHashes: ['0xe3c204947c3f457410af242747146b3330a05d9f02d095b2636ac9368a3acce4-0'],
     depType: 'code',
     hashType: 'type',
     tag: 'Cells Account',
@@ -1300,7 +1300,7 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x498ab6b49b6b25b3c47fcea74bd8a4447bc4efda6417809152a846e058ad0ae4'],
-    txHashes: ['0x7b2c9f76950889df83077c6540c55a521ab67029b4b086df469df4c72175714f-0'],
+    txHashes: ['0x03507c8cbe51212d10bda95575a121afeccdbe156366c7a6db95a3e90878b0fc-0'],
     depType: 'code',
     hashType: 'type',
     tag: 'Cells Sale Lock',
