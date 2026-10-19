@@ -386,6 +386,46 @@ export const scripts = new Map<string, ScriptAttributes>([
       website: 'https://www.fiber.world',
     },
   ],
+  [
+    'Cells Account',
+    {
+      name: 'Cells Account',
+      description:
+        'Cells Account is the type script of a .cell name. It keeps every label unique through an ordered on-chain linked list, and holds its owner, manager, records and expiry.',
+      website: 'https://cellula.id/',
+      doc: 'https://cellula.id/developers',
+    },
+  ],
+  [
+    'Cells Account Lock',
+    {
+      name: 'Cells Account Lock',
+      description:
+        'Cells Account Lock is the lock every .cell name sits under. It is always-success by design, because authority over a name is decided by its type script from the owner and manager hashes held in the cell.',
+      website: 'https://cellula.id/',
+      doc: 'https://cellula.id/developers',
+    },
+  ],
+  [
+    'Cells Sale Lock',
+    {
+      name: 'Cells Sale Lock',
+      description:
+        'Cells Sale Lock is the lock a .cell name moves under while it is listed for sale. It releases the name only in a transaction that pays the seller the asking price.',
+      website: 'https://cellula.id/',
+      doc: 'https://cellula.id/developers',
+    },
+  ],
+  [
+    'Cells Price',
+    {
+      name: 'Cells Price',
+      description:
+        'Cells Price is the type script of the shared price cell, read whenever a name is registered or renewed. It bounds how far and how fast the registration fee may move.',
+      website: 'https://cellula.id/',
+      doc: 'https://cellula.id/developers',
+    },
+  ],
 ])
 
 export const MainnetContractHashTags: ContractHashTag[] = [
@@ -775,6 +815,38 @@ export const MainnetContractHashTags: ContractHashTag[] = [
     depType: 'code',
     hashType: 'type',
     tag: 'USDI Asset',
+  },
+  {
+    codeHashes: ['0xd96cee56727a2bb9a21408c154d278df5095fb4b4dcfd50516156424479bfe54'],
+    txHashes: ['0x3072417e797a39a6ead341947dae3350b47a1b7d6571b326d3d7f8fe7677bf0b-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Cells Account',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0x9f0f0ba142b58cba2fe047546cfd8481d5b1769437cd3533e6458b21b61871ab'],
+    txHashes: ['0x522c91d3242450fdc5ae4cc6891d566de34d6f99663679f15e96c03d01c59268-1'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Cells Account Lock',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x086c8f4e9d4272e3dfbaca399792f730e6604591e87931ee6d67047a3c900879'],
+    txHashes: ['0x020f7f9e5607a8e7d1e94d4c1f3d5c52c204d2f53fb097f43ce7f524d2edcabb-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Cells Sale Lock',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x97bf5f760cf72f918f13704d7184933b79d4ddc1fd85075762373e531152d4f9'],
+    txHashes: ['0xb3d2428eb96ff9ebbb77e9b3d73ce97118e847bbb2b8f9f86ec1cc7e8f3432b1-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Cells Price',
+    category: 'type',
   },
 ]
 
@@ -1209,6 +1281,38 @@ export const TestnetContractHashTags: ContractHashTag[] = [
     hashType: 'type',
     tag: 'Fiber Channel',
     category: 'lock',
+  },
+  {
+    codeHashes: ['0xe0706b176678181d982290d93dfcd82098e60cceaa4a87f10f32dcbcc91df1d9'],
+    txHashes: ['0xe3c204947c3f457410af242747146b3330a05d9f02d095b2636ac9368a3acce4-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Cells Account',
+    category: 'type',
+  },
+  {
+    codeHashes: ['0xede6a3d80717c3d7927eea678d095abbe68dbb08ca6fdbbbdd9de906455a4afd'],
+    txHashes: ['0x968ec1a8cb35aa093b1bede3b41ad769f499b481db32662645b8bd95fec5a30a-1'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Cells Account Lock',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0x498ab6b49b6b25b3c47fcea74bd8a4447bc4efda6417809152a846e058ad0ae4'],
+    txHashes: ['0x03507c8cbe51212d10bda95575a121afeccdbe156366c7a6db95a3e90878b0fc-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Cells Sale Lock',
+    category: 'lock',
+  },
+  {
+    codeHashes: ['0xe1057caf161b3c720fcdb80190e89c6efc36b6b4256b3c99635fda63a9dd4294'],
+    txHashes: ['0xec7c0690466942c6a75c6de0eec3e544505e3b77bf131847f233f01c26565c77-0'],
+    depType: 'code',
+    hashType: 'type',
+    tag: 'Cells Price',
+    category: 'type',
   },
 ]
 
