@@ -818,7 +818,10 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0xd96cee56727a2bb9a21408c154d278df5095fb4b4dcfd50516156424479bfe54'],
-    txHashes: ['0x3072417e797a39a6ead341947dae3350b47a1b7d6571b326d3d7f8fe7677bf0b-0'],
+    txHashes: [
+      '0x3072417e797a39a6ead341947dae3350b47a1b7d6571b326d3d7f8fe7677bf0b-0',
+      '0x0d48aa833f97aa1c10f803c03a58e32b4184556f0ddba3137b014aa48df55109-0',
+    ],
     depType: 'code',
     hashType: 'type',
     tag: 'Cells Account',
@@ -834,7 +837,10 @@ export const MainnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x086c8f4e9d4272e3dfbaca399792f730e6604591e87931ee6d67047a3c900879'],
-    txHashes: ['0x020f7f9e5607a8e7d1e94d4c1f3d5c52c204d2f53fb097f43ce7f524d2edcabb-0'],
+    txHashes: [
+      '0x020f7f9e5607a8e7d1e94d4c1f3d5c52c204d2f53fb097f43ce7f524d2edcabb-0',
+      '0xe72ac6421e9b9cd582dda77383ca0f100d7e05f1f08ae191d1f3b569f35ab7da-0',
+    ],
     depType: 'code',
     hashType: 'type',
     tag: 'Cells Sale Lock',
@@ -1284,7 +1290,10 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0xe0706b176678181d982290d93dfcd82098e60cceaa4a87f10f32dcbcc91df1d9'],
-    txHashes: ['0xe3c204947c3f457410af242747146b3330a05d9f02d095b2636ac9368a3acce4-0'],
+    txHashes: [
+      '0xe3c204947c3f457410af242747146b3330a05d9f02d095b2636ac9368a3acce4-0',
+      '0x1d791fd5f8edfa9199346ff8ec19d0d341a3adb4f43c26ea32a4d59b94fc1eab-0',
+    ],
     depType: 'code',
     hashType: 'type',
     tag: 'Cells Account',
@@ -1300,7 +1309,10 @@ export const TestnetContractHashTags: ContractHashTag[] = [
   },
   {
     codeHashes: ['0x498ab6b49b6b25b3c47fcea74bd8a4447bc4efda6417809152a846e058ad0ae4'],
-    txHashes: ['0x03507c8cbe51212d10bda95575a121afeccdbe156366c7a6db95a3e90878b0fc-0'],
+    txHashes: [
+      '0x03507c8cbe51212d10bda95575a121afeccdbe156366c7a6db95a3e90878b0fc-0',
+      '0x279ab20ee45be9a58be6cb5cfecfc16d368ca03b62e6f115f48a55e0bb161e40-0',
+    ],
     depType: 'code',
     hashType: 'type',
     tag: 'Cells Sale Lock',
