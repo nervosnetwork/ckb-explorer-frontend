@@ -186,8 +186,8 @@ export default memo(() => {
       </div>
 
       <div className={styles.annotation}>
-        <a href="https://www.magickbase.com" target="_blank" rel="noreferrer">
-          Powered by Magickbase <Open width={16} />
+        <a href="https://ckba.build" target="_blank" rel="noreferrer">
+          Powered by CKBA <Open width={16} />
         </a>
         <div>
           <span>{`Copyright © ${getCurrentYear()} Nervos Foundation. `}</span>

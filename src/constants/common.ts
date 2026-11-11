@@ -30,7 +30,7 @@ export function getSecondaryColor() {
   return IS_MAINNET ? '#00CC9B' : '#9A2CEC'
 }
 
-export const TOKEN_EMAIL_ADDRESS = 'ckb-explorer@nervosnet.com'
+export const TOKEN_EMAIL_ADDRESS = 'ckb-explorer@ckba.build'
 export const TOKEN_EMAIL_SUBJECT = 'Submit Token Info'
 export const TOKEN_EMAIL_BODY = `
 Title: Submit Token Information%0a%0d
@@ -42,10 +42,10 @@ Information:%0a%0d
    Other Info:%0a%0d
 `
 
-export const REPORT_EMAIL_ADDRESS = 'ckb-explorer@nervosnet.com'
+export const REPORT_EMAIL_ADDRESS = 'ckb-explorer@ckba.build'
 export const REPORT_EMAIL_SUBJECT = 'Submit Token Info'
 export const REPORT_EMAIL_BODY_EN = `
-MagiCKBase Team,%0a%0d
+CKBA Team,%0a%0d
 
 
 
@@ -65,11 +65,11 @@ Alternate Email Address: [Your alternate email address, if any]%0a%0d
 
 ——————————————————————————————————————————%0a%0d
 
-This template can be adjusted as necessary for your specific requirements. Before sending your email, please ensure to provide all the required information so that the MagickBase team can process your request swiftly and accurately.
+This template can be adjusted as necessary for your specific requirements. Before sending your email, please ensure to provide all the required information so that the CKBA team can process your request swiftly and accurately.
 `
 
 export const REPORT_EMAIL_BODY_ZH = `
-MagiCKBase 团队，%0a%0d
+CKBA 团队，%0a%0d
 
 
 
@@ -171,7 +171,7 @@ export const SUDT_CODE_URL =
   'https://github.com/nervosnetwork/ckb-production-scripts/blob/e570c11aff3eca12a47237c21598429088c610d5/c/simple_udt.c'
 
 export const TYPE_ID_CODE_HASH = '0x00000000000000000000000000000000000000000000000000545950455f4944'
-export const GITHUB_ISSUE_URL = 'https://github.com/Magickbase/ckb-explorer-public-issues/issues'
+export const GITHUB_ISSUE_URL = 'https://github.com/nervosnetwork/ckb-explorer/issues'
 export const NERVOS_DAO_RFC_URL =
   'https://www.github.com/nervosnetwork/rfcs/blob/master/rfcs/0023-dao-deposit-withdraw/0023-dao-deposit-withdraw.md'
 
